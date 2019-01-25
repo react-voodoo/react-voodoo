@@ -1,3 +1,4 @@
+
 /*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
@@ -12,39 +13,28 @@
  *  @contact : caipilabs@gmail.com
  */
 
-/**
- * @author Nathanael BRAUN
- *
- * Date: 20/02/2016
- * Time: 14:17
- */
-var easingFn = require('App/utils/easingFn');
-export default function ( target ) {
-    // dir = dir || 'top';
+import isArray from "isarray";
+import isString from "isstring";
+var anims = function ( id, target, ...argz ) {
+    if ( isArray(id) ) {
+        var p = id.slice();
+        id    = p.shift();
+        p.unshift(target);
+        return anims[id].apply(this, p)
+    } else if ( isString(id) )
+        return anims[id].call(this, target, ...argz);
+    else
+        return id;
 
-
-    return {
-        // reset : true,
-        initial : {
-            //
-            [target] : {
-                alpha : -1
-            //     _z    : .2,
-            //     rotateY : 0
-            }
-        },
-        anims   : [
-            {
-                type     : "Tween",
-                target   : target,
-                from     : 0,
-                duration : 500,
-                easeFn   : easingFn.easeOutSine,
-                apply    : {
-                    // _z : -.2,
-                    alpha : 1
-                }
-            }
-        ]
-    };
 };
+function requireAll( r ) {
+    r.keys().forEach(( k, i )=> {
+        var _k = k.match(/([^\/]+)\.js$/);
+        if ( _k[1] != 'index' )
+            anims[_k[1]] = anims[_k[1]] || r(k, i)
+    });
+}
+//requireAll(require.context('Comp/anims/', true, /([^\/]+)\.js$/));
+requireAll(require.context('ui/anims/', true, /([^\/]+)\.js$/));
+
+export default anims;

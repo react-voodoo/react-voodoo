@@ -13,7 +13,7 @@
  *  @contact : caipilabs@gmail.com
  */
 
-var easingFn = require('App/utils/easingFn');
+var easingFn = require('Comp/utils/easingFn');
 export default function ( dir, target ) {
     dir = dir || 'top';
 

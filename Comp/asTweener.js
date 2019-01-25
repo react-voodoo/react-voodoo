@@ -18,12 +18,12 @@ import ReactDom from "react-dom";
 
 var merge            = require('merge'),
     rtween           = require('rtween'),
-    Dom              = require('App/utils/Dom'),
+    Dom              = require('Comp/utils/Dom'),
     isArray          = require('isarray'),
     taskflow         = require('taskflows'),
     defaultAnims     = {// while no matrix..
-	    hide: require('App/anims/pushOut'),
-	    show: require('App/anims/pushIn')
+	    hide: require('Comp/anims/pushOut'),
+	    show: require('Comp/anims/pushIn')
     },
     initialTweenable = {// while no matrix..
 	    x      : 0,

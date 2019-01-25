@@ -18,19 +18,19 @@
  * Date: 20/02/2016
  * Time: 14:17
  */
-var easingFn = require('App/utils/easingFn');
+var easingFn = require('Comp/utils/easingFn');
 export default function ( target ) {
     // dir = dir || 'top';
 
 
     return {
-        reset : true,
-        resetAfter : true,
+        // reset : true,
         initial : {
+            //
             [target] : {
-                alpha : 1,
-                // _z    : 0,
-                // rotateY : 0
+                alpha : -1
+            //     _z    : .2,
+            //     rotateY : 0
             }
         },
         anims   : [
@@ -42,7 +42,7 @@ export default function ( target ) {
                 easeFn   : easingFn.easeOutSine,
                 apply    : {
                     // _z : -.2,
-                    alpha : -1
+                    alpha : 1
                 }
             }
         ]

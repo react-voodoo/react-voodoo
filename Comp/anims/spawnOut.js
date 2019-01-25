@@ -13,7 +13,7 @@
  *  @contact : caipilabs@gmail.com
  */
 
-var easingFn = require('App/utils/easingFn');
+var easingFn = require('Comp/utils/easingFn');
 export default function ( target ) {
     // dir = dir || 'top';
 
@@ -21,9 +21,10 @@ export default function ( target ) {
     return {
         reset : true,
         initial : {
+
             [target] : {
                 alpha : 1,
-                _z    : 0,
+                _z : 0,
                 rotateY : 0
             }
         },
@@ -32,11 +33,20 @@ export default function ( target ) {
                 type     : "Tween",
                 target   : target,
                 from     : 0,
-                duration : 500,
-                easeFn   : easingFn.easeOutSine,
+                duration : 750,
+                easeFn   : easingFn.easeInOutBack,
                 apply    : {
-                    _z : -.2,
+                    _z    : -.3,
                     alpha : -1
+                }
+            },
+            {
+                type     : "Tween",
+                target   : target,
+                from     : 250,
+                duration : 500,
+                apply    : {
+                    rotateY : -180
                 }
             }
         ]

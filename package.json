@@ -6,21 +6,32 @@
   "author": "Nathan Braun <caipilabs@gmail.com>",
   "wpInherit": {
     "default": {
-      "rootFolder": "App",
+      "rootFolder": "Comp",
+      "basedOn": "Comp",
+      "vars": {
+        "targetDir": "./build"
+      },
       "extend": [
         "wpi-react-hmr-ssr"
       ]
     },
-    "api": {
-      "rootFolder": "App",
+    "prod": {
+      "rootFolder": "Comp",
+      "basedOn": "Comp",
+      "vars": {
+        "targetDir": "./build",
+        "webpackPatch": {
+          "mode": "production"
+        }
+      },
       "extend": [
         "wpi-react-hmr-ssr"
       ]
     }
   },
   "scripts": {
-    "build": "wpi",
-    "dev": "wpi-dev-server --hot",
+    "build": "wpi :prod",
+    "dev": "wpi -w",
     "start": "node ./Server.js -p 9501",
     "runDebug": "node --inspect=[::]:9229 ./Server.js -p 9501",
     "runBrowser": "start http://localhost:9501&node ./Server.js -p 9501"
@@ -45,7 +56,7 @@
     "url-loader": "^1.1.2"
   },
   "devDependencies": {
-    "wpi-react-hmr-ssr": "=0.1.1",
-    "webpack-inherit": "^1.2.2"
+    "wpi-react-hmr-ssr": "../../wpi/wpi-react-hmr-ssr",
+    "webpack-inherit": "../../wpi/webpack-inherit"
   }
 }

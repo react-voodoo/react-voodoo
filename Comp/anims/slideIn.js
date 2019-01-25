@@ -13,48 +13,35 @@
  *  @contact : caipilabs@gmail.com
  */
 
-var easingFn = require('App/utils/easingFn');
+var easingFn = require('Comp/utils/easingFn');
 var keys     = {
     top   : '_y',
     bot   : '_y',
     right : '_x',
     left  : '_x'
 }, dirs      = {
-    top   : -1,
-    bot   : 1,
+    top   : 1,
+    bot   : -1,
     right : -1,
     left  : 1
 };
-export default function ( target, dir ) {
-    dir = dir || 'right';
-
+export default function ( dir, target ) {
+    dir = dir || 'top';
 
     return {
         initial : {
-            // [target] : {
-            //     [keys[dir]] : -1 * dirs[dir],
-            //     alpha       : -1
-            // }
+            [target] : {
+                [keys[dir]] : -1 * dirs[dir],
+                alpha       : -1
+            }
         },
         anims   : [
             {
                 type     : "Tween",
                 target   : target,
                 from     : 0,
-                duration : 400,
-                easeFn   : easingFn.easeOutSine,
-                apply    : {
-                    _z : .06,
-                    rotateY : -25,
-                    rotateX : 25
-                }
-            },
-            {
-                type     : "Tween",
-                target   : target,
-                from     : 100,
-                duration : 900,
-                easeFn   : easingFn.easeOutSine,
+                duration : 1000,
+                easeFn   : easingFn.easeOutBack,
                 apply    : {
                     [keys[dir]] : dirs[dir]
                 }
@@ -62,33 +49,10 @@ export default function ( target, dir ) {
             {
                 type     : "Tween",
                 target   : target,
-                from     : 100,
-                duration : 900,
-                easeFn   : easingFn.easeInSine,
-                apply    : {
-                    y : -300
-                }
-            },
-            {
-                type     : "Tween",
-                target   : target,
-                from     : 400,
-                duration : 600,
-                easeFn   : easingFn.easeInSine,
-                apply    : {
-                    _z      : .12,
-                    rotateY : -20,
-                    rotateX : 20,
-                    // rotate : -50
-                }
-            },
-            {
-                type     : "Tween",
-                target   : target,
-                from     : 400,
+                from     : 200,
                 duration : 500,
                 apply    : {
-                    alpha : -1
+                    alpha : 1
                 }
             }
         ]

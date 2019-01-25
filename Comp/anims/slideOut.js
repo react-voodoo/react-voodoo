@@ -13,40 +13,55 @@
  *  @contact : caipilabs@gmail.com
  */
 
-var easingFn = require('App/utils/easingFn');
-export default function ( target ) {
-    // dir = dir || 'top';
-
+var easingFn       = require('Comp/utils/easingFn');
+var keys = {
+    top : '_y',
+    bot : '_y',
+    right : '_x',
+    left : '_x'
+}, dirs = {
+    top : -1,
+    bot : 1,
+    right : -1,
+    left : 1
+};
+export default function ( dir, target ) {
+    dir = dir || 'top';
 
     return {
-        reset : true,
         initial : {
-
-            [target] : {
-                alpha : 1,
-                _z : 0,
-                rotateY : 0
-            }
+            // [target] : {
+            //     [keys[dir]] : -1 * dirs[dir],
+            //     alpha       : -1
+            // }
         },
         anims   : [
             {
                 type     : "Tween",
                 target   : target,
                 from     : 0,
-                duration : 750,
+                duration : 1000,
                 easeFn   : easingFn.easeInOutBack,
                 apply    : {
-                    _z    : -.3,
+                    [keys[dir]] : dirs[dir]
+                }
+            },
+            {
+                type     : "Tween",
+                target   : target,
+                from     : 0,
+                duration : 300,
+                apply    : {
                     alpha : -1
                 }
             },
             {
                 type     : "Tween",
                 target   : target,
-                from     : 250,
-                duration : 500,
+                from     : 1000,
+                duration : 1000,
                 apply    : {
-                    rotateY : -180
+                    [keys[dir]] : -1 * dirs[dir]
                 }
             }
         ]

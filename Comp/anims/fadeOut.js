@@ -1,4 +1,3 @@
-
 /*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
@@ -13,19 +12,25 @@
  *  @contact : caipilabs@gmail.com
  */
 
-var easingFn = require('App/utils/easingFn');
+/**
+ * @author Nathanael BRAUN
+ *
+ * Date: 20/02/2016
+ * Time: 14:17
+ */
+var easingFn = require('Comp/utils/easingFn');
 export default function ( target ) {
     // dir = dir || 'top';
 
 
     return {
         reset : true,
+        resetAfter : true,
         initial : {
-
             [target] : {
-                alpha : 0,
-                _z    : -.2,
-                rotateY : 0
+                alpha : 1,
+                // _z    : 0,
+                // rotateY : 0
             }
         },
         anims   : [
@@ -36,8 +41,8 @@ export default function ( target ) {
                 duration : 500,
                 easeFn   : easingFn.easeOutSine,
                 apply    : {
-                    _z : .2,
-                    alpha : 1
+                    // _z : -.2,
+                    alpha : -1
                 }
             }
         ]
