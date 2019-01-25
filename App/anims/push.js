@@ -1,3 +1,4 @@
+
 /*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
@@ -12,9 +13,35 @@
  *  @contact : caipilabs@gmail.com
  */
 
-import React     from 'react';
-import asTweener from './asTweener';
+var easingFn = require('App/utils/easingFn');
+export default function ( dir, target ) {
+    dir = dir || 'top';
 
-const Component = asTweener({})(React.Component);
 
-export {asTweener, Component};
+    return {
+        initial : {
+        },
+        anims   : [
+            {
+                type     : "Tween",
+                target   : target,
+                from     : 0,
+                duration : 300,
+                easeFn   : easingFn.easeOutSine,
+                apply    : {
+                    _z : -.1
+                }
+            },
+            {
+                type     : "Tween",
+                target   : target,
+                from     : 300,
+                duration : 700,
+                easeFn   : easingFn.easeOutBack,
+                apply    : {
+                    _z : .1
+                }
+            }
+        ]
+    };
+};

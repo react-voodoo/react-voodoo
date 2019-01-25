@@ -20,28 +20,32 @@
   },
   "scripts": {
     "build": "wpi",
-    "dev": "wpi -w",
+    "dev": "wpi-dev-server --hot",
     "start": "node ./Server.js -p 9501",
     "runDebug": "node --inspect=[::]:9229 ./Server.js -p 9501",
     "runBrowser": "start http://localhost:9501&node ./Server.js -p 9501"
   },
   "dependencies": {
-    "wpi-react-hmr-ssr": "=0.1.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
     "body-parser": "^1.18.2",
     "dot-tpl-loader": "^1.2.1",
     "express": "^4.16.3",
+    "is": "^3.3.0",
+    "isfunction": "0.0.6",
     "minimist": "^1.2.0",
     "moment": "^2.23.0",
     "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-rnd": "^9.0.4",
     "request": "^2.85.0",
+    "rtween": "^1.0.6",
     "shortid": "^2.2.8",
     "superagent": "^3.8.2",
+    "taskflows": "^1.0.0",
     "url-loader": "^1.1.2"
   },
   "devDependencies": {
+    "wpi-react-hmr-ssr": "=0.1.1",
     "webpack-inherit": "^1.2.2"
   }
 }

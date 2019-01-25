@@ -12,9 +12,39 @@
  *  @contact : caipilabs@gmail.com
  */
 
-import React     from 'react';
-import asTweener from './asTweener';
+/**
+ * @author Nathanael BRAUN
+ *
+ * Date: 20/02/2016
+ * Time: 14:17
+ */
+var easingFn = require('App/utils/easingFn');
+export default function ( target ) {
+    // dir = dir || 'top';
 
-const Component = asTweener({})(React.Component);
 
-export {asTweener, Component};
+    return {
+        // reset : true,
+        initial : {
+            //
+            [target] : {
+                alpha : -1
+            //     _z    : .2,
+            //     rotateY : 0
+            }
+        },
+        anims   : [
+            {
+                type     : "Tween",
+                target   : target,
+                from     : 0,
+                duration : 500,
+                easeFn   : easingFn.easeOutSine,
+                apply    : {
+                    // _z : -.2,
+                    alpha : 1
+                }
+            }
+        ]
+    };
+};
