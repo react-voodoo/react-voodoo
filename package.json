@@ -6,21 +6,20 @@
   "author": "Nathan Braun <caipilabs@gmail.com>",
   "wpInherit": {
     "default": {
-      "rootFolder": "Comp",
+      "rootFolder": "src",
       "basedOn": "Comp",
       "vars": {
-        "targetDir": "./build"
       },
       "extend": [
         "wpi-react-hmr-ssr"
       ]
     },
     "prod": {
-      "rootFolder": "Comp",
+      "rootFolder": "src",
       "basedOn": "Comp",
       "vars": {
         "externals": true,
-        "targetDir": "./build",
+        "mode": true,
         "webpackPatch": {
           "mode": "production"
         }
