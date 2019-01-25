@@ -19,6 +19,7 @@
       "rootFolder": "Comp",
       "basedOn": "Comp",
       "vars": {
+        "externals": true,
         "targetDir": "./build",
         "webpackPatch": {
           "mode": "production"
