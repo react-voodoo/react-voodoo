@@ -18,10 +18,9 @@
       "rootFolder": "src",
       "basedOn": "Comp",
       "vars": {
-        "externals": true,
-        "mode": true,
+        "externals": "^(?!@babel)",
+        "production": true,
         "webpackPatch": {
-          "mode": "production"
         }
       },
       "extend": [
