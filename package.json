@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "wpi :prod",
-    "dev": "wpi -w",
+    "dev": "wpi-dev-server --hot",
     "start": "node ./Server.js -p 9501",
     "runDebug": "node --inspect=[::]:9229 ./Server.js -p 9501",
     "runBrowser": "start http://localhost:9501&node ./Server.js -p 9501"

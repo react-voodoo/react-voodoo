@@ -17,4 +17,11 @@ import asTweener from './asTweener';
 
 const Component = asTweener({})(React.Component);
 
+class TweenableComponent extends Component {
+	render() {
+		return 'Should have some render fn here in ' + this.constructor.displayName;
+	}
+}
+
 export {asTweener, Component};
+export default TweenableComponent;
