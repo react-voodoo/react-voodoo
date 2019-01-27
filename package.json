@@ -2,26 +2,25 @@
   "name": "react-rtween",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "./dist/App.js",
+  "main": "./dist/Comp.js",
   "author": "Nathan Braun <caipilabs@gmail.com>",
   "wpInherit": {
     "default": {
       "rootFolder": "src",
-      "basedOn": "Comp",
+      "basedOn": "Component",
       "vars": {
+        "externals": "^(react|is|rtween)",
+        "webpackPatch": {}
       },
       "extend": [
         "wpi-react-hmr-ssr"
       ]
     },
-    "prod": {
+    "samples": {
       "rootFolder": "src",
-      "basedOn": "Comp",
+      "basedOn": "ComponentSamples",
       "vars": {
-        "externals": "^(?!@babel)",
-        "production": true,
-        "webpackPatch": {
-        }
+        "webpackPatch": {}
       },
       "extend": [
         "wpi-react-hmr-ssr"
@@ -29,33 +28,22 @@
     }
   },
   "scripts": {
-    "build": "wpi :prod",
-    "dev": "wpi-dev-server --hot",
-    "start": "node ./Server.js -p 9501",
-    "runDebug": "node --inspect=[::]:9229 ./Server.js -p 9501",
-    "runBrowser": "start http://localhost:9501&node ./Server.js -p 9501"
+    "build": "wpi && wpi :samples",
+    "dev": "wpi-dev-server :samples --hot",
+    "runBrowser": "start http://localhost:9501"
+  },
+  "peerDependencies": {
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2"
   },
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "dot-tpl-loader": "^1.2.1",
-    "express": "^4.16.3",
-    "is": "^3.3.0",
+    "is": "^3.2.1",
     "isfunction": "0.0.6",
-    "minimist": "^1.2.0",
-    "moment": "^2.23.0",
-    "prop-types": "^15.6.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-rnd": "^9.0.4",
-    "request": "^2.85.0",
     "rtween": "^1.0.6",
-    "shortid": "^2.2.8",
-    "superagent": "^3.8.2",
-    "taskflows": "^1.0.0",
-    "url-loader": "^1.1.2"
+    "taskflows": "^1.0.0"
   },
   "devDependencies": {
-    "wpi-react-hmr-ssr": "^0.1.1",
-    "webpack-inherit": "^1.3.5"
+    "wpi-react-hmr-ssr": "^0.2.0",
+    "webpack-inherit": "^1.3.10"
   }
 }

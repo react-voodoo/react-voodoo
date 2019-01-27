@@ -9,17 +9,16 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  *  @author : Nathanael Braun
- *  @contact : caipilabs@gmail.com
+ *  @contact : n8tz.js@gmail.com
  */
 
 import React    from "react";
 import is       from "is";
 import ReactDom from "react-dom";
 
-var merge            = require('merge'),
-    rtween           = require('rtween'),
+var rtween           = require('rtween'),
     Dom              = require('Comp/utils/Dom'),
-    isArray          = require('isarray'),
+    isArray          = is.array,
     taskflow         = require('taskflows'),
     defaultAnims     = {// while no matrix..
 	    hide: require('Comp/anims/pushOut'),
@@ -162,7 +161,7 @@ export default function asTweener( ...argz ) {
 				node && Dom.applyCss(node, style);
 			}
 			this._tweenRefCSS[target] = this._tweenRefCSS[target] || {};
-			merge(this._tweenRefCSS[target], style);
+			Object.assign(this._tweenRefCSS[target], style);
 		}
 		
 		resetTweenable( ...targets ) {
@@ -300,7 +299,7 @@ export default function asTweener( ...argz ) {
 				iMap = iMap.getPosAt(
 					pos,
 					!mapReset && this._tweenRefMaps[id]
-						|| merge({}, initialTweenable, iMap.scope || {})
+						|| Object.assign({}, initialTweenable, iMap.scope || {})
 				);
 				
 			}
@@ -313,9 +312,9 @@ export default function asTweener( ...argz ) {
 			}
 			this._tweenRefOrigin[id] = iMap;
 			iStyle                   = this._tweenRefCSS[id] = !mapReset && this._tweenRefCSS[id] &&
-				merge(this._tweenRefCSS[id], iStyle || {}) || iStyle || {};
+				Object.assign(this._tweenRefCSS[id], iStyle || {}) || iStyle || {};
 			iMap                     = this._tweenRefMaps[id] = !mapReset && this._tweenRefMaps[id]
-				|| merge({}, initialTweenable, iMap || {});
+				|| Object.assign({}, initialTweenable, iMap || {});
 			
 			!__SERVER__ &&
 			Dom.mapInBoxCSS(iMap, iStyle, this._box, this._tweenRefUnits[id]);
@@ -365,7 +364,7 @@ export default function asTweener( ...argz ) {
 		
 		
 		// updateRefMap( target, map ) {
-		//     merge(this._tweenRefMaps[target], map);
+		//     Object.assign(this._tweenRefMaps[target], map);
 		// }
 		
 		getTweenableRef( target ) {
