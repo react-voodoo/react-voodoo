@@ -1,6 +1,10 @@
-# react-rTween
+<h1 align="center">react-rtween</h1>
+<p align="center">Fast, scalable, multiscope, reversible, delta based, tween composition engine</p>
 
-Fast, scalable, multiscope, reversible, delta based, tween composition engine
+___
+
+<a href="https://www.npmjs.com/package/react-rtween">
+<img src="https://img.shields.io/npm/v/react-rtween" alt="Build Status" /></a>
 
 ## rTween what ?
 
@@ -99,3 +103,4 @@ class Sample extends React.Component {
 
 MIT license
 
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
