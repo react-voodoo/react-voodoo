@@ -982,6 +982,10 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+
+
 /*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
@@ -1000,7 +1004,10 @@ var easingFn = __webpack_require__(/*! Comp/utils/easingFn */ "./src/utils/easin
 /* harmony default export */ __webpack_exports__["default"] = (function (target) {
   // dir = dir || 'top';
   return {
-    reset: true,
+    //reset  : true,
+    initial: _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, target, {
+      alpha: 0
+    }),
     anims: [{
       type: "Tween",
       target: target,
@@ -1027,6 +1034,10 @@ var easingFn = __webpack_require__(/*! Comp/utils/easingFn */ "./src/utils/easin
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+
+
 /*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
@@ -1045,7 +1056,10 @@ var easingFn = __webpack_require__(/*! Comp/utils/easingFn */ "./src/utils/easin
 /* harmony default export */ __webpack_exports__["default"] = (function (target) {
   // dir = dir || 'top';
   return {
-    reset: true,
+    //reset  : true,
+    initial: _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, target, {
+      alpha: 1
+    }),
     anims: [{
       type: "Tween",
       target: target,

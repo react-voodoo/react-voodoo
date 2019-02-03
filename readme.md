@@ -1,26 +1,16 @@
-/*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
- */
-import React    from "react";
-import ReactDom from "react-dom";
+# react-rTween
 
-import {asTweener} from ".";
-import "./samples.scss";
+Fast, scalable, multiscope, reversible, delta based, tween composition engine
 
-console.log("Dev !")
+## rTween what ?
 
-var easingFn = require('Comp/utils/easingFn');
+- rTween engine allow to apply forward and backward multiples tweens on same properties and multiple objects
+- Allow **live composition of multiple** tweens, circle tweens, SVG Path tweens, other Scopelines, etc
+- Allow frame pre-generation,
 
+## Draft [sample](http://htmlpreview.github.io/?https://github.com/n8tz/react-rtween/blob/master/samples/index.html)
+
+```jsx
 let pushIn  = function ( target ) {
 	return {
 		anims: [
@@ -59,7 +49,7 @@ class Sample extends React.Component {
 	state = {
 		count: 0
 	};
-	
+
 	render() {
 		return <div className={ "root" } style={ {
 			width : "100%",
@@ -75,7 +65,7 @@ class Sample extends React.Component {
 						                            () => {
 							                            this.setState({ count: this.state.count - 1 })
 						                            });
-						
+
 					              });
 				} }
 				{ ...this.tweenRef("step", {
@@ -94,18 +84,18 @@ class Sample extends React.Component {
 		</div>;
 	}
 }
+```
 
-function renderSamples() {
-	
-	
-	ReactDom.render(
-		<Sample/>
-		, document.getElementById('app'));
-	
-}
 
-renderSamples()
+### Todo :
 
-if ( process.env.NODE_ENV !== 'production' && module.hot ) {
-	module.hot.accept('.', renderSamples);
-}
+- Nice examples 
+- Doc & clean
+- Usability & interpolations helpers ?
+- ES6 updates
+- Optims updates
+
+### License ?
+
+MIT license
+

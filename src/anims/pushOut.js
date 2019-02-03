@@ -1,4 +1,3 @@
-
 /*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
@@ -15,23 +14,28 @@
 
 var easingFn = require('Comp/utils/easingFn');
 export default function ( target ) {
-    // dir = dir || 'top';
-
-
-    return {
-        reset : true,
-        anims   : [
-            {
-                type     : "Tween",
-                target   : target,
-                from     : 0,
-                duration : 500,
-                easeFn   : easingFn.easeOutSine,
-                apply    : {
-                    _z : -.2,
-                    alpha : -1
-                }
-            }
-        ]
-    };
+	// dir = dir || 'top';
+	
+	
+	return {
+		//reset  : true,
+		initial: {
+			[target]: {
+				alpha: 1,
+			}
+		},
+		anims  : [
+			{
+				type    : "Tween",
+				target  : target,
+				from    : 0,
+				duration: 500,
+				easeFn  : easingFn.easeOutSine,
+				apply   : {
+					_z   : -.2,
+					alpha: -1
+				}
+			}
+		]
+	};
 };
