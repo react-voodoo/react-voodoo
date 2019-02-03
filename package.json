@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "license": "MIT",
   "main": "./dist/Comp.js",
-  "author": "Nathan Braun <caipilabs@gmail.com>",
+  "author": "Nathan Braun <n8tz.js@gmail.com>",
   "wpInherit": {
     "default": {
       "rootFolder": "src",

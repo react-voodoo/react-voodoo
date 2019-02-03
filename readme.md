@@ -5,8 +5,8 @@ ___
 
 <a href="https://www.npmjs.com/package/react-rtween">
 <img src="https://img.shields.io/npm/v/react-rtween.svg" alt="Npm version" /></a>
-<a href="https://www.npmjs.com/package/react-rtween">
-<img src="https://img.shields.io/npm/v/l/react-rtween.svg" alt="Npm version" /></a>
+
+<img src="https://img.shields.io/bundlephobia/min/react-rtween.svg?style=flat" alt="Size" />
 
 ## rTween what ?
 
