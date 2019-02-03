@@ -1,6 +1,6 @@
 {
   "name": "react-rtween",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "main": "./dist/Comp.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -40,6 +40,7 @@
   "dependencies": {
     "is": "^3.2.1",
     "isfunction": "0.0.6",
+    "@babel/runtime": "^7.3.1",
     "rtween": "^1.0.6",
     "taskflows": "^1.0.0"
   },
