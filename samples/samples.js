@@ -24,6 +24,7 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/
@@ -27504,7 +27505,7 @@ var _default = function _default(target) {
   return {
     //reset  : true,
     initial: _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, target, {
-      alpha: 0
+      opacity: 0
     }),
     anims: [{
       type: "Tween",
@@ -27514,7 +27515,7 @@ var _default = function _default(target) {
       easeFn: easingFn.easeOutSine,
       apply: {
         _z: .2,
-        alpha: 1
+        opacity: 1
       }
     }]
   };
@@ -27581,7 +27582,7 @@ var _default = function _default(target) {
   return {
     //reset  : true,
     initial: _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, target, {
-      alpha: 1
+      opacity: 1
     }),
     anims: [{
       type: "Tween",
@@ -27591,7 +27592,7 @@ var _default = function _default(target) {
       easeFn: easingFn.easeOutSine,
       apply: {
         _z: -.2,
-        alpha: -1
+        opacity: -1
       }
     }]
   };
@@ -27705,7 +27706,7 @@ var rtween = __webpack_require__(/*! rtween */ "./node_modules/rtween/dist/rTwee
   _x: 0,
   _y: 0,
   _z: 0,
-  // alpha   : 1,
+  // opacity   : 1,
   rotateY: 0,
   rotateX: 0,
   rotate: 0
@@ -28428,7 +28429,7 @@ function (_React$Component) {
         _x: .5,
         _y: .5,
         z: 1,
-        alpha: 1
+        opacity: 1
       }, 0))));
     }
   }, {
@@ -28569,7 +28570,7 @@ var _default = {
     if (pos.rotate && is.number(pos.rotate)) t += ' rotate(' + floatCut((pos.rotate || 0) % 360, 2) + 'deg)';
     if (pos.rotateX && is.number(pos.rotateX)) t += ' rotateX(' + floatCut((pos.rotateX || 0) % 360, 2) + 'deg)';
     if (pos.rotateY && is.number(pos.rotateY)) t += ' rotateY(' + floatCut((pos.rotateY || 0) % 360, 2) + 'deg)';
-    if (is.number(pos.alpha)) css.opacity = min(1, max(0, floatCut(pos.alpha, 2)));
+    if (is.number(pos.opacity)) css.opacity = min(1, max(0, floatCut(pos.opacity, 2)));
     css.transform = t;
     is.number(pos._width) && (css.width = pos._width * (box.x || 0) + 'px');
     is.number(pos._height) && (css.height = pos._height * (box.y || 0) + 'px');

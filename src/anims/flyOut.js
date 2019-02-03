@@ -33,7 +33,7 @@ export default function ( target, dir ) {
         initial : {
             // [target] : {
             //     [keys[dir]] : -1 * dirs[dir],
-            //     alpha       : -1
+            //     opacity       : -1
             // }
         },
         anims   : [
@@ -88,7 +88,7 @@ export default function ( target, dir ) {
                 from     : 400,
                 duration : 500,
                 apply    : {
-                    alpha : -1
+                    opacity : -1
                 }
             }
         ]

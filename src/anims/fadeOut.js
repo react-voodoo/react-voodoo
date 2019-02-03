@@ -28,7 +28,7 @@ export default function ( target ) {
         resetAfter : true,
         initial : {
             [target] : {
-                alpha : 1,
+                opacity : 1,
                 // _z    : 0,
                 // rotateY : 0
             }
@@ -42,7 +42,7 @@ export default function ( target ) {
                 easeFn   : easingFn.easeOutSine,
                 apply    : {
                     // _z : -.2,
-                    alpha : -1
+                    opacity : -1
                 }
             }
         ]

@@ -78,7 +78,9 @@ class Sample extends React.Component {
 						
 					              });
 				} }
-				{ ...this.tweenRef("step", {
+				{ ...this.tweenRef("step",
+				                   // initial style
+				                   {
 					                   position  : "absolute",
 					                   display   : "inline-block",
 					                   width     : "15em",
@@ -90,7 +92,7 @@ class Sample extends React.Component {
 					                   top       : 0,
 					                   left      : 0
 				                   },
-				                   { _x: .5, _y: .5, z: 1, alpha: 1 }, 0) }/>
+				                   { _x: .5, _y: .5, z: 1, opacity: 1 }, 0) }/>
 		</div>;
 	}
 }

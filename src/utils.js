@@ -54,8 +54,8 @@ export default {
 		if ( pos.rotateY && is.number(pos.rotateY) )
 			t += ' rotateY(' + floatCut((pos.rotateY || 0) % 360, 2) + 'deg)';
 		
-		if ( is.number(pos.alpha) )
-			css.opacity = min(1, max(0, floatCut(pos.alpha, 2)));
+		if ( is.number(pos.opacity) )
+			css.opacity = min(1, max(0, floatCut(pos.opacity, 2)));
 		
 		css.transform = t;
 		

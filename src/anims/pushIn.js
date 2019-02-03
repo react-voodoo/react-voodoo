@@ -21,7 +21,7 @@ export default function ( target ) {
 		//reset  : true,
 		initial: {
 			[target]: {
-				alpha : 0,
+				opacity : 0,
 			}
 		},
 		anims  : [
@@ -33,7 +33,7 @@ export default function ( target ) {
 				easeFn  : easingFn.easeOutSine,
 				apply   : {
 					_z   : .2,
-					alpha: 1
+					opacity: 1
 				}
 			}
 		]

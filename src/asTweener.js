@@ -32,7 +32,7 @@ var rtween           = require('rtween'),
 	    _x     : 0,
 	    _y     : 0,
 	    _z     : 0,
-	    // alpha   : 1,
+	    // opacity   : 1,
 	    rotateY: 0,
 	    rotateX: 0,
 	    rotate : 0

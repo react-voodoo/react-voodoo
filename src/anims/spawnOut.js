@@ -23,7 +23,7 @@ export default function ( target ) {
         initial : {
 
             [target] : {
-                alpha : 1,
+                opacity : 1,
                 _z : 0,
                 rotateY : 0
             }
@@ -37,7 +37,7 @@ export default function ( target ) {
                 easeFn   : easingFn.easeInOutBack,
                 apply    : {
                     _z    : -.3,
-                    alpha : -1
+                    opacity : -1
                 }
             },
             {
