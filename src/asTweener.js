@@ -89,7 +89,7 @@ export default function asTweener( ...argz ) {
 			if ( this._runningAnims.length )
 				requestAnimationFrame(this.__rafLoop);
 			else {
-				console.log("RAF Off");
+				//console.log("RAF Off");
 				this._live = false;
 			}
 		}
@@ -215,7 +215,7 @@ export default function asTweener( ...argz ) {
 			
 			if ( !this._live ) {
 				this._live = true;
-				console.log("RAF On");
+				//console.log("RAF On");
 				requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
 			}
 			return sl;
