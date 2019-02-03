@@ -15,9 +15,10 @@
 import React    from "react";
 import is       from "is";
 import ReactDom from "react-dom";
+import utils    from "./utils";
 
 var rtween           = require('rtween'),
-    Dom              = require('Comp/utils/Dom'),
+    isBrowserSide    = (new Function("try {return this===window;}catch(e){ return false;}"))(),
     isArray          = is.array,
     taskflow         = require('taskflows'),
     defaultAnims     = {// while no matrix..
@@ -54,7 +55,11 @@ var rtween           = require('rtween'),
 
 const SimpleObjectProto = ({}).constructor;
 
-
+/**
+ * Tweener decorator
+ * @param argz
+ * @returns {*}
+ */
 export default function asTweener( ...argz ) {
 	
 	let BaseComponent = (!argz[0] || argz[0].prototype instanceof React.Component || argz[0] === React.Component) && argz.shift(),
@@ -80,10 +85,9 @@ export default function asTweener( ...argz ) {
 		}
 		
 		_rafLoop() {
-			var updates = {};
 			this._updateTweenRefs();
 			if ( this._runningAnims.length )
-				Dom.Browser.requestAnimationFrame(this.__rafLoop);
+				requestAnimationFrame(this.__rafLoop);
 			else {
 				console.log("RAF Off");
 				this._live = false;
@@ -158,7 +162,7 @@ export default function asTweener( ...argz ) {
 				           ? this.refs[target]
 				           : ReactDom.findDOMNode(
 						this.refs[target]);
-				node && Dom.applyCss(node, style);
+				node && Object.assign(node.style, style);
 			}
 			this._tweenRefCSS[target] = this._tweenRefCSS[target] || {};
 			Object.assign(this._tweenRefCSS[target], style);
@@ -184,7 +188,6 @@ export default function asTweener( ...argz ) {
 				initial = anim.initial;
 			}
 			
-			var me = this;
 			if ( !(sl instanceof rtween) )
 				sl = new rtween(sl, this._tweenRefMaps);
 			
@@ -194,14 +197,14 @@ export default function asTweener( ...argz ) {
 			
 			
 			!skipInit && initial && Object.keys(initial).map(
-				( id ) => me.applyTweenState(id, initial[id], anim.reset)
+				( id ) => this.applyTweenState(id, initial[id], anim.reset)
 			);
 			
 			
-			sl.run(this._tweenRefMaps, function () {
-				var i = me._runningAnims.indexOf(sl);
+			sl.run(this._tweenRefMaps, () => {
+				var i = this._runningAnims.indexOf(sl);
 				if ( i != -1 )
-					me._runningAnims.splice(i, 1);
+					this._runningAnims.splice(i, 1);
 				
 				then && then(sl);
 				// if (anim.resetAfter)
@@ -213,7 +216,7 @@ export default function asTweener( ...argz ) {
 			if ( !this._live ) {
 				this._live = true;
 				console.log("RAF On");
-				Dom.Browser.requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
+				requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
 			}
 			return sl;
 			
@@ -311,21 +314,26 @@ export default function asTweener( ...argz ) {
 				this._tweenRefUnits[id] = extractUnits(iMap);
 			}
 			this._tweenRefOrigin[id] = iMap;
-			iStyle                   = this._tweenRefCSS[id] = !mapReset && this._tweenRefCSS[id] &&
-				Object.assign(this._tweenRefCSS[id], iStyle || {}) || iStyle || {};
-			iMap                     = this._tweenRefMaps[id] = !mapReset && this._tweenRefMaps[id]
+			//this._tweenRefCSS[id]    = this._tweenRefCSS[id] || {};
+			if ( !mapReset && this._tweenRefCSS[id] ) {
+				this._tweenRefCSS[id] = {
+					...iStyle
+				}
+			}
+			else this._tweenRefCSS[id] = iStyle && { ...iStyle } || {}
+			iStyle = this._tweenRefCSS[id];
+			iMap   = this._tweenRefMaps[id] = !mapReset && this._tweenRefMaps[id]
 				|| Object.assign({}, initialTweenable, iMap || {});
 			
-			!__SERVER__ &&
-			Dom.mapInBoxCSS(iMap, iStyle, this._box, this._tweenRefUnits[id]);
+			utils.mapInBoxCSS(iMap, iStyle, this._box, this._tweenRefUnits[id]);
 			
 			if ( noref )
 				return {
-					style: this._tweenRefCSS[id]
+					style: { ...this._tweenRefCSS[id] }
 				};
 			else
 				return {
-					style: this._tweenRefCSS[id],
+					style: { ...this._tweenRefCSS[id] },
 					ref  : id,
 					// __tweenMap : this._tweenRefMaps[id],
 					// __tweenCSS : this._tweenRefCSS[id]
@@ -346,7 +354,7 @@ export default function asTweener( ...argz ) {
 				this._tweenRefTargets    = this._tweenRefTargets || [];
 				this._runningAnims       = this._runningAnims || [];
 				
-				!__SERVER__ && Dom.addEvent(window, "resize", this._onResize = () => {//@todo
+				isBrowserSide && window.addEventListener("resize", this._onResize = () => {//@todo
 					me._updateBox();
 					me._updateTweenRefs()
 				});
@@ -379,7 +387,7 @@ export default function asTweener( ...argz ) {
 				target = this._tweenRefTargets[i];
 				// if ( this._tweenRefUnits[target].height )
 				//     debugger;
-				Dom.mapInBoxCSS(
+				utils.mapInBoxCSS(
 					this._tweenRefMaps[target],
 					this._tweenRefCSS[target],
 					this._box,
@@ -388,7 +396,7 @@ export default function asTweener( ...argz ) {
 				node = this._tweenEnabled && target == "__root"
 				       ? ReactDom.findDOMNode(this)
 				       : this.getTweenableRef(target);
-				node && Dom.applyCss(node, this._tweenRefCSS[target]);
+				node && Object.assign(node.style, this._tweenRefCSS[target]);
 			}
 			// }
 		}
@@ -397,7 +405,7 @@ export default function asTweener( ...argz ) {
 			
 			if ( this._tweenEnabled ) {
 				this._tweenEnabled = false;
-				Dom.removeEvent(window, "resize", this._onResize);
+				window.removeEventListener("resize", this._onResize);
 			}
 			super.componentWillUnmount && super.componentWillUnmount();
 		}
