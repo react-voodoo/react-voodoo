@@ -31,22 +31,15 @@ class Sample extends React.Component {
 				onClick={ e => {
 					this.pushAnim(require('Comp/anims/pushOut').default("step", 700, 5),
 					              () => {
-						              this.pushAnim(require('Comp/anims/slideIn').default("left", "step", 700, 5),
-						                            () => {
-						                            });
 						              this.pushAnim(require('Comp/anims/pushIn').default("step", 700, 5),
 						                            () => {
 						                            });
 						
 					              });
-					this.pushAnim(require('Comp/anims/slideOut').default("left", "step", 700, 5),
-					              () => {
-						              //
-					              ///
-						
-					              });
-				}
-				}
+					//this.pushAnim(require('Comp/anims/slideOut').default("left", "step", 700, 5),
+					//              () => {
+					//              });
+				} }
 				{ ...this.tweenRef("step", {
 					                   position  : "absolute",
 					                   display   : "inline-block",

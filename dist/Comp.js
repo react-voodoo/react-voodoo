@@ -982,10 +982,6 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
-
-
 /*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
@@ -1005,11 +1001,6 @@ var easingFn = __webpack_require__(/*! Comp/utils/easingFn */ "./src/utils/easin
   // dir = dir || 'top';
   return {
     reset: true,
-    initial: _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, target, {
-      alpha: 0,
-      _z: -.2,
-      rotateY: 0
-    }),
     anims: [{
       type: "Tween",
       target: target,
@@ -1036,10 +1027,6 @@ var easingFn = __webpack_require__(/*! Comp/utils/easingFn */ "./src/utils/easin
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
-
-
 /*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
@@ -1059,11 +1046,6 @@ var easingFn = __webpack_require__(/*! Comp/utils/easingFn */ "./src/utils/easin
   // dir = dir || 'top';
   return {
     reset: true,
-    initial: _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, target, {
-      alpha: 1,
-      _z: 0,
-      rotateY: 0
-    }),
     anims: [{
       type: "Tween",
       target: target,
@@ -1115,6 +1097,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-dom */ "undefined?5e9a");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
 
 
 
@@ -1142,8 +1125,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var rtween = __webpack_require__(/*! rtween */ "undefined?929e"),
-    Dom = __webpack_require__(/*! Comp/utils/Dom */ "./src/utils/Dom.js"),
+    isBrowserSide = new Function("try {return this===window;}catch(e){ return false;}")(),
     isArray = is__WEBPACK_IMPORTED_MODULE_10___default.a.array,
     taskflow = __webpack_require__(/*! taskflows */ "./node_modules/taskflows/index.js"),
     defaultAnims = {
@@ -1177,6 +1161,12 @@ var rtween = __webpack_require__(/*! rtween */ "undefined?929e"),
 };
 
 var SimpleObjectProto = {}.constructor;
+/**
+ * Tweener decorator
+ * @param argz
+ * @returns {*}
+ */
+
 function asTweener() {
   for (var _len = arguments.length, argz = new Array(_len), _key = 0; _key < _len; _key++) {
     argz[_key] = arguments[_key];
@@ -1215,11 +1205,9 @@ function asTweener() {
       _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(TweenableComp, [{
         key: "_rafLoop",
         value: function _rafLoop() {
-          var updates = {};
-
           this._updateTweenRefs();
 
-          if (this._runningAnims.length) Dom.Browser.requestAnimationFrame(this.__rafLoop);else {
+          if (this._runningAnims.length) requestAnimationFrame(this.__rafLoop);else {
             console.log("RAF Off");
             this._live = false;
           }
@@ -1281,7 +1269,7 @@ function asTweener() {
 
           if (!postPone && this.refs[target]) {
             var node = this.refs[target] instanceof Element ? this.refs[target] : react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this.refs[target]);
-            node && Dom.applyCss(node, style);
+            node && Object.assign(node.style, style);
           }
 
           this._tweenRefCSS[target] = this._tweenRefCSS[target] || {};
@@ -1305,6 +1293,8 @@ function asTweener() {
       }, {
         key: "pushAnim",
         value: function pushAnim(anim, then, skipInit) {
+          var _this5 = this;
+
           var sl, initial;
 
           if (isArray(anim)) {
@@ -1314,17 +1304,16 @@ function asTweener() {
             initial = anim.initial;
           }
 
-          var me = this;
           if (!(sl instanceof rtween)) sl = new rtween(sl, this._tweenRefMaps); // console.warn("Should start anim ", sl);
 
           this.makeTweenable();
           !skipInit && initial && Object.keys(initial).map(function (id) {
-            return me.applyTweenState(id, initial[id], anim.reset);
+            return _this5.applyTweenState(id, initial[id], anim.reset);
           });
           sl.run(this._tweenRefMaps, function () {
-            var i = me._runningAnims.indexOf(sl);
+            var i = _this5._runningAnims.indexOf(sl);
 
-            if (i != -1) me._runningAnims.splice(i, 1);
+            if (i != -1) _this5._runningAnims.splice(i, 1);
             then && then(sl); // if (anim.resetAfter)
             //     setTimeout(()=>sl.go(0,me._tweenRefMaps),133);
           }); //launch
@@ -1334,7 +1323,7 @@ function asTweener() {
           if (!this._live) {
             this._live = true;
             console.log("RAF On");
-            Dom.Browser.requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
+            requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
           }
 
           return sl;
@@ -1422,14 +1411,19 @@ function asTweener() {
             this._tweenRefUnits[id] = extractUnits(iMap);
           }
 
-          this._tweenRefOrigin[id] = iMap;
-          iStyle = this._tweenRefCSS[id] = !mapReset && this._tweenRefCSS[id] && Object.assign(this._tweenRefCSS[id], iStyle || {}) || iStyle || {};
+          this._tweenRefOrigin[id] = iMap; //this._tweenRefCSS[id]    = this._tweenRefCSS[id] || {};
+
+          if (!mapReset && this._tweenRefCSS[id]) {
+            this._tweenRefCSS[id] = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle);
+          } else this._tweenRefCSS[id] = iStyle && _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle) || {};
+
+          iStyle = this._tweenRefCSS[id];
           iMap = this._tweenRefMaps[id] = !mapReset && this._tweenRefMaps[id] || Object.assign({}, initialTweenable, iMap || {});
-          !__SERVER__ && Dom.mapInBoxCSS(iMap, iStyle, this._box, this._tweenRefUnits[id]);
+          _utils__WEBPACK_IMPORTED_MODULE_12__["default"].mapInBoxCSS(iMap, iStyle, this._box, this._tweenRefUnits[id]);
           if (noref) return {
-            style: this._tweenRefCSS[id]
+            style: _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, this._tweenRefCSS[id])
           };else return {
-            style: this._tweenRefCSS[id],
+            style: _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, this._tweenRefCSS[id]),
             ref: id // __tweenMap : this._tweenRefMaps[id],
             // __tweenCSS : this._tweenRefCSS[id]
 
@@ -1454,7 +1448,7 @@ function asTweener() {
             this._tweenRefOrigin = {};
             this._tweenRefTargets = this._tweenRefTargets || [];
             this._runningAnims = this._runningAnims || [];
-            !__SERVER__ && Dom.addEvent(window, "resize", this._onResize = function () {
+            isBrowserSide && window.addEventListener("resize", this._onResize = function () {
               //@todo
               me._updateBox();
 
@@ -1489,9 +1483,9 @@ function asTweener() {
             target = this._tweenRefTargets[i]; // if ( this._tweenRefUnits[target].height )
             //     debugger;
 
-            Dom.mapInBoxCSS(this._tweenRefMaps[target], this._tweenRefCSS[target], this._box, this._tweenRefUnits[target]);
+            _utils__WEBPACK_IMPORTED_MODULE_12__["default"].mapInBoxCSS(this._tweenRefMaps[target], this._tweenRefCSS[target], this._box, this._tweenRefUnits[target]);
             node = this._tweenEnabled && target == "__root" ? react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this) : this.getTweenableRef(target);
-            node && Dom.applyCss(node, this._tweenRefCSS[target]);
+            node && Object.assign(node.style, this._tweenRefCSS[target]);
           } // }
 
         }
@@ -1500,7 +1494,7 @@ function asTweener() {
         value: function componentWillUnmount() {
           if (this._tweenEnabled) {
             this._tweenEnabled = false;
-            Dom.removeEvent(window, "resize", this._onResize);
+            window.removeEventListener("resize", this._onResize);
           }
 
           _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this).call(this);
@@ -1527,7 +1521,7 @@ function asTweener() {
       }, {
         key: "componentDidUpdate",
         value: function componentDidUpdate(prevProps, prevState) {
-          var _this5 = this;
+          var _this6 = this;
 
           if (this._tweenEnabled) {
             this._updateBox();
@@ -1535,12 +1529,12 @@ function asTweener() {
             this._updateTweenRefs();
 
             this._rtweensByProp && Object.keys(prevProps).forEach(function (k) {
-              return _this5._rtweensByProp[k] && _this5.props[k] !== prevProps[k] && _this5._rtweensByProp[k][_this5.props[k]] && _this5.pushAnim(_this5._rtweensByProp[k][_this5.props[k]]
+              return _this6._rtweensByProp[k] && _this6.props[k] !== prevProps[k] && _this6._rtweensByProp[k][_this6.props[k]] && _this6.pushAnim(_this6._rtweensByProp[k][_this6.props[k]]
               /*get current pos*/
               );
             }, this);
             this._rtweensByStateProp && prevState && Object.keys(prevState).forEach(function (k) {
-              return _this5._rtweensByStateProp[k] && _this5.state[k] !== prevState[k] && _this5._rtweensByStateProp[k][_this5.state[k]] && _this5.pushAnim(_this5._rtweensByStateProp[k][_this5.state[k]]
+              return _this6._rtweensByStateProp[k] && _this6.state[k] !== prevState[k] && _this6._rtweensByStateProp[k][_this6.state[k]] && _this6.pushAnim(_this6._rtweensByStateProp[k][_this6.state[k]]
               /*get current pos*/
               );
             }, this);
@@ -1651,13 +1645,15 @@ function (_Component) {
 
 /***/ }),
 
-/***/ "./src/utils/Dom.js":
-/*!**************************!*\
-  !*** ./src/utils/Dom.js ***!
-  \**************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./src/utils.js":
+/*!**********************!*\
+  !*** ./src/utils.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
@@ -1671,12 +1667,7 @@ function (_Component) {
  *  @author : Nathanael Braun
  *  @contact : n8tz.js@gmail.com
  */
-
-/**
- * Old school dom stuff
- */
 var is = __webpack_require__(/*! is */ "undefined?63a5"),
-    merge = __webpack_require__(/*! merge */ "./node_modules/merge/merge.js"),
     floatCut = function floatCut(v, l) {
   var p = Math.pow(10, l);
   return Math.round(v * p) / p;
@@ -1703,123 +1694,9 @@ var is = __webpack_require__(/*! is */ "undefined?63a5"),
   top: 'px'
 },
     __;
-/**
- * @class K.Dom
- * @param arg0
- * @returns {*}
- * @constructor
- */
-//define('Dom', function () {
 
-
-var Browser = {
-  // stacks de request animation frames
-  _: {
-    __rafStack: [],
-    __rafStackSW: [],
-    __rafThreadIsRunning: false,
-    _Frames: [],
-    __lastTm: 0,
-    __originalRAF: window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || setTimeout,
-    __originalCAF: window.cancelRequestAnimationFrame || window.webkitCancelAnimationFrame || window.webkitCancelRequestAnimationFrame || window.mozCancelRequestAnimationFrame || window.oCancelRequestAnimationFrame || window.msCancelRequestAnimationFrame || clearTimeout
-  },
-  requestAnimationFrame: function requestAnimationFrame(fn) {
-    var t2, t;
-
-    Browser._.__rafStack.push(fn);
-
-    if (!Browser._.raf_desc) {
-      t2 = Date.now();
-      t = t2 - Browser._.raf_tm;
-      Browser._.raf_desc = Browser._.__originalRAF.call(window, Browser.runRAFStack);
-    }
-  },
-
-  /**
-   * The real animation frame function
-   * @private
-   * @return {*}
-   */
-  runRAFStack: function run(t2) {
-    // @todo : fix potential ios not launching anim bug
-    var s, m, tm, t;
-
-    if (!Browser._.__rafStack.length) {
-      Browser._.__originalCAF.call(window, Browser._.raf_desc);
-
-      Browser._.raf_desc = null;
-      return Browser._.__rafThreadIsRunning = false;
-    } else if (!Browser._.__rafThreadIsRunning) {
-      Browser._.raf_tm = t2 - 1;
-      Browser._.__rafThreadIsRunning = true;
-    }
-
-    t = t2 - Browser._.raf_tm;
-    s = Browser._.__rafStack;
-    Browser._.__rafStack = Browser._.__rafStackSW;
-    Browser._.__rafStackSW = s;
-
-    while (s.length) {
-      s.shift()(t);
-    }
-
-    Browser._.raf_tm = t2;
-    Browser._.raf_desc = Browser._.__originalRAF.call(window, run);
-  },
-  haveTouchEvents: function haveTouchEvents() {
-    if (typeof this._.isTouchDevice == 'boolean') return this._.isTouchDevice;
-    var deviceAgent = navigator.userAgent.toLowerCase();
-    this._.isTouchDevice = 'ontouchstart' in window // works on most browsers
-    || 'onmsgesturechange' in window || deviceAgent.match(/(iphone|ipod|ipad)/) || deviceAgent.match(/(android)/) || deviceAgent.match(/(iemobile)/) || deviceAgent.match(/iphone/i) || deviceAgent.match(/ipad/i) || deviceAgent.match(/ipod/i) || deviceAgent.match(/blackberry/i) || deviceAgent.match(/bada/i);
-    return this._.isTouchDevice = this._.isTouchDevice && true || false;
-  },
-  have3dTransform: function has3d() {
-    if (typeof this._.have3dTransform == 'boolean') return this._.have3dTransform;
-    var el = document.createElement('p'),
-        has3d,
-        transforms = {
-      'webkitTransform': '-webkit-transform',
-      'OTransform': '-o-transform',
-      'msTransform': '-ms-transform',
-      'MozTransform': '-moz-transform',
-      'transform': 'transform'
-    }; // Add it to the body to get the computed style.
-
-    document.body.insertBefore(el, null);
-
-    for (var t in transforms) {
-      if (el.style[t] !== undefined) {
-        el.style[t] = "translate3d(1px,1px,1px)";
-        has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
-      }
-    }
-
-    document.body.removeChild(el);
-    return this._.have3dTransform = has3d && has3d.length > 0 && has3d !== "none";
-  }
-},
-    Dom = {
-  // Dom / html
-  createElement: function createElement() {
-    var argz = slice.call(arguments, 0),
-        _tag = is.string(argz[0]) && argz.shift() || argz[0].tagName || 'div',
-        _opt = argz[0] && argz.shift() || {},
-        _refs = argz[0] || null;
-
-    return __._createElement(_tag, _opt, _refs);
-  },
-  // Dom / html
-  appendContent: function appendContent(parent, content, refs) {
-    //var argz = slice.call(arguments, 0),
-    //    _tag = is.string(argz[0]) && argz.shift() || argz[0].tagName || 'div',
-    //    _opt = argz[0] && argz.shift() || {},
-    //    _refs = argz[0] || null;
-    return __._createElement(null, {
-      content: content
-    }, refs, parent);
-  },
+/* harmony default export */ __webpack_exports__["default"] = ({
   mapInBoxCSS: function mapInBoxCSS(pos, css, box, units, offset) {
-    // @todo : rewrite or use npm
     //if ( is.number(pos.x) || is.number(pos.y))
     var t = '';
     if (is.number(pos._z) || is.number(pos._x) || is.number(pos._y) || is.number(pos.z) || is.number(pos.x) || is.number(pos.y)) t = 'translate3d(' + floatCut((pos._x || 0) * (box.x || 0) + (pos.x || 0) + (offset && offset.x || 0), 2) + (units && units.x || 'px') + ', ' + floatCut((pos._y || 0) * (box.y || 0) + (pos.y || 0) + (offset && offset.y || 0), 2) + (units && units.y || 'px') + ', ' + floatCut((pos._z || 0) * (box.z || 0) + (pos.z || 0) + (offset && offset.z || 0), 2) + (units && units.z || 'px') + '' + ')'; //@todo matrix
@@ -1834,590 +1711,8 @@ var Browser = {
     is.number(pos.width) && (css.width = pos.width + (units && units.x || 'px'));
     is.number(pos.height) && (css.height = pos.height + (units && units.y || 'px'));
     is.number(pos.zIndex) && (css.zIndex = pos.zIndex);
-  },
-  mapCSS: function mapCSS(pos, css, units) {
-    // @todo : polymorphik hashmap is bad
-    //if ( is.number(pos.x) || is.number(pos.y))
-    var t = '';
-    if (is.number(pos.z) || is.number(pos.x) || is.number(pos.y)) t = 'translate3d(' + (pos.x || 0) + 'px, ' + (pos.y || 0) + 'px, ' + (pos.z || 0) + 'px)'; //if ( is.number(pos._z) || is.number(pos._x) || is.number(pos._y) )
-    //    t = 'translate3d(' +
-    //    (pos._x || 0) * 100 + '%, ' +
-    //    (pos._y || 0) * 100 + '%, ' +
-    //    (pos._z || 0) * 100 + '%)';
-    //console.log(pos);
-    //@todo matrix
-
-    if (pos.rotate && is.number(pos.rotate)) t += ' rotate(' + floatCut((pos.rotate || 0) % 360, 2) + 'deg)';
-    if (pos.rotateX && is.number(pos.rotateX)) t += ' rotateX(' + floatCut((pos.rotateX || 0) % 360, 2) + 'deg)';
-    if (pos.rotateY && is.number(pos.rotateY)) console.log(t += ' rotateY(' + floatCut((pos.rotateY || 0) % 360, 2) + 'deg)');
-    if (is.number(pos.alpha)) css.opacity = min(1, max(0, pos.alpha));
-    css.transform = t;
-    is.number(pos.width) && (css.width = pos.width + (units && units.x || 'px'));
-    is.number(pos.height) && (css.height = pos.height + (units && units.x || 'px'));
-    is.number(pos.zIndex) && (css.zIndex = pos.zIndex);
-  },
-  mapFromAttributes: function mapFromAttributes(node, match, upcase) {
-    var map = {},
-        key;
-    match = match || /^(.*)$/;
-
-    for (var a = 0; a < node.attributes.length; a++) {
-      if ((key = node.attributes.item(a).name.match(match)) && key) map[upcase && key[1].toUpperCase() || key[1]] = node.attributes.item(a).value;
-    }
-
-    return map;
-  },
-  mapToAttributes: function mapToAttributes(node, map) {
-    for (var o in map) {
-      map.hasOwnProperty(o) && this.addAttribute(node, o, map[o]);
-    }
-
-    return node;
-  },
-  addAttribute: function addAttribute(node, attr, value) {
-    attr = document.createAttribute(attr);
-    attr.value = value;
-    node.setAttributeNode(attr);
-    return attr;
-  },
-  getParentWithCls: function getParentWithCls(node, cls) {
-    // @todo
-    return this.haveCls(node, cls) && node || node.parentNode && node.parentNode !== document.body && this.getParentWithCls(node.parentNode, cls) || false;
-  },
-  haveCls: function haveCls(node, cls) {
-    // @todo
-    return new RegExp("(^|\\s)" + cls.trim() + "(\\s|$)").test(node.className);
-  },
-  addCls: function addCls(node, cls) {
-    if (cls instanceof Array) for (var i in cls) {
-      this.addCls(node, cls[i]);
-    } else if (!this.haveCls(node, cls)) node.className += ' ' + cls;
-  },
-  rmCls: function rmCls(node, cls) {
-    if (cls instanceof Array) for (var i in cls) {
-      this.rmCls(node, cls[i]);
-    } else if (this.haveCls(node, cls)) node.className = node.className.replace( //@todo
-    new RegExp("(?:^|\\s+)" + cls.trim() + "(?:\\s+|$)"), ' ');
-  },
-  addEvent: function addEvent(node, type, fn, scope, bubble) {
-    var desc;
-
-    if (is.object(type)) {
-      for (var o in type) {
-        if (type.hasOwnProperty(o)) this.addEvent(node, o, type[o], fn);
-      }
-
-      return;
-    } else if (type == 'dragstart') {
-      __.getDraggable(node).dragstart.push([fn, scope]);
-    } else if (type == 'drag') {
-      __.getDraggable(node).drag.push([fn, scope]);
-    } else if (type == 'dropped') {
-      __.getDraggable(node).dropped.push([fn, scope]);
-    } else {
-      if (node.addEventListener) {
-        node.addEventListener(type, fn, bubble);
-      } else if (node.attachEvent) {
-        node.attachEvent('on' + type, fn.related = function (e) {
-          return fn.call(node, e);
-        });
-      }
-    }
-  },
-  removeEvent: function removeEvent(node, type, fn, scope, bubble) {
-    var i, desc;
-
-    if (is.object(type)) {
-      for (var o in type) {
-        if (type.hasOwnProperty(o)) this.removeEvent(node, o, type[o], scope);
-      }
-    } else if (/^(drag|drop)/.test(type)) {
-      desc = __.getDraggable(node);
-
-      __.rmFnScopePair(desc[type], fn, scope);
-
-      if (!desc.dragstart.length && !desc.drag.length && !desc.dragEnd.length && !desc.dropped.length) __.freeDraggable(node);
-    } else {
-      if (node.removeEventListener) {
-        node.removeEventListener(type, fn, bubble);
-      } else if (node.attachEvent) {
-        node.detachEvent('on' + type, fn.related);
-      }
-    }
-  },
-  offset: function offset(elem) {
-    // @todo
-    var dims = {
-      top: 0,
-      left: 0,
-      width: elem.offsetWidth,
-      height: elem.offsetHeight
-    };
-
-    while (elem) {
-      dims.top = dims.top + parseInt(elem.offsetTop);
-      dims.left = dims.left + parseInt(elem.offsetLeft);
-      elem = elem.offsetParent;
-    }
-
-    return dims;
-  },
-  applyCssTransition: function applyCssTransition(node, from, to, tm, cb) {
-    tm = tm || 500;
-
-    var me = this,
-        stm,
-        evt = function evt() {
-      clearTimeout(stm);
-      me.applyCss(node, {
-        transition: null
-      });
-      me.removeEvent(node, 'transitionend', evt);
-      requestAnimationFrame(function () {
-        me.applyCss(node, to);
-        cb && cb(node);
-      });
-    },
-        tmp = '',
-        o = ' ' + tm + 'ms';
-
-    for (var i in to) {
-      if (from[i] !== to[i]) {
-        tmp += (this.prefixedProperties[i] ? this.dashedPrefix : '') + i + o + ', ';
-      }
-    }
-
-    me.applyCss(node, {
-      transition: null
-    });
-    me.applyCss(node, from);
-    requestAnimationFrame(function () {
-      me.applyCss(node, {
-        transition: tmp
-      });
-      me.addEvent(node, 'transitionend', evt);
-      me.applyCss(node, to);
-      stm = setTimeout(evt, tm * 1.1);
-    });
-  },
-  applyCssAnim: function applyCssAnim(node, id, tm, cb) {
-    tm = tm || 500;
-
-    var me = this,
-        stm,
-        evt = function evt(e) {
-      if (e && e.target !== node) {
-        return;
-      }
-
-      clearTimeout(stm);
-      me.applyCss(node, {
-        animation: null
-      });
-      me.removeEvent(node, 'webkitAnimationEnd', evt);
-      me.removeEvent(node, 'oAnimationEnd', evt);
-      me.removeEvent(node, 'animationend', evt);
-      cb && cb(node);
-    };
-
-    me.addEvent(node, 'webkitAnimationEnd', evt);
-    me.addEvent(node, 'oAnimationEnd', evt);
-    me.addEvent(node, 'animationend', evt);
-    me.applyCss(node, {
-      animation: id + " " + tm / 1000 + "s forwards"
-    });
-    stm = setTimeout(evt, tm * 1.1);
-  },
-  addWheelEvent: function (window, document) {
-    var prefix = "",
-        _addEventListener,
-        onwheel,
-        support; // detect event model
-
-
-    if (window.addEventListener) {
-      _addEventListener = "addEventListener";
-    } else {
-      _addEventListener = "attachEvent";
-      prefix = "on";
-    } // detect available wheel event
-
-
-    support = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
-    document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
-    "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
-
-    window.addWheelListener = function (elem, callback, scope, useCapture) {
-      _addWheelListener(elem, support, callback, scope, useCapture); // handle MozMousePixelScroll in older Firefox
-
-
-      if (support == "DOMMouseScroll") {
-        _addWheelListener(elem, "MozMousePixelScroll", callback, scope, useCapture);
-      }
-    };
-
-    function _addWheelListener(elem, eventName, callback, scope, useCapture) {
-      elem[_addEventListener](prefix + eventName, function (originalEvent) {
-        !originalEvent && (originalEvent = window.event); // create a normalized event object
-
-        var event = {
-          // keep a ref to the original event object
-          originalEvent: originalEvent,
-          target: originalEvent.target || originalEvent.srcElement,
-          type: "wheel",
-          deltaMode: originalEvent.type == "MozMousePixelScroll" ? 0 : 1,
-          deltaX: 0,
-          delatZ: 0,
-          preventDefault: function preventDefault() {
-            originalEvent.preventDefault ? originalEvent.preventDefault() : originalEvent.returnValue = false;
-          }
-        }; // calculate deltaY (and deltaX) according to the event
-
-        if (support == "mousewheel") {
-          event.deltaY = -1 / 40 * originalEvent.wheelDelta; // Webkit also support wheelDeltaX
-          //                            originalEvent.wheelDeltaX && ( event.deltaX = - 1/40 *
-          // originalEvent.wheelDeltaX );
-        } else if (support == "wheel" && Dom.prefix == "Moz") {
-          event.deltaY = originalEvent.deltaY / 3;
-        } else if (support == "wheel") {
-          event.deltaY = originalEvent.deltaY / 100;
-        } else {
-          event.deltaY = originalEvent.deltaY;
-        } //                        if (typeof originalEvent.wheelDeltaY !== 'number')
-        //                            event.wheelDeltaY = originalEvent.deltaY/100;
-        //                        event.wheelDelta = deltaY*120;
-        // it's time to fire the callback
-
-
-        return callback.call(scope || this, event);
-      }, useCapture || false);
-    }
-
-    return window.addWheelListener;
-  }(window, document),
-  pageVisibility: function () {
-    var pe = {
-      visible: true,
-      _onPageShown: [[], []],
-      _onPageHided: [[], []],
-      follow: function follow(type, fn, scope) {
-        // @todo
-        if (type == 'blurred') {
-          __onPageHided[0].push(fn);
-
-          __onPageHided[1].push(scope);
-        } else if (type == 'focused') {
-          __onPageShown[0].push(fn);
-
-          __onPageShown[1].push(scope);
-        }
-      },
-      unFollow: function unFollow(type, fn, scope) {
-        var i;
-
-        if (type == 'blurred') {
-          if (-1 === (i = __onPageHided[0].indexOf(fn))) return;
-
-          __onPageHided[0].splice(i, 1);
-
-          __onPageHided[1].splice(i, 1);
-        } else if (type == 'focused') {
-          if (-1 === (i = __onPageShown[0].indexOf(fn))) return;
-
-          __onPageShown[0].splice(i, 1);
-
-          __onPageShown[1].splice(i, 1);
-        }
-      }
-    };
-
-    function onBlur() {
-      pe.visible = false;
-
-      for (var i = 0, ln = pe._onPageHided[0].length; i < ln; i++) {
-        pe._onPageHided[0][i].apply(pe._onPageHided[1][i]);
-      }
-    }
-
-    ;
-
-    function onFocus() {
-      pe.visible = true;
-
-      for (var i = 0, ln = pe._onPageShown[0].length; i < ln; i++) {
-        pe._onPageShown[0][i].apply(pe._onPageShown[1][i]);
-      }
-    }
-
-    ;
-
-    if (
-    /*@cc_on!@*/
-    false) {} else {
-      window.onfocus = onFocus;
-      window.onblur = onBlur;
-    }
-
-    return pe;
-  }(),
-  applyCss: function applyCss(node, style) {
-    for (var p in style) {
-      if (this.prefix && this.prefixedProperties[p]) node.style[this.prefix + this.prefixedProperties[p]] = style[p];else node.style[p] = style[p];
-    }
-  },
-  prefixedProperties: {
-    'userSelect': 'UserSelect',
-    'transform': 'Transform',
-    'filter': 'Filter',
-    'transformOrigin': 'TransformOrigin',
-    // 'perspective'              : 'Perspective',
-    'transformStyle': 'TransformStyle',
-    'transition': 'Transition',
-    'transitionProperty': 'TransitionProperty',
-    'transitionDuration': 'TransitionDuration',
-    'transitionTimingFunction': 'TransitionTimingFunction',
-    'transitionDelay': 'TransitionDelay',
-    'animation': 'Animation',
-    'animationName': 'AnimationName',
-    'animationDuration': 'AnimationDuration',
-    'animationIterationCount': 'AnimationIterationCount',
-    'animationDirection': 'AnimationDirection',
-    'animationTimingFunction': 'AnimationTimingFunction',
-    'animationDelay': 'AnimationDelay'
-  },
-  prefix: /webkit/i.test(navigator.appVersion) ? 'webkit' : /firefox/i.test(navigator.userAgent) ? 'Moz' : /trident/i.test(navigator.userAgent) ? 'ms' : 'opera' in window ? 'O' : '',
-  dashedPrefix: /webkit/i.test(navigator.appVersion) ? '-webkit-' : /firefox/i.test(navigator.userAgent) ? '-moz-' : /trident/i.test(navigator.userAgent) ? '-ms-' : 'opera' in window ? '-o-' : '',
-  Browser: Browser
-}; //);
-
-module.exports = Dom;
-__ = {
-  onPageHided: [],
-  onPageShown: [],
-  dragging: [],
-  dragEnabled: [],
-  dragEnabledDesc: [],
-  fingers: {},
-  nbFingers: 0,
-  dragstartAnywhere: function dragstartAnywhere(e) {
-    var o,
-        me = __,
-        i = me.dragEnabled.indexOf(this),
-        finger,
-        desc,
-        fingers = [];
-    if (i === -1) return true;
-
-    if (!me.nbFingers) {
-      Dom.addEvent(document, {
-        'touchmove': me.dragAnywhere,
-        'mousemove': me.dragAnywhere,
-        'touchend': me.dropAnywhere,
-        'mouseup': me.dropAnywhere
-      });
-    }
-
-    if (e.changedTouches && e.changedTouches.length) {
-      fingers = e.changedTouches;
-    } else fingers.push(e);
-
-    for (var t = 0, ln = fingers.length; t < ln; t++) {
-      finger = fingers[t];
-      desc = me.dragEnabledDesc[i];
-      if (desc.nbFingers) continue;
-      me.nbFingers++;
-      me.fingers[finger.identifier] = desc;
-      desc.nbFingers++;
-      desc._startPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-      desc._startPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
-      if (!desc) continue;
-      desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-      desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
-
-      for (o = 0; o < desc.dragstart.length; o++) {
-        desc.dragstart[o][0].call(desc.dragstart[o][1] || this, e, finger, desc);
-      }
-    }
-  },
-  dragAnywhere: function dragAnywhere(e) {
-    var o,
-        me = __,
-        finger,
-        fingers = [],
-        desc = __.dragging[0];
-
-    if (e.changedTouches && e.changedTouches.length) {
-      fingers = e.changedTouches;
-    } else fingers.push(e);
-
-    for (var i = 0, ln = fingers.length; i < ln; i++) {
-      finger = fingers[i];
-      desc = me.fingers[finger.identifier];
-      if (!desc) continue;
-      desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-      desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
-
-      for (o = 0; o < desc.drag.length; o++) {
-        desc.drag[o][0].call(desc.drag[o][1] || this, e, finger, desc);
-      }
-    }
-  },
-  dropAnywhere: function dropAnywhere(e) {
-    var o,
-        me = __,
-        finger,
-        fingers = [],
-        desc;
-
-    if (e.changedTouches && e.changedTouches.length) {
-      fingers = e.changedTouches;
-    } else fingers.push(e);
-
-    for (var i = 0, ln = fingers.length; i < ln; i++) {
-      finger = fingers[i];
-      desc = me.fingers[finger.identifier];
-      me.fingers[finger.identifier] = null;
-      if (!desc) continue;
-      me.nbFingers--;
-      desc.nbFingers--;
-      desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-      desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
-
-      for (o = 0; o < desc.dropped.length; o++) {
-        desc.dropped[o][0].call(desc.dropped[o][1] || this, e, finger, desc);
-      }
-    }
-
-    if (!me.nbFingers) {
-      Dom.removeEvent(document, {
-        'touchmove': me.dragAnywhere,
-        'mousemove': me.dragAnywhere,
-        'touchend': me.dropAnywhere,
-        'mouseup': me.dropAnywhere
-      });
-    }
-  },
-  getDraggable: function getDraggable(node) {
-    var i = this.dragEnabled.indexOf(node),
-        desc;
-
-    if (i === -1) {
-      i = this.dragEnabled.length;
-      this.dragEnabled.push(node);
-      this.dragEnabledDesc.push(desc = {
-        nbFingers: 0,
-        locks: 0,
-        _startPos: {
-          x: 0,
-          y: 0
-        },
-        _lastPos: {
-          x: 0,
-          y: 0
-        },
-        dragstart: [],
-        drag: [],
-        dragEnd: [],
-        dropped: []
-      }); //debugger;
-
-      Dom.addEvent(node, {
-        'mousedown': this.dragstartAnywhere,
-        'touchstart': this.dragstartAnywhere
-      });
-    } else desc = this.dragEnabledDesc[i];
-
-    return desc;
-  },
-  freeDraggable: function freeDraggable(node) {
-    var i = this.dragEnabled.indexOf(node),
-        desc;
-
-    if (i !== -1) {
-      this.dragEnabled.splice(i, 1);
-      this.dragEnabledDesc.splice(i, 1);
-      Dom.removeEvent(node, {
-        'mousedown': this.dragstartAnywhere,
-        'touchstart': this.dragstartAnywhere
-      });
-    }
-  },
-  addOverflowEvent: function addFlowListener(element, fn) {
-    var type = 'over',
-        flow = type == 'over';
-    element.addEventListener('OverflowEvent' in window ? 'overflowchanged' : type + 'flow', function (e) {
-      if (e.type == type + 'flow' || e.orient == 0 && e.horizontalOverflow == flow || e.orient == 1 && e.verticalOverflow == flow || e.orient == 2 && e.horizontalOverflow == flow && e.verticalOverflow == flow) {
-        return fn.call(this, e);
-      }
-    }, false);
-  },
-  addEvent: function addEvent(node, type, fn, bubble) {
-    if (node.addEventListener) {
-      node.addEventListener(type, fn, bubble);
-    } else if (node.attachEvent) {
-      node.attachEvent('on' + type, fn.related = function (e) {
-        return fn.call(node, e);
-      });
-    }
-  },
-  removeEvent: function removeEvent(node, type, fn, bubble) {
-    if (node.removeEventListener) {
-      node.removeEventListener(type, fn, bubble);
-    } else if (node.attachEvent) {
-      node.detachEvent('on' + type, fn.related);
-    }
-  },
-  rmFnScopePair: function rmFnScopePair(arr, fn, scope) {
-    for (var i = 0, ln = arr.length; i < ln; i++) {
-      if (arr[i][0] == fn && arr[i][1] == scope) return arr.splice(i, 1);
-    }
-
-    console.warn("Rm event : Listener not found !!");
-  },
-  _createElement: function _createElement(tag, opt, refs, parent) {
-    var a,
-        o,
-        i,
-        ln,
-        node = parent || document.createElement(tag); //if (parent) opt = {content:opt};
-
-    if (opt) for (o in opt) {
-      if (opt.hasOwnProperty(o) && opt[o] !== undefined && !_createElementAttr.hasOwnProperty(o)) {
-        a = document.createAttribute(o);
-        a.value = opt[o];
-        node.setAttributeNode(a);
-      }
-    }
-    refs && opt.$id && (refs[opt.$id] = node);
-    opt.style && Dom.applyCss(node, opt.style);
-    opt.cls && Dom.addCls(node, opt.cls);
-
-    if (opt.events) {
-      for (o in opt.events) {
-        if (opt.events.hasOwnProperty(o) && o !== "$scope") Dom.addEvent(node, o, opt.events[o], opt.events.$scope);
-      }
-    }
-
-    if (opt.content) {
-      if (typeof opt.content === 'string' || typeof opt.content[o] == 'number') {
-        node.innerHTML = opt.content;
-      } else if (opt.content instanceof Array) {
-        for (i = 0, ln = opt.content.length; i < ln; i++) {
-          node.appendChild(typeof opt.content[i] == 'string' || typeof opt.content[i] == 'number' || !opt.content[i] ? document.createTextNode(opt.content[i] || '') : isElement(opt.content[i]) ? opt.content[i] : __createElement(opt.content[i].tagName || 'div', opt.content[i], refs));
-        }
-      } else {
-        node.appendChild(opt.content instanceof HTMLElement ? opt.content : __createElement(opt.content.tagName || 'div', opt.content, refs));
-      }
-    }
-
-    return node;
   }
-}; //
-//})(typeof global === 'undefined' ? window : require('KamehaNS'),
-//   (typeof window !== 'undefined') && window,
-//   (typeof document !== 'undefined') && document,
-//   (typeof navigator !== 'undefined') && navigator
-//);
+});
 
 /***/ }),
 

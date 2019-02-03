@@ -20,14 +20,6 @@ export default function ( target ) {
 
     return {
         reset : true,
-        initial : {
-
-            [target] : {
-                alpha : 0,
-                _z    : -.2,
-                rotateY : 0
-            }
-        },
         anims   : [
             {
                 type     : "Tween",
