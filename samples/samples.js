@@ -27771,7 +27771,7 @@ function asTweener() {
           this._updateTweenRefs();
 
           if (this._runningAnims.length) requestAnimationFrame(this.__rafLoop);else {
-            console.log("RAF Off");
+            //console.log("RAF Off");
             this._live = false;
           }
         }
@@ -27884,8 +27884,8 @@ function asTweener() {
           this._runningAnims.push(sl);
 
           if (!this._live) {
-            this._live = true;
-            console.log("RAF On");
+            this._live = true; //console.log("RAF On");
+
             requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
           }
 
@@ -28414,7 +28414,8 @@ function (_React$Component) {
             });
           });
         }
-      }, this.tweenRef("step", {
+      }, this.tweenRef("step", // initial style
+      {
         position: "absolute",
         display: "inline-block",
         width: "15em",
