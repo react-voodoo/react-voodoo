@@ -6,6 +6,7 @@ ___
 <a href="https://www.npmjs.com/package/react-rtween">
 <img src="https://img.shields.io/npm/v/react-rtween.svg" alt="Npm version" /></a>
 
+<p align="center">* Consider this is alpha, don't use it unless you know why you need it *</p>
 
 ## rTween what ?
 
