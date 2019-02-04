@@ -11,8 +11,7 @@ ___
 ## rTween what ?
 
 - rTween engine allow to apply forward and backward multiples tweens on same properties and multiple objects
-- Allow **live composition of multiple** tweens, circle tweens, SVG Path tweens, other Scopelines, etc
-- Allow frame pre-generation,
+- Allow **live composition of multiple** tweens, circle tweens, SVG Path tweens, rTween objects, etc
 
 ## Draft [sample](http://htmlpreview.github.io/?https://github.com/n8tz/react-rtween/blob/master/samples/index.html)
 
