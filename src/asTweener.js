@@ -15,16 +15,17 @@
 import React    from "react";
 import is       from "is";
 import ReactDom from "react-dom";
+import taskflow from "taskflows";
 import utils    from "./utils";
+import rtween   from "./rtween";
 
-var rtween           = require('rtween'),
-    isBrowserSide    = (new Function("try {return this===window;}catch(e){ return false;}"))(),
+/**
+ * @todo : clean & comments
+ */
+
+
+var isBrowserSide    = (new Function("try {return this===window;}catch(e){ return false;}"))(),
     isArray          = is.array,
-    taskflow         = require('taskflows'),
-    defaultAnims     = {// while no matrix..
-	    hide: require('Comp/anims/pushOut'),
-	    show: require('Comp/anims/pushIn')
-    },
     initialTweenable = {// while no matrix..
 	    x      : 0,
 	    y      : 0,
@@ -56,7 +57,7 @@ var rtween           = require('rtween'),
 const SimpleObjectProto = ({}).constructor;
 
 /**
- * Tweener decorator
+ * asTweener decorator
  * @param argz
  * @returns {*}
  */
@@ -177,6 +178,27 @@ export default function asTweener( ...argz ) {
 				}
 			)
 		}
+		
+		//setScrollableArea( anim, size, pos ) {
+		//	var sl, initial;
+		//	if ( isArray(anim) ) {
+		//		sl = anim;
+		//	}
+		//	else {
+		//		sl      = anim.anims;
+		//		initial = anim.initial;
+		//	}
+		//
+		//	if ( !(sl instanceof rtween) )
+		//		sl = new rtween(sl, this._tweenRefMaps);
+		//
+		//	this.makeTweenable();
+		//
+		//	// init scroll
+		//
+		//
+		//
+		//}
 		
 		pushAnim( anim, then, skipInit ) {
 			var sl, initial;
@@ -342,7 +364,6 @@ export default function asTweener( ...argz ) {
 		
 		makeTweenable() {
 			if ( !this._tweenEnabled ) {
-				var me                   = this;
 				this._rtweensByProp      = {};
 				this._rtweensByStateProp = {};
 				this._tweenRefCSS        = {};//c rtween styles
@@ -354,10 +375,12 @@ export default function asTweener( ...argz ) {
 				this._tweenRefTargets    = this._tweenRefTargets || [];
 				this._runningAnims       = this._runningAnims || [];
 				
-				isBrowserSide && window.addEventListener("resize", this._onResize = () => {//@todo
-					me._updateBox();
-					me._updateTweenRefs()
-				});
+				isBrowserSide && window.addEventListener(
+					"resize",
+					this._onResize = () => {//@todo
+						this._updateBox();
+						this._updateTweenRefs()
+					});
 			}
 		}
 		
@@ -369,7 +392,6 @@ export default function asTweener( ...argz ) {
 				this._box.y      = node.offsetHeight;
 			}
 		}
-		
 		
 		// updateRefMap( target, map ) {
 		//     Object.assign(this._tweenRefMaps[target], map);
