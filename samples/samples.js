@@ -28735,15 +28735,15 @@ function (_React$Component) {
             count: _this2.state.count + 1
           });
 
-          _this2.pushAnim(pushOut("step"), function () {
-            _this2.pushAnim(pushIn("step"), function () {
+          _this2.pushAnim(pushOut("faceA"), function () {
+            _this2.pushAnim(pushIn("faceA"), function () {
               _this2.setState({
                 count: _this2.state.count - 1
               });
             });
           });
         }
-      }, this.tweenRef("step", // initial style
+      }, this.tweenRef("faceA", // initial style
       {
         position: "absolute",
         display: "inline-block",
@@ -28756,11 +28756,11 @@ function (_React$Component) {
         top: 0,
         left: 0
       }, {
-        _x: .5,
-        _y: .5,
+        x: "50vw",
+        y: "50vh",
         z: 1,
-        opacity: 1
-      }, 0))));
+        opacity: .75
+      }))));
     }
   }, {
     key: "__reactstandin__regenerateByEval",
@@ -28775,7 +28775,7 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_6___default.a.Component), _class2.scrollableAnim = {
   anims: [{
     type: "Tween",
-    target: "step",
+    target: "faceA",
     from: 0,
     duration: 150,
     easeFn: easingFn.easeOutSine,
@@ -28784,21 +28784,21 @@ function (_React$Component) {
     }
   }, {
     type: "Tween",
-    target: "step",
+    target: "faceA",
     from: 50,
     duration: 150,
     easeFn: easingFn.easeOutSine,
     apply: {
-      _x: -.75
+      x: -50
     }
   }, {
     type: "Tween",
-    target: "step",
+    target: "faceA",
     from: 100,
     duration: 100,
     easeFn: easingFn.easeOutSine,
     apply: {
-      rotateY: -60
+      rotateY: -55
     }
   }]
 }, _temp)) || _class;
