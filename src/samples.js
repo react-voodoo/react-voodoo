@@ -126,6 +126,17 @@ class Sample extends React.Component {
 			scrollPos : { this._scrollPos } / { this._scrollableArea }
 			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
 			<div
+				onClick={ e => {
+					this.setState({ count: this.state.count + 1 })
+					this.pushAnim(pushOut("faceA"),
+					              () => {
+						              this.pushAnim(pushIn("faceA"),
+						                            () => {
+							                            this.setState({ count: this.state.count - 1 })
+						                            });
+						
+					              });
+				} }
 				{ ...this.tweenRef("faceA",
 				                   // initial style
 				                   {
