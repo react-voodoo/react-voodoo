@@ -26822,160 +26822,6 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./src/anims/pushIn.js":
-/*!*****************************!*\
-  !*** ./src/anims/pushIn.js ***!
-  \*****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
-
-
-(function () {
-  var enterModule = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").enterModule;
-
-  enterModule && enterModule(module);
-})();
-
-/*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
- */
-var easingFn = __webpack_require__(/*! Comp/utils/easingFn */ "./src/utils/easingFn.js");
-
-var _default = function _default(target) {
-  // dir = dir || 'top';
-  return {
-    //reset  : true,
-    initial: _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, target, {
-      opacity: 0
-    }),
-    anims: [{
-      type: "Tween",
-      target: target,
-      from: 0,
-      duration: 500,
-      easeFn: easingFn.easeOutSine,
-      apply: {
-        _z: .2,
-        opacity: 1
-      }
-    }]
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (_default);
-;
-;
-
-(function () {
-  var reactHotLoader = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").default;
-
-  var leaveModule = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\anims\\pushIn.js");
-  leaveModule(module);
-})();
-
-;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
-
-/***/ }),
-
-/***/ "./src/anims/pushOut.js":
-/*!******************************!*\
-  !*** ./src/anims/pushOut.js ***!
-  \******************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
-
-
-(function () {
-  var enterModule = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").enterModule;
-
-  enterModule && enterModule(module);
-})();
-
-/*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
- */
-var easingFn = __webpack_require__(/*! Comp/utils/easingFn */ "./src/utils/easingFn.js");
-
-var _default = function _default(target) {
-  // dir = dir || 'top';
-  return {
-    //reset  : true,
-    initial: _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, target, {
-      opacity: 1
-    }),
-    anims: [{
-      type: "Tween",
-      target: target,
-      from: 0,
-      duration: 500,
-      easeFn: easingFn.easeOutSine,
-      apply: {
-        _z: -.2,
-        opacity: -1
-      }
-    }]
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (_default);
-;
-;
-
-(function () {
-  var reactHotLoader = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").default;
-
-  var leaveModule = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\anims\\pushOut.js");
-  leaveModule(module);
-})();
-
-;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
-
-/***/ }),
-
 /***/ "./src/asTweener.js":
 /*!**************************!*\
   !*** ./src/asTweener.js ***!
@@ -27010,7 +26856,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
+/* harmony import */ var taskflows__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! taskflows */ "./node_modules/taskflows/index.js");
+/* harmony import */ var taskflows__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(taskflows__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
+/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! rtween */ "./node_modules/rtween/dist/rTween.js");
+/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(rtween__WEBPACK_IMPORTED_MODULE_14__);
 
 
 
@@ -27045,15 +26895,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var rtween = __webpack_require__(/*! rtween */ "./node_modules/rtween/dist/rTween.js"),
-    isBrowserSide = new Function("try {return this===window;}catch(e){ return false;}")(),
+
+/**
+ * @todo : clean & comments
+ */
+
+var isBrowserSide = new Function("try {return this===window;}catch(e){ return false;}")(),
     isArray = is__WEBPACK_IMPORTED_MODULE_10___default.a.array,
-    taskflow = __webpack_require__(/*! taskflows */ "./node_modules/taskflows/index.js"),
-    defaultAnims = {
-  // while no matrix..
-  hide: __webpack_require__(/*! Comp/anims/pushOut */ "./src/anims/pushOut.js"),
-  show: __webpack_require__(/*! Comp/anims/pushIn */ "./src/anims/pushIn.js")
-},
     initialTweenable = {
   // while no matrix..
   x: 0,
@@ -27081,7 +26929,7 @@ var rtween = __webpack_require__(/*! rtween */ "./node_modules/rtween/dist/rTwee
 
 var SimpleObjectProto = {}.constructor;
 /**
- * Tweener decorator
+ * asTweener decorator
  * @param argz
  * @returns {*}
  */
@@ -27122,16 +26970,6 @@ function asTweener() {
       }
 
       _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(TweenableComp, [{
-        key: "_rafLoop",
-        value: function _rafLoop() {
-          this._updateTweenRefs();
-
-          if (this._runningAnims.length) requestAnimationFrame(this.__rafLoop);else {
-            //console.log("RAF Off");
-            this._live = false;
-          }
-        }
-      }, {
         key: "goToMotionStateId",
         value: function goToMotionStateId(targetId) {
           var _this2 = this;
@@ -27145,7 +26983,7 @@ function asTweener() {
           if (!this.running && targetId != this._curMotionStateId) {
             if (!this._tweenRefCSS) this.makeTweenable();
             this.running = true;
-            var flow = new taskflow([_static.motionStates[this._curMotionStateId] && function (ctx, flow) {
+            var flow = new taskflows__WEBPACK_IMPORTED_MODULE_12___default.a([_static.motionStates[this._curMotionStateId] && function (ctx, flow) {
               return _static.motionStates[cState].leaving(ctx, flow, cState);
             }, function () {
               _this2._curMotionStateId = targetId;
@@ -27210,6 +27048,28 @@ function asTweener() {
           });
         }
       }, {
+        key: "setScrollableArea",
+        value: function setScrollableArea(anim, size, pos) {
+          var sl, initial;
+
+          if (isArray(anim)) {
+            sl = anim;
+          } else {
+            sl = anim.anims;
+            size = anim.length;
+          }
+
+          if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, this._tweenRefMaps);
+          this.makeTweenable();
+          this.makeScrollable(); // init scroll
+
+          this._scrollableAnims.push(sl);
+
+          this._scrollPos = this._scrollPos || 0;
+          this._scrollableArea = this._scrollableArea || 0;
+          this._scrollableArea = Math.max(this._scrollableArea, sl.duration);
+        }
+      }, {
         key: "pushAnim",
         value: function pushAnim(anim, then, skipInit) {
           var _this5 = this;
@@ -27223,7 +27083,7 @@ function asTweener() {
             initial = anim.initial;
           }
 
-          if (!(sl instanceof rtween)) sl = new rtween(sl, this._tweenRefMaps); // console.warn("Should start anim ", sl);
+          if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, this._tweenRefMaps); // console.warn("Should start anim ", sl);
 
           this.makeTweenable();
           !skipInit && initial && Object.keys(initial).map(function (id) {
@@ -27288,7 +27148,7 @@ function asTweener() {
           // ref initial style
           var argz = Array.prototype.slice.call(arguments),
               p = argz.map(function (v) {
-            return v instanceof rtween && "rtween" || v instanceof Array && "array" || _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(v);
+            return v instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a && "rtween" || v instanceof Array && "array" || _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(v);
           }); // if ( p[3] == "object" && p[3] == "object" )
           // debugger;
 
@@ -27338,7 +27198,7 @@ function asTweener() {
 
           iStyle = this._tweenRefCSS[id];
           iMap = this._tweenRefMaps[id] = !mapReset && this._tweenRefMaps[id] || Object.assign({}, initialTweenable, iMap || {});
-          _utils__WEBPACK_IMPORTED_MODULE_12__["default"].mapInBoxCSS(iMap, iStyle, this._box, this._tweenRefUnits[id]);
+          _utils__WEBPACK_IMPORTED_MODULE_13__["default"].mapInBoxCSS(iMap, iStyle, this._box, this._tweenRefUnits[id]);
           if (noref) return {
             style: _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, this._tweenRefCSS[id])
           };else return {
@@ -27349,29 +27209,54 @@ function asTweener() {
           };
         }
       }, {
+        key: "makeScrollable",
+        value: function makeScrollable() {
+          var _this6 = this;
+
+          if (!this._scrollEnabled) {
+            this._scrollEnabled = true;
+            this._scrollableAnims = [];
+            isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_13__["default"].addWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this), this._onScroll = function (e) {
+              //@todo
+              var oldPos = _this6._scrollPos,
+                  newPos = oldPos + e.deltaY;
+              newPos = Math.max(0, newPos);
+              newPos = Math.min(newPos, _this6._scrollableArea); //console.log(newPos)
+
+              _this6._scrollableAnims.forEach(function (sl) {
+                return sl.goTo(newPos);
+              });
+
+              _this6._scrollPos = newPos;
+
+              if (!_this6._live) {
+                _this6._live = true;
+                requestAnimationFrame(_this6.__rafLoop = _this6.__rafLoop || _this6._rafLoop.bind(_this6));
+              }
+            });
+          }
+        }
+      }, {
         key: "makeTweenable",
         value: function makeTweenable() {
+          var _this7 = this;
+
           if (!this._tweenEnabled) {
-            var me = this;
             this._rtweensByProp = {};
             this._rtweensByStateProp = {};
-            this._tweenRefCSS = {}; //c rtween styles
-
-            this._tweenRefs = {}; //c rtween styles
-
-            this._tweenRefMaps = {}; //c rtween values
-
-            this._tweenRefUnits = {}; //c rtween values
-
+            this._tweenRefCSS = {};
+            this._tweenRefs = {};
+            this._tweenRefMaps = {};
+            this._tweenRefUnits = {};
             this._tweenEnabled = true;
             this._tweenRefOrigin = {};
             this._tweenRefTargets = this._tweenRefTargets || [];
             this._runningAnims = this._runningAnims || [];
             isBrowserSide && window.addEventListener("resize", this._onResize = function () {
               //@todo
-              me._updateBox();
+              _this7._updateBox();
 
-              me._updateTweenRefs();
+              _this7._updateTweenRefs();
             });
           }
         }
@@ -27395,6 +27280,15 @@ function asTweener() {
           return this.refs[target] instanceof Element ? this.refs[target] : react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this.refs[target]);
         }
       }, {
+        key: "_rafLoop",
+        value: function _rafLoop() {
+          this._updateTweenRefs();
+
+          if (this._runningAnims.length) requestAnimationFrame(this.__rafLoop);else {
+            this._live = false;
+          }
+        }
+      }, {
         key: "_updateTweenRefs",
         value: function _updateTweenRefs() {
           // if ( this._tweenEnabled ) {
@@ -27402,7 +27296,7 @@ function asTweener() {
             target = this._tweenRefTargets[i]; // if ( this._tweenRefUnits[target].height )
             //     debugger;
 
-            _utils__WEBPACK_IMPORTED_MODULE_12__["default"].mapInBoxCSS(this._tweenRefMaps[target], this._tweenRefCSS[target], this._box, this._tweenRefUnits[target]);
+            _utils__WEBPACK_IMPORTED_MODULE_13__["default"].mapInBoxCSS(this._tweenRefMaps[target], this._tweenRefCSS[target], this._box, this._tweenRefUnits[target]);
             node = this._tweenEnabled && target == "__root" ? react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this) : this.getTweenableRef(target);
             node && Object.assign(node.style, this._tweenRefCSS[target]);
           } // }
@@ -27416,11 +27310,18 @@ function asTweener() {
             window.removeEventListener("resize", this._onResize);
           }
 
+          if (this._scrollEnabled) {
+            this._scrollEnabled = false;
+            this._scrollableAnims = undefined;
+            _utils__WEBPACK_IMPORTED_MODULE_13__["default"].rmWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this), this._onScroll);
+          }
+
           _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this).call(this);
         }
       }, {
         key: "componentDidMount",
         value: function componentDidMount() {
+          var _static = this.constructor;
           this._rendered = true;
 
           if (this._tweenEnabled) {
@@ -27435,12 +27336,16 @@ function asTweener() {
             delete this._delayedMotionTarget;
           }
 
+          if (_static.scrollableAnim) {
+            this.setScrollableArea(_static.scrollableAnim);
+          }
+
           _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentDidMount", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentDidMount", this).call(this);
         }
       }, {
         key: "componentDidUpdate",
         value: function componentDidUpdate(prevProps, prevState) {
-          var _this6 = this;
+          var _this8 = this;
 
           if (this._tweenEnabled) {
             this._updateBox();
@@ -27448,12 +27353,12 @@ function asTweener() {
             this._updateTweenRefs();
 
             this._rtweensByProp && Object.keys(prevProps).forEach(function (k) {
-              return _this6._rtweensByProp[k] && _this6.props[k] !== prevProps[k] && _this6._rtweensByProp[k][_this6.props[k]] && _this6.pushAnim(_this6._rtweensByProp[k][_this6.props[k]]
+              return _this8._rtweensByProp[k] && _this8.props[k] !== prevProps[k] && _this8._rtweensByProp[k][_this8.props[k]] && _this8.pushAnim(_this8._rtweensByProp[k][_this8.props[k]]
               /*get current pos*/
               );
             }, this);
             this._rtweensByStateProp && prevState && Object.keys(prevState).forEach(function (k) {
-              return _this6._rtweensByStateProp[k] && _this6.state[k] !== prevState[k] && _this6._rtweensByStateProp[k][_this6.state[k]] && _this6.pushAnim(_this6._rtweensByStateProp[k][_this6.state[k]]
+              return _this8._rtweensByStateProp[k] && _this8.state[k] !== prevState[k] && _this8._rtweensByStateProp[k][_this8.state[k]] && _this8.pushAnim(_this8._rtweensByStateProp[k][_this8.state[k]]
               /*get current pos*/
               );
             }, this);
@@ -27465,9 +27370,9 @@ function asTweener() {
         key: "registerPropChangeAnim",
         value: function registerPropChangeAnim(propId, propValue, anims) {
           this._rtweensByProp = this._rtweensByProp || {};
-          this._rtween = this._rtween || new rtween();
+          this._rtween = this._rtween || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
           this._rtweensByProp[propId] = this._rtweensByProp[propId] || {};
-          this._rtweensByProp[propId][propValue] = this._rtweensByProp[propId][propValue] || new rtween();
+          this._rtweensByProp[propId][propValue] = this._rtweensByProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
 
           this._rtweensByProp[propId][propValue].mount(anims);
         }
@@ -27475,9 +27380,9 @@ function asTweener() {
         key: "registerStateChangeAnim",
         value: function registerStateChangeAnim(propId, propValue, anims) {
           this._rtweensByStateProp = this._rtweensByStateProp || {};
-          this._rtween = this._rtween || new rtween();
+          this._rtween = this._rtween || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
           this._rtweensByStateProp[propId] = this._rtweensByStateProp[propId] || {};
-          this._rtweensByStateProp[propId][propValue] = this._rtweensByStateProp[propId][propValue] || new rtween();
+          this._rtweensByStateProp[propId][propValue] = this._rtweensByStateProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
 
           this._rtweensByStateProp[propId][propValue].mount(anims);
         }
@@ -27507,7 +27412,6 @@ function asTweener() {
 
   reactHotLoader.register(isBrowserSide, "isBrowserSide", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(isArray, "isArray", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
-  reactHotLoader.register(defaultAnims, "defaultAnims", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(initialTweenable, "initialTweenable", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(extractUnits, "extractUnits", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
@@ -27661,30 +27565,198 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
   var p = Math.pow(10, l);
   return Math.round(v * p) / p;
 },
-    slice = Array.prototype.slice,
-    splice = Array.prototype.splice,
-    abs = Math.abs,
-    floor = Math.floor,
-    round = Math.round,
     min = Math.min,
     max = Math.max,
-    objBuilder = {}.constructor,
-    _createElementAttr = {
-  style: true,
-  tagName: true,
-  content: true,
-  cls: true,
-  events: true,
-  $id: true
-},
-    _defaultUnits = {
-  width: 'px',
-  height: 'px',
-  top: 'px'
-},
-    __;
+    Dom = {
+  prefix: /webkit/i.test(navigator.appVersion) ? 'webkit' : /firefox/i.test(navigator.userAgent) ? 'Moz' : /trident/i.test(navigator.userAgent) ? 'ms' : 'opera' in window ? 'O' : '',
+  dashedPrefix: /webkit/i.test(navigator.appVersion) ? '-webkit-' : /firefox/i.test(navigator.userAgent) ? '-moz-' : /trident/i.test(navigator.userAgent) ? '-ms-' : 'opera' in window ? '-o-' : ''
+};
 
 var _default = {
+  addWheelEvent: function (window, document) {
+    var prefix = "",
+        _addEventListener,
+        _rmEventListener,
+        onwheel,
+        support; // detect event model
+
+
+    if (window.addEventListener) {
+      _addEventListener = "addEventListener";
+      _rmEventListener = "removeEventListener";
+    } else {
+      _addEventListener = "attachEvent";
+      _rmEventListener = "detachEvent";
+      prefix = "on";
+    } // detect available wheel event
+
+
+    support = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
+    document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
+    "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
+
+    var addWheelListener = function addWheelListener(elem, callback, scope, useCapture) {
+      _addWheelListener(elem, support, callback, scope, useCapture); // handle MozMousePixelScroll in older Firefox
+
+
+      if (support == "DOMMouseScroll") {
+        _addWheelListener(elem, "MozMousePixelScroll", callback, scope, useCapture);
+      }
+    }; // Reasonable defaults
+
+
+    var PIXEL_STEP = 10;
+    var LINE_HEIGHT = 40;
+    var PAGE_HEIGHT = 800;
+
+    function normalizeWheel(
+    /*object*/
+    event)
+    /*object*/
+    {
+      var sX = 0,
+          sY = 0,
+          // spinX, spinY
+      pX = 0,
+          pY = 0; // pixelX, pixelY
+      // Legacy
+
+      if ('detail' in event) {
+        sY = event.detail;
+      }
+
+      if ('wheelDelta' in event) {
+        sY = -event.wheelDelta / 120;
+      }
+
+      if ('wheelDeltaY' in event) {
+        sY = -event.wheelDeltaY / 120;
+      }
+
+      if ('wheelDeltaX' in event) {
+        sX = -event.wheelDeltaX / 120;
+      } // side scrolling on FF with DOMMouseScroll
+
+
+      if ('axis' in event && event.axis === event.HORIZONTAL_AXIS) {
+        sX = sY;
+        sY = 0;
+      }
+
+      pX = sX * PIXEL_STEP;
+      pY = sY * PIXEL_STEP;
+
+      if ('deltaY' in event) {
+        pY = event.deltaY;
+      }
+
+      if ('deltaX' in event) {
+        pX = event.deltaX;
+      }
+
+      if ((pX || pY) && event.deltaMode) {
+        if (event.deltaMode == 1) {
+          // delta in LINE units
+          pX *= LINE_HEIGHT;
+          pY *= LINE_HEIGHT;
+        } else {
+          // delta in PAGE units
+          pX *= PAGE_HEIGHT;
+          pY *= PAGE_HEIGHT;
+        }
+      } // Fall-back if spin cannot be determined
+
+
+      if (pX && !sX) {
+        sX = pX < 1 ? -1 : 1;
+      }
+
+      if (pY && !sY) {
+        sY = pY < 1 ? -1 : 1;
+      }
+
+      return {
+        spinX: sX,
+        spinY: sY,
+        pixelX: pX,
+        pixelY: pY
+      };
+    }
+
+    function _addWheelListener(elem, eventName, callback, scope, useCapture) {
+      elem[_addEventListener](prefix + eventName, callback._wheelList = function (originalEvent) {
+        !originalEvent && (originalEvent = window.event); // create a normalized event object
+
+        var event = {
+          // keep a ref to the original event object
+          originalEvent: originalEvent,
+          target: originalEvent.target || originalEvent.srcElement,
+          type: "wheel",
+          deltaMode: originalEvent.type == "MozMousePixelScroll" ? 0 : 1,
+          deltaX: 0,
+          delatZ: 0,
+          preventDefault: function preventDefault() {
+            originalEvent.preventDefault ? originalEvent.preventDefault() : originalEvent.returnValue = false;
+          },
+          normalized: normalizeWheel(originalEvent)
+        }; // calculate deltaY (and deltaX) according to the event
+
+        if (support == "mousewheel") {
+          event.deltaY = -1 / 40 * originalEvent.wheelDelta; // Webkit also support wheelDeltaX
+          //                            originalEvent.wheelDeltaX && ( event.deltaX = - 1/40 *
+          // originalEvent.wheelDeltaX );
+        } else if (support == "wheel" && Dom.prefix == "Moz") {
+          event.deltaY = originalEvent.deltaY / 3;
+        } else if (support == "wheel") {
+          event.deltaY = originalEvent.deltaY / 100;
+        } else {
+          event.deltaY = originalEvent.deltaY;
+        } //                        if (typeof originalEvent.wheelDeltaY !== 'number')
+        //                            event.wheelDeltaY = originalEvent.deltaY/100;
+        //                        event.wheelDelta = deltaY*120;
+        // it's time to fire the callback
+
+
+        return callback.call(scope || this, event);
+      }, useCapture || false);
+    }
+
+    return addWheelListener;
+  }(window, document),
+  rmWheelEvent: function (window, document) {
+    var prefix = "",
+        _rmEventListener,
+        onwheel,
+        support; // detect event model
+
+
+    if (addEventListener) {
+      _rmEventListener = "removeEventListener";
+    } else {
+      _rmEventListener = "detachEvent";
+      prefix = "on";
+    } // detect available wheel event
+
+
+    support = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
+    document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
+    "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
+
+    var rmWheelListener = function rmWheelListener(elem, callback, scope, useCapture) {
+      _EventListener(elem, support, callback, scope, useCapture); // handle MozMousePixelScroll in older Firefox
+
+
+      if (support == "DOMMouseScroll") {
+        _EventListener(elem, "MozMousePixelScroll", callback, scope, useCapture);
+      }
+    };
+
+    function _EventListener(elem, eventName, callback, scope, useCapture) {
+      elem[_rmEventListener](prefix + eventName, callback._wheelList);
+    }
+
+    return rmWheelListener;
+  }(window, document),
   mapInBoxCSS: function mapInBoxCSS(pos, css, box, units, offset) {
     //if ( is.number(pos.x) || is.number(pos.y))
     var t = '';
@@ -27715,213 +27787,15 @@ var _default = {
   }
 
   reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(slice, "slice", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(splice, "splice", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(abs, "abs", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(floor, "floor", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(round, "round", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(min, "min", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(max, "max", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(objBuilder, "objBuilder", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(_createElementAttr, "_createElementAttr", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(_defaultUnits, "_defaultUnits", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(__, "__", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
+  reactHotLoader.register(Dom, "Dom", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(_default, "default", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
   leaveModule(module);
 })();
 
 ;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
-
-/***/ }),
-
-/***/ "./src/utils/easingFn.js":
-/*!*******************************!*\
-  !*** ./src/utils/easingFn.js ***!
-  \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
- */
-module.exports = {
-  // t: current time, b: begInnIng value, c: change In value, d: duration
-  def: 'easeOutQuad',
-  cos: function cos(x, t, b, c, d) {
-    //alert(jQuery.easing.default);
-    var v = t <= .5 ? Math.sin(Math.PI * t) : Math.sin(Math.PI * (1 - t));
-    if (t < 0 || t > 1) v = 0;
-    return v;
-  },
-  cool: function cool(x, t, b, c, d) {
-    var ts = (t /= d) * t;
-    var tc = ts * t;
-    return b + c * (7.795 * tc * ts + -25.5825 * ts * ts + 32.58 * tc + -20.39 * ts + 6.5975 * t);
-  },
-  easeInQuad: function easeInQuad(x, t, b, c, d) {
-    return c * (t /= d) * t + b;
-  },
-  easeOutQuad: function easeOutQuad(x, t, b, c, d) {
-    return -c * (t /= d) * (t - 2) + b;
-  },
-  easeInOutQuad: function easeInOutQuad(x, t, b, c, d) {
-    if ((t /= d / 2) < 1) return c / 2 * t * t + b;
-    return -c / 2 * (--t * (t - 2) - 1) + b;
-  },
-  easeInCubic: function easeInCubic(x, t, b, c, d) {
-    return c * (t /= d) * t * t + b;
-  },
-  easeOutCubic: function easeOutCubic(x, t, b, c, d) {
-    return c * ((t = t / d - 1) * t * t + 1) + b;
-  },
-  easeInOutCubic: function easeInOutCubic(x, t, b, c, d) {
-    if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
-    return c / 2 * ((t -= 2) * t * t + 2) + b;
-  },
-  easeInQuart: function easeInQuart(x, t, b, c, d) {
-    return c * (t /= d) * t * t * t + b;
-  },
-  easeOutQuart: function easeOutQuart(x, t, b, c, d) {
-    return -c * ((t = t / d - 1) * t * t * t - 1) + b;
-  },
-  easeInOutQuart: function easeInOutQuart(x, t, b, c, d) {
-    if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
-    return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
-  },
-  easeInQuint: function easeInQuint(x, t, b, c, d) {
-    return c * (t /= d) * t * t * t * t + b;
-  },
-  easeOutQuint: function easeOutQuint(x, t, b, c, d) {
-    return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
-  },
-  easeInOutQuint: function easeInOutQuint(x, t, b, c, d) {
-    if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
-    return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
-  },
-  easeInSine: function easeInSine(x, t, b, c, d) {
-    return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
-  },
-  easeOutSine: function easeOutSine(x, t, b, c, d) {
-    return c * Math.sin(t / d * (Math.PI / 2)) + b;
-  },
-  easeInOutSine: function easeInOutSine(x, t, b, c, d) {
-    return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
-  },
-  easeInExpo: function easeInExpo(x, t, b, c, d) {
-    return t == 0 ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
-  },
-  easeOutExpo: function easeOutExpo(x, t, b, c, d) {
-    return t == d ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
-  },
-  easeInOutExpo: function easeInOutExpo(x, t, b, c, d) {
-    if (t == 0) return b;
-    if (t == d) return b + c;
-    if ((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
-    return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
-  },
-  easeInCirc: function easeInCirc(x, t, b, c, d) {
-    return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
-  },
-  easeOutCirc: function easeOutCirc(x, t, b, c, d) {
-    return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
-  },
-  easeInOutCirc: function easeInOutCirc(x, t, b, c, d) {
-    if ((t /= d / 2) < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
-    return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
-  },
-  easeInElastic: function easeInElastic(x, t, b, c, d) {
-    var s = 1.70158;
-    var p = 0;
-    var a = c;
-    if (t == 0) return b;
-    if ((t /= d) == 1) return b + c;
-    if (!p) p = d * .3;
-
-    if (a < Math.abs(c)) {
-      a = c;
-      var s = p / 4;
-    } else var s = p / (2 * Math.PI) * Math.asin(c / a);
-
-    return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-  },
-  easeOutElastic: function easeOutElastic(x, t, b, c, d) {
-    var s = 1.70158;
-    var p = 0;
-    var a = c;
-    if (t == 0) return b;
-    if ((t /= d) == 1) return b + c;
-    if (!p) p = d * .3;
-
-    if (a < Math.abs(c)) {
-      a = c;
-      var s = p / 4;
-    } else var s = p / (2 * Math.PI) * Math.asin(c / a);
-
-    return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
-  },
-  easeInOutElastic: function easeInOutElastic(x, t, b, c, d) {
-    var s = 1.70158;
-    var p = 0;
-    var a = c;
-    if (t == 0) return b;
-    if ((t /= d / 2) == 2) return b + c;
-    if (!p) p = d * (.3 * 1.5);
-
-    if (a < Math.abs(c)) {
-      a = c;
-      var s = p / 4;
-    } else var s = p / (2 * Math.PI) * Math.asin(c / a);
-
-    if (t < 1) return -.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-    return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * .5 + c + b;
-  },
-  easeInBack: function easeInBack(x, t, b, c, d, s) {
-    if (t === d) return c;
-    if (s == undefined) s = 1.70158;
-    return c * (t /= d) * t * ((s + 1) * t - s) + b;
-  },
-  easeOutBack: function easeOutBack(x, t, b, c, d, s) {
-    if (t === d) return c;
-    if (s == undefined) s = 1.70158;
-    return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
-  },
-  easeInOutBack: function easeInOutBack(x, t, b, c, d, s) {
-    if (s == undefined) s = 1.70158;
-    if ((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
-    return c / 2 * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
-  },
-  easeInBounce: function easeInBounce(x, t, b, c, d) {
-    return c - this.easeOutBounce(x, d - t, 0, c, d) + b;
-  },
-  easeOutBounce: function easeOutBounce(x, t, b, c, d) {
-    if ((t /= d) < 1 / 2.75) {
-      return c * (7.5625 * t * t) + b;
-    } else if (t < 2 / 2.75) {
-      return c * (7.5625 * (t -= 1.5 / 2.75) * t + .75) + b;
-    } else if (t < 2.5 / 2.75) {
-      return c * (7.5625 * (t -= 2.25 / 2.75) * t + .9375) + b;
-    } else {
-      return c * (7.5625 * (t -= 2.625 / 2.75) * t + .984375) + b;
-    }
-  },
-  easeInOutBounce: function easeInOutBounce(x, t, b, c, d) {
-    if (t < d / 2) return this.easeInBounce(x, t * 2, 0, c, d) * .5 + b;
-    return this.easeOutBounce(x, t * 2 - d, 0, c, d) * .5 + c * .5 + b;
-  }
-};
-
-; /* eslint-disable global-require, import/no-unresolved */ (function register() { /* react-hot-loader/webpack */ var reactHotLoader = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").default; if (!reactHotLoader) { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : exports; /* eslint-enable camelcase, no-undef */ if (typeof webpackExports === 'function') { reactHotLoader.register(webpackExports, 'module.exports', "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils\\easingFn.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } reactHotLoader.register(namedExport, key, "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils\\easingFn.js"); } })(); 
 
 /***/ })
 
