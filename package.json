@@ -1,6 +1,6 @@
 {
   "name": "react-rtween",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
   "main": "./dist/Comp.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
