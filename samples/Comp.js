@@ -536,24 +536,28 @@ var RTween = function () {
    * @param to {int}
    * @param tm {int} duration in ms
    * @param easing {function} easing fn
-   * @param cb
+   * @param tick {function} fn called at each tick
+   * @param cb {function} fn called on complete
    */
 
 	}, {
 		key: 'runTo',
 		value: function runTo(to, tm) {
+			var easing = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : easingFN.easeLinear;
+
 			var _this = this;
 
-			var easing = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : easingFN.easeLinear;
-			var cb = arguments[3];
+			var tick = arguments[3];
+			var cb = arguments[4];
 
 			var from = this.__cPos,
 			    length = to - from;
 
 			_running.push({
 				apply: function apply(pos, max) {
-					var x = easing(pos / max);
-					_this.goTo(from + x * length);
+					var x = from + easing(pos / max) * length;
+					_this.goTo(x);
+					tick && tick(x);
 				},
 				duration: tm,
 				cpos: 0,
@@ -27426,6 +27430,9 @@ function asTweener() {
             var i = this._scrollableAnims.indexOf(sl);
 
             if (i != -1) this._scrollableAnims.splice(i);
+            this._scrollableArea = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2___default()(this._scrollableAnims.map(function (tl) {
+              return tl.duration;
+            })).concat([0]));
           }
         }
       }, {
@@ -27433,34 +27440,47 @@ function asTweener() {
         value: function clearScrollableAnims() {
           if (this._scrollableAnims) {
             this._scrollableAnims = [];
+            this._scrollPos = this._scrollableArea = 0;
           }
         }
       }, {
         key: "scrollTo",
         value: function scrollTo(newPos) {
+          var _this5 = this;
+
           var ms = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
           if (this._scrollableAnims) {
-            var oldPos = this._scrollPos;
+            var oldPos = newPos,
+                setPos = function setPos(pos) {
+              return _this5._scrollPos = pos, _this5.componentDidScroll && _this5.componentDidScroll(~~pos);
+            };
+
             newPos = Math.max(0, newPos);
             newPos = Math.min(newPos, this._scrollableArea);
-            if (!ms) this._scrollableAnims.forEach(function (sl) {
-              return sl.goTo(newPos);
-            });else this._scrollableAnims.forEach(function (sl) {
-              return sl.runTo(newPos, ms);
+
+            if (!ms) {
+              this._scrollableAnims.forEach(function (sl) {
+                return sl.goTo(newPos);
+              });
+
+              setPos(newPos);
+            } else this._scrollableAnims.forEach(function (sl) {
+              return sl.runTo(newPos, ms, undefined, setPos);
             });
-            this._scrollPos = newPos;
 
             if (!this._live) {
               this._live = true;
               requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
             }
+
+            return !(oldPos - newPos);
           }
         }
       }, {
         key: "pushAnim",
         value: function pushAnim(anim, then, skipInit) {
-          var _this5 = this;
+          var _this6 = this;
 
           var sl, initial;
 
@@ -27475,12 +27495,12 @@ function asTweener() {
 
           this.makeTweenable();
           !skipInit && initial && Object.keys(initial).map(function (id) {
-            return _this5.applyTweenState(id, initial[id], anim.reset);
+            return _this6.applyTweenState(id, initial[id], anim.reset);
           });
           sl.run(this._tweenRefMaps, function () {
-            var i = _this5._runningAnims.indexOf(sl);
+            var i = _this6._runningAnims.indexOf(sl);
 
-            if (i != -1) _this5._runningAnims.splice(i, 1);
+            if (i != -1) _this6._runningAnims.splice(i, 1);
             then && then(sl); // if (anim.resetAfter)
             //     setTimeout(()=>sl.go(0,me._tweenRefMaps),133);
           }); //launch
@@ -27599,24 +27619,28 @@ function asTweener() {
       }, {
         key: "makeScrollable",
         value: function makeScrollable() {
-          var _this6 = this;
+          var _this7 = this;
 
           if (!this._scrollEnabled) {
             this._scrollEnabled = true;
             this._scrollableAnims = [];
             isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_13__["default"].addWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this), this._onScroll = function (e) {
               //@todo
-              var oldPos = _this6._scrollPos,
+              var oldPos = _this7._scrollPos,
                   newPos = oldPos + e.deltaY;
 
-              _this6.scrollTo(newPos);
+              if (_this7.shouldApplyScroll && !_this7.shouldApplyScroll()) {
+                return;
+              }
+
+              if (_this7.scrollTo(newPos)) e.preventDefault();
             });
           }
         }
       }, {
         key: "makeTweenable",
         value: function makeTweenable() {
-          var _this7 = this;
+          var _this8 = this;
 
           if (!this._tweenEnabled) {
             this._rtweensByProp = {};
@@ -27631,9 +27655,9 @@ function asTweener() {
             this._runningAnims = this._runningAnims || [];
             isBrowserSide && window.addEventListener("resize", this._onResize = function () {
               //@todo
-              _this7._updateBox();
+              _this8._updateBox();
 
-              _this7._updateTweenRefs();
+              _this8._updateTweenRefs();
             });
           }
         }
@@ -27723,7 +27747,7 @@ function asTweener() {
       }, {
         key: "componentDidUpdate",
         value: function componentDidUpdate(prevProps, prevState) {
-          var _this8 = this;
+          var _this9 = this;
 
           if (this._tweenEnabled) {
             this._updateBox();
@@ -27731,12 +27755,12 @@ function asTweener() {
             this._updateTweenRefs();
 
             this._rtweensByProp && Object.keys(prevProps).forEach(function (k) {
-              return _this8._rtweensByProp[k] && _this8.props[k] !== prevProps[k] && _this8._rtweensByProp[k][_this8.props[k]] && _this8.pushAnim(_this8._rtweensByProp[k][_this8.props[k]]
+              return _this9._rtweensByProp[k] && _this9.props[k] !== prevProps[k] && _this9._rtweensByProp[k][_this9.props[k]] && _this9.pushAnim(_this9._rtweensByProp[k][_this9.props[k]]
               /*get current pos*/
               );
             }, this);
             this._rtweensByStateProp && prevState && Object.keys(prevState).forEach(function (k) {
-              return _this8._rtweensByStateProp[k] && _this8.state[k] !== prevState[k] && _this8._rtweensByStateProp[k][_this8.state[k]] && _this8.pushAnim(_this8._rtweensByStateProp[k][_this8.state[k]]
+              return _this9._rtweensByStateProp[k] && _this9.state[k] !== prevState[k] && _this9._rtweensByStateProp[k][_this9.state[k]] && _this9.pushAnim(_this9._rtweensByStateProp[k][_this9.state[k]]
               /*get current pos*/
               );
             }, this);

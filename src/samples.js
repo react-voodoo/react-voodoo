@@ -75,7 +75,7 @@ class Sample extends React.Component {
 				duration: 150,
 				easeFn  : easingFn.easeOutSine,
 				apply   : {
-					_x: -1,
+					_x: -.75,
 				}
 			},
 			{
@@ -94,15 +94,39 @@ class Sample extends React.Component {
 		count: 0
 	};
 	
+	componentDidScroll( pos ) {
+		//console.log(pos);
+		this.forceUpdate();
+	}
+	
+	// is in view port ?
+	shouldApplyScroll( pos ) {
+		let node     = ReactDom.findDOMNode(this),
+		    bounding = node.getBoundingClientRect();
+		if (
+			bounding.top >= 0 &&
+			bounding.left >= 0 &&
+			bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
+			bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+		) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
 	render() {
 		return <div className={ "root" } style={ {
 			width : "100%",
 			height: "100%"
 		} }>
-			hello ! { this.state.count } concurent anims
+			hello ! { this.state.count } concurent anims <br/>
+			scrollPos : { this._scrollPos } / { this._scrollableArea }
+			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
 			<div
 				onClick={ e => {
-					this.scrollTo(0, 500);
 					this.setState({ count: this.state.count + 1 })
 					this.pushAnim(pushOut("step"),
 					              () => {
@@ -128,7 +152,22 @@ class Sample extends React.Component {
 					                   left      : 0
 				                   },
 				                   { _x: .5, _y: .5, z: 1, opacity: 1 }, 0) }/>
+		
 		</div>;
+	}
+}
+
+class App extends React.Component {
+	render() {
+		
+		return <div className={ "app" } style={ {
+			overflow: "scroll",
+			width   : "100%",
+			height  : "100%"
+		} }>
+			<Sample/>
+			<Sample/>
+		</div>
 	}
 }
 
@@ -136,7 +175,7 @@ function renderSamples() {
 	
 	
 	ReactDom.render(
-		<Sample/>
+		<App/>
 		, document.getElementById('app'));
 	
 }
