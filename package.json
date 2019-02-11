@@ -41,7 +41,7 @@
     "is": "^3.2.1",
     "isfunction": "0.0.6",
     "@babel/runtime": "^7.3.1",
-    "rtween": "^1.0.7",
+    "rtween": "^1.1.0",
     "taskflows": "^1.0.0"
   },
   "devDependencies": {

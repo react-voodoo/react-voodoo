@@ -199,36 +199,43 @@ export default function asTweener( ...argz ) {
 				let i = this._scrollableAnims.indexOf(sl);
 				if ( i != -1 )
 					this._scrollableAnims.splice(i);
+				
+				this._scrollableArea = Math.max(...this._scrollableAnims.map(tl => tl.duration), 0);
 			}
 		}
 		
 		clearScrollableAnims() {
 			if ( this._scrollableAnims ) {
 				this._scrollableAnims = [];
+				this._scrollPos       = this._scrollableArea = 0;
 			}
 		}
 		
 		scrollTo( newPos, ms = 0 ) {
 			if ( this._scrollableAnims ) {
-				let oldPos = this._scrollPos;
+				let oldPos = newPos,
+				    setPos = pos => (this._scrollPos = pos, this.componentDidScroll && this.componentDidScroll(~~pos));
 				
 				newPos = Math.max(0, newPos);
 				newPos = Math.min(newPos, this._scrollableArea);
 				
-				if ( !ms )
+				if ( !ms ) {
 					this._scrollableAnims.forEach(
 						sl => sl.goTo(newPos)
 					);
+					setPos(newPos);
+				}
 				else
 					this._scrollableAnims.forEach(
-						sl => sl.runTo(newPos, ms)
+						sl => sl.runTo(newPos, ms, undefined, setPos)
 					);
 				
-				this._scrollPos = newPos;
+				
 				if ( !this._live ) {
 					this._live = true;
 					requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
 				}
+				return !(oldPos - newPos);
 			}
 		}
 		
@@ -404,7 +411,12 @@ export default function asTweener( ...argz ) {
 						let oldPos = this._scrollPos,
 						    newPos = oldPos + e.deltaY;
 						
-						this.scrollTo(newPos);
+						if ( this.shouldApplyScroll && !this.shouldApplyScroll() ) {
+							return;
+						}
+						
+						if ( this.scrollTo(newPos) )
+							e.preventDefault();
 					});
 			}
 		}
@@ -452,7 +464,7 @@ export default function asTweener( ...argz ) {
 		_rafLoop() {
 			this._updateTweenRefs();
 			//if ( this._runningAnims.length )
-				requestAnimationFrame(this.__rafLoop);
+			requestAnimationFrame(this.__rafLoop);
 			//else {
 			//	this._live = false;
 			//}
