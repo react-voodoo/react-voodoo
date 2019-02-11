@@ -15,16 +15,17 @@
 import React    from "react";
 import is       from "is";
 import ReactDom from "react-dom";
+import taskflow from "taskflows";
 import utils    from "./utils";
+import rtween   from "rtween";
 
-var rtween           = require('rtween'),
-    isBrowserSide    = (new Function("try {return this===window;}catch(e){ return false;}"))(),
+/**
+ * @todo : clean & comments
+ */
+
+
+var isBrowserSide    = (new Function("try {return this===window;}catch(e){ return false;}"))(),
     isArray          = is.array,
-    taskflow         = require('taskflows'),
-    defaultAnims     = {// while no matrix..
-	    hide: require('Comp/anims/pushOut'),
-	    show: require('Comp/anims/pushIn')
-    },
     initialTweenable = {// while no matrix..
 	    x      : 0,
 	    y      : 0,
@@ -56,7 +57,7 @@ var rtween           = require('rtween'),
 const SimpleObjectProto = ({}).constructor;
 
 /**
- * Tweener decorator
+ * asTweener decorator
  * @param argz
  * @returns {*}
  */
@@ -82,16 +83,8 @@ export default function asTweener( ...argz ) {
 				z: 800
 			};
 			this._curMotionStateId = _static.InitialMotionState || "stand";
-		}
-		
-		_rafLoop() {
-			this._updateTweenRefs();
-			if ( this._runningAnims.length )
-				requestAnimationFrame(this.__rafLoop);
-			else {
-				//console.log("RAF Off");
-				this._live = false;
-			}
+			
+			
 		}
 		
 		goToMotionStateId( targetId ) {
@@ -176,6 +169,67 @@ export default function asTweener( ...argz ) {
 					this._tweenRefMaps[t] = { ...this._tweenRefOrigin[t] };
 				}
 			)
+		}
+		
+		addScrollableAnim( anim, size, pos ) {
+			var sl, initial;
+			if ( isArray(anim) ) {
+				sl = anim;
+			}
+			else {
+				sl   = anim.anims;
+				size = anim.length;
+			}
+			
+			if ( !(sl instanceof rtween) )
+				sl = new rtween(sl, this._tweenRefMaps);
+			
+			this.makeTweenable();
+			this.makeScrollable();
+			
+			// init scroll
+			this._scrollableAnims.push(sl);
+			this._scrollPos      = this._scrollPos || 0;
+			this._scrollableArea = this._scrollableArea || 0;
+			this._scrollableArea = Math.max(this._scrollableArea, sl.duration);
+		}
+		
+		clearScrollableAnim( sl ) {
+			if ( this._scrollableAnims ) {
+				let i = this._scrollableAnims.indexOf(sl);
+				if ( i != -1 )
+					this._scrollableAnims.splice(i);
+			}
+		}
+		
+		clearScrollableAnims() {
+			if ( this._scrollableAnims ) {
+				this._scrollableAnims = [];
+			}
+		}
+		
+		scrollTo( newPos, ms = 0 ) {
+			if ( this._scrollableAnims ) {
+				let oldPos = this._scrollPos;
+				
+				newPos = Math.max(0, newPos);
+				newPos = Math.min(newPos, this._scrollableArea);
+				
+				if ( !ms )
+					this._scrollableAnims.forEach(
+						sl => sl.goTo(newPos)
+					);
+				else
+					this._scrollableAnims.forEach(
+						sl => sl.runTo(newPos, ms)
+					);
+				
+				this._scrollPos = newPos;
+				if ( !this._live ) {
+					this._live = true;
+					requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
+				}
+			}
 		}
 		
 		pushAnim( anim, then, skipInit ) {
@@ -340,24 +394,40 @@ export default function asTweener( ...argz ) {
 				};
 		}
 		
+		makeScrollable() {
+			if ( !this._scrollEnabled ) {
+				this._scrollEnabled   = true;
+				this._scrollableAnims = [];
+				isBrowserSide && utils.addWheelEvent(
+					ReactDom.findDOMNode(this),
+					this._onScroll = ( e ) => {//@todo
+						let oldPos = this._scrollPos,
+						    newPos = oldPos + e.deltaY;
+						
+						this.scrollTo(newPos);
+					});
+			}
+		}
+		
 		makeTweenable() {
 			if ( !this._tweenEnabled ) {
-				var me                   = this;
 				this._rtweensByProp      = {};
 				this._rtweensByStateProp = {};
-				this._tweenRefCSS        = {};//c rtween styles
-				this._tweenRefs          = {};//c rtween styles
-				this._tweenRefMaps       = {};//c rtween values
-				this._tweenRefUnits      = {};//c rtween values
+				this._tweenRefCSS        = {};
+				this._tweenRefs          = {};
+				this._tweenRefMaps       = {};
+				this._tweenRefUnits      = {};
 				this._tweenEnabled       = true;
 				this._tweenRefOrigin     = {};
 				this._tweenRefTargets    = this._tweenRefTargets || [];
 				this._runningAnims       = this._runningAnims || [];
 				
-				isBrowserSide && window.addEventListener("resize", this._onResize = () => {//@todo
-					me._updateBox();
-					me._updateTweenRefs()
-				});
+				isBrowserSide && window.addEventListener(
+					"resize",
+					this._onResize = () => {//@todo
+						this._updateBox();
+						this._updateTweenRefs()
+					});
 			}
 		}
 		
@@ -370,7 +440,6 @@ export default function asTweener( ...argz ) {
 			}
 		}
 		
-		
 		// updateRefMap( target, map ) {
 		//     Object.assign(this._tweenRefMaps[target], map);
 		// }
@@ -378,6 +447,15 @@ export default function asTweener( ...argz ) {
 		getTweenableRef( target ) {
 			return this.refs[target] instanceof Element ? this.refs[target]
 			                                            : ReactDom.findDOMNode(this.refs[target]);
+		}
+		
+		_rafLoop() {
+			this._updateTweenRefs();
+			//if ( this._runningAnims.length )
+				requestAnimationFrame(this.__rafLoop);
+			//else {
+			//	this._live = false;
+			//}
 		}
 		
 		_updateTweenRefs() {
@@ -407,10 +485,20 @@ export default function asTweener( ...argz ) {
 				this._tweenEnabled = false;
 				window.removeEventListener("resize", this._onResize);
 			}
+			
+			if ( this._scrollEnabled ) {
+				this._scrollEnabled   = false;
+				this._scrollableAnims = undefined;
+				utils.rmWheelEvent(
+					ReactDom.findDOMNode(this),
+					this._onScroll);
+			}
+			
 			super.componentWillUnmount && super.componentWillUnmount();
 		}
 		
 		componentDidMount() {
+			let _static = this.constructor;
 			
 			this._rendered = true;
 			if ( this._tweenEnabled ) {
@@ -421,6 +509,9 @@ export default function asTweener( ...argz ) {
 			if ( this._delayedMotionTarget ) {
 				this.goToMotionStateId(this._delayedMotionTarget);
 				delete this._delayedMotionTarget;
+			}
+			if ( _static.scrollableAnim ) {
+				this.addScrollableAnim(_static.scrollableAnim);
 			}
 			super.componentDidMount && super.componentDidMount();
 		}

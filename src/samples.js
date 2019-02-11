@@ -56,7 +56,41 @@ let pushOut = function ( target ) {
 
 @asTweener
 class Sample extends React.Component {
-	state = {
+	static scrollableAnim = {
+		anims: [
+			{
+				type    : "Tween",
+				target  : "step",
+				from    : 0,
+				duration: 150,
+				easeFn  : easingFn.easeOutSine,
+				apply   : {
+					_z: -.2,
+				}
+			},
+			{
+				type    : "Tween",
+				target  : "step",
+				from    : 50,
+				duration: 150,
+				easeFn  : easingFn.easeOutSine,
+				apply   : {
+					_x: -1,
+				}
+			},
+			{
+				type    : "Tween",
+				target  : "step",
+				from    : 100,
+				duration: 100,
+				easeFn  : easingFn.easeOutSine,
+				apply   : {
+					rotateY: -60,
+				}
+			}
+		]
+	};
+	state                 = {
 		count: 0
 	};
 	
@@ -68,6 +102,7 @@ class Sample extends React.Component {
 			hello ! { this.state.count } concurent anims
 			<div
 				onClick={ e => {
+					this.scrollTo(0, 500);
 					this.setState({ count: this.state.count + 1 })
 					this.pushAnim(pushOut("step"),
 					              () => {

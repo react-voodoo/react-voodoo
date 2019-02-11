@@ -109,6 +109,1330 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "../rTween/dist/lines sync recursive ^\\.\\/.*$":
+/*!******************************************!*\
+  !*** ../rTween/dist/lines sync ^\.\/.*$ ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./Event": "../rTween/dist/lines/Event.js",
+	"./Event.js": "../rTween/dist/lines/Event.js",
+	"./Ring": "../rTween/dist/lines/Ring.js",
+	"./Ring.js": "../rTween/dist/lines/Ring.js",
+	"./SVGPath": "../rTween/dist/lines/SVGPath.js",
+	"./SVGPath.js": "../rTween/dist/lines/SVGPath.js",
+	"./Subline": "../rTween/dist/lines/Subline.js",
+	"./Subline.js": "../rTween/dist/lines/Subline.js",
+	"./Tween": "../rTween/dist/lines/Tween.js",
+	"./Tween.js": "../rTween/dist/lines/Tween.js"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) { // check for number or string
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return id;
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "../rTween/dist/lines sync recursive ^\\.\\/.*$";
+
+/***/ }),
+
+/***/ "../rTween/dist/lines/Event.js":
+/*!*************************************!*\
+  !*** ../rTween/dist/lines/Event.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+ * Copyright (c) 2019. Nathanael Braun.  All rights reserved.
+ *
+ * This File is part of Caipi. You can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *  This project is dual licensed under AGPL and Commercial Licence.
+ *
+ * @author : Nathanael Braun
+ * @contact : n8tz.js@gmail.com
+ */
+
+module.exports = function (cfg) {
+  // factory
+  var r = function r(p, u, s) {};
+  return r;
+};
+
+/***/ }),
+
+/***/ "../rTween/dist/lines/Ring.js":
+/*!************************************!*\
+  !*** ../rTween/dist/lines/Ring.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+ * Copyright (c) 2019. Nathanael Braun.  All rights reserved.
+ *
+ * This File is part of Caipi. You can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *  This project is dual licensed under AGPL and Commercial Licence.
+ *
+ * @author : Nathanael Braun
+ * @contact : n8tz.js@gmail.com
+ */
+
+var PI = Math.PI,
+    isNumber = __webpack_require__(/*! is */ "./node_modules/is/index.js").number,
+    sin = Math.sin,
+    cos = Math.cos;
+
+module.exports =
+//function () {
+function (scope, cfg, target) {
+    target && scope && (scope = scope[target] = scope[target] || {}); // !
+
+    var fn = "var _2PI=2*Math.PI,",
+        axe1 = cfg.axes && cfg.axes[0] || 'x',
+        // should factorise....
+    axe2 = cfg.axes && cfg.axes[1] || 'y',
+        factor1 = (cfg.factors && cfg.factors[0] || 1) * cfg.radius,
+        // should factorise....
+    factor2 = (cfg.factors && cfg.factors[1] || 1) * cfg.radius,
+        startPos = (cfg.startPos || 0) * 2 * PI,
+        length = isNumber(cfg.length) ? cfg.length : 1;
+    fn += "pos1=(" + startPos + "+((lastPos+update)*_2PI)*" + length + " )%(_2PI)," + "pos2 = (" + startPos + "+(lastPos)*_2PI*" + length + " )%(_2PI);";
+    fn += "scope." + axe1 + "+=" + factor1 + "*(Math.cos(pos1)-Math.cos(pos2));" + // ! optims
+    "scope." + axe2 + " += " + factor2 + "*(Math.sin(pos1)-Math.sin(pos2));";
+
+    return new Function("lastPos, update, scope, cfg, target", fn);
+};
+module.exports.isFactory = true;
+
+/***/ }),
+
+/***/ "../rTween/dist/lines/SVGPath.js":
+/*!***************************************!*\
+  !*** ../rTween/dist/lines/SVGPath.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+ * Copyright (c) 2019. Nathanael Braun.  All rights reserved.
+ *
+ * This File is part of Caipi. You can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *  This project is dual licensed under AGPL and Commercial Licence.
+ *
+ * @author : Nathanael Braun
+ * @contact : n8tz.js@gmail.com
+ */
+
+var cache = {},
+    buildPath,
+    getPoint;
+if (typeof document == "undefined") {
+    buildPath = function buildPath(P) {
+        return cache[P] || __webpack_require__(/*! point-at-length */ "./node_modules/point-at-length/index.js")(P);
+    };
+    getPoint = function getPoint(P, p) {
+
+        return cache[P].at(p);
+    };
+} else {
+    buildPath = function buildPath(P) {
+        var p = cache[P];
+        if (!p) {
+            cache[P] = p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+            p.setAttribute('d', P);
+        }
+        ;
+    };
+    getPoint = function getPoint(P, p) {
+        return cache[P].getPointAtLength(p * cache[P].getTotalLength());
+    };
+}
+module.exports = function (_scope, cfg, target) {
+    // @todo incremental path reader
+
+    var axe1 = cfg.axes && cfg.axes[0] || 'x',
+        // should factorise better....
+    axe2 = cfg.axes && cfg.axes[1] || 'y',
+        lastPtsPos,
+        lastPts;
+    buildPath(cfg.path);
+    return function (lastPos, update, scope, cfg, target) {
+        var p1 = lastPtsPos == lastPos ? lastPts : getPoint(cfg.path, cfg.reverse ? 1 - lastPos : lastPos),
+            p2 = lastPts = getPoint(cfg.path, cfg.reverse ? 1 - (lastPos + update) : lastPos + update);
+        lastPtsPos = lastPos + update;
+        scope[axe1] += (p2.x - p1.x) * 4;
+        scope[axe2] += (p2.y - p1.y) * 4;
+    };
+};
+module.exports.isFactory = true;
+
+/***/ }),
+
+/***/ "../rTween/dist/lines/Subline.js":
+/*!***************************************!*\
+  !*** ../rTween/dist/lines/Subline.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+/*
+ * Copyright (c) 2019. Nathanael Braun.  All rights reserved.
+ *
+ * This File is part of Caipi. You can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *  This project is dual licensed under AGPL and Commercial Licence.
+ *
+ * @author : Nathanael Braun
+ * @contact : n8tz.js@gmail.com
+ */
+
+module.export = function (cfg) {
+
+  return function (p, u, s, cfg, target) {};
+};
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../react-rtween/node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "../rTween/dist/lines/Tween.js":
+/*!*************************************!*\
+  !*** ../rTween/dist/lines/Tween.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+ * Copyright (c) 2019. Nathanael Braun.  All rights reserved.
+ *
+ * This File is part of Caipi. You can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *  This project is dual licensed under AGPL and Commercial Licence.
+ *
+ * @author : Nathanael Braun
+ * @contact : n8tz.js@gmail.com
+ */
+
+module.exports = function (_scope, cfg, target) {
+    var fn = "";
+
+    target && (fn += "scope = scope['" + target + "'];\n");
+
+    for (var k in cfg.apply) {
+        if (cfg.apply.hasOwnProperty(k)) {
+
+            _scope && (_scope[k] = _scope[k] || 0);
+
+            fn += "scope." + k + "+=" + (cfg.easeFn ? "cfg.easeFn(0, lastPos+update, 0, cfg.apply." + k + ", 1)" + "- cfg.easeFn(0, lastPos, 0, cfg.apply." + k + ", 1);" : "cfg.apply." + k + "*update;");
+        }
+    }return new Function("lastPos, update, scope, cfg, target", fn);
+};
+module.exports.isFactory = true;
+
+/***/ }),
+
+/***/ "../rTween/dist/rTween.js":
+/*!********************************!*\
+  !*** ../rTween/dist/rTween.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+ * Copyright (c) 2019. Nathanael Braun.  All rights reserved.
+ *
+ * This File is part of Caipi. You can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *  This project is dual licensed under AGPL and Commercial Licence.
+ *
+ * @author : Nathanael Braun
+ * @contact : n8tz.js@gmail.com
+ */
+
+/**
+ * # Caipi rTween
+ *
+ * Scalable, multiscope, reversible, delta based, interpolation/tweening engine
+ *
+ * ## rTween what ?
+ *
+ * - Tweening engine allowing to apply forward and backward multiples tweens on same
+ * properties and multiple objects
+ * - Allow live composition of classic tweens, circle tweens, SVG Path tweens, other
+ * rTweens, etc
+ * - Equivalent to the GreenSocks TweenMax/TweenLite objects, minus specialized helpers.
+ * - Purely Abstract, no Dom deps, rTween don't apply the CSS itself
+ * - Work in node & webpack environment
+ *
+ * @author Nathanael BRAUN
+ * @contact caipilabs@gmail.com
+ * @licence AGPL-3.0
+ */
+var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
+    isArray = is.array,
+    isFunction = is.fn,
+    isNumber = is.number,
+    isString = is.string,
+    easingFN = __webpack_require__(/*! d3-ease */ "../rTween/node_modules/d3-ease/src/index.js"),
+    merge = __webpack_require__(/*! merge */ "./node_modules/merge/merge.js"),
+    slice = Array.prototype.slice,
+    push = Array.prototype.push,
+    abs = Math.abs,
+    forkedrTween = function forkedrTween(cfg) {
+	this.__cPos = 0;
+	this.__cIndex = 0;
+	this.onScopeUpdated = false;
+	this.__activeProcess = [];
+	this.__outgoing = [];
+	this.__incoming = [];
+},
+
+// runner
+_live = false,
+    lastTm,
+    _running = [];
+
+var RTween = function () {
+	function RTween(cfg, scope) {
+		_classCallCheck(this, RTween);
+
+		var me = this;
+		this.scope = scope;
+		cfg = cfg || {};
+		this.__marks = [];
+		this.__marksLength = [];
+		this.__marksKeys = [];
+		this.__processors = [];
+		this.__config = [];
+
+		this.__activeForks = [];
+		this.__activeProcess = [];
+
+		this.__activeProcess = [];
+		this.__outgoing = [];
+		this.__incoming = [];
+		this.__cPos = 0;
+		this.__cIndex = 0;
+		this.__cMaxKey = 1;
+		if (isArray(cfg)) {
+			this.localLength = 1;
+			this.mount(cfg, scope);
+		} else {
+			merge(this, cfg);
+			if (cfg.rTween) this.mount(cfg.rTween, scope);
+		}
+	}
+
+	/**
+  * Run this tween line from 0 to his duration using linear
+  * @param target
+  * @param cb
+  * @param tm
+  */
+
+
+	_createClass(RTween, [{
+		key: 'run',
+		value: function run(target, cb, tm) {
+			RTween.Runner.run(this, target, tm || this.duration, cb);
+		}
+
+		/**
+   * Tween this tween line to 'to' during 'tm' ms using easing fn
+   * @param to {int}
+   * @param tm {int} duration in ms
+   * @param easing {function} easing fn
+   * @param cb
+   */
+
+	}, {
+		key: 'runTo',
+		value: function runTo(to, tm) {
+			var _this = this;
+
+			var easing = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : easingFN.easeLinear;
+			var cb = arguments[3];
+
+			var from = this.__cPos,
+			    length = to - from;
+
+			_running.push({
+				apply: function apply(pos, max) {
+					var x = easing(pos / max);
+					_this.goTo(from + x * length);
+				},
+				duration: tm,
+				cpos: 0,
+				cb: cb
+			});
+
+			if (!_live) {
+				_live = true;
+				lastTm = Date.now();
+				// console.log("TL runner On");
+				setTimeout(RTween.Runner._tick, 16);
+			}
+		}
+
+		/**
+   * Map process descriptors to get a runnable timeline
+   * @method mount
+   * @param map
+   */
+
+	}, {
+		key: 'mount',
+		value: function mount(map, scope) {
+			var i,
+			    ln,
+			    d = this.duration || 0,
+			    p = 0,
+			    me = this,
+			    max = 0,
+			    factory;
+			for (i = 0, ln = map.length; i < ln; i++) {
+				if (isString(map[i].easingFn)) map[i].easingFn = easingFN[map[i].easingFn] || false;
+				if (map[i].type == "Subline") {
+					factory = map[i].apply.fork(null, map[i], map[i].easingFn);
+				} else {
+					factory = __webpack_require__("../rTween/dist/lines sync recursive ^\\.\\/.*$")("./" + (map[i].type || 'Event'));
+				}
+				if (!factory) {
+					console.log('rTween : Anim not found : ' + map[i].type);
+					continue;
+				}
+				if (!isNumber(map[i].from))
+					// no from so assume it's sync
+					this.addProcess(d, d + map[i].duration, factory, map[i]), d += map[i].duration || 0;else // have from so assume it's async
+					this.addProcess(map[i].from, map[i].from + map[i].duration, factory, map[i]), max = Math.max(max, map[i].from + map[i].duration);
+			}
+
+			this.duration = d = Math.max(d, max);
+			return this;
+		}
+
+		/**
+   * Clone this rTween
+   * @method fork
+   * @param fn
+   * @param ctx
+   * @param easeFn
+   * @returns {forkedrTween}
+   */
+
+	}, {
+		key: 'fork',
+		value: function fork(cfg) {
+			this._masterLine = this._masterLine || this;
+			forkedrTween.prototype = this._masterLine;
+			return new forkedrTween(cfg);
+		}
+
+		/**
+   * Map a process descriptor
+   * @method addProcess
+   * @param from
+   * @param to
+   * @param process
+   * @param cfg
+   * @returns {rTween}
+   */
+
+	}, {
+		key: 'addProcess',
+		value: function addProcess(from, to, process, cfg) {
+			var i = 0,
+			    _ln = process.localLength,
+			    ln = to - from || 0,
+			    key = this.__cMaxKey++,
+			    isTl = process instanceof RTween;
+
+			if (isTl) process = process.fork(null, cfg);
+
+			this.__activeForks[key] = true;
+			this.__processors[key] = process.isFactory ? process(null, cfg, cfg.target) : process;
+			this.__marksLength[key] = ln;
+			this.__config[key] = cfg;
+
+			// put start marker in the ordered marker list
+			while (i <= this.__marks.length && this.__marks[i] < from) {
+				i++;
+			}this.__marks.splice(i, 0, from);
+			this.__marksKeys.splice(i, 0, key);
+
+			// put end marker in the ordered marker list
+			while (i <= this.__marks.length && this.__marks[i] <= to) {
+				i++;
+			}this.__marks.splice(i, 0, to);
+			this.__marksKeys.splice(i, 0, -key);
+			return this;
+		}
+
+		/**
+   *
+   * @param key
+   * @returns {*}
+   * @private
+   */
+
+	}, {
+		key: '_getIndex',
+		value: function _getIndex(key) {
+			return (key = this.__marksKeys.indexOf(key)) !== -1 ? key : false;
+		}
+
+		/**
+   * apply to scope or this.scope the delta of the process mapped from cPos to 'to'
+   * using a rTween length of 1
+   * @method go
+   * @param to
+   * @param scope
+   * @param reset
+   */
+
+	}, {
+		key: 'go',
+		value: function go(to, scope, reset) {
+			this.goTo(to * this.duration, scope, reset);
+			this.__cRPos = to;
+			return scope || this.scope;
+		}
+	}, {
+		key: 'getPosAt',
+		value: function getPosAt(to, scope) {
+
+			this.__activeProcess.length = 0;
+			this.__outgoing.length = 0;
+			this.__incoming.length = 0;
+			this.__cPos = 0;
+			this.__cIndex = 0;
+			return this.go(to, scope);
+		}
+
+		/**
+   * apply to scope or this.scope the delta of the process mapped from cPos to 'to'
+   * using the mapped rTween length
+   * @method goTo
+   * @param to
+   * @param scope
+   * @param reset
+   */
+
+	}, {
+		key: 'goTo',
+		value: function goTo(to, scope, reset) {
+			scope = scope || this.scope;
+			if (this.window) to = this.window.start + to / this.duration * this.window.length;
+
+			if (!this._started) {
+				this._started = true;
+				this.__cIndex = this.__cPos = 0;
+			}
+
+			var i = this.__cIndex,
+			    p,
+			    ln,
+			    outgoing = this.__outgoing,
+			    incoming = this.__incoming,
+			    pos,
+			    _from,
+			    _to,
+			    d,
+			    key,
+			    mLn = this.__marks.length,
+			    diff = to - this.__cPos;
+			if (reset) {
+				this.__activeProcess.length = 0;
+				this.__outgoing.length = 0;
+				this.__incoming.length = 0;
+				// reset forks
+				//console.log('reset ', to);
+				//for ( i = 0, ln = this.__processors.length ; i < ln ; i++ ) {
+				//    if (this.__processors[i] instanceof rTween){
+				//        this.__processors[i].goTo(0,0,true);
+				//    }
+				//}
+			}
+
+			// 1st ajust period, knowing which process are involved / leaving
+			// while my indice target a marker/time period inferior to my pos
+
+			while (i < mLn && to > this.__marks[i] || diff >= 0 && this.__marks[i] == to) {
+
+				// if next marker is ending an active process
+				if ((p = this.__activeProcess.indexOf(-this.__marksKeys[i])) != -1) {
+					this.__activeProcess.splice(p, 1);
+					outgoing.push(this.__marksKeys[i]);
+					//console.log("close " + this.__marksKeys[i]);
+				}
+				// if next marker is process ending a process who just start (direction has
+				// change)
+				else if ((p = this.__activeProcess.indexOf(this.__marksKeys[i])) != -1) {
+						this.__activeProcess.splice(p, 1);
+						outgoing.push(this.__marksKeys[i]);
+						//console.log("close after dir change" + this.__marksKeys[i]);
+					}
+					// if next marker is process ending a process who just start
+					else if ((p = incoming.indexOf(-this.__marksKeys[i])) != -1) {
+							incoming.splice(p, 1);
+							outgoing.push(this.__marksKeys[i]);
+							//console.log("close starting " + this.__marksKeys[i]);
+						} else {
+							incoming.push(this.__marksKeys[i]);
+							//console.log("right say in " + this.__marksKeys[i]);
+						}
+				i++;
+			}
+
+			// while my indice-1 target a marker/time period superior to my pos
+			while (i - 1 >= 0 && (to < this.__marks[i - 1] || diff < 0 && this.__marks[i - 1] == to)) {
+				i--;
+
+				if ((p = this.__activeProcess.indexOf(-this.__marksKeys[i])) != -1) {
+					this.__activeProcess.splice(p, 1);
+					outgoing.push(this.__marksKeys[i]);
+					//console.log("left say out " + this.__marksKeys[i]);
+				} // if next marker is process ending a process who just start (direction has
+				// change)
+				else if ((p = this.__activeProcess.indexOf(this.__marksKeys[i])) != -1) {
+						this.__activeProcess.splice(p, 1);
+						outgoing.push(this.__marksKeys[i]);
+						//console.log("close after dir change" + this.__marksKeys[i]);
+					} else if ((p = incoming.indexOf(-this.__marksKeys[i])) != -1) {
+						incoming.splice(p, 1);
+						outgoing.push(this.__marksKeys[i]);
+						//console.log("left say out from incoming " + this.__marksKeys[i]);
+					} else {
+						//console.log("left say in " + this.__marksKeys[i]);
+						incoming.push(this.__marksKeys[i]);
+					}
+			}
+
+			// now dispatching deltas
+			//console.log(incoming, outgoing, this.__activeProcess);
+
+			this.__cIndex = i;
+			// those leaving subline
+			for (i = 0, ln = outgoing.length; i < ln; i++) {
+				p = this._getIndex(outgoing[i]);
+				key = abs(outgoing[i]);
+				if (outgoing[i] < 0) {
+					_from = Math.min(this.__marks[p], Math.max(this.__cPos, this.__marks[p] - this.__marksLength[key])) - (this.__marks[p] - this.__marksLength[key]);
+					_to = this.__marksLength[key];
+					pos = _from;
+					d = _to - _from;
+					pos = (this.localLength || 1) * pos / this.__marksLength[key];
+					d = (this.localLength || 1) * d / this.__marksLength[key];
+				} else {
+					_from = Math.max(this.__marks[p], Math.min(this.__cPos, this.__marks[p] + this.__marksLength[key])) - this.__marks[p];
+					_to = 0;
+					pos = _from;
+					d = _to - _from;
+
+					pos = (this.localLength || 1) * pos / this.__marksLength[key];
+					d = (this.localLength || 1) * d / this.__marksLength[key];
+				}
+				//
+				//console.log("out " + this.__marksKeys[p] + " " + this.__marksLength[p]+
+				//            '\npos:'+this.__cPos+
+				//            '\nmark:'+this.__marks[p]+
+				//            '\ninnerpos:'+pos+
+				//            '\ndelta:'+d
+				//);
+
+				if (this.__processors[key].go) {
+					this.__processors[key].go(pos + d, scope, reset);
+				} else this.__processors[key](pos, d, scope, this.__config[key], this.__config[key].target || this.__config[key].$target && this.__context && this.__context[this.__config[key].$target]);
+			}
+
+			// those entering subline
+			for (i = 0, ln = incoming.length; i < ln; i++) {
+				p = this._getIndex(incoming[i]);
+				key = abs(incoming[i]);
+
+				if (incoming[i] < 0) {
+
+					_from = this.__marksLength[key];
+					_to = Math.max(this.__marks[p] - this.__marksLength[key], Math.min(this.__cPos + diff, this.__marks[p])) - (this.__marks[p] - this.__marksLength[key]);
+
+					pos = _from;
+					d = _to - _from;
+					pos = (this.localLength || 1) * pos / this.__marksLength[key];
+					d = (this.localLength || 1) * d / this.__marksLength[key];
+				} else {
+					_from = 0;
+					_to = Math.max(this.__marks[p], Math.min(this.__cPos + diff, this.__marks[p] + this.__marksLength[key])) - this.__marks[p];
+					pos = _from;
+					d = _to - _from;
+
+					pos = (this.localLength || 1) * pos / this.__marksLength[key];
+					d = (this.localLength || 1) * d / this.__marksLength[key];
+				}
+
+				//console.log("in " + this.__marksKeys[p] + " " + this.__marksLength[p]+
+				//            '\ndiff:'+diff+
+				//            '\npos:'+this.__cPos+
+				//            '\nmark:'+this.__marks[p]+
+				//            '\n_from:'+_from+
+				//            '\n_to:'+_to+
+				//            '\ninnerpos:'+pos+
+				//            '\ndelta:'+d
+				//);
+
+				if (this.__processors[key].go) {
+					//console.log("in " + pos, d);
+					this.__processors[key].go(pos, 0, true); //reset local fork
+					this.__processors[key].go(pos + d, scope);
+				} else if (!reset) this.__processors[key](pos, d, scope, this.__config[key], this.__config[key].target || this.__config[key].$target && this.__context && this.__context[this.__config[key].$target]);
+			}
+			// and those who where already there
+			//if ( !reset )
+			for (i = 0, ln = this.__activeProcess.length; i < ln; i++) {
+				p = this._getIndex(this.__activeProcess[i]);
+				key = abs(this.__activeProcess[i]);
+
+				//d = (this.__cPos - diff)<this.__marks[p]?this.__cPos-this.__marks[p] : diff;
+				pos = this.__activeProcess[i] < 0 ? this.__cPos - (this.__marks[p] - this.__marksLength[key]) : this.__cPos - this.__marks[p];
+				pos = (this.localLength || 1) * pos / this.__marksLength[key];
+				d = diff * (this.localLength || 1) / this.__marksLength[key];
+				//console.log("active " + p + " " + this.__marksLength[p]
+				//            +'\nto:'+to
+				//            +'\npos:'+this.__cPos
+				//            +'\nmark:'+this.__marks[p]+
+				//            '\ngdiff:'+diff68786k
+				//            +'\ninnerpos:'+(pos * (this.localLength || 1)) /
+				// abs(this.__marksLength[p]) +'\ndelta:'+(diff * (this.localLength || 1)) /
+				// abs(this.__marksLength[p]) );
+				if (this.__processors[key].go) {
+
+					this.__processors[key].go(pos + d, scope);
+				} else if (!reset) this.__processors[key](pos, d, scope, this.__config[key], this.__config[key].target || this.__config[key].$target && this.__context && this.__context[this.__config[key].$target]);
+			}
+
+			push.apply(this.__activeProcess, incoming);
+
+			outgoing.length = 0;
+			incoming.length = 0;
+
+			this.__cPos = to;
+			this.onScopeUpdated && this.onScopeUpdated(to, diff, scope);
+		}
+	}]);
+
+	return RTween;
+}();
+
+RTween.Runner = {
+	run: function run(tl, ctx, duration, cb) {
+		var apply = function apply(pos, size) {
+			return tl.go(pos / size, ctx);
+		};
+		_running.push({ apply: apply, duration: duration, cpos: 0, cb: cb });
+		tl.go(0, ctx, true); //reset tl
+
+		if (!_live) {
+			_live = true;
+			lastTm = Date.now();
+			// console.log("TL runner On");
+			setTimeout(this._tick, 16);
+		}
+	},
+	_tick: function _tick() {
+		var i = 0,
+		    o,
+		    tm = Date.now(),
+		    delta = tm - lastTm;
+		lastTm = tm;
+		for (; i < _running.length; i++) {
+			_running[i].cpos = Math.min(delta + _running[i].cpos, _running[i].duration); //cpos
+			_running[i].apply(_running[i].cpos, _running[i].duration);
+			// console.log("TL runner ",_running[i][3]);
+			if (_running[i].cpos == _running[i].duration) {
+
+				_running[i].cb && setTimeout(_running[i].cb);
+				_running.splice(i, 1), i--;
+			}
+		}
+		if (_running.length) setTimeout(_tick, 16);else {
+			// console.log("TL runner Off");
+			_live = false;
+		}
+	}
+};
+exports.default = RTween;
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ "../rTween/node_modules/d3-ease/src/back.js":
+/*!**************************************************!*\
+  !*** ../rTween/node_modules/d3-ease/src/back.js ***!
+  \**************************************************/
+/*! exports provided: backIn, backOut, backInOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "backIn", function() { return backIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "backOut", function() { return backOut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "backInOut", function() { return backInOut; });
+var overshoot = 1.70158;
+
+var backIn = (function custom(s) {
+  s = +s;
+
+  function backIn(t) {
+    return t * t * ((s + 1) * t - s);
+  }
+
+  backIn.overshoot = custom;
+
+  return backIn;
+})(overshoot);
+
+var backOut = (function custom(s) {
+  s = +s;
+
+  function backOut(t) {
+    return --t * t * ((s + 1) * t + s) + 1;
+  }
+
+  backOut.overshoot = custom;
+
+  return backOut;
+})(overshoot);
+
+var backInOut = (function custom(s) {
+  s = +s;
+
+  function backInOut(t) {
+    return ((t *= 2) < 1 ? t * t * ((s + 1) * t - s) : (t -= 2) * t * ((s + 1) * t + s) + 2) / 2;
+  }
+
+  backInOut.overshoot = custom;
+
+  return backInOut;
+})(overshoot);
+
+
+/***/ }),
+
+/***/ "../rTween/node_modules/d3-ease/src/bounce.js":
+/*!****************************************************!*\
+  !*** ../rTween/node_modules/d3-ease/src/bounce.js ***!
+  \****************************************************/
+/*! exports provided: bounceIn, bounceOut, bounceInOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bounceIn", function() { return bounceIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bounceOut", function() { return bounceOut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bounceInOut", function() { return bounceInOut; });
+var b1 = 4 / 11,
+    b2 = 6 / 11,
+    b3 = 8 / 11,
+    b4 = 3 / 4,
+    b5 = 9 / 11,
+    b6 = 10 / 11,
+    b7 = 15 / 16,
+    b8 = 21 / 22,
+    b9 = 63 / 64,
+    b0 = 1 / b1 / b1;
+
+function bounceIn(t) {
+  return 1 - bounceOut(1 - t);
+}
+
+function bounceOut(t) {
+  return (t = +t) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
+}
+
+function bounceInOut(t) {
+  return ((t *= 2) <= 1 ? 1 - bounceOut(1 - t) : bounceOut(t - 1) + 1) / 2;
+}
+
+
+/***/ }),
+
+/***/ "../rTween/node_modules/d3-ease/src/circle.js":
+/*!****************************************************!*\
+  !*** ../rTween/node_modules/d3-ease/src/circle.js ***!
+  \****************************************************/
+/*! exports provided: circleIn, circleOut, circleInOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "circleIn", function() { return circleIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "circleOut", function() { return circleOut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "circleInOut", function() { return circleInOut; });
+function circleIn(t) {
+  return 1 - Math.sqrt(1 - t * t);
+}
+
+function circleOut(t) {
+  return Math.sqrt(1 - --t * t);
+}
+
+function circleInOut(t) {
+  return ((t *= 2) <= 1 ? 1 - Math.sqrt(1 - t * t) : Math.sqrt(1 - (t -= 2) * t) + 1) / 2;
+}
+
+
+/***/ }),
+
+/***/ "../rTween/node_modules/d3-ease/src/cubic.js":
+/*!***************************************************!*\
+  !*** ../rTween/node_modules/d3-ease/src/cubic.js ***!
+  \***************************************************/
+/*! exports provided: cubicIn, cubicOut, cubicInOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cubicIn", function() { return cubicIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cubicOut", function() { return cubicOut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cubicInOut", function() { return cubicInOut; });
+function cubicIn(t) {
+  return t * t * t;
+}
+
+function cubicOut(t) {
+  return --t * t * t + 1;
+}
+
+function cubicInOut(t) {
+  return ((t *= 2) <= 1 ? t * t * t : (t -= 2) * t * t + 2) / 2;
+}
+
+
+/***/ }),
+
+/***/ "../rTween/node_modules/d3-ease/src/elastic.js":
+/*!*****************************************************!*\
+  !*** ../rTween/node_modules/d3-ease/src/elastic.js ***!
+  \*****************************************************/
+/*! exports provided: elasticIn, elasticOut, elasticInOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "elasticIn", function() { return elasticIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "elasticOut", function() { return elasticOut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "elasticInOut", function() { return elasticInOut; });
+var tau = 2 * Math.PI,
+    amplitude = 1,
+    period = 0.3;
+
+var elasticIn = (function custom(a, p) {
+  var s = Math.asin(1 / (a = Math.max(1, a))) * (p /= tau);
+
+  function elasticIn(t) {
+    return a * Math.pow(2, 10 * --t) * Math.sin((s - t) / p);
+  }
+
+  elasticIn.amplitude = function(a) { return custom(a, p * tau); };
+  elasticIn.period = function(p) { return custom(a, p); };
+
+  return elasticIn;
+})(amplitude, period);
+
+var elasticOut = (function custom(a, p) {
+  var s = Math.asin(1 / (a = Math.max(1, a))) * (p /= tau);
+
+  function elasticOut(t) {
+    return 1 - a * Math.pow(2, -10 * (t = +t)) * Math.sin((t + s) / p);
+  }
+
+  elasticOut.amplitude = function(a) { return custom(a, p * tau); };
+  elasticOut.period = function(p) { return custom(a, p); };
+
+  return elasticOut;
+})(amplitude, period);
+
+var elasticInOut = (function custom(a, p) {
+  var s = Math.asin(1 / (a = Math.max(1, a))) * (p /= tau);
+
+  function elasticInOut(t) {
+    return ((t = t * 2 - 1) < 0
+        ? a * Math.pow(2, 10 * t) * Math.sin((s - t) / p)
+        : 2 - a * Math.pow(2, -10 * t) * Math.sin((s + t) / p)) / 2;
+  }
+
+  elasticInOut.amplitude = function(a) { return custom(a, p * tau); };
+  elasticInOut.period = function(p) { return custom(a, p); };
+
+  return elasticInOut;
+})(amplitude, period);
+
+
+/***/ }),
+
+/***/ "../rTween/node_modules/d3-ease/src/exp.js":
+/*!*************************************************!*\
+  !*** ../rTween/node_modules/d3-ease/src/exp.js ***!
+  \*************************************************/
+/*! exports provided: expIn, expOut, expInOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "expIn", function() { return expIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "expOut", function() { return expOut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "expInOut", function() { return expInOut; });
+function expIn(t) {
+  return Math.pow(2, 10 * t - 10);
+}
+
+function expOut(t) {
+  return 1 - Math.pow(2, -10 * t);
+}
+
+function expInOut(t) {
+  return ((t *= 2) <= 1 ? Math.pow(2, 10 * t - 10) : 2 - Math.pow(2, 10 - 10 * t)) / 2;
+}
+
+
+/***/ }),
+
+/***/ "../rTween/node_modules/d3-ease/src/index.js":
+/*!***************************************************!*\
+  !*** ../rTween/node_modules/d3-ease/src/index.js ***!
+  \***************************************************/
+/*! exports provided: easeLinear, easeQuad, easeQuadIn, easeQuadOut, easeQuadInOut, easeCubic, easeCubicIn, easeCubicOut, easeCubicInOut, easePoly, easePolyIn, easePolyOut, easePolyInOut, easeSin, easeSinIn, easeSinOut, easeSinInOut, easeExp, easeExpIn, easeExpOut, easeExpInOut, easeCircle, easeCircleIn, easeCircleOut, easeCircleInOut, easeBounce, easeBounceIn, easeBounceOut, easeBounceInOut, easeBack, easeBackIn, easeBackOut, easeBackInOut, easeElastic, easeElasticIn, easeElasticOut, easeElasticInOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _linear__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./linear */ "../rTween/node_modules/d3-ease/src/linear.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeLinear", function() { return _linear__WEBPACK_IMPORTED_MODULE_0__["linear"]; });
+
+/* harmony import */ var _quad__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./quad */ "../rTween/node_modules/d3-ease/src/quad.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeQuad", function() { return _quad__WEBPACK_IMPORTED_MODULE_1__["quadInOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeQuadIn", function() { return _quad__WEBPACK_IMPORTED_MODULE_1__["quadIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeQuadOut", function() { return _quad__WEBPACK_IMPORTED_MODULE_1__["quadOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeQuadInOut", function() { return _quad__WEBPACK_IMPORTED_MODULE_1__["quadInOut"]; });
+
+/* harmony import */ var _cubic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cubic */ "../rTween/node_modules/d3-ease/src/cubic.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeCubic", function() { return _cubic__WEBPACK_IMPORTED_MODULE_2__["cubicInOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeCubicIn", function() { return _cubic__WEBPACK_IMPORTED_MODULE_2__["cubicIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeCubicOut", function() { return _cubic__WEBPACK_IMPORTED_MODULE_2__["cubicOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeCubicInOut", function() { return _cubic__WEBPACK_IMPORTED_MODULE_2__["cubicInOut"]; });
+
+/* harmony import */ var _poly__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./poly */ "../rTween/node_modules/d3-ease/src/poly.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easePoly", function() { return _poly__WEBPACK_IMPORTED_MODULE_3__["polyInOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easePolyIn", function() { return _poly__WEBPACK_IMPORTED_MODULE_3__["polyIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easePolyOut", function() { return _poly__WEBPACK_IMPORTED_MODULE_3__["polyOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easePolyInOut", function() { return _poly__WEBPACK_IMPORTED_MODULE_3__["polyInOut"]; });
+
+/* harmony import */ var _sin__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sin */ "../rTween/node_modules/d3-ease/src/sin.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeSin", function() { return _sin__WEBPACK_IMPORTED_MODULE_4__["sinInOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeSinIn", function() { return _sin__WEBPACK_IMPORTED_MODULE_4__["sinIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeSinOut", function() { return _sin__WEBPACK_IMPORTED_MODULE_4__["sinOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeSinInOut", function() { return _sin__WEBPACK_IMPORTED_MODULE_4__["sinInOut"]; });
+
+/* harmony import */ var _exp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./exp */ "../rTween/node_modules/d3-ease/src/exp.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeExp", function() { return _exp__WEBPACK_IMPORTED_MODULE_5__["expInOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeExpIn", function() { return _exp__WEBPACK_IMPORTED_MODULE_5__["expIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeExpOut", function() { return _exp__WEBPACK_IMPORTED_MODULE_5__["expOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeExpInOut", function() { return _exp__WEBPACK_IMPORTED_MODULE_5__["expInOut"]; });
+
+/* harmony import */ var _circle__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./circle */ "../rTween/node_modules/d3-ease/src/circle.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeCircle", function() { return _circle__WEBPACK_IMPORTED_MODULE_6__["circleInOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeCircleIn", function() { return _circle__WEBPACK_IMPORTED_MODULE_6__["circleIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeCircleOut", function() { return _circle__WEBPACK_IMPORTED_MODULE_6__["circleOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeCircleInOut", function() { return _circle__WEBPACK_IMPORTED_MODULE_6__["circleInOut"]; });
+
+/* harmony import */ var _bounce__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./bounce */ "../rTween/node_modules/d3-ease/src/bounce.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeBounce", function() { return _bounce__WEBPACK_IMPORTED_MODULE_7__["bounceOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeBounceIn", function() { return _bounce__WEBPACK_IMPORTED_MODULE_7__["bounceIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeBounceOut", function() { return _bounce__WEBPACK_IMPORTED_MODULE_7__["bounceOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeBounceInOut", function() { return _bounce__WEBPACK_IMPORTED_MODULE_7__["bounceInOut"]; });
+
+/* harmony import */ var _back__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./back */ "../rTween/node_modules/d3-ease/src/back.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeBack", function() { return _back__WEBPACK_IMPORTED_MODULE_8__["backInOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeBackIn", function() { return _back__WEBPACK_IMPORTED_MODULE_8__["backIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeBackOut", function() { return _back__WEBPACK_IMPORTED_MODULE_8__["backOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeBackInOut", function() { return _back__WEBPACK_IMPORTED_MODULE_8__["backInOut"]; });
+
+/* harmony import */ var _elastic__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./elastic */ "../rTween/node_modules/d3-ease/src/elastic.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeElastic", function() { return _elastic__WEBPACK_IMPORTED_MODULE_9__["elasticOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeElasticIn", function() { return _elastic__WEBPACK_IMPORTED_MODULE_9__["elasticIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeElasticOut", function() { return _elastic__WEBPACK_IMPORTED_MODULE_9__["elasticOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easeElasticInOut", function() { return _elastic__WEBPACK_IMPORTED_MODULE_9__["elasticInOut"]; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "../rTween/node_modules/d3-ease/src/linear.js":
+/*!****************************************************!*\
+  !*** ../rTween/node_modules/d3-ease/src/linear.js ***!
+  \****************************************************/
+/*! exports provided: linear */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "linear", function() { return linear; });
+function linear(t) {
+  return +t;
+}
+
+
+/***/ }),
+
+/***/ "../rTween/node_modules/d3-ease/src/poly.js":
+/*!**************************************************!*\
+  !*** ../rTween/node_modules/d3-ease/src/poly.js ***!
+  \**************************************************/
+/*! exports provided: polyIn, polyOut, polyInOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "polyIn", function() { return polyIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "polyOut", function() { return polyOut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "polyInOut", function() { return polyInOut; });
+var exponent = 3;
+
+var polyIn = (function custom(e) {
+  e = +e;
+
+  function polyIn(t) {
+    return Math.pow(t, e);
+  }
+
+  polyIn.exponent = custom;
+
+  return polyIn;
+})(exponent);
+
+var polyOut = (function custom(e) {
+  e = +e;
+
+  function polyOut(t) {
+    return 1 - Math.pow(1 - t, e);
+  }
+
+  polyOut.exponent = custom;
+
+  return polyOut;
+})(exponent);
+
+var polyInOut = (function custom(e) {
+  e = +e;
+
+  function polyInOut(t) {
+    return ((t *= 2) <= 1 ? Math.pow(t, e) : 2 - Math.pow(2 - t, e)) / 2;
+  }
+
+  polyInOut.exponent = custom;
+
+  return polyInOut;
+})(exponent);
+
+
+/***/ }),
+
+/***/ "../rTween/node_modules/d3-ease/src/quad.js":
+/*!**************************************************!*\
+  !*** ../rTween/node_modules/d3-ease/src/quad.js ***!
+  \**************************************************/
+/*! exports provided: quadIn, quadOut, quadInOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quadIn", function() { return quadIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quadOut", function() { return quadOut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quadInOut", function() { return quadInOut; });
+function quadIn(t) {
+  return t * t;
+}
+
+function quadOut(t) {
+  return t * (2 - t);
+}
+
+function quadInOut(t) {
+  return ((t *= 2) <= 1 ? t * t : --t * (2 - t) + 1) / 2;
+}
+
+
+/***/ }),
+
+/***/ "../rTween/node_modules/d3-ease/src/sin.js":
+/*!*************************************************!*\
+  !*** ../rTween/node_modules/d3-ease/src/sin.js ***!
+  \*************************************************/
+/*! exports provided: sinIn, sinOut, sinInOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sinIn", function() { return sinIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sinOut", function() { return sinOut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sinInOut", function() { return sinInOut; });
+var pi = Math.PI,
+    halfPi = pi / 2;
+
+function sinIn(t) {
+  return 1 - Math.cos(t * halfPi);
+}
+
+function sinOut(t) {
+  return Math.sin(t * halfPi);
+}
+
+function sinInOut(t) {
+  return (1 - Math.cos(pi * t)) / 2;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":
 /*!******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js ***!
@@ -24287,980 +25611,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/rtween/dist/easingFn.js":
-/*!**********************************************!*\
-  !*** ./node_modules/rtween/dist/easingFn.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = {
-    // t: current time, b: begInnIng value, c: change In value, d: duration
-
-    def: 'easeOutQuad',
-    cos: function cos(x, t, b, c, d) {
-        //alert(jQuery.easing.default);
-        var v = t <= .5 ? Math.sin(Math.PI * t) : Math.sin(Math.PI * (1 - t));
-        if (t < 0 || t > 1) v = 0;
-        return v;
-    },
-    cool: function cool(x, t, b, c, d) {
-        var ts = (t /= d) * t;
-        var tc = ts * t;
-        return b + c * (7.795 * tc * ts + -25.5825 * ts * ts + 32.58 * tc + -20.39 * ts + 6.5975 * t);
-    },
-    easeInQuad: function easeInQuad(x, t, b, c, d) {
-        return c * (t /= d) * t + b;
-    },
-    easeOutQuad: function easeOutQuad(x, t, b, c, d) {
-        return -c * (t /= d) * (t - 2) + b;
-    },
-    easeInOutQuad: function easeInOutQuad(x, t, b, c, d) {
-        if ((t /= d / 2) < 1) return c / 2 * t * t + b;
-        return -c / 2 * (--t * (t - 2) - 1) + b;
-    },
-    easeInCubic: function easeInCubic(x, t, b, c, d) {
-        return c * (t /= d) * t * t + b;
-    },
-    easeOutCubic: function easeOutCubic(x, t, b, c, d) {
-        return c * ((t = t / d - 1) * t * t + 1) + b;
-    },
-    easeInOutCubic: function easeInOutCubic(x, t, b, c, d) {
-        if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
-        return c / 2 * ((t -= 2) * t * t + 2) + b;
-    },
-    easeInQuart: function easeInQuart(x, t, b, c, d) {
-        return c * (t /= d) * t * t * t + b;
-    },
-    easeOutQuart: function easeOutQuart(x, t, b, c, d) {
-        return -c * ((t = t / d - 1) * t * t * t - 1) + b;
-    },
-    easeInOutQuart: function easeInOutQuart(x, t, b, c, d) {
-        if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
-        return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
-    },
-    easeInQuint: function easeInQuint(x, t, b, c, d) {
-        return c * (t /= d) * t * t * t * t + b;
-    },
-    easeOutQuint: function easeOutQuint(x, t, b, c, d) {
-        return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
-    },
-    easeInOutQuint: function easeInOutQuint(x, t, b, c, d) {
-        if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
-        return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
-    },
-    easeInSine: function easeInSine(x, t, b, c, d) {
-        return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
-    },
-    easeOutSine: function easeOutSine(x, t, b, c, d) {
-        return c * Math.sin(t / d * (Math.PI / 2)) + b;
-    },
-    easeInOutSine: function easeInOutSine(x, t, b, c, d) {
-        return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
-    },
-    easeInExpo: function easeInExpo(x, t, b, c, d) {
-        return t == 0 ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
-    },
-    easeOutExpo: function easeOutExpo(x, t, b, c, d) {
-        return t == d ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
-    },
-    easeInOutExpo: function easeInOutExpo(x, t, b, c, d) {
-        if (t == 0) return b;
-        if (t == d) return b + c;
-        if ((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
-        return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
-    },
-    easeInCirc: function easeInCirc(x, t, b, c, d) {
-        return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
-    },
-    easeOutCirc: function easeOutCirc(x, t, b, c, d) {
-        return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
-    },
-    easeInOutCirc: function easeInOutCirc(x, t, b, c, d) {
-        if ((t /= d / 2) < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
-        return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
-    },
-    easeInElastic: function easeInElastic(x, t, b, c, d) {
-        var s = 1.70158;
-        var p = 0;
-        var a = c;
-        if (t == 0) return b;
-        if ((t /= d) == 1) return b + c;
-        if (!p) p = d * .3;
-        if (a < Math.abs(c)) {
-            a = c;
-            var s = p / 4;
-        } else var s = p / (2 * Math.PI) * Math.asin(c / a);
-        return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-    },
-    easeOutElastic: function easeOutElastic(x, t, b, c, d) {
-        var s = 1.70158;
-        var p = 0;
-        var a = c;
-        if (t == 0) return b;
-        if ((t /= d) == 1) return b + c;
-        if (!p) p = d * .3;
-        if (a < Math.abs(c)) {
-            a = c;
-            var s = p / 4;
-        } else var s = p / (2 * Math.PI) * Math.asin(c / a);
-        return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
-    },
-    easeInOutElastic: function easeInOutElastic(x, t, b, c, d) {
-        var s = 1.70158;
-        var p = 0;
-        var a = c;
-        if (t == 0) return b;
-        if ((t /= d / 2) == 2) return b + c;
-        if (!p) p = d * (.3 * 1.5);
-        if (a < Math.abs(c)) {
-            a = c;
-            var s = p / 4;
-        } else var s = p / (2 * Math.PI) * Math.asin(c / a);
-        if (t < 1) return -.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-        return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * .5 + c + b;
-    },
-    easeInBack: function easeInBack(x, t, b, c, d, s) {
-        if (t === d) return c;
-        if (s == undefined) s = 1.70158;
-        return c * (t /= d) * t * ((s + 1) * t - s) + b;
-    },
-    easeOutBack: function easeOutBack(x, t, b, c, d, s) {
-        if (t === d) return c;
-        if (s == undefined) s = 1.70158;
-        return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
-    },
-    easeInOutBack: function easeInOutBack(x, t, b, c, d, s) {
-        if (s == undefined) s = 1.70158;
-        if ((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
-        return c / 2 * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
-    },
-    easeInBounce: function easeInBounce(x, t, b, c, d) {
-        return c - this.easeOutBounce(x, d - t, 0, c, d) + b;
-    },
-    easeOutBounce: function easeOutBounce(x, t, b, c, d) {
-        if ((t /= d) < 1 / 2.75) {
-            return c * (7.5625 * t * t) + b;
-        } else if (t < 2 / 2.75) {
-            return c * (7.5625 * (t -= 1.5 / 2.75) * t + .75) + b;
-        } else if (t < 2.5 / 2.75) {
-            return c * (7.5625 * (t -= 2.25 / 2.75) * t + .9375) + b;
-        } else {
-            return c * (7.5625 * (t -= 2.625 / 2.75) * t + .984375) + b;
-        }
-    },
-    easeInOutBounce: function easeInOutBounce(x, t, b, c, d) {
-        if (t < d / 2) return this.easeInBounce(x, t * 2, 0, c, d) * .5 + b;
-        return this.easeOutBounce(x, t * 2 - d, 0, c, d) * .5 + c * .5 + b;
-    }
-};
-
-/***/ }),
-
-/***/ "./node_modules/rtween/dist/lines sync recursive ^\\.\\/.*$":
-/*!******************************************************!*\
-  !*** ./node_modules/rtween/dist/lines sync ^\.\/.*$ ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var map = {
-	"./Event": "./node_modules/rtween/dist/lines/Event.js",
-	"./Event.js": "./node_modules/rtween/dist/lines/Event.js",
-	"./Ring": "./node_modules/rtween/dist/lines/Ring.js",
-	"./Ring.js": "./node_modules/rtween/dist/lines/Ring.js",
-	"./SVGPath": "./node_modules/rtween/dist/lines/SVGPath.js",
-	"./SVGPath.js": "./node_modules/rtween/dist/lines/SVGPath.js",
-	"./Subline": "./node_modules/rtween/dist/lines/Subline.js",
-	"./Subline.js": "./node_modules/rtween/dist/lines/Subline.js",
-	"./Tween": "./node_modules/rtween/dist/lines/Tween.js",
-	"./Tween.js": "./node_modules/rtween/dist/lines/Tween.js"
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	var id = map[req];
-	if(!(id + 1)) { // check for number or string
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return id;
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = "./node_modules/rtween/dist/lines sync recursive ^\\.\\/.*$";
-
-/***/ }),
-
-/***/ "./node_modules/rtween/dist/lines/Event.js":
-/*!*************************************************!*\
-  !*** ./node_modules/rtween/dist/lines/Event.js ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/*
- * Copyright (c) 2017.  Caipi Labs.  All rights reserved.
- *
- * This File is part of Caipi. You can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *  This project is dual licensed under AGPL and Commercial Licence.
- *
- * @author : Nathanael Braun
- * @contact : caipilabs@gmail.com
- */
-
-module.exports = function (cfg) {
-  // factory
-  var r = function r(p, u, s) {};
-  return r;
-};
-
-/***/ }),
-
-/***/ "./node_modules/rtween/dist/lines/Ring.js":
-/*!************************************************!*\
-  !*** ./node_modules/rtween/dist/lines/Ring.js ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/*
- * Copyright (c) 2017.  Caipi Labs.  All rights reserved.
- *
- * This File is part of Caipi. You can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *  This project is dual licensed under AGPL and Commercial Licence.
- *
- * @author : Nathanael Braun
- * @contact : caipilabs@gmail.com
- */
-
-var PI = Math.PI,
-    isNumber = __webpack_require__(/*! is */ "./node_modules/is/index.js").number,
-    sin = Math.sin,
-    cos = Math.cos;
-
-module.exports =
-//function () {
-function (scope, cfg, target) {
-    target && scope && (scope = scope[target] = scope[target] || {}); // !
-
-    var fn = "var _2PI=2*Math.PI,",
-        axe1 = cfg.axes && cfg.axes[0] || 'x',
-        // should factorise....
-    axe2 = cfg.axes && cfg.axes[1] || 'y',
-        factor1 = (cfg.factors && cfg.factors[0] || 1) * cfg.radius,
-        // should factorise....
-    factor2 = (cfg.factors && cfg.factors[1] || 1) * cfg.radius,
-        startPos = (cfg.startPos || 0) * 2 * PI,
-        length = isNumber(cfg.length) ? cfg.length : 1;
-    fn += "pos1=(" + startPos + "+((lastPos+update)*_2PI)*" + length + " )%(_2PI)," + "pos2 = (" + startPos + "+(lastPos)*_2PI*" + length + " )%(_2PI);";
-    fn += "scope." + axe1 + "+=" + factor1 + "*(Math.cos(pos1)-Math.cos(pos2));" + // ! optims
-    "scope." + axe2 + " += " + factor2 + "*(Math.sin(pos1)-Math.sin(pos2));";
-
-    return new Function("lastPos, update, scope, cfg, target", fn);
-};
-module.exports.isFactory = true;
-
-/***/ }),
-
-/***/ "./node_modules/rtween/dist/lines/SVGPath.js":
-/*!***************************************************!*\
-  !*** ./node_modules/rtween/dist/lines/SVGPath.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/*
- * Copyright (c) 2017.  Caipi Labs.  All rights reserved.
- *
- * This File is part of Caipi. You can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *  This project is dual licensed under AGPL and Commercial Licence.
- *
- * @author : Nathanael Braun
- * @contact : caipilabs@gmail.com
- */
-
-var cache = {},
-    buildPath,
-    getPoint;
-if (typeof document == "undefined") {
-    buildPath = function buildPath(P) {
-        return cache[P] || __webpack_require__(/*! point-at-length */ "./node_modules/point-at-length/index.js")(P);
-    };
-    getPoint = function getPoint(P, p) {
-
-        return cache[P].at(p);
-    };
-} else {
-    buildPath = function buildPath(P) {
-        var p = cache[P];
-        if (!p) {
-            cache[P] = p = document.createElementNS("http://www.w3.org/2000/svg", "path");
-
-            p.setAttribute('d', P);
-        }
-        ;
-    };
-    getPoint = function getPoint(P, p) {
-        return cache[P].getPointAtLength(p * cache[P].getTotalLength());
-    };
-}
-module.exports = function (_scope, cfg, target) {
-    // @todo incremental path reader
-
-    var axe1 = cfg.axes && cfg.axes[0] || 'x',
-        // should factorise better....
-    axe2 = cfg.axes && cfg.axes[1] || 'y',
-        lastPtsPos,
-        lastPts;
-    buildPath(cfg.path);
-    return function (lastPos, update, scope, cfg, target) {
-        var p1 = lastPtsPos == lastPos ? lastPts : getPoint(cfg.path, cfg.reverse ? 1 - lastPos : lastPos),
-            p2 = lastPts = getPoint(cfg.path, cfg.reverse ? 1 - (lastPos + update) : lastPos + update);
-        lastPtsPos = lastPos + update;
-        scope[axe1] += (p2.x - p1.x) * 4;
-        scope[axe2] += (p2.y - p1.y) * 4;
-    };
-};
-module.exports.isFactory = true;
-
-/***/ }),
-
-/***/ "./node_modules/rtween/dist/lines/Subline.js":
-/*!***************************************************!*\
-  !*** ./node_modules/rtween/dist/lines/Subline.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(module) {
-
-/*
- * Copyright (c) 2017.  Caipi Labs.  All rights reserved.
- *
- * This File is part of Caipi. You can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *  This project is dual licensed under AGPL and Commercial Licence.
- *
- * @author : Nathanael Braun
- * @contact : caipilabs@gmail.com
- */
-
-module.export = function (cfg) {
-
-  return function (p, u, s, cfg, target) {};
-};
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
-
-/***/ }),
-
-/***/ "./node_modules/rtween/dist/lines/Tween.js":
-/*!*************************************************!*\
-  !*** ./node_modules/rtween/dist/lines/Tween.js ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/*
- * Copyright (c) 2017.  Caipi Labs.  All rights reserved.
- *
- * This File is part of Caipi. You can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *  This project is dual licensed under AGPL and Commercial Licence.
- *
- * @author : Nathanael Braun
- * @contact : caipilabs@gmail.com
- */
-
-module.exports = function (_scope, cfg, target) {
-    var fn = "";
-
-    target && (fn += "scope = scope['" + target + "'];\n");
-
-    for (var k in cfg.apply) {
-        if (cfg.apply.hasOwnProperty(k)) {
-
-            _scope && (_scope[k] = _scope[k] || 0);
-
-            fn += "scope." + k + "+=" + (cfg.easeFn ? "cfg.easeFn(0, lastPos+update, 0, cfg.apply." + k + ", 1)" + "- cfg.easeFn(0, lastPos, 0, cfg.apply." + k + ", 1);" : "cfg.apply." + k + "*update;");
-        }
-    }return new Function("lastPos, update, scope, cfg, target", fn);
-};
-module.exports.isFactory = true;
-
-/***/ }),
-
-/***/ "./node_modules/rtween/dist/rTween.js":
-/*!********************************************!*\
-  !*** ./node_modules/rtween/dist/rTween.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/*
- * Copyright (c) 2017.  Caipi Labs.  All rights reserved.
- *
- * This File is part of Caipi. You can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *  This project is dual licensed under AGPL and Commercial Licence.
- *
- * @author : Nathanael Braun
- * @contact : caipilabs@gmail.com
- */
-
-/**
- * # Caipi rTween
- *
- * Scalable, multiscope, reversible, delta based, interpolation/tweening engine
- *
- * ## rTween what ?
- *
- * - Tweening engine allowing to apply forward and backward multiples tweens on same
- * properties and multiple objects
- * - Allow live composition of classic tweens, circle tweens, SVG Path tweens, other
- * rTweens, etc
- * - Equivalent to the GreenSocks TweenMax/TweenLite objects, minus specialized helpers.
- * - Purely Abstract, no Dom deps, rTween don't apply the CSS itself
- * - Work in node & webpack environment
- *
- * @author Nathanael BRAUN
- * @contact caipilabs@gmail.com
- * @licence AGPL-3.0
- */
-var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
-    isArray = is.array,
-    isFunction = is.fn,
-    isNumber = is.number,
-    isString = is.string,
-    easingFN = __webpack_require__(/*! ./easingFn */ "./node_modules/rtween/dist/easingFn.js"),
-    merge = __webpack_require__(/*! merge */ "./node_modules/merge/merge.js"),
-    slice = Array.prototype.slice,
-    push = Array.prototype.push,
-    abs = Math.abs,
-    forkedrTween = function forkedrTween(cfg) {
-    this.__cPos = 0;
-    this.__cIndex = 0;
-    this.onScopeUpdated = false;
-    this.__activeProcess = [];
-    this.__outgoing = [];
-    this.__incoming = [];
-},
-
-// runner
-_live = false,
-    lastTm,
-    _running = [];
-
-var RTween = function () {
-    function RTween(cfg, scope) {
-        _classCallCheck(this, RTween);
-
-        var me = this;
-        this.scope = scope;
-        cfg = cfg || {};
-        this.__marks = [];
-        this.__marksLength = [];
-        this.__marksKeys = [];
-        this.__processors = [];
-        this.__config = [];
-
-        this.__activeForks = [];
-        this.__activeProcess = [];
-
-        this.__activeProcess = [];
-        this.__outgoing = [];
-        this.__incoming = [];
-        this.__cPos = 0;
-        this.__cIndex = 0;
-        this.__cMaxKey = 1;
-        if (isArray(cfg)) {
-            this.localLength = 1;
-            this.mount(cfg, scope);
-        } else {
-            merge(this, cfg);
-            if (cfg.rTween) this.mount(cfg.rTween, scope);
-        }
-    }
-
-    _createClass(RTween, [{
-        key: 'run',
-        value: function run(target, cb, tm) {
-            RTween.Runner.run(this, target, tm || this.duration, cb);
-        }
-
-        /**
-         * Map process descriptors to get a runnable timeline
-         * @method mount
-         * @param map
-         */
-
-    }, {
-        key: 'mount',
-        value: function mount(map, scope) {
-            var i,
-                ln,
-                d = this.duration || 0,
-                p = 0,
-                me = this,
-                max = 0,
-                factory;
-            for (i = 0, ln = map.length; i < ln; i++) {
-                if (isString(map[i].easingFn)) map[i].easingFn = easingFN[map[i].easingFn] || false;
-                if (map[i].type == "Subline") {
-                    factory = map[i].apply.fork(null, map[i], map[i].easingFn);
-                } else {
-                    factory = __webpack_require__("./node_modules/rtween/dist/lines sync recursive ^\\.\\/.*$")("./" + (map[i].type || 'Event'));
-                }
-                if (!factory) {
-                    console.log('rTween : Anim not found : ' + map[i].type);
-                    continue;
-                }
-                if (!isNumber(map[i].from))
-                    // no from so assume it's sync
-                    this.addProcess(d, d + map[i].duration, factory, map[i]), d += map[i].duration || 0;else // have from so assume it's async
-                    this.addProcess(map[i].from, map[i].from + map[i].duration, factory, map[i]), max = Math.max(max, map[i].from + map[i].duration);
-            }
-
-            this.duration = d = Math.max(d, max);
-            return this;
-        }
-
-        /**
-         * Clone this rTween
-         * @method fork
-         * @param fn
-         * @param ctx
-         * @param easeFn
-         * @returns {forkedrTween}
-         */
-
-    }, {
-        key: 'fork',
-        value: function fork(cfg) {
-            this._masterLine = this._masterLine || this;
-            forkedrTween.prototype = this._masterLine;
-            return new forkedrTween(cfg);
-        }
-
-        /**
-         * Map a process descriptor
-         * @method addProcess
-         * @param from
-         * @param to
-         * @param process
-         * @param cfg
-         * @returns {number}
-         */
-
-    }, {
-        key: 'addProcess',
-        value: function addProcess(from, to, process, cfg) {
-            var i = 0,
-                _ln = process.localLength,
-                ln = to - from || 0,
-                key = this.__cMaxKey++,
-                isTl = process instanceof RTween;
-
-            if (isTl) process = process.fork(null, cfg);
-
-            this.__activeForks[key] = true;
-            this.__processors[key] = process.isFactory ? process(null, cfg, cfg.target) : process;
-            this.__marksLength[key] = ln;
-            this.__config[key] = cfg;
-
-            // put start marker in the ordered marker list
-            while (i <= this.__marks.length && this.__marks[i] < from) {
-                i++;
-            }this.__marks.splice(i, 0, from);
-            this.__marksKeys.splice(i, 0, key);
-
-            // put end marker in the ordered marker list
-            while (i <= this.__marks.length && this.__marks[i] <= to) {
-                i++;
-            }this.__marks.splice(i, 0, to);
-            this.__marksKeys.splice(i, 0, -key);
-            return this;
-        }
-
-        /**
-         *
-         * @param key
-         * @returns {*}
-         * @private
-         */
-
-    }, {
-        key: '_getIndex',
-        value: function _getIndex(key) {
-            return (key = this.__marksKeys.indexOf(key)) !== -1 ? key : false;
-        }
-
-        /**
-         * apply to scope or this.scope the delta of the process mapped from cPos to 'to'
-         * using a rTween length of 1
-         * @method go
-         * @param to
-         * @param scope
-         * @param reset
-         */
-
-    }, {
-        key: 'go',
-        value: function go(to, scope, reset) {
-            this.goTo(to * this.duration, scope, reset);
-            this.__cRPos = to;
-            return scope || this.scope;
-        }
-    }, {
-        key: 'getPosAt',
-        value: function getPosAt(to, scope) {
-
-            this.__activeProcess.length = 0;
-            this.__outgoing.length = 0;
-            this.__incoming.length = 0;
-            this.__cPos = 0;
-            this.__cIndex = 0;
-            return this.go(to, scope);
-        }
-
-        /**
-         * apply to scope or this.scope the delta of the process mapped from cPos to 'to'
-         * using the mapped rTween length
-         * @method goTo
-         * @param to
-         * @param scope
-         * @param reset
-         */
-
-    }, {
-        key: 'goTo',
-        value: function goTo(to, scope, reset) {
-            scope = scope || this.scope;
-            if (this.window) to = this.window.start + to / this.duration * this.window.length;
-
-            if (!this._started) {
-                this._started = true;
-                this.__cIndex = this.__cPos = 0;
-            }
-
-            var i = this.__cIndex,
-                p,
-                ln,
-                outgoing = this.__outgoing,
-                incoming = this.__incoming,
-                pos,
-                _from,
-                _to,
-                d,
-                key,
-                mLn = this.__marks.length,
-                diff = to - this.__cPos;
-            if (reset) {
-                this.__activeProcess.length = 0;
-                this.__outgoing.length = 0;
-                this.__incoming.length = 0;
-                // reset forks
-                //console.log('reset ', to);
-                //for ( i = 0, ln = this.__processors.length ; i < ln ; i++ ) {
-                //    if (this.__processors[i] instanceof rTween){
-                //        this.__processors[i].goTo(0,0,true);
-                //    }
-                //}
-            }
-
-            // 1st ajust period, knowing which process are involved / leaving
-            // while my indice target a marker/time period inferior to my pos
-
-            while (i < mLn && to > this.__marks[i] || diff >= 0 && this.__marks[i] == to) {
-
-                // if next marker is ending an active process
-                if ((p = this.__activeProcess.indexOf(-this.__marksKeys[i])) != -1) {
-                    this.__activeProcess.splice(p, 1);
-                    outgoing.push(this.__marksKeys[i]);
-                    //console.log("close " + this.__marksKeys[i]);
-                }
-                // if next marker is process ending a process who just start (direction has
-                // change)
-                else if ((p = this.__activeProcess.indexOf(this.__marksKeys[i])) != -1) {
-                        this.__activeProcess.splice(p, 1);
-                        outgoing.push(this.__marksKeys[i]);
-                        //console.log("close after dir change" + this.__marksKeys[i]);
-                    }
-                    // if next marker is process ending a process who just start
-                    else if ((p = incoming.indexOf(-this.__marksKeys[i])) != -1) {
-                            incoming.splice(p, 1);
-                            outgoing.push(this.__marksKeys[i]);
-                            //console.log("close starting " + this.__marksKeys[i]);
-                        } else {
-                            incoming.push(this.__marksKeys[i]);
-                            //console.log("right say in " + this.__marksKeys[i]);
-                        }
-                i++;
-            }
-
-            // while my indice-1 target a marker/time period superior to my pos
-            while (i - 1 >= 0 && (to < this.__marks[i - 1] || diff < 0 && this.__marks[i - 1] == to)) {
-                i--;
-
-                if ((p = this.__activeProcess.indexOf(-this.__marksKeys[i])) != -1) {
-                    this.__activeProcess.splice(p, 1);
-                    outgoing.push(this.__marksKeys[i]);
-                    //console.log("left say out " + this.__marksKeys[i]);
-                } // if next marker is process ending a process who just start (direction has
-                // change)
-                else if ((p = this.__activeProcess.indexOf(this.__marksKeys[i])) != -1) {
-                        this.__activeProcess.splice(p, 1);
-                        outgoing.push(this.__marksKeys[i]);
-                        //console.log("close after dir change" + this.__marksKeys[i]);
-                    } else if ((p = incoming.indexOf(-this.__marksKeys[i])) != -1) {
-                        incoming.splice(p, 1);
-                        outgoing.push(this.__marksKeys[i]);
-                        //console.log("left say out from incoming " + this.__marksKeys[i]);
-                    } else {
-                        //console.log("left say in " + this.__marksKeys[i]);
-                        incoming.push(this.__marksKeys[i]);
-                    }
-            }
-
-            // now dispatching deltas
-            //console.log(incoming, outgoing, this.__activeProcess);
-
-            this.__cIndex = i;
-            // those leaving subline
-            for (i = 0, ln = outgoing.length; i < ln; i++) {
-                p = this._getIndex(outgoing[i]);
-                key = abs(outgoing[i]);
-                if (outgoing[i] < 0) {
-                    _from = Math.min(this.__marks[p], Math.max(this.__cPos, this.__marks[p] - this.__marksLength[key])) - (this.__marks[p] - this.__marksLength[key]);
-                    _to = this.__marksLength[key];
-                    pos = _from;
-                    d = _to - _from;
-                    pos = (this.localLength || 1) * pos / this.__marksLength[key];
-                    d = (this.localLength || 1) * d / this.__marksLength[key];
-                } else {
-                    _from = Math.max(this.__marks[p], Math.min(this.__cPos, this.__marks[p] + this.__marksLength[key])) - this.__marks[p];
-                    _to = 0;
-                    pos = _from;
-                    d = _to - _from;
-
-                    pos = (this.localLength || 1) * pos / this.__marksLength[key];
-                    d = (this.localLength || 1) * d / this.__marksLength[key];
-                }
-                //
-                //console.log("out " + this.__marksKeys[p] + " " + this.__marksLength[p]+
-                //            '\npos:'+this.__cPos+
-                //            '\nmark:'+this.__marks[p]+
-                //            '\ninnerpos:'+pos+
-                //            '\ndelta:'+d
-                //);
-
-                if (this.__processors[key].go) {
-                    this.__processors[key].go(pos + d, scope, reset);
-                } else this.__processors[key](pos, d, scope, this.__config[key], this.__config[key].target || this.__config[key].$target && this.__context && this.__context[this.__config[key].$target]);
-            }
-
-            // those entering subline
-            for (i = 0, ln = incoming.length; i < ln; i++) {
-                p = this._getIndex(incoming[i]);
-                key = abs(incoming[i]);
-
-                if (incoming[i] < 0) {
-
-                    _from = this.__marksLength[key];
-                    _to = Math.max(this.__marks[p] - this.__marksLength[key], Math.min(this.__cPos + diff, this.__marks[p])) - (this.__marks[p] - this.__marksLength[key]);
-
-                    pos = _from;
-                    d = _to - _from;
-                    pos = (this.localLength || 1) * pos / this.__marksLength[key];
-                    d = (this.localLength || 1) * d / this.__marksLength[key];
-                } else {
-                    _from = 0;
-                    _to = Math.max(this.__marks[p], Math.min(this.__cPos + diff, this.__marks[p] + this.__marksLength[key])) - this.__marks[p];
-                    pos = _from;
-                    d = _to - _from;
-
-                    pos = (this.localLength || 1) * pos / this.__marksLength[key];
-                    d = (this.localLength || 1) * d / this.__marksLength[key];
-                }
-
-                //console.log("in " + this.__marksKeys[p] + " " + this.__marksLength[p]+
-                //            '\ndiff:'+diff+
-                //            '\npos:'+this.__cPos+
-                //            '\nmark:'+this.__marks[p]+
-                //            '\n_from:'+_from+
-                //            '\n_to:'+_to+
-                //            '\ninnerpos:'+pos+
-                //            '\ndelta:'+d
-                //);
-
-                if (this.__processors[key].go) {
-                    //console.log("in " + pos, d);
-                    this.__processors[key].go(pos, 0, true); //reset local fork
-                    this.__processors[key].go(pos + d, scope);
-                } else if (!reset) this.__processors[key](pos, d, scope, this.__config[key], this.__config[key].target || this.__config[key].$target && this.__context && this.__context[this.__config[key].$target]);
-            }
-            // and those who where already there
-            //if ( !reset )
-            for (i = 0, ln = this.__activeProcess.length; i < ln; i++) {
-                p = this._getIndex(this.__activeProcess[i]);
-                key = abs(this.__activeProcess[i]);
-
-                //d = (this.__cPos - diff)<this.__marks[p]?this.__cPos-this.__marks[p] : diff;
-                pos = this.__activeProcess[i] < 0 ? this.__cPos - (this.__marks[p] - this.__marksLength[key]) : this.__cPos - this.__marks[p];
-                pos = (this.localLength || 1) * pos / this.__marksLength[key];
-                d = diff * (this.localLength || 1) / this.__marksLength[key];
-                //console.log("active " + p + " " + this.__marksLength[p]
-                //            +'\nto:'+to
-                //            +'\npos:'+this.__cPos
-                //            +'\nmark:'+this.__marks[p]+
-                //            '\ngdiff:'+diff68786k
-                //            +'\ninnerpos:'+(pos * (this.localLength || 1)) /
-                // abs(this.__marksLength[p]) +'\ndelta:'+(diff * (this.localLength || 1)) /
-                // abs(this.__marksLength[p]) );
-                if (this.__processors[key].go) {
-
-                    this.__processors[key].go(pos + d, scope);
-                } else if (!reset) this.__processors[key](pos, d, scope, this.__config[key], this.__config[key].target || this.__config[key].$target && this.__context && this.__context[this.__config[key].$target]);
-            }
-
-            push.apply(this.__activeProcess, incoming);
-
-            outgoing.length = 0;
-            incoming.length = 0;
-
-            this.__cPos = to;
-            this.onScopeUpdated && this.onScopeUpdated(to, diff, scope);
-        }
-    }]);
-
-    return RTween;
-}();
-
-RTween.Runner = {
-    run: function run(tl, ctx, ln, cb) {
-        _running.push([tl, ctx, ln, 0, {}, cb]);
-        tl.go(0, ctx, true); //reset tl
-
-        if (!_live) {
-            _live = true;
-            lastTm = Date.now();
-            // console.log("TL runner On");
-            setTimeout(this._tick, 16);
-        }
-    },
-    _tick: function _tick() {
-        var i = 0,
-            o,
-            tm = Date.now(),
-            delta = tm - lastTm;
-        lastTm = tm;
-        for (; i < _running.length; i++) {
-            _running[i][3] = Math.min(delta + _running[i][3], _running[i][2]); //cpos
-            _running[i][0].go(_running[i][3] / _running[i][2], _running[i][1]);
-            // console.log("TL runner ",_running[i][3]);
-            if (_running[i][3] == _running[i][2]) {
-
-                _running[i][5] && setTimeout(_running[i][5]);
-                _running.splice(i, 1), i--;
-            }
-        }
-        if (_running.length) setTimeout(_tick, 16);else {
-            // console.log("TL runner Off");
-            _live = false;
-        }
-    }
-};
-exports.default = RTween;
-module.exports = exports['default'];
-
-/***/ }),
-
 /***/ "./node_modules/scheduler/cjs/scheduler-tracing.development.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/scheduler/cjs/scheduler-tracing.development.js ***!
@@ -26822,160 +27172,6 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./src/anims/pushIn.js":
-/*!*****************************!*\
-  !*** ./src/anims/pushIn.js ***!
-  \*****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
-
-
-(function () {
-  var enterModule = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").enterModule;
-
-  enterModule && enterModule(module);
-})();
-
-/*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
- */
-var easingFn = __webpack_require__(/*! Comp/utils/easingFn */ "./src/utils/easingFn.js");
-
-var _default = function _default(target) {
-  // dir = dir || 'top';
-  return {
-    //reset  : true,
-    initial: _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, target, {
-      opacity: 0
-    }),
-    anims: [{
-      type: "Tween",
-      target: target,
-      from: 0,
-      duration: 500,
-      easeFn: easingFn.easeOutSine,
-      apply: {
-        _z: .2,
-        opacity: 1
-      }
-    }]
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (_default);
-;
-;
-
-(function () {
-  var reactHotLoader = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").default;
-
-  var leaveModule = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\anims\\pushIn.js");
-  leaveModule(module);
-})();
-
-;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
-
-/***/ }),
-
-/***/ "./src/anims/pushOut.js":
-/*!******************************!*\
-  !*** ./src/anims/pushOut.js ***!
-  \******************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
-
-
-(function () {
-  var enterModule = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").enterModule;
-
-  enterModule && enterModule(module);
-})();
-
-/*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
- */
-var easingFn = __webpack_require__(/*! Comp/utils/easingFn */ "./src/utils/easingFn.js");
-
-var _default = function _default(target) {
-  // dir = dir || 'top';
-  return {
-    //reset  : true,
-    initial: _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, target, {
-      opacity: 1
-    }),
-    anims: [{
-      type: "Tween",
-      target: target,
-      from: 0,
-      duration: 500,
-      easeFn: easingFn.easeOutSine,
-      apply: {
-        _z: -.2,
-        opacity: -1
-      }
-    }]
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (_default);
-;
-;
-
-(function () {
-  var reactHotLoader = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").default;
-
-  var leaveModule = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\anims\\pushOut.js");
-  leaveModule(module);
-})();
-
-;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
-
-/***/ }),
-
 /***/ "./src/asTweener.js":
 /*!**************************!*\
   !*** ./src/asTweener.js ***!
@@ -27010,7 +27206,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
+/* harmony import */ var taskflows__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! taskflows */ "./node_modules/taskflows/index.js");
+/* harmony import */ var taskflows__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(taskflows__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
+/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! rtween */ "../rTween/dist/rTween.js");
+/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(rtween__WEBPACK_IMPORTED_MODULE_14__);
 
 
 
@@ -27045,15 +27245,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var rtween = __webpack_require__(/*! rtween */ "./node_modules/rtween/dist/rTween.js"),
-    isBrowserSide = new Function("try {return this===window;}catch(e){ return false;}")(),
+
+/**
+ * @todo : clean & comments
+ */
+
+var isBrowserSide = new Function("try {return this===window;}catch(e){ return false;}")(),
     isArray = is__WEBPACK_IMPORTED_MODULE_10___default.a.array,
-    taskflow = __webpack_require__(/*! taskflows */ "./node_modules/taskflows/index.js"),
-    defaultAnims = {
-  // while no matrix..
-  hide: __webpack_require__(/*! Comp/anims/pushOut */ "./src/anims/pushOut.js"),
-  show: __webpack_require__(/*! Comp/anims/pushIn */ "./src/anims/pushIn.js")
-},
     initialTweenable = {
   // while no matrix..
   x: 0,
@@ -27081,7 +27279,7 @@ var rtween = __webpack_require__(/*! rtween */ "./node_modules/rtween/dist/rTwee
 
 var SimpleObjectProto = {}.constructor;
 /**
- * Tweener decorator
+ * asTweener decorator
  * @param argz
  * @returns {*}
  */
@@ -27122,16 +27320,6 @@ function asTweener() {
       }
 
       _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(TweenableComp, [{
-        key: "_rafLoop",
-        value: function _rafLoop() {
-          this._updateTweenRefs();
-
-          if (this._runningAnims.length) requestAnimationFrame(this.__rafLoop);else {
-            //console.log("RAF Off");
-            this._live = false;
-          }
-        }
-      }, {
         key: "goToMotionStateId",
         value: function goToMotionStateId(targetId) {
           var _this2 = this;
@@ -27145,7 +27333,7 @@ function asTweener() {
           if (!this.running && targetId != this._curMotionStateId) {
             if (!this._tweenRefCSS) this.makeTweenable();
             this.running = true;
-            var flow = new taskflow([_static.motionStates[this._curMotionStateId] && function (ctx, flow) {
+            var flow = new taskflows__WEBPACK_IMPORTED_MODULE_12___default.a([_static.motionStates[this._curMotionStateId] && function (ctx, flow) {
               return _static.motionStates[cState].leaving(ctx, flow, cState);
             }, function () {
               _this2._curMotionStateId = targetId;
@@ -27210,6 +27398,66 @@ function asTweener() {
           });
         }
       }, {
+        key: "addScrollableAnim",
+        value: function addScrollableAnim(anim, size, pos) {
+          var sl, initial;
+
+          if (isArray(anim)) {
+            sl = anim;
+          } else {
+            sl = anim.anims;
+            size = anim.length;
+          }
+
+          if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, this._tweenRefMaps);
+          this.makeTweenable();
+          this.makeScrollable(); // init scroll
+
+          this._scrollableAnims.push(sl);
+
+          this._scrollPos = this._scrollPos || 0;
+          this._scrollableArea = this._scrollableArea || 0;
+          this._scrollableArea = Math.max(this._scrollableArea, sl.duration);
+        }
+      }, {
+        key: "clearScrollableAnim",
+        value: function clearScrollableAnim(sl) {
+          if (this._scrollableAnims) {
+            var i = this._scrollableAnims.indexOf(sl);
+
+            if (i != -1) this._scrollableAnims.splice(i);
+          }
+        }
+      }, {
+        key: "clearScrollableAnims",
+        value: function clearScrollableAnims() {
+          if (this._scrollableAnims) {
+            this._scrollableAnims = [];
+          }
+        }
+      }, {
+        key: "scrollTo",
+        value: function scrollTo(newPos) {
+          var ms = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+          if (this._scrollableAnims) {
+            var oldPos = this._scrollPos;
+            newPos = Math.max(0, newPos);
+            newPos = Math.min(newPos, this._scrollableArea);
+            if (!ms) this._scrollableAnims.forEach(function (sl) {
+              return sl.goTo(newPos);
+            });else this._scrollableAnims.forEach(function (sl) {
+              return sl.runTo(newPos, ms);
+            });
+            this._scrollPos = newPos;
+
+            if (!this._live) {
+              this._live = true;
+              requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
+            }
+          }
+        }
+      }, {
         key: "pushAnim",
         value: function pushAnim(anim, then, skipInit) {
           var _this5 = this;
@@ -27223,7 +27471,7 @@ function asTweener() {
             initial = anim.initial;
           }
 
-          if (!(sl instanceof rtween)) sl = new rtween(sl, this._tweenRefMaps); // console.warn("Should start anim ", sl);
+          if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, this._tweenRefMaps); // console.warn("Should start anim ", sl);
 
           this.makeTweenable();
           !skipInit && initial && Object.keys(initial).map(function (id) {
@@ -27288,7 +27536,7 @@ function asTweener() {
           // ref initial style
           var argz = Array.prototype.slice.call(arguments),
               p = argz.map(function (v) {
-            return v instanceof rtween && "rtween" || v instanceof Array && "array" || _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(v);
+            return v instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a && "rtween" || v instanceof Array && "array" || _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(v);
           }); // if ( p[3] == "object" && p[3] == "object" )
           // debugger;
 
@@ -27338,7 +27586,7 @@ function asTweener() {
 
           iStyle = this._tweenRefCSS[id];
           iMap = this._tweenRefMaps[id] = !mapReset && this._tweenRefMaps[id] || Object.assign({}, initialTweenable, iMap || {});
-          _utils__WEBPACK_IMPORTED_MODULE_12__["default"].mapInBoxCSS(iMap, iStyle, this._box, this._tweenRefUnits[id]);
+          _utils__WEBPACK_IMPORTED_MODULE_13__["default"].mapInBoxCSS(iMap, iStyle, this._box, this._tweenRefUnits[id]);
           if (noref) return {
             style: _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, this._tweenRefCSS[id])
           };else return {
@@ -27349,29 +27597,43 @@ function asTweener() {
           };
         }
       }, {
+        key: "makeScrollable",
+        value: function makeScrollable() {
+          var _this6 = this;
+
+          if (!this._scrollEnabled) {
+            this._scrollEnabled = true;
+            this._scrollableAnims = [];
+            isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_13__["default"].addWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this), this._onScroll = function (e) {
+              //@todo
+              var oldPos = _this6._scrollPos,
+                  newPos = oldPos + e.deltaY;
+
+              _this6.scrollTo(newPos);
+            });
+          }
+        }
+      }, {
         key: "makeTweenable",
         value: function makeTweenable() {
+          var _this7 = this;
+
           if (!this._tweenEnabled) {
-            var me = this;
             this._rtweensByProp = {};
             this._rtweensByStateProp = {};
-            this._tweenRefCSS = {}; //c rtween styles
-
-            this._tweenRefs = {}; //c rtween styles
-
-            this._tweenRefMaps = {}; //c rtween values
-
-            this._tweenRefUnits = {}; //c rtween values
-
+            this._tweenRefCSS = {};
+            this._tweenRefs = {};
+            this._tweenRefMaps = {};
+            this._tweenRefUnits = {};
             this._tweenEnabled = true;
             this._tweenRefOrigin = {};
             this._tweenRefTargets = this._tweenRefTargets || [];
             this._runningAnims = this._runningAnims || [];
             isBrowserSide && window.addEventListener("resize", this._onResize = function () {
               //@todo
-              me._updateBox();
+              _this7._updateBox();
 
-              me._updateTweenRefs();
+              _this7._updateTweenRefs();
             });
           }
         }
@@ -27395,6 +27657,16 @@ function asTweener() {
           return this.refs[target] instanceof Element ? this.refs[target] : react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this.refs[target]);
         }
       }, {
+        key: "_rafLoop",
+        value: function _rafLoop() {
+          this._updateTweenRefs(); //if ( this._runningAnims.length )
+
+
+          requestAnimationFrame(this.__rafLoop); //else {
+          //	this._live = false;
+          //}
+        }
+      }, {
         key: "_updateTweenRefs",
         value: function _updateTweenRefs() {
           // if ( this._tweenEnabled ) {
@@ -27402,7 +27674,7 @@ function asTweener() {
             target = this._tweenRefTargets[i]; // if ( this._tweenRefUnits[target].height )
             //     debugger;
 
-            _utils__WEBPACK_IMPORTED_MODULE_12__["default"].mapInBoxCSS(this._tweenRefMaps[target], this._tweenRefCSS[target], this._box, this._tweenRefUnits[target]);
+            _utils__WEBPACK_IMPORTED_MODULE_13__["default"].mapInBoxCSS(this._tweenRefMaps[target], this._tweenRefCSS[target], this._box, this._tweenRefUnits[target]);
             node = this._tweenEnabled && target == "__root" ? react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this) : this.getTweenableRef(target);
             node && Object.assign(node.style, this._tweenRefCSS[target]);
           } // }
@@ -27416,11 +27688,18 @@ function asTweener() {
             window.removeEventListener("resize", this._onResize);
           }
 
+          if (this._scrollEnabled) {
+            this._scrollEnabled = false;
+            this._scrollableAnims = undefined;
+            _utils__WEBPACK_IMPORTED_MODULE_13__["default"].rmWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this), this._onScroll);
+          }
+
           _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this).call(this);
         }
       }, {
         key: "componentDidMount",
         value: function componentDidMount() {
+          var _static = this.constructor;
           this._rendered = true;
 
           if (this._tweenEnabled) {
@@ -27435,12 +27714,16 @@ function asTweener() {
             delete this._delayedMotionTarget;
           }
 
+          if (_static.scrollableAnim) {
+            this.addScrollableAnim(_static.scrollableAnim);
+          }
+
           _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentDidMount", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentDidMount", this).call(this);
         }
       }, {
         key: "componentDidUpdate",
         value: function componentDidUpdate(prevProps, prevState) {
-          var _this6 = this;
+          var _this8 = this;
 
           if (this._tweenEnabled) {
             this._updateBox();
@@ -27448,12 +27731,12 @@ function asTweener() {
             this._updateTweenRefs();
 
             this._rtweensByProp && Object.keys(prevProps).forEach(function (k) {
-              return _this6._rtweensByProp[k] && _this6.props[k] !== prevProps[k] && _this6._rtweensByProp[k][_this6.props[k]] && _this6.pushAnim(_this6._rtweensByProp[k][_this6.props[k]]
+              return _this8._rtweensByProp[k] && _this8.props[k] !== prevProps[k] && _this8._rtweensByProp[k][_this8.props[k]] && _this8.pushAnim(_this8._rtweensByProp[k][_this8.props[k]]
               /*get current pos*/
               );
             }, this);
             this._rtweensByStateProp && prevState && Object.keys(prevState).forEach(function (k) {
-              return _this6._rtweensByStateProp[k] && _this6.state[k] !== prevState[k] && _this6._rtweensByStateProp[k][_this6.state[k]] && _this6.pushAnim(_this6._rtweensByStateProp[k][_this6.state[k]]
+              return _this8._rtweensByStateProp[k] && _this8.state[k] !== prevState[k] && _this8._rtweensByStateProp[k][_this8.state[k]] && _this8.pushAnim(_this8._rtweensByStateProp[k][_this8.state[k]]
               /*get current pos*/
               );
             }, this);
@@ -27465,9 +27748,9 @@ function asTweener() {
         key: "registerPropChangeAnim",
         value: function registerPropChangeAnim(propId, propValue, anims) {
           this._rtweensByProp = this._rtweensByProp || {};
-          this._rtween = this._rtween || new rtween();
+          this._rtween = this._rtween || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
           this._rtweensByProp[propId] = this._rtweensByProp[propId] || {};
-          this._rtweensByProp[propId][propValue] = this._rtweensByProp[propId][propValue] || new rtween();
+          this._rtweensByProp[propId][propValue] = this._rtweensByProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
 
           this._rtweensByProp[propId][propValue].mount(anims);
         }
@@ -27475,9 +27758,9 @@ function asTweener() {
         key: "registerStateChangeAnim",
         value: function registerStateChangeAnim(propId, propValue, anims) {
           this._rtweensByStateProp = this._rtweensByStateProp || {};
-          this._rtween = this._rtween || new rtween();
+          this._rtween = this._rtween || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
           this._rtweensByStateProp[propId] = this._rtweensByStateProp[propId] || {};
-          this._rtweensByStateProp[propId][propValue] = this._rtweensByStateProp[propId][propValue] || new rtween();
+          this._rtweensByStateProp[propId][propValue] = this._rtweensByStateProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
 
           this._rtweensByStateProp[propId][propValue].mount(anims);
         }
@@ -27507,7 +27790,6 @@ function asTweener() {
 
   reactHotLoader.register(isBrowserSide, "isBrowserSide", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(isArray, "isArray", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
-  reactHotLoader.register(defaultAnims, "defaultAnims", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(initialTweenable, "initialTweenable", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(extractUnits, "extractUnits", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\asTweener.js");
@@ -27661,30 +27943,198 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
   var p = Math.pow(10, l);
   return Math.round(v * p) / p;
 },
-    slice = Array.prototype.slice,
-    splice = Array.prototype.splice,
-    abs = Math.abs,
-    floor = Math.floor,
-    round = Math.round,
     min = Math.min,
     max = Math.max,
-    objBuilder = {}.constructor,
-    _createElementAttr = {
-  style: true,
-  tagName: true,
-  content: true,
-  cls: true,
-  events: true,
-  $id: true
-},
-    _defaultUnits = {
-  width: 'px',
-  height: 'px',
-  top: 'px'
-},
-    __;
+    Dom = {
+  prefix: /webkit/i.test(navigator.appVersion) ? 'webkit' : /firefox/i.test(navigator.userAgent) ? 'Moz' : /trident/i.test(navigator.userAgent) ? 'ms' : 'opera' in window ? 'O' : '',
+  dashedPrefix: /webkit/i.test(navigator.appVersion) ? '-webkit-' : /firefox/i.test(navigator.userAgent) ? '-moz-' : /trident/i.test(navigator.userAgent) ? '-ms-' : 'opera' in window ? '-o-' : ''
+};
 
 var _default = {
+  addWheelEvent: function (window, document) {
+    var prefix = "",
+        _addEventListener,
+        _rmEventListener,
+        onwheel,
+        support; // detect event model
+
+
+    if (window.addEventListener) {
+      _addEventListener = "addEventListener";
+      _rmEventListener = "removeEventListener";
+    } else {
+      _addEventListener = "attachEvent";
+      _rmEventListener = "detachEvent";
+      prefix = "on";
+    } // detect available wheel event
+
+
+    support = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
+    document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
+    "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
+
+    var addWheelListener = function addWheelListener(elem, callback, scope, useCapture) {
+      _addWheelListener(elem, support, callback, scope, useCapture); // handle MozMousePixelScroll in older Firefox
+
+
+      if (support == "DOMMouseScroll") {
+        _addWheelListener(elem, "MozMousePixelScroll", callback, scope, useCapture);
+      }
+    }; // Reasonable defaults
+
+
+    var PIXEL_STEP = 10;
+    var LINE_HEIGHT = 40;
+    var PAGE_HEIGHT = 800;
+
+    function normalizeWheel(
+    /*object*/
+    event)
+    /*object*/
+    {
+      var sX = 0,
+          sY = 0,
+          // spinX, spinY
+      pX = 0,
+          pY = 0; // pixelX, pixelY
+      // Legacy
+
+      if ('detail' in event) {
+        sY = event.detail;
+      }
+
+      if ('wheelDelta' in event) {
+        sY = -event.wheelDelta / 120;
+      }
+
+      if ('wheelDeltaY' in event) {
+        sY = -event.wheelDeltaY / 120;
+      }
+
+      if ('wheelDeltaX' in event) {
+        sX = -event.wheelDeltaX / 120;
+      } // side scrolling on FF with DOMMouseScroll
+
+
+      if ('axis' in event && event.axis === event.HORIZONTAL_AXIS) {
+        sX = sY;
+        sY = 0;
+      }
+
+      pX = sX * PIXEL_STEP;
+      pY = sY * PIXEL_STEP;
+
+      if ('deltaY' in event) {
+        pY = event.deltaY;
+      }
+
+      if ('deltaX' in event) {
+        pX = event.deltaX;
+      }
+
+      if ((pX || pY) && event.deltaMode) {
+        if (event.deltaMode == 1) {
+          // delta in LINE units
+          pX *= LINE_HEIGHT;
+          pY *= LINE_HEIGHT;
+        } else {
+          // delta in PAGE units
+          pX *= PAGE_HEIGHT;
+          pY *= PAGE_HEIGHT;
+        }
+      } // Fall-back if spin cannot be determined
+
+
+      if (pX && !sX) {
+        sX = pX < 1 ? -1 : 1;
+      }
+
+      if (pY && !sY) {
+        sY = pY < 1 ? -1 : 1;
+      }
+
+      return {
+        spinX: sX,
+        spinY: sY,
+        pixelX: pX,
+        pixelY: pY
+      };
+    }
+
+    function _addWheelListener(elem, eventName, callback, scope, useCapture) {
+      elem[_addEventListener](prefix + eventName, callback._wheelList = function (originalEvent) {
+        !originalEvent && (originalEvent = window.event); // create a normalized event object
+
+        var event = {
+          // keep a ref to the original event object
+          originalEvent: originalEvent,
+          target: originalEvent.target || originalEvent.srcElement,
+          type: "wheel",
+          deltaMode: originalEvent.type == "MozMousePixelScroll" ? 0 : 1,
+          deltaX: 0,
+          delatZ: 0,
+          preventDefault: function preventDefault() {
+            originalEvent.preventDefault ? originalEvent.preventDefault() : originalEvent.returnValue = false;
+          },
+          normalized: normalizeWheel(originalEvent)
+        }; // calculate deltaY (and deltaX) according to the event
+
+        if (support == "mousewheel") {
+          event.deltaY = -1 / 40 * originalEvent.wheelDelta; // Webkit also support wheelDeltaX
+          //                            originalEvent.wheelDeltaX && ( event.deltaX = - 1/40 *
+          // originalEvent.wheelDeltaX );
+        } else if (support == "wheel" && Dom.prefix == "Moz") {
+          event.deltaY = originalEvent.deltaY / 3;
+        } else if (support == "wheel") {
+          event.deltaY = originalEvent.deltaY / 100;
+        } else {
+          event.deltaY = originalEvent.deltaY;
+        } //                        if (typeof originalEvent.wheelDeltaY !== 'number')
+        //                            event.wheelDeltaY = originalEvent.deltaY/100;
+        //                        event.wheelDelta = deltaY*120;
+        // it's time to fire the callback
+
+
+        return callback.call(scope || this, event);
+      }, useCapture || false);
+    }
+
+    return addWheelListener;
+  }(window, document),
+  rmWheelEvent: function (window, document) {
+    var prefix = "",
+        _rmEventListener,
+        onwheel,
+        support; // detect event model
+
+
+    if (addEventListener) {
+      _rmEventListener = "removeEventListener";
+    } else {
+      _rmEventListener = "detachEvent";
+      prefix = "on";
+    } // detect available wheel event
+
+
+    support = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
+    document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
+    "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
+
+    var rmWheelListener = function rmWheelListener(elem, callback, scope, useCapture) {
+      _EventListener(elem, support, callback, scope, useCapture); // handle MozMousePixelScroll in older Firefox
+
+
+      if (support == "DOMMouseScroll") {
+        _EventListener(elem, "MozMousePixelScroll", callback, scope, useCapture);
+      }
+    };
+
+    function _EventListener(elem, eventName, callback, scope, useCapture) {
+      elem[_rmEventListener](prefix + eventName, callback._wheelList);
+    }
+
+    return rmWheelListener;
+  }(window, document),
   mapInBoxCSS: function mapInBoxCSS(pos, css, box, units, offset) {
     //if ( is.number(pos.x) || is.number(pos.y))
     var t = '';
@@ -27715,213 +28165,15 @@ var _default = {
   }
 
   reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(slice, "slice", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(splice, "splice", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(abs, "abs", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(floor, "floor", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(round, "round", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(min, "min", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(max, "max", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(objBuilder, "objBuilder", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(_createElementAttr, "_createElementAttr", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(_defaultUnits, "_defaultUnits", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(__, "__", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
+  reactHotLoader.register(Dom, "Dom", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(_default, "default", "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils.js");
   leaveModule(module);
 })();
 
 ;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
-
-/***/ }),
-
-/***/ "./src/utils/easingFn.js":
-/*!*******************************!*\
-  !*** ./src/utils/easingFn.js ***!
-  \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
- */
-module.exports = {
-  // t: current time, b: begInnIng value, c: change In value, d: duration
-  def: 'easeOutQuad',
-  cos: function cos(x, t, b, c, d) {
-    //alert(jQuery.easing.default);
-    var v = t <= .5 ? Math.sin(Math.PI * t) : Math.sin(Math.PI * (1 - t));
-    if (t < 0 || t > 1) v = 0;
-    return v;
-  },
-  cool: function cool(x, t, b, c, d) {
-    var ts = (t /= d) * t;
-    var tc = ts * t;
-    return b + c * (7.795 * tc * ts + -25.5825 * ts * ts + 32.58 * tc + -20.39 * ts + 6.5975 * t);
-  },
-  easeInQuad: function easeInQuad(x, t, b, c, d) {
-    return c * (t /= d) * t + b;
-  },
-  easeOutQuad: function easeOutQuad(x, t, b, c, d) {
-    return -c * (t /= d) * (t - 2) + b;
-  },
-  easeInOutQuad: function easeInOutQuad(x, t, b, c, d) {
-    if ((t /= d / 2) < 1) return c / 2 * t * t + b;
-    return -c / 2 * (--t * (t - 2) - 1) + b;
-  },
-  easeInCubic: function easeInCubic(x, t, b, c, d) {
-    return c * (t /= d) * t * t + b;
-  },
-  easeOutCubic: function easeOutCubic(x, t, b, c, d) {
-    return c * ((t = t / d - 1) * t * t + 1) + b;
-  },
-  easeInOutCubic: function easeInOutCubic(x, t, b, c, d) {
-    if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
-    return c / 2 * ((t -= 2) * t * t + 2) + b;
-  },
-  easeInQuart: function easeInQuart(x, t, b, c, d) {
-    return c * (t /= d) * t * t * t + b;
-  },
-  easeOutQuart: function easeOutQuart(x, t, b, c, d) {
-    return -c * ((t = t / d - 1) * t * t * t - 1) + b;
-  },
-  easeInOutQuart: function easeInOutQuart(x, t, b, c, d) {
-    if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
-    return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
-  },
-  easeInQuint: function easeInQuint(x, t, b, c, d) {
-    return c * (t /= d) * t * t * t * t + b;
-  },
-  easeOutQuint: function easeOutQuint(x, t, b, c, d) {
-    return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
-  },
-  easeInOutQuint: function easeInOutQuint(x, t, b, c, d) {
-    if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
-    return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
-  },
-  easeInSine: function easeInSine(x, t, b, c, d) {
-    return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
-  },
-  easeOutSine: function easeOutSine(x, t, b, c, d) {
-    return c * Math.sin(t / d * (Math.PI / 2)) + b;
-  },
-  easeInOutSine: function easeInOutSine(x, t, b, c, d) {
-    return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
-  },
-  easeInExpo: function easeInExpo(x, t, b, c, d) {
-    return t == 0 ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
-  },
-  easeOutExpo: function easeOutExpo(x, t, b, c, d) {
-    return t == d ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
-  },
-  easeInOutExpo: function easeInOutExpo(x, t, b, c, d) {
-    if (t == 0) return b;
-    if (t == d) return b + c;
-    if ((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
-    return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
-  },
-  easeInCirc: function easeInCirc(x, t, b, c, d) {
-    return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
-  },
-  easeOutCirc: function easeOutCirc(x, t, b, c, d) {
-    return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
-  },
-  easeInOutCirc: function easeInOutCirc(x, t, b, c, d) {
-    if ((t /= d / 2) < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
-    return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
-  },
-  easeInElastic: function easeInElastic(x, t, b, c, d) {
-    var s = 1.70158;
-    var p = 0;
-    var a = c;
-    if (t == 0) return b;
-    if ((t /= d) == 1) return b + c;
-    if (!p) p = d * .3;
-
-    if (a < Math.abs(c)) {
-      a = c;
-      var s = p / 4;
-    } else var s = p / (2 * Math.PI) * Math.asin(c / a);
-
-    return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-  },
-  easeOutElastic: function easeOutElastic(x, t, b, c, d) {
-    var s = 1.70158;
-    var p = 0;
-    var a = c;
-    if (t == 0) return b;
-    if ((t /= d) == 1) return b + c;
-    if (!p) p = d * .3;
-
-    if (a < Math.abs(c)) {
-      a = c;
-      var s = p / 4;
-    } else var s = p / (2 * Math.PI) * Math.asin(c / a);
-
-    return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
-  },
-  easeInOutElastic: function easeInOutElastic(x, t, b, c, d) {
-    var s = 1.70158;
-    var p = 0;
-    var a = c;
-    if (t == 0) return b;
-    if ((t /= d / 2) == 2) return b + c;
-    if (!p) p = d * (.3 * 1.5);
-
-    if (a < Math.abs(c)) {
-      a = c;
-      var s = p / 4;
-    } else var s = p / (2 * Math.PI) * Math.asin(c / a);
-
-    if (t < 1) return -.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-    return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * .5 + c + b;
-  },
-  easeInBack: function easeInBack(x, t, b, c, d, s) {
-    if (t === d) return c;
-    if (s == undefined) s = 1.70158;
-    return c * (t /= d) * t * ((s + 1) * t - s) + b;
-  },
-  easeOutBack: function easeOutBack(x, t, b, c, d, s) {
-    if (t === d) return c;
-    if (s == undefined) s = 1.70158;
-    return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
-  },
-  easeInOutBack: function easeInOutBack(x, t, b, c, d, s) {
-    if (s == undefined) s = 1.70158;
-    if ((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
-    return c / 2 * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
-  },
-  easeInBounce: function easeInBounce(x, t, b, c, d) {
-    return c - this.easeOutBounce(x, d - t, 0, c, d) + b;
-  },
-  easeOutBounce: function easeOutBounce(x, t, b, c, d) {
-    if ((t /= d) < 1 / 2.75) {
-      return c * (7.5625 * t * t) + b;
-    } else if (t < 2 / 2.75) {
-      return c * (7.5625 * (t -= 1.5 / 2.75) * t + .75) + b;
-    } else if (t < 2.5 / 2.75) {
-      return c * (7.5625 * (t -= 2.25 / 2.75) * t + .9375) + b;
-    } else {
-      return c * (7.5625 * (t -= 2.625 / 2.75) * t + .984375) + b;
-    }
-  },
-  easeInOutBounce: function easeInOutBounce(x, t, b, c, d) {
-    if (t < d / 2) return this.easeInBounce(x, t * 2, 0, c, d) * .5 + b;
-    return this.easeOutBounce(x, t * 2 - d, 0, c, d) * .5 + c * .5 + b;
-  }
-};
-
-; /* eslint-disable global-require, import/no-unresolved */ (function register() { /* react-hot-loader/webpack */ var reactHotLoader = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").default; if (!reactHotLoader) { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : exports; /* eslint-enable camelcase, no-undef */ if (typeof webpackExports === 'function') { reactHotLoader.register(webpackExports, 'module.exports', "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils\\easingFn.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } reactHotLoader.register(namedExport, key, "G:\\n8tz\\caipiLabs\\react-rtween\\src\\utils\\easingFn.js"); } })(); 
 
 /***/ })
 

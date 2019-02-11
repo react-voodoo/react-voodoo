@@ -91,7 +91,6 @@ class Sample extends React.Component {
 }
 ```
 
-
 ### Todo :
 
 - Nice examples 
