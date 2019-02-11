@@ -102,6 +102,7 @@ class Sample extends React.Component {
 			hello ! { this.state.count } concurent anims
 			<div
 				onClick={ e => {
+					this.scrollTo(0, 500);
 					this.setState({ count: this.state.count + 1 })
 					this.pushAnim(pushOut("step"),
 					              () => {

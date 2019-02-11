@@ -171,7 +171,7 @@ export default function asTweener( ...argz ) {
 			)
 		}
 		
-		setScrollableArea( anim, size, pos ) {
+		addScrollableAnim( anim, size, pos ) {
 			var sl, initial;
 			if ( isArray(anim) ) {
 				sl = anim;
@@ -192,7 +192,44 @@ export default function asTweener( ...argz ) {
 			this._scrollPos      = this._scrollPos || 0;
 			this._scrollableArea = this._scrollableArea || 0;
 			this._scrollableArea = Math.max(this._scrollableArea, sl.duration);
-			
+		}
+		
+		clearScrollableAnim( sl ) {
+			if ( this._scrollableAnims ) {
+				let i = this._scrollableAnims.indexOf(sl);
+				if ( i != -1 )
+					this._scrollableAnims.splice(i);
+			}
+		}
+		
+		clearScrollableAnims() {
+			if ( this._scrollableAnims ) {
+				this._scrollableAnims = [];
+			}
+		}
+		
+		scrollTo( newPos, ms = 0 ) {
+			if ( this._scrollableAnims ) {
+				let oldPos = this._scrollPos;
+				
+				newPos = Math.max(0, newPos);
+				newPos = Math.min(newPos, this._scrollableArea);
+				
+				if ( !ms )
+					this._scrollableAnims.forEach(
+						sl => sl.goTo(newPos)
+					);
+				else
+					this._scrollableAnims.forEach(
+						sl => sl.runTo(newPos, ms)
+					);
+				
+				this._scrollPos = newPos;
+				if ( !this._live ) {
+					this._live = true;
+					requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
+				}
+			}
 		}
 		
 		pushAnim( anim, then, skipInit ) {
@@ -367,18 +404,7 @@ export default function asTweener( ...argz ) {
 						let oldPos = this._scrollPos,
 						    newPos = oldPos + e.deltaY;
 						
-						newPos = Math.max(0, newPos);
-						newPos = Math.min(newPos, this._scrollableArea);
-						
-						//console.log(newPos)
-						this._scrollableAnims.forEach(
-							sl => sl.goTo(newPos)
-						)
-						this._scrollPos = newPos;
-						if ( !this._live ) {
-							this._live = true;
-							requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
-						}
+						this.scrollTo(newPos);
 					});
 			}
 		}
@@ -425,11 +451,11 @@ export default function asTweener( ...argz ) {
 		
 		_rafLoop() {
 			this._updateTweenRefs();
-			if ( this._runningAnims.length )
+			//if ( this._runningAnims.length )
 				requestAnimationFrame(this.__rafLoop);
-			else {
-				this._live = false;
-			}
+			//else {
+			//	this._live = false;
+			//}
 		}
 		
 		_updateTweenRefs() {
@@ -485,7 +511,7 @@ export default function asTweener( ...argz ) {
 				delete this._delayedMotionTarget;
 			}
 			if ( _static.scrollableAnim ) {
-				this.setScrollableArea(_static.scrollableAnim);
+				this.addScrollableAnim(_static.scrollableAnim);
 			}
 			super.componentDidMount && super.componentDidMount();
 		}
