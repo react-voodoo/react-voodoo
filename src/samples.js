@@ -60,7 +60,7 @@ class Sample extends React.Component {
 		anims: [
 			{
 				type    : "Tween",
-				target  : "step",
+				target  : "faceA",
 				from    : 0,
 				duration: 150,
 				easeFn  : easingFn.easeOutSine,
@@ -70,22 +70,22 @@ class Sample extends React.Component {
 			},
 			{
 				type    : "Tween",
-				target  : "step",
+				target  : "faceA",
 				from    : 50,
 				duration: 150,
 				easeFn  : easingFn.easeOutSine,
 				apply   : {
-					_x: -.75,
+					x: -50,
 				}
 			},
 			{
 				type    : "Tween",
-				target  : "step",
+				target  : "faceA",
 				from    : 100,
 				duration: 100,
 				easeFn  : easingFn.easeOutSine,
 				apply   : {
-					rotateY: -60,
+					rotateY: -55,
 				}
 			}
 		]
@@ -126,18 +126,7 @@ class Sample extends React.Component {
 			scrollPos : { this._scrollPos } / { this._scrollableArea }
 			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
 			<div
-				onClick={ e => {
-					this.setState({ count: this.state.count + 1 })
-					this.pushAnim(pushOut("step"),
-					              () => {
-						              this.pushAnim(pushIn("step"),
-						                            () => {
-							                            this.setState({ count: this.state.count - 1 })
-						                            });
-						
-					              });
-				} }
-				{ ...this.tweenRef("step",
+				{ ...this.tweenRef("faceA",
 				                   // initial style
 				                   {
 					                   position  : "absolute",
@@ -151,7 +140,7 @@ class Sample extends React.Component {
 					                   top       : 0,
 					                   left      : 0
 				                   },
-				                   { _x: .5, _y: .5, z: 1, opacity: 1 }, 0) }/>
+				                   { x: "50vw", y: "50vh", z: 1, opacity: .75 }) }/>
 		
 		</div>;
 	}

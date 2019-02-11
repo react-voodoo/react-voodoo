@@ -140,7 +140,6 @@ export default function asTweener( ...argz ) {
 			);
 		}
 		
-		
 		updateRefStyle( target, style, postPone ) {
 			if ( isArray(target) && isArray(style) )
 				return target.map(( m, i ) => this.updateRefStyle(m, style[i], postPone));
