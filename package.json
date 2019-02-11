@@ -1,7 +1,7 @@
 {
   "name": "react-rtween",
-  "version": "1.1.1",
-  "license": "MIT",
+  "version": "1.1.2",
+  "license": "AGPL-3.0",
   "main": "./dist/Comp.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
   "wpInherit": {
