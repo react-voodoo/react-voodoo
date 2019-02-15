@@ -123,8 +123,10 @@ class Sample extends React.Component {
 			height: "100%"
 		} }>
 			hello ! { this.state.count } concurent anims <br/>
-			scrollPos : { this._scrollPos } / { this._scrollableArea }
+			scrollPos : { this._.scrollPos } / { this._.scrollableArea }
+			<br/>
 			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
+			<button onClick={ e => this.scrollTo(500, 500) }>( go to 500 )</button>
 			
 			<TweenRef
 				id={ "testItem" }
