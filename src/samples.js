@@ -73,7 +73,7 @@ class Sample extends React.Component {
 		{
 			type    : "Tween",
 			target  : "testItem",
-			from    : 50,
+			from    : 25,
 			duration: 150,
 			easeFn  : easingFn.easePolyOut,
 			apply   : {
@@ -83,11 +83,11 @@ class Sample extends React.Component {
 		{
 			type    : "Tween",
 			target  : "testItem",
-			from    : 100,
-			duration: 100,
+			from    : 50,
+			duration: 150,
 			easeFn  : easingFn.easePolyOut,
 			apply   : {
-				rotateY: -55,
+				rotateY: -60,
 			}
 		}
 	];
@@ -123,8 +123,10 @@ class Sample extends React.Component {
 			height: "100%"
 		} }>
 			hello ! { this.state.count } concurent anims <br/>
-			scrollPos : { this._scrollPos } / { this._scrollableArea }
+			scrollPos : { this._.scrollPos } / { this._.scrollableArea }
+			<br/>
 			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
+			<button onClick={ e => this.scrollTo(200, 500) }>( go to 200 )</button>
 			
 			<TweenRef
 				id={ "testItem" }

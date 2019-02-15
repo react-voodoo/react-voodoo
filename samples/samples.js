@@ -29827,11 +29827,15 @@ function (_React$Component) {
           width: "100%",
           height: "100%"
         }
-      }, "hello ! ", this.state.count, " concurent anims ", react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("br", null), "scrollPos : ", this._scrollPos, " / ", this._scrollableArea, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("button", {
+      }, "hello ! ", this.state.count, " concurent anims ", react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("br", null), "scrollPos : ", this._.scrollPos, " / ", this._.scrollableArea, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("button", {
         onClick: function onClick(e) {
           return _this2.scrollTo(0, 500);
         }
-      }, "( go to 0 )"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(___WEBPACK_IMPORTED_MODULE_7__["TweenRef"], {
+      }, "( go to 0 )"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("button", {
+        onClick: function onClick(e) {
+          return _this2.scrollTo(200, 500);
+        }
+      }, "( go to 200 )"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(___WEBPACK_IMPORTED_MODULE_7__["TweenRef"], {
         id: "testItem",
         initial: {
           x: "50vw",
@@ -29889,7 +29893,7 @@ function (_React$Component) {
 }, {
   type: "Tween",
   target: "testItem",
-  from: 50,
+  from: 25,
   duration: 150,
   easeFn: easingFn.easePolyOut,
   apply: {
@@ -29898,11 +29902,11 @@ function (_React$Component) {
 }, {
   type: "Tween",
   target: "testItem",
-  from: 100,
-  duration: 100,
+  from: 50,
+  duration: 150,
   easeFn: easingFn.easePolyOut,
   apply: {
-    rotateY: -55
+    rotateY: -60
   }
 }], _temp)) || _class;
 
