@@ -1,23 +1,28 @@
 /*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Copyright (C) 2019 Nathan Braun
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React    from "react";
-import is       from "is";
-import ReactDom from "react-dom";
-import taskflow from "taskflows";
-import utils    from "./utils";
-import rtween   from "rtween";
+import React          from "react";
+import is             from "is";
+import ReactDom       from "react-dom";
+import taskflow       from "taskflows";
+import utils          from "./utils";
+import TweenerContext from "./TweenerContext";
+import rtween         from "rtween";
 
 /**
  * @todo : clean & comments
@@ -72,17 +77,22 @@ export default function asTweener( ...argz ) {
 		}
 	}
 	
+	
 	return class TweenableComp extends BaseComponent {
 		
 		constructor() {
 			super(...arguments);
-			let _static            = this.constructor;
-			this._box              = {
+			let _static = this.constructor;
+			this._      = {
+				refs: {}
+			};
+			
+			this._.box              = {
 				x: 100,
 				y: 100,
 				z: 800
 			};
-			this._curMotionStateId = _static.InitialMotionState || "stand";
+			this._.curMotionStateId = _static.InitialMotionState || "stand";
 			
 			
 		}
@@ -90,24 +100,24 @@ export default function asTweener( ...argz ) {
 		goToMotionStateId( targetId ) {
 			let _static = this.constructor,
 			    tState  = _static.motionStates[targetId],
-			    cState  = this._curMotionStateId;
-			if ( !this._rendered )
-				return this._delayedMotionTarget = targetId;
+			    cState  = this._.curMotionStateId;
+			if ( !this._.rendered )
+				return this._.delayedMotionTarget = targetId;
 			if ( this.running )
 				this.running = arguments;
 			if (
 				!this.running
-				&& targetId != this._curMotionStateId
+				&& targetId != this._.curMotionStateId
 			) {
-				if ( !this._tweenRefCSS )
+				if ( !this._.tweenRefCSS )
 					this.makeTweenable();
 				this.running = true;
 				let flow     = new taskflow(
 					[
-						_static.motionStates[this._curMotionStateId] &&
+						_static.motionStates[this._.curMotionStateId] &&
 						(( ctx, flow ) => (_static.motionStates[cState].leaving(ctx, flow, cState))),
 						() => {
-							this._curMotionStateId = targetId
+							this._.curMotionStateId = targetId
 							if ( this.running !== true )
 								setTimeout(() => this.goToMotionStateId(...this.running));
 							this.running = false;
@@ -146,7 +156,7 @@ export default function asTweener( ...argz ) {
 			if ( isArray(target) )
 				return target.map(( m ) => this.updateRefStyle(m, style, postPone));
 			
-			if ( !this._tweenRefCSS )
+			if ( !this._.tweenRefCSS )
 				this.makeTweenable();
 			
 			if ( !postPone && this.refs[target] ) {
@@ -156,22 +166,22 @@ export default function asTweener( ...argz ) {
 						this.refs[target]);
 				node && Object.assign(node.style, style);
 			}
-			this._tweenRefCSS[target] = this._tweenRefCSS[target] || {};
-			Object.assign(this._tweenRefCSS[target], style);
+			this._.tweenRefCSS[target] = this._.tweenRefCSS[target] || {};
+			Object.assign(this._.tweenRefCSS[target], style);
 		}
 		
 		resetTweenable( ...targets ) {
 			targets.forEach(
 				( t ) => {
-					// delete this._tweenRefs[t];
-					// delete this._tweenRefCSS[t];
-					this._tweenRefMaps[t] = { ...this._tweenRefOrigin[t] };
+					// delete this._.tweenRefs[t];
+					// delete this._.tweenRefCSS[t];
+					this._.tweenRefMaps[t] = { ...this._.tweenRefOrigin[t] };
 				}
 			)
 		}
 		
 		addScrollableAnim( anim, size, pos ) {
-			var sl, initial;
+			var sl, _ = this._;
 			if ( isArray(anim) ) {
 				sl = anim;
 			}
@@ -181,58 +191,58 @@ export default function asTweener( ...argz ) {
 			}
 			
 			if ( !(sl instanceof rtween) )
-				sl = new rtween(sl, this._tweenRefMaps);
+				sl = new rtween(sl, this._.tweenRefMaps);
 			
 			this.makeTweenable();
 			this.makeScrollable();
 			
 			// init scroll
-			this._scrollableAnims.push(sl);
-			this._scrollPos      = this._scrollPos || 0;
-			this._scrollableArea = this._scrollableArea || 0;
-			this._scrollableArea = Math.max(this._scrollableArea, sl.duration);
+			_.scrollableAnims.push(sl);
+			_.scrollPos      = _.scrollPos || 0;
+			_.scrollableArea = _.scrollableArea || 0;
+			_.scrollableArea = Math.max(_.scrollableArea, sl.duration);
 		}
 		
 		clearScrollableAnim( sl ) {
-			if ( this._scrollableAnims ) {
-				let i = this._scrollableAnims.indexOf(sl);
+			if ( this._.scrollableAnims ) {
+				let i = this._.scrollableAnims.indexOf(sl);
 				if ( i != -1 )
-					this._scrollableAnims.splice(i);
+					this._.scrollableAnims.splice(i);
 				
-				this._scrollableArea = Math.max(...this._scrollableAnims.map(tl => tl.duration), 0);
+				this._.scrollableArea = Math.max(...this._.scrollableAnims.map(tl => tl.duration), 0);
 			}
 		}
 		
 		clearScrollableAnims() {
-			if ( this._scrollableAnims ) {
-				this._scrollableAnims = [];
-				this._scrollPos       = this._scrollableArea = 0;
+			if ( this._.scrollableAnims ) {
+				this._.scrollableAnims = [];
+				this._.scrollPos       = this._.scrollableArea = 0;
 			}
 		}
 		
 		scrollTo( newPos, ms = 0 ) {
-			if ( this._scrollableAnims ) {
+			if ( this._.scrollableAnims ) {
 				let oldPos = newPos,
-				    setPos = pos => (this._scrollPos = pos, this.componentDidScroll && this.componentDidScroll(~~pos));
+				    setPos = pos => (this._.scrollPos = pos, this.componentDidScroll && this.componentDidScroll(~~pos));
 				
 				newPos = Math.max(0, newPos);
-				newPos = Math.min(newPos, this._scrollableArea);
+				newPos = Math.min(newPos, this._.scrollableArea);
 				
 				if ( !ms ) {
-					this._scrollableAnims.forEach(
+					this._.scrollableAnims.forEach(
 						sl => sl.goTo(newPos)
 					);
 					setPos(newPos);
 				}
 				else
-					this._scrollableAnims.forEach(
+					this._.scrollableAnims.forEach(
 						sl => sl.runTo(newPos, ms, undefined, setPos)
 					);
 				
 				
-				if ( !this._live ) {
-					this._live = true;
-					requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
+				if ( !this._.live ) {
+					this._.live = true;
+					requestAnimationFrame(this._._rafLoop = this._._rafLoop || this._rafLoop.bind(this));
 				}
 				return !(oldPos - newPos);
 			}
@@ -249,7 +259,7 @@ export default function asTweener( ...argz ) {
 			}
 			
 			if ( !(sl instanceof rtween) )
-				sl = new rtween(sl, this._tweenRefMaps);
+				sl = new rtween(sl, this._.tweenRefMaps);
 			
 			
 			// console.warn("Should start anim ", sl);
@@ -261,22 +271,22 @@ export default function asTweener( ...argz ) {
 			);
 			
 			
-			sl.run(this._tweenRefMaps, () => {
-				var i = this._runningAnims.indexOf(sl);
+			sl.run(this._.tweenRefMaps, () => {
+				var i = this._.runningAnims.indexOf(sl);
 				if ( i != -1 )
-					this._runningAnims.splice(i, 1);
+					this._.runningAnims.splice(i, 1);
 				
 				then && then(sl);
 				// if (anim.resetAfter)
 				//     setTimeout(()=>sl.go(0,me._tweenRefMaps),133);
 			});//launch
-			this._runningAnims.push(sl);
+			this._.runningAnims.push(sl);
 			
 			
-			if ( !this._live ) {
-				this._live = true;
+			if ( !this._.live ) {
+				this._.live = true;
 				//console.log("RAF On");
-				requestAnimationFrame(this.__rafLoop = this.__rafLoop || this._rafLoop.bind(this));
+				requestAnimationFrame(this._._rafLoop = this._._rafLoop || this._rafLoop.bind(this));
 			}
 			return sl;
 			
@@ -334,10 +344,11 @@ export default function asTweener( ...argz ) {
 			this.makeTweenable();
 			
 			let _static = this.constructor,
-			    cState  = _static.motionStates && _static.motionStates[this._curMotionStateId];
+			    _       = this._,
+			    cState  = _static.motionStates && _static.motionStates[_.curMotionStateId];
 			
-			if ( !this._tweenRefs[id] )
-				this._tweenRefTargets.push(id);
+			if ( !_.tweenRefs[id] )
+				_.tweenRefTargets.push(id);
 			
 			if ( cState && cState.refs && cState.refs[id] ) {
 				iStyle = iStyle || { ...cState.refs[id][0] };
@@ -348,11 +359,11 @@ export default function asTweener( ...argz ) {
 				iMap   = iMap || {};
 			}
 			
-			this._tweenRefs[id] = true;
+			_.tweenRefs[id] = true;
 			
 			if ( isArray(iMap) ) {
-				this._tweenRefUnits[id] = iMap[1];
-				iMap                    = iMap[0];
+				_.tweenRefUnits[id] = iMap[1];
+				iMap                = iMap[0];
 			}
 			if ( iMap.getPosAt ) {// typeof rtween
 				// debugger;
@@ -361,7 +372,7 @@ export default function asTweener( ...argz ) {
 				// if (/btn_/.test(id)) debugger;
 				iMap = iMap.getPosAt(
 					pos,
-					!mapReset && this._tweenRefMaps[id]
+					!mapReset && _.tweenRefMaps[id]
 						|| Object.assign({}, initialTweenable, iMap.scope || {})
 				);
 				
@@ -371,43 +382,46 @@ export default function asTweener( ...argz ) {
 				mapReset = noref;
 				noref    = pos;
 				
-				this._tweenRefUnits[id] = extractUnits(iMap);
+				_.tweenRefUnits[id] = extractUnits(iMap);
 			}
-			this._tweenRefOrigin[id] = iMap;
-			//this._tweenRefCSS[id]    = this._tweenRefCSS[id] || {};
-			if ( !mapReset && this._tweenRefCSS[id] ) {
-				this._tweenRefCSS[id] = {
+			_.tweenRefOrigin[id] = iMap;
+			//_.tweenRefCSS[id]    = _.tweenRefCSS[id] || {};
+			
+			if ( !mapReset && _.tweenRefCSS[id] ) {
+				_.tweenRefCSS[id] = {
 					...iStyle
 				}
 			}
-			else this._tweenRefCSS[id] = iStyle && { ...iStyle } || {}
-			iStyle = this._tweenRefCSS[id];
-			iMap   = this._tweenRefMaps[id] = !mapReset && this._tweenRefMaps[id]
+			else _.tweenRefCSS[id] = iStyle && { ...iStyle } || {}
+			iStyle = _.tweenRefCSS[id];
+			iMap   = _.tweenRefMaps[id] = !mapReset && _.tweenRefMaps[id]
 				|| Object.assign({}, initialTweenable, iMap || {});
 			
-			utils.mapInBoxCSS(iMap, iStyle, this._box, this._tweenRefUnits[id]);
+			utils.mapInBoxCSS(iMap, iStyle, _.box, _.tweenRefUnits[id]);
+			
+			_.refs[id] = _.refs[id] || React.createRef();
 			
 			if ( noref )
 				return {
-					style: { ...this._tweenRefCSS[id] }
+					style: { ..._.tweenRefCSS[id] }
 				};
 			else
 				return {
-					style: { ...this._tweenRefCSS[id] },
-					ref  : id,
-					// __tweenMap : this._tweenRefMaps[id],
-					// __tweenCSS : this._tweenRefCSS[id]
+					style: { ..._.tweenRefCSS[id] },
+					ref  : _.refs[id],
+					// __tweenMap : _.tweenRefMaps[id],
+					// __tweenCSS : _.tweenRefCSS[id]
 				};
 		}
 		
 		makeScrollable() {
-			if ( !this._scrollEnabled ) {
-				this._scrollEnabled   = true;
-				this._scrollableAnims = [];
+			if ( !this._.scrollEnabled ) {
+				this._.scrollEnabled   = true;
+				this._.scrollableAnims = [];
 				isBrowserSide && utils.addWheelEvent(
 					ReactDom.findDOMNode(this),
-					this._onScroll = ( e ) => {//@todo
-						let oldPos = this._scrollPos,
+					this._.onScroll = ( e ) => {//@todo
+						let oldPos = this._.scrollPos,
 						    newPos = oldPos + e.deltaY;
 						
 						if ( this.shouldApplyScroll && !this.shouldApplyScroll() ) {
@@ -421,21 +435,21 @@ export default function asTweener( ...argz ) {
 		}
 		
 		makeTweenable() {
-			if ( !this._tweenEnabled ) {
-				this._rtweensByProp      = {};
-				this._rtweensByStateProp = {};
-				this._tweenRefCSS        = {};
-				this._tweenRefs          = {};
-				this._tweenRefMaps       = {};
-				this._tweenRefUnits      = {};
-				this._tweenEnabled       = true;
-				this._tweenRefOrigin     = {};
-				this._tweenRefTargets    = this._tweenRefTargets || [];
-				this._runningAnims       = this._runningAnims || [];
+			if ( !this._.tweenEnabled ) {
+				this._.rtweensByProp      = {};
+				this._.rtweensByStateProp = {};
+				this._.tweenRefCSS        = {};
+				this._.tweenRefs          = {};
+				this._.tweenRefMaps       = {};
+				this._.tweenRefUnits      = {};
+				this._.tweenEnabled       = true;
+				this._.tweenRefOrigin     = {};
+				this._.tweenRefTargets    = this._.tweenRefTargets || [];
+				this._.runningAnims       = this._.runningAnims || [];
 				
 				isBrowserSide && window.addEventListener(
 					"resize",
-					this._onResize = () => {//@todo
+					this._.onResize = () => {//@todo
 						this._updateBox();
 						this._updateTweenRefs()
 					});
@@ -445,64 +459,61 @@ export default function asTweener( ...argz ) {
 		_updateBox() {
 			var node = ReactDom.findDOMNode(this);
 			if ( node ) {
-				this._box.inited = true;
-				this._box.x      = node.offsetWidth;
-				this._box.y      = node.offsetHeight;
+				this._.box.inited = true;
+				this._.box.x      = node.offsetWidth;
+				this._.box.y      = node.offsetHeight;
 			}
 		}
 		
 		// updateRefMap( target, map ) {
-		//     Object.assign(this._tweenRefMaps[target], map);
+		//     Object.assign(this._.tweenRefMaps[target], map);
 		// }
 		
-		getTweenableRef( target ) {
-			return this.refs[target] instanceof Element ? this.refs[target]
-			                                            : ReactDom.findDOMNode(this.refs[target]);
+		getTweenableRef( id ) {
+			return this._.refs[id].current;
 		}
 		
 		_rafLoop() {
 			this._updateTweenRefs();
-			//if ( this._runningAnims.length )
-			requestAnimationFrame(this.__rafLoop);
+			//if ( this._.runningAnims.length )
+			requestAnimationFrame(this._._rafLoop);
 			//else {
-			//	this._live = false;
+			//	this._.live = false;
 			//}
 		}
 		
 		_updateTweenRefs() {
-			// if ( this._tweenEnabled ) {
-			
-			for ( var i = 0, target, node; i < this._tweenRefTargets.length; i++ ) {
-				target = this._tweenRefTargets[i];
-				// if ( this._tweenRefUnits[target].height )
-				//     debugger;
-				utils.mapInBoxCSS(
-					this._tweenRefMaps[target],
-					this._tweenRefCSS[target],
-					this._box,
-					this._tweenRefUnits[target]
-				);
-				node = this._tweenEnabled && target == "__root"
-				       ? ReactDom.findDOMNode(this)
-				       : this.getTweenableRef(target);
-				node && Object.assign(node.style, this._tweenRefCSS[target]);
+			if ( this._.tweenEnabled ) {
+				
+				for ( var i = 0, target, node; i < this._.tweenRefTargets.length; i++ ) {
+					target = this._.tweenRefTargets[i];
+					utils.mapInBoxCSS(
+						this._.tweenRefMaps[target],
+						this._.tweenRefCSS[target],
+						this._.box,
+						this._.tweenRefUnits[target]
+					);
+					node = this._.tweenEnabled && target == "__root"
+					       ? ReactDom.findDOMNode(this)
+					       : this.getTweenableRef(target);
+					node && Object.assign(node.style, this._.tweenRefCSS[target]);
+				}
 			}
-			// }
 		}
 		
 		componentWillUnmount() {
 			
-			if ( this._tweenEnabled ) {
-				this._tweenEnabled = false;
-				window.removeEventListener("resize", this._onResize);
+			if ( this._.tweenEnabled ) {
+				this._.tweenEnabled = false;
+				window.removeEventListener("resize", this._.onResize);
 			}
 			
-			if ( this._scrollEnabled ) {
-				this._scrollEnabled   = false;
-				this._scrollableAnims = undefined;
+			if ( this._.scrollEnabled ) {
+				this._.scrollEnabled   = false;
+				this._.scrollableAnims = undefined;
 				utils.rmWheelEvent(
 					ReactDom.findDOMNode(this),
-					this._onScroll);
+					this._.onScroll);
 			}
 			
 			super.componentWillUnmount && super.componentWillUnmount();
@@ -511,15 +522,15 @@ export default function asTweener( ...argz ) {
 		componentDidMount() {
 			let _static = this.constructor;
 			
-			this._rendered = true;
-			if ( this._tweenEnabled ) {
+			this._.rendered = true;
+			if ( this._.tweenEnabled ) {
 				// debugger;
 				this._updateBox();
 				this._updateTweenRefs();
 			}
-			if ( this._delayedMotionTarget ) {
-				this.goToMotionStateId(this._delayedMotionTarget);
-				delete this._delayedMotionTarget;
+			if ( this._.delayedMotionTarget ) {
+				this.goToMotionStateId(this._.delayedMotionTarget);
+				delete this._.delayedMotionTarget;
 			}
 			if ( _static.scrollableAnim ) {
 				this.addScrollableAnim(_static.scrollableAnim);
@@ -529,29 +540,29 @@ export default function asTweener( ...argz ) {
 		
 		componentDidUpdate( prevProps, prevState ) {
 			
-			if ( this._tweenEnabled ) {
+			if ( this._.tweenEnabled ) {
 				this._updateBox();
 				this._updateTweenRefs();
 				
-				this._rtweensByProp
+				this._.rtweensByProp
 				&& Object.keys(prevProps)
 				         .forEach(
 					         ( k ) =>
-						         this._rtweensByProp[k]
+						         this._.rtweensByProp[k]
 						         && (this.props[k] !== prevProps[k])
-						         && this._rtweensByProp[k][this.props[k]]
-						         && this.pushAnim(this._rtweensByProp[k][this.props[k]]/*get current pos*/),
+						         && this._.rtweensByProp[k][this.props[k]]
+						         && this.pushAnim(this._.rtweensByProp[k][this.props[k]]/*get current pos*/),
 					         this
 				         );
-				this._rtweensByStateProp
+				this._.rtweensByStateProp
 				&& prevState
 				&& Object.keys(prevState)
 				         .forEach(
 					         ( k ) =>
-						         this._rtweensByStateProp[k]
+						         this._.rtweensByStateProp[k]
 						         && (this.state[k] !== prevState[k])
-						         && this._rtweensByStateProp[k][this.state[k]]
-						         && this.pushAnim(this._rtweensByStateProp[k][this.state[k]]/*get current pos*/),
+						         && this._.rtweensByStateProp[k][this.state[k]]
+						         && this.pushAnim(this._.rtweensByStateProp[k][this.state[k]]/*get current pos*/),
 					         this
 				         );
 			}
@@ -560,25 +571,31 @@ export default function asTweener( ...argz ) {
 		}
 		
 		registerPropChangeAnim( propId, propValue, anims ) {
-			this._rtweensByProp                    = this._rtweensByProp || {};
-			this._rtween                           = this._rtween || new rtween();
-			this._rtweensByProp[propId]            = this._rtweensByProp[propId] || {};
-			this._rtweensByProp[propId][propValue] = this._rtweensByProp[propId][propValue] ||
+			this._.rtweensByProp                    = this._.rtweensByProp || {};
+			this._.rtween                           = this._.rtween || new rtween();
+			this._.rtweensByProp[propId]            = this._.rtweensByProp[propId] || {};
+			this._.rtweensByProp[propId][propValue] = this._.rtweensByProp[propId][propValue] ||
 				new rtween();
 			
-			this._rtweensByProp[propId][propValue].mount(anims);
+			this._.rtweensByProp[propId][propValue].mount(anims);
 			
 		}
 		
 		registerStateChangeAnim( propId, propValue, anims ) {
-			this._rtweensByStateProp                    = this._rtweensByStateProp || {};
-			this._rtween                                = this._rtween || new rtween();
-			this._rtweensByStateProp[propId]            = this._rtweensByStateProp[propId] || {};
-			this._rtweensByStateProp[propId][propValue] = this._rtweensByStateProp[propId][propValue] ||
+			this._.rtweensByStateProp                    = this._.rtweensByStateProp || {};
+			this._.rtween                                = this._.rtween || new rtween();
+			this._.rtweensByStateProp[propId]            = this._.rtweensByStateProp[propId] || {};
+			this._.rtweensByStateProp[propId][propValue] = this._.rtweensByStateProp[propId][propValue] ||
 				new rtween();
 			
-			this._rtweensByStateProp[propId][propValue].mount(anims);
+			this._.rtweensByStateProp[propId][propValue].mount(anims);
 			
+		}
+		
+		render() {
+			return <TweenerContext.Provider value={ this.tweenRef.bind(this) }>
+				{ super.render() }
+			</TweenerContext.Provider>;
 		}
 	}
 }

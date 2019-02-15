@@ -1,7 +1,7 @@
 {
   "name": "react-rtween",
-  "version": "1.1.1",
-  "license": "MIT",
+  "version": "1.2.0",
+  "license": "AGPL-3.0",
   "main": "./dist/Comp.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
   "wpInherit": {
@@ -38,10 +38,11 @@
     "react-dom": "^16.3.2"
   },
   "dependencies": {
+    "@babel/runtime": "^7.3.1",
+    "d3-ease": "^1.0.5",
     "is": "^3.2.1",
     "isfunction": "0.0.6",
-    "@babel/runtime": "^7.3.1",
-    "rtween": "^1.1.0",
+    "rtween": "^1.2.0",
     "taskflows": "^1.0.0"
   },
   "devDependencies": {

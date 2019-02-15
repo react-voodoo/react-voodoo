@@ -16,6 +16,10 @@ ___
 ## Draft [sample](http://htmlpreview.github.io/?https://github.com/n8tz/react-rtween/blob/master/samples/index.html)
 
 ```jsx
+import {asTweener, TweenRef} from "react-rtween";
+
+var easingFn = require('d3-ease');
+
 let pushIn  = function ( target ) {
 	return {
 		anims: [
@@ -24,7 +28,7 @@ let pushIn  = function ( target ) {
 				target  : target,
 				from    : 0,
 				duration: 500,
-				easeFn  : easingFn.easeOutSine,
+				easeFn  : easingFn.easeCircleIn,
 				apply   : {
 					_z: .2,
 				}
@@ -40,7 +44,7 @@ let pushOut = function ( target ) {
 				target  : target,
 				from    : 0,
 				duration: 500,
-				easeFn  : easingFn.easeOutSine,
+				easeFn  : easingFn.easeCubicInOut,
 				apply   : {
 					_z: -.2,
 				}
@@ -51,7 +55,39 @@ let pushOut = function ( target ) {
 
 @asTweener
 class Sample extends React.Component {
-	state = {
+	static scrollableAnim = [
+		{
+			type    : "Tween",
+			target  : "testItem",
+			from    : 0,
+			duration: 150,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				_z: -.2,
+			}
+		},
+		{
+			type    : "Tween",
+			target  : "testItem",
+			from    : 50,
+			duration: 150,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				x: -50,
+			}
+		},
+		{
+			type    : "Tween",
+			target  : "testItem",
+			from    : 100,
+			duration: 100,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				rotateY: -55,
+			}
+		}
+	];
+	state                 = {
 		count: 0
 	};
 
@@ -60,35 +96,44 @@ class Sample extends React.Component {
 			width : "100%",
 			height: "100%"
 		} }>
-			hello ! { this.state.count } concurent anims
-			<div
-				onClick={ e => {
-					this.setState({ count: this.state.count + 1 })
-					this.pushAnim(pushOut("step"),
-					              () => {
-						              this.pushAnim(pushIn("step"),
-						                            () => {
-							                            this.setState({ count: this.state.count - 1 })
-						                            });
+			hello ! { this.state.count } concurent anims <br/>
+			scrollPos : { this._scrollPos } / { this._scrollableArea }
+			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
 
-					              });
-				} }
-				{ ...this.tweenRef("step", {
-					                   position  : "absolute",
-					                   display   : "inline-block",
-					                   width     : "15em",
-					                   height    : "15em",
-					                   cursor    : "pointer",
-					                   background: "red",
-					                   overflow  : "hidden",
-					                   margin    : "-7.5em 0 0 -7.5em",
-					                   top       : 0,
-					                   left      : 0
-				                   },
-				                   { _x: .5, _y: .5, z: 1, opacity: 1 }, 0) }/>
+			<TweenRef
+				id={ "testItem" }
+				initial={ { x: "50vw", y: "50vh", z: 1, opacity: .75 } }
+			>
+				<div
+					onClick={ e => {
+						this.setState({ count: this.state.count + 1 })
+						this.pushAnim(pushOut("testItem"),
+						              () => {
+							              this.pushAnim(pushIn("testItem"),
+							                            () => {
+								                            this.setState({ count: this.state.count - 1 })
+							                            });
+
+						              });
+					} }
+					style={ {
+						position  : "absolute",
+						display   : "inline-block",
+						width     : "15em",
+						height    : "15em",
+						cursor    : "pointer",
+						background: "red",
+						overflow  : "hidden",
+						margin    : "-7.5em 0 0 -7.5em",
+						top       : "0px",
+						left      : "0px"
+					} }>click me !
+				</div>
+			</TweenRef>
 		</div>;
 	}
 }
+
 ```
 
 ### Todo :
