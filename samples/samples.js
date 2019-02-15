@@ -29028,6 +29028,9 @@ function asTweener() {
     };
   }
 
+  var _ = {
+    refs: {}
+  };
   return (
     /*#__PURE__*/
     function (_BaseComponent) {
@@ -29040,15 +29043,13 @@ function asTweener() {
 
         _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp).apply(this, arguments));
         var _static = _this.constructor;
-        _this._ = {
-          refs: {}
-        };
-        _this._.box = {
+        _this._ = _;
+        _.box = {
           x: 100,
           y: 100,
           z: 800
         };
-        _this._.curMotionStateId = _static.InitialMotionState || "stand";
+        _.curMotionStateId = _static.InitialMotionState || "stand";
         return _this;
       }
 
@@ -29059,17 +29060,17 @@ function asTweener() {
 
           var _static = this.constructor,
               tState = _static.motionStates[targetId],
-              cState = this._.curMotionStateId;
-          if (!this._.rendered) return this._.delayedMotionTarget = targetId;
+              cState = _.curMotionStateId;
+          if (!_.rendered) return _.delayedMotionTarget = targetId;
           if (this.running) this.running = arguments;
 
-          if (!this.running && targetId != this._.curMotionStateId) {
-            if (!this._.tweenRefCSS) this.makeTweenable();
+          if (!this.running && targetId != _.curMotionStateId) {
+            if (!_.tweenRefCSS) this.makeTweenable();
             this.running = true;
-            var flow = new taskflows__WEBPACK_IMPORTED_MODULE_12___default.a([_static.motionStates[this._.curMotionStateId] && function (ctx, flow) {
+            var flow = new taskflows__WEBPACK_IMPORTED_MODULE_12___default.a([_static.motionStates[_.curMotionStateId] && function (ctx, flow) {
               return _static.motionStates[cState].leaving(ctx, flow, cState);
             }, function () {
-              _this2._.curMotionStateId = targetId;
+              _.curMotionStateId = targetId;
               if (_this2.running !== true) setTimeout(function () {
                 return _this2.goToMotionStateId.apply(_this2, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2___default()(_this2.running));
               });
@@ -29105,29 +29106,27 @@ function asTweener() {
           if (isArray(target)) return target.map(function (m) {
             return _this3.updateRefStyle(m, style, postPone);
           });
-          if (!this._.tweenRefCSS) this.makeTweenable();
+          if (!_.tweenRefCSS) this.makeTweenable();
 
           if (!postPone && this.refs[target]) {
             var node = this.refs[target] instanceof Element ? this.refs[target] : react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this.refs[target]);
             node && Object.assign(node.style, style);
           }
 
-          this._.tweenRefCSS[target] = this._.tweenRefCSS[target] || {};
-          Object.assign(this._.tweenRefCSS[target], style);
+          _.tweenRefCSS[target] = _.tweenRefCSS[target] || {};
+          Object.assign(_.tweenRefCSS[target], style);
         }
       }, {
         key: "resetTweenable",
         value: function resetTweenable() {
-          var _this4 = this;
-
           for (var _len2 = arguments.length, targets = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
             targets[_key2] = arguments[_key2];
           }
 
           targets.forEach(function (t) {
-            // delete this._.tweenRefs[t];
-            // delete this._.tweenRefCSS[t];
-            _this4._.tweenRefMaps[t] = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, _this4._.tweenRefOrigin[t]);
+            // delete _.tweenRefs[t];
+            // delete _.tweenRefCSS[t];
+            _.tweenRefMaps[t] = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, _.tweenRefOrigin[t]);
           });
         }
       }, {
@@ -29143,7 +29142,7 @@ function asTweener() {
             size = anim.length;
           }
 
-          if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_15___default.a)) sl = new rtween__WEBPACK_IMPORTED_MODULE_15___default.a(sl, this._.tweenRefMaps);
+          if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_15___default.a)) sl = new rtween__WEBPACK_IMPORTED_MODULE_15___default.a(sl, _.tweenRefMaps);
           this.makeTweenable();
           this.makeScrollable(); // init scroll
 
@@ -29156,11 +29155,11 @@ function asTweener() {
       }, {
         key: "clearScrollableAnim",
         value: function clearScrollableAnim(sl) {
-          if (this._.scrollableAnims) {
-            var i = this._.scrollableAnims.indexOf(sl);
+          if (_.scrollableAnims) {
+            var i = _.scrollableAnims.indexOf(sl);
 
-            if (i != -1) this._.scrollableAnims.splice(i);
-            this._.scrollableArea = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2___default()(this._.scrollableAnims.map(function (tl) {
+            if (i != -1) _.scrollableAnims.splice(i);
+            _.scrollableArea = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2___default()(_.scrollableAnims.map(function (tl) {
               return tl.duration;
             })).concat([0]));
           }
@@ -29168,40 +29167,40 @@ function asTweener() {
       }, {
         key: "clearScrollableAnims",
         value: function clearScrollableAnims() {
-          if (this._.scrollableAnims) {
-            this._.scrollableAnims = [];
-            this._.scrollPos = this._.scrollableArea = 0;
+          if (_.scrollableAnims) {
+            _.scrollableAnims = [];
+            _.scrollPos = _.scrollableArea = 0;
           }
         }
       }, {
         key: "scrollTo",
         value: function scrollTo(newPos) {
-          var _this5 = this;
+          var _this4 = this;
 
           var ms = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-          if (this._.scrollableAnims) {
+          if (_.scrollableAnims) {
             var oldPos = newPos,
                 setPos = function setPos(pos) {
-              return _this5._.scrollPos = pos, _this5.componentDidScroll && _this5.componentDidScroll(~~pos);
+              return _.scrollPos = pos, _this4.componentDidScroll && _this4.componentDidScroll(~~pos);
             };
 
             newPos = Math.max(0, newPos);
-            newPos = Math.min(newPos, this._.scrollableArea);
+            newPos = Math.min(newPos, _.scrollableArea);
 
             if (!ms) {
-              this._.scrollableAnims.forEach(function (sl) {
+              _.scrollableAnims.forEach(function (sl) {
                 return sl.goTo(newPos);
               });
 
               setPos(newPos);
-            } else this._.scrollableAnims.forEach(function (sl) {
+            } else _.scrollableAnims.forEach(function (sl) {
               return sl.runTo(newPos, ms, undefined, setPos);
             });
 
-            if (!this._.live) {
-              this._.live = true;
-              requestAnimationFrame(this._._rafLoop = this._._rafLoop || this._rafLoop.bind(this));
+            if (!_.live) {
+              _.live = true;
+              requestAnimationFrame(_._rafLoop = _._rafLoop || this._rafLoop.bind(this));
             }
 
             return !(oldPos - newPos);
@@ -29210,7 +29209,7 @@ function asTweener() {
       }, {
         key: "pushAnim",
         value: function pushAnim(anim, then, skipInit) {
-          var _this6 = this;
+          var _this5 = this;
 
           var sl, initial;
 
@@ -29221,26 +29220,26 @@ function asTweener() {
             initial = anim.initial;
           }
 
-          if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_15___default.a)) sl = new rtween__WEBPACK_IMPORTED_MODULE_15___default.a(sl, this._.tweenRefMaps); // console.warn("Should start anim ", sl);
+          if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_15___default.a)) sl = new rtween__WEBPACK_IMPORTED_MODULE_15___default.a(sl, _.tweenRefMaps); // console.warn("Should start anim ", sl);
 
           this.makeTweenable();
           !skipInit && initial && Object.keys(initial).map(function (id) {
-            return _this6.applyTweenState(id, initial[id], anim.reset);
+            return _this5.applyTweenState(id, initial[id], anim.reset);
           });
-          sl.run(this._.tweenRefMaps, function () {
-            var i = _this6._.runningAnims.indexOf(sl);
+          sl.run(_.tweenRefMaps, function () {
+            var i = _.runningAnims.indexOf(sl);
 
-            if (i != -1) _this6._.runningAnims.splice(i, 1);
+            if (i != -1) _.runningAnims.splice(i, 1);
             then && then(sl); // if (anim.resetAfter)
             //     setTimeout(()=>sl.go(0,me._tweenRefMaps),133);
           }); //launch
 
-          this._.runningAnims.push(sl);
+          _.runningAnims.push(sl);
 
-          if (!this._.live) {
-            this._.live = true; //console.log("RAF On");
+          if (!_.live) {
+            _.live = true; //console.log("RAF On");
 
-            requestAnimationFrame(this._._rafLoop = this._._rafLoop || this._rafLoop.bind(this));
+            requestAnimationFrame(_._rafLoop = _._rafLoop || this._rafLoop.bind(this));
           }
 
           return sl;
@@ -29351,45 +29350,45 @@ function asTweener() {
       }, {
         key: "makeScrollable",
         value: function makeScrollable() {
-          var _this7 = this;
+          var _this6 = this;
 
-          if (!this._.scrollEnabled) {
-            this._.scrollEnabled = true;
-            this._.scrollableAnims = [];
-            isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_13__["default"].addWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this), this._.onScroll = function (e) {
+          if (!_.scrollEnabled) {
+            _.scrollEnabled = true;
+            _.scrollableAnims = [];
+            isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_13__["default"].addWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this), _.onScroll = function (e) {
               //@todo
-              var oldPos = _this7._.scrollPos,
+              var oldPos = _.scrollPos,
                   newPos = oldPos + e.deltaY;
 
-              if (_this7.shouldApplyScroll && !_this7.shouldApplyScroll()) {
+              if (_this6.shouldApplyScroll && !_this6.shouldApplyScroll()) {
                 return;
               }
 
-              if (_this7.scrollTo(newPos)) e.preventDefault();
+              if (_this6.scrollTo(newPos)) e.preventDefault();
             });
           }
         }
       }, {
         key: "makeTweenable",
         value: function makeTweenable() {
-          var _this8 = this;
+          var _this7 = this;
 
-          if (!this._.tweenEnabled) {
-            this._.rtweensByProp = {};
-            this._.rtweensByStateProp = {};
-            this._.tweenRefCSS = {};
-            this._.tweenRefs = {};
-            this._.tweenRefMaps = {};
-            this._.tweenRefUnits = {};
-            this._.tweenEnabled = true;
-            this._.tweenRefOrigin = {};
-            this._.tweenRefTargets = this._.tweenRefTargets || [];
-            this._.runningAnims = this._.runningAnims || [];
-            isBrowserSide && window.addEventListener("resize", this._.onResize = function () {
+          if (!_.tweenEnabled) {
+            _.rtweensByProp = {};
+            _.rtweensByStateProp = {};
+            _.tweenRefCSS = {};
+            _.tweenRefs = {};
+            _.tweenRefMaps = {};
+            _.tweenRefUnits = {};
+            _.tweenEnabled = true;
+            _.tweenRefOrigin = {};
+            _.tweenRefTargets = _.tweenRefTargets || [];
+            _.runningAnims = _.runningAnims || [];
+            isBrowserSide && window.addEventListener("resize", _.onResize = function () {
               //@todo
-              _this8._updateBox();
+              _this7._updateBox();
 
-              _this8._updateTweenRefs();
+              _this7._updateTweenRefs();
             });
           }
         }
@@ -29399,53 +29398,53 @@ function asTweener() {
           var node = react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this);
 
           if (node) {
-            this._.box.inited = true;
-            this._.box.x = node.offsetWidth;
-            this._.box.y = node.offsetHeight;
+            _.box.inited = true;
+            _.box.x = node.offsetWidth;
+            _.box.y = node.offsetHeight;
           }
         } // updateRefMap( target, map ) {
-        //     Object.assign(this._.tweenRefMaps[target], map);
+        //     Object.assign(_.tweenRefMaps[target], map);
         // }
 
       }, {
         key: "getTweenableRef",
         value: function getTweenableRef(id) {
-          return this._.refs[id].current;
+          return _.refs[id].current;
         }
       }, {
         key: "_rafLoop",
         value: function _rafLoop() {
-          this._updateTweenRefs(); //if ( this._.runningAnims.length )
+          this._updateTweenRefs(); //if ( _.runningAnims.length )
 
 
-          requestAnimationFrame(this._._rafLoop); //else {
-          //	this._.live = false;
+          requestAnimationFrame(_._rafLoop); //else {
+          //	_.live = false;
           //}
         }
       }, {
         key: "_updateTweenRefs",
         value: function _updateTweenRefs() {
-          if (this._.tweenEnabled) {
-            for (var i = 0, target, node; i < this._.tweenRefTargets.length; i++) {
-              target = this._.tweenRefTargets[i];
-              _utils__WEBPACK_IMPORTED_MODULE_13__["default"].mapInBoxCSS(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.box, this._.tweenRefUnits[target]);
-              node = this._.tweenEnabled && target == "__root" ? react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this) : this.getTweenableRef(target);
-              node && Object.assign(node.style, this._.tweenRefCSS[target]);
+          if (_.tweenEnabled) {
+            for (var i = 0, target, node; i < _.tweenRefTargets.length; i++) {
+              target = _.tweenRefTargets[i];
+              _utils__WEBPACK_IMPORTED_MODULE_13__["default"].mapInBoxCSS(_.tweenRefMaps[target], _.tweenRefCSS[target], _.box, _.tweenRefUnits[target]);
+              node = _.tweenEnabled && target == "__root" ? react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this) : this.getTweenableRef(target);
+              node && Object.assign(node.style, _.tweenRefCSS[target]);
             }
           }
         }
       }, {
         key: "componentWillUnmount",
         value: function componentWillUnmount() {
-          if (this._.tweenEnabled) {
-            this._.tweenEnabled = false;
-            window.removeEventListener("resize", this._.onResize);
+          if (_.tweenEnabled) {
+            _.tweenEnabled = false;
+            window.removeEventListener("resize", _.onResize);
           }
 
-          if (this._.scrollEnabled) {
-            this._.scrollEnabled = false;
-            this._.scrollableAnims = undefined;
-            _utils__WEBPACK_IMPORTED_MODULE_13__["default"].rmWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this), this._.onScroll);
+          if (_.scrollEnabled) {
+            _.scrollEnabled = false;
+            _.scrollableAnims = undefined;
+            _utils__WEBPACK_IMPORTED_MODULE_13__["default"].rmWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_11___default.a.findDOMNode(this), _.onScroll);
           }
 
           _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this).call(this);
@@ -29454,18 +29453,18 @@ function asTweener() {
         key: "componentDidMount",
         value: function componentDidMount() {
           var _static = this.constructor;
-          this._.rendered = true;
+          _.rendered = true;
 
-          if (this._.tweenEnabled) {
+          if (_.tweenEnabled) {
             // debugger;
             this._updateBox();
 
             this._updateTweenRefs();
           }
 
-          if (this._.delayedMotionTarget) {
-            this.goToMotionStateId(this._.delayedMotionTarget);
-            delete this._.delayedMotionTarget;
+          if (_.delayedMotionTarget) {
+            this.goToMotionStateId(_.delayedMotionTarget);
+            delete _.delayedMotionTarget;
           }
 
           if (_static.scrollableAnim) {
@@ -29477,20 +29476,20 @@ function asTweener() {
       }, {
         key: "componentDidUpdate",
         value: function componentDidUpdate(prevProps, prevState) {
-          var _this9 = this;
+          var _this8 = this;
 
-          if (this._.tweenEnabled) {
+          if (_.tweenEnabled) {
             this._updateBox();
 
             this._updateTweenRefs();
 
-            this._.rtweensByProp && Object.keys(prevProps).forEach(function (k) {
-              return _this9._.rtweensByProp[k] && _this9.props[k] !== prevProps[k] && _this9._.rtweensByProp[k][_this9.props[k]] && _this9.pushAnim(_this9._.rtweensByProp[k][_this9.props[k]]
+            _.rtweensByProp && Object.keys(prevProps).forEach(function (k) {
+              return _.rtweensByProp[k] && _this8.props[k] !== prevProps[k] && _.rtweensByProp[k][_this8.props[k]] && _this8.pushAnim(_.rtweensByProp[k][_this8.props[k]]
               /*get current pos*/
               );
             }, this);
-            this._.rtweensByStateProp && prevState && Object.keys(prevState).forEach(function (k) {
-              return _this9._.rtweensByStateProp[k] && _this9.state[k] !== prevState[k] && _this9._.rtweensByStateProp[k][_this9.state[k]] && _this9.pushAnim(_this9._.rtweensByStateProp[k][_this9.state[k]]
+            _.rtweensByStateProp && prevState && Object.keys(prevState).forEach(function (k) {
+              return _.rtweensByStateProp[k] && _this8.state[k] !== prevState[k] && _.rtweensByStateProp[k][_this8.state[k]] && _this8.pushAnim(_.rtweensByStateProp[k][_this8.state[k]]
               /*get current pos*/
               );
             }, this);
@@ -29501,22 +29500,22 @@ function asTweener() {
       }, {
         key: "registerPropChangeAnim",
         value: function registerPropChangeAnim(propId, propValue, anims) {
-          this._.rtweensByProp = this._.rtweensByProp || {};
-          this._.rtween = this._.rtween || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
-          this._.rtweensByProp[propId] = this._.rtweensByProp[propId] || {};
-          this._.rtweensByProp[propId][propValue] = this._.rtweensByProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
+          _.rtweensByProp = _.rtweensByProp || {};
+          _.rtween = _.rtween || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
+          _.rtweensByProp[propId] = _.rtweensByProp[propId] || {};
+          _.rtweensByProp[propId][propValue] = _.rtweensByProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
 
-          this._.rtweensByProp[propId][propValue].mount(anims);
+          _.rtweensByProp[propId][propValue].mount(anims);
         }
       }, {
         key: "registerStateChangeAnim",
         value: function registerStateChangeAnim(propId, propValue, anims) {
-          this._.rtweensByStateProp = this._.rtweensByStateProp || {};
-          this._.rtween = this._.rtween || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
-          this._.rtweensByStateProp[propId] = this._.rtweensByStateProp[propId] || {};
-          this._.rtweensByStateProp[propId][propValue] = this._.rtweensByStateProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
+          _.rtweensByStateProp = _.rtweensByStateProp || {};
+          _.rtween = _.rtween || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
+          _.rtweensByStateProp[propId] = _.rtweensByStateProp[propId] || {};
+          _.rtweensByStateProp[propId][propValue] = _.rtweensByStateProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
 
-          this._.rtweensByStateProp[propId][propValue].mount(anims);
+          _.rtweensByStateProp[propId][propValue].mount(anims);
         }
       }, {
         key: "render",
