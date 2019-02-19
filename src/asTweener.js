@@ -397,7 +397,7 @@ export default function asTweener( ...argz ) {
 			
 			utils.mapInBoxCSS(iMap, iStyle, _.box, _.tweenRefUnits[id]);
 			
-			_.refs[id] = _.refs[id] || React.createRef();
+			//_.refs[id] = _.refs[id] || React.createRef();
 			
 			if ( noref )
 				return {
@@ -406,7 +406,8 @@ export default function asTweener( ...argz ) {
 			else
 				return {
 					style: { ..._.tweenRefCSS[id] },
-					ref  : _.refs[id],
+					ref  : node => (_.refs[id] = node)
+						,
 					// __tweenMap : _.tweenRefMaps[id],
 					// __tweenCSS : _.tweenRefCSS[id]
 				};
@@ -468,35 +469,36 @@ export default function asTweener( ...argz ) {
 		// }
 		
 		getTweenableRef( id ) {
-			return _.refs[id].current;
+			return _.refs[id];
 		}
 		
 		_rafLoop() {
 			this._updateTweenRefs();
-			//if ( _.runningAnims.length )
-			requestAnimationFrame(_._rafLoop);
-			//else {
-			//	_.live = false;
-			//}
+			if ( _.runningAnims.length )
+				requestAnimationFrame(_._rafLoop);
+			else {
+				_.live = false;
+			}
 		}
 		
 		_updateTweenRefs() {
-			if ( _.tweenEnabled ) {
-				
-				for ( var i = 0, target, node; i < _.tweenRefTargets.length; i++ ) {
-					target = _.tweenRefTargets[i];
-					utils.mapInBoxCSS(
-						_.tweenRefMaps[target],
-						_.tweenRefCSS[target],
-						_.box,
-						_.tweenRefUnits[target]
-					);
-					node = _.tweenEnabled && target == "__root"
-					       ? ReactDom.findDOMNode(this)
-					       : this.getTweenableRef(target);
-					node && Object.assign(node.style, _.tweenRefCSS[target]);
-				}
+			//if ( _.tweenEnabled ) {
+			
+			for ( var i = 0, target, node; i < _.tweenRefTargets.length; i++ ) {
+				target = _.tweenRefTargets[i];
+				utils.mapInBoxCSS(
+					_.tweenRefMaps[target],
+					_.tweenRefCSS[target],
+					_.box,
+					_.tweenRefUnits[target]
+				);
+				node                 = _.tweenEnabled && target == "__root"
+				                       ? ReactDom.findDOMNode(this)
+				                       : this.getTweenableRef(target);
+				node && Object.assign(node.style, _.tweenRefCSS[target]);
+				//console.log(_.tweenRefCSS[target].transform)
 			}
+			//}
 		}
 		
 		componentWillUnmount() {
