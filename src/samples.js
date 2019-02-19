@@ -130,7 +130,7 @@ class Sample extends React.Component {
 			
 			<TweenRef
 				id={ "testItem" }
-				initial={ { x: "50vw", y: "50vh", z: 1, opacity: .75 } }
+				initial={ { x: "50vw", y: "50vh", _z: 0, opacity: .75 } }
 			>
 				<div
 					onClick={ e => {

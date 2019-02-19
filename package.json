@@ -1,6 +1,6 @@
 {
   "name": "react-rtween",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "AGPL-3.0",
   "main": "./dist/Comp.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -31,7 +31,7 @@
   "scripts": {
     "build": "wpi && wpi :samples",
     "dev": "wpi-dev-server :samples --hot",
-    "runBrowser": "start http://localhost:9501"
+    "runBrowser": "start http://localhost:8080"
   },
   "peerDependencies": {
     "react": "^16.3.2",
