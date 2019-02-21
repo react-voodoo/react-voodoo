@@ -407,7 +407,7 @@ export default function asTweener( ...argz ) {
 				return {
 					style: { ..._.tweenRefCSS[id] },
 					ref  : node => (_.refs[id] = node)
-						,
+					,
 					// __tweenMap : _.tweenRefMaps[id],
 					// __tweenCSS : _.tweenRefCSS[id]
 				};
@@ -464,10 +464,6 @@ export default function asTweener( ...argz ) {
 			}
 		}
 		
-		// updateRefMap( target, map ) {
-		//     Object.assign(_.tweenRefMaps[target], map);
-		// }
-		
 		getTweenableRef( id ) {
 			return _.refs[id];
 		}
@@ -492,9 +488,9 @@ export default function asTweener( ...argz ) {
 					_.box,
 					_.tweenRefUnits[target]
 				);
-				node                 = _.tweenEnabled && target == "__root"
-				                       ? ReactDom.findDOMNode(this)
-				                       : this.getTweenableRef(target);
+				node = _.tweenEnabled && target == "__root"
+				       ? ReactDom.findDOMNode(this)
+				       : this.getTweenableRef(target);
 				node && Object.assign(node.style, _.tweenRefCSS[target]);
 				//console.log(_.tweenRefCSS[target].transform)
 			}
