@@ -1,4 +1,4 @@
-/*
+/*!
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
  *
@@ -12,32 +12,35 @@
  *  @contact : n8tz.js@gmail.com
  */
 
-import React from 'react';
+@mixin use_hvCenteredContent() {
 
+  &:before {
+    content: ' ';
+    display: inline-block;
+    height: 100%;
+    width: 1px;
+    margin-right: -1px;
+    vertical-align: middle;
+    overflow: hidden;
+  }
+  text-align: center;
+  > * {
+    text-align: left;
+    vertical-align: middle;
+    display: inline-block;
+  }
+}
 
-import TweenerContext from "./TweenerContext";
+body, html, #app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  user-select: none;
+}
 
-export default class TweenRef extends React.Component {
-	state = {};
-	
-	render() {
-		let { id, style, initial, pos, noRef, reset } = this.props;
-		return <TweenerContext.Consumer>
-			{
-				tweener => {
-					let child = this.props.children;
-					if ( React.isValidElement(child) ) {
-						child = React.cloneElement(
-							child,
-							{
-								...tweener.tweenRef(id, style || child.props.style, initial, pos, noRef, reset)
-							}
-						);
-						
-					}
-					return child;
-				}
-			}
-		</TweenerContext.Consumer>;
-	}
+.root {
+  //@include use_hvCenteredContent();
+  background: rgba(190, 190, 190, 0.21);
+  text-align: center;
+  perspective: 200px;
 }

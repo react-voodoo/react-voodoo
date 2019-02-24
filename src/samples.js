@@ -18,160 +18,44 @@
 import React    from "react";
 import ReactDom from "react-dom";
 
-import {asTweener, TweenRef} from ".";
-import "./samples.scss";
+import Samples from "Comp/samples/*/(*).js"
 
-
-var easingFn = require('d3-ease');
-
-let pushIn  = function ( target ) {
-	return {
-		anims: [
-			{
-				type    : "Tween",
-				target  : target,
-				from    : 0,
-				duration: 500,
-				easeFn  : easingFn.easeCircleIn,
-				apply   : {
-					_z: .2,
-				}
-			}
-		]
-	};
-};
-let pushOut = function ( target ) {
-	return {
-		anims: [
-			{
-				type    : "Tween",
-				target  : target,
-				from    : 0,
-				duration: 500,
-				easeFn  : easingFn.easeCubicInOut,
-				apply   : {
-					_z: -.2,
-				}
-			}
-		]
-	};
-};
-
-@asTweener
-class Sample extends React.Component {
-	static scrollableAnim = [
-		{
-			type    : "Tween",
-			target  : "testItem",
-			from    : 0,
-			duration: 150,
-			easeFn  : easingFn.easePolyOut,
-			apply   : {
-				_z: -.2,
-			}
-		},
-		{
-			type    : "Tween",
-			target  : "testItem",
-			from    : 25,
-			duration: 150,
-			easeFn  : easingFn.easePolyOut,
-			apply   : {
-				x: -50,
-			}
-		},
-		{
-			type    : "Tween",
-			target  : "testItem",
-			from    : 50,
-			duration: 150,
-			easeFn  : easingFn.easePolyOut,
-			apply   : {
-				rotateY: -60,
-			}
-		}
-	];
-	state                 = {
-		count: 0
-	};
-	
-	componentDidScroll( pos ) {
-		//console.log(pos);
-		this.forceUpdate();
-	}
-	
-	// is in view port ?
-	shouldApplyScroll( pos ) {
-		let node     = ReactDom.findDOMNode(this),
-		    bounding = node.getBoundingClientRect();
-		if (
-			bounding.top >= 0 &&
-			bounding.left >= 0 &&
-			bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
-			bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-		) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
-	render() {
-		return <div className={ "root" } style={ {
-			width : "100%",
-			height: "100%"
-		} }>
-			hello ! { this.state.count } concurent anims <br/>
-			scrollPos : { this._.scrollPos } / { this._.scrollableArea }
-			<br/>
-			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
-			<button onClick={ e => this.scrollTo(200, 500) }>( go to 200 )</button>
-			
-			<TweenRef
-				id={ "testItem" }
-				initial={ { x: "50vw", y: "50vh", _z: 0, opacity: .75 } }
-			>
-				<div
-					onClick={ e => {
-						this.setState({ count: this.state.count + 1 })
-						this.pushAnim(pushOut("testItem"),
-						              () => {
-							              this.pushAnim(pushIn("testItem"),
-							                            () => {
-								                            this.setState({ count: this.state.count - 1 })
-							                            });
-							
-						              });
-					} }
-					style={ {
-						position  : "absolute",
-						display   : "inline-block",
-						width     : "15em",
-						height    : "15em",
-						cursor    : "pointer",
-						background: "red",
-						overflow  : "hidden",
-						margin    : "-7.5em 0 0 -7.5em",
-						top       : "0px",
-						left      : "0px"
-					} }>click me !
-				</div>
-			</TweenRef>
-		</div>;
-	}
-}
+console.log(Samples);
 
 class App extends React.Component {
+	state = {
+		current: "SimpleTest"
+	};
+	
 	render() {
-		
+		let Comp = Samples[this.state.current].Sample;
 		return <div className={ "app" } style={ {
 			overflow: "scroll",
 			width   : "100%",
 			height  : "100%"
 		} }>
-			<Sample/>
-			<Sample/>
+			
+			<div className={ "samples" } style={ {
+				overflow: "scroll",
+				width   : "200px",
+				height  : "100%"
+			} }>
+				{
+					Object.keys(Samples).map(
+						key => <div onClick={ e => this.setState({ current: key }) }>{ key }</div>
+					)
+				}
+			</div>
+			<div className={ "sample" } style={ {
+				overflow: "scroll",
+				position: "absolute",
+				top     : "0px",
+				left    : "200px",
+				width   : "calc( 100% - 100px )",
+				height  : "100%"
+			} }>
+				<Comp/>
+			</div>
 		</div>
 	}
 }

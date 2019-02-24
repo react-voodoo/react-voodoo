@@ -392,9 +392,17 @@ export default function asTweener( ...argz ) {
 			Object.assign(this._.tweenRefCSS[target], style);
 		}
 		
+		shouldApplyScroll( to, from ) {
+			return this._.scrollHook.reduce(( r, hook ) => (!r
+			                                                ? false
+			                                                : hook(to, from)), true)
+				|| super.shouldApplyScroll && super.shouldApplyScroll(to, from);
+		}
+		
 		makeScrollable() {
 			if ( !this._.scrollEnabled ) {
 				this._.scrollEnabled   = true;
+				this._.scrollHook      = [];
 				this._.scrollableAnims = [];
 				isBrowserSide && utils.addWheelEvent(
 					ReactDom.findDOMNode(this),
@@ -402,7 +410,7 @@ export default function asTweener( ...argz ) {
 						let oldPos = this._.scrollPos,
 						    newPos = oldPos + e.deltaY;
 						
-						if ( this.shouldApplyScroll && !this.shouldApplyScroll() ) {
+						if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos) ) {
 							return;
 						}
 						
@@ -568,7 +576,7 @@ export default function asTweener( ...argz ) {
 		}
 		
 		render() {
-			return <TweenerContext.Provider value={ this.tweenRef.bind(this) }>
+			return <TweenerContext.Provider value={ this }>
 				{ super.render() }
 			</TweenerContext.Provider>;
 		}
