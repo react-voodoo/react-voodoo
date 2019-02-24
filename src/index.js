@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React     from 'react';
-import asTweener from './asTweener';
-import TweenRef from './TweenRef';
+import React          from 'react';
+import asTweener      from './asTweener';
+import TweenRef       from './TweenRef';
+import TweenerContext from './TweenerContext';
 
 const Component = asTweener({})(React.Component);
 
@@ -28,5 +29,5 @@ class TweenableComponent extends Component {
 	}
 }
 
-export {asTweener, TweenRef, Component};
+export {asTweener, TweenRef, Component, TweenerContext};
 export default TweenableComponent;

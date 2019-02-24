@@ -17,14 +17,14 @@
  */
 
 var
-	is       = require('is'),
-	floatCut = function ( v, l ) {
+	is          = require('is'),
+	floatCut    = function ( v, l ) {
 		var p = Math.pow(10, l);
 		return Math.round(v * p) / p;
 	},
-	min      = Math.min,
-	max      = Math.max,
-	Dom      = {
+	min         = Math.min,
+	max         = Math.max,
+	Dom         = {
 		prefix      : (/webkit/i).test(navigator.appVersion) ? 'webkit' :
 		              (/firefox/i).test(navigator.userAgent) ? 'Moz' :
 		              (/trident/i).test(navigator.userAgent) ? 'ms' :
@@ -33,6 +33,21 @@ var
 		              (/firefox/i).test(navigator.userAgent) ? '-moz-' :
 		              (/trident/i).test(navigator.userAgent) ? '-ms-' :
 		              'opera' in window ? '-o-' : ''
+	},
+	customProps = {
+		_x       : true,
+		x        : true,
+		_y       : true,
+		y        : true,
+		_z       : true,
+		z        : true,
+		transform: true,
+		matrix   : true,// @todo
+		rotate   : true,
+		rotateX  : true,
+		rotateY  : true,
+		_width   : true,
+		_height  : true,
 	}
 ;
 
@@ -73,8 +88,8 @@ export default {
 		var PAGE_HEIGHT        = 800;
 		
 		function normalizeWheel( /*object*/ event ) /*object*/ {
-			var sX = 0, sY = 0,       // spinX, spinY
-			    pX         = 0, pY = 0;       // pixelX, pixelY
+			var sX         = 0, sY = 0,       // spinX, spinY
+			    pX = 0, pY = 0;       // pixelX, pixelY
 			
 			// Legacy
 			if ( 'detail' in event ) {
@@ -217,8 +232,6 @@ export default {
 		return rmWheelListener;
 	})(window, document),
 	mapInBoxCSS  : function ( pos, css, box, units, offset ) {
-		
-		//if ( is.number(pos.x) || is.number(pos.y))
 		var t = '';
 		if ( is.number(pos._z) || is.number(pos._x) || is.number(pos._y) || is.number(pos.z) ||
 			is.number(pos.x) || is.number(pos.y) )
@@ -251,5 +264,13 @@ export default {
 		is.number(pos.height) && (css.height = (pos.height) + (units && units.y || 'px'));
 		
 		is.number(pos.zIndex) && (css.zIndex = pos.zIndex);
+		
+		
+		Object.keys(pos).forEach(
+			key => {
+				if ( !(key in customProps) )
+					css[key] = pos[key] + (units && units[key] || 'px')
+			}
+		)
 	},
 }
