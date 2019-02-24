@@ -35,19 +35,20 @@ var
 		              'opera' in window ? '-o-' : ''
 	},
 	customProps = {
-		_x       : true,
-		x        : true,
-		_y       : true,
-		y        : true,
-		_z       : true,
-		z        : true,
-		transform: true,
-		matrix   : true,// @todo
-		rotate   : true,
-		rotateX  : true,
-		rotateY  : true,
-		_width   : true,
-		_height  : true,
+		_x         : true,
+		x          : true,
+		_y         : true,
+		y          : true,
+		_z         : true,
+		z          : true,
+		transform  : true,
+		perspective: true,
+		matrix     : true,// @todo
+		rotate     : true,
+		rotateX    : true,
+		rotateY    : true,
+		_width     : true,
+		_height    : true,
 	},
 	__          = {
 		onPageHided      : [],
@@ -427,8 +428,8 @@ var
 			var PAGE_HEIGHT        = 800;
 			
 			function normalizeWheel( /*object*/ event ) /*object*/ {
-				var sX         = 0, sY = 0,       // spinX, spinY
-				    pX = 0, pY = 0;       // pixelX, pixelY
+				var sX = 0, sY = 0,       // spinX, spinY
+				    pX         = 0, pY = 0;       // pixelX, pixelY
 				
 				// Legacy
 				if ( 'detail' in event ) {
@@ -594,7 +595,12 @@ var
 			if ( is.number(pos.opacity) )
 				css.opacity = min(1, max(0, floatCut(pos.opacity, 2)));
 			
-			css.transform = t;
+			pos.perspective && (t = "perspective(" + pos.perspective + (units && units.perspective || 'px') + ") " + t)
+			
+			t && (
+				css.transform = t
+			);
+			
 			
 			is.number(pos._width) && (css.width = (pos._width) * (box.x || 0) + 'px');
 			is.number(pos._height) && (css.height = (pos._height) * (box.y || 0) + 'px');
