@@ -159,14 +159,14 @@ export default class Sample extends React.Component {
 	shouldApplyScroll( newPos, oldPos ) {
 		let node = ReactDom.findDOMNode(this);
 		
-		if ( (newPos > oldPos) )
+		if ( newPos > oldPos )
 			this.scrollTo(100, 250);
-		else if ( !node.scrollTop )
+		else if ( node.scrollTop < 25 )
 			this.scrollTo(0, 250);
 		else
 			this.scrollTo(50, 250);
 		
-		//return oldPos < 50
+		return oldPos < 50
 	}
 	
 	render() {
