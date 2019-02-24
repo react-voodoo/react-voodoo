@@ -25,7 +25,7 @@ export default class TweenRef extends React.Component {
 			    children,
 			    id, style, initial, pos, noRef, reset,
 			    onClick    = children && children.props && children.props.onClick,
-			    onDblClick = children && children.props && children.props.onDblClick
+			    onDoubleClick = children && children.props && children.props.onDoubleClick
 		    } = this.props;
 		return <TweenerContext.Consumer>
 			{
@@ -35,7 +35,7 @@ export default class TweenRef extends React.Component {
 							children,
 							{
 								...tweener.tweenRef(id, style || children.props.style, initial, pos, noRef, reset),
-								onDblClick: onDblClick && (e => onDblClick(e, tweener)),
+								onDoubleClick: onDoubleClick && (e => onDoubleClick(e, tweener)),
 								onClick   : onClick && (e => onClick(e, tweener))
 							}
 						);

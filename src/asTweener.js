@@ -418,7 +418,24 @@ export default function asTweener( ...argz ) {
 						
 						if ( this.scrollTo(newPos) )
 							e.preventDefault();
-					});
+					}
+				);
+				utils.addEvent(ReactDom.findDOMNode(this), 'drag',
+				               ( e, touch, descr ) => {//@todo
+					
+					               let oldPos        = this._.scrollPos,
+					                   newPos        = oldPos + (descr._startPos.y - descr._lastPos.y)/10;
+					               descr._startPos.y = descr._lastPos.y
+					               if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos) ) {
+						               return;
+					               }
+					
+					               this.scrollTo(newPos)
+						               //e.preventDefault();
+					               //debugger
+				               }
+				)
+				//ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
 			}
 		}
 		
