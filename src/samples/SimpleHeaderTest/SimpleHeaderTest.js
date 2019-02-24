@@ -79,7 +79,7 @@ class Header extends React.Component {
 					onClick={ ( e, tweener ) => {
 						tweener.pushAnim(pushIn("logo"));
 					} }>
-					<div className={ "logo" }/>
+					<div className={ "logo" }><span>click me</span></div>
 				</TweenRef>
 			</header>
 		</TweenRef>;
@@ -180,6 +180,8 @@ export default class Sample extends React.Component {
 			} }>
 				<Header/>
 				<div className={ "content" }>
+					drag / scroll me
+					<br/>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut placerat dapibus erat et commodo.
 					Integer pretium vitae lorem at molestie. Donec tincidunt sollicitudin velit eget elementum. Sed
 					interdum non dolor et auctor. Aenean fermentum ipsum in efficitur varius. Quisque sagittis justo a
@@ -193,7 +195,6 @@ export default class Sample extends React.Component {
 					eros
 					commodo sed. Proin in nisl in elit dictum lacinia. Donec malesuada arcu metus, sed convallis sapien
 					maximus non. Etiam ullamcorper pretium purus vel mattis.
-					<br/>
 					Nullam vel arcu viverra, ornare ipsum id, eleifend velit. Integer commodo gravida mollis.
 					Pellentesque
 					nec elit quam. Proin molestie elementum nisl. Interdum et malesuada fames ac ante ipsum primis in

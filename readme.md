@@ -139,10 +139,9 @@ class Sample extends React.Component {
 ### Todo :
 
 - Nice examples 
+- Matrix support
+- Better scroll support
 - Doc & clean
-- Usability & interpolations helpers ?
-- ES6 updates
-- Optims updates
 
 ### License ?
 
