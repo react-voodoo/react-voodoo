@@ -17,6 +17,7 @@
  */
 
 import React                 from "react";
+import ReactDom              from "react-dom";
 import {asTweener, TweenRef} from "Comp";
 import "./samples.scss";
 
@@ -57,7 +58,7 @@ let pushOut = function ( target ) {
 };
 
 @asTweener
-export class Sample extends React.Component {
+export default class Sample extends React.Component {
 	static scrollableAnim = [
 		{
 			type    : "Tween",
@@ -94,10 +95,10 @@ export class Sample extends React.Component {
 		count: 0
 	};
 	
-	componentDidScroll( pos ) {
-		//console.log(pos);
-		this.forceUpdate();
-	}
+	//componentDidScroll( pos ) {
+	//	//console.log(pos);
+	//	this.forceUpdate();
+	//}
 	
 	// is in view port ?
 	shouldApplyScroll( pos ) {
@@ -117,7 +118,7 @@ export class Sample extends React.Component {
 	}
 	
 	render() {
-		return <div className={ "root" } style={ {
+		return <div className={ "SimpleTest" } style={ {
 			width : "100%",
 			height: "100%"
 		} }>
@@ -129,7 +130,7 @@ export class Sample extends React.Component {
 			
 			<TweenRef
 				id={ "testItem" }
-				initial={ { _x: .5, _y: .5, _z: 0, opacity: .75 } }
+				initial={ { _x: .5, _y: .5, _z: 0, rotateY: 0, opacity: .75 } }
 			>
 				<div
 					onClick={ e => {

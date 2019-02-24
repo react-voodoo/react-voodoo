@@ -18,11 +18,11 @@
 
 import React          from "react";
 import is             from "is";
-import ReactDom       from "react-dom";
 import taskflow       from "taskflows";
 import utils          from "./utils";
 import TweenerContext from "./TweenerContext";
 import rtween         from "rtween";
+import ReactDom       from "react-dom";
 
 /**
  * @todo : clean & comments
@@ -32,16 +32,16 @@ import rtween         from "rtween";
 var isBrowserSide    = (new Function("try {return this===window;}catch(e){ return false;}"))(),
     isArray          = is.array,
     initialTweenable = {// while no matrix..
-	    x      : 0,
-	    y      : 0,
-	    z      : 0,
-	    _x     : 0,
-	    _y     : 0,
-	    _z     : 0,
-	    // opacity   : 1,
-	    rotateY: 0,
-	    rotateX: 0,
-	    rotate : 0
+	    //x      : 0,
+	    //y      : 0,
+	    //z      : 0,
+	    //_x     : 0,
+	    //_y     : 0,
+	    //_z     : 0,
+	    //// opacity   : 1,
+	    //rotateY: 0,
+	    //rotateX: 0,
+	    //rotate : 0
     },
     unitsRe          = new RegExp(
 	    "([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
@@ -92,6 +92,7 @@ export default function asTweener( ...argz ) {
 				z: 800
 			};
 			this._.curMotionStateId = _static.InitialMotionState || "stand";
+			this._._rafLoop         = this._rafLoop.bind(this);
 		}
 		
 		
@@ -288,7 +289,7 @@ export default function asTweener( ...argz ) {
 		scrollTo( newPos, ms = 0 ) {
 			if ( this._.scrollableAnims ) {
 				let oldPos = newPos,
-				    setPos = pos => (this._.scrollPos = pos, this.componentDidScroll && this.componentDidScroll(~~pos));
+				    setPos = pos => (this._.scrollPos = pos, this.componentDidScroll && this.componentDidScroll(~~pos), requestAnimationFrame(this._._rafLoop));
 				
 				newPos = Math.max(0, newPos);
 				newPos = Math.min(newPos, this._.scrollableArea);
@@ -307,7 +308,7 @@ export default function asTweener( ...argz ) {
 				
 				if ( !this._.live ) {
 					this._.live = true;
-					requestAnimationFrame(this._._rafLoop = this._._rafLoop || this._rafLoop.bind(this));
+					requestAnimationFrame(this._._rafLoop);
 				}
 				return !(oldPos - newPos);
 			}
@@ -392,12 +393,13 @@ export default function asTweener( ...argz ) {
 			Object.assign(this._.tweenRefCSS[target], style);
 		}
 		
-		shouldApplyScroll( to, from ) {
-			return this._.scrollHook.reduce(( r, hook ) => (!r
-			                                                ? false
-			                                                : hook(to, from)), true)
-				|| super.shouldApplyScroll && super.shouldApplyScroll(to, from);
-		}
+		//
+		//shouldApplyScroll( to, from ) {
+		//	return this._.scrollHook.reduce(( r, hook ) => (!r
+		//	                                                ? false
+		//	                                                : hook(to, from)), true)
+		//		|| super.shouldApplyScroll && super.shouldApplyScroll(to, from);
+		//}
 		
 		makeScrollable() {
 			if ( !this._.scrollEnabled ) {

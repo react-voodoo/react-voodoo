@@ -21,21 +21,27 @@ export default class TweenRef extends React.Component {
 	state = {};
 	
 	render() {
-		let { id, style, initial, pos, noRef, reset } = this.props;
+		let {
+			    children,
+			    id, style, initial, pos, noRef, reset,
+			    onClick    = children && children.props && children.props.onClick,
+			    onDblClick = children && children.props && children.props.onDblClick
+		    } = this.props;
 		return <TweenerContext.Consumer>
 			{
 				tweener => {
-					let child = this.props.children;
-					if ( React.isValidElement(child) ) {
-						child = React.cloneElement(
-							child,
+					if ( React.isValidElement(children) ) {
+						children = React.cloneElement(
+							children,
 							{
-								...tweener.tweenRef(id, style || child.props.style, initial, pos, noRef, reset)
+								...tweener.tweenRef(id, style || children.props.style, initial, pos, noRef, reset),
+								onDblClick: onDblClick && (e => onDblClick(e, tweener)),
+								onClick   : onClick && (e => onClick(e, tweener))
 							}
 						);
 						
 					}
-					return child;
+					return children;
 				}
 			}
 		</TweenerContext.Consumer>;

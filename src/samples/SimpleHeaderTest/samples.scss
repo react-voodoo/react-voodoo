@@ -38,21 +38,50 @@ body, html, #app {
   user-select: none;
 }
 
-.root {
+.sample {
+  perspective: 200px;
+
+}
+.SimpleHeader {
   background: rgba(190, 190, 190, 0.21);
   text-align: center;
-  perspective: 200px;
-}
 
-.block {
-  @include use_hvCenteredContent();
-  line-height: 1em;
-  vertical-align: middle;
-  width: 200px;
-  height: 100px;
-  background: rgba(166, 206, 226, 0.36);
-  margin: 5px;
-  border: 1px solid gray;
-  border-radius: 5px;
-  display: inline-block;
+  overflow-y: scroll;
+
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  //tr
+  header {
+    background: green;
+    position: fixed;
+    width: calc( 100% - 17px );
+    top: 0px;
+    left: 0px;
+  }
+
+  .content {
+    height: 20000px;
+    background: #3b55a0;
+    padding: 10px;
+  }
+
+  .logo {
+    @include use_hvCenteredContent();
+    perspective: 200px;
+    position: absolute;
+    bottom: 20px;
+    line-height: 1em;
+    vertical-align: middle;
+    width: 200px;
+    height: 100px;
+    margin-left: -100px;
+    background: url("https://source.unsplash.com/600x400/?logo") no-repeat center center;
+    background-size: cover;
+    border: 1px solid gray;
+    border-radius: 5px;
+    display: inline-block;
+  }
+
 }

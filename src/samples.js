@@ -24,11 +24,11 @@ console.log(Samples);
 
 class App extends React.Component {
 	state = {
-		current: "SimpleTest"
+		current: "SimpleHeaderTest"
 	};
 	
 	render() {
-		let Comp = Samples[this.state.current].Sample;
+		let Comp = Samples[this.state.current];
 		return <div className={ "app" } style={ {
 			overflow: "scroll",
 			width   : "100%",
@@ -47,11 +47,11 @@ class App extends React.Component {
 				}
 			</div>
 			<div className={ "sample" } style={ {
-				overflow: "scroll",
+				overflow: "hidden",
 				position: "absolute",
 				top     : "0px",
 				left    : "200px",
-				width   : "calc( 100% - 100px )",
+				width   : "calc( 100% - 200px )",
 				height  : "100%"
 			} }>
 				<Comp/>
