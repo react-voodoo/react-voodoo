@@ -24,7 +24,7 @@ import "./samples.scss";
 
 var easingFn = require('d3-ease');
 
-let pushIn  = function ( target ) {
+let pushIn = function ( target ) {
 	return {
 		anims: [
 			{
@@ -34,23 +34,27 @@ let pushIn  = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					_z: .2,
+					_z: -.2,
 				}
-			}
-		]
-	};
-};
-let pushOut = function ( target ) {
-	return {
-		anims: [
+			},
 			{
 				type    : "Tween",
 				target  : target,
-				from    : 0,
+				from    : 500,
 				duration: 500,
-				easeFn  : easingFn.easeCubicInOut,
+				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					_z: -.2,
+					_z: .2,
+				}
+			},
+			{
+				type    : "Tween",
+				target  : target,
+				from    : 250,
+				duration: 500,
+				easeFn  : easingFn.easeCircle,
+				apply   : {
+					rotateY: 180,
 				}
 			}
 		]
@@ -95,10 +99,10 @@ export default class Sample extends React.Component {
 		count: 0
 	};
 	
-	//componentDidScroll( pos ) {
-	//	//console.log(pos);
-	//	this.forceUpdate();
-	//}
+	componentDidScroll( pos ) {
+		//console.log(pos);
+		this.forceUpdate();
+	}
 	
 	// is in view port ?
 	shouldApplyScroll( pos ) {
@@ -135,12 +139,9 @@ export default class Sample extends React.Component {
 				<div
 					onClick={ e => {
 						this.setState({ count: this.state.count + 1 })
-						this.pushAnim(pushOut("testItem"),
+						this.pushAnim(pushIn("testItem"),
 						              () => {
-							              this.pushAnim(pushIn("testItem"),
-							                            () => {
-								                            this.setState({ count: this.state.count - 1 })
-							                            });
+							              this.setState({ count: this.state.count - 1 })
 							
 						              });
 					} }

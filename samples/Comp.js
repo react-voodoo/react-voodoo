@@ -28279,14 +28279,16 @@ function asTweener() {
             _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), 'drag', function (e, touch, descr) {
               //@todo
               var oldPos = _this8._.scrollPos,
-                  newPos = oldPos + (descr._startPos.y - descr._lastPos.y);
+                  newPos = oldPos + (descr._startPos.y - descr._lastPos.y) / 10;
               descr._startPos.y = descr._lastPos.y;
 
               if (_this8.shouldApplyScroll && !_this8.shouldApplyScroll(newPos, oldPos)) {
                 return;
               }
 
-              if (_this8.scrollTo(newPos)) e.preventDefault(); //debugger
+              _this8.scrollTo(newPos); //e.preventDefault();
+              //debugger
+
             }); //ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
           }
         }
@@ -28653,6 +28655,7 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
   _z: true,
   z: true,
   transform: true,
+  perspective: true,
   matrix: true,
   // @todo
   rotate: true,
@@ -29139,7 +29142,8 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
     if (pos.rotateX && is.number(pos.rotateX)) t += ' rotateX(' + floatCut((pos.rotateX || 0) % 360, 2) + 'deg)';
     if (pos.rotateY && is.number(pos.rotateY)) t += ' rotateY(' + floatCut((pos.rotateY || 0) % 360, 2) + 'deg)';
     if (is.number(pos.opacity)) css.opacity = min(1, max(0, floatCut(pos.opacity, 2)));
-    css.transform = t;
+    pos.perspective && (t = "perspective(" + pos.perspective + (units && units.perspective || 'px') + ") " + t);
+    t && (css.transform = t);
     is.number(pos._width) && (css.width = pos._width * (box.x || 0) + 'px');
     is.number(pos._height) && (css.height = pos._height * (box.y || 0) + 'px');
     is.number(pos.width) && (css.width = pos.width + (units && units.x || 'px'));

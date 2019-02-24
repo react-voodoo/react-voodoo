@@ -29443,14 +29443,16 @@ function asTweener() {
             _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), 'drag', function (e, touch, descr) {
               //@todo
               var oldPos = _this8._.scrollPos,
-                  newPos = oldPos + (descr._startPos.y - descr._lastPos.y);
+                  newPos = oldPos + (descr._startPos.y - descr._lastPos.y) / 10;
               descr._startPos.y = descr._lastPos.y;
 
               if (_this8.shouldApplyScroll && !_this8.shouldApplyScroll(newPos, oldPos)) {
                 return;
               }
 
-              if (_this8.scrollTo(newPos)) e.preventDefault(); //debugger
+              _this8.scrollTo(newPos); //e.preventDefault();
+              //debugger
+
             }); //ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
           }
         }
@@ -30087,6 +30089,7 @@ function (_React$Component) {
           left: "50%",
           bottom: "60px",
           height: "100px",
+          perspective: "200px",
           marginLeft: "-100px"
         },
         onClick: function onClick(e, tweener) {
@@ -30349,22 +30352,25 @@ var pushIn = function pushIn(target) {
       duration: 500,
       easeFn: easingFn.easeCircleIn,
       apply: {
-        _z: .2
+        _z: -.2
       }
-    }]
-  };
-};
-
-var pushOut = function pushOut(target) {
-  return {
-    anims: [{
+    }, {
       type: "Tween",
       target: target,
-      from: 0,
+      from: 500,
       duration: 500,
-      easeFn: easingFn.easeCubicInOut,
+      easeFn: easingFn.easeCircleIn,
       apply: {
-        _z: -.2
+        _z: .2
+      }
+    }, {
+      type: "Tween",
+      target: target,
+      from: 250,
+      duration: 500,
+      easeFn: easingFn.easeCircle,
+      apply: {
+        rotateY: 180
       }
     }]
   };
@@ -30394,12 +30400,14 @@ function (_React$Component) {
   }
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Sample, [{
+    key: "componentDidScroll",
+    value: function componentDidScroll(pos) {
+      //console.log(pos);
+      this.forceUpdate();
+    } // is in view port ?
+
+  }, {
     key: "shouldApplyScroll",
-    //componentDidScroll( pos ) {
-    //	//console.log(pos);
-    //	this.forceUpdate();
-    //}
-    // is in view port ?
     value: function shouldApplyScroll(pos) {
       var node = react_dom__WEBPACK_IMPORTED_MODULE_6___default.a.findDOMNode(this),
           bounding = node.getBoundingClientRect();
@@ -30444,11 +30452,9 @@ function (_React$Component) {
             count: _this2.state.count + 1
           });
 
-          _this2.pushAnim(pushOut("testItem"), function () {
-            _this2.pushAnim(pushIn("testItem"), function () {
-              _this2.setState({
-                count: _this2.state.count - 1
-              });
+          _this2.pushAnim(pushIn("testItem"), function () {
+            _this2.setState({
+              count: _this2.state.count - 1
             });
           });
         },
@@ -30516,7 +30522,6 @@ function (_React$Component) {
   }
 
   reactHotLoader.register(pushIn, "pushIn", "G:\\n8tz\\libs\\react-rtween\\src\\samples\\SimpleTest\\SimpleTest.js");
-  reactHotLoader.register(pushOut, "pushOut", "G:\\n8tz\\libs\\react-rtween\\src\\samples\\SimpleTest\\SimpleTest.js");
   reactHotLoader.register(Sample, "Sample", "G:\\n8tz\\libs\\react-rtween\\src\\samples\\SimpleTest\\SimpleTest.js");
 })();
 
@@ -30610,6 +30615,7 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
   _z: true,
   z: true,
   transform: true,
+  perspective: true,
   matrix: true,
   // @todo
   rotate: true,
@@ -31096,7 +31102,8 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
     if (pos.rotateX && is.number(pos.rotateX)) t += ' rotateX(' + floatCut((pos.rotateX || 0) % 360, 2) + 'deg)';
     if (pos.rotateY && is.number(pos.rotateY)) t += ' rotateY(' + floatCut((pos.rotateY || 0) % 360, 2) + 'deg)';
     if (is.number(pos.opacity)) css.opacity = min(1, max(0, floatCut(pos.opacity, 2)));
-    css.transform = t;
+    pos.perspective && (t = "perspective(" + pos.perspective + (units && units.perspective || 'px') + ") " + t);
+    t && (css.transform = t);
     is.number(pos._width) && (css.width = pos._width * (box.x || 0) + 'px');
     is.number(pos._height) && (css.height = pos._height * (box.y || 0) + 'px');
     is.number(pos.width) && (css.width = pos.width + (units && units.x || 'px'));
