@@ -37,6 +37,9 @@ class App extends React.Component {
 			
 			<div className={ "samples" } style={ {
 				overflow: "scroll",
+				position: "absolute",
+				top     : "0px",
+				left    : "0px",
 				width   : "200px",
 				height  : "100%"
 			} }>

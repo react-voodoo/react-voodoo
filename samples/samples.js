@@ -559,7 +559,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/*!\r\n * The MIT License (MIT)\r\n * Copyright (c) 2019. Wise Wild Web\r\n *\r\n * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\r\n *\r\n * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\r\n *\r\n * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\r\n *\r\n *  @author : Nathanael Braun\r\n *  @contact : n8tz.js@gmail.com\r\n */\nbody, html, #app {\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n\n.sample {\n  -webkit-perspective: 200px;\n          perspective: 200px; }\n\n.SimpleHeader {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  position: relative;\n  width: 100%;\n  height: 100%; }\n  .SimpleHeader header {\n    background: green;\n    position: fixed;\n    width: calc( 100% - 17px);\n    top: 0px;\n    left: 0px; }\n  .SimpleHeader .content {\n    height: 20000px;\n    background: #3b55a0;\n    padding: 10px; }\n  .SimpleHeader .logo {\n    text-align: center;\n    -webkit-perspective: 200px;\n            perspective: 200px;\n    position: absolute;\n    bottom: 20px;\n    line-height: 1em;\n    vertical-align: middle;\n    width: 200px;\n    height: 100px;\n    margin-left: -100px;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover;\n    border: 1px solid gray;\n    border-radius: 5px;\n    display: inline-block; }\n    .SimpleHeader .logo:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleHeader .logo > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/*!\r\n * The MIT License (MIT)\r\n * Copyright (c) 2019. Wise Wild Web\r\n *\r\n * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\r\n *\r\n * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\r\n *\r\n * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\r\n *\r\n *  @author : Nathanael Braun\r\n *  @contact : n8tz.js@gmail.com\r\n */\nbody, html, #app {\n  width: 100%;\n  height: 100%;\n  margin: 0; }\n\n.sample {\n  -webkit-perspective: 200px;\n          perspective: 200px; }\n\n.SimpleHeader {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  position: relative;\n  width: 100%;\n  height: 100%; }\n  .SimpleHeader header {\n    background: green;\n    position: fixed;\n    width: calc( 100% - 17px);\n    top: 0px;\n    left: 0px; }\n    @media (hover: none) {\n      .SimpleHeader header {\n        /* ... */\n        width: 100%; } }\n  .SimpleHeader .content {\n    height: 20000px;\n    background: #3b55a0;\n    padding: 10px; }\n  .SimpleHeader .logo {\n    text-align: center;\n    -webkit-perspective: 200px;\n            perspective: 200px;\n    position: absolute;\n    bottom: 20px;\n    line-height: 1em;\n    vertical-align: middle;\n    width: 200px;\n    height: 100px;\n    margin-left: -100px;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover;\n    border: 1px solid gray;\n    border-radius: 5px;\n    display: inline-block; }\n    .SimpleHeader .logo:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleHeader .logo > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n", ""]);
 
 // exports
 
@@ -578,7 +578,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/*!\r\n * The MIT License (MIT)\r\n * Copyright (c) 2019. Wise Wild Web\r\n *\r\n * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\r\n *\r\n * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\r\n *\r\n * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\r\n *\r\n *  @author : Nathanael Braun\r\n *  @contact : n8tz.js@gmail.com\r\n */\nbody, html, #app {\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n\n.SimpleTest {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  -webkit-perspective: 200px;\n          perspective: 200px; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/*!\r\n * The MIT License (MIT)\r\n * Copyright (c) 2019. Wise Wild Web\r\n *\r\n * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\r\n *\r\n * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\r\n *\r\n * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\r\n *\r\n *  @author : Nathanael Braun\r\n *  @contact : n8tz.js@gmail.com\r\n */\nbody, html, #app {\n  width: 100%;\n  height: 100%;\n  margin: 0; }\n\n.SimpleTest {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  -webkit-perspective: 200px;\n          perspective: 200px; }\n", ""]);
 
 // exports
 
@@ -28869,13 +28869,13 @@ function (_React$Component) {
           reset = _this$props.reset,
           _this$props$onClick = _this$props.onClick,
           onClick = _this$props$onClick === void 0 ? children && children.props && children.props.onClick : _this$props$onClick,
-          _this$props$onDblClic = _this$props.onDblClick,
-          onDblClick = _this$props$onDblClic === void 0 ? children && children.props && children.props.onDblClick : _this$props$onDblClic;
+          _this$props$onDoubleC = _this$props.onDoubleClick,
+          onDoubleClick = _this$props$onDoubleC === void 0 ? children && children.props && children.props.onDoubleClick : _this$props$onDoubleC;
       return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_7__["default"].Consumer, null, function (tweener) {
         if (react__WEBPACK_IMPORTED_MODULE_6___default.a.isValidElement(children)) {
           children = react__WEBPACK_IMPORTED_MODULE_6___default.a.cloneElement(children, _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, tweener.tweenRef(id, style || children.props.style, initial, pos, noRef, reset), {
-            onDblClick: onDblClick && function (e) {
-              return onDblClick(e, tweener);
+            onDoubleClick: onDoubleClick && function (e) {
+              return onDoubleClick(e, tweener);
             },
             onClick: onClick && function (e) {
               return onClick(e, tweener);
@@ -29440,6 +29440,18 @@ function asTweener() {
 
               if (_this8.scrollTo(newPos)) e.preventDefault();
             });
+            _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), 'drag', function (e, touch, descr) {
+              //@todo
+              var oldPos = _this8._.scrollPos,
+                  newPos = oldPos + (descr._startPos.y - descr._lastPos.y);
+              descr._startPos.y = descr._lastPos.y;
+
+              if (_this8.shouldApplyScroll && !_this8.shouldApplyScroll(newPos, oldPos)) {
+                return;
+              }
+
+              if (_this8.scrollTo(newPos)) e.preventDefault(); //debugger
+            }); //ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
           }
         }
       }, {
@@ -29886,6 +29898,9 @@ function (_React$Component) {
         className: "samples",
         style: {
           overflow: "scroll",
+          position: "absolute",
+          top: "0px",
+          left: "0px",
           width: "200px",
           height: "100%"
         }
@@ -30117,10 +30132,8 @@ function (_React$Component2) {
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Sample, [{
     key: "shouldApplyScroll",
     value: function shouldApplyScroll(newPos, oldPos) {
-      var node = react_dom__WEBPACK_IMPORTED_MODULE_8___default.a.findDOMNode(this),
-          bounding = node.getBoundingClientRect();
-      if (newPos > oldPos) this.scrollTo(100, 250);else if (!node.scrollTop) this.scrollTo(0, 250);else this.scrollTo(50, 250);
-      return oldPos > 50;
+      var node = react_dom__WEBPACK_IMPORTED_MODULE_8___default.a.findDOMNode(this);
+      if (newPos > oldPos) this.scrollTo(100, 250);else if (!node.scrollTop) this.scrollTo(0, 250);else this.scrollTo(50, 250); //return oldPos < 50
     }
   }, {
     key: "render",
@@ -30604,9 +30617,293 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
   rotateY: true,
   _width: true,
   _height: true
-};
+},
+    __ = {
+  onPageHided: [],
+  onPageShown: [],
+  dragging: [],
+  dragEnabled: [],
+  dragEnabledDesc: [],
+  fingers: {},
+  nbFingers: 0,
+  dragstartAnywhere: function dragstartAnywhere(e) {
+    var o,
+        me = __,
+        i = me.dragEnabled.indexOf(this),
+        finger,
+        desc,
+        fingers = [];
+    if (i === -1) return true;
 
-var _default = {
+    if (!me.nbFingers) {
+      Dom.addEvent(document, {
+        'touchmove': me.dragAnywhere,
+        //'mousemove': me.dragAnywhere,
+        'touchend': me.dropAnywhere //'mouseup'  : me.dropAnywhere
+
+      });
+    }
+
+    if (e.changedTouches && e.changedTouches.length) {
+      fingers = e.changedTouches;
+    } else fingers.push(e);
+
+    for (var t = 0, ln = fingers.length; t < ln; t++) {
+      finger = fingers[t];
+      desc = me.dragEnabledDesc[i];
+      if (desc.nbFingers) continue;
+      me.nbFingers++;
+      me.fingers[finger.identifier] = desc;
+      desc.nbFingers++;
+      desc._startPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
+      desc._startPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+      if (!desc) continue;
+      desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
+      desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+
+      for (o = 0; o < desc.dragstart.length; o++) {
+        desc.dragstart[o][0].call(desc.dragstart[o][1] || this, e, finger, desc);
+      }
+    }
+  },
+  dragAnywhere: function dragAnywhere(e) {
+    var o,
+        me = __,
+        finger,
+        fingers = [],
+        desc = __.dragging[0];
+
+    if (e.changedTouches && e.changedTouches.length) {
+      fingers = e.changedTouches;
+    } else fingers.push(e);
+
+    for (var i = 0, ln = fingers.length; i < ln; i++) {
+      finger = fingers[i];
+      desc = me.fingers[finger.identifier];
+      if (!desc) continue;
+      desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
+      desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+
+      for (o = 0; o < desc.drag.length; o++) {
+        desc.drag[o][0].call(desc.drag[o][1] || this, e, finger, desc);
+      }
+    }
+  },
+  dropAnywhere: function dropAnywhere(e) {
+    var o,
+        me = __,
+        finger,
+        fingers = [],
+        desc;
+
+    if (e.changedTouches && e.changedTouches.length) {
+      fingers = e.changedTouches;
+    } else fingers.push(e);
+
+    for (var i = 0, ln = fingers.length; i < ln; i++) {
+      finger = fingers[i];
+      desc = me.fingers[finger.identifier];
+      me.fingers[finger.identifier] = null;
+      if (!desc) continue;
+      me.nbFingers--;
+      desc.nbFingers--;
+      desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
+      desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+
+      for (o = 0; o < desc.dropped.length; o++) {
+        desc.dropped[o][0].call(desc.dropped[o][1] || this, e, finger, desc);
+      }
+    }
+
+    if (!me.nbFingers) {
+      Dom.removeEvent(document, {
+        'touchmove': me.dragAnywhere,
+        'mousemove': me.dragAnywhere,
+        'touchend': me.dropAnywhere,
+        'mouseup': me.dropAnywhere
+      });
+    }
+  },
+  getDraggable: function getDraggable(node) {
+    var i = this.dragEnabled.indexOf(node),
+        desc;
+
+    if (i === -1) {
+      i = this.dragEnabled.length;
+      this.dragEnabled.push(node);
+      this.dragEnabledDesc.push(desc = {
+        nbFingers: 0,
+        locks: 0,
+        _startPos: {
+          x: 0,
+          y: 0
+        },
+        _lastPos: {
+          x: 0,
+          y: 0
+        },
+        dragstart: [],
+        drag: [],
+        dragEnd: [],
+        dropped: []
+      }); //debugger;
+
+      Dom.addEvent(node, {
+        //'mousedown' : this.dragstartAnywhere,
+        'touchstart': this.dragstartAnywhere
+      });
+    } else desc = this.dragEnabledDesc[i];
+
+    return desc;
+  },
+  freeDraggable: function freeDraggable(node) {
+    var i = this.dragEnabled.indexOf(node),
+        desc;
+
+    if (i !== -1) {
+      this.dragEnabled.splice(i, 1);
+      this.dragEnabledDesc.splice(i, 1);
+      Dom.removeEvent(node, {
+        'mousedown': this.dragstartAnywhere,
+        'touchstart': this.dragstartAnywhere
+      });
+    }
+  },
+  addOverflowEvent: function addFlowListener(element, fn) {
+    var type = 'over',
+        flow = type == 'over';
+    element.addEventListener('OverflowEvent' in window ? 'overflowchanged' : type + 'flow', function (e) {
+      if (e.type == type + 'flow' || e.orient == 0 && e.horizontalOverflow == flow || e.orient == 1 && e.verticalOverflow == flow || e.orient == 2 && e.horizontalOverflow == flow && e.verticalOverflow == flow) {
+        return fn.call(this, e);
+      }
+    }, false);
+  },
+  addEvent: function addEvent(node, type, fn, bubble) {
+    if (node.addEventListener) {
+      node.addEventListener(type, fn, bubble);
+    } else if (node.attachEvent) {
+      node.attachEvent('on' + type, fn.related = function (e) {
+        return fn.call(node, e);
+      });
+    }
+  },
+  removeEvent: function removeEvent(node, type, fn, bubble) {
+    if (node.removeEventListener) {
+      node.removeEventListener(type, fn, bubble);
+    } else if (node.attachEvent) {
+      node.detachEvent('on' + type, fn.related);
+    }
+  },
+  rmFnScopePair: function rmFnScopePair(arr, fn, scope) {
+    for (var i = 0, ln = arr.length; i < ln; i++) {
+      if (arr[i][0] == fn && arr[i][1] == scope) return arr.splice(i, 1);
+    }
+
+    console.warn("Rm event : Listener not found !!");
+  },
+  _createElement: function _createElement(tag, opt, refs, parent) {
+    var a,
+        o,
+        i,
+        ln,
+        node = parent || document.createElement(tag); //if (parent) opt = {content:opt};
+
+    if (opt) for (o in opt) {
+      if (opt.hasOwnProperty(o) && opt[o] !== undefined && !_createElementAttr.hasOwnProperty(o)) {
+        a = document.createAttribute(o);
+        a.value = opt[o];
+        node.setAttributeNode(a);
+      }
+    }
+    refs && opt.$id && (refs[opt.$id] = node);
+    opt.style && Dom.applyCss(node, opt.style);
+    opt.cls && Dom.addCls(node, opt.cls);
+
+    if (opt.events) {
+      for (o in opt.events) {
+        if (opt.events.hasOwnProperty(o) && o !== "$scope") Dom.addEvent(node, o, opt.events[o], opt.events.$scope);
+      }
+    }
+
+    if (opt.content) {
+      if (typeof opt.content === 'string' || typeof opt.content[o] == 'number') {
+        node.innerHTML = opt.content;
+      } else if (opt.content instanceof Array) {
+        for (i = 0, ln = opt.content.length; i < ln; i++) {
+          node.appendChild(typeof opt.content[i] == 'string' || typeof opt.content[i] == 'number' || !opt.content[i] ? document.createTextNode(opt.content[i] || '') : isElement(opt.content[i]) ? opt.content[i] : __createElement(opt.content[i].tagName || 'div', opt.content[i], refs));
+        }
+      } else {
+        node.appendChild(opt.content instanceof HTMLElement ? opt.content : __createElement(opt.content.tagName || 'div', opt.content, refs));
+      }
+    }
+
+    return node;
+  }
+},
+    Dom = {
+  addEvent: function addEvent(node, type, fn, scope, bubble) {
+    var desc;
+
+    if (is.object(type)) {
+      for (var o in type) {
+        if (type.hasOwnProperty(o)) this.addEvent(node, o, type[o], fn);
+      }
+
+      return;
+    } else if (type == 'dragstart') {
+      __.getDraggable(node).dragstart.push([fn, scope]);
+    } else if (type == 'drag') {
+      __.getDraggable(node).drag.push([fn, scope]);
+    } else if (type == 'dropped') {
+      __.getDraggable(node).dropped.push([fn, scope]);
+    } else {
+      if (node.addEventListener) {
+        node.addEventListener(type, fn, bubble);
+      } else if (node.attachEvent) {
+        node.attachEvent('on' + type, fn.related = function (e) {
+          return fn.call(node, e);
+        });
+      }
+    }
+  },
+  removeEvent: function removeEvent(node, type, fn, scope, bubble) {
+    var i, desc;
+
+    if (is.object(type)) {
+      for (var o in type) {
+        if (type.hasOwnProperty(o)) this.removeEvent(node, o, type[o], scope);
+      }
+    } else if (/^(drag|drop)/.test(type)) {
+      desc = __.getDraggable(node);
+
+      __.rmFnScopePair(desc[type], fn, scope);
+
+      if (!desc.dragstart.length && !desc.drag.length && !desc.dragEnd.length && !desc.dropped.length) __.freeDraggable(node);
+    } else {
+      if (node.removeEventListener) {
+        node.removeEventListener(type, fn, bubble);
+      } else if (node.attachEvent) {
+        node.detachEvent('on' + type, fn.related);
+      }
+    }
+  },
+  offset: function offset(elem) {
+    // @todo
+    var dims = {
+      top: 0,
+      left: 0,
+      width: elem.offsetWidth,
+      height: elem.offsetHeight
+    };
+
+    while (elem) {
+      dims.top = dims.top + parseInt(elem.offsetTop);
+      dims.left = dims.left + parseInt(elem.offsetLeft);
+      elem = elem.offsetParent;
+    }
+
+    return dims;
+  },
   addWheelEvent: function (window, document) {
     var prefix = "",
         _addEventListener,
@@ -30810,6 +31107,8 @@ var _default = {
     });
   }
 };
+
+var _default = Dom;
 /* harmony default export */ __webpack_exports__["default"] = (_default);
 ;
 
@@ -30825,6 +31124,7 @@ var _default = {
   reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(Dom, "Dom", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(customProps, "customProps", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
+  reactHotLoader.register(__, "__", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
 })();
 

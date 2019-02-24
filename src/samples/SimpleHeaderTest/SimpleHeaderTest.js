@@ -156,8 +156,8 @@ export default class Sample extends React.Component {
 	state                 = {};
 	
 	shouldApplyScroll( newPos, oldPos ) {
-		let node     = ReactDom.findDOMNode(this),
-		    bounding = node.getBoundingClientRect();
+		let node = ReactDom.findDOMNode(this);
+		
 		if ( (newPos > oldPos) )
 			this.scrollTo(100, 250);
 		else if ( !node.scrollTop )
@@ -165,7 +165,7 @@ export default class Sample extends React.Component {
 		else
 			this.scrollTo(50, 250);
 		
-		return oldPos > 50
+		//return oldPos < 50
 	}
 	
 	render() {
