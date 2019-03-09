@@ -130,7 +130,7 @@ export default class Sample extends React.Component {
 			duration: 50,
 			easeFn  : easingFn.easePolyOut,
 			apply   : {
-				paddingTop: -50,
+				paddingTop: -120,
 			}
 		},
 		{
