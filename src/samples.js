@@ -23,7 +23,7 @@ import Samples from "Comp/samples/*/(*).js"
 console.log(Samples);
 
 class App extends React.Component {
-	state = {
+	state      = {
 		current: "SimpleHeaderTest"
 	};
 	
@@ -35,7 +35,7 @@ class App extends React.Component {
 			height  : "100%"
 		} }>
 			
-			<div className={ "samples" } style={ {
+			<div className={ "sampleLst" } style={ {
 				overflow: "scroll",
 				position: "absolute",
 				top     : "0px",
