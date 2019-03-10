@@ -28643,9 +28643,13 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
 },
     min = Math.min,
     max = Math.max,
-    Dom = {
+    isBrowser = typeof window !== 'undefined',
+    Dom = isBrowser ? {
   prefix: /webkit/i.test(navigator.appVersion) ? 'webkit' : /firefox/i.test(navigator.userAgent) ? 'Moz' : /trident/i.test(navigator.userAgent) ? 'ms' : 'opera' in window ? 'O' : '',
   dashedPrefix: /webkit/i.test(navigator.appVersion) ? '-webkit-' : /firefox/i.test(navigator.userAgent) ? '-moz-' : /trident/i.test(navigator.userAgent) ? '-ms-' : 'opera' in window ? '-o-' : ''
+} : {
+  prefix: '',
+  dashedPrefix: ''
 },
     customProps = {
   _x: true,
@@ -28950,7 +28954,7 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
 
     return dims;
   },
-  addWheelEvent: function (window, document) {
+  addWheelEvent: isBrowser && function (window, document) {
     var prefix = "",
         _addEventListener,
         _rmEventListener,
@@ -29100,7 +29104,7 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
 
     return addWheelListener;
   }(window, document),
-  rmWheelEvent: function (window, document) {
+  rmWheelEvent: isBrowser && function (window, document) {
     var prefix = "",
         _rmEventListener,
         onwheel,
@@ -29169,6 +29173,7 @@ var _default = Dom;
   reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
+  reactHotLoader.register(isBrowser, "isBrowser", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(Dom, "Dom", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(customProps, "customProps", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(__, "__", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");

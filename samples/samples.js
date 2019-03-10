@@ -559,7 +559,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/*!\r\n * The MIT License (MIT)\r\n * Copyright (c) 2019. Wise Wild Web\r\n *\r\n * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\r\n *\r\n * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\r\n *\r\n * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\r\n *\r\n *  @author : Nathanael Braun\r\n *  @contact : n8tz.js@gmail.com\r\n */\nbody, html, #app {\n  width: 100%;\n  height: 100%;\n  margin: 0; }\n\n.sample {\n  -webkit-perspective: 200px;\n          perspective: 200px; }\n\n.SimpleHeader {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  overflow-y: scroll;\n  background: #3b55a0;\n  overflow-x: hidden;\n  position: relative;\n  width: 100%;\n  height: 100%;\n  text-align: center; }\n  .SimpleHeader header {\n    background: green;\n    position: fixed;\n    width: calc( 100% - 17px);\n    top: 0px;\n    left: 0px; }\n    @media (hover: none) {\n      .SimpleHeader header {\n        /* ... */\n        width: 100%; } }\n  .SimpleHeader .content {\n    height: 20000px;\n    padding: 10px;\n    text-align: left;\n    width: 700px;\n    display: inline-block; }\n  .SimpleHeader .logo {\n    text-align: center;\n    -webkit-perspective: 200px;\n            perspective: 200px;\n    position: absolute;\n    bottom: 20px;\n    line-height: 1em;\n    vertical-align: middle;\n    width: 200px;\n    height: 100px;\n    margin-left: -100px;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover;\n    border: 1px solid gray;\n    border-radius: 5px;\n    display: inline-block;\n    cursor: pointer; }\n    .SimpleHeader .logo:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleHeader .logo > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n    .SimpleHeader .logo span {\n      background: white;\n      border-radius: 5px;\n      padding: 5px; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/*!\r\n * The MIT License (MIT)\r\n * Copyright (c) 2019. Wise Wild Web\r\n *\r\n * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\r\n *\r\n * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\r\n *\r\n * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\r\n *\r\n *  @author : Nathanael Braun\r\n *  @contact : n8tz.js@gmail.com\r\n */\nbody, html, #app {\n  width: 100%;\n  height: 100%;\n  margin: 0; }\n\n.sample {\n  -webkit-perspective: 200px;\n          perspective: 200px; }\n\n.SimpleHeader {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  overflow-y: scroll;\n  background: #3b55a0;\n  overflow-x: hidden;\n  position: relative;\n  width: 100%;\n  height: 100%;\n  text-align: center; }\n  .SimpleHeader header {\n    background: green;\n    position: fixed;\n    width: calc(100% - 17px);\n    top: 0px;\n    left: 0px; }\n    @media (hover: none) {\n      .SimpleHeader header {\n        /* ... */\n        width: 100%; } }\n  .SimpleHeader .content {\n    padding: 10px;\n    text-align: left;\n    width: 700px;\n    display: inline-block; }\n  .SimpleHeader .logo {\n    text-align: center;\n    -webkit-perspective: 200px;\n            perspective: 200px;\n    position: absolute;\n    bottom: 20px;\n    line-height: 1em;\n    vertical-align: middle;\n    width: 200px;\n    height: 100px;\n    margin-left: -100px;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover;\n    border: 1px solid gray;\n    border-radius: 5px;\n    display: inline-block;\n    cursor: pointer; }\n    .SimpleHeader .logo:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleHeader .logo > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n    .SimpleHeader .logo span {\n      background: white;\n      border-radius: 5px;\n      padding: 5px; }\n", ""]);
 
 // exports
 
@@ -28727,20 +28727,23 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./node_modules/wpi-react-hmr-ssr/Comp/MapOf.Comp_samples_______js.gen.js":
-/*!********************************************************************************!*\
-  !*** ./node_modules/wpi-react-hmr-ssr/Comp/MapOf.Comp_samples_______js.gen.js ***!
-  \********************************************************************************/
-/*! exports provided: default */
+/***/ "./src/MapOf.Comp_samples_______js.gen.js":
+/*!************************************************!*\
+  !*** ./src/MapOf.Comp_samples_______js.gen.js ***!
+  \************************************************/
+/*! exports provided: SimpleHeaderTest, SimpleTest, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {(function () {
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleHeaderTest", function() { return SimpleHeaderTest; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleTest", function() { return SimpleTest; });
+(function () {
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
   enterModule && enterModule(module);
 })();
 
+/* This is a virtual file generated by webpack-inherit */
 var req,
     _exports = {},
     root;
@@ -28755,6 +28758,8 @@ req.keys().forEach(function (key) {
     _exports[name] = Object.keys(mod).length === 1 && mod.default || mod;
   }
 });
+var SimpleHeaderTest = _exports.SimpleHeaderTest;
+var SimpleTest = _exports.SimpleTest;
 var _default = _exports;
 /* harmony default export */ __webpack_exports__["default"] = (_default);
 ;
@@ -28766,10 +28771,12 @@ var _default = _exports;
     return;
   }
 
-  reactHotLoader.register(req, "req", "G:\\n8tz\\libs\\react-rtween\\node_modules\\wpi-react-hmr-ssr\\Comp\\MapOf.Comp_samples_______js.gen.js");
-  reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-rtween\\node_modules\\wpi-react-hmr-ssr\\Comp\\MapOf.Comp_samples_______js.gen.js");
-  reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-rtween\\node_modules\\wpi-react-hmr-ssr\\Comp\\MapOf.Comp_samples_______js.gen.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\node_modules\\wpi-react-hmr-ssr\\Comp\\MapOf.Comp_samples_______js.gen.js");
+  reactHotLoader.register(req, "req", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.Comp_samples_______js.gen.js");
+  reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.Comp_samples_______js.gen.js");
+  reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.Comp_samples_______js.gen.js");
+  reactHotLoader.register(SimpleHeaderTest, "SimpleHeaderTest", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.Comp_samples_______js.gen.js");
+  reactHotLoader.register(SimpleTest, "SimpleTest", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.Comp_samples_______js.gen.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.Comp_samples_______js.gen.js");
 })();
 
 ;
@@ -28778,7 +28785,7 @@ var _default = _exports;
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
   leaveModule && leaveModule(module);
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
@@ -29826,7 +29833,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var Comp_samples_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! Comp/samples/* /(*).js */ "./node_modules/wpi-react-hmr-ssr/Comp/MapOf.Comp_samples_______js.gen.js");
+/* harmony import */ var Comp_samples_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! Comp/samples/* /(*).js */ "./src/MapOf.Comp_samples_______js.gen.js");
 
 
 
@@ -29897,7 +29904,7 @@ function (_React$Component) {
           height: "100%"
         }
       }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
-        className: "samples",
+        className: "sampleLst",
         style: {
           overflow: "scroll",
           position: "absolute",
@@ -30136,7 +30143,8 @@ function (_React$Component2) {
     key: "shouldApplyScroll",
     value: function shouldApplyScroll(newPos, oldPos) {
       var node = react_dom__WEBPACK_IMPORTED_MODULE_8___default.a.findDOMNode(this);
-      if (newPos > oldPos) this.scrollTo(100, 250);else if (!node.scrollTop) this.scrollTo(0, 250);else this.scrollTo(50, 250); //return oldPos < 50
+      if (newPos > oldPos) this.scrollTo(100, 250);else if (node.scrollTop < 25) this.scrollTo(0, 250);else this.scrollTo(50, 250);
+      return oldPos < 50;
     }
   }, {
     key: "render",
@@ -30202,7 +30210,7 @@ function (_React$Component2) {
   duration: 50,
   easeFn: easingFn.easePolyOut,
   apply: {
-    paddingTop: -50
+    paddingTop: -120
   }
 }, {
   type: "Tween",
@@ -30603,9 +30611,13 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
 },
     min = Math.min,
     max = Math.max,
-    Dom = {
+    isBrowser = typeof window !== 'undefined',
+    Dom = isBrowser ? {
   prefix: /webkit/i.test(navigator.appVersion) ? 'webkit' : /firefox/i.test(navigator.userAgent) ? 'Moz' : /trident/i.test(navigator.userAgent) ? 'ms' : 'opera' in window ? 'O' : '',
   dashedPrefix: /webkit/i.test(navigator.appVersion) ? '-webkit-' : /firefox/i.test(navigator.userAgent) ? '-moz-' : /trident/i.test(navigator.userAgent) ? '-ms-' : 'opera' in window ? '-o-' : ''
+} : {
+  prefix: '',
+  dashedPrefix: ''
 },
     customProps = {
   _x: true,
@@ -30910,7 +30922,7 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
 
     return dims;
   },
-  addWheelEvent: function (window, document) {
+  addWheelEvent: isBrowser && function (window, document) {
     var prefix = "",
         _addEventListener,
         _rmEventListener,
@@ -31060,7 +31072,7 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
 
     return addWheelListener;
   }(window, document),
-  rmWheelEvent: function (window, document) {
+  rmWheelEvent: isBrowser && function (window, document) {
     var prefix = "",
         _rmEventListener,
         onwheel,
@@ -31129,6 +31141,7 @@ var _default = Dom;
   reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
+  reactHotLoader.register(isBrowser, "isBrowser", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(Dom, "Dom", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(customProps, "customProps", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(__, "__", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");

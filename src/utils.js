@@ -24,7 +24,8 @@ var
 	},
 	min         = Math.min,
 	max         = Math.max,
-	Dom         = {
+	isBrowser   = typeof window !== 'undefined',
+	Dom         = isBrowser ? {
 		prefix      : (/webkit/i).test(navigator.appVersion) ? 'webkit' :
 		              (/firefox/i).test(navigator.userAgent) ? 'Moz' :
 		              (/trident/i).test(navigator.userAgent) ? 'ms' :
@@ -33,6 +34,9 @@ var
 		              (/firefox/i).test(navigator.userAgent) ? '-moz-' :
 		              (/trident/i).test(navigator.userAgent) ? '-ms-' :
 		              'opera' in window ? '-o-' : ''
+	} : {
+		prefix      : '',
+		dashedPrefix: ''
 	},
 	customProps = {
 		_x         : true,
@@ -394,7 +398,7 @@ var
 			}
 			return dims;
 		},
-		addWheelEvent: (function ( window, document ) {
+		addWheelEvent: isBrowser && (function ( window, document ) {
 			
 			var prefix = "", _addEventListener, _rmEventListener, onwheel, support;
 			
@@ -538,7 +542,7 @@ var
 			
 			return addWheelListener;
 		})(window, document),
-		rmWheelEvent : (function ( window, document ) {
+		rmWheelEvent : isBrowser && (function ( window, document ) {
 			
 			var prefix = "", _rmEventListener, onwheel, support;
 			
