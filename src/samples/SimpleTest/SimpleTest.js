@@ -24,7 +24,7 @@ import "./samples.scss";
 
 var easingFn = require('d3-ease');
 
-let pushIn = function ( target ) {
+let pushIn        = function ( target ) {
 	return {
 		anims: [
 			{
@@ -60,66 +60,69 @@ let pushIn = function ( target ) {
 		]
 	};
 };
-
-@asTweener
+const scrollAnims = {
+	scrollY: [
+		{
+			type    : "Tween",
+			from    : 0,
+			duration: 150,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				_z: -.2,
+			}
+		},
+		{
+			type    : "Tween",
+			from    : 25,
+			duration: 150,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				_x: -.5,
+			}
+		},
+		{
+			type    : "Tween",
+			from    : 50,
+			duration: 150,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				rotateY: -60,
+			}
+		}
+	],
+	scrollX: [
+		{
+			type    : "Tween",
+			from    : -150,
+			duration: 150,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				_y: .25,
+			}
+		},
+		{
+			type    : "Tween",
+			from    : 0,
+			duration: 150,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				_y: -.25,
+			}
+		},
+		{
+			type    : "Tween",
+			from    : 50,
+			duration: 150,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				rotateX: -60,
+			}
+		}
+	]
+};
+@asTweener({ initialScrollPos: { scrollX: 100, scrollY: 10 } })
 export default class Sample extends React.Component {
-	static scrollableAnim = {
-		scrollY: [
-			{
-				type    : "Tween",
-				target  : "testItem",
-				from    : 0,
-				duration: 150,
-				easeFn  : easingFn.easePolyOut,
-				apply   : {
-					_z: -.2,
-				}
-			},
-			{
-				type    : "Tween",
-				target  : "testItem",
-				from    : 25,
-				duration: 150,
-				easeFn  : easingFn.easePolyOut,
-				apply   : {
-					_x: -.5,
-				}
-			},
-			{
-				type    : "Tween",
-				target  : "testItem",
-				from    : 50,
-				duration: 150,
-				easeFn  : easingFn.easePolyOut,
-				apply   : {
-					rotateY: -60,
-				}
-			}
-		],
-		scrollX: [
-			{
-				type    : "Tween",
-				target  : "testItem",
-				from    : 0,
-				duration: 150,
-				easeFn  : easingFn.easePolyOut,
-				apply   : {
-					_y: -.25,
-				}
-			},
-			{
-				type    : "Tween",
-				target  : "testItem",
-				from    : 50,
-				duration: 150,
-				easeFn  : easingFn.easePolyOut,
-				apply   : {
-					rotateX: -60,
-				}
-			}
-		]
-	};
-	state                 = {
+	state = {
 		count: 0
 	};
 	
@@ -159,6 +162,7 @@ export default class Sample extends React.Component {
 			<TweenRef
 				id={ "testItem" }
 				initial={ { _x: .5, _y: .5, _z: 0, rotateY: 0, opacity: .75 } }
+				scrollableAnims={ scrollAnims }
 			>
 				<div
 					onClick={ e => {

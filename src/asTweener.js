@@ -69,7 +69,7 @@ const SimpleObjectProto = ({}).constructor;
 export default function asTweener( ...argz ) {
 	
 	let BaseComponent = (!argz[0] || argz[0].prototype instanceof React.Component || argz[0] === React.Component) && argz.shift(),
-	    opts          = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift();
+	    opts          = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift() || {};
 	
 	if ( !(BaseComponent && (BaseComponent.prototype instanceof React.Component || BaseComponent === React.Component)) ) {
 		return function ( BaseComponent ) {
@@ -266,7 +266,7 @@ export default function asTweener( ...argz ) {
 			
 			_.axes[axe] = _.axes[axe] || {
 				scrollableAnims: [],
-				scrollPos      : 0,
+				scrollPos      : opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
 				scrollableArea : 0
 			}
 			
@@ -274,6 +274,8 @@ export default function asTweener( ...argz ) {
 			_.axes[axe].scrollPos      = _.axes[axe].scrollPos || 0;
 			_.axes[axe].scrollableArea = _.axes[axe].scrollableArea || 0;
 			_.axes[axe].scrollableArea = Math.max(_.axes[axe].scrollableArea, sl.duration);
+			
+			_.axes[axe].scrollPos && sl.goTo(_.axes[axe].scrollPos, this._.tweenRefMaps)
 		}
 		
 		rmScrollableAnim( sl ) {
@@ -286,6 +288,7 @@ export default function asTweener( ...argz ) {
 						      if ( i != -1 ) {
 							      _.axes[axe].scrollableAnims.splice(i);
 							      _.axes[axe].scrollableArea = Math.max(..._.axes[axe].scrollableAnims.map(tl => tl.duration), 0);
+							      sl.goTo(0, this._.tweenRefMaps)
 						      }
 					      }
 				      )
@@ -302,7 +305,7 @@ export default function asTweener( ...argz ) {
 				
 				if ( !ms ) {
 					this._.axes[axe].scrollableAnims.forEach(
-						sl => sl.goTo(newPos)
+						sl => sl.goTo(newPos, this._.tweenRefMaps)
 					);
 					setPos(newPos);
 				}
@@ -414,15 +417,22 @@ export default function asTweener( ...argz ) {
 				this._.axes          = {
 					scrollX: {
 						scrollableAnims: [],
-						scrollPos      : 0,
+						scrollPos      : opts.initialScrollPos && opts.initialScrollPos["scrollX"] || 0,
 						scrollableArea : 0
 					},
 					scrollY: {
 						scrollableAnims: [],
-						scrollPos      : 0,
+						scrollPos      : opts.initialScrollPos && opts.initialScrollPos["scrollY"] || 0,
 						scrollableArea : 0
 					}
 				};
+				this._registerScrollListeners();
+				//ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
+			}
+		}
+		
+		_registerScrollListeners() {
+			if ( this._.rendered ) {
 				isBrowserSide && utils.addWheelEvent(
 					ReactDom.findDOMNode(this),
 					this._.onScroll = ( e ) => {//@todo
@@ -455,33 +465,36 @@ export default function asTweener( ...argz ) {
 							e.preventDefault();
 					}
 				);
-				utils.addEvent(ReactDom.findDOMNode(this), 'drag',
-				               ( e, touch, descr ) => {//@todo
-					
-					               let axe    = "scrollY",
-					                   oldPos = this._.axes[axe].scrollPos,
-					                   newPos = oldPos + (descr._startPos.y - descr._lastPos.y) / 10;
-					
-					               descr._startPos.y = descr._lastPos.y
-					               if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
-						               return;
-					               }
-					
-					               this.scrollTo(newPos, undefined, axe)
-					               axe               = "scrollX";
-					               oldPos            = this._.axes[axe].scrollPos;
-					               newPos            = oldPos + (descr._startPos.x - descr._lastPos.x) / 10;
-					               descr._startPos.x = descr._lastPos.x;
-					               if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
-						               return;
-					               }
-					
-					               this.scrollTo(newPos, undefined, axe)
-					               //e.preventDefault();
-					               //debugger
-				               }
+				isBrowserSide && utils.addEvent(
+					ReactDom.findDOMNode(this), 'drag',
+					( e, touch, descr ) => {//@todo
+						
+						let axe    = "scrollY",
+						    oldPos = this._.axes[axe].scrollPos,
+						    newPos = oldPos + (descr._startPos.y - descr._lastPos.y) / 10;
+						
+						descr._startPos.y = descr._lastPos.y
+						if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
+							return;
+						}
+						
+						this.scrollTo(newPos, undefined, axe)
+						axe               = "scrollX";
+						oldPos            = this._.axes[axe].scrollPos;
+						newPos            = oldPos + (descr._startPos.x - descr._lastPos.x) / 10;
+						descr._startPos.x = descr._lastPos.x;
+						if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
+							return;
+						}
+						
+						this.scrollTo(newPos, undefined, axe)
+						//e.preventDefault();
+						//debugger
+					}
 				)
-				//ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
+			}
+			else {
+				this._.doRegister = true;
 			}
 		}
 		
@@ -588,6 +601,10 @@ export default function asTweener( ...argz ) {
 					      .forEach(
 						      axe => this.addScrollableAnim(_static.scrollableAnim[axe], axe)
 					      )
+			}
+			if ( this._.doRegister ) {
+				this._registerScrollListeners();
+				this._.doRegister = false;
 			}
 			super.componentDidMount && super.componentDidMount();
 		}
