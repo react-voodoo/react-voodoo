@@ -9,7 +9,6 @@
       "rootFolder": "src",
       "basedOn": "Component",
       "vars": {
-        "production": true,
         "externals": true,
         "webpackPatch": {}
       },

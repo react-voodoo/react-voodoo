@@ -79,6 +79,7 @@ export default function asTweener( ...argz ) {
 	
 	
 	return class TweenableComp extends BaseComponent {
+		static displayName = (BaseComponent.displayName || BaseComponent.name) + " (tweener)";
 		
 		constructor() {
 			super(...arguments);
@@ -442,54 +443,60 @@ export default function asTweener( ...argz ) {
 						    newPos = oldPos + e.deltaY;
 						
 						if ( oldPos !== newPos ) {
-							if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
-								return;
+							if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
+								if ( this.scrollTo(newPos, undefined, axe) )
+									prevent = true;
 							}
 							
-							if ( this.scrollTo(newPos, undefined, axe) )
-								prevent = true;
 						}
 						axe    = "scrollX";
 						oldPos = this._.axes[axe].scrollPos;
 						newPos = oldPos + e.deltaX;
 						if ( oldPos !== newPos ) {
-							if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
-								return;
+							if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
+								if ( this.scrollTo(newPos, undefined, axe) )
+									prevent = true;
 							}
 							
-							if ( this.scrollTo(newPos, undefined, axe) )
-								prevent = true;
 						}
 						
-						if ( prevent )
+						if ( prevent ) {
 							e.preventDefault();
+							e.originalEvent.stopPropagation();
+						}
 					}
 				);
 				isBrowserSide && utils.addEvent(
 					ReactDom.findDOMNode(this), 'drag',
 					( e, touch, descr ) => {//@todo
-						
-						let axe    = "scrollY",
+						let prevent,
+						    axe    = "scrollY",
 						    oldPos = this._.axes[axe].scrollPos,
 						    newPos = oldPos + (descr._startPos.y - descr._lastPos.y) / 10;
 						
-						descr._startPos.y = descr._lastPos.y
-						if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
-							return;
+						if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
+							descr._startPos.y = descr._lastPos.y;
+							prevent           = !!this.scrollTo(newPos, undefined, axe);
 						}
 						
-						this.scrollTo(newPos, undefined, axe)
-						axe               = "scrollX";
-						oldPos            = this._.axes[axe].scrollPos;
-						newPos            = oldPos + (descr._startPos.x - descr._lastPos.x) / 10;
-						descr._startPos.x = descr._lastPos.x;
-						if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
-							return;
+						axe    = "scrollX";
+						oldPos = this._.axes[axe].scrollPos;
+						newPos = oldPos + (descr._startPos.x - descr._lastPos.x) / 10;
+						if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
+							descr._startPos.x = descr._lastPos.x;
+							prevent           = !!this.scrollTo(newPos, undefined, axe) && prevent;
 						}
 						
-						this.scrollTo(newPos, undefined, axe)
 						//e.preventDefault();
 						//debugger
+						
+						if ( prevent ) {
+							e.preventDefault();
+							e.stopPropagation();
+							//e.defaultPrevented=true;
+							//console.log(this.constructor.displayName, prevent, e.defaultPrevented)
+						}
+						return !prevent;
 					}
 				)
 			}

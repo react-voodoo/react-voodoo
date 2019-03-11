@@ -69,7 +69,12 @@ var
 			    finger,
 			    desc, fingers = [];
 			
-			if ( i === -1 ) return true;
+			if ( i === -1 ) {
+				
+				return;
+			}
+			//e.preventDefault();
+			//e.stopPropagation();
 			
 			if ( !me.nbFingers ) {
 				Dom.addEvent(document,
@@ -96,7 +101,8 @@ var
 				
 				me.nbFingers++;
 				
-				me.fingers[finger.identifier] = desc;
+				me.fingers[finger.identifier] = me.fingers[finger.identifier] || [];
+				me.fingers[finger.identifier].push(desc);
 				
 				
 				desc.nbFingers++;
@@ -117,7 +123,7 @@ var
 		dragAnywhere     : function ( e ) {
 			var o,
 			    me              = __,
-			    finger, fingers = [],
+			    finger, fingers = [], stopped,
 			    desc            = __.dragging[0];
 			
 			
@@ -129,15 +135,24 @@ var
 			for ( var i = 0, ln = fingers.length; i < ln; i++ ) {
 				finger = fingers[i];
 				desc   = me.fingers[finger.identifier];
-				
-				if ( !desc ) continue;
-				
-				desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-				desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
-				
-				for ( o = 0; o < desc.drag.length; o++ ) desc.drag[o][0].call(desc.drag[o][1] || this, e,
-				                                                              finger,
-				                                                              desc);
+				me.fingers[finger.identifier] &&
+				me.fingers[finger.identifier].forEach(
+					desc => {
+						if (stopped){
+							desc._lastPos.x = desc._startPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
+							desc._lastPos.y = desc._startPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+							console.warn("gfdfghfddgf")
+							return;
+						}
+						desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
+						desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+						
+						for ( o = 0; o < desc.drag.length; o++ )
+							stopped = desc.drag[o][0].call(desc.drag[o][1] || this, e,
+							                                          finger,
+							                                          desc) === false;
+					}
+				)
 				
 			}
 		},
@@ -153,24 +168,27 @@ var
 			
 			for ( var i = 0, ln = fingers.length; i < ln; i++ ) {
 				finger = fingers[i];
-				desc   = me.fingers[finger.identifier];
-				
-				
-				me.fingers[finger.identifier] = null;
-				if ( !desc ) continue;
-				me.nbFingers--;
-				desc.nbFingers--;
-				
-				desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-				desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
-				
-				for ( o = 0; o < desc.dropped.length; o++ )
-					desc.dropped[o][0].call(desc.dropped[o][1] ||
-						                        this, e,
-					                        finger, desc);
-				
-				
+				me.fingers[finger.identifier] &&
+				me.fingers[finger.identifier].forEach(
+					desc => {
+						
+						
+						me.nbFingers--;
+						desc.nbFingers--;
+						
+						desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
+						desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+						
+						for ( o = 0; o < desc.dropped.length; o++ )
+							desc.dropped[o][0].call(desc.dropped[o][1] ||
+								                        this, e,
+							                        finger, desc);
+						
+						
+					}
+				)
 			}
+			me.fingers[finger.identifier] = null;
 			
 			if ( !me.nbFingers ) {
 				Dom.removeEvent(document,
@@ -210,7 +228,7 @@ var
 				             {
 					             //'mousedown' : this.dragstartAnywhere,
 					             'touchstart': this.dragstartAnywhere
-				             });
+				             }, null, null, true);
 			}
 			else desc = this.dragEnabledDesc[i];
 			return desc;
@@ -432,8 +450,8 @@ var
 			var PAGE_HEIGHT        = 800;
 			
 			function normalizeWheel( /*object*/ event ) /*object*/ {
-				var sX = 0, sY = 0,       // spinX, spinY
-				    pX         = 0, pY = 0;       // pixelX, pixelY
+				var sX         = 0, sY = 0,       // spinX, spinY
+				    pX = 0, pY = 0;       // pixelX, pixelY
 				
 				// Legacy
 				if ( 'detail' in event ) {
