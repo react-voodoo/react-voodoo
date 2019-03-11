@@ -1226,7 +1226,6 @@ var is = __webpack_require__(/*! is */ "undefined?63a5"),
         if (stopped) {
           desc._lastPos.x = desc._startPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
           desc._lastPos.y = desc._startPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
-          console.warn("gfdfghfddgf");
           return;
         }
 

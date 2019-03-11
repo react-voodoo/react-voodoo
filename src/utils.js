@@ -138,10 +138,9 @@ var
 				me.fingers[finger.identifier] &&
 				me.fingers[finger.identifier].forEach(
 					desc => {
-						if (stopped){
+						if ( stopped ) {
 							desc._lastPos.x = desc._startPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
 							desc._lastPos.y = desc._startPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
-							console.warn("gfdfghfddgf")
 							return;
 						}
 						desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
@@ -149,8 +148,8 @@ var
 						
 						for ( o = 0; o < desc.drag.length; o++ )
 							stopped = desc.drag[o][0].call(desc.drag[o][1] || this, e,
-							                                          finger,
-							                                          desc) === false;
+							                               finger,
+							                               desc) === false;
 					}
 				)
 				
