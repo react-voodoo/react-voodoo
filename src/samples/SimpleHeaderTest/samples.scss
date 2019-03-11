@@ -42,6 +42,7 @@ body, html, #app {
   perspective: 200px;
 
 }
+
 .SimpleHeader {
   background: rgba(190, 190, 190, 0.21);
   text-align: center;
@@ -58,7 +59,7 @@ body, html, #app {
   header {
     background: green;
     position: fixed;
-    width: calc( 100% - 17px );
+    width: calc(100% - 17px);
     @media (hover: none) {
       /* ... */
       width: 100%;
@@ -68,7 +69,7 @@ body, html, #app {
   }
 
   .content {
-    height: 20000px;
+    //height: 20000px;
     padding: 10px;
     text-align: left;
     width: 700px;
@@ -91,7 +92,8 @@ body, html, #app {
     border-radius: 5px;
     display: inline-block;
     cursor: pointer;
-    span{
+
+    span {
       background: white;
       border-radius: 5px;
       padding: 5px;

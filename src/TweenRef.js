@@ -12,19 +12,49 @@
  *  @contact : n8tz.js@gmail.com
  */
 
-import React from 'react';
+import React   from 'react';
+import shortid from 'shortid';
 
+import is from "is";
 
 import TweenerContext from "./TweenerContext";
 
+function setTarget( anims, target ) {
+	return anims.map(
+		tween => ({
+			...tween,
+			target
+		})
+	)
+}
+
 export default class TweenRef extends React.Component {
-	state = {};
+	
+	static propTypes = {
+		//record  : PropTypes.object.isRequired,
+		//onSelect: PropTypes.func
+	};
+	state            = {};
+	__tweenableId    = shortid.generate();
+	
+	componentWillUnmount() {
+		
+		if ( this._scrollableAnims ) {
+			Object.keys(this._scrollableAnims)
+			      .forEach(axe => this._previousTweener.rmScrollableAnim(this._scrollableAnims[axe], axe));
+			
+		}
+		delete this._previousTweener;
+		delete this._previousScrollable;
+	}
 	
 	render() {
 		let {
 			    children,
-			    id, style, initial, pos, noRef, reset,
-			    onClick    = children && children.props && children.props.onClick,
+			    id            = this.__tweenableId,
+			    style, initial, pos, noRef, reset,
+			    scrollableAnims,
+			    onClick       = children && children.props && children.props.onClick,
 			    onDoubleClick = children && children.props && children.props.onDoubleClick
 		    } = this.props;
 		return <TweenerContext.Consumer>
@@ -36,9 +66,27 @@ export default class TweenRef extends React.Component {
 							{
 								...tweener.tweenRef(id, style || children.props.style, initial, pos, noRef, reset),
 								onDoubleClick: onDoubleClick && (e => onDoubleClick(e, tweener)),
-								onClick   : onClick && (e => onClick(e, tweener))
+								onClick      : onClick && (e => onClick(e, tweener))
 							}
 						);
+						
+					}
+					if ( this._previousTweener !== tweener || this._previousScrollable !== scrollableAnims ) {
+						
+						if ( this._scrollableAnims ) {
+							Object.keys(this._scrollableAnims)
+							      .forEach(axe => this._previousTweener.rmScrollableAnim(this._scrollableAnims[axe], axe));
+							
+						}
+						if ( scrollableAnims && is.array(scrollableAnims) )
+							this._scrollableAnims = { scrollY: tweener.addScrollableAnim(setTarget(scrollableAnims, id)) };
+						else
+							this._scrollableAnims = scrollableAnims &&
+								Object.keys(scrollableAnims)
+								      .reduce(( h, axe ) => (h[axe] = tweener.addScrollableAnim(setTarget(scrollableAnims[axe], id), axe), h), {});
+						
+						this._previousTweener    = tweener;
+						this._previousScrollable = scrollableAnims;
 						
 					}
 					return children;

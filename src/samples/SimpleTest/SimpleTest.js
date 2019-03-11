@@ -24,7 +24,7 @@ import "./samples.scss";
 
 var easingFn = require('d3-ease');
 
-let pushIn = function ( target ) {
+let pushIn        = function ( target ) {
 	return {
 		anims: [
 			{
@@ -60,13 +60,10 @@ let pushIn = function ( target ) {
 		]
 	};
 };
-
-@asTweener
-export default class Sample extends React.Component {
-	static scrollableAnim = [
+const scrollAnims = {
+	scrollY: [
 		{
 			type    : "Tween",
-			target  : "testItem",
 			from    : 0,
 			duration: 150,
 			easeFn  : easingFn.easePolyOut,
@@ -76,7 +73,6 @@ export default class Sample extends React.Component {
 		},
 		{
 			type    : "Tween",
-			target  : "testItem",
 			from    : 25,
 			duration: 150,
 			easeFn  : easingFn.easePolyOut,
@@ -86,7 +82,6 @@ export default class Sample extends React.Component {
 		},
 		{
 			type    : "Tween",
-			target  : "testItem",
 			from    : 50,
 			duration: 150,
 			easeFn  : easingFn.easePolyOut,
@@ -94,8 +89,40 @@ export default class Sample extends React.Component {
 				rotateY: -60,
 			}
 		}
-	];
-	state                 = {
+	],
+	scrollX: [
+		{
+			type    : "Tween",
+			from    : -150,
+			duration: 150,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				_y: .25,
+			}
+		},
+		{
+			type    : "Tween",
+			from    : 0,
+			duration: 150,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				_y: -.25,
+			}
+		},
+		{
+			type    : "Tween",
+			from    : 50,
+			duration: 150,
+			easeFn  : easingFn.easePolyOut,
+			apply   : {
+				rotateX: -60,
+			}
+		}
+	]
+};
+@asTweener({ initialScrollPos: { scrollX: 100, scrollY: 10 } })
+export default class Sample extends React.Component {
+	state = {
 		count: 0
 	};
 	
@@ -135,6 +162,7 @@ export default class Sample extends React.Component {
 			<TweenRef
 				id={ "testItem" }
 				initial={ { _x: .5, _y: .5, _z: 0, rotateY: 0, opacity: .75 } }
+				scrollableAnims={ scrollAnims }
 			>
 				<div
 					onClick={ e => {
