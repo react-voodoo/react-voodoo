@@ -28874,6 +28874,7 @@ function (_React$Component) {
           pos = _this$props.pos,
           noRef = _this$props.noRef,
           reset = _this$props.reset,
+          scrollableAnims = _this$props.scrollableAnims,
           _this$props$onClick = _this$props.onClick,
           onClick = _this$props$onClick === void 0 ? children && children.props && children.props.onClick : _this$props$onClick,
           _this$props$onDoubleC = _this$props.onDoubleClick,
@@ -29279,7 +29280,9 @@ function asTweener() {
 
       }, {
         key: "addScrollableAnim",
-        value: function addScrollableAnim(anim, size, pos) {
+        value: function addScrollableAnim(anim) {
+          var axe = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "scrollY";
+          var size = arguments.length > 2 ? arguments[2] : undefined;
           var sl,
               _ = this._;
 
@@ -29290,34 +29293,39 @@ function asTweener() {
             size = anim.length;
           }
 
-          if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, this._.tweenRefMaps);
+          if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, _.tweenRefMaps);
           this.makeTweenable();
           this.makeScrollable(); // init scroll
 
-          this._.scrollableAnims.push(sl);
+          _.axes[axe] = _.axes[axe] || {
+            scrollableAnims: [],
+            scrollPos: 0,
+            scrollableArea: 0
+          };
 
-          this._.scrollPos = this._.scrollPos || 0;
-          this._.scrollableArea = this._.scrollableArea || 0;
-          this._.scrollableArea = Math.max(this._.scrollableArea, sl.duration);
+          _.axes[axe].scrollableAnims.push(sl);
+
+          _.axes[axe].scrollPos = _.axes[axe].scrollPos || 0;
+          _.axes[axe].scrollableArea = _.axes[axe].scrollableArea || 0;
+          _.axes[axe].scrollableArea = Math.max(_.axes[axe].scrollableArea, sl.duration);
         }
       }, {
-        key: "clearScrollableAnim",
-        value: function clearScrollableAnim(sl) {
-          if (this._.scrollableAnims) {
-            var i = this._.scrollableAnims.indexOf(sl);
+        key: "rmScrollableAnim",
+        value: function rmScrollableAnim(sl) {
+          var _ = this._;
 
-            if (i != -1) this._.scrollableAnims.splice(i);
-            this._.scrollableArea = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(this._.scrollableAnims.map(function (tl) {
-              return tl.duration;
-            })).concat([0]));
-          }
-        }
-      }, {
-        key: "clearScrollableAnims",
-        value: function clearScrollableAnims() {
-          if (this._.scrollableAnims) {
-            this._.scrollableAnims = [];
-            this._.scrollPos = this._.scrollableArea = 0;
+          if (_.axes) {
+            Object.keys(_.axes).forEach(function (axe) {
+              var i = _.axes[axe].scrollableAnims.indexOf(sl);
+
+              if (i != -1) {
+                _.axes[axe].scrollableAnims.splice(i);
+
+                _.axes[axe].scrollableArea = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(_.axes[axe].scrollableAnims.map(function (tl) {
+                  return tl.duration;
+                })).concat([0]));
+              }
+            });
           }
         }
       }, {
@@ -29326,23 +29334,24 @@ function asTweener() {
           var _this5 = this;
 
           var ms = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+          var axe = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "scrollY";
 
-          if (this._.scrollableAnims) {
+          if (this._.axes) {
             var oldPos = newPos,
                 setPos = function setPos(pos) {
-              return _this5._.scrollPos = pos, _this5.componentDidScroll && _this5.componentDidScroll(~~pos), requestAnimationFrame(_this5._._rafLoop);
+              return _this5._.axes[axe].scrollPos = pos, _this5.componentDidScroll && _this5.componentDidScroll(~~pos), requestAnimationFrame(_this5._._rafLoop);
             };
 
             newPos = Math.max(0, newPos);
-            newPos = Math.min(newPos, this._.scrollableArea);
+            newPos = Math.min(newPos, this._.axes[axe].scrollableArea);
 
             if (!ms) {
-              this._.scrollableAnims.forEach(function (sl) {
+              this._.axes[axe].scrollableAnims.forEach(function (sl) {
                 return sl.goTo(newPos);
               });
 
               setPos(newPos);
-            } else this._.scrollableAnims.forEach(function (sl) {
+            } else this._.axes[axe].scrollableAnims.forEach(function (sl) {
               return sl.runTo(newPos, ms, undefined, setPos);
             });
 
@@ -29435,29 +29444,70 @@ function asTweener() {
           if (!this._.scrollEnabled) {
             this._.scrollEnabled = true;
             this._.scrollHook = [];
-            this._.scrollableAnims = [];
+            this._.axes = {
+              scrollX: {
+                scrollableAnims: [],
+                scrollPos: 0,
+                scrollableArea: 0
+              },
+              scrollY: {
+                scrollableAnims: [],
+                scrollPos: 0,
+                scrollableArea: 0
+              }
+            };
             isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), this._.onScroll = function (e) {
               //@todo
-              var oldPos = _this8._.scrollPos,
+              var prevent,
+                  axe = "scrollY",
+                  oldPos = _this8._.axes[axe].scrollPos,
                   newPos = oldPos + e.deltaY;
 
-              if (_this8.shouldApplyScroll && !_this8.shouldApplyScroll(newPos, oldPos)) {
-                return;
+              if (oldPos !== newPos) {
+                if (_this8.shouldApplyScroll && !_this8.shouldApplyScroll(newPos, oldPos, axe)) {
+                  return;
+                }
+
+                if (_this8.scrollTo(newPos, undefined, axe)) prevent = true;
               }
 
-              if (_this8.scrollTo(newPos)) e.preventDefault();
+              axe = "scrollX";
+              oldPos = _this8._.axes[axe].scrollPos;
+              newPos = oldPos + e.deltaX;
+
+              if (oldPos !== newPos) {
+                if (_this8.shouldApplyScroll && !_this8.shouldApplyScroll(newPos, oldPos, axe)) {
+                  return;
+                }
+
+                if (_this8.scrollTo(newPos, undefined, axe)) prevent = true;
+              }
+
+              if (prevent) e.preventDefault();
             });
             _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), 'drag', function (e, touch, descr) {
               //@todo
-              var oldPos = _this8._.scrollPos,
+              var axe = "scrollY",
+                  oldPos = _this8._.axes[axe].scrollPos,
                   newPos = oldPos + (descr._startPos.y - descr._lastPos.y) / 10;
               descr._startPos.y = descr._lastPos.y;
 
-              if (_this8.shouldApplyScroll && !_this8.shouldApplyScroll(newPos, oldPos)) {
+              if (_this8.shouldApplyScroll && !_this8.shouldApplyScroll(newPos, oldPos, axe)) {
                 return;
               }
 
-              _this8.scrollTo(newPos); //e.preventDefault();
+              _this8.scrollTo(newPos, undefined, axe);
+
+              axe = "scrollX";
+              oldPos = _this8._.axes[axe].scrollPos;
+              newPos = oldPos + (descr._startPos.x - descr._lastPos.x) / 10;
+              descr._startPos.x = descr._lastPos.x;
+
+              if (_this8.shouldApplyScroll && !_this8.shouldApplyScroll(newPos, oldPos, axe)) {
+                return;
+              }
+
+              _this8.scrollTo(newPos, undefined, axe); //e.preventDefault();
               //debugger
 
             }); //ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
@@ -29534,7 +29584,7 @@ function asTweener() {
 
           if (this._.scrollEnabled) {
             this._.scrollEnabled = false;
-            this._.scrollableAnims = undefined;
+            this._.axes = undefined;
             _utils__WEBPACK_IMPORTED_MODULE_12__["default"].rmWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), this._.onScroll);
           }
 
@@ -29543,6 +29593,8 @@ function asTweener() {
       }, {
         key: "componentDidMount",
         value: function componentDidMount() {
+          var _this10 = this;
+
           var _static = this.constructor;
           this._.rendered = true;
 
@@ -29559,7 +29611,9 @@ function asTweener() {
           }
 
           if (_static.scrollableAnim) {
-            this.addScrollableAnim(_static.scrollableAnim);
+            if (is__WEBPACK_IMPORTED_MODULE_10___default.a.array(_static.scrollableAnim)) this.addScrollableAnim(_static.scrollableAnim);else Object.keys(_static.scrollableAnim).forEach(function (axe) {
+              return _this10.addScrollableAnim(_static.scrollableAnim[axe], axe);
+            });
           }
 
           _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentDidMount", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentDidMount", this).call(this);
@@ -29567,7 +29621,7 @@ function asTweener() {
       }, {
         key: "componentDidUpdate",
         value: function componentDidUpdate(prevProps, prevState) {
-          var _this10 = this;
+          var _this11 = this;
 
           if (this._.tweenEnabled) {
             this._updateBox();
@@ -29575,12 +29629,12 @@ function asTweener() {
             this._updateTweenRefs();
 
             this._.rtweensByProp && Object.keys(prevProps).forEach(function (k) {
-              return _this10._.rtweensByProp[k] && _this10.props[k] !== prevProps[k] && _this10._.rtweensByProp[k][_this10.props[k]] && _this10.pushAnim(_this10._.rtweensByProp[k][_this10.props[k]]
+              return _this11._.rtweensByProp[k] && _this11.props[k] !== prevProps[k] && _this11._.rtweensByProp[k][_this11.props[k]] && _this11.pushAnim(_this11._.rtweensByProp[k][_this11.props[k]]
               /*get current pos*/
               );
             }, this);
             this._.rtweensByStateProp && prevState && Object.keys(prevState).forEach(function (k) {
-              return _this10._.rtweensByStateProp[k] && _this10.state[k] !== prevState[k] && _this10._.rtweensByStateProp[k][_this10.state[k]] && _this10.pushAnim(_this10._.rtweensByStateProp[k][_this10.state[k]]
+              return _this11._.rtweensByStateProp[k] && _this11.state[k] !== prevState[k] && _this11._.rtweensByStateProp[k][_this11.state[k]] && _this11.pushAnim(_this11._.rtweensByStateProp[k][_this11.state[k]]
               /*get current pos*/
               );
             }, this);
@@ -30490,34 +30544,55 @@ function (_React$Component) {
   }]);
 
   return Sample;
-}(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component), _class2.scrollableAnim = [{
-  type: "Tween",
-  target: "testItem",
-  from: 0,
-  duration: 150,
-  easeFn: easingFn.easePolyOut,
-  apply: {
-    _z: -.2
-  }
-}, {
-  type: "Tween",
-  target: "testItem",
-  from: 25,
-  duration: 150,
-  easeFn: easingFn.easePolyOut,
-  apply: {
-    _x: -.5
-  }
-}, {
-  type: "Tween",
-  target: "testItem",
-  from: 50,
-  duration: 150,
-  easeFn: easingFn.easePolyOut,
-  apply: {
-    rotateY: -60
-  }
-}], _temp)) || _class;
+}(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component), _class2.scrollableAnim = {
+  scrollY: [{
+    type: "Tween",
+    target: "testItem",
+    from: 0,
+    duration: 150,
+    easeFn: easingFn.easePolyOut,
+    apply: {
+      _z: -.2
+    }
+  }, {
+    type: "Tween",
+    target: "testItem",
+    from: 25,
+    duration: 150,
+    easeFn: easingFn.easePolyOut,
+    apply: {
+      _x: -.5
+    }
+  }, {
+    type: "Tween",
+    target: "testItem",
+    from: 50,
+    duration: 150,
+    easeFn: easingFn.easePolyOut,
+    apply: {
+      rotateY: -60
+    }
+  }],
+  scrollX: [{
+    type: "Tween",
+    target: "testItem",
+    from: 0,
+    duration: 150,
+    easeFn: easingFn.easePolyOut,
+    apply: {
+      _y: -.25
+    }
+  }, {
+    type: "Tween",
+    target: "testItem",
+    from: 50,
+    duration: 150,
+    easeFn: easingFn.easePolyOut,
+    apply: {
+      rotateX: -60
+    }
+  }]
+}, _temp)) || _class;
 
 
 ;

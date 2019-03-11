@@ -23,7 +23,7 @@ export default class TweenRef extends React.Component {
 	render() {
 		let {
 			    children,
-			    id, style, initial, pos, noRef, reset,
+			    id, style, initial, pos, noRef, reset, scrollableAnims,
 			    onClick    = children && children.props && children.props.onClick,
 			    onDoubleClick = children && children.props && children.props.onDoubleClick
 		    } = this.props;

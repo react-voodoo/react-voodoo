@@ -246,7 +246,7 @@ export default function asTweener( ...argz ) {
 		// ------------------ Scrollable anims ------------------------
 		// ------------------------------------------------------------
 		
-		addScrollableAnim( anim, size, pos ) {
+		addScrollableAnim( anim, axe = "scrollY", size ) {
 			var sl, _ = this._;
 			if ( isArray(anim) ) {
 				sl = anim;
@@ -257,51 +257,57 @@ export default function asTweener( ...argz ) {
 			}
 			
 			if ( !(sl instanceof rtween) )
-				sl = new rtween(sl, this._.tweenRefMaps);
+				sl = new rtween(sl, _.tweenRefMaps);
 			
 			this.makeTweenable();
 			this.makeScrollable();
 			
 			// init scroll
-			this._.scrollableAnims.push(sl);
-			this._.scrollPos      = this._.scrollPos || 0;
-			this._.scrollableArea = this._.scrollableArea || 0;
-			this._.scrollableArea = Math.max(this._.scrollableArea, sl.duration);
+			
+			_.axes[axe] = _.axes[axe] || {
+				scrollableAnims: [],
+				scrollPos      : 0,
+				scrollableArea : 0
+			}
+			
+			_.axes[axe].scrollableAnims.push(sl);
+			_.axes[axe].scrollPos      = _.axes[axe].scrollPos || 0;
+			_.axes[axe].scrollableArea = _.axes[axe].scrollableArea || 0;
+			_.axes[axe].scrollableArea = Math.max(_.axes[axe].scrollableArea, sl.duration);
 		}
 		
-		clearScrollableAnim( sl ) {
-			if ( this._.scrollableAnims ) {
-				let i = this._.scrollableAnims.indexOf(sl);
-				if ( i != -1 )
-					this._.scrollableAnims.splice(i);
-				
-				this._.scrollableArea = Math.max(...this._.scrollableAnims.map(tl => tl.duration), 0);
+		rmScrollableAnim( sl ) {
+			var _ = this._;
+			if ( _.axes ) {
+				Object.keys(_.axes)
+				      .forEach(
+					      axe => {
+						      let i = _.axes[axe].scrollableAnims.indexOf(sl);
+						      if ( i != -1 ) {
+							      _.axes[axe].scrollableAnims.splice(i);
+							      _.axes[axe].scrollableArea = Math.max(..._.axes[axe].scrollableAnims.map(tl => tl.duration), 0);
+						      }
+					      }
+				      )
 			}
 		}
 		
-		clearScrollableAnims() {
-			if ( this._.scrollableAnims ) {
-				this._.scrollableAnims = [];
-				this._.scrollPos       = this._.scrollableArea = 0;
-			}
-		}
-		
-		scrollTo( newPos, ms = 0 ) {
-			if ( this._.scrollableAnims ) {
+		scrollTo( newPos, ms = 0, axe = "scrollY" ) {
+			if ( this._.axes ) {
 				let oldPos = newPos,
-				    setPos = pos => (this._.scrollPos = pos, this.componentDidScroll && this.componentDidScroll(~~pos), requestAnimationFrame(this._._rafLoop));
+				    setPos = pos => (this._.axes[axe].scrollPos = pos, this.componentDidScroll && this.componentDidScroll(~~pos), requestAnimationFrame(this._._rafLoop));
 				
 				newPos = Math.max(0, newPos);
-				newPos = Math.min(newPos, this._.scrollableArea);
+				newPos = Math.min(newPos, this._.axes[axe].scrollableArea);
 				
 				if ( !ms ) {
-					this._.scrollableAnims.forEach(
+					this._.axes[axe].scrollableAnims.forEach(
 						sl => sl.goTo(newPos)
 					);
 					setPos(newPos);
 				}
 				else
-					this._.scrollableAnims.forEach(
+					this._.axes[axe].scrollableAnims.forEach(
 						sl => sl.runTo(newPos, ms, undefined, setPos)
 					);
 				
@@ -403,35 +409,75 @@ export default function asTweener( ...argz ) {
 		
 		makeScrollable() {
 			if ( !this._.scrollEnabled ) {
-				this._.scrollEnabled   = true;
-				this._.scrollHook      = [];
-				this._.scrollableAnims = [];
+				this._.scrollEnabled = true;
+				this._.scrollHook    = [];
+				this._.axes          = {
+					scrollX: {
+						scrollableAnims: [],
+						scrollPos      : 0,
+						scrollableArea : 0
+					},
+					scrollY: {
+						scrollableAnims: [],
+						scrollPos      : 0,
+						scrollableArea : 0
+					}
+				};
 				isBrowserSide && utils.addWheelEvent(
 					ReactDom.findDOMNode(this),
 					this._.onScroll = ( e ) => {//@todo
-						let oldPos = this._.scrollPos,
+						let prevent,
+						    axe    = "scrollY",
+						    oldPos = this._.axes[axe].scrollPos,
 						    newPos = oldPos + e.deltaY;
 						
-						if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos) ) {
-							return;
+						if ( oldPos !== newPos ) {
+							if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
+								return;
+							}
+							
+							if ( this.scrollTo(newPos, undefined, axe) )
+								prevent = true;
+						}
+						axe    = "scrollX";
+						oldPos = this._.axes[axe].scrollPos;
+						newPos = oldPos + e.deltaX;
+						if ( oldPos !== newPos ) {
+							if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
+								return;
+							}
+							
+							if ( this.scrollTo(newPos, undefined, axe) )
+								prevent = true;
 						}
 						
-						if ( this.scrollTo(newPos) )
+						if ( prevent )
 							e.preventDefault();
 					}
 				);
 				utils.addEvent(ReactDom.findDOMNode(this), 'drag',
 				               ( e, touch, descr ) => {//@todo
 					
-					               let oldPos        = this._.scrollPos,
-					                   newPos        = oldPos + (descr._startPos.y - descr._lastPos.y)/10;
+					               let axe    = "scrollY",
+					                   oldPos = this._.axes[axe].scrollPos,
+					                   newPos = oldPos + (descr._startPos.y - descr._lastPos.y) / 10;
+					
 					               descr._startPos.y = descr._lastPos.y
-					               if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos) ) {
+					               if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
 						               return;
 					               }
 					
-					               this.scrollTo(newPos)
-						               //e.preventDefault();
+					               this.scrollTo(newPos, undefined, axe)
+					               axe               = "scrollX";
+					               oldPos            = this._.axes[axe].scrollPos;
+					               newPos            = oldPos + (descr._startPos.x - descr._lastPos.x) / 10;
+					               descr._startPos.x = descr._lastPos.x;
+					               if ( this.shouldApplyScroll && !this.shouldApplyScroll(newPos, oldPos, axe) ) {
+						               return;
+					               }
+					
+					               this.scrollTo(newPos, undefined, axe)
+					               //e.preventDefault();
 					               //debugger
 				               }
 				)
@@ -511,8 +557,8 @@ export default function asTweener( ...argz ) {
 			}
 			
 			if ( this._.scrollEnabled ) {
-				this._.scrollEnabled   = false;
-				this._.scrollableAnims = undefined;
+				this._.scrollEnabled = false;
+				this._.axes          = undefined;
 				utils.rmWheelEvent(
 					ReactDom.findDOMNode(this),
 					this._.onScroll);
@@ -535,7 +581,13 @@ export default function asTweener( ...argz ) {
 				delete this._.delayedMotionTarget;
 			}
 			if ( _static.scrollableAnim ) {
-				this.addScrollableAnim(_static.scrollableAnim);
+				if ( is.array(_static.scrollableAnim) )
+					this.addScrollableAnim(_static.scrollableAnim);
+				else
+					Object.keys(_static.scrollableAnim)
+					      .forEach(
+						      axe => this.addScrollableAnim(_static.scrollableAnim[axe], axe)
+					      )
 			}
 			super.componentDidMount && super.componentDidMount();
 		}
