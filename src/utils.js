@@ -81,8 +81,12 @@ var
 					             'touchmove': me.dragAnywhere,
 					             'mousemove': me.dragAnywhere,
 					             'touchend' : me.dropAnywhere,
-					             'mouseup'  : me.dropAnywhere
+					             'mouseup'  : me.dropAnywhere,
 				             });
+				Dom.addEvent(this,
+				             {
+					             'click': me.dropWithoutClick
+				             }, null, null, true);
 			}
 			
 			if ( e.changedTouches && e.changedTouches.length ) {
@@ -108,8 +112,8 @@ var
 				
 				desc._startPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
 				desc._startPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+				desc._startTs    = e.timeStamp;
 				
-				if ( !desc ) continue;
 				
 				desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
 				desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
@@ -154,10 +158,22 @@ var
 				
 			}
 		},
+		dropWithoutClick : function ( e ) {
+			if ( __.preventNextClick ) {
+				e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				__.preventNextClick = false;
+			}
+			Dom.removeEvent(this,
+			                {
+				                'click': this.dropWithoutClick
+			                });
+		},
 		dropAnywhere     : function ( e ) {
 			var o,
 			    me = __, finger, fingers = [],
-			    desc;
+			    prevent;
 			
 			if ( e.changedTouches && e.changedTouches.length ) {
 				fingers = e.changedTouches
@@ -173,7 +189,7 @@ var
 						
 						me.nbFingers--;
 						desc.nbFingers--;
-						
+						prevent         = prevent || desc.mouseDrag && (e.timeStamp - desc._startTs > 250);
 						desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
 						desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
 						
@@ -185,9 +201,11 @@ var
 						
 					}
 				)
+				me.fingers[finger.identifier] = null;
 			}
-			me.fingers[finger.identifier] = null;
-			
+			if ( prevent ) {
+				me.preventNextClick = true;
+			}
 			if ( !me.nbFingers ) {
 				Dom.removeEvent(document,
 				                {
@@ -441,8 +459,8 @@ var
 			var PAGE_HEIGHT        = 800;
 			
 			function normalizeWheel( /*object*/ event ) /*object*/ {
-				var sX         = 0, sY = 0,       // spinX, spinY
-				    pX = 0, pY = 0;       // pixelX, pixelY
+				var sX = 0, sY = 0,       // spinX, spinY
+				    pX         = 0, pY = 0;       // pixelX, pixelY
 				
 				// Legacy
 				if ( 'detail' in event ) {
