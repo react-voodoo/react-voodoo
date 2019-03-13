@@ -16,46 +16,67 @@ import React                 from "react";
 import ReactDom              from "react-dom";
 import {asTweener, TweenRef} from "Comp";
 
-
-var easingFn = require('d3-ease');
-
-@asTweener({ initialScrollPos: { scrollX: 100, scrollY: 10 } })
+let pushIn = function ( target ) {
+	return {
+		anims: [
+			{
+				type    : "Tween",
+				target  : target,
+				from    : 0,
+				duration: 500,
+				apply   : {}
+			},
+			{
+				type    : "Tween",
+				target  : target,
+				from    : 500,
+				duration: 500,
+				apply   : {}
+			}
+		]
+	};
+};
+@asTweener({ initialScrollPos: { scrollX: 0, scrollY: 0 } })
 export default class Widget_Scrollable extends React.Component {
 	state = {
 		count: 0
 	};
 	
 	render() {
+		
+		//debugger
+		
 		return <div className={ "Widget_Scrollable" } style={ {
 			width : "100%",
 			height: "100%"
 		} }>
-			hello ! { this.state.count } concurent anims <br/>
-			scrollPos : { this._.scrollPos } / { this._.scrollableArea }
-			<br/>
-			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
-			<button onClick={ e => this.scrollTo(200, 500) }>( go to 200 )</button>
 			
-			{/*<TweenRef*/}
-				{/*id={ "testItem" }*/}
-				{/*initial={ { _x: .5, _y: .5, _z: 0, rotateY: 0, opacity: .75 } }*/}
-				{/*//scrollableAnims={ scrollAnims }*/}
-			{/*>*/}
-				{/*<div*/}
-					{/*style={ {*/}
-						{/*position  : "absolute",*/}
-						{/*display   : "inline-block",*/}
-						{/*width     : "15em",*/}
-						{/*height    : "15em",*/}
-						{/*cursor    : "pointer",*/}
-						{/*background: "red",*/}
-						{/*overflow  : "hidden",*/}
-						{/*margin    : "-7.5em 0 0 -7.5em",*/}
-						{/*top       : "0px",*/}
-						{/*left      : "0px"*/}
-					{/*} }>click me !*/}
-				{/*</div>*/}
-			{/*</TweenRef>*/}
+			<TweenRef
+				id={ "testItem" }
+				initial={ {
+					backgroundColor: "rgb(50,50,50)",
+					opacity        : .75,
+					left           : 5,
+					transform      : "translate(50,50)"
+				} }
+				//scrollableAnims={ scrollAnims }
+			>
+				<div
+					onClick={ e => {
+						this.pushAnim(pushIn("testItem"),
+						              () => {
+							
+						              });
+					} }
+					style={ {
+						display   : "inline-block",
+						width     : "5em",
+						height    : "5em",
+						cursor    : "pointer",
+						background: "red",
+					} }>click me !
+				</div>
+			</TweenRef>
 		</div>;
 	}
 }

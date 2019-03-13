@@ -25,14 +25,14 @@ console.log(Samples);
 
 class App extends React.Component {
 	state = {
-		current: "SimpleHeaderTest"
+		current: "Basics"
 	};
 	
 	render() {
 		let Comp = Samples[this.state.current];
 		return <div className={ "app" } style={ {
-			width   : "100%",
-			height  : "100%"
+			width : "100%",
+			height: "100%"
 		} }>
 			
 			<div className={ "sampleLst" } style={ {
@@ -44,7 +44,7 @@ class App extends React.Component {
 			} }>
 				{
 					Object.keys(Samples).map(
-						key => <div onClick={ e => this.setState({ current: key }) } key={key}>{ key }</div>
+						key => <div onClick={ e => this.setState({ current: key }) } key={ key }>{ key }</div>
 					)
 				}
 			</div>

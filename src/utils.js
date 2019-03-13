@@ -459,8 +459,8 @@ var
 			var PAGE_HEIGHT        = 800;
 			
 			function normalizeWheel( /*object*/ event ) /*object*/ {
-				var sX = 0, sY = 0,       // spinX, spinY
-				    pX         = 0, pY = 0;       // pixelX, pixelY
+				var sX         = 0, sY = 0,       // spinX, spinY
+				    pX = 0, pY = 0;       // pixelX, pixelY
 				
 				// Legacy
 				if ( 'detail' in event ) {

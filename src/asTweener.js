@@ -16,10 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React          from "react";
-import is             from "is";
-import taskflow       from "taskflows";
-import utils          from "./utils";
+import React    from "react";
+import is       from "is";
+import taskflow from "taskflows";
+import utils    from "./utils";
+import cssDemux from "./helpers/demux/(*).js";
+
 import TweenerContext from "./TweenerContext";
 import rtween         from "rtween";
 import ReactDom       from "react-dom";
@@ -42,24 +44,53 @@ var isBrowserSide    = (new Function("try {return this===window;}catch(e){ retur
 	    //rotateY: 0,
 	    //rotateX: 0,
 	    //rotate : 0
-    },
-    unitsRe          = new RegExp(
-	    "([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
-	    ['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
-	    + ")"
-    ),
-    extractUnits     = ( map ) => {
-	    var r = {};
-	    Object.keys(map).map(( k ) => {
-		    if ( unitsRe.test((map[k] + '').trim()) ) {
-			    r[k]   = (map[k] + '').trim().replace(unitsRe, '$2');
-			    map[k] = parseFloat((map[k] + '').trim().replace(unitsRe, '$1'));
-		    }
-	    });
-	    return r;
     };
 
 const SimpleObjectProto = ({}).constructor;
+
+
+function muxToCss( tweenable, css, demuxers, data, box ) {
+	Object.keys(demuxers)
+	      .forEach(
+		      ( key ) => {
+			      demuxers[key](key, tweenable, css, data, box)
+		      }
+	      )
+}
+
+function deMuxTween( tween, deMuxedTween, initials, data, demuxers ) {
+	Object.keys(tween)
+	      .forEach(
+		      ( k ) => {
+			      if ( cssDemux[k] ) {//key, value, target, data, initials
+				      demuxers[k] = cssDemux[k](k, tween[k], deMuxedTween, data, initials)
+			      }
+			      else
+				      demuxers[k] = cssDemux.$all(k, tween[k], deMuxedTween, data, initials)
+		      }
+	      )
+}
+
+function deMuxLine( tweenLine, initials, data, demuxers ) {
+	return tweenLine.reduce(
+		( line, tween ) => {
+			let demuxedTween       = {};
+			demuxers[tween.target] = demuxers[tween.target] || {};
+			initials[tween.target] = initials[tween.target] || {};
+			data[tween.target]     = data[tween.target] || {};
+			
+			deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target]);
+			line.push(
+				{
+					...tween,
+					apply: demuxedTween
+				})
+			return line
+		},
+		[]
+	)
+}
+
 
 /**
  * asTweener decorator
@@ -85,7 +116,8 @@ export default function asTweener( ...argz ) {
 			super(...arguments);
 			let _static             = this.constructor;
 			this._                  = {
-				refs: {}
+				refs       : {},
+				muxByTarget: {},
 			};
 			this._.box              = {
 				x: 100,
@@ -120,9 +152,10 @@ export default function asTweener( ...argz ) {
 		tweenRef( id, iStyle, iMap, pos, noref, mapReset ) {// ref initial style
 			this.makeTweenable();
 			
-			let _static = this.constructor,
-			    _       = this._,
-			    cState  = _static.motionStates && _static.motionStates[this._.curMotionStateId];
+			let _static      = this.constructor,
+			    _            = this._,
+			    tweenableMap = {},
+			    cState       = _static.motionStates && _static.motionStates[this._.curMotionStateId];
 			
 			if ( !this._.tweenRefs[id] )
 				this._.tweenRefTargets.push(id);
@@ -136,45 +169,49 @@ export default function asTweener( ...argz ) {
 				iMap   = iMap || {};
 			}
 			
-			this._.tweenRefs[id] = true;
+			let initials               = {};
+			this._.tweenRefs[id]       = true;
+			this._.muxByTarget[id]     = this._.muxByTarget[id] || {};
+			this._.muxDataByTarget[id] = this._.muxDataByTarget[id] || {};
 			
-			if ( isArray(iMap) ) {
-				this._.tweenRefUnits[id] = iMap[1];
-				iMap                     = iMap[0];
-			}
 			if ( iMap.getPosAt ) {// typeof rtween
-				// debugger;
-				
-				
-				// if (/btn_/.test(id)) debugger;
-				iMap = iMap.getPosAt(
+				tweenableMap = iMap.getPosAt(
 					pos,
 					!mapReset && this._.tweenRefMaps[id]
 						|| Object.assign({}, initialTweenable, iMap.scope || {})
 				);
-				
 			}
 			else {
 				
 				mapReset = noref;
 				noref    = pos;
 				
-				this._.tweenRefUnits[id] = extractUnits(iMap);
+				
+				deMuxTween(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
+				//this._.tweenRefUnits[id] = extractUnits(iMap);
 			}
-			this._.tweenRefOrigin[id] = iMap;
+			this._.tweenRefOrigin[id] = tweenableMap;
 			//this._.tweenRefCSS[id]    = this._.tweenRefCSS[id] || {};
 			
+			// init/ reset or get the css view
 			if ( !mapReset && this._.tweenRefCSS[id] ) {
 				this._.tweenRefCSS[id] = {
 					...iStyle
 				}
 			}
-			else this._.tweenRefCSS[id] = iStyle && { ...iStyle } || {}
-			iStyle = this._.tweenRefCSS[id];
-			iMap   = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id]
-				|| Object.assign({}, initialTweenable, iMap || {});
+			else this._.tweenRefCSS[id] = iStyle && { ...iStyle } || {};
 			
-			utils.mapInBoxCSS(iMap, iStyle, this._.box, this._.tweenRefUnits[id]);
+			iStyle = this._.tweenRefCSS[id];
+			
+			// init / reset or get the tweenable view
+			tweenableMap = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id]
+				|| Object.assign({}, tweenableMap || {});
+			
+			
+			console.log(tweenableMap, iStyle, initials, this._.muxByTarget[id], this._.muxDataByTarget[id])
+			//utils.mapInBoxCSS(iMap, iStyle, this._.box, this._.tweenRefUnits[id]);
+			muxToCss(tweenableMap, iStyle, this._.muxByTarget[id], this._.muxDataByTarget[id], this._.box);
+			
 			
 			//this._.refs[id] = this._.refs[id] || React.createRef();
 			
@@ -200,7 +237,7 @@ export default function asTweener( ...argz ) {
 		 * @returns {rtween}
 		 */
 		pushAnim( anim, then, skipInit ) {
-			var sl, initial;
+			var sl, initial, muxed, initials = {};
 			if ( isArray(anim) ) {
 				sl = anim;
 			}
@@ -209,8 +246,11 @@ export default function asTweener( ...argz ) {
 				initial = anim.initial;
 			}
 			
-			if ( !(sl instanceof rtween) )
+			if ( !(sl instanceof rtween) ) {
+				// tweenLine, initials, data, demuxers
+				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
 				sl = new rtween(sl, this._.tweenRefMaps);
+			}
 			
 			
 			// console.warn("Should start anim ", sl);
@@ -228,8 +268,6 @@ export default function asTweener( ...argz ) {
 					this._.runningAnims.splice(i, 1);
 				
 				then && then(sl);
-				// if (anim.resetAfter)
-				//     setTimeout(()=>sl.go(0,me._tweenRefMaps),133);
 			});//launch
 			this._.runningAnims.push(sl);
 			
@@ -248,7 +286,7 @@ export default function asTweener( ...argz ) {
 		// ------------------------------------------------------------
 		
 		addScrollableAnim( anim, axe = "scrollY", size ) {
-			var sl, _ = this._;
+			var sl, _ = this._, initials = {};
 			if ( isArray(anim) ) {
 				sl = anim;
 			}
@@ -257,8 +295,10 @@ export default function asTweener( ...argz ) {
 				size = anim.length;
 			}
 			
-			if ( !(sl instanceof rtween) )
+			if ( !(sl instanceof rtween) ) {
+				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
 				sl = new rtween(sl, _.tweenRefMaps);
+			}
 			
 			this.makeTweenable();
 			this.makeScrollable();
@@ -518,6 +558,8 @@ export default function asTweener( ...argz ) {
 				this._.tweenRefUnits      = {};
 				this._.tweenEnabled       = true;
 				this._.tweenRefOrigin     = {};
+				this._.muxDataByTarget    = this._.muxDataByTarget || {};
+				this._.tweenRefDemuxed    = this._.tweenRefDemuxed || {};
 				this._.tweenRefTargets    = this._.tweenRefTargets || [];
 				this._.runningAnims       = this._.runningAnims || [];
 				
@@ -557,17 +599,17 @@ export default function asTweener( ...argz ) {
 			
 			for ( var i = 0, target, node; i < this._.tweenRefTargets.length; i++ ) {
 				target = this._.tweenRefTargets[i];
-				utils.mapInBoxCSS(
-					this._.tweenRefMaps[target],
-					this._.tweenRefCSS[target],
-					this._.box,
-					this._.tweenRefUnits[target]
-				);
+				muxToCss(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
+				//utils.mapInBoxCSS(
+				//	this._.tweenRefMaps[target],
+				//	this._.tweenRefCSS[target],
+				//	this._.box,
+				//	this._.tweenRefUnits[target]
+				//);
 				node = this._.tweenEnabled && target == "__root"
 				       ? ReactDom.findDOMNode(this)
 				       : this.getTweenableRef(target);
 				node && Object.assign(node.style, this._.tweenRefCSS[target]);
-				//console.log(this._.tweenRefCSS[target].transform)
 			}
 			//}
 		}

@@ -16,30 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import is from "is";
+import anims from "./anims/(*).js";
 
-var anims = function ( id, target, ...argz ) {
-	if ( is.array(id) ) {
-		var p = id.slice();
-		id    = p.shift();
-		p.unshift(target);
-		return anims[id].apply(this, p)
-	}
-	else if ( is.string(id) )
-		return anims[id].call(this, target, ...argz);
-	else
-		return id;
-	
-};
-
-function requireAll( r ) {
-	r.keys().forEach(( k, i ) => {
-		var _k = k.match(/([^\/]+)\.js$/);
-		if ( _k[1] != 'index' )
-			anims[_k[1]] = anims[_k[1]] || r(k, i)
-	});
-}
-
-requireAll(require.context('./anims/', true, /([^\/]+)\.js$/));
 
 export default anims;
