@@ -1,4 +1,4 @@
-/*!
+/*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
  *
@@ -12,22 +12,27 @@
  *  @contact : n8tz.js@gmail.com
  */
 
-.sampleLst {
-  overflow: auto;
+import React                 from "react";
+import ReactDom              from "react-dom";
+import {asTweener, TweenRef} from "Comp";
+import "./samples.scss";
+import Widgets               from "./widgets/(*).js"
 
-  > div {
-    color: white;
-    background: #2e91d1;
-    display: inline-block;
-    text-align: center;
-    margin: 5px 10px;
-    line-height: 40px;
-    width: calc(100% - 20px);
-    height: 40px;
-    cursor: pointer;
 
-    &:hover {
-      background: #206491;
-    }
-  }
+export default class Sample extends React.Component {
+	
+	render() {
+		let AnimWidget;
+		return <div className={ "SimpleTest" } style={ {
+			width : "100%",
+			height: "100%"
+		} }>
+			{
+				Object.keys(Widgets)
+				      .map(
+					      ( id ) => (AnimWidget = Widgets[id], <div className={ "widget" } key={id}><AnimWidget/></div>)
+				      )
+			}
+		</div>;
+	}
 }

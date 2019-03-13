@@ -12,22 +12,11 @@
  *  @contact : n8tz.js@gmail.com
  */
 
-.sampleLst {
-  overflow: auto;
-
-  > div {
-    color: white;
-    background: #2e91d1;
-    display: inline-block;
-    text-align: center;
-    margin: 5px 10px;
-    line-height: 40px;
-    width: calc(100% - 20px);
-    height: 40px;
-    cursor: pointer;
-
-    &:hover {
-      background: #206491;
-    }
-  }
+.widget {
+  //@include use_hvCenteredContent();
+  background: rgba(135, 156, 226, 0.9);
+  display: inline-block;
+  width: 200px;
+  height: 300px;
+  overflow: hidden;
 }
