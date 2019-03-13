@@ -70,7 +70,6 @@ var
 			    desc, fingers = [];
 			
 			if ( i === -1 ) {
-				
 				return;
 			}
 			//e.preventDefault();
@@ -80,9 +79,9 @@ var
 				Dom.addEvent(document,
 				             {
 					             'touchmove': me.dragAnywhere,
-					             //'mousemove': me.dragAnywhere,
+					             'mousemove': me.dragAnywhere,
 					             'touchend' : me.dropAnywhere,
-					             //'mouseup'  : me.dropAnywhere
+					             'mouseup'  : me.dropAnywhere
 				             });
 			}
 			
@@ -199,13 +198,13 @@ var
 				                });
 			}
 		},
-		getDraggable     : function ( node ) {
+		getDraggable     : function ( node, mouseDrag ) {
 			var i = this.dragEnabled.indexOf(node), desc;
 			if ( i === -1 ) {
-				i = this.dragEnabled.length;
 				this.dragEnabled.push(node);
 				this.dragEnabledDesc.push(
 					desc = {
+						mouseDrag,
 						nbFingers: 0,
 						locks    : 0,
 						_startPos: {
@@ -225,7 +224,7 @@ var
 				//debugger;
 				Dom.addEvent(node,
 				             {
-					             //'mousedown' : this.dragstartAnywhere,
+					             'mousedown' : mouseDrag && this.dragstartAnywhere,
 					             'touchstart': this.dragstartAnywhere
 				             }, null, null, true);
 			}
@@ -280,9 +279,9 @@ var
 				node.detachEvent('on' + type, fn.related);
 			}
 		},
-		rmFnScopePair    : function ( arr, fn, scope ) {
+		rmDragFn         : function ( arr, fn, scope ) {
 			for ( var i = 0, ln = arr.length; i < ln; i++ ) {
-				if ( arr[i][0] == fn && arr[i][1] == scope )
+				if ( arr[i][0] === fn )
 					return arr.splice(i, 1);
 			}
 			
@@ -341,7 +340,7 @@ var
 		}
 	},
 	Dom         = {
-		addEvent     : function ( node, type, fn, scope, bubble ) {
+		addEvent     : function ( node, type, fn, mouseDrag, bubble ) {
 			var desc;
 			if ( is.object(type) ) {
 				for ( var o in type )
@@ -350,20 +349,13 @@ var
 				return;
 			}
 			else if ( type == 'dragstart' ) {
-				__.getDraggable(node).dragstart.push([fn, scope]);
-				
-				
+				__.getDraggable(node, mouseDrag).dragstart.push([fn, mouseDrag]);
 			}
 			else if ( type == 'drag' ) {
-				
-				__.getDraggable(node).drag.push([fn, scope]);
-				
-				
+				__.getDraggable(node, mouseDrag).drag.push([fn, mouseDrag]);
 			}
 			else if ( type == 'dropped' ) {
-				
-				__.getDraggable(node).dropped.push([fn, scope]);
-				
+				__.getDraggable(node, mouseDrag).dropped.push([fn, mouseDrag]);
 			}
 			else {
 				if ( node.addEventListener ) {
@@ -389,7 +381,7 @@ var
 			}
 			else if ( /^(drag|drop)/.test(type) ) {
 				desc = __.getDraggable(node);
-				__.rmFnScopePair(desc[type], fn, scope);
+				__.rmDragFn(desc[type], fn, scope);
 				if ( !desc.dragstart.length
 					&& !desc.drag.length
 					&& !desc.dragEnd.length

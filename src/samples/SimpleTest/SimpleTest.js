@@ -120,7 +120,7 @@ const scrollAnims = {
 		}
 	]
 };
-@asTweener({ initialScrollPos: { scrollX: 100, scrollY: 10 } })
+@asTweener({ initialScrollPos: { scrollX: 100, scrollY: 10 }, enableMouseDrag: true })
 export default class Sample extends React.Component {
 	state = {
 		count: 0

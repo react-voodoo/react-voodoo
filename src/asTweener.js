@@ -468,7 +468,7 @@ export default function asTweener( ...argz ) {
 				);
 				isBrowserSide && utils.addEvent(
 					ReactDom.findDOMNode(this), 'drag',
-					( e, touch, descr ) => {//@todo
+					this._.onDrag = ( e, touch, descr ) => {//@todo
 						let prevent,
 						    axe    = "scrollY",
 						    oldPos = this._.axes[axe].scrollPos,
@@ -497,7 +497,8 @@ export default function asTweener( ...argz ) {
 							//console.log(this.constructor.displayName, prevent, e.defaultPrevented)
 						}
 						return !prevent;
-					}
+					},
+					opts.enableMouseDrag
 				)
 			}
 			else {
