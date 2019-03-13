@@ -12,6 +12,12 @@
  *  @contact : n8tz.js@gmail.com
  */
 
+body, html, #app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  //user-select: none;
+}
 .sampleLst {
   overflow: auto;
 

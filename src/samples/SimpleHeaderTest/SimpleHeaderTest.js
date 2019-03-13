@@ -64,7 +64,7 @@ class Header extends React.Component {
 			id={ "header" }
 			initial={ { height: "250px" } }
 		>
-			<header style={{zIndex:10}}>
+			<header style={ { zIndex: 10 } }>
 				<TweenRef
 					id={ "logo" }
 					initial={ {
@@ -117,8 +117,8 @@ export default class Sample extends React.Component {
 			duration: 50,
 			easeFn  : easingFn.easePolyOut,
 			apply   : {
-				left  : -50,
-				height: -50,
+				left      : -50,
+				height    : -50,
 				marginLeft: 110,
 			}
 		},
@@ -156,9 +156,10 @@ export default class Sample extends React.Component {
 	];
 	state                 = {};
 	
-	shouldApplyScroll( newPos, oldPos ) {
+	shouldApplyScroll( newPos, oldPos, axe ) {
 		let node = ReactDom.findDOMNode(this);
-		
+		if ( axe !== "scrollY" )
+			return true;
 		if ( newPos > oldPos )
 			this.scrollTo(100, 250);
 		else if ( node.scrollTop < 25 )

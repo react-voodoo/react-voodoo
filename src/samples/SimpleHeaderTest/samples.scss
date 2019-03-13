@@ -31,12 +31,6 @@
   }
 }
 
-body, html, #app {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  //user-select: none;
-}
 
 .sample {
   perspective: 200px;
@@ -55,6 +49,7 @@ body, html, #app {
   width: 100%;
   height: 100%;
   text-align: center;
+  //touch-action: none;
   //tr
   header {
     background: green;

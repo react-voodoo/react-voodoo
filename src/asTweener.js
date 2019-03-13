@@ -471,18 +471,20 @@ export default function asTweener( ...argz ) {
 					this._.onDrag = ( e, touch, descr ) => {//@todo
 						let prevent,
 						    axe    = "scrollY",
+						    delta  = descr._startPos.y - descr._lastPos.y,
 						    oldPos = this._.axes[axe].scrollPos,
-						    newPos = oldPos + (descr._startPos.y - descr._lastPos.y) / 10;
+						    newPos = oldPos + (delta) / 10;
 						
-						if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
+						if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
 							descr._startPos.y = descr._lastPos.y;
 							prevent           = !!this.scrollTo(newPos, undefined, axe);
 						}
 						
 						axe    = "scrollX";
 						oldPos = this._.axes[axe].scrollPos;
-						newPos = oldPos + (descr._startPos.x - descr._lastPos.x) / 10;
-						if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
+						delta  = descr._startPos.x - descr._lastPos.x;
+						newPos = oldPos + (delta) / 10;
+						if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
 							descr._startPos.x = descr._lastPos.x;
 							prevent           = !!this.scrollTo(newPos, undefined, axe) && prevent;
 						}
@@ -583,6 +585,8 @@ export default function asTweener( ...argz ) {
 				utils.rmWheelEvent(
 					ReactDom.findDOMNode(this),
 					this._.onScroll);
+				utils.removeEvent(
+					ReactDom.findDOMNode(this), 'drag', this._.onDrag)
 			}
 			
 			super.componentWillUnmount && super.componentWillUnmount();
