@@ -134,7 +134,7 @@ export default function asTweener( ...argz ) {
 				noref    = pos;
 				
 				
-				deMuxTween(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
+				iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]) };
 				//this._.tweenRefUnits[id] = extractUnits(iMap);
 			}
 			this._.tweenRefOrigin[id] = tweenableMap;

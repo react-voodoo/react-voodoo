@@ -12,19 +12,23 @@
  *  @contact : n8tz.js@gmail.com
  */
 
-function demux( key, { backgroundColor_r, backgroundColor_g, backgroundColor_b }, target, data ) {
-	target.backgroundColor = "rgb(" + backgroundColor_r + ", " + backgroundColor_g + ", " + backgroundColor_b + ")";
+import rgba from "color-rgba";
+
+function demux( key, tweenable, target, data ) {
+	target[key] = "rgba(" + tweenable[key + '_r'] + ", " + tweenable[key + '_g'] + ", " + tweenable[key + '_b'] + ", " + tweenable[key + '_a'] + ")";
 }
 
 export default ( key, value, target, data, initials ) => {
+	let vect           = rgba(value);
+	target[key + '_r'] = vect[0];
+	target[key + '_g'] = vect[1];
+	target[key + '_b'] = vect[2];
+	target[key + '_a'] = vect[3];
 	
-	target.backgroundColor_r = 20;
-	target.backgroundColor_g = 20;
-	target.backgroundColor_b = 20;
-	
-	initials.backgroundColor_r = 0;
-	initials.backgroundColor_g = 0;
-	initials.backgroundColor_b = 0;
+	initials[key + '_r'] = 0;
+	initials[key + '_g'] = 0;
+	initials[key + '_b'] = 0;
+	initials[key + '_a'] = 1;
 	
 	return demux;
 }

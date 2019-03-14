@@ -161,7 +161,19 @@ export default class Sample extends React.Component {
 			
 			<TweenRef
 				id={ "testItem" }
-				initial={ { _x: .5, _y: .5, _z: 0, rotateY: 0, opacity: .75 } }
+				initial={ {
+					position       : "absolute",
+					display        : "inline-block",
+					width          : "15em",
+					height         : "15em",
+					cursor         : "pointer",
+					backgroundColor: "red",
+					overflow       : "hidden",
+					margin         : "-7.5em 0 0 -7.5em",
+					top            : "0px",
+					left           : "0px",
+					_x             : .5, _y: .5, _z: 0, rotateY: 0, opacity: .75
+				} }
 				scrollableAnims={ scrollAnims }
 			>
 				<div
@@ -173,18 +185,7 @@ export default class Sample extends React.Component {
 							
 						              });
 					} }
-					style={ {
-						position  : "absolute",
-						display   : "inline-block",
-						width     : "15em",
-						height    : "15em",
-						cursor    : "pointer",
-						background: "red",
-						overflow  : "hidden",
-						margin    : "-7.5em 0 0 -7.5em",
-						top       : "0px",
-						left      : "0px"
-					} }>click me !
+					style={ {} }>click me !
 				</div>
 			</TweenRef>
 		</div>;

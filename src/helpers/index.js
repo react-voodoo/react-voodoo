@@ -47,6 +47,7 @@ const cssDemux = {
 	_z           : transforms,
 	perspective  : transforms
 };
+import cssAnimProps         from 'css-animated-properties'
 
 export function muxToCss( tweenable, css, demuxers, data, box ) {
 	Object.keys(demuxers)
@@ -58,20 +59,20 @@ export function muxToCss( tweenable, css, demuxers, data, box ) {
 }
 
 export function deMuxTween( tween, deMuxedTween, initials, data, demuxers ) {
-	let fTween = {};
+	let fTween = {}, excluded = {};
 	Object.keys(tween)
 	      .forEach(
 		      ( _key ) => {
 			      let key = kebCase(_key);
 			      if ( cssDemux[_key] )
 				      fTween[key] = tween[_key];
-			      else if ( isValidDeclaration(key, tween[_key] + '') ) {
+			      else if ( isValidDeclaration(key, tween[_key] + '') && cssAnimProps.getProperty(key) ) {
 				      if ( isShorthandProperty(key) ) {
 					      Object.assign(fTween, expandShorthandProperty(key, tween[_key], true, true));
 				      }
 				      else fTween[key] = tween[_key];
 			      }
-			      else console.warn("Ignore unexpected value for ", _key, tween[_key])
+			      else excluded[_key] = tween[_key];
 		      });
 	
 	Object.keys(fTween)
@@ -85,6 +86,7 @@ export function deMuxTween( tween, deMuxedTween, initials, data, demuxers ) {
 				      demuxers[key] = cssDemux.$all(key, fTween[_key], deMuxedTween, data, initials)
 		      }
 	      )
+	return excluded;
 }
 
 export function deMuxLine( tweenLine, initials, data, demuxers ) {

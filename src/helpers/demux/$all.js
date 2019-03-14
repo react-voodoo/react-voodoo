@@ -16,22 +16,24 @@ import is           from "is";
 import cssAnimProps from 'css-animated-properties'
 
 const
-	unitsRe      = new RegExp(
+	unitsRe         = new RegExp(
 		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
 		['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
 		+ ")"
 	),
-	floatCut     = function ( v, l ) {
+	floatCut        = function ( v, l ) {
 		var p = Math.pow(10, l);
 		return Math.round(v * p) / p;
 	},
-	defaultUnits = {
+	defaultUnits    = {
 		left  : 'px',
 		right : 'px',
 		top   : 'px',
 		bottom: 'px',
 		width : 'px',
 		height: 'px',
+	}, defaultValue = {
+		opacity: 1
 	};
 
 function demux( key, tweenable, target, data, box ) {
@@ -42,7 +44,7 @@ export default ( key, value, target, data, initials ) => {
 	
 	let match = is.string(value) ? value.match(unitsRe) : false;
 	
-	initials[key] = 0;
+	initials[key] = defaultValue[key] || 0;
 	if ( match ) {
 		if ( data[key] && data[key] !== match[2] ) {
 			console.warn("Have != units on prop ! Ignore ", key, "present:" + data[key], "new:" + match[2]);
