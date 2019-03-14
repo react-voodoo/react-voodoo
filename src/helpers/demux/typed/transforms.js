@@ -12,8 +12,7 @@
  *  @contact : n8tz.js@gmail.com
  */
 
-import is           from "is";
-import cssAnimProps from 'css-animated-properties'
+import is from "is";
 
 const
 	unitsRe      = new RegExp(
@@ -34,28 +33,52 @@ const
 		height: 'px',
 	};
 
-function demux( key, tweenable, target, data, box ) {
-	target[key] = data[key] ? floatCut(tweenable[key], 2) + data[key] : floatCut(tweenable[key], 2);
+function demux( key, tweenable, target, data, box, offset ) {
+	let active = data.transform, t = '';
+	if ( data.transformApplier === key ) {
+		if ( active._z || active._x || active._y || active.z ||
+			active.x || active.y )
+			t = 'translate3d(' +
+				floatCut((tweenable._x || 0) * (box.x || 0) + (tweenable.x || 0) + (offset && offset.x || 0), 2) +
+				(data && data.x || 'px') + ', ' +
+				floatCut((tweenable._y || 0) * (box.y || 0) + (tweenable.y || 0) + (offset && offset.y || 0), 2) +
+				(data && data.y || 'px') + ', ' +
+				floatCut((tweenable._z || 0) * (box.z || 0) + (tweenable.z || 0) + (offset && offset.z || 0), 2) +
+				(data && data.z || 'px') + '' +
+				')';
+		
+		if ( tweenable.rotate && active.rotate )
+			t += ' rotate(' + floatCut((tweenable.rotate || 0) % 360, 2) + 'deg)';
+		if ( tweenable.rotateX && active.rotateX )
+			t += ' rotateX(' + floatCut((tweenable.rotateX || 0) % 360, 2) + 'deg)';
+		if ( tweenable.rotateY && active.rotateY )
+			t += ' rotateY(' + floatCut((tweenable.rotateY || 0) % 360, 2) + 'deg)';
+		
+		active.perspective && (t = "perspective(" + tweenable.perspective + (data.perspective || 'px') + ") " + t)
+		
+		
+		target.transform = t;
+	}
 }
 
 export default ( key, value, target, data, initials ) => {
 	
+	
 	let match = is.string(value) ? value.match(unitsRe) : false;
 	
-	initials[key] = 0;
+	//let how = cssAnimProps.getProperty(key);
+	//console.log(how);
+	data.transform        = data.transform || {};
+	data.transformApplier = data.transformApplier || key;
+	data.transform[key]   = true;
+	initials[key]         = 0;
 	if ( match ) {
-		if ( data[key] && data[key] !== match[2] ) {
-			console.warn("Have != units on prop ! Ignore ", key, "present:" + data[key], "new:" + match[2]);
-			target[key] = 0;
-		}
-		else {
-			data[key]   = match[2];
-			target[key] = parseFloat(match[1]);
-		}
+		data[key]   = match[2];
+		target[key] = parseFloat(match[1]);
 	}
 	else {
 		target[key] = value;
-		if ( !data[key] && key in defaultUnits )
+		if ( key in defaultUnits )
 			data[key] = defaultUnits[key];
 	}
 	

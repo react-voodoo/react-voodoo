@@ -68,8 +68,6 @@ class Header extends React.Component {
 				<TweenRef
 					id={ "logo" }
 					initial={ {
-						_z         : 0,
-						rotateY    : 0,
 						left       : "50%",
 						bottom     : "60px",
 						height     : "100px",

@@ -38,11 +38,16 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
+    "camelcase-css": "^2.0.1",
+    "css-animated-properties": "^1.1.0",
+    "css-property-parser": "^1.0.6",
     "d3-ease": "^1.0.5",
     "is": "^3.2.1",
     "isfunction": "0.0.6",
+    "kebab-case": "^1.0.0",
     "rtween": "^1.2.0",
-    "taskflows": "^1.0.0"
+    "taskflows": "^1.0.0",
+    "unitless-css-property": "^1.0.2"
   },
   "devDependencies": {
     "wpi-react-hmr-ssr": "^0.2.3",

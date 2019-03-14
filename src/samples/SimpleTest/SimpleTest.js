@@ -86,7 +86,7 @@ const scrollAnims = {
 			duration: 150,
 			easeFn  : easingFn.easePolyOut,
 			apply   : {
-				rotateY: -60,
+				rotateY: -30,
 			}
 		}
 	],
@@ -115,7 +115,7 @@ const scrollAnims = {
 			duration: 150,
 			easeFn  : easingFn.easePolyOut,
 			apply   : {
-				rotateX: -60,
+				rotateX: -30,
 			}
 		}
 	]

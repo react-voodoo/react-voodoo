@@ -54,10 +54,11 @@ export default class Widget_Scrollable extends React.Component {
 			<TweenRef
 				id={ "testItem" }
 				initial={ {
-					backgroundColor: "rgb(50,50,50)",
-					opacity        : .75,
-					left           : 5,
-					transform      : "translate(50,50)"
+					margin         : "0 0 3px 10px",
+					//backgroundColor: "rgba(50,50,50,1)",
+					opacity        : ".75",
+					left           : "5px",
+					//transform      : "translate(50px,50px)"
 				} }
 				//scrollableAnims={ scrollAnims }
 			>

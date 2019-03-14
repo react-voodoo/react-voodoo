@@ -13,7 +13,6 @@
  */
 
 import is           from "is";
-import cssAnimProps from 'css-animated-properties'
 
 const
 	unitsRe      = new RegExp(
@@ -33,15 +32,22 @@ const
 		width : 'px',
 		height: 'px',
 	};
+import cssAnimProps from 'css-animated-properties'
 
 function demux( key, tweenable, target, data, box ) {
+	//if (!tweenable[key])
+	//	debugger
 	target[key] = data[key] ? floatCut(tweenable[key], 2) + data[key] : floatCut(tweenable[key], 2);
 }
 
 export default ( key, value, target, data, initials ) => {
 	
+	
+	//if ( cssAnimProps.canAnimate(key) ) {
 	let match = is.string(value) ? value.match(unitsRe) : false;
 	
+	//let how = cssAnimProps.getProperty(key);
+	//console.log(how);
 	initials[key] = 0;
 	if ( match ) {
 		if ( data[key] && data[key] !== match[2] ) {
@@ -58,6 +64,11 @@ export default ( key, value, target, data, initials ) => {
 		if ( !data[key] && key in defaultUnits )
 			data[key] = defaultUnits[key];
 	}
+	//}
+	//else {
+	//	// just do nothing
+	//	//data[key]=
+	//}
 	
 	return demux;
 }

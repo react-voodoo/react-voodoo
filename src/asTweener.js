@@ -20,11 +20,11 @@ import React    from "react";
 import is       from "is";
 import taskflow from "taskflows";
 import utils    from "./utils";
-import cssDemux from "./helpers/demux/(*).js";
 
-import TweenerContext from "./TweenerContext";
-import rtween         from "rtween";
-import ReactDom       from "react-dom";
+import TweenerContext                    from "./TweenerContext";
+import rtween                            from "rtween";
+import ReactDom                          from "react-dom";
+import {deMuxTween, muxToCss, deMuxLine} from "./helpers";
 
 /**
  * @todo : clean & comments
@@ -34,62 +34,9 @@ import ReactDom       from "react-dom";
 var isBrowserSide    = (new Function("try {return this===window;}catch(e){ return false;}"))(),
     isArray          = is.array,
     initialTweenable = {// while no matrix..
-	    //x      : 0,
-	    //y      : 0,
-	    //z      : 0,
-	    //_x     : 0,
-	    //_y     : 0,
-	    //_z     : 0,
-	    //// opacity   : 1,
-	    //rotateY: 0,
-	    //rotateX: 0,
-	    //rotate : 0
     };
 
 const SimpleObjectProto = ({}).constructor;
-
-
-function muxToCss( tweenable, css, demuxers, data, box ) {
-	Object.keys(demuxers)
-	      .forEach(
-		      ( key ) => {
-			      demuxers[key](key, tweenable, css, data, box)
-		      }
-	      )
-}
-
-function deMuxTween( tween, deMuxedTween, initials, data, demuxers ) {
-	Object.keys(tween)
-	      .forEach(
-		      ( k ) => {
-			      if ( cssDemux[k] ) {//key, value, target, data, initials
-				      demuxers[k] = cssDemux[k](k, tween[k], deMuxedTween, data, initials)
-			      }
-			      else
-				      demuxers[k] = cssDemux.$all(k, tween[k], deMuxedTween, data, initials)
-		      }
-	      )
-}
-
-function deMuxLine( tweenLine, initials, data, demuxers ) {
-	return tweenLine.reduce(
-		( line, tween ) => {
-			let demuxedTween       = {};
-			demuxers[tween.target] = demuxers[tween.target] || {};
-			initials[tween.target] = initials[tween.target] || {};
-			data[tween.target]     = data[tween.target] || {};
-			
-			deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target]);
-			line.push(
-				{
-					...tween,
-					apply: demuxedTween
-				})
-			return line
-		},
-		[]
-	)
-}
 
 
 /**
@@ -205,10 +152,10 @@ export default function asTweener( ...argz ) {
 			
 			// init / reset or get the tweenable view
 			tweenableMap = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id]
-				|| Object.assign({}, tweenableMap || {});
+				|| Object.assign({}, initials, tweenableMap || {});
 			
 			
-			console.log(tweenableMap, iStyle, initials, this._.muxByTarget[id], this._.muxDataByTarget[id])
+			//console.log(tweenableMap, iStyle, initials, this._.muxByTarget[id], this._.muxDataByTarget[id])
 			//utils.mapInBoxCSS(iMap, iStyle, this._.box, this._.tweenRefUnits[id]);
 			muxToCss(tweenableMap, iStyle, this._.muxByTarget[id], this._.muxDataByTarget[id], this._.box);
 			
@@ -250,6 +197,15 @@ export default function asTweener( ...argz ) {
 				// tweenLine, initials, data, demuxers
 				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
 				sl = new rtween(sl, this._.tweenRefMaps);
+				Object.keys(initials)
+				      .forEach(
+					      id => (
+						      this._.tweenRefMaps[id] = {
+							      ...initials[id],
+							      ...this._.tweenRefMaps[id]
+						      }
+					      )
+				      )
 			}
 			
 			
@@ -298,6 +254,15 @@ export default function asTweener( ...argz ) {
 			if ( !(sl instanceof rtween) ) {
 				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
 				sl = new rtween(sl, _.tweenRefMaps);
+				Object.keys(initials)
+				      .forEach(
+					      id => (
+						      this._.tweenRefMaps[id] = {
+							      ...initials[id],
+							      ...this._.tweenRefMaps[id]
+						      }
+					      )
+				      )
 			}
 			
 			this.makeTweenable();
