@@ -853,7 +853,7 @@ function asTweener() {
 
             if (oldPos !== newPos) {
               if (!_this10.shouldApplyScroll || _this10.shouldApplyScroll(newPos, oldPos, axe)) {
-                if (_this10.scrollTo(newPos, undefined, axe)) prevent = true;
+                if (_this10.scrollTo(newPos, 100, axe)) prevent = true;
               }
             }
 
@@ -863,7 +863,7 @@ function asTweener() {
 
             if (oldPos !== newPos) {
               if (!_this10.shouldApplyScroll || _this10.shouldApplyScroll(newPos, oldPos, axe)) {
-                if (_this10.scrollTo(newPos, undefined, axe)) prevent = true;
+                if (_this10.scrollTo(newPos, 100, axe)) prevent = true;
               }
             }
 
@@ -882,7 +882,7 @@ function asTweener() {
 
             if (delta && (!_this10.shouldApplyScroll || _this10.shouldApplyScroll(newPos, oldPos, axe))) {
               descr._startPos.y = descr._lastPos.y;
-              prevent = !!_this10.scrollTo(newPos, undefined, axe);
+              prevent = !!_this10.scrollTo(newPos, 10, axe);
             }
 
             axe = "scrollX";
@@ -892,7 +892,7 @@ function asTweener() {
 
             if (delta && (!_this10.shouldApplyScroll || _this10.shouldApplyScroll(newPos, oldPos, axe))) {
               descr._startPos.x = descr._lastPos.x;
-              prevent = !!_this10.scrollTo(newPos, undefined, axe) && prevent;
+              prevent = !!_this10.scrollTo(newPos, 10, axe) && prevent;
             } //e.preventDefault();
             //debugger
 

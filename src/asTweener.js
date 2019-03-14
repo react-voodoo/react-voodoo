@@ -449,7 +449,7 @@ export default function asTweener( ...argz ) {
 						
 						if ( oldPos !== newPos ) {
 							if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
-								if ( this.scrollTo(newPos, undefined, axe) )
+								if ( this.scrollTo(newPos, 100, axe) )
 									prevent = true;
 							}
 							
@@ -459,7 +459,7 @@ export default function asTweener( ...argz ) {
 						newPos = oldPos + e.deltaX;
 						if ( oldPos !== newPos ) {
 							if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
-								if ( this.scrollTo(newPos, undefined, axe) )
+								if ( this.scrollTo(newPos, 100, axe) )
 									prevent = true;
 							}
 							
@@ -482,7 +482,7 @@ export default function asTweener( ...argz ) {
 						
 						if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
 							descr._startPos.y = descr._lastPos.y;
-							prevent           = !!this.scrollTo(newPos, undefined, axe);
+							prevent           = !!this.scrollTo(newPos, 10, axe);
 						}
 						
 						axe    = "scrollX";
@@ -491,7 +491,7 @@ export default function asTweener( ...argz ) {
 						newPos = oldPos + (delta) / 10;
 						if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
 							descr._startPos.x = descr._lastPos.x;
-							prevent           = !!this.scrollTo(newPos, undefined, axe) && prevent;
+							prevent           = !!this.scrollTo(newPos, 10, axe) && prevent;
 						}
 						
 						//e.preventDefault();
