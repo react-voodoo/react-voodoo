@@ -19,24 +19,23 @@ import React    from "react";
 import ReactDom from "react-dom";
 
 import Samples from "Comp/samples/*/(*).js"
+import "./samples/samples.scss";
 
 console.log(Samples);
 
 class App extends React.Component {
-	state      = {
+	state = {
 		current: "SimpleHeaderTest"
 	};
 	
 	render() {
 		let Comp = Samples[this.state.current];
 		return <div className={ "app" } style={ {
-			overflow: "scroll",
-			width   : "100%",
-			height  : "100%"
+			width : "100%",
+			height: "100%"
 		} }>
 			
 			<div className={ "sampleLst" } style={ {
-				overflow: "scroll",
 				position: "absolute",
 				top     : "0px",
 				left    : "0px",
@@ -45,7 +44,7 @@ class App extends React.Component {
 			} }>
 				{
 					Object.keys(Samples).map(
-						key => <div onClick={ e => this.setState({ current: key }) }>{ key }</div>
+						key => <div onClick={ e => this.setState({ current: key }) } key={ key }>{ key }</div>
 					)
 				}
 			</div>

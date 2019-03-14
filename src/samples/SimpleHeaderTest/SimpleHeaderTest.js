@@ -64,12 +64,10 @@ class Header extends React.Component {
 			id={ "header" }
 			initial={ { height: "250px" } }
 		>
-			<header>
+			<header style={ { zIndex: 10 } }>
 				<TweenRef
 					id={ "logo" }
 					initial={ {
-						_z         : 0,
-						rotateY    : 0,
 						left       : "50%",
 						bottom     : "60px",
 						height     : "100px",
@@ -97,7 +95,7 @@ export default class Sample extends React.Component {
 			duration: 50,
 			easeFn  : easingFn.easePolyOut,
 			apply   : {
-				paddingTop: -130,
+				y: -130,
 			}
 		},
 		{
@@ -130,7 +128,7 @@ export default class Sample extends React.Component {
 			duration: 50,
 			easeFn  : easingFn.easePolyOut,
 			apply   : {
-				paddingTop: -120,
+				y: -50,
 			}
 		},
 		{
@@ -156,9 +154,10 @@ export default class Sample extends React.Component {
 	];
 	state                 = {};
 	
-	shouldApplyScroll( newPos, oldPos ) {
+	shouldApplyScroll( newPos, oldPos, axe ) {
 		let node = ReactDom.findDOMNode(this);
-		
+		if ( axe !== "scrollY" )
+			return true;
 		if ( newPos > oldPos )
 			this.scrollTo(100, 250);
 		else if ( node.scrollTop < 25 )
@@ -170,17 +169,25 @@ export default class Sample extends React.Component {
 	}
 	
 	render() {
-		return <TweenRef
-			id={ "body" }
-			initial={ { paddingTop: "250px" } }
-		>
-			<div className={ "SimpleHeader" } style={ {
-				width : "100%",
-				height: "100%"
-			} }>
-				<Header/>
+		return <div className={ "SimpleHeader" } style={ {
+			width : "100%",
+			height: "100%"
+		} }>
+			<Header/>
+			<TweenRef
+				id={ "body" }
+				initial={ { y: "250px" } }
+			>
 				<div className={ "content" }>
-					drag / scroll me
+					drag / scroll me !
+					<br/>
+					Lorem ipsum 1
+					<br/>
+					Lorem ipsum 2
+					<br/>
+					Lorem ipsum 3
+					<br/>
+					Lorem ipsum 4
 					<br/>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut placerat dapibus erat et commodo.
 					Integer pretium vitae lorem at molestie. Donec tincidunt sollicitudin velit eget elementum. Sed
@@ -382,7 +389,7 @@ export default class Sample extends React.Component {
 					<br/>
 					20 paragraphes, 1707 mots, 11366 caractères de Lorem Ipsum généré<br/>
 				</div>
-			</div>
-		</TweenRef>;
+			</TweenRef>
+		</div>;
 	}
 }

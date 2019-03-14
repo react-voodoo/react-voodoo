@@ -31,16 +31,13 @@
   }
 }
 
-body, html, #app {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  //user-select: none;
-}
-
 .SimpleTest {
-  //@include use_hvCenteredContent();
   background: rgba(190, 190, 190, 0.21);
   text-align: center;
   perspective: 200px;
+  user-select: none;
+
+  div {
+    @include use_hvCenteredContent();
+  }
 }
