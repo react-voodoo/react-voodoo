@@ -450,7 +450,7 @@ export default function asTweener( ...argz ) {
 						if ( oldPos !== newPos ) {
 							if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
 								if ( this.scrollTo(newPos, 100, axe) )
-									prevent = true;
+									prevent = !(opts.propagateAxes && opts.propagateAxes.scrollY);
 							}
 							
 						}
@@ -460,7 +460,7 @@ export default function asTweener( ...argz ) {
 						if ( oldPos !== newPos ) {
 							if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
 								if ( this.scrollTo(newPos, 100, axe) )
-									prevent = true;
+									prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX);
 							}
 							
 						}
@@ -471,40 +471,45 @@ export default function asTweener( ...argz ) {
 						}
 					}
 				);
+				let lastPos;
 				isBrowserSide && utils.addEvent(
-					ReactDom.findDOMNode(this), 'drag',
-					this._.onDrag = ( e, touch, descr ) => {//@todo
-						let prevent,
-						    axe    = "scrollY",
-						    delta  = descr._startPos.y - descr._lastPos.y,
-						    oldPos = this._.axes[axe].scrollPos,
-						    newPos = oldPos + (delta) / 10;
-						
-						if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
-							descr._startPos.y = descr._lastPos.y;
-							prevent           = !!this.scrollTo(newPos, 10, axe);
+					ReactDom.findDOMNode(this), this._.dragList = {
+						'drag': ( e, touch, descr ) => {//@todo
+							
+							lastPos = lastPos || { ...descr._startPos };
+							
+							let prevent,
+							    axe    = "scrollY",
+							    delta  = lastPos.y - descr._lastPos.y,
+							    oldPos = this._.axes[axe].scrollPos,
+							    newPos = oldPos + (delta) / 10;
+							
+							if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
+								lastPos.y = descr._lastPos.y;
+								if ( this.scrollTo(newPos, 10, axe) )
+									prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX) && prevent;
+							}
+							
+							axe    = "scrollX";
+							oldPos = this._.axes[axe].scrollPos;
+							delta  = lastPos.x - descr._lastPos.x;
+							newPos = oldPos + (delta) / 10;
+							if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
+								lastPos.x = descr._lastPos.x;
+								if ( this.scrollTo(newPos, 10, axe) )
+									prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX) && prevent;
+							}
+							
+							if ( prevent ) {
+								e.preventDefault();
+								e.stopPropagation();
+							}
+							return !prevent;
+						},
+						'drop': ( e, touch, descr ) => {
+							lastPos = null;
 						}
-						
-						axe    = "scrollX";
-						oldPos = this._.axes[axe].scrollPos;
-						delta  = descr._startPos.x - descr._lastPos.x;
-						newPos = oldPos + (delta) / 10;
-						if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
-							descr._startPos.x = descr._lastPos.x;
-							prevent           = !!this.scrollTo(newPos, 10, axe) && prevent;
-						}
-						
-						//e.preventDefault();
-						//debugger
-						
-						if ( prevent ) {
-							e.preventDefault();
-							e.stopPropagation();
-							//e.defaultPrevented=true;
-							//console.log(this.constructor.displayName, prevent, e.defaultPrevented)
-						}
-						return !prevent;
-					},
+					}, null,
 					opts.enableMouseDrag
 				)
 			}
@@ -593,7 +598,7 @@ export default function asTweener( ...argz ) {
 					ReactDom.findDOMNode(this),
 					this._.onScroll);
 				utils.removeEvent(
-					ReactDom.findDOMNode(this), 'drag', this._.onDrag)
+					ReactDom.findDOMNode(this), this._.dragList)
 			}
 			
 			super.componentWillUnmount && super.componentWillUnmount();

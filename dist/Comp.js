@@ -853,7 +853,7 @@ function asTweener() {
 
             if (oldPos !== newPos) {
               if (!_this10.shouldApplyScroll || _this10.shouldApplyScroll(newPos, oldPos, axe)) {
-                if (_this10.scrollTo(newPos, 100, axe)) prevent = true;
+                if (_this10.scrollTo(newPos, 100, axe)) prevent = !(opts.propagateAxes && opts.propagateAxes.scrollY);
               }
             }
 
@@ -863,7 +863,7 @@ function asTweener() {
 
             if (oldPos !== newPos) {
               if (!_this10.shouldApplyScroll || _this10.shouldApplyScroll(newPos, oldPos, axe)) {
-                if (_this10.scrollTo(newPos, 100, axe)) prevent = true;
+                if (_this10.scrollTo(newPos, 100, axe)) prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX);
               }
             }
 
@@ -872,39 +872,43 @@ function asTweener() {
               e.originalEvent.stopPropagation();
             }
           });
-          isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), 'drag', this._.onDrag = function (e, touch, descr) {
-            //@todo
-            var prevent,
-                axe = "scrollY",
-                delta = descr._startPos.y - descr._lastPos.y,
-                oldPos = _this10._.axes[axe].scrollPos,
-                newPos = oldPos + delta / 10;
+          var lastPos;
+          isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), this._.dragList = {
+            'drag': function drag(e, touch, descr) {
+              //@todo
+              lastPos = lastPos || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, descr._startPos);
+              var prevent,
+                  axe = "scrollY",
+                  delta = lastPos.y - descr._lastPos.y,
+                  oldPos = _this10._.axes[axe].scrollPos,
+                  newPos = oldPos + delta / 10;
 
-            if (delta && (!_this10.shouldApplyScroll || _this10.shouldApplyScroll(newPos, oldPos, axe))) {
-              descr._startPos.y = descr._lastPos.y;
-              prevent = !!_this10.scrollTo(newPos, 10, axe);
+              if (delta && (!_this10.shouldApplyScroll || _this10.shouldApplyScroll(newPos, oldPos, axe))) {
+                lastPos.y = descr._lastPos.y;
+                if (_this10.scrollTo(newPos, 10, axe)) prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX) && prevent;
+              }
+
+              axe = "scrollX";
+              oldPos = _this10._.axes[axe].scrollPos;
+              delta = lastPos.x - descr._lastPos.x;
+              newPos = oldPos + delta / 10;
+
+              if (delta && (!_this10.shouldApplyScroll || _this10.shouldApplyScroll(newPos, oldPos, axe))) {
+                lastPos.x = descr._lastPos.x;
+                if (_this10.scrollTo(newPos, 10, axe)) prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX) && prevent;
+              }
+
+              if (prevent) {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+
+              return !prevent;
+            },
+            'drop': function drop(e, touch, descr) {
+              lastPos = null;
             }
-
-            axe = "scrollX";
-            oldPos = _this10._.axes[axe].scrollPos;
-            delta = descr._startPos.x - descr._lastPos.x;
-            newPos = oldPos + delta / 10;
-
-            if (delta && (!_this10.shouldApplyScroll || _this10.shouldApplyScroll(newPos, oldPos, axe))) {
-              descr._startPos.x = descr._lastPos.x;
-              prevent = !!_this10.scrollTo(newPos, 10, axe) && prevent;
-            } //e.preventDefault();
-            //debugger
-
-
-            if (prevent) {
-              e.preventDefault();
-              e.stopPropagation(); //e.defaultPrevented=true;
-              //console.log(this.constructor.displayName, prevent, e.defaultPrevented)
-            }
-
-            return !prevent;
-          }, opts.enableMouseDrag);
+          }, null, opts.enableMouseDrag);
         } else {
           this._.doRegister = true;
         }
