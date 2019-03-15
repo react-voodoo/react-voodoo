@@ -508,6 +508,7 @@ export default function asTweener( ...argz ) {
 						},
 						'drop': ( e, touch, descr ) => {
 							lastPos = null;
+							
 						}
 					}, null,
 					opts.enableMouseDrag
