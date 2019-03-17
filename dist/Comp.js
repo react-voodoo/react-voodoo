@@ -990,8 +990,8 @@ function asTweener() {
         }
 
         if (this._.scrollEnabled) {
-          this._.scrollEnabled = false;
-          this._.axes = undefined;
+          this._.scrollEnabled = false; //this._.axes          = undefined;
+
           _utils__WEBPACK_IMPORTED_MODULE_12__["default"].rmWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), this._.onScroll);
           _utils__WEBPACK_IMPORTED_MODULE_12__["default"].removeEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), this._.dragList);
         }
@@ -2259,26 +2259,7 @@ var is = __webpack_require__(/*! is */ "undefined?63a5"),
     }
 
     return rmWheelListener;
-  }(window, document),
-  mapInBoxCSS: function mapInBoxCSS(pos, css, box, units, offset) {
-    var t = '';
-    if (is.number(pos._z) || is.number(pos._x) || is.number(pos._y) || is.number(pos.z) || is.number(pos.x) || is.number(pos.y)) t = 'translate3d(' + floatCut((pos._x || 0) * (box.x || 0) + (pos.x || 0) + (offset && offset.x || 0), 2) + (units && units.x || 'px') + ', ' + floatCut((pos._y || 0) * (box.y || 0) + (pos.y || 0) + (offset && offset.y || 0), 2) + (units && units.y || 'px') + ', ' + floatCut((pos._z || 0) * (box.z || 0) + (pos.z || 0) + (offset && offset.z || 0), 2) + (units && units.z || 'px') + '' + ')'; //@todo matrix
-
-    if (pos.rotate && is.number(pos.rotate)) t += ' rotate(' + floatCut((pos.rotate || 0) % 360, 2) + 'deg)';
-    if (pos.rotateX && is.number(pos.rotateX)) t += ' rotateX(' + floatCut((pos.rotateX || 0) % 360, 2) + 'deg)';
-    if (pos.rotateY && is.number(pos.rotateY)) t += ' rotateY(' + floatCut((pos.rotateY || 0) % 360, 2) + 'deg)';
-    if (is.number(pos.opacity)) css.opacity = min(1, max(0, floatCut(pos.opacity, 2)));
-    pos.perspective && (t = "perspective(" + pos.perspective + (units && units.perspective || 'px') + ") " + t);
-    t && (css.transform = t);
-    is.number(pos._width) && (css.width = pos._width * (box.x || 0) + 'px');
-    is.number(pos._height) && (css.height = pos._height * (box.y || 0) + 'px');
-    is.number(pos.width) && (css.width = pos.width + (units && units.x || 'px'));
-    is.number(pos.height) && (css.height = pos.height + (units && units.y || 'px'));
-    is.number(pos.zIndex) && (css.zIndex = pos.zIndex);
-    Object.keys(pos).forEach(function (key) {
-      if (!(key in customProps)) css[key] = pos[key] + (units && units[key] || 'px');
-    });
-  }
+  }(window, document)
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Dom);

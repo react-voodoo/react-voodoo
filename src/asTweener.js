@@ -588,7 +588,7 @@ export default function asTweener( ...argz ) {
 			
 			if ( this._.scrollEnabled ) {
 				this._.scrollEnabled = false;
-				this._.axes          = undefined;
+				//this._.axes          = undefined;
 				utils.rmWheelEvent(
 					ReactDom.findDOMNode(this),
 					this._.onScroll);
