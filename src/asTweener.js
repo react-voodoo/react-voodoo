@@ -1,19 +1,15 @@
 /*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
  *
- * Copyright (C) 2019 Nathan Braun
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
  */
 
 import React    from "react";
@@ -281,24 +277,23 @@ export default function asTweener( ...argz ) {
 			_.axes[axe].scrollableArea = _.axes[axe].scrollableArea || 0;
 			_.axes[axe].scrollableArea = Math.max(_.axes[axe].scrollableArea, sl.duration);
 			
-			_.axes[axe].scrollPos && sl.goTo(_.axes[axe].scrollPos, this._.tweenRefMaps)
+			_.axes[axe].scrollPos && sl.goTo(_.axes[axe].scrollPos, this._.tweenRefMaps);
+			
+			return sl;
 		}
 		
-		rmScrollableAnim( sl ) {
-			var _ = this._;
+		rmScrollableAnim( sl, axe = "scrollY" ) {
+			var _ = this._, found;
 			if ( _.axes ) {
-				Object.keys(_.axes)
-				      .forEach(
-					      axe => {
-						      let i = _.axes[axe].scrollableAnims.indexOf(sl);
-						      if ( i != -1 ) {
-							      _.axes[axe].scrollableAnims.splice(i);
-							      _.axes[axe].scrollableArea = Math.max(..._.axes[axe].scrollableAnims.map(tl => tl.duration), 0);
-							      sl.goTo(0, this._.tweenRefMaps)
-						      }
-					      }
-				      )
+				let i = _.axes[axe].scrollableAnims.indexOf(sl);
+				if ( i != -1 ) {
+					_.axes[axe].scrollableAnims.splice(i, 1);
+					_.axes[axe].scrollableArea = Math.max(..._.axes[axe].scrollableAnims.map(tl => tl.duration), 0);
+					sl.goTo(0, this._.tweenRefMaps)
+					found = true;
+				}
 			}
+			!found && console.warn("TweenLine not found !")
 		}
 		
 		scrollTo( newPos, ms = 0, axe = "scrollY" ) {
@@ -450,7 +445,7 @@ export default function asTweener( ...argz ) {
 						if ( oldPos !== newPos ) {
 							if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
 								if ( this.scrollTo(newPos, 100, axe) )
-									prevent = true;
+									prevent = !(opts.propagateAxes && opts.propagateAxes.scrollY);
 							}
 							
 						}
@@ -460,7 +455,7 @@ export default function asTweener( ...argz ) {
 						if ( oldPos !== newPos ) {
 							if ( !this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe) ) {
 								if ( this.scrollTo(newPos, 100, axe) )
-									prevent = true;
+									prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX);
 							}
 							
 						}
@@ -471,40 +466,45 @@ export default function asTweener( ...argz ) {
 						}
 					}
 				);
+				let lastPos;
 				isBrowserSide && utils.addEvent(
-					ReactDom.findDOMNode(this), 'drag',
-					this._.onDrag = ( e, touch, descr ) => {//@todo
-						let prevent,
-						    axe    = "scrollY",
-						    delta  = descr._startPos.y - descr._lastPos.y,
-						    oldPos = this._.axes[axe].scrollPos,
-						    newPos = oldPos + (delta) / 10;
-						
-						if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
-							descr._startPos.y = descr._lastPos.y;
-							prevent           = !!this.scrollTo(newPos, 10, axe);
+					ReactDom.findDOMNode(this), this._.dragList = {
+						'drag'   : ( e, touch, descr ) => {//@todo
+							
+							lastPos = lastPos || { ...descr._startPos };
+							
+							let prevent,
+							    axe    = "scrollY",
+							    delta  = lastPos.y - descr._lastPos.y,
+							    oldPos = this._.axes[axe].scrollPos,
+							    newPos = oldPos + (delta) / 10;
+							
+							if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
+								lastPos.y = descr._lastPos.y;
+								if ( this.scrollTo(newPos, 10, axe) )
+									prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX) && prevent;
+							}
+							
+							axe    = "scrollX";
+							oldPos = this._.axes[axe].scrollPos;
+							delta  = lastPos.x - descr._lastPos.x;
+							newPos = oldPos + (delta) / 10;
+							if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
+								lastPos.x = descr._lastPos.x;
+								if ( this.scrollTo(newPos, 10, axe) )
+									prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX) && prevent;
+							}
+							
+							if ( prevent ) {
+								e.preventDefault();
+								e.stopPropagation();
+							}
+							return !prevent;
+						},
+						'dropped': ( e, touch, descr ) => {
+							lastPos = null;
 						}
-						
-						axe    = "scrollX";
-						oldPos = this._.axes[axe].scrollPos;
-						delta  = descr._startPos.x - descr._lastPos.x;
-						newPos = oldPos + (delta) / 10;
-						if ( delta && (!this.shouldApplyScroll || this.shouldApplyScroll(newPos, oldPos, axe)) ) {
-							descr._startPos.x = descr._lastPos.x;
-							prevent           = !!this.scrollTo(newPos, 10, axe) && prevent;
-						}
-						
-						//e.preventDefault();
-						//debugger
-						
-						if ( prevent ) {
-							e.preventDefault();
-							e.stopPropagation();
-							//e.defaultPrevented=true;
-							//console.log(this.constructor.displayName, prevent, e.defaultPrevented)
-						}
-						return !prevent;
-					},
+					}, null,
 					opts.enableMouseDrag
 				)
 			}
@@ -593,7 +593,7 @@ export default function asTweener( ...argz ) {
 					ReactDom.findDOMNode(this),
 					this._.onScroll);
 				utils.removeEvent(
-					ReactDom.findDOMNode(this), 'drag', this._.onDrag)
+					ReactDom.findDOMNode(this), this._.dragList)
 			}
 			
 			super.componentWillUnmount && super.componentWillUnmount();
