@@ -74,6 +74,7 @@ export default class TweenRef extends React.Component {
 					if ( this._previousTweener !== tweener || this._previousScrollable !== scrollableAnims ) {
 						
 						if ( this._scrollableAnims ) {
+							//debugger
 							Object.keys(this._scrollableAnims)
 							      .forEach(axe => this._previousTweener.rmScrollableAnim(this._scrollableAnims[axe], axe));
 							
