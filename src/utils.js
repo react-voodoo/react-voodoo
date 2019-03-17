@@ -359,7 +359,7 @@ var
 			if ( is.object(type) ) {
 				for ( var o in type )
 					if ( type.hasOwnProperty(o) )
-						this.addEvent(node, o, type[o], fn, mouseDrag, bubble);
+						this.addEvent(node, o, type[o], mouseDrag, bubble);
 				return;
 			}
 			else if ( type == 'dragstart' ) {
