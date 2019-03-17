@@ -290,7 +290,7 @@ export default function asTweener( ...argz ) {
 					_.axes[axe].scrollableAnims.splice(i, 1);
 					_.axes[axe].scrollableArea = Math.max(..._.axes[axe].scrollableAnims.map(tl => tl.duration), 0);
 					sl.goTo(0, this._.tweenRefMaps)
-					found                      = true;
+					found = true;
 				}
 			}
 			!found && console.warn("TweenLine not found !")
@@ -469,7 +469,7 @@ export default function asTweener( ...argz ) {
 				let lastPos;
 				isBrowserSide && utils.addEvent(
 					ReactDom.findDOMNode(this), this._.dragList = {
-						'drag': ( e, touch, descr ) => {//@todo
+						'drag'   : ( e, touch, descr ) => {//@todo
 							
 							lastPos = lastPos || { ...descr._startPos };
 							
@@ -501,9 +501,8 @@ export default function asTweener( ...argz ) {
 							}
 							return !prevent;
 						},
-						'drop': ( e, touch, descr ) => {
+						'dropped': ( e, touch, descr ) => {
 							lastPos = null;
-							
 						}
 					}, null,
 					opts.enableMouseDrag
