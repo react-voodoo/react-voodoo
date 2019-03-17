@@ -2018,7 +2018,7 @@ var is = __webpack_require__(/*! is */ "undefined?63a5"),
 
     if (is.object(type)) {
       for (var o in type) {
-        if (type.hasOwnProperty(o)) this.addEvent(node, o, type[o], fn);
+        if (type.hasOwnProperty(o)) this.addEvent(node, o, type[o], fn, mouseDrag, bubble);
       }
 
       return;
