@@ -87,7 +87,6 @@ const scrollAnims = {
 			apply   : {
 				transform: {
 					rotateX: 30,
-					//translateZ: "100px"
 				},
 			}
 		},
@@ -98,7 +97,6 @@ const scrollAnims = {
 			apply   : {
 				transform: {
 					rotateX: 30,
-					//translateZ: "100px"
 				},
 			}
 		}
@@ -112,7 +110,6 @@ const scrollAnims = {
 				transform: {
 					translateY: "-1box"
 				},
-				//_y: .25,
 			}
 		},
 		{

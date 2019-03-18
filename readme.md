@@ -20,9 +20,8 @@ import {asTweener, TweenRef} from "react-rtween";
 
 var easingFn = require('d3-ease');
 
-let pushIn  = function ( target ) {
-	return {
-		anims: [
+let pushIn        = function ( target ) {
+	return [
 			{
 				type    : "Tween",
 				target  : target,
@@ -30,128 +29,162 @@ let pushIn  = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					_z: .2,
+					transform: {
+						translateZ: "-.2box" // box == tweener offset height/width/perspective
+					},
+					filter   : {
+						sepia: 100
+					}
 				}
-			}
-		]
-	};
-};
-let pushOut = function ( target ) {
-	return {
-		anims: [
+			},
 			{
 				type    : "Tween",
 				target  : target,
-				from    : 0,
+				from    : 500,
 				duration: 500,
-				easeFn  : easingFn.easeCubicInOut,
+				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					_z: -.2,
+					transform: {
+						translateZ: ".2box"
+					},
+					filter   : {
+						sepia: -100
+					}
+				}
+			},
+			{
+				type    : "Tween",
+				target  : target,
+				from    : 250,
+				duration: 500,
+				easeFn  : easingFn.easeCircle,
+				apply   : {
+					transform: {
+						rotateY: 180,
+					},
 				}
 			}
-		]
-	};
+		];
 };
 
-@asTweener
-class Sample extends React.Component {
-	static scrollableAnim = {
-		scrollY: [
-			{
-				type    : "Tween",
-				target  : "testItem",
-				from    : 0,
-				duration: 150,
-				easeFn  : easingFn.easePolyOut,
-				apply   : {
-					_z: -.2,
-				}
-			},
-			{
-				type    : "Tween",
-				target  : "testItem",
-				from    : 25,
-				duration: 150,
-				easeFn  : easingFn.easePolyOut,
-				apply   : {
-					_x: -.5,
-				}
-			},
-			{
-				type    : "Tween",
-				target  : "testItem",
-				from    : 50,
-				duration: 150,
-				easeFn  : easingFn.easePolyOut,
-				apply   : {
-					rotateY: -60,
-				}
+const scrollAnims = {
+	scrollX: [
+		{
+			type    : "Tween",
+			from    : 0,
+			duration: 200,
+			apply   : {
+				transform: {
+					translateX: "-1box"
+				},
 			}
-		],
-		scrollX: [
-			{
-				type    : "Tween",
-				target  : "testItem",
-				from    : 0,
-				duration: 150,
-				easeFn  : easingFn.easePolyOut,
-				apply   : {
-					_y: -.25,
-				}
-			},
-			{
-				type    : "Tween",
-				target  : "testItem",
-				from    : 50,
-				duration: 150,
-				easeFn  : easingFn.easePolyOut,
-				apply   : {
-					rotateX: -60,
-				}
+		},
+		{
+			type    : "Tween",
+			from    : 0,
+			duration: 100,
+			apply   : {
+				transform: {
+					rotateX: 30,
+				},
 			}
-		]
-	};
-	state                 = {
+		},
+		{
+			type    : "Tween",
+			from    : 100,
+			duration: 100,
+			apply   : {
+				transform: {
+					rotateX: 30,
+				},
+			}
+		}
+	],
+	scrollY: [
+		{
+			type    : "Tween",
+			from    : 0,
+			duration: 200,
+			apply   : {
+				transform: {
+					translateY: "-1box"
+				},
+			}
+		},
+		{
+			type    : "Tween",
+			from    : 0,
+			duration: 100,
+			apply   : {
+				transform: {
+					rotateY: -30,
+				},
+			}
+		},
+		{
+			type    : "Tween",
+			from    : 100,
+			duration: 100,
+			apply   : {
+				transform: {
+					rotateY: -30,
+				},
+			}
+		}
+	]
+};
+@asTweener({ initialScrollPos: { scrollX: 100, scrollY: 100 }, enableMouseDrag: true })
+export default class Sample extends React.Component {
+	state = {
 		count: 0
 	};
 
+	componentDidScroll( pos ) {
+		this.forceUpdate();
+	}
+
 	render() {
-		return <div className={ "root" } style={ {
+		return <div className={ "SimpleTest" } style={ {
 			width : "100%",
 			height: "100%"
 		} }>
 			hello ! { this.state.count } concurent anims <br/>
-			scrollPos : { this._scrollPos } / { this._scrollableArea }
-			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
+			scrollPos : { this._.scrollPos } / { this._.scrollableArea }
 
 			<TweenRef
 				id={ "testItem" }
-				initial={ { x: "50vw", y: "50vh", z: 1, opacity: .75 } }
+				initial={ {
+					position       : "absolute",
+					display        : "inline-block",
+					width          : "15em",
+					height         : "15em",
+					cursor         : "pointer",
+					backgroundColor: "red",
+					overflow       : "hidden",
+					margin         : "-7.5em 0 0 -7.5em",
+					top            : "0%",
+					left           : "0%",
+
+					transform: {
+						translateZ: "0box",
+						translateX: "1box",
+						translateY: "1box",
+						rotateX   : -30,
+						rotateY   : 30,
+					}
+				} }
+				scrollableAnims={ scrollAnims }
 			>
 				<div
 					onClick={ e => {
 						this.setState({ count: this.state.count + 1 })
-						this.pushAnim(pushOut("testItem"),
+						this.pushAnim(pushIn("testItem"),
 						              () => {
-							              this.pushAnim(pushIn("testItem"),
-							                            () => {
-								                            this.setState({ count: this.state.count - 1 })
-							                            });
+							              this.setState({ count: this.state.count - 1 })
 
 						              });
 					} }
-					style={ {
-						position  : "absolute",
-						display   : "inline-block",
-						width     : "15em",
-						height    : "15em",
-						cursor    : "pointer",
-						background: "red",
-						overflow  : "hidden",
-						margin    : "-7.5em 0 0 -7.5em",
-						top       : "0px",
-						left      : "0px"
-					} }>click me !
+					style={ {} }>click me !
 				</div>
 			</TweenRef>
 		</div>;
