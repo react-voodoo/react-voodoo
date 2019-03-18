@@ -1343,7 +1343,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
+var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'cap', 'ch', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
     floatCut = function floatCut(v, l) {
   var p = Math.pow(10, l);
   return Math.round(v * p) / p;
@@ -1353,6 +1353,7 @@ var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 
   //translate  : 'px',
   translateX: 'px',
   translateY: 'px',
+  translateZ: 'px',
   scale: 'px',
   scaleX: 'px',
   scaleY: 'px',
@@ -1362,7 +1363,6 @@ var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 
   skewY: 'deg',
   //matrix3d   : true,
   //translate3d: true,
-  translateZ: 'px',
   //scale3d    : true,
   scaleZ: 'px',
   //rotate3d   : true,
@@ -1376,9 +1376,18 @@ function demux(key, tweenable, target, data, box) {
   if (data["transform_head"] === key) {
     var transforms = "";
     Object.keys(data[key]).forEach(function (fkey) {
-      var dkey = key + '_' + fkey;
+      var dkey = key + '_' + fkey,
+          value;
       data[key][fkey] = true;
-      transforms += fkey + "(" + floatCut(tweenable[dkey], 2) + data[dkey] + ") ";
+      if (data[dkey] === 'deg') tweenable[dkey] = tweenable[dkey] % 360;
+
+      if (data[dkey] === 'box') {
+        if (fkey === "translateX") value = tweenable[dkey] * box.x;else if (fkey === "translateY") value = tweenable[dkey] * box.y;else if (fkey === "translateZ") value = tweenable[dkey] * box.z;
+        transforms += fkey + "(" + floatCut(value, 2) + "px) ";
+      } else {
+        value = tweenable[dkey];
+        transforms += fkey + "(" + floatCut(value, 2) + data[dkey] + ") ";
+      }
     });
     target.transform = transforms;
   }
