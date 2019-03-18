@@ -14,9 +14,103 @@
 
 import is from "is";
 
+const
+	unitsRe      = new RegExp(
+		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
+		['\\w+', 'cap', 'ch', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
+		+ ")"
+	),
+	floatCut     = function ( v, l ) {
+		var p = Math.pow(10, l);
+		return Math.round(v * p) / p;
+	},
+	defaultUnits = {
+		//matrix     : true,
+		//translate  : 'px',
+		translateX : 'px',
+		translateY : 'px',
+		translateZ : 'px',
+		scale      : 'px',
+		scaleX     : 'px',
+		scaleY     : 'px',
+		rotate     : 'deg',
+		//skew       : 'deg',
+		skewX      : 'deg',
+		skewY      : 'deg',
+		//matrix3d   : true,
+		//translate3d: true,
+		//scale3d    : true,
+		scaleZ     : 'px',
+		//rotate3d   : true,
+		rotateX    : 'deg',
+		rotateY    : 'deg',
+		rotateZ    : 'deg',
+		perspective: 'px',
+	};
+
 function demux( key, tweenable, target, data, box ) {
+	
+	if ( data["transform_head"] === key ) {
+		let transforms = "";
+		Object.keys(data[key]).forEach(
+			fkey => {
+				let dkey        = key + '_' + fkey, value;
+				data[key][fkey] = true;
+				
+				if ( data[dkey] === 'deg' )
+					tweenable[dkey] = tweenable[dkey] % 360;
+				
+				if ( data[dkey] === 'box' ) {
+					if ( fkey === "translateX" )
+						value = tweenable[dkey] * box.x;
+					else if ( fkey === "translateY" )
+						value = tweenable[dkey] * box.y;
+					else if ( fkey === "translateZ" )
+						value = tweenable[dkey] * box.z;
+					transforms += fkey + "(" + floatCut(value, 2) + "px) ";
+				}
+				else {
+					value = tweenable[dkey];
+					transforms += fkey + "(" + floatCut(value, 2) + data[dkey] + ") ";
+				}
+				
+				
+			}
+		)
+		target.transform = transforms;
+	}
+	
 }
 
 export default ( key, value, target, data, initials ) => {
+	
+	data["transform_head"] = data["transform_head"] || key;
+	data[key]              = data[key] || {};
+	initials[key]          = 0;
+	
+	Object.keys(value).forEach(
+		fkey => {
+			let fValue      = value[fkey],
+			    dkey        = key + '_' + fkey,
+			    match       = is.string(fValue) ? fValue.match(unitsRe) : false;
+			data[key][fkey] = true;
+			initials[dkey]  = 0;
+			if ( match ) {
+				if ( data[dkey] && data[dkey] !== match[2] ) {
+					console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
+					target[dkey] = 0;
+				}
+				else {
+					data[dkey]   = match[2];
+					target[dkey] = parseFloat(match[1]);
+				}
+			}
+			else {
+				target[dkey] = fValue;
+				if ( !data[dkey] && fkey in defaultUnits )
+					data[dkey] = defaultUnits[fkey];
+			}
+		}
+	)
 	return demux;
 }

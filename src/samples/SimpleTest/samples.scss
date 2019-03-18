@@ -39,5 +39,7 @@
 
   div {
     @include use_hvCenteredContent();
+    background: url("https://source.unsplash.com/600x400/?logo") no-repeat center center;
+    background-size: cover;
   }
 }
