@@ -30,7 +30,12 @@ let pushIn = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					_z: -.2,
+					transform: {
+						translateZ: "-.2box"
+					},
+					filter   : {
+						sepia: 100
+					}
 				}
 			},
 			{
@@ -40,7 +45,12 @@ let pushIn = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					_z: .2,
+					transform: {
+						translateZ: ".2box"
+					},
+					filter   : {
+						sepia: -100
+					}
 				}
 			},
 			{
@@ -50,7 +60,9 @@ let pushIn = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircle,
 				apply   : {
-					rotateY: 180,
+					transform: {
+						rotateY: 180,
+					},
 				}
 			}
 		]
@@ -68,11 +80,14 @@ class Header extends React.Component {
 				<TweenRef
 					id={ "logo" }
 					initial={ {
-						left       : "50%",
-						bottom     : "60px",
-						height     : "100px",
-						perspective: "200px",
-						marginLeft : "-100px"
+						left      : "50%",
+						bottom    : "60px",
+						height    : "100px",
+						marginLeft: "-100px",
+						
+						transform: {
+							perspective: "200px",
+						},
 					} }
 					onClick={ ( e, tweener ) => {
 						tweener.pushAnim(pushIn("logo"));
@@ -95,7 +110,9 @@ export default class Sample extends React.Component {
 			duration: 50,
 			easeFn  : easingFn.easePolyOut,
 			apply   : {
-				y: -130,
+				transform: {
+					translateY: "-130px"
+				}
 			}
 		},
 		{
@@ -128,7 +145,9 @@ export default class Sample extends React.Component {
 			duration: 50,
 			easeFn  : easingFn.easePolyOut,
 			apply   : {
-				y: -50,
+				transform: {
+					translateY: "-50px"
+				}
 			}
 		},
 		{
@@ -176,7 +195,11 @@ export default class Sample extends React.Component {
 			<Header/>
 			<TweenRef
 				id={ "body" }
-				initial={ { y: "250px" } }
+				initial={ {
+					transform: {
+						translateY: "250px"
+					}
+				} }
 			>
 				<div className={ "content" }>
 					drag / scroll me !

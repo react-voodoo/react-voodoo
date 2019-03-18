@@ -17,7 +17,7 @@ import is from "is";
 const
 	unitsRe      = new RegExp(
 		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
-		['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
+		['\\w+', 'cap', 'ch', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
 		+ ")"
 	),
 	floatCut     = function ( v, l ) {
@@ -29,6 +29,7 @@ const
 		//translate  : 'px',
 		translateX : 'px',
 		translateY : 'px',
+		translateZ : 'px',
 		scale      : 'px',
 		scaleX     : 'px',
 		scaleY     : 'px',
@@ -38,7 +39,6 @@ const
 		skewY      : 'deg',
 		//matrix3d   : true,
 		//translate3d: true,
-		translateZ : 'px',
 		//scale3d    : true,
 		scaleZ     : 'px',
 		//rotate3d   : true,
@@ -54,9 +54,27 @@ function demux( key, tweenable, target, data, box ) {
 		let transforms = "";
 		Object.keys(data[key]).forEach(
 			fkey => {
-				let dkey        = key + '_' + fkey;
+				let dkey        = key + '_' + fkey, value;
 				data[key][fkey] = true;
-				transforms += fkey + "(" + floatCut(tweenable[dkey], 2) + data[dkey] + ") ";
+				
+				if ( data[dkey] === 'deg' )
+					tweenable[dkey] = tweenable[dkey] % 360;
+				
+				if ( data[dkey] === 'box' ) {
+					if ( fkey === "translateX" )
+						value = tweenable[dkey] * box.x;
+					else if ( fkey === "translateY" )
+						value = tweenable[dkey] * box.y;
+					else if ( fkey === "translateZ" )
+						value = tweenable[dkey] * box.z;
+					transforms += fkey + "(" + floatCut(value, 2) + "px) ";
+				}
+				else {
+					value = tweenable[dkey];
+					transforms += fkey + "(" + floatCut(value, 2) + data[dkey] + ") ";
+				}
+				
+				
 			}
 		)
 		target.transform = transforms;

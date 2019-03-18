@@ -31,7 +31,7 @@ let pushIn        = function ( target ) {
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
 					transform: {
-						translateZ: "-100px"
+						translateZ: "-.2box"
 					},
 					filter   : {
 						sepia: 100
@@ -46,7 +46,7 @@ let pushIn        = function ( target ) {
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
 					transform: {
-						translateZ: "100px"
+						translateZ: ".2box"
 					},
 					filter   : {
 						sepia: -100
@@ -73,27 +73,28 @@ const scrollAnims = {
 		{
 			type    : "Tween",
 			from    : 0,
-			duration: 150,
+			duration: 200,
 			apply   : {
 				transform: {
-					translateX: "-400px"
+					translateX: "-1box"
 				},
 			}
 		},
-		//{
-		//	type    : "Tween",
-		//	from    : 25,
-		//	duration: 150,
-		//	apply   : {
-		//		transform: {
-		//			translateX: "-400px"
-		//		},
-		//	}
-		//},
 		{
 			type    : "Tween",
 			from    : 0,
-			duration: 150,
+			duration: 100,
+			apply   : {
+				transform: {
+					rotateX: 30,
+					//translateZ: "100px"
+				},
+			}
+		},
+		{
+			type    : "Tween",
+			from    : 100,
+			duration: 100,
 			apply   : {
 				transform: {
 					rotateX: 30,
@@ -106,35 +107,31 @@ const scrollAnims = {
 		{
 			type    : "Tween",
 			from    : 0,
-			duration: 150,
+			duration: 200,
 			apply   : {
 				transform: {
-					translateY: "-400px"
+					translateY: "-1box"
 				},
 				//_y: .25,
 			}
 		},
-		//{
-		//	type    : "Tween",
-		//	from    : 150,
-		//	duration: 150,
-		//	apply   : {
-		//		transform: {
-		//			translate: "-400px"
-		//		},
-		//		//_y    : .25,
-		//		filter   : {
-		//			invert: 100
-		//		},
-		//	}
-		//},
 		{
 			type    : "Tween",
 			from    : 0,
-			duration: 150,
+			duration: 100,
 			apply   : {
 				transform: {
-					rotateY: 30,
+					rotateY: -30,
+				},
+			}
+		},
+		{
+			type    : "Tween",
+			from    : 100,
+			duration: 100,
+			apply   : {
+				transform: {
+					rotateY: -30,
 				},
 			}
 		}
@@ -193,12 +190,15 @@ export default class Sample extends React.Component {
 					backgroundColor: "red",
 					overflow       : "hidden",
 					margin         : "-7.5em 0 0 -7.5em",
-					top            : "90%",
-					left           : "90%",
+					top            : "0%",
+					left           : "0%",
 					
 					transform: {
-						//translate : "50%",
-						//translateY: "50%",
+						translateZ: "0box",
+						translateX: "1box",
+						translateY: "1box",
+						rotateX   : -30,
+						rotateY   : 30,
 						//translateZ: "100px"
 					}
 				} }
