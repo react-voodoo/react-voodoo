@@ -1,19 +1,15 @@
 /*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
  *
- * Copyright (C) 2019 Nathan Braun
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
  */
 
 import React                 from "react";
@@ -34,7 +30,12 @@ let pushIn        = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					_z: -.2,
+					transform: {
+						translateZ: "-100px"
+					},
+					filter   : {
+						sepia: 100
+					}
 				}
 			},
 			{
@@ -44,7 +45,12 @@ let pushIn        = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					_z: .2,
+					transform: {
+						translateZ: "100px"
+					},
+					filter   : {
+						sepia: -100
+					}
 				}
 			},
 			{
@@ -54,73 +60,87 @@ let pushIn        = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircle,
 				apply   : {
-					rotateY: 180,
+					transform: {
+						rotateY: 180,
+					},
 				}
 			}
 		]
 	};
 };
 const scrollAnims = {
+	scrollX: [
+		{
+			type    : "Tween",
+			from    : 0,
+			duration: 150,
+			apply   : {
+				transform: {
+					translateX: "-400px"
+				},
+			}
+		},
+		//{
+		//	type    : "Tween",
+		//	from    : 25,
+		//	duration: 150,
+		//	apply   : {
+		//		transform: {
+		//			translateX: "-400px"
+		//		},
+		//	}
+		//},
+		{
+			type    : "Tween",
+			from    : 0,
+			duration: 150,
+			apply   : {
+				transform: {
+					rotateX: 30,
+					//translateZ: "100px"
+				},
+			}
+		}
+	],
 	scrollY: [
 		{
 			type    : "Tween",
 			from    : 0,
 			duration: 150,
-			easeFn  : easingFn.easePolyOut,
 			apply   : {
-				_z: -.2,
+				transform: {
+					translateY: "-400px"
+				},
+				//_y: .25,
 			}
 		},
-		{
-			type    : "Tween",
-			from    : 25,
-			duration: 150,
-			easeFn  : easingFn.easePolyOut,
-			apply   : {
-				_x: -.5,
-			}
-		},
-		{
-			type    : "Tween",
-			from    : 50,
-			duration: 150,
-			easeFn  : easingFn.easePolyOut,
-			apply   : {
-				rotateY: -30,
-			}
-		}
-	],
-	scrollX: [
-		{
-			type    : "Tween",
-			from    : -150,
-			duration: 150,
-			easeFn  : easingFn.easePolyOut,
-			apply   : {
-				_y: .25,
-			}
-		},
+		//{
+		//	type    : "Tween",
+		//	from    : 150,
+		//	duration: 150,
+		//	apply   : {
+		//		transform: {
+		//			translate: "-400px"
+		//		},
+		//		//_y    : .25,
+		//		filter   : {
+		//			invert: 100
+		//		},
+		//	}
+		//},
 		{
 			type    : "Tween",
 			from    : 0,
 			duration: 150,
-			easeFn  : easingFn.easePolyOut,
 			apply   : {
-				_y: -.25,
-			}
-		},
-		{
-			type    : "Tween",
-			from    : 50,
-			duration: 150,
-			easeFn  : easingFn.easePolyOut,
-			apply   : {
-				rotateX: -30,
+				transform: {
+					rotateY: 30,
+				},
 			}
 		}
 	]
 };
-@asTweener({ initialScrollPos: { scrollX: 100, scrollY: 10 }, enableMouseDrag: true })
+@asTweener({ initialScrollPos: { scrollX: 100, scrollY: 100 }, enableMouseDrag: true })
 export default class Sample extends React.Component {
 	state = {
 		count: 0
@@ -155,9 +175,12 @@ export default class Sample extends React.Component {
 		} }>
 			hello ! { this.state.count } concurent anims <br/>
 			scrollPos : { this._.scrollPos } / { this._.scrollableArea }
-			<br/>
+			<br/>y:
 			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
 			<button onClick={ e => this.scrollTo(200, 500) }>( go to 200 )</button>
+			<br/>x:
+			<button onClick={ e => this.scrollTo(0, 500, "scrollX") }>( go to 0 )</button>
+			<button onClick={ e => this.scrollTo(200, 500, "scrollX") }>( go to 200 )</button>
 			
 			<TweenRef
 				id={ "testItem" }
@@ -170,9 +193,14 @@ export default class Sample extends React.Component {
 					backgroundColor: "red",
 					overflow       : "hidden",
 					margin         : "-7.5em 0 0 -7.5em",
-					top            : "0px",
-					left           : "0px",
-					_x             : .5, _y: .5, _z: 0, rotateY: 0, opacity: .75
+					top            : "90%",
+					left           : "90%",
+					
+					transform: {
+						//translate : "50%",
+						//translateY: "50%",
+						//translateZ: "100px"
+					}
 				} }
 				scrollableAnims={ scrollAnims }
 			>

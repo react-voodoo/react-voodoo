@@ -36,16 +36,17 @@ const cssDemux = {
 	paddingLeft  : number,
 	paddingRight : number,
 	paddingBottom: number,
-	rotate       : transforms,
-	rotateX      : transforms,
-	rotateY      : transforms,
-	x            : transforms,
-	y            : transforms,
-	z            : transforms,
-	_x           : transforms,
-	_y           : transforms,
-	_z           : transforms,
-	perspective  : transforms
+	//rotate       : transforms,
+	//rotateX      : transforms,
+	//rotateY      : transforms,
+	//x            : transforms,
+	//y            : transforms,
+	//z            : transforms,
+	//_x           : transforms,
+	//_y           : transforms,
+	//_z           : transforms,
+	//blur         : transforms,
+	//perspective  : transforms
 };
 import cssAnimProps         from 'css-animated-properties'
 
