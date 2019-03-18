@@ -1375,19 +1375,20 @@ var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'cap', 'c
 function demux(key, tweenable, target, data, box) {
   if (data["transform_head"] === key) {
     var transforms = "";
-    Object.keys(data[key]).forEach(function (fkey) {
-      var dkey = key + '_' + fkey,
-          value;
-      data[key][fkey] = true;
-      if (data[dkey] === 'deg') tweenable[dkey] = tweenable[dkey] % 360;
+    data[key].forEach(function (tmap, i) {
+      return Object.keys(tmap).forEach(function (fkey) {
+        var dkey = key + '_' + fkey + '_' + i,
+            value;
+        if (data[dkey] === 'deg') tweenable[dkey] = tweenable[dkey] % 360;
 
-      if (data[dkey] === 'box') {
-        if (fkey === "translateX") value = tweenable[dkey] * box.x;else if (fkey === "translateY") value = tweenable[dkey] * box.y;else if (fkey === "translateZ") value = tweenable[dkey] * box.z;
-        transforms += fkey + "(" + floatCut(value, 2) + "px) ";
-      } else {
-        value = tweenable[dkey];
-        transforms += fkey + "(" + floatCut(value, 2) + data[dkey] + ") ";
-      }
+        if (data[dkey] === 'box') {
+          if (fkey === "translateX") value = tweenable[dkey] * box.x;else if (fkey === "translateY") value = tweenable[dkey] * box.y;else if (fkey === "translateZ") value = tweenable[dkey] * box.z;
+          transforms += fkey + "(" + floatCut(value, 2) + "px) ";
+        } else {
+          value = tweenable[dkey];
+          transforms += fkey + "(" + floatCut(value, 2) + data[dkey] + ") ";
+        }
+      });
     });
     target.transform = transforms;
   }
@@ -1395,27 +1396,31 @@ function demux(key, tweenable, target, data, box) {
 
 /* harmony default export */ __webpack_exports__["default"] = (function (key, value, target, data, initials) {
   data["transform_head"] = data["transform_head"] || key;
-  data[key] = data[key] || {};
+  data[key] = data[key] || [{}];
   initials[key] = 0;
-  Object.keys(value).forEach(function (fkey) {
-    var fValue = value[fkey],
-        dkey = key + '_' + fkey,
-        match = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(fValue) ? fValue.match(unitsRe) : false;
-    data[key][fkey] = true;
-    initials[dkey] = 0;
+  if (!is__WEBPACK_IMPORTED_MODULE_0___default.a.array(value)) value = [value];
+  value.forEach(function (tmap, i) {
+    return Object.keys(tmap).forEach(function (fkey) {
+      var fValue = tmap[fkey],
+          dkey = key + '_' + fkey + '_' + i,
+          match = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(fValue) ? fValue.match(unitsRe) : false;
+      data[key][i] = data[key][i] || {};
+      data[key][i][fkey] = true;
+      initials[dkey] = 0;
 
-    if (match) {
-      if (data[dkey] && data[dkey] !== match[2]) {
-        console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
-        target[dkey] = 0;
+      if (match) {
+        if (data[dkey] && data[dkey] !== match[2]) {
+          console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
+          target[dkey] = 0;
+        } else {
+          data[dkey] = match[2];
+          target[dkey] = parseFloat(match[1]);
+        }
       } else {
-        data[dkey] = match[2];
-        target[dkey] = parseFloat(match[1]);
+        target[dkey] = fValue;
+        if (!data[dkey] && fkey in defaultUnits) data[dkey] = defaultUnits[fkey];
       }
-    } else {
-      target[dkey] = fValue;
-      if (!data[dkey] && fkey in defaultUnits) data[dkey] = defaultUnits[fkey];
-    }
+    });
   });
   return demux;
 });

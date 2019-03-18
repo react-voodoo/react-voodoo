@@ -30,9 +30,9 @@ let pushIn        = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					transform: {
+					transform: [{}, {
 						translateZ: "-.2box"
-					},
+					}],
 					filter   : {
 						sepia: 100
 					}
@@ -45,9 +45,9 @@ let pushIn        = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					transform: {
+					transform: [{}, {
 						translateZ: ".2box"
-					},
+					}],
 					filter   : {
 						sepia: -100
 					}
@@ -60,9 +60,9 @@ let pushIn        = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircle,
 				apply   : {
-					transform: {
+					transform: [{}, {
 						rotateY: 180,
-					},
+					}],
 				}
 			}
 		]
