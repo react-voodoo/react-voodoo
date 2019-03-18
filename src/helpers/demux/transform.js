@@ -52,30 +52,31 @@ function demux( key, tweenable, target, data, box ) {
 	
 	if ( data["transform_head"] === key ) {
 		let transforms = "";
-		Object.keys(data[key]).forEach(
-			fkey => {
-				let dkey        = key + '_' + fkey, value;
-				data[key][fkey] = true;
-				
-				if ( data[dkey] === 'deg' )
-					tweenable[dkey] = tweenable[dkey] % 360;
-				
-				if ( data[dkey] === 'box' ) {
-					if ( fkey === "translateX" )
-						value = tweenable[dkey] * box.x;
-					else if ( fkey === "translateY" )
-						value = tweenable[dkey] * box.y;
-					else if ( fkey === "translateZ" )
-						value = tweenable[dkey] * box.z;
-					transforms += fkey + "(" + floatCut(value, 2) + "px) ";
+		data[key].forEach(
+			( tmap, i ) => Object.keys(tmap).forEach(
+				fkey => {
+					let dkey = key + '_' + fkey + '_' + i, value;
+					
+					if ( data[dkey] === 'deg' )
+						tweenable[dkey] = tweenable[dkey] % 360;
+					
+					if ( data[dkey] === 'box' ) {
+						if ( fkey === "translateX" )
+							value = tweenable[dkey] * box.x;
+						else if ( fkey === "translateY" )
+							value = tweenable[dkey] * box.y;
+						else if ( fkey === "translateZ" )
+							value = tweenable[dkey] * box.z;
+						transforms += fkey + "(" + floatCut(value, 2) + "px) ";
+					}
+					else {
+						value = tweenable[dkey];
+						transforms += fkey + "(" + floatCut(value, 2) + data[dkey] + ") ";
+					}
+					
+					
 				}
-				else {
-					value = tweenable[dkey];
-					transforms += fkey + "(" + floatCut(value, 2) + data[dkey] + ") ";
-				}
-				
-				
-			}
+			)
 		)
 		target.transform = transforms;
 	}
@@ -85,32 +86,39 @@ function demux( key, tweenable, target, data, box ) {
 export default ( key, value, target, data, initials ) => {
 	
 	data["transform_head"] = data["transform_head"] || key;
-	data[key]              = data[key] || {};
+	data[key]              = data[key] || [{}];
 	initials[key]          = 0;
 	
-	Object.keys(value).forEach(
-		fkey => {
-			let fValue      = value[fkey],
-			    dkey        = key + '_' + fkey,
-			    match       = is.string(fValue) ? fValue.match(unitsRe) : false;
-			data[key][fkey] = true;
-			initials[dkey]  = 0;
-			if ( match ) {
-				if ( data[dkey] && data[dkey] !== match[2] ) {
-					console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
-					target[dkey] = 0;
+	if ( !is.array(value) )
+		value = [value];
+	
+	value.forEach(
+		( tmap, i ) =>
+			Object.keys(tmap).forEach(
+				fkey => {
+					let fValue         = tmap[fkey],
+					    dkey           = key + '_' + fkey + '_' + i,
+					    match          = is.string(fValue) ? fValue.match(unitsRe) : false;
+					data[key][i]       = data[key][i] || {};
+					data[key][i][fkey] = true;
+					initials[dkey]     = 0;
+					if ( match ) {
+						if ( data[dkey] && data[dkey] !== match[2] ) {
+							console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
+							target[dkey] = 0;
+						}
+						else {
+							data[dkey]   = match[2];
+							target[dkey] = parseFloat(match[1]);
+						}
+					}
+					else {
+						target[dkey] = fValue;
+						if ( !data[dkey] && fkey in defaultUnits )
+							data[dkey] = defaultUnits[fkey];
+					}
 				}
-				else {
-					data[dkey]   = match[2];
-					target[dkey] = parseFloat(match[1]);
-				}
-			}
-			else {
-				target[dkey] = fValue;
-				if ( !data[dkey] && fkey in defaultUnits )
-					data[dkey] = defaultUnits[fkey];
-			}
-		}
+			)
 	)
 	return demux;
 }

@@ -19,9 +19,9 @@ ___
 import {asTweener, TweenRef} from "react-rtween";
 
 var easingFn = require('d3-ease');
-
 let pushIn        = function ( target ) {
-	return [
+	return {
+		anims: [
 			{
 				type    : "Tween",
 				target  : target,
@@ -29,9 +29,9 @@ let pushIn        = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					transform: {
-						translateZ: "-.2box" // box == tweener offset height/width/perspective
-					},
+					transform: [{}, {
+						translateZ: "-.2box"
+					}],
 					filter   : {
 						sepia: 100
 					}
@@ -44,9 +44,9 @@ let pushIn        = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircleIn,
 				apply   : {
-					transform: {
+					transform: [{}, {
 						translateZ: ".2box"
-					},
+					}],
 					filter   : {
 						sepia: -100
 					}
@@ -59,13 +59,15 @@ let pushIn        = function ( target ) {
 				duration: 500,
 				easeFn  : easingFn.easeCircle,
 				apply   : {
-					transform: {
+					transform: [{}, {
 						rotateY: 180,
-					},
+					}],
 				}
 			}
-		];
+		]
+	};
 };
+
 
 const scrollAnims = {
 	scrollX: [
