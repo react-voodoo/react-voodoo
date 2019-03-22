@@ -719,7 +719,7 @@ function asTweener() {
         if (this._.axes) {
           var oldPos = newPos,
               setPos = function setPos(pos) {
-            return _this6._.axes[axe].scrollPos = pos, _this6.componentDidScroll && _this6.componentDidScroll(~~pos), requestAnimationFrame(_this6._._rafLoop);
+            return _this6._.axes[axe].scrollPos = pos, _this6.componentDidScroll && _this6.componentDidScroll(~~pos), _this6._updateTweenRefs();
           };
 
           newPos = Math.max(0, newPos);

@@ -299,7 +299,8 @@ export default function asTweener( ...argz ) {
 		scrollTo( newPos, ms = 0, axe = "scrollY" ) {
 			if ( this._.axes ) {
 				let oldPos = newPos,
-				    setPos = pos => (this._.axes[axe].scrollPos = pos, this.componentDidScroll && this.componentDidScroll(~~pos), requestAnimationFrame(this._._rafLoop));
+				    setPos = pos => (this._.axes[axe].scrollPos = pos, this.componentDidScroll && this.componentDidScroll(~~pos),
+					    this._updateTweenRefs());
 				
 				newPos = Math.max(0, newPos);
 				newPos = Math.min(newPos, this._.axes[axe].scrollableArea);
