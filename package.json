@@ -1,6 +1,6 @@
 {
   "name": "react-rtween",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "license": "AGPL-3.0",
   "main": "./dist/Comp.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -53,7 +53,7 @@
     "taskflows": "^1.0.0"
   },
   "devDependencies": {
-    "wpi-react-hmr-ssr": "^0.2.3",
-    "webpack-inherit": "^1.4.9"
+    "wpi-react-hmr-ssr": "^1.1.3",
+    "webpack-inherit": "^1.4.10"
   }
 }

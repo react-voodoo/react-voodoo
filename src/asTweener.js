@@ -27,12 +27,52 @@ import {deMuxTween, muxToCss, deMuxLine} from "./helpers";
  */
 
 
-var isBrowserSide    = (new Function("try {return this===window;}catch(e){ return false;}"))(),
-    isArray          = is.array,
-    initialTweenable = {// while no matrix..
-    };
+var isBrowserSide           = (new Function("try {return this===window;}catch(e){ return false;}"))(),
+    isArray                 = is.array,
+    initialTweenable        = {// while no matrix..
+    },
+    _live, lastTm, _running = [];
 
 const SimpleObjectProto = ({}).constructor;
+
+const Runner = {
+	run  : function ( tl, ctx, duration, cb ) {
+		let apply = ( pos, size ) => tl.go(pos / size, ctx);
+		_running.push({ apply, duration, cpos: 0, cb });
+		tl.go(0, ctx, true);//reset tl
+		
+		if ( !_live ) {
+			_live  = true;
+			lastTm = Date.now();
+			// console.log("TL runner On");
+			setTimeout(this._tick, 16);
+		}
+	},
+	_tick: function _tick() {
+		var i  = 0, o, tm = Date.now(), delta = tm - lastTm;
+		lastTm = tm;
+		for ( ; i < _running.length; i++ ) {
+			_running[i].cpos = Math.min(delta + _running[i].cpos, _running[i].duration);//cpos
+			_running[i].apply(
+				_running[i].cpos, _running[i].duration
+			);
+			// console.log("TL runner ",_running[i][3]);
+			if ( _running[i].cpos == _running[i].duration ) {
+				
+				_running[i].cb && setTimeout(_running[i].cb);
+				_running.splice(i, 1), i--;
+			}
+			
+		}
+		if ( _running.length )
+			setTimeout(_tick, 16);
+		else {
+			// console.log("TL runner Off");
+			_live = false;
+		}
+	},
+	
+};
 
 
 /**
@@ -103,61 +143,51 @@ export default function asTweener( ...argz ) {
 			if ( !this._.tweenRefs[id] )
 				this._.tweenRefTargets.push(id);
 			
-			if ( cState && cState.refs && cState.refs[id] ) {
-				iStyle = iStyle || { ...cState.refs[id][0] };
-				iMap   = iMap || { ...cState.refs[id][1] };
-			}
-			else {
-				iStyle = iStyle || {};
-				iMap   = iMap || {};
-			}
-			
-			let initials               = {};
-			this._.tweenRefs[id]       = true;
-			this._.muxByTarget[id]     = this._.muxByTarget[id] || {};
-			this._.muxDataByTarget[id] = this._.muxDataByTarget[id] || {};
-			
-			if ( iMap.getPosAt ) {// typeof rtween
-				tweenableMap = iMap.getPosAt(
-					pos,
-					!mapReset && this._.tweenRefMaps[id]
-						|| Object.assign({}, initialTweenable, iMap.scope || {})
-				);
-			}
-			else {
-				
-				mapReset = noref;
-				noref    = pos;
-				
-				
-				iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]) };
-				//this._.tweenRefUnits[id] = extractUnits(iMap);
-			}
-			this._.tweenRefOrigin[id] = tweenableMap;
-			//this._.tweenRefCSS[id]    = this._.tweenRefCSS[id] || {};
-			
-			// init/ reset or get the css view
-			if ( !mapReset && this._.tweenRefCSS[id] ) {
-				this._.tweenRefCSS[id] = {
-					...iStyle
+			if ( mapReset || !this._.tweenRefs[id] ) {
+				if ( cState && cState.refs && cState.refs[id] ) {
+					iStyle = iStyle || { ...cState.refs[id][0] };
+					iMap   = iMap || { ...cState.refs[id][1] };
 				}
+				else {
+					iStyle = iStyle || {};
+					iMap   = iMap || {};
+				}
+				
+				let initials               = {};
+				this._.tweenRefs[id]       = true;
+				this._.muxByTarget[id]     = this._.muxByTarget[id] || {};
+				this._.muxDataByTarget[id] = this._.muxDataByTarget[id] || {};
+				
+				if ( iMap.getPosAt ) {// typeof rtween
+					tweenableMap = iMap.getPosAt(
+						pos,
+						!mapReset && this._.tweenRefMaps[id]
+							|| Object.assign({}, initialTweenable, iMap.scope || {})
+					);
+				}
+				else {
+					
+					mapReset = noref;
+					noref    = pos;
+					
+					
+					iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]) };
+					//this._.tweenRefUnits[id] = extractUnits(iMap);
+				}
+				this._.tweenRefOrigin[id] = tweenableMap;
+				iStyle                    = mapReset && { ...iStyle } || this._.tweenRefCSS[id] || { ...iStyle };
+				this._.tweenRefCSS[id]    = iStyle;
+				// init / reset or get the tweenable view
+				tweenableMap              = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id]
+					|| Object.assign({}, initials, tweenableMap || {});
+				
+				//console.log(tweenableMap, iStyle, initials, this._.muxByTarget[id], this._.muxDataByTarget[id])
+				//utils.mapInBoxCSS(iMap, iStyle, this._.box, this._.tweenRefUnits[id]);
+				muxToCss(tweenableMap, iStyle, this._.muxByTarget[id], this._.muxDataByTarget[id], this._.box);
+				
+				
+				//this._.refs[id] = this._.refs[id] || React.createRef();
 			}
-			else this._.tweenRefCSS[id] = iStyle && { ...iStyle } || {};
-			
-			iStyle = this._.tweenRefCSS[id];
-			
-			// init / reset or get the tweenable view
-			tweenableMap = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id]
-				|| Object.assign({}, initials, tweenableMap || {});
-			
-			
-			//console.log(tweenableMap, iStyle, initials, this._.muxByTarget[id], this._.muxDataByTarget[id])
-			//utils.mapInBoxCSS(iMap, iStyle, this._.box, this._.tweenRefUnits[id]);
-			muxToCss(tweenableMap, iStyle, this._.muxByTarget[id], this._.muxDataByTarget[id], this._.box);
-			
-			
-			//this._.refs[id] = this._.refs[id] || React.createRef();
-			
 			if ( noref )
 				return {
 					style: { ...this._.tweenRefCSS[id] }
@@ -196,10 +226,10 @@ export default function asTweener( ...argz ) {
 				Object.keys(initials)
 				      .forEach(
 					      id => (
-						      this._.tweenRefMaps[id] = {
+						      Object.assign(this._.tweenRefMaps[id], {
 							      ...initials[id],
 							      ...this._.tweenRefMaps[id]
-						      }
+						      })
 					      )
 				      )
 			}
@@ -237,6 +267,42 @@ export default function asTweener( ...argz ) {
 		// ------------------ Scrollable anims ------------------------
 		// ------------------------------------------------------------
 		
+		/**
+		 * Tween this tween line to 'to' during 'tm' ms using easing fn
+		 * @param to {int}
+		 * @param tm {int} duration in ms
+		 * @param easing {function} easing fn
+		 * @param tick {function} fn called at each tick
+		 * @param cb {function} fn called on complete
+		 */
+		_runScrollGoTo( axe, to, tm, easing = x => x, tick, cb ) {
+			let from   = this._.axes[axe].scrollPos,
+			    length = to - from;
+			
+			_running.push(
+				{
+					apply   : ( pos, max ) => {
+						let x = (from + (easing(pos / max)) * length);
+						
+						this._.axes[axe].scrollableAnims.forEach(
+							sl => sl.goTo(x)
+						);
+						tick && tick(x);
+					},
+					duration: tm,
+					cpos    : 0,
+					cb
+				})
+			;
+			
+			if ( !_live ) {
+				_live  = true;
+				lastTm = Date.now();
+				// console.log("TL runner On");
+				setTimeout(Runner._tick, 16);
+			}
+		}
+		
 		addScrollableAnim( anim, axe = "scrollY", size ) {
 			var sl, _ = this._, initials = {};
 			if ( isArray(anim) ) {
@@ -253,10 +319,10 @@ export default function asTweener( ...argz ) {
 				Object.keys(initials)
 				      .forEach(
 					      id => (
-						      this._.tweenRefMaps[id] = {
+						      Object.assign(this._.tweenRefMaps[id], {
 							      ...initials[id],
 							      ...this._.tweenRefMaps[id]
-						      }
+						      })
 					      )
 				      )
 			}
@@ -269,6 +335,7 @@ export default function asTweener( ...argz ) {
 			_.axes[axe] = _.axes[axe] || {
 				scrollableAnims: [],
 				scrollPos      : opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
+				targetPos      : 0,
 				scrollableArea : 0
 			}
 			
@@ -277,8 +344,8 @@ export default function asTweener( ...argz ) {
 			_.axes[axe].scrollableArea = _.axes[axe].scrollableArea || 0;
 			_.axes[axe].scrollableArea = Math.max(_.axes[axe].scrollableArea, sl.duration);
 			
-			_.axes[axe].scrollPos && sl.goTo(_.axes[axe].scrollPos, this._.tweenRefMaps);
-			
+			sl.goTo(_.axes[axe].scrollPos, this._.tweenRefMaps);
+			this._updateTweenRefs();
 			return sl;
 		}
 		
@@ -298,11 +365,16 @@ export default function asTweener( ...argz ) {
 		
 		scrollTo( newPos, ms = 0, axe = "scrollY" ) {
 			if ( this._.axes ) {
-				let oldPos = newPos,
-				    setPos = pos => (this._.axes[axe].scrollPos = pos, this.componentDidScroll && this.componentDidScroll(~~pos), requestAnimationFrame(this._._rafLoop));
+				let oldPos = this._.axes[axe].targetPos,
+				    setPos = pos => (
+					    this._.axes[axe].scrollPos = pos,
+					    this.componentDidScroll && this.componentDidScroll(~~pos),
+						    this._updateTweenRefs()
+				    );
 				
-				newPos = Math.max(0, newPos);
-				newPos = Math.min(newPos, this._.axes[axe].scrollableArea);
+				newPos                     = Math.max(0, newPos);
+				newPos                     = Math.min(newPos, this._.axes[axe].scrollableArea);
+				this._.axes[axe].targetPos = newPos;
 				
 				if ( !ms ) {
 					this._.axes[axe].scrollableAnims.forEach(
@@ -310,11 +382,9 @@ export default function asTweener( ...argz ) {
 					);
 					setPos(newPos);
 				}
-				else
-					this._.axes[axe].scrollableAnims.forEach(
-						sl => sl.runTo(newPos, ms, undefined, setPos)
-					);
-				
+				else {
+					this._runScrollGoTo(axe, newPos, ms, undefined, setPos)
+				}
 				
 				if ( !this._.live ) {
 					this._.live = true;
@@ -415,18 +485,7 @@ export default function asTweener( ...argz ) {
 			if ( !this._.scrollEnabled ) {
 				this._.scrollEnabled = true;
 				this._.scrollHook    = [];
-				this._.axes          = {
-					scrollX: {
-						scrollableAnims: [],
-						scrollPos      : opts.initialScrollPos && opts.initialScrollPos["scrollX"] || 0,
-						scrollableArea : 0
-					},
-					scrollY: {
-						scrollableAnims: [],
-						scrollPos      : opts.initialScrollPos && opts.initialScrollPos["scrollY"] || 0,
-						scrollableArea : 0
-					}
-				};
+				this._.axes          = {};
 				this._registerScrollListeners();
 				//ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
 			}
@@ -561,16 +620,10 @@ export default function asTweener( ...argz ) {
 		
 		_updateTweenRefs() {
 			//if ( this._.tweenEnabled ) {
-			
+			//console.log("refs update")
 			for ( var i = 0, target, node; i < this._.tweenRefTargets.length; i++ ) {
 				target = this._.tweenRefTargets[i];
 				muxToCss(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
-				//utils.mapInBoxCSS(
-				//	this._.tweenRefMaps[target],
-				//	this._.tweenRefCSS[target],
-				//	this._.box,
-				//	this._.tweenRefUnits[target]
-				//);
 				node = this._.tweenEnabled && target == "__root"
 				       ? ReactDom.findDOMNode(this)
 				       : this.getTweenableRef(target);
@@ -596,7 +649,7 @@ export default function asTweener( ...argz ) {
 					ReactDom.findDOMNode(this), this._.dragList)
 			}
 			
-			super.componentWillUnmount && super.componentWillUnmount();
+			super.componentWillUnmount && super.componentWillUnmount(...arguments);
 		}
 		
 		componentDidMount() {
@@ -625,7 +678,7 @@ export default function asTweener( ...argz ) {
 				this._registerScrollListeners();
 				this._.doRegister = false;
 			}
-			super.componentDidMount && super.componentDidMount();
+			super.componentDidMount && super.componentDidMount(...arguments);
 		}
 		
 		componentDidUpdate( prevProps, prevState ) {
@@ -656,7 +709,7 @@ export default function asTweener( ...argz ) {
 					         this
 				         );
 			}
-			super.componentDidUpdate && super.componentDidUpdate();
+			super.componentDidUpdate && super.componentDidUpdate(...arguments);
 			// return;
 		}
 		
