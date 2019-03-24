@@ -175,20 +175,10 @@ export default function asTweener( ...argz ) {
 					//this._.tweenRefUnits[id] = extractUnits(iMap);
 				}
 				this._.tweenRefOrigin[id] = tweenableMap;
-				//this._.tweenRefCSS[id]    = this._.tweenRefCSS[id] || {};
-				
-				// init/ reset or get the css view
-				//if ( !mapReset && this._.tweenRefCSS[id] ) {
-				//	this._.tweenRefCSS[id] = {
-				//		...iStyle
-				//	}
-				//}
-				//else this._.tweenRefCSS[id] = iStyle && { ...iStyle } || {};
-				
-				iStyle                 = mapReset && { ...iStyle } || this._.tweenRefCSS[id] || { ...iStyle };
-				this._.tweenRefCSS[id] = iStyle;
+				iStyle                    = mapReset && { ...iStyle } || this._.tweenRefCSS[id] || { ...iStyle };
+				this._.tweenRefCSS[id]    = iStyle;
 				// init / reset or get the tweenable view
-				tweenableMap           = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id]
+				tweenableMap              = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id]
 					|| Object.assign({}, initials, tweenableMap || {});
 				
 				//console.log(tweenableMap, iStyle, initials, this._.muxByTarget[id], this._.muxDataByTarget[id])
@@ -323,7 +313,6 @@ export default function asTweener( ...argz ) {
 				size = anim.length;
 			}
 			
-			console.warn('addScrollableAnim')
 			if ( !(sl instanceof rtween) ) {
 				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
 				sl = new rtween(sl, _.tweenRefMaps);
@@ -376,7 +365,6 @@ export default function asTweener( ...argz ) {
 		
 		scrollTo( newPos, ms = 0, axe = "scrollY" ) {
 			if ( this._.axes ) {
-				window.tw  = this;
 				let oldPos = this._.axes[axe].targetPos,
 				    setPos = pos => (
 					    this._.axes[axe].scrollPos = pos,
@@ -748,7 +736,6 @@ export default function asTweener( ...argz ) {
 		}
 		
 		render() {
-			console.log('render ', this.constructor.name)
 			return <TweenerContext.Provider value={ this }>
 				{ super.render() }
 			</TweenerContext.Provider>;

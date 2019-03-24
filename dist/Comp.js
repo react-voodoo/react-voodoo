@@ -305,7 +305,6 @@ function (_React$Component) {
 
         if (_this3._previousTweener !== tweener || _this3._previousScrollable !== scrollableAnims) {
           if (_this3._scrollableAnims) {
-            //debugger
             Object.keys(_this3._scrollableAnims).forEach(function (axe) {
               return _this3._previousTweener.rmScrollableAnim(_this3._scrollableAnims[axe], axe);
             });
@@ -610,15 +609,7 @@ function asTweener() {
             iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id])); //this._.tweenRefUnits[id] = extractUnits(iMap);
           }
 
-          this._.tweenRefOrigin[id] = tweenableMap; //this._.tweenRefCSS[id]    = this._.tweenRefCSS[id] || {};
-          // init/ reset or get the css view
-          //if ( !mapReset && this._.tweenRefCSS[id] ) {
-          //	this._.tweenRefCSS[id] = {
-          //		...iStyle
-          //	}
-          //}
-          //else this._.tweenRefCSS[id] = iStyle && { ...iStyle } || {};
-
+          this._.tweenRefOrigin[id] = tweenableMap;
           iStyle = mapReset && _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle) || this._.tweenRefCSS[id] || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle);
           this._.tweenRefCSS[id] = iStyle; // init / reset or get the tweenable view
 
@@ -760,8 +751,6 @@ function asTweener() {
           size = anim.length;
         }
 
-        console.warn('addScrollableAnim');
-
         if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) {
           sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
           sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, _.tweenRefMaps);
@@ -823,8 +812,6 @@ function asTweener() {
         var axe = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "scrollY";
 
         if (this._.axes) {
-          window.tw = this;
-
           var oldPos = this._.axes[axe].targetPos,
               setPos = function setPos(pos) {
             return _this7._.axes[axe].scrollPos = pos, _this7.componentDidScroll && _this7.componentDidScroll(~~pos), _this7._updateTweenRefs();
@@ -1174,7 +1161,6 @@ function asTweener() {
     }, {
       key: "render",
       value: function render() {
-        console.log('render ', this.constructor.name);
         return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_13__["default"].Provider, {
           value: this
         }, _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "render", this).call(this));
