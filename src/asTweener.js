@@ -298,7 +298,7 @@ export default function asTweener( ...argz ) {
 		
 		scrollTo( newPos, ms = 0, axe = "scrollY" ) {
 			if ( this._.axes ) {
-				let oldPos = newPos,
+				let oldPos = this._.axes[axe].scrollPos,
 				    setPos = pos => (this._.axes[axe].scrollPos = pos, this.componentDidScroll && this.componentDidScroll(~~pos),
 					    this._updateTweenRefs());
 				
@@ -312,10 +312,11 @@ export default function asTweener( ...argz ) {
 					setPos(newPos);
 				}
 				else
+				{
 					this._.axes[axe].scrollableAnims.forEach(
 						sl => sl.runTo(newPos, ms, undefined, setPos)
 					);
-				
+				}
 				
 				if ( !this._.live ) {
 					this._.live = true;
@@ -597,7 +598,7 @@ export default function asTweener( ...argz ) {
 					ReactDom.findDOMNode(this), this._.dragList)
 			}
 			
-			super.componentWillUnmount && super.componentWillUnmount();
+			super.componentWillUnmount && super.componentWillUnmount(...arguments);
 		}
 		
 		componentDidMount() {
@@ -626,7 +627,7 @@ export default function asTweener( ...argz ) {
 				this._registerScrollListeners();
 				this._.doRegister = false;
 			}
-			super.componentDidMount && super.componentDidMount();
+			super.componentDidMount && super.componentDidMount(...arguments);
 		}
 		
 		componentDidUpdate( prevProps, prevState ) {
@@ -657,7 +658,7 @@ export default function asTweener( ...argz ) {
 					         this
 				         );
 			}
-			super.componentDidUpdate && super.componentDidUpdate();
+			super.componentDidUpdate && super.componentDidUpdate(...arguments);
 			// return;
 		}
 		
