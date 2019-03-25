@@ -26,7 +26,7 @@
  */
 
 import RS          from "rescope";
-import * as RTools from "../../rScopes/react-rescope/src/ReactHocs";
+import * as RTools from "react-rescope";
 
 RS.Component    = RTools.Component;
 RS.reScopeProps = RTools.reScopeProps;
