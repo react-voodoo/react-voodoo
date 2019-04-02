@@ -202,6 +202,9 @@ export default function asTweener( ...argz ) {
 				};
 		}
 		
+		// ------------------------------------------------------------
+		// -------------------- Pushable anims ------------------------
+		// ------------------------------------------------------------
 		/**
 		 * Push anims
 		 * @param anim
@@ -263,6 +266,50 @@ export default function asTweener( ...argz ) {
 			
 		}
 		
+		registerPropChangeAnim( propId, propValue, anims ) {
+			this._.rtweensByProp                    = this._.rtweensByProp || {};
+			this._.rtween                           = this._.rtween || new rtween();
+			this._.rtweensByProp[propId]            = this._.rtweensByProp[propId] || {};
+			this._.rtweensByProp[propId][propValue] = this._.rtweensByProp[propId][propValue] ||
+				new rtween();
+			
+			this._.rtweensByProp[propId][propValue].mount(anims);
+		}
+		
+		registerStateChangeAnim( propId, propValue, anims ) {
+			this._.rtweensByStateProp                    = this._.rtweensByStateProp || {};
+			this._.rtween                                = this._.rtween || new rtween();
+			this._.rtweensByStateProp[propId]            = this._.rtweensByStateProp[propId] || {};
+			this._.rtweensByStateProp[propId][propValue] = this._.rtweensByStateProp[propId][propValue] ||
+				new rtween();
+			
+			this._.rtweensByStateProp[propId][propValue].mount(anims);
+		}
+		
+		makeTweenable() {
+			if ( !this._.tweenEnabled ) {
+				this._.rtweensByProp      = {};
+				this._.rtweensByStateProp = {};
+				this._.tweenRefCSS        = {};
+				this._.tweenRefs          = {};
+				this._.tweenRefMaps       = {};
+				this._.tweenRefUnits      = {};
+				this._.tweenEnabled       = true;
+				this._.tweenRefOrigin     = {};
+				this._.muxDataByTarget    = this._.muxDataByTarget || {};
+				this._.tweenRefDemuxed    = this._.tweenRefDemuxed || {};
+				this._.tweenRefTargets    = this._.tweenRefTargets || [];
+				this._.runningAnims       = this._.runningAnims || [];
+				
+				isBrowserSide && window.addEventListener(
+					"resize",
+					this._.onResize = () => {//@todo
+						this._updateBox();
+						this._updateTweenRefs()
+					});
+			}
+		}
+		
 		// ------------------------------------------------------------
 		// ------------------ Scrollable anims ------------------------
 		// ------------------------------------------------------------
@@ -283,11 +330,12 @@ export default function asTweener( ...argz ) {
 				{
 					apply   : ( pos, max ) => {
 						let x = (from + (easing(pos / max)) * length);
-						
-						this._.axes[axe].scrollableAnims.forEach(
-							sl => sl.goTo(x)
-						);
-						tick && tick(x);
+						if ( this._.tweenEnabled ) {
+							this._.axes[axe].scrollableAnims.forEach(
+								sl => sl.goTo(x)
+							);
+							tick && tick(x);
+						}
 					},
 					duration: tm,
 					cpos    : 0,
@@ -394,98 +442,24 @@ export default function asTweener( ...argz ) {
 			}
 		}
 		
-		
-		// ------------------------------------------------------------
-		// ------------------ Motion/FSM anims ------------------------
-		// ------------------------------------------------------------
-		
-		
-		goToMotionStateId( targetId ) {
-			let _static = this.constructor,
-			    tState  = _static.motionStates[targetId],
-			    cState  = this._.curMotionStateId;
-			if ( !this._.rendered )
-				return this._.delayedMotionTarget = targetId;
-			if ( this.running )
-				this.running = arguments;
-			if (
-				!this.running
-				&& targetId != this._.curMotionStateId
-			) {
-				if ( !this._.tweenRefCSS )
-					this.makeTweenable();
-				this.running = true;
-				let flow     = new taskflow(
-					[
-						_static.motionStates[this._.curMotionStateId] &&
-						(( ctx, flow ) => (_static.motionStates[cState].leaving(ctx, flow, cState))),
-						() => {
-							this._.curMotionStateId = targetId
-							if ( this.running !== true )
-								setTimeout(() => this.goToMotionStateId(...this.running));
-							this.running = false;
-						},
-						tState &&
-						(( ctx, flow ) => (tState.entering(ctx, flow, cState))),
-						() => {
-							tState.refs
-							&& Object.keys(tState.refs)
-							         .map(
-								         ( k ) => {
-									         this.updateRefStyle(k, tState.refs[k][0]);
-									         this.applyTweenState(k, tState.refs[k][1]);
-								         }
-							         )
-						}
-					],
-					this
-				    )
-				;
-				flow.run()
-			}
-			
-		}
-		
-		applyTweenState( id, map, reset ) {
-			var me = this;
-			Object.keys(map).map(
-				( p ) => me._tweenRefMaps[id][p] = (!reset && me._tweenRefMaps[id][p] || 0) + map[p]
-			);
-		}
-		
-		updateRefStyle( target, style, postPone ) {
-			if ( isArray(target) && isArray(style) )
-				return target.map(( m, i ) => this.updateRefStyle(m, style[i], postPone));
-			if ( isArray(target) )
-				return target.map(( m ) => this.updateRefStyle(m, style, postPone));
-			
-			if ( !this._.tweenRefCSS )
-				this.makeTweenable();
-			
-			if ( !postPone && this.refs[target] ) {
-				var node = this.refs[target] instanceof Element
-				           ? this.refs[target]
-				           : ReactDom.findDOMNode(
-						this.refs[target]);
-				node && Object.assign(node.style, style);
-			}
-			this._.tweenRefCSS[target] = this._.tweenRefCSS[target] || {};
-			Object.assign(this._.tweenRefCSS[target], style);
-		}
-		
-		//
-		//shouldApplyScroll( to, from ) {
-		//	return this._.scrollHook.reduce(( r, hook ) => (!r
-		//	                                                ? false
-		//	                                                : hook(to, from)), true)
-		//		|| super.shouldApplyScroll && super.shouldApplyScroll(to, from);
-		//}
-		
 		makeScrollable() {
 			if ( !this._.scrollEnabled ) {
 				this._.scrollEnabled = true;
 				this._.scrollHook    = [];
-				this._.axes          = {};
+				this._.axes          = {
+					scrollX: {
+						scrollableAnims: [],
+						scrollPos      : opts.initialScrollPos && opts.initialScrollPos.scrollX || 0,
+						targetPos      : 0,
+						scrollableArea : 0
+					},
+					scrollY: {
+						scrollableAnims: [],
+						scrollPos      : opts.initialScrollPos && opts.initialScrollPos.scrollY || 0,
+						targetPos      : 0,
+						scrollableArea : 0
+					}
+				};
 				this._registerScrollListeners();
 				//ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
 			}
@@ -572,29 +546,98 @@ export default function asTweener( ...argz ) {
 			}
 		}
 		
-		makeTweenable() {
-			if ( !this._.tweenEnabled ) {
-				this._.rtweensByProp      = {};
-				this._.rtweensByStateProp = {};
-				this._.tweenRefCSS        = {};
-				this._.tweenRefs          = {};
-				this._.tweenRefMaps       = {};
-				this._.tweenRefUnits      = {};
-				this._.tweenEnabled       = true;
-				this._.tweenRefOrigin     = {};
-				this._.muxDataByTarget    = this._.muxDataByTarget || {};
-				this._.tweenRefDemuxed    = this._.tweenRefDemuxed || {};
-				this._.tweenRefTargets    = this._.tweenRefTargets || [];
-				this._.runningAnims       = this._.runningAnims || [];
-				
-				isBrowserSide && window.addEventListener(
-					"resize",
-					this._.onResize = () => {//@todo
-						this._updateBox();
-						this._updateTweenRefs()
-					});
-			}
+		// ------------------------------------------------------------
+		// --------------- Inertia & scroll modifiers -----------------
+		// ------------------------------------------------------------
+		
+		addScrollModifier( desc, axe = "scrollY" ) {
+		
 		}
+		
+		// ------------------------------------------------------------
+		// ------------------ Motion/FSM anims ------------------------
+		// ------------------------------------------------------------
+		
+		goToMotionStateId( targetId ) {
+			let _static = this.constructor,
+			    tState  = _static.motionStates[targetId],
+			    cState  = this._.curMotionStateId;
+			if ( !this._.rendered )
+				return this._.delayedMotionTarget = targetId;
+			if ( this.running )
+				this.running = arguments;
+			if (
+				!this.running
+				&& targetId != this._.curMotionStateId
+			) {
+				if ( !this._.tweenRefCSS )
+					this.makeTweenable();
+				this.running = true;
+				let flow     = new taskflow(
+					[
+						_static.motionStates[this._.curMotionStateId] &&
+						(( ctx, flow ) => (_static.motionStates[cState].leaving(ctx, flow, cState))),
+						() => {
+							this._.curMotionStateId = targetId
+							if ( this.running !== true )
+								setTimeout(() => this.goToMotionStateId(...this.running));
+							this.running = false;
+						},
+						tState &&
+						(( ctx, flow ) => (tState.entering(ctx, flow, cState))),
+						() => {
+							tState.refs
+							&& Object.keys(tState.refs)
+							         .map(
+								         ( k ) => {
+									         this.updateRefStyle(k, tState.refs[k][0]);
+									         this.applyTweenState(k, tState.refs[k][1]);
+								         }
+							         )
+						}
+					],
+					this
+				    )
+				;
+				flow.run()
+			}
+			
+		}
+		
+		applyTweenState( id, map, reset ) {
+			var me = this;
+			Object.keys(map).map(
+				( p ) => me._tweenRefMaps[id][p] = (!reset && me._tweenRefMaps[id][p] || 0) + map[p]
+			);
+		}
+		
+		updateRefStyle( target, style, postPone ) {
+			if ( isArray(target) && isArray(style) )
+				return target.map(( m, i ) => this.updateRefStyle(m, style[i], postPone));
+			if ( isArray(target) )
+				return target.map(( m ) => this.updateRefStyle(m, style, postPone));
+			
+			if ( !this._.tweenRefCSS )
+				this.makeTweenable();
+			
+			if ( !postPone && this.refs[target] ) {
+				var node = this.refs[target] instanceof Element
+				           ? this.refs[target]
+				           : ReactDom.findDOMNode(
+						this.refs[target]);
+				node && Object.assign(node.style, style);
+			}
+			this._.tweenRefCSS[target] = this._.tweenRefCSS[target] || {};
+			Object.assign(this._.tweenRefCSS[target], style);
+		}
+		
+		//
+		//shouldApplyScroll( to, from ) {
+		//	return this._.scrollHook.reduce(( r, hook ) => (!r
+		//	                                                ? false
+		//	                                                : hook(to, from)), true)
+		//		|| super.shouldApplyScroll && super.shouldApplyScroll(to, from);
+		//}
 		
 		_updateBox() {
 			var node = ReactDom.findDOMNode(this);
@@ -619,17 +662,16 @@ export default function asTweener( ...argz ) {
 		}
 		
 		_updateTweenRefs() {
-			//if ( this._.tweenEnabled ) {
-			//console.log("refs update")
-			for ( var i = 0, target, node; i < this._.tweenRefTargets.length; i++ ) {
-				target = this._.tweenRefTargets[i];
-				muxToCss(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
-				node = this._.tweenEnabled && target == "__root"
-				       ? ReactDom.findDOMNode(this)
-				       : this.getTweenableRef(target);
-				node && Object.assign(node.style, this._.tweenRefCSS[target]);
+			if ( this._.tweenEnabled ) {
+				for ( var i = 0, target, node; i < this._.tweenRefTargets.length; i++ ) {
+					target = this._.tweenRefTargets[i];
+					muxToCss(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
+					node = this._.tweenEnabled && target == "__root"
+					       ? ReactDom.findDOMNode(this)
+					       : this.getTweenableRef(target);
+					node && Object.assign(node.style, this._.tweenRefCSS[target]);
+				}
 			}
-			//}
 		}
 		
 		componentWillUnmount() {
@@ -713,29 +755,8 @@ export default function asTweener( ...argz ) {
 			// return;
 		}
 		
-		registerPropChangeAnim( propId, propValue, anims ) {
-			this._.rtweensByProp                    = this._.rtweensByProp || {};
-			this._.rtween                           = this._.rtween || new rtween();
-			this._.rtweensByProp[propId]            = this._.rtweensByProp[propId] || {};
-			this._.rtweensByProp[propId][propValue] = this._.rtweensByProp[propId][propValue] ||
-				new rtween();
-			
-			this._.rtweensByProp[propId][propValue].mount(anims);
-			
-		}
-		
-		registerStateChangeAnim( propId, propValue, anims ) {
-			this._.rtweensByStateProp                    = this._.rtweensByStateProp || {};
-			this._.rtween                                = this._.rtween || new rtween();
-			this._.rtweensByStateProp[propId]            = this._.rtweensByStateProp[propId] || {};
-			this._.rtweensByStateProp[propId][propValue] = this._.rtweensByStateProp[propId][propValue] ||
-				new rtween();
-			
-			this._.rtweensByStateProp[propId][propValue].mount(anims);
-			
-		}
-		
 		render() {
+			//console.log('render', this.constructor.name)
 			return <TweenerContext.Provider value={ this }>
 				{ super.render() }
 			</TweenerContext.Provider>;
