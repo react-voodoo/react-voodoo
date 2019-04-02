@@ -1,119 +1,70 @@
 /*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Copyright (C) 2019 Nathan Braun
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import React    from "react";
 import ReactDom from "react-dom";
 
-import RS, {scopeToState, reScope, Store, scopeToProps, propsToScope, propsToStore} from ".";
+import Samples from "Comp/samples/*/(*).js"
+import "./samples/samples.scss";
 
-@reScope(
-	{
-		test: class test extends Store {
-			state = { hello: "rScope" }
-		}
-	}
-)
-@scopeToProps("testRoot", "test")
-class TestProps extends React.Component {
-	redraws = 0;
-	
-	render() {
-		
-		return <div className={ "test" } style={ {} }>
-			{ JSON.stringify(this.props.test) }
-			{ JSON.stringify(this.props.testRoot) }
-			( redraws { this.redraws++ } )
-		</div>
-	}
-}
+console.log(Samples);
 
-@reScope(
-	{
-		test: class test extends Store {
-			state = { hello: "rScope to state" }
-		}
-	}
-)
-@scopeToState("testRoot", "test")
-class TestState extends React.Component {
-	redraws = 0;
-	
-	render() {
-		
-		return <div className={ "test" } style={ {} }>
-			{ JSON.stringify(this.state.test) }
-			{ JSON.stringify(this.state.testRoot) }
-			( redraws { this.redraws++ } )
-		</div>
-	}
-}
-
-@reScope(
-	{
-		test: class test extends Store {
-			state = { hello: "propsToScope" }
-		}
-	}
-)
-@propsToScope("testProp:test.myProp")
-@scopeToProps("testRoot", "test")
-class TestPropProp extends React.Component {
-	redraws = 0;
-	
-	render() {
-		
-		return <div className={ "test" } style={ {} }>
-			{ JSON.stringify(this.props.test) }
-			{ JSON.stringify(this.props.testRoot) }
-			( redraws { this.redraws++ } )
-		</div>
-	}
-}
-
-@reScope(
-	{
-		testRoot: class testRoot extends Store {
-			state = { root: "rScope", now: 0 }
-			
-			constructor() {
-				super(...arguments);
-				this.tm  = setInterval(( tm ) => this.setState({ now: this.nextState.now + 1 }), 5000)
-				this.tm1 = setInterval(( tm ) => this.setState({ now: this.nextState.now + 1 }), 5000)
-			}
-			
-			destroy() {
-				super.destroy();
-				clearInterval(this.tm);
-				clearInterval(this.tm1);
-			}
-		}
-	}
-)
 class App extends React.Component {
+	state = {
+		current: "SimpleHeaderTest"
+	};
+	
 	render() {
-		
+		let Comp = Samples[this.state.current];
 		return <div className={ "app" } style={ {
 			width : "100%",
 			height: "100%"
 		} }>
-			<TestProps/>
-			<TestState/>
-			<TestPropProp testProp={ "yeah" }/>
+			
+			<div className={ "sampleLst" } style={ {
+				position: "absolute",
+				top     : "0px",
+				left    : "0px",
+				width   : "200px",
+				height  : "100%"
+			} }>
+				{
+					Object.keys(Samples).map(
+						key => <div onClick={ e => this.setState({ current: key }) } key={ key }>{ key }</div>
+					)
+				}
+			</div>
+			<div className={ "sample" } style={ {
+				overflow: "hidden",
+				position: "absolute",
+				top     : "0px",
+				left    : "200px",
+				width   : "calc( 100% - 200px )",
+				height  : "100%"
+			} }>
+				<Comp/>
+			</div>
 		</div>
 	}
 }
 
 function renderSamples() {
+	
+	
 	ReactDom.render(
 		<App/>
 		, document.getElementById('app'));

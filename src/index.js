@@ -1,45 +1,33 @@
 /*
- * Copyright (c)  2018 Wise Wild Web .
  *
- *  MIT License
+ * Copyright (C) 2019 Nathan Braun
  *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to deal
- *  in the Software without restriction, including without limitation the rights
- *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *  copies of the Software, and to permit persons to whom the Software is
- *  furnished to do so, subject to the following conditions:
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  The above copyright notice and this permission notice shall be included in all
- *  copies or substantial portions of the Software.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *  SOFTWARE.
- *
- * @author : Nathanael Braun
- * @contact : caipilabs@gmail.com
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import RS          from "rescope";
-import * as RTools from "./ReactHocs";
+import React          from 'react';
+import asTweener      from './asTweener';
+import TweenRef       from './TweenRef';
+import TweenerContext from './TweenerContext';
 
-RS.Component    = RTools.Component;
-RS.reScopeProps = RTools.reScopeProps;
-RS.reScope      = RTools.reScope;
-RS.scopeToProps = RTools.reScopeProps;
-RS.propsToScope = RTools.propsToScope;
-RS.propsToStore = RTools.propsToStore;
-export *           from "rescope";
-export const Component    = RTools.Component;
-export const reScopeProps = RTools.reScopeProps;
-export const reScope      = RTools.reScope;
-export const scopeToProps = RTools.reScopeProps;
-export const propsToScope = RTools.propsToScope;
-export const propsToStore = RTools.propsToStore;
-export default RS;
+const Component = asTweener({})(React.Component);
 
+class TweenableComponent extends Component {
+	render() {
+		return 'Should have some render fn here in ' + this.constructor.displayName;
+	}
+}
+
+export {asTweener, TweenRef, Component, TweenerContext};
+export default TweenableComponent;
