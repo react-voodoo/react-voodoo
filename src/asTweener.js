@@ -120,6 +120,7 @@ export default function asTweener( ...argz ) {
 					this._.tweenRefMaps[t] = { ...this._.tweenRefOrigin[t] };
 				}
 			)
+			this._updateTweenRefs();
 		}
 		
 		/**
@@ -605,9 +606,10 @@ export default function asTweener( ...argz ) {
 		}
 		
 		applyTweenState( id, map, reset ) {
-			var me = this;
-			Object.keys(map).map(
-				( p ) => me._tweenRefMaps[id][p] = (!reset && me._tweenRefMaps[id][p] || 0) + map[p]
+			let tmap = {}, initials = {};
+			deMuxTween(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id])
+			Object.keys(tmap).map(
+				( p ) => this._.tweenRefMaps[id][p] = (!reset && this._.tweenRefMaps[id][p] || initials[p]) + tmap[p]
 			);
 		}
 		
