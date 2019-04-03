@@ -1,15 +1,19 @@
-/*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
+/*!
+ * react-rtween
+ * Copyright (C) 2019  Nathanael Braun
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -1094,309 +1098,6 @@ module.exports = {
 	channel: ['red', 'green', 'blue'],
 	alias: ['RGB']
 };
-
-
-/***/ }),
-
-/***/ "./node_modules/css-animated-properties/index.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/css-animated-properties/index.js ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*!
- * https://github.com/gilmoreorless/css-animated-properties
- * MIT Licensed: http://gilmoreorless.mit-license.org/
- */
-(function (exports) {
-    /**
-     * Data collated from multiple W3C specs: https://www.w3.org/Style/CSS/current-work
-     * Only specs that are Candidate Recommendations or better are counted, with the
-     * exception of some Working Drafts that have a lot of traction in browser implementations.
-     * So far the WD specs included here are Multi-column Layout, Text Level 3, and Transforms.
-     *
-     * If a property is not in this list, it's not able to be consistently animated.
-     * Technically `background-image` can be animated in some ways, but against the spec.
-     *
-     * @type {Object}
-     */
-    var props = exports.animatedProperties = {
-
-        /*** Recommendations (REC) ***/
-
-        // CSS 2.1: https://www.w3.org/TR/css3-transitions/#animatable-types
-        // --Box model
-        'margin': {properties: ['margin-top', 'margin-right', 'margin-bottom', 'margin-left']},
-        'margin-bottom': {types: ['length']},
-        'margin-left': {types: ['length']},
-        'margin-right': {types: ['length']},
-        'margin-top': {types: ['length']},
-        'padding': {properties: ['padding-top', 'padding-right', 'padding-bottom', 'padding-left']},
-        'padding-bottom': {types: ['length']},
-        'padding-left': {types: ['length']},
-        'padding-right': {types: ['length']},
-        'padding-top': {types: ['length']},
-        // --Visual formatting model
-        'bottom': {types: ['length-percentage-calc']},
-        'left': {types: ['length-percentage-calc']},
-        'right': {types: ['length-percentage-calc']},
-        'top': {types: ['length-percentage-calc']},
-        'z-index': {types: ['integer']},
-        // --Visual formatting model details
-        'width': {types: ['length-percentage-calc']},
-        'max-width': {types: ['length-percentage-calc']},
-        'min-width': {types: ['length-percentage-calc']},
-        'height': {types: ['length-percentage-calc']},
-        'max-height': {types: ['length-percentage-calc']},
-        'min-height': {types: ['length-percentage-calc']},
-        'line-height': {types: ['number', 'length']},
-        'vertical-align': {types: ['length']},
-        // --Visual effects
-        'visibility': {types: ['visibility']},
-        // --Tables
-        'border-spacing': {types: ['length'], multiple: true},
-
-        // CSS Color Module Level 3: https://www.w3.org/TR/css3-color/
-        'color': {types: ['color']},
-        'opacity': {types: ['number']},
-
-
-        /*** Candidate Recommendations (CR) ***/
-
-        // CSS Backgrounds and Borders Module Level 3: https://www.w3.org/TR/css3-background/
-        'background': {properties: ['background-color', 'background-position', 'background-size']},
-        'background-color': {types: ['color']},
-        'background-position': {types: ['length-percentage-calc'], multiple: true, repeatable: true},
-        'background-size': {types: ['length-percentage-calc'], multiple: true, repeatable: true},
-        // --Border combinations
-        'border': {properties: ['border-color', 'border-width']},
-        'border-bottom': {properties: ['border-bottom-color', 'border-bottom-width']},
-        'border-left': {properties: ['border-left-color', 'border-left-width']},
-        'border-right': {properties: ['border-right-color', 'border-right-width']},
-        'border-top': {properties: ['border-top-color', 'border-top-width']},
-        'border-color': {properties: ['border-top-color', 'border-right-color', 'border-bottom-color', 'border-left-color']},
-        'border-width': {properties: ['border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width']},
-        // --Border details
-        'border-bottom-color': {types: ['color']},
-        'border-left-color': {types: ['color']},
-        'border-right-color': {types: ['color']},
-        'border-top-color': {types: ['color']},
-        'border-bottom-width': {types: ['length']},
-        'border-left-width': {types: ['length']},
-        'border-right-width': {types: ['length']},
-        'border-top-width': {types: ['length']},
-        // --Border radius
-        'border-radius': {properties: ['border-top-left-radius', 'border-top-right-radius', 'border-bottom-right-radius', 'border-bottom-left-radius']},
-        'border-top-left-radius': {types: ['length-percentage-calc'], multiple: true},
-        'border-top-right-radius': {types: ['length-percentage-calc'], multiple: true},
-        'border-bottom-right-radius': {types: ['length-percentage-calc'], multiple: true},
-        'border-bottom-left-radius': {types: ['length-percentage-calc'], multiple: true},
-        // --Box shadow
-        'box-shadow': {types: ['shadow-list']},
-
-        // CSS Basic User Interface Module Level 3 (CSS3 UI): https://www.w3.org/TR/css3-ui/
-        'caret-color': {types: ['color']},
-        'outline': {properties: ['outline-color', 'outline-width']},
-        'outline-color': {types: ['color']},
-        'outline-width': {types: ['length']},
-        'outline-offset': {types: ['length']},
-
-        // CSS Flexible Box Layout Module Level 1: https://www.w3.org/TR/css3-flexbox/
-        'flex': {properties: ['flex-grow', 'flex-shrink', 'flex-basis']},
-        'flex-grow': {types: ['number']},
-        'flex-shrink': {types: ['number']},
-        'flex-basis': {types: ['length-percentage-calc']},
-        'order': {types: ['integer']},
-
-        // CSS Fonts Module Level 3: https://www.w3.org/TR/css3-fonts/
-        'font': {properties: ['font-weight', 'font-stretch', 'font-size', 'line-height']},
-        'font-weight': {types: ['font-weight']},
-        'font-stretch': {types: ['font-stretch']},
-        'font-size': {types: ['length']},
-        'font-size-adjust': {types: ['number']},
-
-        // CSS Grid Layout Module Level 1: https://www.w3.org/TR/css-grid-1/
-        'grid-template-columns': {types: ['length-percentage-calc'], multiple: true},
-        'grid-template-rows': {types: ['length-percentage-calc'], multiple: true},
-        'grid-template': {properties: ['grid-template-rows', 'grid-template-columns']},
-        'grid': {properties: ['grid-template-rows', 'grid-template-columns']},
-        'grid-row-gap': {types: ['length-percentage-calc']},
-        'grid-column-gap': {types: ['length-percentage-calc']},
-        'grid-gap': {properties: ['grid-row-gap', 'grid-column-gap']},
-
-        // CSS Masking Module Level 1: https://www.w3.org/TR/css-masking/
-        'clip': {types: ['rectangle']},  // Deprecated
-        'clip-path': {types: ['basic-shape']},
-        'mask': {properties: ['mask-position', 'mask-size']},
-        'mask-position': {types: ['length-percentage-calc'], multiple: true, repeatable: true},
-        'mask-size': {types: ['length-percentage-calc'], multiple: true, repeatable: true},
-
-        // CSS Shapes Module Level 1: https://www.w3.org/TR/css-shapes-1/
-        'shape-outside': {types: ['basic-shape']},
-        'shape-margin': {types: ['length-percentage-calc']},
-        'shape-image-threshold': {types: ['number']},
-
-        // CSS Scroll Snap Module Level 1: https://www.w3.org/TR/css-scroll-snap-1/
-        'scroll-padding': {properties: ['scroll-padding-top', 'scroll-padding-right', 'scroll-padding-bottom', 'scroll-padding-left']},
-        'scroll-padding-top': {types: ['length-percentage-calc']},
-        'scroll-padding-right': {types: ['length-percentage-calc']},
-        'scroll-padding-bottom': {types: ['length-percentage-calc']},
-        'scroll-padding-left': {types: ['length-percentage-calc']},
-        'scroll-padding-block': {properties: ['scroll-padding-block-start', 'scroll-padding-block-end']},
-        'scroll-padding-block-start': {types: ['length-percentage-calc']},
-        'scroll-padding-block-end': {types: ['length-percentage-calc']},
-        'scroll-padding-inline': {properties: ['scroll-padding-inline-start', 'scroll-padding-inline-end']},
-        'scroll-padding-inline-start': {types: ['length-percentage-calc']},
-        'scroll-padding-inline-end': {types: ['length-percentage-calc']},
-        'scroll-snap-margin': {properties: ['scroll-snap-margin-top', 'scroll-snap-margin-right', 'scroll-snap-margin-bottom', 'scroll-snap-margin-left']},
-        'scroll-snap-margin-top': {types: ['length']},
-        'scroll-snap-margin-right': {types: ['length']},
-        'scroll-snap-margin-bottom': {types: ['length']},
-        'scroll-snap-margin-left': {types: ['length']},
-        'scroll-snap-margin-block': {properties: ['scroll-snap-margin-block-start', 'scroll-snap-margin-block-end']},
-        'scroll-snap-margin-block-start': {types: ['length']},
-        'scroll-snap-margin-block-end': {types: ['length']},
-        'scroll-snap-margin-inline': {properties: ['scroll-snap-margin-inline-start', 'scroll-snap-margin-inline-end']},
-        'scroll-snap-margin-inline-start': {types: ['length']},
-        'scroll-snap-margin-inline-end': {types: ['length']},
-
-        // CSS Text Decoration Module Level 3: https://www.w3.org/TR/css-text-decor-3/
-        'text-decoration': {properties: ['text-decoration-color']},
-        'text-decoration-color': {types: ['color']},
-        'text-emphasis': {properties: ['text-emphasis-color']},
-        'text-emphasis-color': {types: ['color']},
-        'text-shadow': {types: ['shadow-list']},
-
-
-        /*** Working Drafts (WD) ***/
-
-        // CSS Multi-column Layout Module Level 1: https://www.w3.org/TR/css3-multicol/ (WD)
-        'columns': {properties: ['column-width', 'column-count']},
-        'column-width': {types: ['length']},
-        'column-count': {types: ['integer']},
-        'column-gap': {types: ['length-percentage-calc']},
-        'column-rule': {properties: ['column-rule-color', 'column-rule-width']},
-        'column-rule-color': {types: ['color']},
-        'column-rule-width': {types: ['length']},
-
-        // CSS Text Module Level 3: https://www.w3.org/TR/css3-text/
-        'letter-spacing': {types: ['length']},
-        'tab-size': {types: ['length']},
-        'text-indent': {types: ['length-percentage-calc']},
-        'word-spacing': {types: ['length-percentage-calc']},
-
-        // CSS Transforms Module Level 1: https://www.w3.org/TR/css3-transforms/
-        'transform': {types: ['transform']},
-        'transform-origin': {types: ['length-percentage-calc'], multiple: true},
-        'perspective': {types: ['length']},
-        'perspective-origin': {types: ['length-percentage-calc'], multiple: true},
-    };
-
-    /**
-     * List of animatable types used by properties, with descriptions of how to interpolate each type.
-     * Data taken from https://www.w3.org/TR/css3-transitions/#animatable-types and some other W3C specs.
-     *
-     * @type {Object}
-     */
-    exports.types = {
-        'color': {
-            name: 'color',
-            href: 'https://www.w3.org/TR/css3-transitions/#animtype-color'
-        },
-        'length': {
-            name: 'length',
-            href: 'https://www.w3.org/TR/css3-transitions/#animtype-length'
-        },
-        'percentage': {
-            name: 'percentage',
-            href: 'https://www.w3.org/TR/css3-transitions/#animtype-percentage'
-        },
-        'length-percentage-calc': {
-            name: 'length, percentage, or calc',
-            href: 'https://www.w3.org/TR/css3-transitions/#animtype-lpcalc'
-        },
-        'integer': {
-            name: 'integer',
-            href: 'https://www.w3.org/TR/css3-transitions/#animtype-integer'
-        },
-        'font-weight': {
-            name: 'font weight',
-            href: 'https://www.w3.org/TR/css3-transitions/#animtype-font-weight'
-        },
-        'number': {
-            name: 'number',
-            href: 'https://www.w3.org/TR/css3-transitions/#animtype-number'
-        },
-        'rectangle': {
-            name: 'rectangle',
-            href: 'https://www.w3.org/TR/css3-transitions/#animtype-rect'
-        },
-        'visibility': {
-            name: 'visibility',
-            href: 'https://www.w3.org/TR/css3-transitions/#animtype-visibility'
-        },
-        'shadow-list': {
-            name: 'shadow list',
-            href: 'https://www.w3.org/TR/css3-transitions/#animtype-shadow-list'
-        },
-        // Other specs
-        'transform': {
-            name: 'transform',
-            href: 'https://www.w3.org/TR/css3-transforms/#interpolation-of-transforms'
-        },
-        'font-stretch': {
-            name: 'font stretch',
-            href: 'https://www.w3.org/TR/css3-fonts/#font-stretch-animation'
-        },
-        'basic-shape': {
-            name: 'basic shape',
-            href: 'https://www.w3.org/TR/css-shapes-1/#basic-shape-interpolation'
-        },
-    };
-
-    /**
-     * Check if a CSS property can be animated
-     * @param  {string} property CSS property name
-     * @return {boolean}         True if the property can be animated
-     */
-    exports.canAnimate = function (property) {
-        return props.hasOwnProperty(property);
-    };
-
-    /**
-     * Get a definition of how a CSS property can be animated
-     * @param  {string} property CSS property name
-     * @param  {boolean} expand  Expand definitions for sub-properties, when available
-     * @return {object}          Property definition, or null if it can't be animated
-     */
-    exports.getProperty = function (property, expand) {
-        if (!exports.canAnimate(property)) {
-            return null;
-        }
-        var prop = props[property];
-        var ret = {name: property};
-        Object.keys(prop).forEach(function (key) {
-            var value = prop[key];
-            if (Array.isArray(value)) {
-                if (key === 'properties' && expand) {
-                    value = value.map(function (subProp) {
-                        return exports.getProperty(subProp, expand);
-                    });
-                } else {
-                    value = value.slice(); // clone
-                }
-            }
-            ret[key] = value;
-        });
-        return ret;
-    };
-})((function (root) {
-    // CommonJS
-    if ( true && module.exports !== undefined) return module.exports;
-    // Global `cssAnimProps`
-    return (root.cssAnimProps = {});
-})(this));
 
 
 /***/ }),
@@ -3155,7 +2856,7 @@ module.exports = ReactPropTypesSecret;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.8.5
+/** @license React v16.8.6
  * react-dom.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -8489,15 +8190,29 @@ function isInDocument(node) {
   return node && node.ownerDocument && containsNode(node.ownerDocument.documentElement, node);
 }
 
+function isSameOriginFrame(iframe) {
+  try {
+    // Accessing the contentDocument of a HTMLIframeElement can cause the browser
+    // to throw, e.g. if it has a cross-origin src attribute.
+    // Safari will show an error in the console when the access results in "Blocked a frame with origin". e.g:
+    // iframe.contentDocument.defaultView;
+    // A safety way is to access one of the cross origin properties: Window or Location
+    // Which might result in "SecurityError" DOM Exception and it is compatible to Safari.
+    // https://html.spec.whatwg.org/multipage/browsers.html#integration-with-idl
+
+    return typeof iframe.contentWindow.location.href === 'string';
+  } catch (err) {
+    return false;
+  }
+}
+
 function getActiveElementDeep() {
   var win = window;
   var element = getActiveElement();
   while (element instanceof win.HTMLIFrameElement) {
-    // Accessing the contentDocument of a HTMLIframeElement can cause the browser
-    // to throw, e.g. if it has a cross-origin src attribute
-    try {
-      win = element.contentDocument.defaultView;
-    } catch (e) {
+    if (isSameOriginFrame(element)) {
+      win = element.contentWindow;
+    } else {
       return element;
     }
     element = getActiveElement(win.document);
@@ -14457,14 +14172,35 @@ function constructClassInstance(workInProgress, ctor, props, renderExpirationTim
   var unmaskedContext = emptyContextObject;
   var context = null;
   var contextType = ctor.contextType;
-  if (typeof contextType === 'object' && contextType !== null) {
-    {
-      if (contextType.$$typeof !== REACT_CONTEXT_TYPE && !didWarnAboutInvalidateContextType.has(ctor)) {
+
+  {
+    if ('contextType' in ctor) {
+      var isValid =
+      // Allow null for conditional declaration
+      contextType === null || contextType !== undefined && contextType.$$typeof === REACT_CONTEXT_TYPE && contextType._context === undefined; // Not a <Context.Consumer>
+
+      if (!isValid && !didWarnAboutInvalidateContextType.has(ctor)) {
         didWarnAboutInvalidateContextType.add(ctor);
-        warningWithoutStack$1(false, '%s defines an invalid contextType. ' + 'contextType should point to the Context object returned by React.createContext(). ' + 'Did you accidentally pass the Context.Provider instead?', getComponentName(ctor) || 'Component');
+
+        var addendum = '';
+        if (contextType === undefined) {
+          addendum = ' However, it is set to undefined. ' + 'This can be caused by a typo or by mixing up named and default imports. ' + 'This can also happen due to a circular dependency, so ' + 'try moving the createContext() call to a separate file.';
+        } else if (typeof contextType !== 'object') {
+          addendum = ' However, it is set to a ' + typeof contextType + '.';
+        } else if (contextType.$$typeof === REACT_PROVIDER_TYPE) {
+          addendum = ' Did you accidentally pass the Context.Provider instead?';
+        } else if (contextType._context !== undefined) {
+          // <Context.Consumer>
+          addendum = ' Did you accidentally pass the Context.Consumer instead?';
+        } else {
+          addendum = ' However, it is set to an object with keys {' + Object.keys(contextType).join(', ') + '}.';
+        }
+        warningWithoutStack$1(false, '%s defines an invalid contextType. ' + 'contextType should point to the Context object returned by React.createContext().%s', getComponentName(ctor) || 'Component', addendum);
       }
     }
+  }
 
+  if (typeof contextType === 'object' && contextType !== null) {
     context = readContext(contextType);
   } else {
     unmaskedContext = getUnmaskedContext(workInProgress, ctor, true);
@@ -16258,8 +15994,8 @@ function mountReducer(reducer, initialArg, init) {
   var queue = hook.queue = {
     last: null,
     dispatch: null,
-    eagerReducer: reducer,
-    eagerState: initialState
+    lastRenderedReducer: reducer,
+    lastRenderedState: initialState
   };
   var dispatch = queue.dispatch = dispatchAction.bind(null,
   // Flow doesn't know this is non-null, but we do.
@@ -16271,6 +16007,8 @@ function updateReducer(reducer, initialArg, init) {
   var hook = updateWorkInProgressHook();
   var queue = hook.queue;
   !(queue !== null) ? invariant(false, 'Should have a queue. This is likely a bug in React. Please file an issue.') : void 0;
+
+  queue.lastRenderedReducer = reducer;
 
   if (numberOfReRenders > 0) {
     // This is a re-render. Apply the new render phase updates to the previous
@@ -16306,8 +16044,7 @@ function updateReducer(reducer, initialArg, init) {
           hook.baseState = newState;
         }
 
-        queue.eagerReducer = reducer;
-        queue.eagerState = newState;
+        queue.lastRenderedState = newState;
 
         return [newState, _dispatch];
       }
@@ -16386,8 +16123,7 @@ function updateReducer(reducer, initialArg, init) {
     hook.baseUpdate = newBaseUpdate;
     hook.baseState = newBaseState;
 
-    queue.eagerReducer = reducer;
-    queue.eagerState = _newState;
+    queue.lastRenderedState = _newState;
   }
 
   var dispatch = queue.dispatch;
@@ -16403,8 +16139,8 @@ function mountState(initialState) {
   var queue = hook.queue = {
     last: null,
     dispatch: null,
-    eagerReducer: basicStateReducer,
-    eagerState: initialState
+    lastRenderedReducer: basicStateReducer,
+    lastRenderedState: initialState
   };
   var dispatch = queue.dispatch = dispatchAction.bind(null,
   // Flow doesn't know this is non-null, but we do.
@@ -16681,21 +16417,21 @@ function dispatchAction(fiber, queue, action) {
       // The queue is currently empty, which means we can eagerly compute the
       // next state before entering the render phase. If the new state is the
       // same as the current state, we may be able to bail out entirely.
-      var _eagerReducer = queue.eagerReducer;
-      if (_eagerReducer !== null) {
+      var _lastRenderedReducer = queue.lastRenderedReducer;
+      if (_lastRenderedReducer !== null) {
         var prevDispatcher = void 0;
         {
           prevDispatcher = ReactCurrentDispatcher$1.current;
           ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
         }
         try {
-          var currentState = queue.eagerState;
-          var _eagerState = _eagerReducer(currentState, action);
+          var currentState = queue.lastRenderedState;
+          var _eagerState = _lastRenderedReducer(currentState, action);
           // Stash the eagerly computed state, and the reducer used to compute
           // it, on the update object. If the reducer hasn't changed by the
           // time we enter the render phase, then the eager state can be used
           // without calling the reducer again.
-          _update2.eagerReducer = _eagerReducer;
+          _update2.eagerReducer = _lastRenderedReducer;
           _update2.eagerState = _eagerState;
           if (is(_eagerState, currentState)) {
             // Fast path. We can bail out without scheduling React to re-render.
@@ -23874,7 +23610,7 @@ implementation) {
 
 // TODO: this is special because it gets imported during build.
 
-var ReactVersion = '16.8.5';
+var ReactVersion = '16.8.6';
 
 // TODO: This type is shared between the reconciler and ReactDOM, but will
 // eventually be lifted out to the renderer.
@@ -24486,7 +24222,7 @@ if (true) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.8.5
+/** @license React v16.8.6
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -24508,7 +24244,7 @@ var checkPropTypes = __webpack_require__(/*! prop-types/checkPropTypes */ "./nod
 
 // TODO: this is special because it gets imported during build.
 
-var ReactVersion = '16.8.5';
+var ReactVersion = '16.8.6';
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 // nor polyfill, then a plain number is used for performance.
@@ -27191,7 +26927,7 @@ module.exports = exports['default'];
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v0.13.5
+/** @license React v0.13.6
  * scheduler-tracing.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -27626,7 +27362,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/** @license React v0.13.5
+/* WEBPACK VAR INJECTION */(function(global) {/** @license React v0.13.6
  * scheduler.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -29176,7 +28912,7 @@ req.keys().forEach(function (key) {
 
   if (!_exports[name]) {
     mod = req(key);
-    _exports[name] = Object.keys(mod).length === 1 && mod.default || mod;
+    _exports[name] = Object.keys(mod).length === 1 && mod["default"] || mod;
   }
 });
 var $all = _exports.$all;
@@ -29243,7 +28979,7 @@ req.keys().forEach(function (key) {
 
   if (!_exports[name]) {
     mod = req(key);
-    _exports[name] = Object.keys(mod).length === 1 && mod.default || mod;
+    _exports[name] = Object.keys(mod).length === 1 && mod["default"] || mod;
   }
 });
 var color = _exports.color;
@@ -30455,8 +30191,6 @@ webpackContext.id = "./src/helpers/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.j
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var css_animated_properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! css-animated-properties */ "./node_modules/css-animated-properties/index.js");
-/* harmony import */ var css_animated_properties__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(css_animated_properties__WEBPACK_IMPORTED_MODULE_1__);
 (function () {
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
   enterModule && enterModule(module);
@@ -30475,7 +30209,6 @@ __webpack_require__.r(__webpack_exports__);
  *  @author : Nathanael Braun
  *  @contact : n8tz.js@gmail.com
  */
-
 
 
 var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
@@ -30954,8 +30687,6 @@ var _default = function _default(key, value, target, data, initials) {
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var css_animated_properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! css-animated-properties */ "./node_modules/css-animated-properties/index.js");
-/* harmony import */ var css_animated_properties__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(css_animated_properties__WEBPACK_IMPORTED_MODULE_1__);
 (function () {
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
   enterModule && enterModule(module);
@@ -30989,8 +30720,6 @@ var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 
   width: 'px',
   height: 'px'
 };
-
-
 
 function demux(key, tweenable, target, data, box) {
   //if (!tweenable[key])
@@ -31910,21 +31639,17 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
  *
- * Copyright (C) 2019 Nathan Braun
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
  */
 
 

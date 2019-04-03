@@ -1,15 +1,19 @@
-/*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
+/*!
+ * react-rtween
+ * Copyright (C) 2019  Nathanael Braun
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
@@ -126,7 +130,7 @@ req.keys().forEach(function (key) {
 
   if (!_exports[name]) {
     mod = req(key);
-    _exports[name] = Object.keys(mod).length === 1 && mod.default || mod;
+    _exports[name] = Object.keys(mod).length === 1 && mod["default"] || mod;
   }
 });
 var $all = _exports.$all;
@@ -161,7 +165,7 @@ req.keys().forEach(function (key) {
 
   if (!_exports[name]) {
     mod = req(key);
-    _exports[name] = Object.keys(mod).length === 1 && mod.default || mod;
+    _exports[name] = Object.keys(mod).length === 1 && mod["default"] || mod;
   }
 });
 var color = _exports.color;
@@ -1251,8 +1255,6 @@ webpackContext.id = "./src/helpers/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.j
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "undefined?63a5");
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var css_animated_properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! css-animated-properties */ "undefined?4ff7");
-/* harmony import */ var css_animated_properties__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(css_animated_properties__WEBPACK_IMPORTED_MODULE_1__);
 /*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
@@ -1266,7 +1268,6 @@ __webpack_require__.r(__webpack_exports__);
  *  @author : Nathanael Braun
  *  @contact : n8tz.js@gmail.com
  */
-
 
 
 var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
@@ -1635,8 +1636,6 @@ function demux(key, tweenable, target, data) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "undefined?63a5");
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var css_animated_properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! css-animated-properties */ "undefined?4ff7");
-/* harmony import */ var css_animated_properties__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(css_animated_properties__WEBPACK_IMPORTED_MODULE_1__);
 /*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
@@ -1665,8 +1664,6 @@ var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 
   width: 'px',
   height: 'px'
 };
-
-
 
 function demux(key, tweenable, target, data, box) {
   //if (!tweenable[key])
@@ -2472,21 +2469,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
  *
- * Copyright (C) 2019 Nathan Braun
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
  */
 
 
@@ -3145,17 +3138,6 @@ module.exports = require("@babel/runtime/helpers/createClass");
 /***/ (function(module, exports) {
 
 module.exports = require("@babel/runtime/helpers/toConsumableArray");
-
-/***/ }),
-
-/***/ "undefined?4ff7":
-/*!******************************************!*\
-  !*** external "css-animated-properties" ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("css-animated-properties");
 
 /***/ }),
 
