@@ -13,12 +13,11 @@
  */
 
 
-import camCase                                                            from "camelcase-css";
-import {expandShorthandProperty, isShorthandProperty, isValidDeclaration} from "css-property-parser";
-import kebCase                                                            from "kebab-case";
+import {expandShorthandProperty, isShorthandProperty, isValidDeclaration} from "./utils";
 import * as cssDemuxers                                                   from "./demux/(*).js";
 
 import {number, transforms} from "./demux/typed/(*).js";
+
 
 const cssDemux = {
 	...cssDemuxers,
@@ -48,7 +47,6 @@ const cssDemux = {
 	//blur         : transforms,
 	//perspective  : transforms
 };
-import cssAnimProps         from 'css-animated-properties'
 
 export function muxToCss( tweenable, css, demuxers, data, box ) {
 	Object.keys(demuxers)
@@ -63,28 +61,26 @@ export function deMuxTween( tween, deMuxedTween, initials, data, demuxers ) {
 	let fTween = {}, excluded = {};
 	Object.keys(tween)
 	      .forEach(
-		      ( _key ) => {
-			      let key = kebCase(_key);
-			      if ( cssDemux[_key] )
-				      fTween[key] = tween[_key];
-			      else if ( isValidDeclaration(key, tween[_key] + '') && cssAnimProps.getProperty(key) ) {
+		      ( key ) => {
+			      if ( cssDemux[key] )
+				      fTween[key] = tween[key];
+			      else if ( isValidDeclaration(key, tween[key]) ) {
 				      if ( isShorthandProperty(key) ) {
-					      Object.assign(fTween, expandShorthandProperty(key, tween[_key], true, true));
+					      expandShorthandProperty(key, tween[key], fTween);
 				      }
-				      else fTween[key] = tween[_key];
+				      else fTween[key] = tween[key];
 			      }
-			      else excluded[_key] = tween[_key];
+			      else excluded[key] = tween[key];
 		      });
 	
 	Object.keys(fTween)
 	      .forEach(
-		      ( _key ) => {
-			      let key = camCase(_key);
+		      ( key ) => {
 			      if ( cssDemux[key] ) {//key, value, target, data, initials
-				      demuxers[key] = cssDemux[key](key, fTween[_key], deMuxedTween, data, initials)
+				      demuxers[key] = cssDemux[key](key, fTween[key], deMuxedTween, data, initials)
 			      }
 			      else
-				      demuxers[key] = cssDemux.$all(key, fTween[_key], deMuxedTween, data, initials)
+				      demuxers[key] = cssDemux.$all(key, fTween[key], deMuxedTween, data, initials)
 		      }
 	      )
 	return excluded;
@@ -103,7 +99,7 @@ export function deMuxLine( tweenLine, initials, data, demuxers ) {
 				{
 					...tween,
 					apply: demuxedTween
-				})
+				});
 			return line
 		},
 		[]

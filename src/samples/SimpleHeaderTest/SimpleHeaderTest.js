@@ -13,7 +13,7 @@
  */
 
 import React                 from "react";
-import {asTweener, TweenRef} from "Comp";
+import {asTweener, TweenRef} from "RTween";
 import "./samples.scss";
 import ReactDom              from "react-dom";
 

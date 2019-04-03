@@ -9,8 +9,13 @@
       "rootFolder": "src",
       "basedOn": "Component",
       "vars": {
+        "rootAlias": "RTween",
         "externals": true,
-        "webpackPatch": {}
+        "webpackPatch": {
+          "optimization": {
+            "usedExports": true
+          }
+        }
       },
       "extend": [
         "wpi-react-hmr-ssr"
@@ -20,6 +25,7 @@
       "rootFolder": "src",
       "basedOn": "ComponentSamples",
       "vars": {
+        "rootAlias": "RTween",
         "webpackPatch": {}
       },
       "extend": [
@@ -30,7 +36,7 @@
   "scripts": {
     "build": "wpi && wpi :samples",
     "dev": "wpi-dev-server :samples --hot",
-    "runBrowser": "start http://localhost:8080"
+    "runBrowser": "start http://localhost:9501"
   },
   "peerDependencies": {
     "react": "^16.3.2",
@@ -42,9 +48,7 @@
     "color": "^3.1.0",
     "color-convert": "^2.0.0",
     "color-rgba": "^2.1.0",
-    "css-animated-properties": "^1.1.0",
     "css-color-converter": "^1.1.0",
-    "css-property-parser": "^1.0.6",
     "d3-ease": "^1.0.5",
     "is": "^3.2.1",
     "isfunction": "0.0.6",

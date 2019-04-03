@@ -32,7 +32,6 @@ const
 		width : 'px',
 		height: 'px',
 	};
-import cssAnimProps from 'css-animated-properties'
 
 function demux( key, tweenable, target, data, box ) {
 	//if (!tweenable[key])

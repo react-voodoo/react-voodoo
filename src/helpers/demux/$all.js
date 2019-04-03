@@ -13,7 +13,6 @@
  */
 
 import is           from "is";
-import cssAnimProps from 'css-animated-properties'
 
 const
 	unitsRe         = new RegExp(
