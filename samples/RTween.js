@@ -30179,9 +30179,9 @@ function asTweener() {
           scrollableAnims: [],
           scrollPos: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
           targetPos: 0,
-          inertia: new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_13__["default"]({
+          inertia: new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_13__["default"](_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({
             value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0
-          })
+          }, opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {}))
         };
         return _.axes[axe];
       }
@@ -30220,6 +30220,7 @@ function asTweener() {
         dim.scrollPos = dim.scrollPos || 0;
         dim.scrollableArea = dim.scrollableArea || 0;
         dim.scrollableArea = Math.max(dim.scrollableArea, sl.duration);
+        dim.inertia.setBounds(0, dim.scrollableArea);
         sl.goTo(dim.scrollPos, this._.tweenRefMaps);
 
         this._updateTweenRefs();
@@ -30242,6 +30243,7 @@ function asTweener() {
           dim.scrollableArea = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(dim.scrollableAnims.map(function (tl) {
             return tl.duration;
           })).concat([0]));
+          dim.inertia.setBounds(0, dim.scrollableArea || 0);
           sl.goTo(0, this._.tweenRefMaps);
           found = true;
         }
@@ -30304,19 +30306,38 @@ function asTweener() {
         var _this9 = this;
 
         if (this._.rendered) {
-          isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this), this._.onScroll = function (e) {
+          var rootNode = react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this);
+          isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addWheelEvent(rootNode, this._.onScroll = function (e) {
             //@todo
-            var prevent;
-            prevent = _this9.dispatchScroll(e.deltaY * 5, "scrollY");
-            prevent = _this9.dispatchScroll(e.deltaX * 5, "scrollX") || prevent;
+            var prevent,
+                headTarget = e.target,
+                style; // check if there scrollable stuff in dom targets
 
-            if (prevent) {
-              e.preventDefault();
-              e.originalEvent.stopPropagation();
+            while (headTarget) {
+              style = getComputedStyle(headTarget, null);
+
+              if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
+                if (e.deltaY < 0 && headTarget.scrollTop !== 0 || e.deltaY > 0 && headTarget.scrollTop !== headTarget.scrollHeight - headTarget.offsetHeight) {
+                  return;
+                } // let the node do this scroll
+
+              }
+
+              headTarget = headTarget.parentNode;
+              if (headTarget === document || headTarget === rootNode) break;
             }
+
+            _this9.dispatchScroll(e.deltaY * 5, "scrollY");
+
+            _this9.dispatchScroll(e.deltaX * 5, "scrollX"); //
+            //if ( prevent ) {
+            //	e.preventDefault();
+            //	e.originalEvent.stopPropagation();
+            //}
+
           });
           var lastPos = {};
-          isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this), this._.dragList = {
+          isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(rootNode, this._.dragList = {
             'dragstart': function dragstart(e, touch, descr) {
               //@todo
               var prevent,
@@ -30332,14 +30353,32 @@ function asTweener() {
             },
             'drag': function drag(e, touch, descr) {
               //@todo
-              lastPos = lastPos || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, descr._startPos);
-
               var prevent,
                   x = _this9._getDim("scrollX"),
-                  y = _this9._getDim("scrollY");
+                  y = _this9._getDim("scrollY"),
+                  deltaY = descr._lastPos.y - descr._startPos.y,
+                  deltaX = descr._lastPos.x - descr._startPos.x,
+                  headTarget = e.target,
+                  style;
 
-              y.inertia.hold(lastPos.y + -(descr._lastPos.y - descr._startPos.y));
-              x.inertia.hold(lastPos.x + -(descr._lastPos.x - descr._startPos.x));
+              lastPos = lastPos || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, descr._startPos); // check if there scrollable stuff in dom targets
+
+              while (headTarget) {
+                style = getComputedStyle(headTarget, null);
+
+                if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
+                  if (deltaY > 0 && headTarget.scrollTop > 0 || deltaY < 0 && headTarget.scrollTop < headTarget.scrollHeight - headTarget.offsetHeight) {
+                    return;
+                  } // let the node do this scroll
+
+                }
+
+                headTarget = headTarget.parentNode;
+                if (headTarget === document || headTarget === rootNode) break;
+              }
+
+              y.inertia.hold(lastPos.y + -(descr._lastPos.y - descr._startPos.y) / _this9._.box.y * y.scrollableArea);
+              x.inertia.hold(lastPos.x + -(descr._lastPos.x - descr._startPos.x) / _this9._.box.x * x.scrollableArea);
               return !prevent;
             },
             'dropped': function dropped(e, touch, descr) {
@@ -30384,7 +30423,7 @@ function asTweener() {
 
         if (dim && oldPos !== newPos) {
           //console.log("dispatch " + newPos);
-          dim.inertia.dispatch(delta, 250);
+          dim.inertia.dispatch(delta, 100);
           !dim.inertiaFrame && this.applyInertia(dim, axe); //if ( this.scrollTo(newPos, 0, axe) )
           //	prevent = !(opts.propagateAxes && opts.propagateAxes[axe]);
 
@@ -30703,7 +30742,10 @@ function () {
     this.active = false;
     _.pos = opt.value || 0;
     _.refFPS = 16;
-    _.size = 1000;
+    _.min = opt.min || 0;
+    _.max = opt.max || 0;
+    _.currentStop = 0;
+    _.stops = _.conf.stops;
     _.inertiaFn = easingFn.easePolyOut;
   }
 
@@ -30733,7 +30775,8 @@ function () {
     value: function dispatch(delta) {
       var tm = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 250;
       var _ = this._,
-          now = Date.now();
+          now = Date.now(),
+          pos;
       this.active = true;
 
       if (!_.inertia || signOf(delta) !== signOf(_.targetDist)) {
@@ -30743,10 +30786,48 @@ function () {
         _.targetDist = delta;
         _.targetDuration = tm;
       } else {
+        _.inertiaStartTm = _.inertiaLastTm = now;
+        _.lastInertiaPos = 0;
         _.targetDist += delta;
         _.targetDuration += tm;
-      } //console.log(_);
+      }
 
+      _.stops && this._doSnapInertia(signOf(delta), 750); //pos =
+      //console.log(_);
+    }
+  }, {
+    key: "_doSnapInertia",
+    value: function _doSnapInertia(forceSnap) {
+      var maxDuration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
+      var _ = this._,
+          pos = _.targetDist + (_.pos - _.lastInertiaPos),
+          target,
+          mid,
+          i;
+
+      for (i = 0; i < _.stops.length; i++) {
+        if (_.stops[i] > pos) break;
+      }
+
+      if (i == _.stops.length) {
+        target = _.stops[i - 1];
+      } else if (i === 0) {
+        target = _.stops[0];
+      } else {
+        mid = _.stops[i - 1] + (_.stops[i] - _.stops[i - 1]) / 2;
+        if (forceSnap) target = forceSnap < 0 ? _.stops[i - 1] : _.stops[i];else target = pos < mid ? _.stops[i - 1] : _.stops[i];
+      }
+
+      target = target - (_.pos - _.lastInertiaPos);
+      _.targetDuration = min(maxDuration, abs(_.targetDuration / _.targetDist * target));
+      _.targetDist = target; //console.log(_);
+    }
+  }, {
+    key: "setBounds",
+    value: function setBounds(min, max) {
+      var _ = this._;
+      _.min = min;
+      _.max = max;
     }
   }, {
     key: "startMove",
@@ -30767,33 +30848,55 @@ function () {
           //e.timeStamp,
       sinceLastPos = now - _.baseTS,
           delta = pos - _.pos,
-          iVel = delta / sinceLastPos,
-          inc,
-          dist,
-          tmp; //console.log(pos);
+          iVel = delta / sinceLastPos; //console.log(pos);
 
-      _.pos = pos;
       _.lastIVelocity = iVel;
       _.lastVelocity = iVel;
       _.baseTS = now;
+
+      if (pos > _.max) {
+        pos = _.max + min((pos - _.max) / 10, 10);
+      } else if (pos < _.min) {
+        pos = _.min - min((_.min - pos) / 10, 10);
+      }
+
+      _.pos = pos;
     }
   }, {
     key: "release",
     value: function release() {
       var _ = this._,
-          velSign = signOf(_.lastVelocity); // calc momentum distance...
-      // get nb loop needed to get vel < .05
+          velSign = signOf(_.lastVelocity);
 
-      _.loopsTarget = floor(Math.log(.05 / abs(_.lastVelocity)) / Math.log(.9)); // get velocity sum basing on nb loops needed
+      if (_.pos > _.max) {
+        _.inertia = true;
+        _.lastInertiaPos = 0;
+        _.inertiaStartTm = _.inertiaLastTm = Date.now();
+        _.targetDist = _.max - _.pos;
+        _.targetDuration = abs(_.targetDist * 10);
+      } else if (_.pos < _.min) {
+        _.inertia = true;
+        _.lastInertiaPos = 0;
+        _.inertiaStartTm = _.inertiaLastTm = Date.now();
+        _.targetDist = _.pos - _.min;
+        _.targetDuration = abs(_.targetDist * 10);
+      } else {
+        // calc momentum distance...
+        // get nb loop needed to get vel < .05
+        _.loopsTarget = floor(Math.log(.05 / abs(_.lastVelocity)) / Math.log(.9)); // get velocity sum basing on nb loops needed
 
-      _.loopsVelSum = (Math.pow(.9, _.loopsTarget) - abs(_.lastVelocity)) / (.9 - 1); // deduce real dist of momentum
+        _.loopsVelSum = (Math.pow(.9, _.loopsTarget) - abs(_.lastVelocity)) / (.9 - 1); // deduce real dist of momentum
 
-      _.targetDist = _.loopsVelSum * _.refFPS * velSign / 1000 || 0;
-      _.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0; //console.log(_);
+        _.targetDist = _.loopsVelSum * _.refFPS * velSign / 1000 || 0;
+        _.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
+        if (!_.targetDuration) _.targetDuration = 50; //console.log(_);
 
-      _.inertia = true;
-      _.lastInertiaPos = 0;
-      _.inertiaStartTm = _.inertiaLastTm = Date.now(); //_.active = false;
+        _.inertia = true;
+        _.lastInertiaPos = 0;
+        _.inertiaStartTm = _.inertiaLastTm = Date.now();
+      }
+
+      _.stops && this._doSnapInertia(null, 500);
     }
   }, {
     key: "__reactstandin__regenerateByEval",
