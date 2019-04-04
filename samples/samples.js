@@ -30492,12 +30492,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var taskflows__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! taskflows */ "./node_modules/taskflows/index.js");
 /* harmony import */ var taskflows__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(taskflows__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
-/* harmony import */ var _TweenerContext__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./TweenerContext */ "./src/TweenerContext.js");
-/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! rtween */ "./node_modules/rtween/dist/rTween.js");
-/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(rtween__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./helpers */ "./src/helpers/index.js");
+/* harmony import */ var _helpers_Inertia__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./helpers/Inertia */ "./src/helpers/Inertia.js");
+/* harmony import */ var _TweenerContext__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./TweenerContext */ "./src/TweenerContext.js");
+/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! rtween */ "./node_modules/rtween/dist/rTween.js");
+/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(rtween__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./helpers */ "./src/helpers/index.js");
 
 
 
@@ -30526,6 +30527,7 @@ __webpack_require__.r(__webpack_exports__);
  *  @author : Nathanael Braun
  *  @contact : n8tz.js@gmail.com
  */
+
 
 
 
@@ -30661,13 +30663,14 @@ function asTweener() {
       }
       /**
        * Register tweenable element
+       * return its current style
        * @param id
        * @param iStyle
        * @param iMap
        * @param pos
        * @param noref
        * @param mapReset
-       * @returns {*}
+       * @returns {style,ref}
        */
 
     }, {
@@ -30703,7 +30706,7 @@ function asTweener() {
           } else {
             mapReset = noref;
             noref = pos;
-            iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id])); //this._.tweenRefUnits[id] = extractUnits(iMap);
+            iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id])); //this._.tweenRefUnits[id] = extractUnits(iMap);
           }
 
           this._.tweenRefOrigin[id] = tweenableMap;
@@ -30713,7 +30716,7 @@ function asTweener() {
           tweenableMap = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id] || Object.assign({}, initials, tweenableMap || {}); //console.log(tweenableMap, iStyle, initials, this._.muxByTarget[id], this._.muxDataByTarget[id])
           //utils.mapInBoxCSS(iMap, iStyle, this._.box, this._.tweenRefUnits[id]);
 
-          Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["muxToCss"])(tweenableMap, iStyle, this._.muxByTarget[id], this._.muxDataByTarget[id], this._.box); //this._.refs[id] = this._.refs[id] || React.createRef();
+          Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(tweenableMap, iStyle, this._.muxByTarget[id], this._.muxDataByTarget[id], this._.box); //this._.refs[id] = this._.refs[id] || React.createRef();
         }
 
         if (noref) return {
@@ -30755,10 +30758,10 @@ function asTweener() {
           initial = anim.initial;
         }
 
-        if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) {
+        if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_15___default.a)) {
           // tweenLine, initials, data, demuxers
-          sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-          sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, this._.tweenRefMaps);
+          sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
+          sl = new rtween__WEBPACK_IMPORTED_MODULE_15___default.a(sl, this._.tweenRefMaps);
           Object.keys(initials).forEach(function (id) {
             return Object.assign(_this4._.tweenRefMaps[id], _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, initials[id], _this4._.tweenRefMaps[id]));
           });
@@ -30790,9 +30793,9 @@ function asTweener() {
       key: "registerPropChangeAnim",
       value: function registerPropChangeAnim(propId, propValue, anims) {
         this._.rtweensByProp = this._.rtweensByProp || {};
-        this._.rtween = this._.rtween || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
+        this._.rtween = this._.rtween || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
         this._.rtweensByProp[propId] = this._.rtweensByProp[propId] || {};
-        this._.rtweensByProp[propId][propValue] = this._.rtweensByProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
+        this._.rtweensByProp[propId][propValue] = this._.rtweensByProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
 
         this._.rtweensByProp[propId][propValue].mount(anims);
       }
@@ -30800,9 +30803,9 @@ function asTweener() {
       key: "registerStateChangeAnim",
       value: function registerStateChangeAnim(propId, propValue, anims) {
         this._.rtweensByStateProp = this._.rtweensByStateProp || {};
-        this._.rtween = this._.rtween || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
+        this._.rtween = this._.rtween || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
         this._.rtweensByStateProp[propId] = this._.rtweensByStateProp[propId] || {};
-        this._.rtweensByStateProp[propId][propValue] = this._.rtweensByStateProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
+        this._.rtweensByStateProp[propId][propValue] = this._.rtweensByStateProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
 
         this._.rtweensByStateProp[propId][propValue].mount(anims);
       }
@@ -30820,6 +30823,7 @@ function asTweener() {
           this._.tweenRefUnits = {};
           this._.tweenEnabled = true;
           this._.tweenRefOrigin = {};
+          this._.axes = {};
           this._.muxDataByTarget = this._.muxDataByTarget || {};
           this._.tweenRefDemuxed = this._.tweenRefDemuxed || {};
           this._.tweenRefTargets = this._.tweenRefTargets || [];
@@ -30882,15 +30886,32 @@ function asTweener() {
         }
       }
     }, {
+      key: "_getDim",
+      value: function _getDim() {
+        var axe = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "scrollY";
+        var _ = this._;
+        _.axes[axe] = _.axes[axe] || {
+          scrollableAnims: [],
+          scrollPos: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
+          targetPos: 0,
+          inertia: new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_13__["default"]({
+            value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0
+          })
+        };
+        return _.axes[axe];
+      }
+    }, {
       key: "addScrollableAnim",
       value: function addScrollableAnim(anim) {
         var _this7 = this;
 
         var axe = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "scrollY";
         var size = arguments.length > 2 ? arguments[2] : undefined;
+
         var sl,
             _ = this._,
-            initials = {};
+            initials = {},
+            dim = this._getDim(axe);
 
         if (isArray(anim)) {
           sl = anim;
@@ -30899,9 +30920,9 @@ function asTweener() {
           size = anim.length;
         }
 
-        if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) {
-          sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-          sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, _.tweenRefMaps);
+        if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_15___default.a)) {
+          sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
+          sl = new rtween__WEBPACK_IMPORTED_MODULE_15___default.a(sl, _.tweenRefMaps);
           Object.keys(initials).forEach(function (id) {
             return Object.assign(_this7._.tweenRefMaps[id], _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, initials[id], _this7._.tweenRefMaps[id]));
           });
@@ -30910,19 +30931,11 @@ function asTweener() {
         this.makeTweenable();
         this.makeScrollable(); // init scroll
 
-        _.axes[axe] = _.axes[axe] || {
-          scrollableAnims: [],
-          scrollPos: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
-          targetPos: 0,
-          scrollableArea: 0
-        };
-
-        _.axes[axe].scrollableAnims.push(sl);
-
-        _.axes[axe].scrollPos = _.axes[axe].scrollPos || 0;
-        _.axes[axe].scrollableArea = _.axes[axe].scrollableArea || 0;
-        _.axes[axe].scrollableArea = Math.max(_.axes[axe].scrollableArea, sl.duration);
-        sl.goTo(_.axes[axe].scrollPos, this._.tweenRefMaps);
+        dim.scrollableAnims.push(sl);
+        dim.scrollPos = dim.scrollPos || 0;
+        dim.scrollableArea = dim.scrollableArea || 0;
+        dim.scrollableArea = Math.max(dim.scrollableArea, sl.duration);
+        sl.goTo(dim.scrollPos, this._.tweenRefMaps);
 
         this._updateTweenRefs();
 
@@ -30932,21 +30945,20 @@ function asTweener() {
       key: "rmScrollableAnim",
       value: function rmScrollableAnim(sl) {
         var axe = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "scrollY";
+
         var _ = this._,
-            found;
+            found,
+            dim = this._getDim(axe);
 
-        if (_.axes) {
-          var i = _.axes[axe].scrollableAnims.indexOf(sl);
+        var i = dim.scrollableAnims.indexOf(sl);
 
-          if (i != -1) {
-            _.axes[axe].scrollableAnims.splice(i, 1);
-
-            _.axes[axe].scrollableArea = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(_.axes[axe].scrollableAnims.map(function (tl) {
-              return tl.duration;
-            })).concat([0]));
-            sl.goTo(0, this._.tweenRefMaps);
-            found = true;
-          }
+        if (i != -1) {
+          dim.scrollableAnims.splice(i, 1);
+          dim.scrollableArea = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(dim.scrollableAnims.map(function (tl) {
+            return tl.duration;
+          })).concat([0]));
+          sl.goTo(0, this._.tweenRefMaps);
+          found = true;
         }
 
         !found && console.warn("TweenLine not found !");
@@ -30962,11 +30974,14 @@ function asTweener() {
         if (this._.axes) {
           var oldPos = this._.axes[axe].targetPos,
               setPos = function setPos(pos) {
-            return _this8._.axes[axe].scrollPos = pos, _this8.componentDidScroll && _this8.componentDidScroll(~~pos), _this8._updateTweenRefs();
+            _this8._.axes[axe].scrollPos = pos;
+            _this8.componentDidScroll && _this8.componentDidScroll(~~pos);
+
+            _this8._updateTweenRefs();
           };
 
           newPos = Math.max(0, newPos);
-          newPos = Math.min(newPos, this._.axes[axe].scrollableArea);
+          newPos = Math.min(newPos, this._.axes[axe].scrollableArea || 0);
           this._.axes[axe].targetPos = newPos;
 
           if (!ms) {
@@ -30993,20 +31008,6 @@ function asTweener() {
         if (!this._.scrollEnabled) {
           this._.scrollEnabled = true;
           this._.scrollHook = [];
-          this._.axes = {
-            scrollX: {
-              scrollableAnims: [],
-              scrollPos: opts.initialScrollPos && opts.initialScrollPos.scrollX || 0,
-              targetPos: 0,
-              scrollableArea: 0
-            },
-            scrollY: {
-              scrollableAnims: [],
-              scrollPos: opts.initialScrollPos && opts.initialScrollPos.scrollY || 0,
-              targetPos: 0,
-              scrollableArea: 0
-            }
-          };
 
           this._registerScrollListeners(); //ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
 
@@ -31018,69 +31019,49 @@ function asTweener() {
         var _this9 = this;
 
         if (this._.rendered) {
-          isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), this._.onScroll = function (e) {
+          isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this), this._.onScroll = function (e) {
             //@todo
-            var prevent,
-                axe = "scrollY",
-                oldPos = _this9._.axes[axe].scrollPos,
-                newPos = oldPos + e.deltaY;
-
-            if (oldPos !== newPos) {
-              if (!_this9.shouldApplyScroll || _this9.shouldApplyScroll(newPos, oldPos, axe)) {
-                if (_this9.scrollTo(newPos, 100, axe)) prevent = !(opts.propagateAxes && opts.propagateAxes.scrollY);
-              }
-            }
-
-            axe = "scrollX";
-            oldPos = _this9._.axes[axe].scrollPos;
-            newPos = oldPos + e.deltaX;
-
-            if (oldPos !== newPos) {
-              if (!_this9.shouldApplyScroll || _this9.shouldApplyScroll(newPos, oldPos, axe)) {
-                if (_this9.scrollTo(newPos, 100, axe)) prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX);
-              }
-            }
+            var prevent;
+            prevent = _this9.dispatchScroll(e.deltaY * 5, "scrollY");
+            prevent = _this9.dispatchScroll(e.deltaX * 5, "scrollX") || prevent;
 
             if (prevent) {
               e.preventDefault();
               e.originalEvent.stopPropagation();
             }
           });
-          var lastPos;
-          isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), this._.dragList = {
+          var lastPos = {};
+          isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this), this._.dragList = {
+            'dragstart': function dragstart(e, touch, descr) {
+              //@todo
+              var prevent,
+                  x = _this9._getDim("scrollX"),
+                  y = _this9._getDim("scrollY");
+
+              x.inertia.startMove();
+              y.inertia.startMove();
+              lastPos.x = x.scrollPos;
+              lastPos.y = y.scrollPos;
+              !x.inertiaFrame && _this9.applyInertia(x, "scrollX");
+              !y.inertiaFrame && _this9.applyInertia(y, "scrollY");
+            },
             'drag': function drag(e, touch, descr) {
               //@todo
               lastPos = lastPos || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, descr._startPos);
+
               var prevent,
-                  axe = "scrollY",
-                  delta = lastPos.y - descr._lastPos.y,
-                  oldPos = _this9._.axes[axe].scrollPos,
-                  newPos = oldPos + delta / 10;
+                  x = _this9._getDim("scrollX"),
+                  y = _this9._getDim("scrollY");
 
-              if (delta && (!_this9.shouldApplyScroll || _this9.shouldApplyScroll(newPos, oldPos, axe))) {
-                lastPos.y = descr._lastPos.y;
-                if (_this9.scrollTo(newPos, 10, axe)) prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX) && prevent;
-              }
-
-              axe = "scrollX";
-              oldPos = _this9._.axes[axe].scrollPos;
-              delta = lastPos.x - descr._lastPos.x;
-              newPos = oldPos + delta / 10;
-
-              if (delta && (!_this9.shouldApplyScroll || _this9.shouldApplyScroll(newPos, oldPos, axe))) {
-                lastPos.x = descr._lastPos.x;
-                if (_this9.scrollTo(newPos, 10, axe)) prevent = !(opts.propagateAxes && opts.propagateAxes.scrollX) && prevent;
-              }
-
-              if (prevent) {
-                e.preventDefault();
-                e.stopPropagation();
-              }
-
+              y.inertia.hold(lastPos.y + -(descr._lastPos.y - descr._startPos.y));
+              x.inertia.hold(lastPos.x + -(descr._lastPos.x - descr._startPos.x));
               return !prevent;
             },
             'dropped': function dropped(e, touch, descr) {
-              lastPos = null;
+              _this9._getDim("scrollY").inertia.release();
+
+              _this9._getDim("scrollX").inertia.release(); //lastPos = null;
+
             }
           }, null, opts.enableMouseDrag);
         } else {
@@ -31094,6 +31075,38 @@ function asTweener() {
       key: "addScrollModifier",
       value: function addScrollModifier(desc) {
         var axe = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "scrollY";
+      }
+    }, {
+      key: "applyInertia",
+      value: function applyInertia(dim, axe) {
+        if (dim.inertia.active) {
+          var x = dim.inertia.update();
+          this.scrollTo(x, 0, axe);
+          dim.inertiaFrame = window.requestAnimationFrame(this.applyInertia.bind(this, dim, axe));
+        } else {
+          dim.inertiaFrame = null;
+          console.log("complete");
+        }
+      }
+    }, {
+      key: "dispatchScroll",
+      value: function dispatchScroll(delta) {
+        var axe = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "scrollY";
+        var prevent,
+            dim = this._.axes[axe],
+            oldPos = dim && dim.scrollPos,
+            newPos = oldPos + delta;
+
+        if (dim && oldPos !== newPos) {
+          //console.log("dispatch " + newPos);
+          dim.inertia.dispatch(delta, 250);
+          !dim.inertiaFrame && this.applyInertia(dim, axe); //if ( this.scrollTo(newPos, 0, axe) )
+          //	prevent = !(opts.propagateAxes && opts.propagateAxes[axe]);
+
+          prevent = true;
+        }
+
+        return prevent;
       } // ------------------------------------------------------------
       // ------------------ Motion/FSM anims ------------------------
       // ------------------------------------------------------------
@@ -31139,7 +31152,7 @@ function asTweener() {
 
         var tmap = {},
             initials = {};
-        Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
+        Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
         Object.keys(tmap).map(function (p) {
           return _this11._.tweenRefMaps[id][p] = (!reset && _this11._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
         });
@@ -31158,7 +31171,7 @@ function asTweener() {
         if (!this._.tweenRefCSS) this.makeTweenable();
 
         if (!postPone && this.refs[target]) {
-          var node = this.refs[target] instanceof Element ? this.refs[target] : react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this.refs[target]);
+          var node = this.refs[target] instanceof Element ? this.refs[target] : react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this.refs[target]);
           node && Object.assign(node.style, style);
         }
 
@@ -31175,7 +31188,7 @@ function asTweener() {
     }, {
       key: "_updateBox",
       value: function _updateBox() {
-        var node = react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this);
+        var node = react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this);
 
         if (node) {
           this._.box.inited = true;
@@ -31203,8 +31216,8 @@ function asTweener() {
         if (this._.tweenEnabled) {
           for (var i = 0, target, node; i < this._.tweenRefTargets.length; i++) {
             target = this._.tweenRefTargets[i];
-            Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["muxToCss"])(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
-            node = this._.tweenEnabled && target == "__root" ? react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this) : this.getTweenableRef(target);
+            Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
+            node = this._.tweenEnabled && target == "__root" ? react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this) : this.getTweenableRef(target);
             node && Object.assign(node.style, this._.tweenRefCSS[target]);
           }
         }
@@ -31220,8 +31233,8 @@ function asTweener() {
         if (this._.scrollEnabled) {
           this._.scrollEnabled = false; //this._.axes          = undefined;
 
-          _utils__WEBPACK_IMPORTED_MODULE_12__["default"].rmWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), this._.onScroll);
-          _utils__WEBPACK_IMPORTED_MODULE_12__["default"].removeEvent(react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this), this._.dragList);
+          _utils__WEBPACK_IMPORTED_MODULE_12__["default"].rmWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this), this._.onScroll);
+          _utils__WEBPACK_IMPORTED_MODULE_12__["default"].removeEvent(react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this), this._.dragList);
         }
 
         _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this).apply(this, arguments);
@@ -31288,7 +31301,7 @@ function asTweener() {
       key: "render",
       value: function render() {
         //console.log('render', this.constructor.name)
-        return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_13__["default"].Provider, {
+        return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_14__["default"].Provider, {
           value: this
         }, _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "render", this).call(this));
       }
@@ -31331,6 +31344,211 @@ function asTweener() {
   leaveModule && leaveModule(module);
 })();
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/helpers/Inertia.js":
+/*!********************************!*\
+  !*** ./src/helpers/Inertia.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Inertia; });
+/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js");
+/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
+  enterModule && enterModule(module);
+})();
+
+/*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
+ */
+var signOf = function sign(x) {
+  return typeof x === 'number' ? x ? x < 0 ? -1 : 1 : x === x ? x : NaN : NaN;
+},
+    abs = Math.abs,
+    floor = Math.floor,
+    round = Math.round,
+    min = Math.min,
+    max = Math.max,
+    consts = {
+  velocityResetTm: 150,
+  clickTm: 250
+};
+
+var easingFn = __webpack_require__(/*! d3-ease */ "./node_modules/d3-ease/src/index.js");
+/**
+ * Main slideshow class
+ * @class Caipi slideshow
+ * @type {module.exports}
+ */
+
+
+var Inertia =
+/*#__PURE__*/
+function () {
+  function Inertia(opt) {
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Inertia);
+
+    var _ = this._ = {};
+
+    _.conf = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, this.constructor.config, opt);
+    this.active = false;
+    _.pos = opt.value || 0;
+    _.refFPS = 16;
+    _.size = 1000;
+    _.inertiaFn = easingFn.easePolyOut;
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Inertia, [{
+    key: "update",
+    value: function update() {
+      var at = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Date.now();
+      var _ = this._;
+      if (!_.inertia) return _.pos;
+
+      var pos = _.inertiaFn((at - _.inertiaStartTm) / _.targetDuration) * _.targetDist,
+          delta = pos - _.lastInertiaPos;
+
+      _.lastInertiaPos = pos;
+
+      if (at - _.inertiaStartTm >= _.targetDuration) {
+        _.inertia = this.active = false;
+        delta = 0;
+      }
+
+      delta = delta || 0; //console.log(_.pos + delta);
+
+      return _.pos += delta;
+    }
+  }, {
+    key: "dispatch",
+    value: function dispatch(delta) {
+      var tm = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 250;
+      var _ = this._,
+          now = Date.now();
+      this.active = true;
+
+      if (!_.inertia || signOf(delta) !== signOf(_.targetDist)) {
+        _.inertia = true;
+        _.lastInertiaPos = 0;
+        _.inertiaStartTm = _.inertiaLastTm = now;
+        _.targetDist = delta;
+        _.targetDuration = tm;
+      } else {
+        _.targetDist += delta;
+        _.targetDuration += tm;
+      } //console.log(_);
+
+    }
+  }, {
+    key: "startMove",
+    value: function startMove() {
+      var _ = this._;
+      _.baseTS = _.startTS = Date.now() / 1000;
+      _.lastVelocity = _.lastIVelocity = 0;
+      _.lastAccel = 0;
+      _.posDiff = 0;
+      this.active = true;
+      _.inertia = false;
+    }
+  }, {
+    key: "hold",
+    value: function hold(pos) {
+      var _ = this._,
+          now = Date.now() / 1000,
+          //e.timeStamp,
+      sinceLastPos = now - _.baseTS,
+          delta = pos - _.pos,
+          iVel = delta / sinceLastPos,
+          inc,
+          dist,
+          tmp; //console.log(pos);
+
+      _.pos = pos;
+      _.lastIVelocity = iVel;
+      _.lastVelocity = iVel;
+      _.baseTS = now;
+    }
+  }, {
+    key: "release",
+    value: function release() {
+      var _ = this._,
+          velSign = signOf(_.lastVelocity); // calc momentum distance...
+      // get nb loop needed to get vel < .05
+
+      _.loopsTarget = floor(Math.log(.05 / abs(_.lastVelocity)) / Math.log(.9)); // get velocity sum basing on nb loops needed
+
+      _.loopsVelSum = (Math.pow(.9, _.loopsTarget) - abs(_.lastVelocity)) / (.9 - 1); // deduce real dist of momentum
+
+      _.targetDist = _.loopsVelSum * _.refFPS * velSign / 1000 || 0;
+      _.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0; //console.log(_);
+
+      _.inertia = true;
+      _.lastInertiaPos = 0;
+      _.inertiaStartTm = _.inertiaLastTm = Date.now(); //_.active = false;
+    }
+  }, {
+    key: "__reactstandin__regenerateByEval",
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }]);
+
+  return Inertia;
+}();
+
+
+;
+
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).default;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(signOf, "signOf", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(abs, "abs", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(floor, "floor", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(round, "round", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(consts, "consts", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(Inertia, "Inertia", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
+})();
+
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
@@ -32829,17 +33047,21 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Copyright (C) 2019 Nathan Braun
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 
@@ -32974,17 +33196,21 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Copyright (C) 2019 Nathan Braun
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 
