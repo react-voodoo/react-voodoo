@@ -199,7 +199,7 @@ export default class Sample extends React.Component {
 						//translateZ: "100px"
 					}
 				} }
-				scrollableAnims={ scrollAnims }
+				tweenLines={ scrollAnims }
 			>
 				<div
 					onClick={ e => {

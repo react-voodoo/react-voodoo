@@ -83,7 +83,7 @@ function demux( key, tweenable, target, data, box ) {
 	
 }
 
-export default ( key, value, target, data, initials ) => {
+export default ( key, value, target, data, initials, forceUnits ) => {
 	
 	data["transform_head"] = data["transform_head"] || key;
 	data[key]              = data[key] || [{}];
@@ -103,7 +103,7 @@ export default ( key, value, target, data, initials ) => {
 					data[key][i][fkey] = true;
 					initials[dkey]     = 0;
 					if ( match ) {
-						if ( data[dkey] && data[dkey] !== match[2] ) {
+						if ( !forceUnits && data[dkey] && data[dkey] !== match[2] ) {
 							console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
 							target[dkey] = 0;
 						}

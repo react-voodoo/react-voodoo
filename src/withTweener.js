@@ -12,39 +12,42 @@
  *  @contact : n8tz.js@gmail.com
  */
 
+import React from "react";
+import is    from "is";
+
+import TweenerContext from "./TweenerContext";
+
+
+const SimpleObjectProto = ({}).constructor;
+
+
 /**
- * @author Nathanael BRAUN
- *
- * Date: 20/02/2016
- * Time: 14:17
+ * asTweener decorator
+ * @param argz
+ * @returns {*}
  */
-var easingFn = require('Comp/utils/easingFn');
-export default function ( target ) {
-    // dir = dir || 'top';
-
-
-    return {
-        reset : true,
-        resetAfter : true,
-        initial : {
-            [target] : {
-                opacity : 1,
-                // _z    : 0,
-                // rotateY : 0
-            }
-        },
-        anims   : [
-            {
-                type     : "Tween",
-                target   : target,
-                from     : 0,
-                duration : 500,
-                easeFn   : easingFn.easeOutSine,
-                apply    : {
-                    // _z : -.2,
-                    opacity : -1
-                }
-            }
-        ]
-    };
-};
+export default function withTweener( ...argz ) {
+	
+	let BaseComponent = (!argz[0] || argz[0].prototype instanceof React.Component || argz[0] === React.Component) && argz.shift(),
+	    opts          = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift() || {};
+	
+	if ( !(BaseComponent && (BaseComponent.prototype instanceof React.Component || BaseComponent === React.Component)) ) {
+		return function ( BaseComponent ) {
+			return withTweener(BaseComponent, opts)
+		}
+	}
+	
+	return class TweenerToProps extends React.Component {
+		static displayName = (BaseComponent.displayName || BaseComponent.name) + " (withTweener)";
+		
+		render() {
+			return <TweenerContext.Consumer>
+				{
+					tweener => {
+						return <BaseComponent { ...this.props } tweener={ tweener }/>;
+					}
+				}
+			</TweenerContext.Consumer>;
+		}
+	}
+}
