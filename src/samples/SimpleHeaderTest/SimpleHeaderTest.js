@@ -12,10 +12,10 @@
  *  @contact : n8tz.js@gmail.com
  */
 
-import React                 from "react";
-import {asTweener, TweenRef} from "RTween";
+import React                            from "react";
+import {asTweener, TweenRef, TweenAxis} from "RTween";
 import "./samples.scss";
-import ReactDom              from "react-dom";
+import ReactDom                         from "react-dom";
 
 
 var easingFn = require('d3-ease');
@@ -173,25 +173,21 @@ export default class Sample extends React.Component {
 	];
 	state                 = {};
 	
-	shouldApplyScroll( newPos, oldPos, axe ) {
-		let node = ReactDom.findDOMNode(this);
-		if ( axe !== "scrollY" )
-			return true;
-		if ( newPos > oldPos )
-			this.scrollTo(100, 250);
-		else if ( node.scrollTop < 25 )
-			this.scrollTo(0, 250);
-		else
-			this.scrollTo(50, 250);
-		
-		return oldPos < 50
-	}
-	
 	render() {
 		return <div className={ "SimpleHeader" } style={ {
 			width : "100%",
 			height: "100%"
 		} }>
+			
+			<TweenAxis
+				axe={ "scrollY" }
+				items={ [] }
+				inertia={
+					{
+						stops: [0, 50, 100]
+					}
+				}
+			/>
 			<Header/>
 			<TweenRef
 				id={ "body" }

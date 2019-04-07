@@ -61,8 +61,8 @@ export default class Inertia {
 			delta        = pos - _.lastInertiaPos;
 		_.lastInertiaPos = pos;
 		if ( (at - _.inertiaStartTm) >= _.targetDuration ) {
-			_.inertia = this.active = false;
-			delta     = 0;
+			_.inertia        = this.active = false;
+			_.lastInertiaPos = delta = 0;
 		}
 		delta = delta || 0;
 		//console.log(_.pos + delta);
@@ -90,41 +90,60 @@ export default class Inertia {
 			_.targetDist += delta;
 			_.targetDuration += tm;
 		}
-		_.stops && this._doSnapInertia(signOf(delta), 750)
+		this._doSnap(signOf(delta), 750)
 		
 		
 		//pos =
 		//console.log(_);
 	}
 	
-	_doSnapInertia( forceSnap, maxDuration = 2000 ) {
+	_doSnap( forceSnap, maxDuration = 2000 ) {
 		let _   = this._,
 		    pos = _.targetDist + (_.pos - _.lastInertiaPos), target, mid, i
 		;
-		for ( i = 0; i < _.stops.length; i++ )
-			if ( _.stops[i] > pos )
-				break;
-		if ( i == _.stops.length ) {
-			target = _.stops[i - 1];
-		}
-		else if ( i === 0 ) {
-			target = _.stops[0];
+		
+		if ( _.stops && _.stops.length ) {
+			for ( i = 0; i < _.stops.length; i++ )
+				if ( _.stops[i] > pos )
+					break;
+			if ( i == _.stops.length ) {
+				target = _.stops[i - 1];
+			}
+			else if ( i === 0 ) {
+				target = _.stops[0];
+			}
+			else {
+				mid = _.stops[i - 1] + (_.stops[i] - _.stops[i - 1]) / 2;
+				if ( forceSnap )
+					target = forceSnap < 0 ? _.stops[i - 1] : _.stops[i];
+				else
+					target = pos < mid ? _.stops[i - 1] : _.stops[i];
+			}
+			
+			
+			console.log("do snap", i, target);
+			target           = target - (_.pos - _.lastInertiaPos);
+			_.targetDuration = min(maxDuration, abs((_.targetDuration / _.targetDist) * target));
+			_.targetDist     = target;
 		}
 		else {
-			mid = _.stops[i - 1] + (_.stops[i] - _.stops[i - 1]) / 2;
-			if ( forceSnap )
-				target = forceSnap < 0 ? _.stops[i - 1] : _.stops[i];
-			else
-				target = pos < mid ? _.stops[i - 1] : _.stops[i];
+			target = ~~(_.pos - _.lastInertiaPos);
+			if ( target > _.max ) {
+				target           = _.max - target;
+				_.targetDuration = min(maxDuration, abs((_.targetDuration / _.targetDist) * target));
+				_.targetDist     = target;
+			}
+			else if ( target < _.min ) {
+				target           = _.min - target;
+				_.targetDuration = min(maxDuration, abs((_.targetDuration / _.targetDist) * target));
+				_.targetDist     = target;
+			}
+			
 		}
-		target           = target - (_.pos - _.lastInertiaPos);
-		_.targetDuration = min(maxDuration, abs((_.targetDuration / _.targetDist) * target));
-		_.targetDist     = target;
-		//console.log(_);
 	}
 	
 	setBounds( min, max ) {
-		let _      = this._;
+		let _ = this._;
 		_.min = min;
 		_.max = max;
 	}
@@ -204,6 +223,6 @@ export default class Inertia {
 			_.inertiaStartTm =
 				_.inertiaLastTm = Date.now();
 		}
-		_.stops && this._doSnapInertia(null, 500)
+		this._doSnap(null, 500)
 	}
 }

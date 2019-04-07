@@ -18,7 +18,9 @@
 
 import React          from 'react';
 import asTweener      from './asTweener';
+import TweenAxis      from './TweenAxis';
 import TweenRef       from './TweenRef';
+import withTweener    from './withTweener';
 import TweenerContext from './TweenerContext';
 
 const Component = asTweener({})(React.Component);
@@ -29,5 +31,5 @@ class TweenableComponent extends Component {
 	}
 }
 
-export {asTweener, TweenRef, Component, TweenerContext};
+export {asTweener, withTweener, TweenRef, Component, TweenerContext, TweenAxis};
 export default TweenableComponent;

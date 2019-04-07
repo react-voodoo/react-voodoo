@@ -213,6 +213,35 @@ module.exports = _defineProperty;
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/extends.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/extends.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _extends() {
+  module.exports = _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+module.exports = _extends;
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/get.js":
 /*!****************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/get.js ***!
@@ -3295,6 +3324,635 @@ checkPropTypes.resetWarningCache = function() {
 }
 
 module.exports = checkPropTypes;
+
+
+/***/ }),
+
+/***/ "./node_modules/prop-types/factoryWithTypeCheckers.js":
+/*!************************************************************!*\
+  !*** ./node_modules/prop-types/factoryWithTypeCheckers.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
+var assign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
+
+var ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "./node_modules/prop-types/lib/ReactPropTypesSecret.js");
+var checkPropTypes = __webpack_require__(/*! ./checkPropTypes */ "./node_modules/prop-types/checkPropTypes.js");
+
+var has = Function.call.bind(Object.prototype.hasOwnProperty);
+var printWarning = function() {};
+
+if (true) {
+  printWarning = function(text) {
+    var message = 'Warning: ' + text;
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+}
+
+function emptyFunctionThatReturnsNull() {
+  return null;
+}
+
+module.exports = function(isValidElement, throwOnDirectAccess) {
+  /* global Symbol */
+  var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
+  var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
+
+  /**
+   * Returns the iterator method function contained on the iterable object.
+   *
+   * Be sure to invoke the function with the iterable as context:
+   *
+   *     var iteratorFn = getIteratorFn(myIterable);
+   *     if (iteratorFn) {
+   *       var iterator = iteratorFn.call(myIterable);
+   *       ...
+   *     }
+   *
+   * @param {?object} maybeIterable
+   * @return {?function}
+   */
+  function getIteratorFn(maybeIterable) {
+    var iteratorFn = maybeIterable && (ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]);
+    if (typeof iteratorFn === 'function') {
+      return iteratorFn;
+    }
+  }
+
+  /**
+   * Collection of methods that allow declaration and validation of props that are
+   * supplied to React components. Example usage:
+   *
+   *   var Props = require('ReactPropTypes');
+   *   var MyArticle = React.createClass({
+   *     propTypes: {
+   *       // An optional string prop named "description".
+   *       description: Props.string,
+   *
+   *       // A required enum prop named "category".
+   *       category: Props.oneOf(['News','Photos']).isRequired,
+   *
+   *       // A prop named "dialog" that requires an instance of Dialog.
+   *       dialog: Props.instanceOf(Dialog).isRequired
+   *     },
+   *     render: function() { ... }
+   *   });
+   *
+   * A more formal specification of how these methods are used:
+   *
+   *   type := array|bool|func|object|number|string|oneOf([...])|instanceOf(...)
+   *   decl := ReactPropTypes.{type}(.isRequired)?
+   *
+   * Each and every declaration produces a function with the same signature. This
+   * allows the creation of custom validation functions. For example:
+   *
+   *  var MyLink = React.createClass({
+   *    propTypes: {
+   *      // An optional string or URI prop named "href".
+   *      href: function(props, propName, componentName) {
+   *        var propValue = props[propName];
+   *        if (propValue != null && typeof propValue !== 'string' &&
+   *            !(propValue instanceof URI)) {
+   *          return new Error(
+   *            'Expected a string or an URI for ' + propName + ' in ' +
+   *            componentName
+   *          );
+   *        }
+   *      }
+   *    },
+   *    render: function() {...}
+   *  });
+   *
+   * @internal
+   */
+
+  var ANONYMOUS = '<<anonymous>>';
+
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithThrowingShims.js`.
+  var ReactPropTypes = {
+    array: createPrimitiveTypeChecker('array'),
+    bool: createPrimitiveTypeChecker('boolean'),
+    func: createPrimitiveTypeChecker('function'),
+    number: createPrimitiveTypeChecker('number'),
+    object: createPrimitiveTypeChecker('object'),
+    string: createPrimitiveTypeChecker('string'),
+    symbol: createPrimitiveTypeChecker('symbol'),
+
+    any: createAnyTypeChecker(),
+    arrayOf: createArrayOfTypeChecker,
+    element: createElementTypeChecker(),
+    elementType: createElementTypeTypeChecker(),
+    instanceOf: createInstanceTypeChecker,
+    node: createNodeChecker(),
+    objectOf: createObjectOfTypeChecker,
+    oneOf: createEnumTypeChecker,
+    oneOfType: createUnionTypeChecker,
+    shape: createShapeTypeChecker,
+    exact: createStrictShapeTypeChecker,
+  };
+
+  /**
+   * inlined Object.is polyfill to avoid requiring consumers ship their own
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
+   */
+  /*eslint-disable no-self-compare*/
+  function is(x, y) {
+    // SameValue algorithm
+    if (x === y) {
+      // Steps 1-5, 7-10
+      // Steps 6.b-6.e: +0 != -0
+      return x !== 0 || 1 / x === 1 / y;
+    } else {
+      // Step 6.a: NaN == NaN
+      return x !== x && y !== y;
+    }
+  }
+  /*eslint-enable no-self-compare*/
+
+  /**
+   * We use an Error-like object for backward compatibility as people may call
+   * PropTypes directly and inspect their output. However, we don't use real
+   * Errors anymore. We don't inspect their stack anyway, and creating them
+   * is prohibitively expensive if they are created too often, such as what
+   * happens in oneOfType() for any type before the one that matched.
+   */
+  function PropTypeError(message) {
+    this.message = message;
+    this.stack = '';
+  }
+  // Make `instanceof Error` still work for returned errors.
+  PropTypeError.prototype = Error.prototype;
+
+  function createChainableTypeChecker(validate) {
+    if (true) {
+      var manualPropTypeCallCache = {};
+      var manualPropTypeWarningCount = 0;
+    }
+    function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
+      componentName = componentName || ANONYMOUS;
+      propFullName = propFullName || propName;
+
+      if (secret !== ReactPropTypesSecret) {
+        if (throwOnDirectAccess) {
+          // New behavior only for users of `prop-types` package
+          var err = new Error(
+            'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+            'Use `PropTypes.checkPropTypes()` to call them. ' +
+            'Read more at http://fb.me/use-check-prop-types'
+          );
+          err.name = 'Invariant Violation';
+          throw err;
+        } else if ( true && typeof console !== 'undefined') {
+          // Old behavior for people using React.PropTypes
+          var cacheKey = componentName + ':' + propName;
+          if (
+            !manualPropTypeCallCache[cacheKey] &&
+            // Avoid spamming the console because they are often not actionable except for lib authors
+            manualPropTypeWarningCount < 3
+          ) {
+            printWarning(
+              'You are manually calling a React.PropTypes validation ' +
+              'function for the `' + propFullName + '` prop on `' + componentName  + '`. This is deprecated ' +
+              'and will throw in the standalone `prop-types` package. ' +
+              'You may be seeing this warning due to a third-party PropTypes ' +
+              'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.'
+            );
+            manualPropTypeCallCache[cacheKey] = true;
+            manualPropTypeWarningCount++;
+          }
+        }
+      }
+      if (props[propName] == null) {
+        if (isRequired) {
+          if (props[propName] === null) {
+            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
+          }
+          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
+        }
+        return null;
+      } else {
+        return validate(props, propName, componentName, location, propFullName);
+      }
+    }
+
+    var chainedCheckType = checkType.bind(null, false);
+    chainedCheckType.isRequired = checkType.bind(null, true);
+
+    return chainedCheckType;
+  }
+
+  function createPrimitiveTypeChecker(expectedType) {
+    function validate(props, propName, componentName, location, propFullName, secret) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== expectedType) {
+        // `propValue` being instance of, say, date/regexp, pass the 'object'
+        // check, but we can offer a more precise error message here rather than
+        // 'of type `object`'.
+        var preciseType = getPreciseType(propValue);
+
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createAnyTypeChecker() {
+    return createChainableTypeChecker(emptyFunctionThatReturnsNull);
+  }
+
+  function createArrayOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
+      }
+      var propValue = props[propName];
+      if (!Array.isArray(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
+      }
+      for (var i = 0; i < propValue.length; i++) {
+        var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
+        if (error instanceof Error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createElementTypeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      if (!isValidElement(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createElementTypeTypeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      if (!ReactIs.isValidElementType(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement type.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createInstanceTypeChecker(expectedClass) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!(props[propName] instanceof expectedClass)) {
+        var expectedClassName = expectedClass.name || ANONYMOUS;
+        var actualClassName = getClassName(props[propName]);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createEnumTypeChecker(expectedValues) {
+    if (!Array.isArray(expectedValues)) {
+      if (true) {
+        if (arguments.length > 1) {
+          printWarning(
+            'Invalid arguments supplied to oneOf, expected an array, got ' + arguments.length + ' arguments. ' +
+            'A common mistake is to write oneOf(x, y, z) instead of oneOf([x, y, z]).'
+          );
+        } else {
+          printWarning('Invalid argument supplied to oneOf, expected an array.');
+        }
+      }
+      return emptyFunctionThatReturnsNull;
+    }
+
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      for (var i = 0; i < expectedValues.length; i++) {
+        if (is(propValue, expectedValues[i])) {
+          return null;
+        }
+      }
+
+      var valuesString = JSON.stringify(expectedValues, function replacer(key, value) {
+        var type = getPreciseType(value);
+        if (type === 'symbol') {
+          return String(value);
+        }
+        return value;
+      });
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + String(propValue) + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createObjectOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
+      }
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
+      }
+      for (var key in propValue) {
+        if (has(propValue, key)) {
+          var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+          if (error instanceof Error) {
+            return error;
+          }
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createUnionTypeChecker(arrayOfTypeCheckers) {
+    if (!Array.isArray(arrayOfTypeCheckers)) {
+       true ? printWarning('Invalid argument supplied to oneOfType, expected an instance of array.') : undefined;
+      return emptyFunctionThatReturnsNull;
+    }
+
+    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+      var checker = arrayOfTypeCheckers[i];
+      if (typeof checker !== 'function') {
+        printWarning(
+          'Invalid argument supplied to oneOfType. Expected an array of check functions, but ' +
+          'received ' + getPostfixForTypeWarning(checker) + ' at index ' + i + '.'
+        );
+        return emptyFunctionThatReturnsNull;
+      }
+    }
+
+    function validate(props, propName, componentName, location, propFullName) {
+      for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+        var checker = arrayOfTypeCheckers[i];
+        if (checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret) == null) {
+          return null;
+        }
+      }
+
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createNodeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!isNode(props[propName])) {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createShapeTypeChecker(shapeTypes) {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      }
+      for (var key in shapeTypes) {
+        var checker = shapeTypes[key];
+        if (!checker) {
+          continue;
+        }
+        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+        if (error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createStrictShapeTypeChecker(shapeTypes) {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      }
+      // We need to check all keys in case some are required but missing from
+      // props.
+      var allKeys = assign({}, props[propName], shapeTypes);
+      for (var key in allKeys) {
+        var checker = shapeTypes[key];
+        if (!checker) {
+          return new PropTypeError(
+            'Invalid ' + location + ' `' + propFullName + '` key `' + key + '` supplied to `' + componentName + '`.' +
+            '\nBad object: ' + JSON.stringify(props[propName], null, '  ') +
+            '\nValid keys: ' +  JSON.stringify(Object.keys(shapeTypes), null, '  ')
+          );
+        }
+        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+        if (error) {
+          return error;
+        }
+      }
+      return null;
+    }
+
+    return createChainableTypeChecker(validate);
+  }
+
+  function isNode(propValue) {
+    switch (typeof propValue) {
+      case 'number':
+      case 'string':
+      case 'undefined':
+        return true;
+      case 'boolean':
+        return !propValue;
+      case 'object':
+        if (Array.isArray(propValue)) {
+          return propValue.every(isNode);
+        }
+        if (propValue === null || isValidElement(propValue)) {
+          return true;
+        }
+
+        var iteratorFn = getIteratorFn(propValue);
+        if (iteratorFn) {
+          var iterator = iteratorFn.call(propValue);
+          var step;
+          if (iteratorFn !== propValue.entries) {
+            while (!(step = iterator.next()).done) {
+              if (!isNode(step.value)) {
+                return false;
+              }
+            }
+          } else {
+            // Iterator will provide entry [k,v] tuples rather than values.
+            while (!(step = iterator.next()).done) {
+              var entry = step.value;
+              if (entry) {
+                if (!isNode(entry[1])) {
+                  return false;
+                }
+              }
+            }
+          }
+        } else {
+          return false;
+        }
+
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  function isSymbol(propType, propValue) {
+    // Native Symbol.
+    if (propType === 'symbol') {
+      return true;
+    }
+
+    // falsy value can't be a Symbol
+    if (!propValue) {
+      return false;
+    }
+
+    // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
+    if (propValue['@@toStringTag'] === 'Symbol') {
+      return true;
+    }
+
+    // Fallback for non-spec compliant Symbols which are polyfilled.
+    if (typeof Symbol === 'function' && propValue instanceof Symbol) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // Equivalent of `typeof` but with special handling for array and regexp.
+  function getPropType(propValue) {
+    var propType = typeof propValue;
+    if (Array.isArray(propValue)) {
+      return 'array';
+    }
+    if (propValue instanceof RegExp) {
+      // Old webkits (at least until Android 4.0) return 'function' rather than
+      // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
+      // passes PropTypes.object.
+      return 'object';
+    }
+    if (isSymbol(propType, propValue)) {
+      return 'symbol';
+    }
+    return propType;
+  }
+
+  // This handles more types than `getPropType`. Only used for error messages.
+  // See `createPrimitiveTypeChecker`.
+  function getPreciseType(propValue) {
+    if (typeof propValue === 'undefined' || propValue === null) {
+      return '' + propValue;
+    }
+    var propType = getPropType(propValue);
+    if (propType === 'object') {
+      if (propValue instanceof Date) {
+        return 'date';
+      } else if (propValue instanceof RegExp) {
+        return 'regexp';
+      }
+    }
+    return propType;
+  }
+
+  // Returns a string that is postfixed to a warning about an invalid type.
+  // For example, "undefined" or "of type array"
+  function getPostfixForTypeWarning(value) {
+    var type = getPreciseType(value);
+    switch (type) {
+      case 'array':
+      case 'object':
+        return 'an ' + type;
+      case 'boolean':
+      case 'date':
+      case 'regexp':
+        return 'a ' + type;
+      default:
+        return type;
+    }
+  }
+
+  // Returns class name of the object, if any.
+  function getClassName(propValue) {
+    if (!propValue.constructor || !propValue.constructor.name) {
+      return ANONYMOUS;
+    }
+    return propValue.constructor.name;
+  }
+
+  ReactPropTypes.checkPropTypes = checkPropTypes;
+  ReactPropTypes.resetWarningCache = checkPropTypes.resetWarningCache;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/prop-types/index.js":
+/*!******************************************!*\
+  !*** ./node_modules/prop-types/index.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (true) {
+  var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(/*! ./factoryWithTypeCheckers */ "./node_modules/prop-types/factoryWithTypeCheckers.js")(ReactIs.isElement, throwOnDirectAccess);
+} else {}
 
 
 /***/ }),
@@ -24689,6 +25347,262 @@ if (true) {
 
 /***/ }),
 
+/***/ "./node_modules/react-is/cjs/react-is.development.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/react-is/cjs/react-is.development.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/** @license React v16.8.6
+ * react-is.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+
+
+if (true) {
+  (function() {
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
+// nor polyfill, then a plain number is used for performance.
+var hasSymbol = typeof Symbol === 'function' && Symbol.for;
+
+var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
+var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
+var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
+var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
+var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
+var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
+var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace;
+var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
+var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf;
+var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
+var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1;
+var REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3;
+var REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4;
+
+function isValidElementType(type) {
+  return typeof type === 'string' || typeof type === 'function' ||
+  // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
+  type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
+}
+
+/**
+ * Forked from fbjs/warning:
+ * https://github.com/facebook/fbjs/blob/e66ba20ad5be433eb54423f2b097d829324d9de6/packages/fbjs/src/__forks__/warning.js
+ *
+ * Only change is we use console.warn instead of console.error,
+ * and do nothing when 'console' is not supported.
+ * This really simplifies the code.
+ * ---
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
+
+var lowPriorityWarning = function () {};
+
+{
+  var printWarning = function (format) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    var argIndex = 0;
+    var message = 'Warning: ' + format.replace(/%s/g, function () {
+      return args[argIndex++];
+    });
+    if (typeof console !== 'undefined') {
+      console.warn(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+
+  lowPriorityWarning = function (condition, format) {
+    if (format === undefined) {
+      throw new Error('`lowPriorityWarning(condition, format, ...args)` requires a warning ' + 'message argument');
+    }
+    if (!condition) {
+      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        args[_key2 - 2] = arguments[_key2];
+      }
+
+      printWarning.apply(undefined, [format].concat(args));
+    }
+  };
+}
+
+var lowPriorityWarning$1 = lowPriorityWarning;
+
+function typeOf(object) {
+  if (typeof object === 'object' && object !== null) {
+    var $$typeof = object.$$typeof;
+    switch ($$typeof) {
+      case REACT_ELEMENT_TYPE:
+        var type = object.type;
+
+        switch (type) {
+          case REACT_ASYNC_MODE_TYPE:
+          case REACT_CONCURRENT_MODE_TYPE:
+          case REACT_FRAGMENT_TYPE:
+          case REACT_PROFILER_TYPE:
+          case REACT_STRICT_MODE_TYPE:
+          case REACT_SUSPENSE_TYPE:
+            return type;
+          default:
+            var $$typeofType = type && type.$$typeof;
+
+            switch ($$typeofType) {
+              case REACT_CONTEXT_TYPE:
+              case REACT_FORWARD_REF_TYPE:
+              case REACT_PROVIDER_TYPE:
+                return $$typeofType;
+              default:
+                return $$typeof;
+            }
+        }
+      case REACT_LAZY_TYPE:
+      case REACT_MEMO_TYPE:
+      case REACT_PORTAL_TYPE:
+        return $$typeof;
+    }
+  }
+
+  return undefined;
+}
+
+// AsyncMode is deprecated along with isAsyncMode
+var AsyncMode = REACT_ASYNC_MODE_TYPE;
+var ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
+var ContextConsumer = REACT_CONTEXT_TYPE;
+var ContextProvider = REACT_PROVIDER_TYPE;
+var Element = REACT_ELEMENT_TYPE;
+var ForwardRef = REACT_FORWARD_REF_TYPE;
+var Fragment = REACT_FRAGMENT_TYPE;
+var Lazy = REACT_LAZY_TYPE;
+var Memo = REACT_MEMO_TYPE;
+var Portal = REACT_PORTAL_TYPE;
+var Profiler = REACT_PROFILER_TYPE;
+var StrictMode = REACT_STRICT_MODE_TYPE;
+var Suspense = REACT_SUSPENSE_TYPE;
+
+var hasWarnedAboutDeprecatedIsAsyncMode = false;
+
+// AsyncMode should be deprecated
+function isAsyncMode(object) {
+  {
+    if (!hasWarnedAboutDeprecatedIsAsyncMode) {
+      hasWarnedAboutDeprecatedIsAsyncMode = true;
+      lowPriorityWarning$1(false, 'The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 17+. Update your code to use ' + 'ReactIs.isConcurrentMode() instead. It has the exact same API.');
+    }
+  }
+  return isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
+}
+function isConcurrentMode(object) {
+  return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
+}
+function isContextConsumer(object) {
+  return typeOf(object) === REACT_CONTEXT_TYPE;
+}
+function isContextProvider(object) {
+  return typeOf(object) === REACT_PROVIDER_TYPE;
+}
+function isElement(object) {
+  return typeof object === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
+}
+function isForwardRef(object) {
+  return typeOf(object) === REACT_FORWARD_REF_TYPE;
+}
+function isFragment(object) {
+  return typeOf(object) === REACT_FRAGMENT_TYPE;
+}
+function isLazy(object) {
+  return typeOf(object) === REACT_LAZY_TYPE;
+}
+function isMemo(object) {
+  return typeOf(object) === REACT_MEMO_TYPE;
+}
+function isPortal(object) {
+  return typeOf(object) === REACT_PORTAL_TYPE;
+}
+function isProfiler(object) {
+  return typeOf(object) === REACT_PROFILER_TYPE;
+}
+function isStrictMode(object) {
+  return typeOf(object) === REACT_STRICT_MODE_TYPE;
+}
+function isSuspense(object) {
+  return typeOf(object) === REACT_SUSPENSE_TYPE;
+}
+
+exports.typeOf = typeOf;
+exports.AsyncMode = AsyncMode;
+exports.ConcurrentMode = ConcurrentMode;
+exports.ContextConsumer = ContextConsumer;
+exports.ContextProvider = ContextProvider;
+exports.Element = Element;
+exports.ForwardRef = ForwardRef;
+exports.Fragment = Fragment;
+exports.Lazy = Lazy;
+exports.Memo = Memo;
+exports.Portal = Portal;
+exports.Profiler = Profiler;
+exports.StrictMode = StrictMode;
+exports.Suspense = Suspense;
+exports.isValidElementType = isValidElementType;
+exports.isAsyncMode = isAsyncMode;
+exports.isConcurrentMode = isConcurrentMode;
+exports.isContextConsumer = isContextConsumer;
+exports.isContextProvider = isContextProvider;
+exports.isElement = isElement;
+exports.isForwardRef = isForwardRef;
+exports.isFragment = isFragment;
+exports.isLazy = isLazy;
+exports.isMemo = isMemo;
+exports.isPortal = isPortal;
+exports.isProfiler = isProfiler;
+exports.isStrictMode = isStrictMode;
+exports.isSuspense = isSuspense;
+  })();
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/react-is/index.js":
+/*!****************************************!*\
+  !*** ./node_modules/react-is/index.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+if (false) {} else {
+  module.exports = __webpack_require__(/*! ./cjs/react-is.development.js */ "./node_modules/react-is/cjs/react-is.development.js");
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/react/cjs/react.development.js":
 /*!*****************************************************!*\
   !*** ./node_modules/react/cjs/react.development.js ***!
@@ -29429,12 +30343,13 @@ var _default = _exports;
 /*!************************************************************!*\
   !*** ./src/MapOf.RTween_helpers_demux_typed_____js.gen.js ***!
   \************************************************************/
-/*! exports provided: color, number, transforms, default */
+/*! exports provided: color, int, number, transforms, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "color", function() { return color; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "int", function() { return _int; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "number", function() { return number; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transforms", function() { return transforms; });
 (function () {
@@ -29458,6 +30373,8 @@ req.keys().forEach(function (key) {
   }
 });
 var color = _exports.color;
+var _int = _exports["int"];
+
 var number = _exports.number;
 var transforms = _exports.transforms;
 var _default = _exports;
@@ -29475,9 +30392,200 @@ var _default = _exports;
   reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.RTween_helpers_demux_typed_____js.gen.js");
   reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.RTween_helpers_demux_typed_____js.gen.js");
   reactHotLoader.register(color, "color", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.RTween_helpers_demux_typed_____js.gen.js");
+  reactHotLoader.register(_int, "int", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.RTween_helpers_demux_typed_____js.gen.js");
   reactHotLoader.register(number, "number", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.RTween_helpers_demux_typed_____js.gen.js");
   reactHotLoader.register(transforms, "transforms", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.RTween_helpers_demux_typed_____js.gen.js");
   reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.RTween_helpers_demux_typed_____js.gen.js");
+})();
+
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/TweenAxis.js":
+/*!**************************!*\
+  !*** ./src/TweenAxis.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TweenAxis; });
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js");
+/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var shortid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! shortid */ "./node_modules/shortid/index.js");
+/* harmony import */ var shortid__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(shortid__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _TweenerContext__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./TweenerContext */ "./src/TweenerContext.js");
+
+
+
+
+
+
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
+  enterModule && enterModule(module);
+})();
+
+/*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
+ */
+
+
+
+
+
+
+function setTarget(anims, target) {
+  return anims.map(function (tween) {
+    return _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_5___default()({}, tween, {
+      target: target
+    });
+  });
+}
+
+var TweenAxis =
+/*#__PURE__*/
+function (_React$Component) {
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(TweenAxis, _React$Component);
+
+  function TweenAxis() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, TweenAxis);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(TweenAxis)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this.state = {};
+    return _this;
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(TweenAxis, [{
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      var _this2 = this;
+
+      if (this._tweenLines) {
+        Object.keys(this._tweenLines).forEach(function (axe) {
+          return _this2._previousTweener.rmScrollableAnim(_this2._tweenLines[axe], axe);
+        });
+      }
+
+      delete this._previousTweener;
+      delete this._previousScrollable;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var _this$props = this.props,
+          children = _this$props.children,
+          axe = _this$props.axe,
+          stops = _this$props.stops,
+          inertia = _this$props.inertia,
+          size = _this$props.size,
+          defaultPosition = _this$props.defaultPosition,
+          _this$props$items = _this$props.items,
+          items = _this$props$items === void 0 ? [] : _this$props$items;
+      return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_10__["default"].Consumer, null, function (tweener) {
+        //if ( React.isValidElement(children) ) {
+        //	children = React.cloneElement(
+        //		children,
+        //		{
+        //			...tweener.tweenRef(id, style || children.props.style, initial, pos, noRef, reset),
+        //			onDoubleClick: onDoubleClick && (e => onDoubleClick(e, tweener)),
+        //			onClick      : onClick && (e => onClick(e, tweener))
+        //		}
+        //	);
+        //
+        //}
+        if (!_this3._previousInertia || _this3._previousInertia !== inertia) {
+          //....
+          _this3._previousInertia = inertia;
+          tweener.initAxis(axe, inertia, size, defaultPosition);
+        }
+
+        if (!_this3._previousTweener || _this3._previousTweener !== tweener) {
+          // mk axe not modifiable
+          _this3._previousTweener && _this3._previousTweener.rmScrollableAnim(_this3._lastTL, axe);
+          _this3._lastTL = tweener.addScrollableAnim(items, axe, size);
+          _this3._previousTweener = tweener;
+        }
+
+        return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_6___default.a.Fragment, null);
+      });
+    }
+  }, {
+    key: "__reactstandin__regenerateByEval",
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }]);
+
+  return TweenAxis;
+}(react__WEBPACK_IMPORTED_MODULE_6___default.a.Component);
+
+TweenAxis.propTypes = {
+  axe: prop_types__WEBPACK_IMPORTED_MODULE_8___default.a.string.isRequired,
+  items: prop_types__WEBPACK_IMPORTED_MODULE_8___default.a.array,
+  inertia: prop_types__WEBPACK_IMPORTED_MODULE_8___default.a.any,
+  defaultPosition: prop_types__WEBPACK_IMPORTED_MODULE_8___default.a.number,
+  size: prop_types__WEBPACK_IMPORTED_MODULE_8___default.a.any
+};
+
+;
+
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).default;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(setTarget, "setTarget", "G:\\n8tz\\libs\\react-rtween\\src\\TweenAxis.js");
+  reactHotLoader.register(TweenAxis, "TweenAxis", "G:\\n8tz\\libs\\react-rtween\\src\\TweenAxis.js");
 })();
 
 ;
@@ -29584,10 +30692,14 @@ function (_React$Component) {
     value: function componentWillUnmount() {
       var _this2 = this;
 
-      if (this._scrollableAnims) {
-        Object.keys(this._scrollableAnims).forEach(function (axe) {
-          return _this2._previousTweener.rmScrollableAnim(_this2._scrollableAnims[axe], axe);
+      if (this._tweenLines) {
+        Object.keys(this._tweenLines).forEach(function (axe) {
+          return _this2._previousTweener.rmScrollableAnim(_this2._tweenLines[axe], axe);
         });
+      }
+
+      if (this._previousTweener) {
+        this._previousTweener.rmTweenRef(this.__tweenableId);
       }
 
       delete this._previousTweener;
@@ -29607,37 +30719,41 @@ function (_React$Component) {
           pos = _this$props.pos,
           noRef = _this$props.noRef,
           reset = _this$props.reset,
-          scrollableAnims = _this$props.scrollableAnims,
+          tweener = _this$props.tweener,
+          tweenLines = _this$props.tweenLines,
           _this$props$onClick = _this$props.onClick,
           onClick = _this$props$onClick === void 0 ? children && children.props && children.props.onClick : _this$props$onClick,
           _this$props$onDoubleC = _this$props.onDoubleClick,
           onDoubleClick = _this$props$onDoubleC === void 0 ? children && children.props && children.props.onDoubleClick : _this$props$onDoubleC;
-      return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_9__["default"].Consumer, null, function (tweener) {
+      return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_9__["default"].Consumer, null, function (parentTweener) {
+        parentTweener = tweener || parentTweener;
+
         if (react__WEBPACK_IMPORTED_MODULE_6___default.a.isValidElement(children)) {
-          children = react__WEBPACK_IMPORTED_MODULE_6___default.a.cloneElement(children, _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_5___default()({}, tweener.tweenRef(id, style || children.props.style, initial, pos, noRef, reset), {
+          children = react__WEBPACK_IMPORTED_MODULE_6___default.a.cloneElement(children, _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_5___default()({}, parentTweener.tweenRef(id, style || children.props.style, initial, pos, noRef, reset), {
             onDoubleClick: onDoubleClick && function (e) {
-              return onDoubleClick(e, tweener);
+              return onDoubleClick(e, parentTweener);
             },
             onClick: onClick && function (e) {
-              return onClick(e, tweener);
+              return onClick(e, parentTweener);
             }
           }));
         }
 
-        if (_this3._previousTweener !== tweener || _this3._previousScrollable !== scrollableAnims) {
-          if (_this3._scrollableAnims) {
-            Object.keys(_this3._scrollableAnims).forEach(function (axe) {
-              return _this3._previousTweener.rmScrollableAnim(_this3._scrollableAnims[axe], axe);
+        if (_this3._previousTweener !== parentTweener || _this3._previousScrollable !== tweenLines) {
+          if (_this3._tweenLines) {
+            Object.keys(_this3._tweenLines).forEach(function (axe) {
+              return _this3._previousTweener.rmScrollableAnim(_this3._tweenLines[axe], axe);
             });
           }
 
-          if (scrollableAnims && is__WEBPACK_IMPORTED_MODULE_8___default.a.array(scrollableAnims)) _this3._scrollableAnims = {
-            scrollY: tweener.addScrollableAnim(setTarget(scrollableAnims, id))
-          };else _this3._scrollableAnims = scrollableAnims && Object.keys(scrollableAnims).reduce(function (h, axe) {
-            return h[axe] = tweener.addScrollableAnim(setTarget(scrollableAnims[axe], id), axe), h;
+          if (tweenLines && is__WEBPACK_IMPORTED_MODULE_8___default.a.array(tweenLines)) _this3._tweenLines = {
+            scrollY: parentTweener.addScrollableAnim(setTarget(tweenLines, id))
+          };else _this3._tweenLines = tweenLines && Object.keys(tweenLines).reduce(function (h, axe) {
+            return h[axe] = parentTweener.addScrollableAnim(setTarget(tweenLines[axe], id), axe), h;
           }, {});
-          _this3._previousTweener = tweener;
-          _this3._previousScrollable = scrollableAnims;
+          if (_this3._previousTweener !== parentTweener) _this3._previousTweener && _this3._previousTweener.rmTweenRef(_this3.__tweenableId);
+          _this3._previousTweener = parentTweener;
+          _this3._previousScrollable = tweenLines;
         }
 
         return children;
@@ -29827,8 +30943,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var isBrowserSide = new Function("try {return this===window;}catch(e){ return false;}")(),
     isArray = is__WEBPACK_IMPORTED_MODULE_10___default.a.array,
-    initialTweenable = {// while no matrix..
-},
+    tweenerCount = 0,
     _live,
     lastTm,
     _running = [];
@@ -29924,8 +31039,10 @@ function asTweener() {
         y: 100,
         z: 800
       };
-      _this._.curMotionStateId = _static.InitialMotionState || "stand";
       _this._._rafLoop = _this._rafLoop.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this));
+      _this.__isTweener = true;
+      _this.__isFirst = !tweenerCount;
+      tweenerCount++;
       return _this;
     }
 
@@ -29968,10 +31085,13 @@ function asTweener() {
         var _static = this.constructor,
             _ = this._,
             tweenableMap = {},
+            tweenableData = {},
             cState = _static.motionStates && _static.motionStates[this._.curMotionStateId];
         if (!this._.tweenRefs[id]) this._.tweenRefTargets.push(id);
 
         if (mapReset || !this._.tweenRefs[id]) {
+          mapReset = mapReset || !this._.tweenRefs[id];
+
           if (cState && cState.refs && cState.refs[id]) {
             iStyle = iStyle || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, cState.refs[id][0]);
             iMap = iMap || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, cState.refs[id][1]);
@@ -29984,21 +31104,15 @@ function asTweener() {
           this._.tweenRefs[id] = true;
           this._.muxByTarget[id] = this._.muxByTarget[id] || {};
           this._.muxDataByTarget[id] = this._.muxDataByTarget[id] || {};
-
-          if (iMap.getPosAt) {
-            // typeof rtween
-            tweenableMap = iMap.getPosAt(pos, !mapReset && this._.tweenRefMaps[id] || Object.assign({}, initialTweenable, iMap.scope || {}));
-          } else {
-            mapReset = noref;
-            noref = pos;
-            iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id])); //this._.tweenRefUnits[id] = extractUnits(iMap);
-          }
+          iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id], true)); //this._.tweenRefUnits[id] = extractUnits(iMap);
+          //}
 
           this._.tweenRefOrigin[id] = tweenableMap;
-          iStyle = mapReset && _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle) || this._.tweenRefCSS[id] || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle);
+          this._.tweenRefCSS[id] = this._.tweenRefCSS[id] || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, iStyle);
+          if (mapReset) Object.assign(this._.tweenRefCSS[id], iStyle);
           this._.tweenRefCSS[id] = iStyle; // init / reset or get the tweenable view
 
-          tweenableMap = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id] || Object.assign({}, initials, tweenableMap || {}); //console.log(tweenableMap, iStyle, initials, this._.muxByTarget[id], this._.muxDataByTarget[id])
+          tweenableMap = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id] || Object.assign(this._.tweenRefMaps[id] || {}, initials, tweenableMap || {}); //console.log(tweenableMap, iStyle, initials, this._.muxByTarget[id], this._.muxDataByTarget[id])
           //utils.mapInBoxCSS(iMap, iStyle, this._.box, this._.tweenRefUnits[id]);
 
           Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(tweenableMap, iStyle, this._.muxByTarget[id], this._.muxDataByTarget[id], this._.box); //this._.refs[id] = this._.refs[id] || React.createRef();
@@ -30014,6 +31128,21 @@ function asTweener() {
           // __tweenCSS : this._.tweenRefCSS[id]
 
         };
+      }
+    }, {
+      key: "rmTweenRef",
+      value: function rmTweenRef(id) {
+        if (this._.tweenRefs[id]) {
+          this._.tweenRefTargets.splice(this._.tweenRefTargets.indexOf(id), 1);
+
+          delete this._.tweenRefs[id];
+          delete this._.muxByTarget[id];
+          delete this._.muxDataByTarget[id];
+          delete this._.tweenRefOrigin[id];
+          delete this._.tweenRefCSS[id];
+          delete this._.tweenRefMaps[id];
+          delete this._.refs[id];
+        }
       } // ------------------------------------------------------------
       // -------------------- Pushable anims ------------------------
       // ------------------------------------------------------------
@@ -30105,7 +31234,7 @@ function asTweener() {
           this._.tweenRefCSS = {};
           this._.tweenRefs = {};
           this._.tweenRefMaps = {};
-          this._.tweenRefUnits = {};
+          this._.tweenRefInitialData = {};
           this._.tweenEnabled = true;
           this._.tweenRefOrigin = {};
           this._.axes = {};
@@ -30151,7 +31280,7 @@ function asTweener() {
             var x = from + easing(pos / max) * length;
 
             if (_this6._.tweenEnabled) {
-              _this6._.axes[axe].scrollableAnims.forEach(function (sl) {
+              _this6._.axes[axe].tweenLines.forEach(function (sl) {
                 return sl.goTo(x);
               });
 
@@ -30171,12 +31300,12 @@ function asTweener() {
         }
       }
     }, {
-      key: "_getDim",
-      value: function _getDim() {
+      key: "_getAxis",
+      value: function _getAxis() {
         var axe = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "scrollY";
         var _ = this._;
         _.axes[axe] = _.axes[axe] || {
-          scrollableAnims: [],
+          tweenLines: [],
           scrollPos: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
           targetPos: 0,
           inertia: new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_13__["default"](_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({
@@ -30184,6 +31313,31 @@ function asTweener() {
           }, opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {}))
         };
         return _.axes[axe];
+      }
+    }, {
+      key: "initAxis",
+      value: function initAxis(axe, _inertia) {
+        var scrollableArea = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+        var defaultPosition = arguments.length > 3 ? arguments[3] : undefined;
+        this.makeTweenable();
+        this.makeScrollable();
+        var _ = this._,
+            dim = _.axes[axe],
+            scrollPos = dim ? dim.scrollPos : defaultPosition || 0,
+            targetPos = dim ? dim.targetPos : scrollPos,
+            inertia = _inertia !== false && (dim ? dim.inertia : new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_13__["default"](_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({
+          // todo mk pure
+          value: scrollPos
+        }, _inertia || {}))),
+            nextDescr = {
+          tweenLines: dim && dim.tweenLines || [],
+          scrollPos: scrollPos,
+          targetPos: targetPos,
+          inertia: inertia,
+          scrollableArea: scrollableArea
+        };
+        dim = this._.axes[axe] = nextDescr;
+        _inertia !== false && (dim.inertia._.stops = _inertia.stops);
       }
     }, {
       key: "addScrollableAnim",
@@ -30196,7 +31350,7 @@ function asTweener() {
         var sl,
             _ = this._,
             initials = {},
-            dim = this._getDim(axe);
+            dim = this._getAxis(axe);
 
         if (isArray(anim)) {
           sl = anim;
@@ -30209,14 +31363,14 @@ function asTweener() {
           sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
           sl = new rtween__WEBPACK_IMPORTED_MODULE_15___default.a(sl, _.tweenRefMaps);
           Object.keys(initials).forEach(function (id) {
-            return Object.assign(_this7._.tweenRefMaps[id], _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, initials[id], _this7._.tweenRefMaps[id]));
+            _this7._.tweenRefMaps[id] = _this7._.tweenRefMaps[id] || {}, Object.assign(_this7._.tweenRefMaps[id], _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, initials[id], _this7._.tweenRefMaps[id]));
           });
         }
 
         this.makeTweenable();
         this.makeScrollable(); // init scroll
 
-        dim.scrollableAnims.push(sl);
+        dim.tweenLines.push(sl);
         dim.scrollPos = dim.scrollPos || 0;
         dim.scrollableArea = dim.scrollableArea || 0;
         dim.scrollableArea = Math.max(dim.scrollableArea, sl.duration);
@@ -30234,13 +31388,13 @@ function asTweener() {
 
         var _ = this._,
             found,
-            dim = this._getDim(axe);
+            dim = this._getAxis(axe);
 
-        var i = dim.scrollableAnims.indexOf(sl);
+        var i = dim.tweenLines.indexOf(sl);
 
         if (i != -1) {
-          dim.scrollableAnims.splice(i, 1);
-          dim.scrollableArea = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(dim.scrollableAnims.map(function (tl) {
+          dim.tweenLines.splice(i, 1);
+          dim.scrollableArea = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(dim.tweenLines.map(function (tl) {
             return tl.duration;
           })).concat([0]));
           dim.inertia.setBounds(0, dim.scrollableArea || 0);
@@ -30248,7 +31402,7 @@ function asTweener() {
           found = true;
         }
 
-        !found && console.warn("TweenLine not found !");
+        !found && console.warn("TweenAxis not found !");
       }
     }, {
       key: "scrollTo",
@@ -30272,7 +31426,7 @@ function asTweener() {
           this._.axes[axe].targetPos = newPos;
 
           if (!ms) {
-            this._.axes[axe].scrollableAnims.forEach(function (sl) {
+            this._.axes[axe].tweenLines.forEach(function (sl) {
               return sl.goTo(newPos, _this8._.tweenRefMaps);
             });
 
@@ -30296,8 +31450,7 @@ function asTweener() {
           this._.scrollEnabled = true;
           this._.scrollHook = [];
 
-          this._registerScrollListeners(); //ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
-
+          this._registerScrollListeners();
         }
       }
     }, {
@@ -30307,29 +31460,14 @@ function asTweener() {
 
         if (this._.rendered) {
           var rootNode = react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this);
-          isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addWheelEvent(rootNode, this._.onScroll = function (e) {
+          this.__isFirst && isBrowserSide && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addWheelEvent(rootNode, this._.onScroll = function (e) {
             //@todo
-            var prevent,
-                headTarget = e.target,
-                style; // check if there scrollable stuff in dom targets
+            // check if there scrollable stuff in dom targets
+            if (_this9._shouldDispatch(e.target, e.deltaX * 5, e.deltaY * 5)) {
+              _this9.dispatchScroll(e.deltaY * 5, "scrollY");
 
-            while (headTarget) {
-              style = getComputedStyle(headTarget, null);
-
-              if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
-                if (e.deltaY < 0 && headTarget.scrollTop !== 0 || e.deltaY > 0 && headTarget.scrollTop !== headTarget.scrollHeight - headTarget.offsetHeight) {
-                  return;
-                } // let the node do this scroll
-
-              }
-
-              headTarget = headTarget.parentNode;
-              if (headTarget === document || headTarget === rootNode) break;
-            }
-
-            _this9.dispatchScroll(e.deltaY * 5, "scrollY");
-
-            _this9.dispatchScroll(e.deltaX * 5, "scrollX"); //
+              _this9.dispatchScroll(e.deltaX * 5, "scrollX");
+            } //
             //if ( prevent ) {
             //	e.preventDefault();
             //	e.originalEvent.stopPropagation();
@@ -30341,8 +31479,8 @@ function asTweener() {
             'dragstart': function dragstart(e, touch, descr) {
               //@todo
               var prevent,
-                  x = _this9._getDim("scrollX"),
-                  y = _this9._getDim("scrollY");
+                  x = _this9._getAxis("scrollX"),
+                  y = _this9._getAxis("scrollY");
 
               x.inertia.startMove();
               y.inertia.startMove();
@@ -30354,37 +31492,24 @@ function asTweener() {
             'drag': function drag(e, touch, descr) {
               //@todo
               var prevent,
-                  x = _this9._getDim("scrollX"),
-                  y = _this9._getDim("scrollY"),
+                  x = _this9._getAxis("scrollX"),
+                  y = _this9._getAxis("scrollY"),
                   deltaY = descr._lastPos.y - descr._startPos.y,
                   deltaX = descr._lastPos.x - descr._startPos.x,
                   headTarget = e.target,
                   style;
 
               lastPos = lastPos || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, descr._startPos); // check if there scrollable stuff in dom targets
+              //if ( this.isAxisOut("scrollX", deltaX) )
 
-              while (headTarget) {
-                style = getComputedStyle(headTarget, null);
+              x.inertia.hold(lastPos.x + -(descr._lastPos.x - descr._startPos.x) / _this9._.box.x * x.scrollableArea); //if ( this.isAxisOut("scrollY", -deltaY) )
 
-                if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
-                  if (deltaY > 0 && headTarget.scrollTop > 0 || deltaY < 0 && headTarget.scrollTop < headTarget.scrollHeight - headTarget.offsetHeight) {
-                    return;
-                  } // let the node do this scroll
-
-                }
-
-                headTarget = headTarget.parentNode;
-                if (headTarget === document || headTarget === rootNode) break;
-              }
-
-              y.inertia.hold(lastPos.y + -(descr._lastPos.y - descr._startPos.y) / _this9._.box.y * y.scrollableArea);
-              x.inertia.hold(lastPos.x + -(descr._lastPos.x - descr._startPos.x) / _this9._.box.x * x.scrollableArea);
-              return !prevent;
+              y.inertia.hold(lastPos.y + -(descr._lastPos.y - descr._startPos.y) / _this9._.box.y * y.scrollableArea); //return !prevent;
             },
             'dropped': function dropped(e, touch, descr) {
-              _this9._getDim("scrollY").inertia.release();
+              _this9._getAxis("scrollY").inertia.release();
 
-              _this9._getDim("scrollX").inertia.release(); //lastPos = null;
+              _this9._getAxis("scrollX").inertia.release(); //lastPos = null;
 
             }
           }, null, opts.enableMouseDrag);
@@ -30395,11 +31520,6 @@ function asTweener() {
       // --------------- Inertia & scroll modifiers -----------------
       // ------------------------------------------------------------
 
-    }, {
-      key: "addScrollModifier",
-      value: function addScrollModifier(desc) {
-        var axe = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "scrollY";
-      }
     }, {
       key: "applyInertia",
       value: function applyInertia(dim, axe) {
@@ -30422,7 +31542,7 @@ function asTweener() {
             newPos = oldPos + delta;
 
         if (dim && oldPos !== newPos) {
-          //console.log("dispatch " + newPos);
+          console.log("dispatch " + delta, this.constructor.displayName);
           dim.inertia.dispatch(delta, 100);
           !dim.inertiaFrame && this.applyInertia(dim, axe); //if ( this.scrollTo(newPos, 0, axe) )
           //	prevent = !(opts.propagateAxes && opts.propagateAxes[axe]);
@@ -30431,66 +31551,78 @@ function asTweener() {
         }
 
         return prevent;
+      }
+    }, {
+      key: "isAxisOut",
+      value: function isAxisOut(axis, v) {
+        var _ = this._,
+            dim = _.axes && _.axes[axis],
+            pos = dim && dim.scrollPos + v;
+        return !dim || pos <= 0 || pos >= dim.scrollableArea;
+      }
+    }, {
+      key: "_shouldDispatch",
+      value: function _shouldDispatch(target, dx, dy) {
+        var style,
+            Comp,
+            headTarget = target,
+            complete; // todo optim
+        // check if there scrollable stuff in dom targets
+
+        while (headTarget) {
+          style = getComputedStyle(headTarget, null);
+          Comp = _utils__WEBPACK_IMPORTED_MODULE_12__["default"].findReactComponent(headTarget);
+
+          if (Comp && Comp.__isTweener) {
+            if (!Comp.isAxisOut("scrollX", dx)) {
+              Comp.dispatchScroll(dx, "scrollX");
+              dx = 0;
+            }
+
+            if (!Comp.isAxisOut("scrollY", dy)) {
+              Comp.dispatchScroll(dy, "scrollY");
+              dy = 0;
+            }
+
+            if (!dx && !dy) return;
+          }
+
+          if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
+            if (dy < 0 && headTarget.scrollTop !== 0 || dy > 0 && headTarget.scrollTop !== headTarget.scrollHeight - headTarget.offsetHeight) {
+              return;
+            } // let the node do this scroll
+
+          }
+
+          headTarget = headTarget.parentNode;
+          if (headTarget === document || headTarget === target) break;
+        }
       } // ------------------------------------------------------------
       // ------------------ Motion/FSM anims ------------------------
       // ------------------------------------------------------------
 
     }, {
-      key: "goToMotionStateId",
-      value: function goToMotionStateId(targetId) {
-        var _this10 = this;
-
-        var _static = this.constructor,
-            tState = _static.motionStates[targetId],
-            cState = this._.curMotionStateId;
-        if (!this._.rendered) return this._.delayedMotionTarget = targetId;
-        if (this.running) this.running = arguments;
-
-        if (!this.running && targetId != this._.curMotionStateId) {
-          if (!this._.tweenRefCSS) this.makeTweenable();
-          this.running = true;
-          var flow = new taskflows__WEBPACK_IMPORTED_MODULE_11___default.a([_static.motionStates[this._.curMotionStateId] && function (ctx, flow) {
-            return _static.motionStates[cState].leaving(ctx, flow, cState);
-          }, function () {
-            _this10._.curMotionStateId = targetId;
-            if (_this10.running !== true) setTimeout(function () {
-              return _this10.goToMotionStateId.apply(_this10, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(_this10.running));
-            });
-            _this10.running = false;
-          }, tState && function (ctx, flow) {
-            return tState.entering(ctx, flow, cState);
-          }, function () {
-            tState.refs && Object.keys(tState.refs).map(function (k) {
-              _this10.updateRefStyle(k, tState.refs[k][0]);
-
-              _this10.applyTweenState(k, tState.refs[k][1]);
-            });
-          }], this);
-          flow.run();
-        }
-      }
-    }, {
       key: "applyTweenState",
       value: function applyTweenState(id, map, reset) {
-        var _this11 = this;
+        var _this10 = this;
 
         var tmap = {},
             initials = {};
         Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
         Object.keys(tmap).map(function (p) {
-          return _this11._.tweenRefMaps[id][p] = (!reset && _this11._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
+          return _this10._.tweenRefMaps[id][p] = (!reset && _this10._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
         });
       }
     }, {
       key: "updateRefStyle",
       value: function updateRefStyle(target, style, postPone) {
-        var _this12 = this;
+        var _this11 = this;
 
         if (isArray(target) && isArray(style)) return target.map(function (m, i) {
-          return _this12.updateRefStyle(m, style[i], postPone);
+          return _this11.updateRefStyle(m, style[i], postPone);
         });
         if (isArray(target)) return target.map(function (m) {
-          return _this12.updateRefStyle(m, style, postPone);
+          return _this11.updateRefStyle(m, style, postPone);
         });
         if (!this._.tweenRefCSS) this.makeTweenable();
 
@@ -30523,7 +31655,7 @@ function asTweener() {
     }, {
       key: "getTweenableRef",
       value: function getTweenableRef(id) {
-        return this._.refs[id];
+        return this._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this._.refs[id]);
       }
     }, {
       key: "_rafLoop",
@@ -30549,6 +31681,8 @@ function asTweener() {
     }, {
       key: "componentWillUnmount",
       value: function componentWillUnmount() {
+        var node = react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this);
+
         if (this._.tweenEnabled) {
           this._.tweenEnabled = false;
           window.removeEventListener("resize", this._.onResize);
@@ -30557,8 +31691,8 @@ function asTweener() {
         if (this._.scrollEnabled) {
           this._.scrollEnabled = false; //this._.axes          = undefined;
 
-          _utils__WEBPACK_IMPORTED_MODULE_12__["default"].rmWheelEvent(react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this), this._.onScroll);
-          _utils__WEBPACK_IMPORTED_MODULE_12__["default"].removeEvent(react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this), this._.dragList);
+          node && this._.onScroll && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].rmWheelEvent(node, this._.onScroll);
+          node && this._.dragList && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].removeEvent(node, this._.dragList);
         }
 
         _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentWillUnmount", this).apply(this, arguments);
@@ -30566,7 +31700,7 @@ function asTweener() {
     }, {
       key: "componentDidMount",
       value: function componentDidMount() {
-        var _this13 = this;
+        var _this12 = this;
 
         var _static = this.constructor;
         this._.rendered = true;
@@ -30585,11 +31719,11 @@ function asTweener() {
 
         if (_static.scrollableAnim) {
           if (is__WEBPACK_IMPORTED_MODULE_10___default.a.array(_static.scrollableAnim)) this.addScrollableAnim(_static.scrollableAnim);else Object.keys(_static.scrollableAnim).forEach(function (axe) {
-            return _this13.addScrollableAnim(_static.scrollableAnim[axe], axe);
+            return _this12.addScrollableAnim(_static.scrollableAnim[axe], axe);
           });
         }
 
-        if (this._.doRegister) {
+        if (this._.doRegister || this.__isFirst) {
           this._registerScrollListeners();
 
           this._.doRegister = false;
@@ -30600,7 +31734,7 @@ function asTweener() {
     }, {
       key: "componentDidUpdate",
       value: function componentDidUpdate(prevProps, prevState) {
-        var _this14 = this;
+        var _this13 = this;
 
         if (this._.tweenEnabled) {
           this._updateBox();
@@ -30608,12 +31742,12 @@ function asTweener() {
           this._updateTweenRefs();
 
           this._.rtweensByProp && Object.keys(prevProps).forEach(function (k) {
-            return _this14._.rtweensByProp[k] && _this14.props[k] !== prevProps[k] && _this14._.rtweensByProp[k][_this14.props[k]] && _this14.pushAnim(_this14._.rtweensByProp[k][_this14.props[k]]
+            return _this13._.rtweensByProp[k] && _this13.props[k] !== prevProps[k] && _this13._.rtweensByProp[k][_this13.props[k]] && _this13.pushAnim(_this13._.rtweensByProp[k][_this13.props[k]]
             /*get current pos*/
             );
           }, this);
           this._.rtweensByStateProp && prevState && Object.keys(prevState).forEach(function (k) {
-            return _this14._.rtweensByStateProp[k] && _this14.state[k] !== prevState[k] && _this14._.rtweensByStateProp[k][_this14.state[k]] && _this14.pushAnim(_this14._.rtweensByStateProp[k][_this14.state[k]]
+            return _this13._.rtweensByStateProp[k] && _this13.state[k] !== prevState[k] && _this13._.rtweensByStateProp[k][_this13.state[k]] && _this13.pushAnim(_this13._.rtweensByStateProp[k][_this13.state[k]]
             /*get current pos*/
             );
           }, this);
@@ -30652,7 +31786,7 @@ function asTweener() {
 
   reactHotLoader.register(isBrowserSide, "isBrowserSide", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(isArray, "isArray", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
-  reactHotLoader.register(initialTweenable, "initialTweenable", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
+  reactHotLoader.register(tweenerCount, "tweenerCount", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(_live, "_live", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(lastTm, "lastTm", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
   reactHotLoader.register(_running, "_running", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
@@ -30763,7 +31897,7 @@ function () {
 
       if (at - _.inertiaStartTm >= _.targetDuration) {
         _.inertia = this.active = false;
-        delta = 0;
+        _.lastInertiaPos = delta = 0;
       }
 
       delta = delta || 0; //console.log(_.pos + delta);
@@ -30792,12 +31926,13 @@ function () {
         _.targetDuration += tm;
       }
 
-      _.stops && this._doSnapInertia(signOf(delta), 750); //pos =
+      this._doSnap(signOf(delta), 750); //pos =
       //console.log(_);
+
     }
   }, {
-    key: "_doSnapInertia",
-    value: function _doSnapInertia(forceSnap) {
+    key: "_doSnap",
+    value: function _doSnap(forceSnap) {
       var maxDuration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
       var _ = this._,
           pos = _.targetDist + (_.pos - _.lastInertiaPos),
@@ -30805,22 +31940,37 @@ function () {
           mid,
           i;
 
-      for (i = 0; i < _.stops.length; i++) {
-        if (_.stops[i] > pos) break;
-      }
+      if (_.stops && _.stops.length) {
+        for (i = 0; i < _.stops.length; i++) {
+          if (_.stops[i] > pos) break;
+        }
 
-      if (i == _.stops.length) {
-        target = _.stops[i - 1];
-      } else if (i === 0) {
-        target = _.stops[0];
+        if (i == _.stops.length) {
+          target = _.stops[i - 1];
+        } else if (i === 0) {
+          target = _.stops[0];
+        } else {
+          mid = _.stops[i - 1] + (_.stops[i] - _.stops[i - 1]) / 2;
+          if (forceSnap) target = forceSnap < 0 ? _.stops[i - 1] : _.stops[i];else target = pos < mid ? _.stops[i - 1] : _.stops[i];
+        }
+
+        console.log("do snap", i, target);
+        target = target - (_.pos - _.lastInertiaPos);
+        _.targetDuration = min(maxDuration, abs(_.targetDuration / _.targetDist * target));
+        _.targetDist = target;
       } else {
-        mid = _.stops[i - 1] + (_.stops[i] - _.stops[i - 1]) / 2;
-        if (forceSnap) target = forceSnap < 0 ? _.stops[i - 1] : _.stops[i];else target = pos < mid ? _.stops[i - 1] : _.stops[i];
-      }
+        target = ~~(_.pos - _.lastInertiaPos);
 
-      target = target - (_.pos - _.lastInertiaPos);
-      _.targetDuration = min(maxDuration, abs(_.targetDuration / _.targetDist * target));
-      _.targetDist = target; //console.log(_);
+        if (target > _.max) {
+          target = _.max - target;
+          _.targetDuration = min(maxDuration, abs(_.targetDuration / _.targetDist * target));
+          _.targetDist = target;
+        } else if (target < _.min) {
+          target = _.min - target;
+          _.targetDuration = min(maxDuration, abs(_.targetDuration / _.targetDist * target));
+          _.targetDist = target;
+        }
+      }
     }
   }, {
     key: "setBounds",
@@ -30896,7 +32046,7 @@ function () {
         _.inertiaStartTm = _.inertiaLastTm = Date.now();
       }
 
-      _.stops && this._doSnapInertia(null, 500);
+      this._doSnap(null, 500);
     }
   }, {
     key: "__reactstandin__regenerateByEval",
@@ -31028,12 +32178,12 @@ function demux(key, tweenable, target, data, box) {
   target[key] = data[key] ? floatCut(tweenable[key], 2) + data[key] : floatCut(tweenable[key], 2);
 }
 
-var _default = function _default(key, value, target, data, initials) {
+var _default = function _default(key, value, target, data, initials, forceUnits) {
   var match = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(value) ? value.match(unitsRe) : false;
   initials[key] = defaultValue[key] || 0;
 
   if (match) {
-    if (data[key] && data[key] !== match[2]) {
+    if (!forceUnits && data[key] && data[key] !== match[2]) {
       console.warn("Have != units on prop ! Ignore ", key, "present:" + data[key], "new:" + match[2]);
       target[key] = 0;
     } else {
@@ -31307,7 +32457,7 @@ function demux(key, tweenable, target, data, box) {
   }
 }
 
-var _default = function _default(key, value, target, data, initials) {
+var _default = function _default(key, value, target, data, initials, forceUnits) {
   data["transform_head"] = data["transform_head"] || key;
   data[key] = data[key] || [{}];
   initials[key] = 0;
@@ -31322,7 +32472,7 @@ var _default = function _default(key, value, target, data, initials) {
       initials[dkey] = 0;
 
       if (match) {
-        if (data[dkey] && data[dkey] !== match[2]) {
+        if (!forceUnits && data[dkey] && data[dkey] !== match[2]) {
           console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
           target[dkey] = 0;
         } else {
@@ -31374,6 +32524,7 @@ var _default = function _default(key, value, target, data, initials) {
 
 var map = {
 	"./color.js": "./src/helpers/demux/typed/color.js",
+	"./int.js": "./src/helpers/demux/typed/int.js",
 	"./number.js": "./src/helpers/demux/typed/number.js",
 	"./transforms.js": "./src/helpers/demux/typed/transforms.js"
 };
@@ -31472,6 +32623,110 @@ var _default = function _default(key, value, target, data, initials) {
 
 /***/ }),
 
+/***/ "./src/helpers/demux/typed/int.js":
+/*!****************************************!*\
+  !*** ./src/helpers/demux/typed/int.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
+  enterModule && enterModule(module);
+})();
+
+/*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
+ */
+
+
+var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
+    floatCut = function floatCut(v, l) {
+  var p = Math.pow(10, l);
+  return Math.round(v * p) / p;
+},
+    defaultUnits = {
+  left: 'px',
+  right: 'px',
+  top: 'px',
+  bottom: 'px',
+  width: 'px',
+  height: 'px'
+};
+
+function demux(key, tweenable, target, data, box) {
+  target[key] = ~~(data[key] ? tweenable[key] + data[key] : tweenable[key]);
+}
+
+var _default = function _default(key, value, target, data, initials, forceUnits) {
+  //if ( cssAnimProps.canAnimate(key) ) {
+  var match = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(value) ? value.match(unitsRe) : false; //let how = cssAnimProps.getProperty(key);
+  //console.log(how);
+
+  initials[key] = 0;
+
+  if (match) {
+    if (!forceUnits && data[key] && data[key] !== match[2]) {
+      console.warn("Have != units on prop ! Ignore ", key, "present:" + data[key], "new:" + match[2]);
+      target[key] = 0;
+    } else {
+      data[key] = match[2];
+      target[key] = ~~match[1];
+    }
+  } else {
+    target[key] = ~~value;
+    if (!data[key] && key in defaultUnits) data[key] = defaultUnits[key];
+  } //}
+  //else {
+  //	// just do nothing
+  //	//data[key]=
+  //}
+
+
+  return demux;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (_default);
+;
+
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).default;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\int.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\int.js");
+  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\int.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\int.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\int.js");
+})();
+
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
 /***/ "./src/helpers/demux/typed/number.js":
 /*!*******************************************!*\
   !*** ./src/helpers/demux/typed/number.js ***!
@@ -31518,12 +32773,10 @@ var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 
 };
 
 function demux(key, tweenable, target, data, box) {
-  //if (!tweenable[key])
-  //	debugger
   target[key] = data[key] ? floatCut(tweenable[key], 2) + data[key] : floatCut(tweenable[key], 2);
 }
 
-var _default = function _default(key, value, target, data, initials) {
+var _default = function _default(key, value, target, data, initials, forceUnits) {
   //if ( cssAnimProps.canAnimate(key) ) {
   var match = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(value) ? value.match(unitsRe) : false; //let how = cssAnimProps.getProperty(key);
   //console.log(how);
@@ -31531,7 +32784,7 @@ var _default = function _default(key, value, target, data, initials) {
   initials[key] = 0;
 
   if (match) {
-    if (data[key] && data[key] !== match[2]) {
+    if (!forceUnits && data[key] && data[key] !== match[2]) {
       console.warn("Have != units on prop ! Ignore ", key, "present:" + data[key], "new:" + match[2]);
       target[key] = 0;
     } else {
@@ -31539,7 +32792,7 @@ var _default = function _default(key, value, target, data, initials) {
       target[key] = parseFloat(match[1]);
     }
   } else {
-    target[key] = value;
+    target[key] = parseFloat(value);
     if (!data[key] && key in defaultUnits) data[key] = defaultUnits[key];
   } //}
   //else {
@@ -31739,7 +32992,8 @@ var cssDemux = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___
   paddingTop: _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["number"],
   paddingLeft: _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["number"],
   paddingRight: _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["number"],
-  paddingBottom: _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["number"] //rotate       : transforms,
+  paddingBottom: _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["number"],
+  zIndex: _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["int"] //rotate       : transforms,
   //rotateX      : transforms,
   //rotateY      : transforms,
   //x            : transforms,
@@ -31755,10 +33009,11 @@ var cssDemux = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___
 
 function muxToCss(tweenable, css, demuxers, data, box) {
   Object.keys(demuxers).forEach(function (key) {
+    //if ( key === 'zIndex' ) debugger
     demuxers[key](key, tweenable, css, data, box);
   });
 }
-function deMuxTween(tween, deMuxedTween, initials, data, demuxers) {
+function deMuxTween(tween, deMuxedTween, initials, data, demuxers, forceUnits) {
   var fTween = {},
       excluded = {};
   Object.keys(tween).forEach(function (key) {
@@ -31771,8 +33026,8 @@ function deMuxTween(tween, deMuxedTween, initials, data, demuxers) {
   Object.keys(fTween).forEach(function (key) {
     if (cssDemux[key]) {
       //key, value, target, data, initials
-      demuxers[key] = cssDemux[key](key, fTween[key], deMuxedTween, data, initials);
-    } else demuxers[key] = cssDemux.$all(key, fTween[key], deMuxedTween, data, initials);
+      demuxers[key] = cssDemux[key](key, fTween[key], deMuxedTween, data, initials, forceUnits);
+    } else demuxers[key] = cssDemux.$all(key, fTween[key], deMuxedTween, data, initials, forceUnits);
   });
   return excluded;
 }
@@ -32396,7 +33651,7 @@ function getProperty(property, expand) {
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: asTweener, TweenRef, Component, TweenerContext, default */
+/*! exports provided: asTweener, withTweener, TweenRef, Component, TweenerContext, TweenAxis, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32417,11 +33672,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _asTweener__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./asTweener */ "./src/asTweener.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "asTweener", function() { return _asTweener__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony import */ var _TweenRef__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TweenRef */ "./src/TweenRef.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TweenRef", function() { return _TweenRef__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+/* harmony import */ var _TweenAxis__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TweenAxis */ "./src/TweenAxis.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TweenAxis", function() { return _TweenAxis__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _TweenerContext__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TweenerContext */ "./src/TweenerContext.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TweenerContext", function() { return _TweenerContext__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+/* harmony import */ var _TweenRef__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TweenRef */ "./src/TweenRef.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TweenRef", function() { return _TweenRef__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+
+/* harmony import */ var _withTweener__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./withTweener */ "./src/withTweener.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withTweener", function() { return _withTweener__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+
+/* harmony import */ var _TweenerContext__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./TweenerContext */ "./src/TweenerContext.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TweenerContext", function() { return _TweenerContext__WEBPACK_IMPORTED_MODULE_10__["default"]; });
 
 
 
@@ -32451,6 +33712,8 @@ __webpack_require__.r(__webpack_exports__);
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+
 
 
 
@@ -32547,29 +33810,12 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
     min = Math.min,
     max = Math.max,
     isBrowser = typeof window !== 'undefined',
-    Dom = isBrowser ? {
+    _dom = isBrowser ? {
   prefix: /webkit/i.test(navigator.appVersion) ? 'webkit' : /firefox/i.test(navigator.userAgent) ? 'Moz' : /trident/i.test(navigator.userAgent) ? 'ms' : 'opera' in window ? 'O' : '',
   dashedPrefix: /webkit/i.test(navigator.appVersion) ? '-webkit-' : /firefox/i.test(navigator.userAgent) ? '-moz-' : /trident/i.test(navigator.userAgent) ? '-ms-' : 'opera' in window ? '-o-' : ''
 } : {
   prefix: '',
   dashedPrefix: ''
-},
-    customProps = {
-  _x: true,
-  x: true,
-  _y: true,
-  y: true,
-  _z: true,
-  z: true,
-  transform: true,
-  perspective: true,
-  matrix: true,
-  // @todo
-  rotate: true,
-  rotateX: true,
-  rotateY: true,
-  _width: true,
-  _height: true
 },
     __ = {
   onPageHided: [],
@@ -32617,11 +33863,11 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
       me.fingers[finger.identifier] = me.fingers[finger.identifier] || [];
       me.fingers[finger.identifier].push(desc);
       desc.nbFingers++;
-      desc._startPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-      desc._startPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+      desc._startPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+      desc._startPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
       desc._startTs = e.timeStamp;
-      desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-      desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+      desc._lastPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+      desc._lastPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
 
       for (o = 0; o < desc.dragstart.length; o++) {
         desc.dragstart[o][0].call(desc.dragstart[o][1] || this, e, finger, desc);
@@ -32647,13 +33893,13 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
       desc = me.fingers[finger.identifier];
       me.fingers[finger.identifier] && me.fingers[finger.identifier].forEach(function (desc) {
         if (stopped) {
-          desc._lastPos.x = desc._startPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-          desc._lastPos.y = desc._startPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+          desc._lastPos.x = desc._startPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+          desc._lastPos.y = desc._startPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
           return;
         }
 
-        desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-        desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+        desc._lastPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+        desc._lastPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
 
         for (o = 0; o < desc.drag.length; o++) {
           stopped = desc.drag[o][0].call(desc.drag[o][1] || _this, e, finger, desc) === false;
@@ -32692,8 +33938,8 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
       me.fingers[finger.identifier] && me.fingers[finger.identifier].forEach(function (desc) {
         desc.nbFingers--;
         prevent = prevent || desc.mouseDrag && e.timeStamp - desc._startTs > 250;
-        desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-        desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+        desc._lastPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+        desc._lastPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
 
         for (o = 0; o < desc.dropped.length; o++) {
           desc.dropped[o][0].call(desc.dropped[o][1] || _this2, e, finger, desc);
@@ -33027,7 +34273,7 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
           event.deltaY = -1 / 40 * originalEvent.wheelDelta; // Webkit also support wheelDeltaX
           //                            originalEvent.wheelDeltaX && ( event.deltaX = - 1/40 *
           // originalEvent.wheelDeltaX );
-        } else if (support == "wheel" && Dom.prefix == "Moz") {
+        } else if (support == "wheel" && _dom.prefix == "Moz") {
           event.deltaY = originalEvent.deltaY / 3;
         } else if (support == "wheel") {
           event.deltaY = originalEvent.deltaY / 100;
@@ -33078,7 +34324,25 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
     }
 
     return rmWheelListener;
-  }(window, document)
+  }(window, document),
+
+  /**
+   * Find the react component that generate element dom node
+   * @param element
+   * @returns {React.Component}
+   */
+  findReactComponent: function findReactComponent(element) {
+    var fiberNode;
+
+    for (var key in element) {
+      if (key.startsWith('__reactInternalInstance$')) {
+        fiberNode = element[key];
+        return fiberNode && fiberNode["return"] && (fiberNode["return"].memoizedProps && fiberNode["return"].memoizedProps.value || fiberNode["return"].stateNode) || null;
+      }
+    }
+
+    return null;
+  }
 };
 
 var _default = Dom;
@@ -33096,10 +34360,145 @@ var _default = Dom;
   reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(isBrowser, "isBrowser", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(Dom, "Dom", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(customProps, "customProps", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
+  reactHotLoader.register(_dom, "_dom", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(__, "__", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
+  reactHotLoader.register(Dom, "Dom", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
+})();
+
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/withTweener.js":
+/*!****************************!*\
+  !*** ./src/withTweener.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return withTweener; });
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _TweenerContext__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TweenerContext */ "./src/TweenerContext.js");
+
+
+
+
+
+
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
+  enterModule && enterModule(module);
+})();
+
+/*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
+ */
+
+
+
+var SimpleObjectProto = {}.constructor;
+/**
+ * asTweener decorator
+ * @param argz
+ * @returns {*}
+ */
+
+function withTweener() {
+  var _class, _temp;
+
+  for (var _len = arguments.length, argz = new Array(_len), _key = 0; _key < _len; _key++) {
+    argz[_key] = arguments[_key];
+  }
+
+  var BaseComponent = (!argz[0] || argz[0].prototype instanceof react__WEBPACK_IMPORTED_MODULE_6___default.a.Component || argz[0] === react__WEBPACK_IMPORTED_MODULE_6___default.a.Component) && argz.shift(),
+      opts = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift() || {};
+
+  if (!(BaseComponent && (BaseComponent.prototype instanceof react__WEBPACK_IMPORTED_MODULE_6___default.a.Component || BaseComponent === react__WEBPACK_IMPORTED_MODULE_6___default.a.Component))) {
+    return function (BaseComponent) {
+      return withTweener(BaseComponent, opts);
+    };
+  }
+
+  return _temp = _class =
+  /*#__PURE__*/
+  function (_React$Component) {
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(TweenerToProps, _React$Component);
+
+    function TweenerToProps() {
+      _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, TweenerToProps);
+
+      return _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(TweenerToProps).apply(this, arguments));
+    }
+
+    _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(TweenerToProps, [{
+      key: "render",
+      value: function render() {
+        var _this = this;
+
+        return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_8__["default"].Consumer, null, function (tweener) {
+          return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(BaseComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, _this.props, {
+            tweener: tweener
+          }));
+        });
+      }
+    }, {
+      key: "__reactstandin__regenerateByEval",
+      // @ts-ignore
+      value: function __reactstandin__regenerateByEval(key, code) {
+        // @ts-ignore
+        this[key] = eval(code);
+      }
+    }]);
+
+    return TweenerToProps;
+  }(react__WEBPACK_IMPORTED_MODULE_6___default.a.Component), _class.displayName = (BaseComponent.displayName || BaseComponent.name) + " (withTweener)", _temp;
+}
+;
+
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).default;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(SimpleObjectProto, "SimpleObjectProto", "G:\\n8tz\\libs\\react-rtween\\src\\withTweener.js");
+  reactHotLoader.register(withTweener, "withTweener", "G:\\n8tz\\libs\\react-rtween\\src\\withTweener.js");
 })();
 
 ;

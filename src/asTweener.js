@@ -30,8 +30,7 @@ import {deMuxTween, muxToCss, deMuxLine} from "./helpers";
 
 var isBrowserSide           = (new Function("try {return this===window;}catch(e){ return false;}"))(),
     isArray                 = is.array,
-    initialTweenable        = {// while no matrix..
-    },
+    tweenerCount            = 0,
     _live, lastTm, _running = [];
 
 const SimpleObjectProto = ({}).constructor;
@@ -98,18 +97,21 @@ export default function asTweener( ...argz ) {
 		
 		constructor() {
 			super(...arguments);
-			let _static             = this.constructor;
-			this._                  = {
+			let _static      = this.constructor;
+			this._           = {
 				refs       : {},
 				muxByTarget: {},
 			};
-			this._.box              = {
+			this._.box       = {
 				x: 100,
 				y: 100,
 				z: 800
 			};
-			this._.curMotionStateId = _static.InitialMotionState || "stand";
-			this._._rafLoop         = this._rafLoop.bind(this);
+			this._._rafLoop  = this._rafLoop.bind(this);
+			this.__isTweener = true;
+			this.__isFirst   = !tweenerCount;
+			tweenerCount++;
+			
 		}
 		
 		
@@ -138,15 +140,17 @@ export default function asTweener( ...argz ) {
 		tweenRef( id, iStyle, iMap, pos, noref, mapReset ) {// ref initial style
 			this.makeTweenable();
 			
-			let _static      = this.constructor,
-			    _            = this._,
-			    tweenableMap = {},
-			    cState       = _static.motionStates && _static.motionStates[this._.curMotionStateId];
+			let _static       = this.constructor,
+			    _             = this._,
+			    tweenableMap  = {},
+			    tweenableData = {},
+			    cState        = _static.motionStates && _static.motionStates[this._.curMotionStateId];
 			
 			if ( !this._.tweenRefs[id] )
 				this._.tweenRefTargets.push(id);
 			
 			if ( mapReset || !this._.tweenRefs[id] ) {
+				mapReset = mapReset || !this._.tweenRefs[id];
 				if ( cState && cState.refs && cState.refs[id] ) {
 					iStyle = iStyle || { ...cState.refs[id][0] };
 					iMap   = iMap || { ...cState.refs[id][1] };
@@ -161,28 +165,18 @@ export default function asTweener( ...argz ) {
 				this._.muxByTarget[id]     = this._.muxByTarget[id] || {};
 				this._.muxDataByTarget[id] = this._.muxDataByTarget[id] || {};
 				
-				if ( iMap.getPosAt ) {// typeof rtween
-					tweenableMap = iMap.getPosAt(
-						pos,
-						!mapReset && this._.tweenRefMaps[id]
-							|| Object.assign({}, initialTweenable, iMap.scope || {})
-					);
-				}
-				else {
-					
-					mapReset = noref;
-					noref    = pos;
-					
-					
-					iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]) };
-					//this._.tweenRefUnits[id] = extractUnits(iMap);
-				}
+				
+				iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id], true) };
+				//this._.tweenRefUnits[id] = extractUnits(iMap);
+				//}
 				this._.tweenRefOrigin[id] = tweenableMap;
-				iStyle                    = mapReset && { ...iStyle } || this._.tweenRefCSS[id] || { ...iStyle };
-				this._.tweenRefCSS[id]    = iStyle;
+				this._.tweenRefCSS[id]    = this._.tweenRefCSS[id] || { ...iStyle };
+				if ( mapReset )
+					Object.assign(this._.tweenRefCSS[id], iStyle);
+				this._.tweenRefCSS[id] = iStyle;
 				// init / reset or get the tweenable view
-				tweenableMap              = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id]
-					|| Object.assign({}, initials, tweenableMap || {});
+				tweenableMap           = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id]
+					|| Object.assign(this._.tweenRefMaps[id] || {}, initials, tweenableMap || {});
 				
 				//console.log(tweenableMap, iStyle, initials, this._.muxByTarget[id], this._.muxDataByTarget[id])
 				//utils.mapInBoxCSS(iMap, iStyle, this._.box, this._.tweenRefUnits[id]);
@@ -203,6 +197,20 @@ export default function asTweener( ...argz ) {
 					// __tweenMap : this._.tweenRefMaps[id],
 					// __tweenCSS : this._.tweenRefCSS[id]
 				};
+		}
+		
+		rmTweenRef( id ) {
+			if ( this._.tweenRefs[id] ) {
+				this._.tweenRefTargets.splice(this._.tweenRefTargets.indexOf(id), 1);
+				delete this._.tweenRefs[id];
+				delete this._.muxByTarget[id];
+				delete this._.muxDataByTarget[id];
+				delete this._.tweenRefOrigin[id];
+				delete this._.tweenRefCSS[id];
+				delete this._.tweenRefMaps[id];
+				delete this._.refs[id];
+			}
+			
 		}
 		
 		// ------------------------------------------------------------
@@ -291,19 +299,19 @@ export default function asTweener( ...argz ) {
 		
 		makeTweenable() {
 			if ( !this._.tweenEnabled ) {
-				this._.rtweensByProp      = {};
-				this._.rtweensByStateProp = {};
-				this._.tweenRefCSS        = {};
-				this._.tweenRefs          = {};
-				this._.tweenRefMaps       = {};
-				this._.tweenRefUnits      = {};
-				this._.tweenEnabled       = true;
-				this._.tweenRefOrigin     = {};
-				this._.axes               = {};
-				this._.muxDataByTarget    = this._.muxDataByTarget || {};
-				this._.tweenRefDemuxed    = this._.tweenRefDemuxed || {};
-				this._.tweenRefTargets    = this._.tweenRefTargets || [];
-				this._.runningAnims       = this._.runningAnims || [];
+				this._.rtweensByProp       = {};
+				this._.rtweensByStateProp  = {};
+				this._.tweenRefCSS         = {};
+				this._.tweenRefs           = {};
+				this._.tweenRefMaps        = {};
+				this._.tweenRefInitialData = {};
+				this._.tweenEnabled        = true;
+				this._.tweenRefOrigin      = {};
+				this._.axes                = {};
+				this._.muxDataByTarget     = this._.muxDataByTarget || {};
+				this._.tweenRefDemuxed     = this._.tweenRefDemuxed || {};
+				this._.tweenRefTargets     = this._.tweenRefTargets || [];
+				this._.runningAnims        = this._.runningAnims || [];
 				
 				isBrowserSide && window.addEventListener(
 					"resize",
@@ -335,7 +343,7 @@ export default function asTweener( ...argz ) {
 					apply   : ( pos, max ) => {
 						let x = (from + (easing(pos / max)) * length);
 						if ( this._.tweenEnabled ) {
-							this._.axes[axe].scrollableAnims.forEach(
+							this._.axes[axe].tweenLines.forEach(
 								sl => sl.goTo(x)
 							);
 							tick && tick(x);
@@ -355,27 +363,51 @@ export default function asTweener( ...argz ) {
 			}
 		}
 		
-		_getDim( axe = "scrollY" ) {
+		_getAxis( axe = "scrollY" ) {
 			let _ = this._;
 			
 			_.axes[axe] = _.axes[axe] || {
-				scrollableAnims: [],
-				scrollPos      : opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
-				targetPos      : 0,
-				inertia        : new Inertia({
-					                             value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
-					                             ...(opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {})
-				                             }),
+				tweenLines: [],
+				scrollPos : opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
+				targetPos : 0,
+				inertia   : new Inertia({
+					                        value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
+					                        ...(opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {})
+				                        }),
 			};
 			
 			return _.axes[axe];
+		}
+		
+		initAxis( axe, _inertia, scrollableArea = 0, defaultPosition ) {
+			this.makeTweenable();
+			this.makeScrollable();
+			let _         = this._,
+			    dim       = _.axes[axe],
+			    scrollPos = dim ? dim.scrollPos : defaultPosition || 0,
+			    targetPos = dim ? dim.targetPos : scrollPos,
+			    inertia   = _inertia !== false && (
+				    dim ? dim.inertia : new Inertia({// todo mk pure
+					                                    value: scrollPos,
+					                                    ...(_inertia || {})
+				                                    })),
+			    nextDescr = {
+				    tweenLines: dim && dim.tweenLines || [],
+				    scrollPos,
+				    targetPos,
+				    inertia,
+				    scrollableArea
+			    };
+			
+			dim = this._.axes[axe] = nextDescr;
+			(_inertia !== false) && (dim.inertia._.stops = _inertia.stops);
 		}
 		
 		addScrollableAnim( anim, axe = "scrollY", size ) {
 			var sl,
 			    _        = this._,
 			    initials = {},
-			    dim      = this._getDim(axe);
+			    dim      = this._getAxis(axe);
 			
 			if ( isArray(anim) ) {
 				sl = anim;
@@ -390,12 +422,13 @@ export default function asTweener( ...argz ) {
 				sl = new rtween(sl, _.tweenRefMaps);
 				Object.keys(initials)
 				      .forEach(
-					      id => (
-						      Object.assign(this._.tweenRefMaps[id], {
-							      ...initials[id],
-							      ...this._.tweenRefMaps[id]
-						      })
-					      )
+					      id => {
+						      this._.tweenRefMaps[id] = this._.tweenRefMaps[id] || {},
+							      Object.assign(this._.tweenRefMaps[id], {
+								      ...initials[id],
+								      ...this._.tweenRefMaps[id]
+							      })
+					      }
 				      )
 			}
 			
@@ -403,7 +436,7 @@ export default function asTweener( ...argz ) {
 			this.makeScrollable();
 			
 			// init scroll
-			dim.scrollableAnims.push(sl);
+			dim.tweenLines.push(sl);
 			dim.scrollPos      = dim.scrollPos || 0;
 			dim.scrollableArea = dim.scrollableArea || 0;
 			dim.scrollableArea = Math.max(dim.scrollableArea, sl.duration);
@@ -415,16 +448,16 @@ export default function asTweener( ...argz ) {
 		
 		rmScrollableAnim( sl, axe = "scrollY" ) {
 			var _   = this._, found,
-			    dim = this._getDim(axe);
-			let i   = dim.scrollableAnims.indexOf(sl);
+			    dim = this._getAxis(axe);
+			let i   = dim.tweenLines.indexOf(sl);
 			if ( i != -1 ) {
-				dim.scrollableAnims.splice(i, 1);
-				dim.scrollableArea = Math.max(...dim.scrollableAnims.map(tl => tl.duration), 0);
+				dim.tweenLines.splice(i, 1);
+				dim.scrollableArea = Math.max(...dim.tweenLines.map(tl => tl.duration), 0);
 				dim.inertia.setBounds(0, dim.scrollableArea || 0);
 				sl.goTo(0, this._.tweenRefMaps)
 				found = true;
 			}
-			!found && console.warn("TweenLine not found !")
+			!found && console.warn("TweenAxis not found !")
 		}
 		
 		scrollTo( newPos, ms = 0, axe = "scrollY" ) {
@@ -443,7 +476,7 @@ export default function asTweener( ...argz ) {
 				this._.axes[axe].targetPos = newPos;
 				
 				if ( !ms ) {
-					this._.axes[axe].scrollableAnims.forEach(
+					this._.axes[axe].tweenLines.forEach(
 						sl => sl.goTo(newPos, this._.tweenRefMaps)
 					);
 					setPos(newPos);
@@ -465,44 +498,24 @@ export default function asTweener( ...argz ) {
 				this._.scrollEnabled = true;
 				this._.scrollHook    = [];
 				this._registerScrollListeners();
-				//ReactDom.findDOMNode(this).addEventListener("onscroll", this._.onScroll)
 			}
 		}
+		
 		
 		_registerScrollListeners() {
 			if ( this._.rendered ) {
 				let rootNode = ReactDom.findDOMNode(this);
-				isBrowserSide && utils.addWheelEvent(
+				
+				this.__isFirst && isBrowserSide && utils.addWheelEvent(
 					rootNode,
 					this._.onScroll = ( e ) => {//@todo
-						let prevent, headTarget = e.target, style;
 						
 						
 						// check if there scrollable stuff in dom targets
-						while ( headTarget ) {
-							style = getComputedStyle(headTarget, null)
-							
-							if ( /(auto|scroll)/.test(
-								style.getPropertyValue("overflow")
-								+ style.getPropertyValue("overflow-x")
-								+ style.getPropertyValue("overflow-y")
-							)
-							) {
-								if (
-									(e.deltaY < 0 && headTarget.scrollTop !== 0)
-									||
-									(e.deltaY > 0 && headTarget.scrollTop !== (headTarget.scrollHeight - headTarget.offsetHeight))
-								) {
-									return;
-								} // let the node do this scroll
-							}
-							headTarget = headTarget.parentNode;
-							if ( headTarget === document || headTarget === rootNode )
-								break;
+						if ( this._shouldDispatch(e.target, e.deltaX * 5, e.deltaY * 5) ) {
+							this.dispatchScroll(e.deltaY * 5, "scrollY");
+							this.dispatchScroll(e.deltaX * 5, "scrollX");
 						}
-						
-						this.dispatchScroll(e.deltaY * 5, "scrollY");
-						this.dispatchScroll(e.deltaX * 5, "scrollX");
 						//
 						//if ( prevent ) {
 						//	e.preventDefault();
@@ -515,8 +528,8 @@ export default function asTweener( ...argz ) {
 					rootNode, this._.dragList = {
 						'dragstart': ( e, touch, descr ) => {//@todo
 							let prevent,
-							    x = this._getDim("scrollX"),
-							    y = this._getDim("scrollY");
+							    x = this._getAxis("scrollX"),
+							    y = this._getAxis("scrollY");
 							x.inertia.startMove();
 							y.inertia.startMove();
 							lastPos.x = x.scrollPos;
@@ -527,47 +540,28 @@ export default function asTweener( ...argz ) {
 							
 						},
 						'drag'     : ( e, touch, descr ) => {//@todo
+							
 							let prevent,
-							    x          = this._getDim("scrollX"),
-							    y          = this._getDim("scrollY"),
+							    x          = this._getAxis("scrollX"),
+							    y          = this._getAxis("scrollY"),
 							    deltaY     = descr._lastPos.y - descr._startPos.y,
 							    deltaX     = descr._lastPos.x - descr._startPos.x,
 							    headTarget = e.target, style;
 							
 							lastPos = lastPos || { ...descr._startPos };
+							
 							// check if there scrollable stuff in dom targets
-							while ( headTarget ) {
-								style = getComputedStyle(headTarget, null)
-								
-								if ( /(auto|scroll)/.test(
-									style.getPropertyValue("overflow")
-									+ style.getPropertyValue("overflow-x")
-									+ style.getPropertyValue("overflow-y")
-								)
-								) {
-									if (
-										(
-											(deltaY > 0 && headTarget.scrollTop > 0)
-											||
-											(deltaY < 0 && headTarget.scrollTop < (headTarget.scrollHeight - headTarget.offsetHeight))
-										)
-									) {
-										return;
-									} // let the node do this scroll
-								}
-								headTarget = headTarget.parentNode;
-								if ( headTarget === document || headTarget === rootNode )
-									break;
-							}
-							
-							
-							y.inertia.hold(lastPos.y + (-(descr._lastPos.y - descr._startPos.y) / this._.box.y) * y.scrollableArea);
+							//if ( this.isAxisOut("scrollX", deltaX) )
 							x.inertia.hold(lastPos.x + (-(descr._lastPos.x - descr._startPos.x) / this._.box.x) * x.scrollableArea);
-							return !prevent;
+							//if ( this.isAxisOut("scrollY", -deltaY) )
+							y.inertia.hold(lastPos.y + (-(descr._lastPos.y - descr._startPos.y) / this._.box.y) * y.scrollableArea);
+							
+							
+							//return !prevent;
 						},
 						'dropped'  : ( e, touch, descr ) => {
-							this._getDim("scrollY").inertia.release();
-							this._getDim("scrollX").inertia.release();
+							this._getAxis("scrollY").inertia.release();
+							this._getAxis("scrollX").inertia.release();
 							//lastPos = null;
 						}
 					}, null,
@@ -582,10 +576,6 @@ export default function asTweener( ...argz ) {
 		// ------------------------------------------------------------
 		// --------------- Inertia & scroll modifiers -----------------
 		// ------------------------------------------------------------
-		
-		addScrollModifier( desc, axe = "scrollY" ) {
-		
-		}
 		
 		
 		applyInertia( dim, axe ) {
@@ -610,7 +600,7 @@ export default function asTweener( ...argz ) {
 			
 			if ( dim && oldPos !== newPos ) {
 				
-				//console.log("dispatch " + newPos);
+				console.log("dispatch " + delta, this.constructor.displayName);
 				dim.inertia.dispatch(delta, 100);
 				!dim.inertiaFrame && this.applyInertia(dim, axe);
 				
@@ -622,55 +612,59 @@ export default function asTweener( ...argz ) {
 			return prevent;
 		}
 		
+		isAxisOut( axis, v ) {
+			let _   = this._,
+			    dim = _.axes && _.axes[axis],
+			    pos = dim && (dim.scrollPos + v);
+			return !dim || (pos <= 0 || pos >= dim.scrollableArea);
+		}
+		
+		_shouldDispatch( target, dx, dy ) {
+			let style, Comp, headTarget = target, complete;
+			// todo optim
+			// check if there scrollable stuff in dom targets
+			while ( headTarget ) {
+				style = getComputedStyle(headTarget, null)
+				
+				Comp = utils.findReactComponent(headTarget);
+				
+				
+				if ( Comp && Comp.__isTweener ) {
+					if ( !Comp.isAxisOut("scrollX", dx) ) {
+						Comp.dispatchScroll(dx, "scrollX");
+						dx = 0;
+					}
+					if ( !Comp.isAxisOut("scrollY", dy) ) {
+						Comp.dispatchScroll(dy, "scrollY")
+						dy = 0;
+					}
+					if ( !dx && !dy )
+						return;
+				}
+				if ( /(auto|scroll)/.test(
+					style.getPropertyValue("overflow")
+					+ style.getPropertyValue("overflow-x")
+					+ style.getPropertyValue("overflow-y")
+				)
+				) {
+					if (
+						(dy < 0 && headTarget.scrollTop !== 0)
+						||
+						(dy > 0 && headTarget.scrollTop !== (headTarget.scrollHeight - headTarget.offsetHeight))
+					) {
+						return;
+					} // let the node do this scroll
+				}
+				
+				headTarget = headTarget.parentNode;
+				if ( headTarget === document || headTarget === target )
+					break;
+			}
+		}
+		
 		// ------------------------------------------------------------
 		// ------------------ Motion/FSM anims ------------------------
 		// ------------------------------------------------------------
-		
-		goToMotionStateId( targetId ) {
-			let _static = this.constructor,
-			    tState  = _static.motionStates[targetId],
-			    cState  = this._.curMotionStateId;
-			if ( !this._.rendered )
-				return this._.delayedMotionTarget = targetId;
-			if ( this.running )
-				this.running = arguments;
-			if (
-				!this.running
-				&& targetId != this._.curMotionStateId
-			) {
-				if ( !this._.tweenRefCSS )
-					this.makeTweenable();
-				this.running = true;
-				let flow     = new taskflow(
-					[
-						_static.motionStates[this._.curMotionStateId] &&
-						(( ctx, flow ) => (_static.motionStates[cState].leaving(ctx, flow, cState))),
-						() => {
-							this._.curMotionStateId = targetId
-							if ( this.running !== true )
-								setTimeout(() => this.goToMotionStateId(...this.running));
-							this.running = false;
-						},
-						tState &&
-						(( ctx, flow ) => (tState.entering(ctx, flow, cState))),
-						() => {
-							tState.refs
-							&& Object.keys(tState.refs)
-							         .map(
-								         ( k ) => {
-									         this.updateRefStyle(k, tState.refs[k][0]);
-									         this.applyTweenState(k, tState.refs[k][1]);
-								         }
-							         )
-						}
-					],
-					this
-				    )
-				;
-				flow.run()
-			}
-			
-		}
 		
 		applyTweenState( id, map, reset ) {
 			let tmap = {}, initials = {};
@@ -718,7 +712,7 @@ export default function asTweener( ...argz ) {
 		}
 		
 		getTweenableRef( id ) {
-			return this._.refs[id];
+			return this._.refs[id] && ReactDom.findDOMNode(this._.refs[id]);
 		}
 		
 		_rafLoop() {
@@ -744,7 +738,7 @@ export default function asTweener( ...argz ) {
 		}
 		
 		componentWillUnmount() {
-			
+			let node = ReactDom.findDOMNode(this);
 			if ( this._.tweenEnabled ) {
 				this._.tweenEnabled = false;
 				window.removeEventListener("resize", this._.onResize);
@@ -753,11 +747,11 @@ export default function asTweener( ...argz ) {
 			if ( this._.scrollEnabled ) {
 				this._.scrollEnabled = false;
 				//this._.axes          = undefined;
-				utils.rmWheelEvent(
-					ReactDom.findDOMNode(this),
+				node && this._.onScroll && utils.rmWheelEvent(
+					node,
 					this._.onScroll);
-				utils.removeEvent(
-					ReactDom.findDOMNode(this), this._.dragList)
+				node && this._.dragList && utils.removeEvent(node
+					, this._.dragList)
 			}
 			
 			super.componentWillUnmount && super.componentWillUnmount(...arguments);
@@ -785,7 +779,8 @@ export default function asTweener( ...argz ) {
 						      axe => this.addScrollableAnim(_static.scrollableAnim[axe], axe)
 					      )
 			}
-			if ( this._.doRegister ) {
+			if ( this._.doRegister || this.__isFirst ) {
+				
 				this._registerScrollListeners();
 				this._.doRegister = false;
 			}

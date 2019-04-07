@@ -1,0 +1,53 @@
+/*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
+ */
+
+import React from "react";
+import is    from "is";
+
+import TweenerContext from "./TweenerContext";
+
+
+const SimpleObjectProto = ({}).constructor;
+
+
+/**
+ * asTweener decorator
+ * @param argz
+ * @returns {*}
+ */
+export default function withTweener( ...argz ) {
+	
+	let BaseComponent = (!argz[0] || argz[0].prototype instanceof React.Component || argz[0] === React.Component) && argz.shift(),
+	    opts          = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift() || {};
+	
+	if ( !(BaseComponent && (BaseComponent.prototype instanceof React.Component || BaseComponent === React.Component)) ) {
+		return function ( BaseComponent ) {
+			return withTweener(BaseComponent, opts)
+		}
+	}
+	
+	return class TweenerToProps extends React.Component {
+		static displayName = (BaseComponent.displayName || BaseComponent.name) + " (withTweener)";
+		
+		render() {
+			return <TweenerContext.Consumer>
+				{
+					tweener => {
+						return <BaseComponent { ...this.props } tweener={ tweener }/>;
+					}
+				}
+			</TweenerContext.Consumer>;
+		}
+	}
+}

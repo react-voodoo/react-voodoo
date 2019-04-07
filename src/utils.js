@@ -13,15 +13,15 @@
  */
 
 var
-	is          = require('is'),
-	floatCut    = function ( v, l ) {
+	is        = require('is'),
+	floatCut  = function ( v, l ) {
 		var p = Math.pow(10, l);
 		return Math.round(v * p) / p;
 	},
-	min         = Math.min,
-	max         = Math.max,
-	isBrowser   = typeof window !== 'undefined',
-	Dom         = isBrowser ? {
+	min       = Math.min,
+	max       = Math.max,
+	isBrowser = typeof window !== 'undefined',
+	_dom      = isBrowser ? {
 		prefix      : (/webkit/i).test(navigator.appVersion) ? 'webkit' :
 		              (/firefox/i).test(navigator.userAgent) ? 'Moz' :
 		              (/trident/i).test(navigator.userAgent) ? 'ms' :
@@ -34,23 +34,7 @@ var
 		prefix      : '',
 		dashedPrefix: ''
 	},
-	customProps = {
-		_x         : true,
-		x          : true,
-		_y         : true,
-		y          : true,
-		_z         : true,
-		z          : true,
-		transform  : true,
-		perspective: true,
-		matrix     : true,// @todo
-		rotate     : true,
-		rotateX    : true,
-		rotateY    : true,
-		_width     : true,
-		_height    : true,
-	},
-	__          = {
+	__        = {
 		onPageHided      : [],
 		onPageShown      : [],
 		dragging         : [],
@@ -106,13 +90,13 @@ var
 				
 				desc.nbFingers++;
 				
-				desc._startPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-				desc._startPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+				desc._startPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+				desc._startPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
 				desc._startTs    = e.timeStamp;
 				
 				
-				desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-				desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+				desc._lastPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+				desc._lastPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
 				
 				for ( o = 0; o < desc.dragstart.length; o++ )
 					desc.dragstart[o][0].call(desc.dragstart[o][1] ||
@@ -138,12 +122,12 @@ var
 				me.fingers[finger.identifier].forEach(
 					desc => {
 						if ( stopped ) {
-							desc._lastPos.x = desc._startPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-							desc._lastPos.y = desc._startPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+							desc._lastPos.x = desc._startPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+							desc._lastPos.y = desc._startPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
 							return;
 						}
-						desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-						desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+						desc._lastPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+						desc._lastPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
 						
 						for ( o = 0; o < desc.drag.length; o++ )
 							stopped = desc.drag[o][0].call(desc.drag[o][1] || this, e,
@@ -186,8 +170,8 @@ var
 						
 						desc.nbFingers--;
 						prevent         = prevent || desc.mouseDrag && (e.timeStamp - desc._startTs > 250);
-						desc._lastPos.x = Dom.prefix == 'MS' ? finger.x : finger.pageX;
-						desc._lastPos.y = Dom.prefix == 'MS' ? finger.y : finger.pageY;
+						desc._lastPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+						desc._lastPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
 						
 						for ( o = 0; o < desc.dropped.length; o++ )
 							desc.dropped[o][0].call(desc.dropped[o][1] ||
@@ -353,7 +337,7 @@ var
 			return node;
 		}
 	},
-	Dom         = {
+	Dom       = {
 		addEvent     : function ( node, type, fn, mouseDrag, bubble ) {
 			var desc;
 			if ( is.object(type) ) {
@@ -543,7 +527,7 @@ var
 						//                            originalEvent.wheelDeltaX && ( event.deltaX = - 1/40 *
 						// originalEvent.wheelDeltaX );
 					}
-					else if ( support == "wheel" && Dom.prefix == "Moz" ) {
+					else if ( support == "wheel" && _dom.prefix == "Moz" ) {
 						event.deltaY = originalEvent.deltaY / 3;
 					}
 					else if ( support == "wheel" ) {
@@ -598,5 +582,24 @@ var
 			
 			return rmWheelListener;
 		})(window, document),
+		
+		
+		/**
+		 * Find the react component that generate element dom node
+		 * @param element
+		 * @returns {React.Component}
+		 */
+		findReactComponent( element ) {
+			let fiberNode;
+			for ( const key in element ) {
+				if ( key.startsWith('__reactInternalInstance$') ) {
+					fiberNode = element[key];
+					
+					return fiberNode && fiberNode.return && (fiberNode.return.memoizedProps && fiberNode.return.memoizedProps.value || fiberNode.return.stateNode) || null;
+				}
+			}
+			return null;
+		}
+		
 	};
 export default Dom;
