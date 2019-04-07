@@ -461,7 +461,7 @@ export default function asTweener( ...argz ) {
 		}
 		
 		scrollTo( newPos, ms = 0, axe = "scrollY" ) {
-			if ( this._.axes ) {
+			if ( this._.axes && this._.axes[axe] ) {
 				let oldPos = this._.axes[axe].targetPos,
 				    setPos = pos => {
 					
@@ -544,15 +544,13 @@ export default function asTweener( ...argz ) {
 							let prevent,
 							    x          = this._getAxis("scrollX"),
 							    y          = this._getAxis("scrollY"),
-							    deltaY     = descr._lastPos.y - descr._startPos.y,
-							    deltaX     = descr._lastPos.x - descr._startPos.x,
 							    headTarget = e.target, style;
 							
 							lastPos = lastPos || { ...descr._startPos };
 							
 							// check if there scrollable stuff in dom targets
 							//if ( this.isAxisOut("scrollX", deltaX) )
-							x.inertia.hold(lastPos.x + (-(descr._lastPos.x - descr._startPos.x) / this._.box.x) * x.scrollableArea);
+							x.inertia.hold(lastPos.x + ((descr._lastPos.x - descr._startPos.x) / this._.box.x) * x.scrollableArea);
 							//if ( this.isAxisOut("scrollY", -deltaY) )
 							y.inertia.hold(lastPos.y + (-(descr._lastPos.y - descr._startPos.y) / this._.box.y) * y.scrollableArea);
 							
