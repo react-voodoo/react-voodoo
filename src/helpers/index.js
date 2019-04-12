@@ -13,29 +13,30 @@
  */
 
 
-import {expandShorthandProperty, isShorthandProperty, isValidDeclaration} from "./utils";
+import {expandShorthandProperty, isShorthandProperty, isValidDeclaration} from "./cssUtils";
 import * as cssDemuxers                                                   from "./demux/(*).js";
 
-import {number, int, transforms} from "./demux/typed/(*).js";
+import {number, int, multi} from "./demux/typed/(*).js";
 
 
 const cssDemux = {
 	...cssDemuxers,
-	height       : number,
-	width        : number,
-	top          : number,
-	left         : number,
-	right        : number,
-	bottom       : number,
-	marginTop    : number,
-	marginLeft   : number,
-	marginRight  : number,
-	marginBottom : number,
-	paddingTop   : number,
-	paddingLeft  : number,
-	paddingRight : number,
-	paddingBottom: number,
-	zIndex       : int,
+	height         : number,
+	width          : number,
+	top            : number,
+	left           : number,
+	right          : number,
+	bottom         : number,
+	marginTop      : number,
+	marginLeft     : number,
+	marginRight    : number,
+	marginBottom   : number,
+	paddingTop     : number,
+	paddingLeft    : number,
+	paddingRight   : number,
+	paddingBottom  : number,
+	transformOrigin: multi(2),
+	zIndex         : int,
 	//rotate       : transforms,
 	//rotateX      : transforms,
 	//rotateY      : transforms,

@@ -53,7 +53,7 @@ export default class Inertia {
 	}
 	
 	update( at = Date.now() ) {
-		let _ = this._;
+		let _ = this._, nextValue;
 		if ( !_.inertia )
 			return _.pos;
 		let
@@ -64,11 +64,16 @@ export default class Inertia {
 			_.inertia        = this.active = false;
 			_.lastInertiaPos = delta = 0;
 		}
-		delta = delta || 0;
+		delta     = delta || 0;
 		//console.log(_.pos + delta);
+		nextValue = _.pos + delta;
 		
+		if ( _.conf.hookValueUpdate )
+			nextValue = _.conf.hookValueUpdate(nextValue);
 		
-		return _.pos += delta;
+		_.pos = nextValue;
+		
+		return nextValue;
 	}
 	
 	dispatch( delta, tm = 250 ) {
@@ -120,23 +125,25 @@ export default class Inertia {
 					target = pos < mid ? _.stops[i - 1] : _.stops[i];
 			}
 			
-			
-			console.log("do snap", i, target);
+			//console.log("do snap", i, target);
 			target           = target - (_.pos - _.lastInertiaPos);
 			_.targetDuration = min(maxDuration, abs((_.targetDuration / _.targetDist) * target));
 			_.targetDist     = target;
 		}
 		else {
 			target = ~~(_.pos - _.lastInertiaPos);
-			if ( target > _.max ) {
-				target           = _.max - target;
-				_.targetDuration = min(maxDuration, abs((_.targetDuration / _.targetDist) * target));
-				_.targetDist     = target;
-			}
-			else if ( target < _.min ) {
-				target           = _.min - target;
-				_.targetDuration = min(maxDuration, abs((_.targetDuration / _.targetDist) * target));
-				_.targetDist     = target;
+			
+			if ( !_.conf.infinite ) {
+				if ( target > _.max ) {
+					target           = _.max - target;
+					_.targetDuration = min(maxDuration, abs((_.targetDuration / _.targetDist) * target));
+					_.targetDist     = target;
+				}
+				else if ( target < _.min ) {
+					target           = _.min - target;
+					_.targetDuration = min(maxDuration, abs((_.targetDuration / _.targetDist) * target));
+					_.targetDist     = target;
+				}
 			}
 			
 		}
@@ -170,11 +177,16 @@ export default class Inertia {
 		_.lastVelocity  = iVel;
 		_.baseTS        = now;
 		
-		if ( pos > _.max ) {
-			pos = _.max + min((pos - _.max) / 10, 10);
-		}
-		else if ( pos < _.min ) {
-			pos = _.min - min((_.min - pos) / 10, 10);
+		if ( _.conf.hookValueUpdate )
+			pos = _.conf.hookValueUpdate(pos);
+		
+		if ( !_.conf.infinite ) {
+			if ( pos > _.max ) {
+				pos = _.max + min((pos - _.max) / 10, 10);
+			}
+			else if ( pos < _.min ) {
+				pos = _.min - min((_.min - pos) / 10, 10);
+			}
 		}
 		
 		_.pos = pos;

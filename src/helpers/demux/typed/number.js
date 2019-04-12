@@ -37,7 +37,7 @@ function demux( key, tweenable, target, data, box ) {
 	target[key] = data[key] ? floatCut(tweenable[key], 2) + data[key] : floatCut(tweenable[key], 2);
 }
 
-export default ( key, value, target, data, initials, forceUnits ) => {
+function muxer( key, value, target, data, initials, forceUnits ) {
 	
 	
 	//if ( cssAnimProps.canAnimate(key) ) {
@@ -68,4 +68,6 @@ export default ( key, value, target, data, initials, forceUnits ) => {
 	//}
 	
 	return demux;
-}
+};
+muxer.demux = demux;
+export default muxer;

@@ -75,9 +75,18 @@ export default class TweenAxis extends React.Component {
 						tweener.initAxis(axe, inertia, size, defaultPosition);
 					}
 					if ( !this._previousTweener || this._previousTweener !== tweener ) {// mk axe not modifiable
-						this._previousTweener && this._previousTweener.rmScrollableAnim(this._lastTL, axe);
-						this._lastTL          = tweener.addScrollableAnim(items, axe, size);
+						this._previousTweener && this._lastTL && this._previousTweener.rmScrollableAnim(this._lastTL, axe);
+						if ( items.length )
+							this._lastTL = tweener.addScrollableAnim(items, axe, size);
 						this._previousTweener = tweener;
+						this._previousTweens  = items;
+					}
+					else if ( this._previousTweens !== items ) {
+						this._lastTL && tweener.rmScrollableAnim(this._lastTL, axe);
+						this._lastTL = null;
+						if ( items.length )
+							this._lastTL = tweener.addScrollableAnim(items, axe, size);
+						this._previousTweens = items;
 					}
 					return <React.Fragment/>;
 				}

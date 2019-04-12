@@ -1,15 +1,15 @@
 {
   "name": "react-rtween",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "license": "AGPL-3.0",
-  "main": "./dist/RTween.js",
+  "main": "./dist/react-rtween.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
   "wpInherit": {
     "default": {
       "rootFolder": "src",
       "basedOn": "Component",
       "vars": {
-        "rootAlias": "RTween",
+        "rootAlias": "react-rtween",
         "production": true,
         "externals": true,
         "webpackPatch": {
@@ -22,11 +22,23 @@
         "wpi-react-hmr-ssr"
       ]
     },
+    "staging": {
+      "rootFolder": "src",
+      "basedOn": "Component",
+      "vars": {
+        "rootAlias": "react-rtween",
+        "externals": true,
+        "webpackPatch": {}
+      },
+      "extend": [
+        "wpi-react-hmr-ssr"
+      ]
+    },
     "samples": {
       "rootFolder": "src",
       "basedOn": "ComponentSamples",
       "vars": {
-        "rootAlias": "RTween",
+        "rootAlias": "react-rtween",
         "webpackPatch": {
           "devServer": {
             "port": 9501
@@ -40,6 +52,7 @@
   },
   "scripts": {
     "build": "wpi && wpi :samples",
+    "live": "wpi :staging -w",
     "dev": "wpi-dev-server :samples --hot",
     "runBrowser": "start http://localhost:9501"
   },
@@ -55,10 +68,11 @@
     "color-rgba": "^2.1.0",
     "css-color-converter": "^1.1.0",
     "d3-ease": "^1.0.5",
+    "inrtia": "^0.2.3",
     "is": "^3.2.1",
     "isfunction": "0.0.6",
     "kebab-case": "^1.0.0",
-    "rtween": "^1.2.0",
+    "rtween": "^1.2.1",
     "taskflows": "^1.0.0"
   },
   "devDependencies": {

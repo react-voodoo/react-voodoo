@@ -46,9 +46,13 @@ export default class TweenRef extends React.Component {
 		}
 		if ( this._previousTweener ) {
 			this._previousTweener.rmTweenRef(this.__tweenableId)
+			this._previousTweener.setRootRef(undefined);
 		}
 		delete this._previousTweener;
 		delete this._previousScrollable;
+	}
+	
+	componentDidUpdate( prevProps, prevState, snapshot ) {
 	}
 	
 	render() {
@@ -56,13 +60,14 @@ export default class TweenRef extends React.Component {
 			    children,
 			    id            = this.__tweenableId,
 			    style, initial, pos, noRef, reset, tweener,
+			    isRoot,
 			    tweenLines,
 			    onClick       = children && children.props && children.props.onClick,
 			    onDoubleClick = children && children.props && children.props.onDoubleClick
 		    } = this.props;
 		return <TweenerContext.Consumer>
 			{
-				parentTweener => {
+				parentTweener => {//@todo : should use didmount ?
 					
 					
 					parentTweener = tweener || parentTweener;
@@ -94,6 +99,12 @@ export default class TweenRef extends React.Component {
 						
 						if ( this._previousTweener !== parentTweener )
 							this._previousTweener && this._previousTweener.rmTweenRef(this.__tweenableId)
+						
+						
+						if ( this.props.hasOwnProperty("isRoot") ) {
+							this._previousTweener && this._previousTweener.setRootRef(undefined);
+							tweener.setRootRef(id);
+						}
 						
 						this._previousTweener    = parentTweener;
 						this._previousScrollable = tweenLines;

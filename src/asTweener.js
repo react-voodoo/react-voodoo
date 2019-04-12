@@ -30,7 +30,6 @@ import {deMuxTween, muxToCss, deMuxLine} from "./helpers";
 
 var isBrowserSide           = (new Function("try {return this===window;}catch(e){ return false;}"))(),
     isArray                 = is.array,
-    tweenerCount            = 0,
     _live, lastTm, _running = [];
 
 const SimpleObjectProto = ({}).constructor;
@@ -97,7 +96,6 @@ export default function asTweener( ...argz ) {
 		
 		constructor() {
 			super(...arguments);
-			let _static      = this.constructor;
 			this._           = {
 				refs       : {},
 				muxByTarget: {},
@@ -109,11 +107,8 @@ export default function asTweener( ...argz ) {
 			};
 			this._._rafLoop  = this._rafLoop.bind(this);
 			this.__isTweener = true;
-			this.__isFirst   = !tweenerCount;
-			tweenerCount++;
 			
 		}
-		
 		
 		resetTweenable( ...targets ) {
 			targets.forEach(
@@ -140,17 +135,47 @@ export default function asTweener( ...argz ) {
 		tweenRef( id, iStyle, iMap, pos, noref, mapReset ) {// ref initial style
 			this.makeTweenable();
 			
-			let _static       = this.constructor,
-			    _             = this._,
-			    tweenableMap  = {},
-			    tweenableData = {},
-			    cState        = _static.motionStates && _static.motionStates[this._.curMotionStateId];
+			let _static      = this.constructor,
+			    _            = this._,
+			    tweenableMap = {},
+			    cState       = _static.motionStates && _static.motionStates[_.curMotionStateId];
 			
-			if ( !this._.tweenRefs[id] )
-				this._.tweenRefTargets.push(id);
+			let initials = {};
+			if ( !_.tweenRefs[id] )
+				_.tweenRefTargets.push(id);
 			
-			if ( mapReset || !this._.tweenRefs[id] ) {
-				mapReset = mapReset || !this._.tweenRefs[id];
+			if ( _.tweenRefs[id] && (_.iMapOrigin[id] !== iMap || mapReset) ) {
+				// hot switch initial values
+				
+				_.iMapOrigin[id] = iMap;
+				iStyle           = iStyle || {};
+				iMap             = iMap || {};
+				deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true);
+				
+				// minus initial values
+				Object.keys(_.tweenRefOrigin[id])
+				      .forEach(
+					      key => (_.tweenRefMaps[id][key] -= _.tweenRefOrigin[id][key])
+				      );
+				// set defaults values in case of
+				Object.keys(initials)
+				      .forEach(
+					      key => (_.tweenRefMaps[id][key] = _.tweenRefMaps[id][key] || initials[key])
+				      );
+				// add new initial values
+				Object.keys(tweenableMap)
+				      .forEach(
+					      key => (_.tweenRefMaps[id][key] += tweenableMap[key])
+				      )
+				
+				_.tweenRefOrigin[id] = tweenableMap;
+				//_.tweenRefCSS[id]    = iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials,
+				// _.muxDataByTarget[id], _.muxByTarget[id], true) };
+				muxToCss(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
+			}
+			else if ( mapReset || !_.tweenRefs[id] ) {
+				mapReset         = mapReset || !_.tweenRefs[id];
+				_.iMapOrigin[id] = iMap;
 				if ( cState && cState.refs && cState.refs[id] ) {
 					iStyle = iStyle || { ...cState.refs[id][0] };
 					iMap   = iMap || { ...cState.refs[id][1] };
@@ -160,39 +185,35 @@ export default function asTweener( ...argz ) {
 					iMap   = iMap || {};
 				}
 				
-				let initials               = {};
-				this._.tweenRefs[id]       = true;
-				this._.muxByTarget[id]     = this._.muxByTarget[id] || {};
-				this._.muxDataByTarget[id] = this._.muxDataByTarget[id] || {};
+				_.tweenRefs[id]       = true;
+				_.muxByTarget[id]     = _.muxByTarget[id] || {};
+				_.muxDataByTarget[id] = _.muxDataByTarget[id] || {};
 				
 				
-				iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id], true) };
-				//this._.tweenRefUnits[id] = extractUnits(iMap);
+				iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true) };
+				//_.tweenRefUnits[id] = extractUnits(iMap);
 				//}
-				this._.tweenRefOrigin[id] = tweenableMap;
-				this._.tweenRefCSS[id]    = this._.tweenRefCSS[id] || { ...iStyle };
+				_.tweenRefOrigin[id] = tweenableMap;
+				_.tweenRefCSS[id]    = _.tweenRefCSS[id] || { ...iStyle };
 				if ( mapReset )
-					Object.assign(this._.tweenRefCSS[id], iStyle);
-				this._.tweenRefCSS[id] = iStyle;
+					Object.assign(_.tweenRefCSS[id], iStyle);
+				_.tweenRefCSS[id] = iStyle;
 				// init / reset or get the tweenable view
-				tweenableMap           = this._.tweenRefMaps[id] = !mapReset && this._.tweenRefMaps[id]
-					|| Object.assign(this._.tweenRefMaps[id] || {}, initials, tweenableMap || {});
+				tweenableMap      = _.tweenRefMaps[id] = !mapReset && _.tweenRefMaps[id]
+					|| Object.assign(_.tweenRefMaps[id] || {}, initials, tweenableMap || {});
 				
-				//console.log(tweenableMap, iStyle, initials, this._.muxByTarget[id], this._.muxDataByTarget[id])
-				//utils.mapInBoxCSS(iMap, iStyle, this._.box, this._.tweenRefUnits[id]);
-				muxToCss(tweenableMap, iStyle, this._.muxByTarget[id], this._.muxDataByTarget[id], this._.box);
+				muxToCss(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
 				
 				
-				//this._.refs[id] = this._.refs[id] || React.createRef();
 			}
 			if ( noref )
 				return {
-					style: { ...this._.tweenRefCSS[id] }
+					style: { ..._.tweenRefCSS[id] }
 				};
 			else
 				return {
-					style: { ...this._.tweenRefCSS[id] },
-					ref  : node => (this._.refs[id] = node)
+					style: { ..._.tweenRefCSS[id] },
+					ref  : node => (_.refs[id] = node)
 					,
 					// __tweenMap : this._.tweenRefMaps[id],
 					// __tweenCSS : this._.tweenRefCSS[id]
@@ -205,12 +226,17 @@ export default function asTweener( ...argz ) {
 				delete this._.tweenRefs[id];
 				delete this._.muxByTarget[id];
 				delete this._.muxDataByTarget[id];
+				delete this._.iMapOrigin[id];
 				delete this._.tweenRefOrigin[id];
 				delete this._.tweenRefCSS[id];
 				delete this._.tweenRefMaps[id];
 				delete this._.refs[id];
 			}
 			
+		}
+		
+		setRootRef( id ) {
+			this._.rootRef = id;
 		}
 		
 		// ------------------------------------------------------------
@@ -304,6 +330,7 @@ export default function asTweener( ...argz ) {
 				this._.tweenRefCSS         = {};
 				this._.tweenRefs           = {};
 				this._.tweenRefMaps        = {};
+				this._.iMapOrigin          = {};
 				this._.tweenRefInitialData = {};
 				this._.tweenEnabled        = true;
 				this._.tweenRefOrigin      = {};
@@ -379,28 +406,40 @@ export default function asTweener( ...argz ) {
 			return _.axes[axe];
 		}
 		
-		initAxis( axe, _inertia, scrollableArea = 0, defaultPosition ) {
+		getAxisState() {
+			let _ = this._, state = {};
+			_.axes && Object.keys(_.axes)
+			                .forEach(
+				                axe => (state[axe] = _.axes[axe].targetPos || _.axes[axe].scrollPos)
+			                );
+			return state;
+		}
+		
+		initAxis( axe, _inertia, _scrollableArea = 0, defaultPosition ) {
 			this.makeTweenable();
 			this.makeScrollable();
-			let _         = this._,
-			    dim       = _.axes[axe],
-			    scrollPos = dim ? dim.scrollPos : defaultPosition || 0,
-			    targetPos = dim ? dim.targetPos : scrollPos,
-			    inertia   = _inertia !== false && (
+			let _              = this._,
+			    dim            = _.axes[axe],
+			    scrollPos      = dim ? dim.scrollPos : defaultPosition || 0,
+			    scrollableArea = Math.max(dim && dim.scrollableArea || 0, _scrollableArea),
+			    targetPos      = dim ? dim.targetPos : scrollPos,
+			    inertia        = _inertia !== false && (
 				    dim ? dim.inertia : new Inertia({// todo mk pure
 					                                    value: scrollPos,
 					                                    ...(_inertia || {})
 				                                    })),
-			    nextDescr = {
+			    nextDescr      = {
+				    ...(_inertia || {}),
 				    tweenLines: dim && dim.tweenLines || [],
 				    scrollPos,
 				    targetPos,
 				    inertia,
 				    scrollableArea
-			    };
+			    }
+			;
 			
 			dim = this._.axes[axe] = nextDescr;
-			(_inertia !== false) && (dim.inertia._.stops = _inertia.stops);
+			(_inertia) && (dim.inertia._.stops = _inertia.stops);
 		}
 		
 		addScrollableAnim( anim, axe = "scrollY", size ) {
@@ -503,68 +542,79 @@ export default function asTweener( ...argz ) {
 		
 		
 		_registerScrollListeners() {
+			let _static = this.constructor,
+			    _       = this._;
 			if ( this._.rendered ) {
-				let rootNode = ReactDom.findDOMNode(this);
-				
-				this.__isFirst && isBrowserSide && utils.addWheelEvent(
-					rootNode,
-					this._.onScroll = ( e ) => {//@todo
-						
-						
-						// check if there scrollable stuff in dom targets
-						if ( this._shouldDispatch(e.target, e.deltaX * 5, e.deltaY * 5) ) {
-							this.dispatchScroll(e.deltaY * 5, "scrollY");
-							this.dispatchScroll(e.deltaX * 5, "scrollX");
-						}
-						//
-						//if ( prevent ) {
-						//	e.preventDefault();
-						//	e.originalEvent.stopPropagation();
-						//}
-					}
-				);
-				let lastPos = {};
-				isBrowserSide && utils.addEvent(
-					rootNode, this._.dragList = {
-						'dragstart': ( e, touch, descr ) => {//@todo
-							let prevent,
-							    x = this._getAxis("scrollX"),
-							    y = this._getAxis("scrollY");
-							x.inertia.startMove();
-							y.inertia.startMove();
-							lastPos.x = x.scrollPos;
-							lastPos.y = y.scrollPos;
-							!x.inertiaFrame && this.applyInertia(x, "scrollX");
-							!y.inertiaFrame && this.applyInertia(y, "scrollY");
-							
-							
-						},
-						'drag'     : ( e, touch, descr ) => {//@todo
-							
-							let prevent,
-							    x          = this._getAxis("scrollX"),
-							    y          = this._getAxis("scrollY"),
-							    headTarget = e.target, style;
-							
-							lastPos = lastPos || { ...descr._startPos };
-							
-							// check if there scrollable stuff in dom targets
-							//if ( this.isAxisOut("scrollX", deltaX) )
-							x.inertia.hold(lastPos.x + ((descr._lastPos.x - descr._startPos.x) / this._.box.x) * x.scrollableArea);
-							//if ( this.isAxisOut("scrollY", -deltaY) )
-							y.inertia.hold(lastPos.y + (-(descr._lastPos.y - descr._startPos.y) / this._.box.y) * y.scrollableArea);
-							
-							
-							//return !prevent;
-						},
-						'dropped'  : ( e, touch, descr ) => {
-							this._getAxis("scrollY").inertia.release();
-							this._getAxis("scrollX").inertia.release();
-							//lastPos = null;
-						}
-					}, null,
-					opts.enableMouseDrag
-				)
+				let rootNode = this.getRootNode();
+				if ( !this._parentTweener && isBrowserSide ) {
+					if ( !rootNode )
+						console.warn("fail registering scroll listener !! ")
+					else
+						utils.addWheelEvent(
+							rootNode,
+							this._.onScroll = ( e ) => {//@todo
+								
+								
+								// check if there scrollable stuff in dom targets
+								if ( this._shouldDispatch(e.target, e.deltaX * 5, e.deltaY * 5) ) {
+									this.dispatchScroll(e.deltaY * 5, "scrollY");
+									this.dispatchScroll(e.deltaX * 5, "scrollX");
+								}
+								//
+								//if ( prevent ) {
+								//	e.preventDefault();
+								//	e.originalEvent.stopPropagation();
+								//}
+							}
+						);
+				}
+				if ( isBrowserSide ) {
+					let lastPos = {};
+					if ( !rootNode )
+						console.warn("fail registering drag listener !! ")
+					else
+						utils.addEvent(
+							rootNode, this._.dragList = {
+								'dragstart': ( e, touch, descr ) => {//@todo
+									let prevent,
+									    x = this._getAxis("scrollX"),
+									    y = this._getAxis("scrollY");
+									x.inertia.startMove();
+									y.inertia.startMove();
+									lastPos.x = x.scrollPos;
+									lastPos.y = y.scrollPos;
+									!x.inertiaFrame && this.applyInertia(x, "scrollX");
+									!y.inertiaFrame && this.applyInertia(y, "scrollY");
+									
+									
+								},
+								'drag'     : ( e, touch, descr ) => {//@todo
+									
+									let prevent,
+									    x = this._getAxis("scrollX"),
+									    y = this._getAxis("scrollY");
+									
+									lastPos = lastPos || { ...descr._startPos };
+									
+									// check if there scrollable stuff in dom targets
+									//if ( this.isAxisOut("scrollX", deltaX) )
+									x.inertia.hold(lastPos.x + (-(descr._lastPos.x - descr._startPos.x) / this._.box.x) * x.scrollableArea);
+									//if ( this.isAxisOut("scrollY", -deltaY) )
+									y.inertia.hold(lastPos.y + (-(descr._lastPos.y - descr._startPos.y) / this._.box.y) * y.scrollableArea);
+									
+									
+									//return !prevent;
+								},
+								'dropped'  : ( e, touch, descr ) => {
+									this._getAxis("scrollY").inertia.release();
+									this._getAxis("scrollX").inertia.release();
+									//lastPos = null;
+								}
+							}, null,
+							opts.enableMouseDrag
+						)
+				}
+				this._.doRegister = !!rootNode;
 			}
 			else {
 				this._.doRegister = true;
@@ -581,6 +631,7 @@ export default function asTweener( ...argz ) {
 				let x = dim.inertia.update();
 				
 				this.scrollTo(x, 0, axe);
+				console.log("scroll at " + x, axe);
 				dim.inertiaFrame = window.requestAnimationFrame(this.applyInertia.bind(this, dim, axe));
 			}
 			else {
@@ -618,26 +669,27 @@ export default function asTweener( ...argz ) {
 		}
 		
 		_shouldDispatch( target, dx, dy ) {
-			let style, Comp, headTarget = target, complete;
+			let style, Comps, headTarget = target, i;
 			// todo optim
 			// check if there scrollable stuff in dom targets
 			while ( headTarget ) {
 				style = getComputedStyle(headTarget, null)
 				
-				Comp = utils.findReactComponent(headTarget);
+				Comps = utils.findReactComponents(headTarget);
 				
-				
-				if ( Comp && Comp.__isTweener ) {
-					if ( !Comp.isAxisOut("scrollX", dx) ) {
-						Comp.dispatchScroll(dx, "scrollX");
-						dx = 0;
+				for ( i = 0; i < Comps.length; i++ ) {
+					if ( Comps[i].__isTweener ) {
+						if ( !Comps[i].isAxisOut("scrollX", dx) ) {
+							Comps[i].dispatchScroll(dx, "scrollX");
+							dx = 0;
+						}
+						if ( !Comps[i].isAxisOut("scrollY", dy) ) {
+							Comps[i].dispatchScroll(dy, "scrollY")
+							dy = 0;
+						}
+						if ( !dx && !dy )
+							return;
 					}
-					if ( !Comp.isAxisOut("scrollY", dy) ) {
-						Comp.dispatchScroll(dy, "scrollY")
-						dy = 0;
-					}
-					if ( !dx && !dy )
-						return;
 				}
 				if ( /(auto|scroll)/.test(
 					style.getPropertyValue("overflow")
@@ -701,7 +753,7 @@ export default function asTweener( ...argz ) {
 		//}
 		
 		_updateBox() {
-			var node = ReactDom.findDOMNode(this);
+			var node = this.getRootNode();
 			if ( node ) {
 				this._.box.inited = true;
 				this._.box.x      = node.offsetWidth;
@@ -711,6 +763,10 @@ export default function asTweener( ...argz ) {
 		
 		getTweenableRef( id ) {
 			return this._.refs[id] && ReactDom.findDOMNode(this._.refs[id]);
+		}
+		
+		getRootNode() {
+			return this._.rootRef && this.getTweenableRef(this._.rootRef) || ReactDom.findDOMNode(this);
 		}
 		
 		_rafLoop() {
@@ -724,19 +780,17 @@ export default function asTweener( ...argz ) {
 		
 		_updateTweenRefs() {
 			if ( this._.tweenEnabled ) {
-				for ( var i = 0, target, node; i < this._.tweenRefTargets.length; i++ ) {
+				for ( let i = 0, target, node; i < this._.tweenRefTargets.length; i++ ) {
 					target = this._.tweenRefTargets[i];
 					muxToCss(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
-					node = this._.tweenEnabled && target == "__root"
-					       ? ReactDom.findDOMNode(this)
-					       : this.getTweenableRef(target);
+					node = this.getTweenableRef(target);
 					node && Object.assign(node.style, this._.tweenRefCSS[target]);
 				}
 			}
 		}
 		
 		componentWillUnmount() {
-			let node = ReactDom.findDOMNode(this);
+			let node = this.getRootNode();
 			if ( this._.tweenEnabled ) {
 				this._.tweenEnabled = false;
 				window.removeEventListener("resize", this._.onResize);
@@ -744,8 +798,9 @@ export default function asTweener( ...argz ) {
 			
 			if ( this._.scrollEnabled ) {
 				this._.scrollEnabled = false;
+				
 				//this._.axes          = undefined;
-				node && this._.onScroll && utils.rmWheelEvent(
+				node && this._.onScroll && !this._parentTweener && utils.rmWheelEvent(
 					node,
 					this._.onScroll);
 				node && this._.dragList && utils.removeEvent(node
@@ -819,9 +874,16 @@ export default function asTweener( ...argz ) {
 		
 		render() {
 			//console.log('render', this.constructor.name)
-			return <TweenerContext.Provider value={ this }>
-				{ super.render() }
-			</TweenerContext.Provider>;
+			return <TweenerContext.Consumer>
+				{
+					parentTweener => {
+						this._parentTweener = parentTweener;
+						return <TweenerContext.Provider value={ this }>
+							{ super.render() }
+						</TweenerContext.Provider>;
+					}
+				}
+			</TweenerContext.Consumer>;
 		}
 	}
 }

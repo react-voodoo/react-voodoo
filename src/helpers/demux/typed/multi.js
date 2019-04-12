@@ -12,7 +12,46 @@
  *  @contact : n8tz.js@gmail.com
  */
 
-import React from 'react';
+import is     from "is";
+import number from "./number";
 
-const TweenerContext = React.createContext(null);
-export default TweenerContext
+const
+	floatCut = function ( v, l ) {
+		var p = Math.pow(10, l);
+		return Math.round(v * p) / p;
+	},
+	alias    = {
+		top   : '0%',
+		bottom: '100%',
+		center: '50%',
+		left  : '0%',
+		right : '100%'
+	};
+
+function demux( key, tweenable, target, data, box, offset ) {
+	
+	let count = data[key], v = '';
+	
+	for ( let i = 0; i < count; i++ )
+		v += (
+			data[key + '_' + i]
+			? floatCut(tweenable[key + '_' + i], 2) + data[key + '_' + i]
+			: floatCut(tweenable[key + '_' + i], 2)
+		) + ' ';
+	
+	target[key] = v;
+}
+
+export default ( count ) => ( key, value, target, data, initials ) => {
+	let values = value.split(' '), v;
+	
+	data[key] = count;
+	
+	for ( let i = 0; i < count; i++ ) {
+		v = values[i % values.length];
+		v = is.string(v) && alias[v] || v;
+		number(key + '_' + i, v, target, data, initials)
+	}
+	
+	return demux;
+}

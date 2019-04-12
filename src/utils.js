@@ -587,18 +587,22 @@ var
 		/**
 		 * Find the react component that generate element dom node
 		 * @param element
-		 * @returns {React.Component}
+		 * @returns {[React.Component]}
 		 */
-		findReactComponent( element ) {
-			let fiberNode;
+		findReactComponents( element ) {
+			let fiberNode, comps = [];
 			for ( const key in element ) {
 				if ( key.startsWith('__reactInternalInstance$') ) {
-					fiberNode = element[key];
-					
-					return fiberNode && fiberNode.return && (fiberNode.return.memoizedProps && fiberNode.return.memoizedProps.value || fiberNode.return.stateNode) || null;
+					fiberNode = element[key].return;
+					while ( fiberNode.return ) {
+						fiberNode = fiberNode.return;
+						if ( fiberNode.stateNode )
+							comps.push(fiberNode.stateNode)
+					}
+					return comps;
 				}
 			}
-			return null;
+			return comps;
 		}
 		
 	};
