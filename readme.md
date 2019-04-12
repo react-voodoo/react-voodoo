@@ -7,68 +7,61 @@ ___
 <img src="https://img.shields.io/npm/v/react-rtween.svg" alt="Npm version" /></a>
 
 
-## rTween what ?
+## wtf is react-rTween ?
 
 - rTween engine allow to apply forward and backward multiples tweens on same properties and multiple objects
-- Allow **live composition of multiple** tweens, circle tweens, SVG Path tweens, other Scopelines, etc
-- Allow frame pre-generation,
+- Allow **live composition, hot switch of multiple** scrollable animation
+- etc
+
 
 ## Draft [sample](http://htmlpreview.github.io/?https://github.com/n8tz/react-rtween/blob/master/samples/index.html)
 
 ```jsx
-import {asTweener, TweenRef} from "react-rtween";
+import React                                        from "react";
+import {asTweener, TweenRef, TweenAxis, tweenTools} from "react-rtween";
 
-var easingFn = require('d3-ease');
-let pushIn        = function ( target ) {
-	return {
-		anims: [
-			{
-				type    : "Tween",
-				target  : target,
-				from    : 0,
-				duration: 500,
-				easeFn  : easingFn.easeCircleIn,
-				apply   : {
-					transform: [{}, {
-						translateZ: "-.2box"
-					}],
-					filter   : {
-						sepia: 100
-					}
-				}
-			},
-			{
-				type    : "Tween",
-				target  : target,
-				from    : 500,
-				duration: 500,
-				easeFn  : easingFn.easeCircleIn,
-				apply   : {
-					transform: [{}, {
-						translateZ: ".2box"
-					}],
-					filter   : {
-						sepia: -100
-					}
-				}
-			},
-			{
-				type    : "Tween",
-				target  : target,
-				from    : 250,
-				duration: 500,
-				easeFn  : easingFn.easeCircle,
-				apply   : {
-					transform: [{}, {
-						rotateY: 180,
-					}],
-				}
+
+let pushIn        = [
+	{
+		type    : "Tween",
+		from    : 0,
+		duration: 500,
+		easeFn  : "easeCircleIn",
+		apply   : {
+			transform: [{}, {
+				translateZ: "-.2box"
+			}],
+			filter   : {
+				sepia: 100
 			}
-		]
-	};
-};
-
-
+		}
+	},
+	{
+		type    : "Tween",
+		from    : 500,
+		duration: 500,
+		easeFn  : "easeCircleIn",
+		apply   : {
+			transform: [{}, {
+				translateZ: ".2box"
+			}],
+			filter   : {
+				sepia: -100
+			}
+		}
+	},
+	{
+		type    : "Tween",
+		from    : 250,
+		duration: 500,
+		easeFn  : "easeCircle",
+		apply   : {
+			transform: [{}, {
+				rotateY: 180,
+			}],
+		}
+	}
+];
 const scrollAnims = {
 	scrollX: [
 		{
@@ -135,24 +128,38 @@ const scrollAnims = {
 		}
 	]
 };
-@asTweener({ initialScrollPos: { scrollX: 100, scrollY: 100 }, enableMouseDrag: true })
+@asTweener({ enableMouseDrag: true })
 export default class Sample extends React.Component {
 	state = {
 		count: 0
 	};
-
+	
 	componentDidScroll( pos ) {
-		this.forceUpdate();
+		this.forceUpdate();// force update to show scroll pos
 	}
-
+	
 	render() {
 		return <div className={ "SimpleTest" } style={ {
 			width : "100%",
 			height: "100%"
 		} }>
+			<TweenAxis
+				axe={ "scrollY" }
+				defaultPosition={ 100 }
+			/>
+			<TweenAxis
+				axe={ "scrollX" }
+				defaultPosition={ 100 }
+			/>
 			hello ! { this.state.count } concurent anims <br/>
-			scrollPos : { this._.scrollPos } / { this._.scrollableArea }
-
+			scrollPos : <pre>{ JSON.stringify(this.getAxisState(), null, 2) }</pre>
+			<br/>y:
+			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
+			<button onClick={ e => this.scrollTo(200, 500) }>( go to 200 )</button>
+			<br/>x:
+			<button onClick={ e => this.scrollTo(0, 500, "scrollX") }>( go to 0 )</button>
+			<button onClick={ e => this.scrollTo(200, 500, "scrollX") }>( go to 200 )</button>
+			
 			<TweenRef
 				id={ "testItem" }
 				initial={ {
@@ -166,7 +173,7 @@ export default class Sample extends React.Component {
 					margin         : "-7.5em 0 0 -7.5em",
 					top            : "0%",
 					left           : "0%",
-
+					
 					transform: {
 						translateZ: "0box",
 						translateX: "1box",
@@ -175,15 +182,14 @@ export default class Sample extends React.Component {
 						rotateY   : 30,
 					}
 				} }
-				scrollableAnims={ scrollAnims }
+				tweenLines={ scrollAnims }
 			>
 				<div
 					onClick={ e => {
 						this.setState({ count: this.state.count + 1 })
-						this.pushAnim(pushIn("testItem"),
+						this.pushAnim(tweenTools.target(pushIn, "testItem"),
 						              () => {
 							              this.setState({ count: this.state.count - 1 })
-
 						              });
 					} }
 					style={ {} }>click me !
@@ -192,7 +198,6 @@ export default class Sample extends React.Component {
 		</div>;
 	}
 }
-
 ```
 
 ### Todo :
