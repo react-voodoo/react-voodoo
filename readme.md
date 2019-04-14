@@ -6,13 +6,13 @@ ___
 <a href="https://www.npmjs.com/package/react-rtween">
 <img src="https://img.shields.io/npm/v/react-rtween.svg" alt="Npm version" /></a>
 
-<p align="center">/!\ This is beta /!\</p>
+<p align="center">/!\ This is alpha/!\</p>
 
 
 ## wtf is react-rTween ?
 
 - rTween engine allow to apply forward and backward multiples tweens on same properties and multiple objects
-- Allow **live composition, hot switch of multiple** scrollable animation
+- Allow **live composition & hot switching of multiple** scrollable animation
 - etc
 
 
