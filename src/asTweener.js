@@ -540,7 +540,6 @@ export default function asTweener( ...argz ) {
 			}
 		}
 		
-		
 		_registerScrollListeners() {
 			let _static = this.constructor,
 			    _       = this._;
@@ -672,43 +671,45 @@ export default function asTweener( ...argz ) {
 			let style, Comps, headTarget = target, i;
 			// todo optim
 			// check if there scrollable stuff in dom targets
-			while ( headTarget ) {
-				style = getComputedStyle(headTarget, null)
-				
-				Comps = utils.findReactComponents(headTarget);
-				
-				for ( i = 0; i < Comps.length; i++ ) {
-					if ( Comps[i].__isTweener ) {
-						if ( !Comps[i].isAxisOut("scrollX", dx) ) {
-							Comps[i].dispatchScroll(dx, "scrollX");
-							dx = 0;
-						}
-						if ( !Comps[i].isAxisOut("scrollY", dy) ) {
-							Comps[i].dispatchScroll(dy, "scrollY")
-							dy = 0;
-						}
-						if ( !dx && !dy )
-							return;
+			// get all the parents components & dom node of an dom element ( from fibers )
+			Comps = utils.findReactParents(headTarget);
+			
+			for ( i = 0; i < Comps.length; i++ ) {
+				// react comp with tweener support
+				if ( Comps[i].__isTweener ) {
+					if ( !Comps[i].isAxisOut("scrollX", dx) ) {
+						Comps[i].dispatchScroll(dx, "scrollX");
+						dx = 0;
 					}
+					if ( !Comps[i].isAxisOut("scrollY", dy) ) {
+						Comps[i].dispatchScroll(dy, "scrollY")
+						dy = 0;
+					}
+					if ( !dx && !dy )
+						break;
 				}
-				if ( /(auto|scroll)/.test(
-					style.getPropertyValue("overflow")
-					+ style.getPropertyValue("overflow-x")
-					+ style.getPropertyValue("overflow-y")
-				)
-				) {
-					if (
-						(dy < 0 && headTarget.scrollTop !== 0)
-						||
-						(dy > 0 && headTarget.scrollTop !== (headTarget.scrollHeight - headTarget.offsetHeight))
+				// dom element
+				else if ( is.element(Comps[i]) ) {
+					style = getComputedStyle(headTarget, null)
+					if ( /(auto|scroll)/.test(
+						style.getPropertyValue("overflow")
+						+ style.getPropertyValue("overflow-x")
+						+ style.getPropertyValue("overflow-y")
+					)
 					) {
-						return;
-					} // let the node do this scroll
+						if (
+							(dy < 0 && headTarget.scrollTop !== 0)
+							||
+							(dy > 0 && headTarget.scrollTop !== (headTarget.scrollHeight - headTarget.offsetHeight))
+						) {
+							return;
+						} // let the node do this scroll
+					}
+					
+					headTarget = headTarget.parentNode;
+					if ( headTarget === document || headTarget === target )
+						break;
 				}
-				
-				headTarget = headTarget.parentNode;
-				if ( headTarget === document || headTarget === target )
-					break;
 			}
 		}
 		

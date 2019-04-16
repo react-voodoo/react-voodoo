@@ -589,7 +589,7 @@ var
 		 * @param element
 		 * @returns {[React.Component]}
 		 */
-		findReactComponents( element ) {
+		findReactParents( element ) {
 			let fiberNode, comps = [];
 			for ( const key in element ) {
 				if ( key.startsWith('__reactInternalInstance$') ) {

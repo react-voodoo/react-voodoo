@@ -17,54 +17,46 @@ import {asTweener, TweenRef, TweenAxis, tweenTools} from "react-rtween";
 import "./samples.scss";
 
 
-let pushIn        = function ( target ) {
-	return {
-		anims: tweenTools.reverse([
-			                          {
-				                          type    : "Tween",
-				                          target  : target,
-				                          from    : 0,
-				                          duration: 500,
-				                          easeFn  : "easeCircleIn",
-				                          apply   : {
-					                          transform: [{}, {
-						                          translateZ: "-.2box"
-					                          }],
-					                          filter   : {
-						                          sepia: 100
-					                          }
-				                          }
-			                          },
-			                          {
-				                          type    : "Tween",
-				                          target  : target,
-				                          from    : 500,
-				                          duration: 500,
-				                          easeFn  : "easeCircleIn",
-				                          apply   : {
-					                          transform: [{}, {
-						                          translateZ: ".2box"
-					                          }],
-					                          filter   : {
-						                          sepia: -100
-					                          }
-				                          }
-			                          },
-			                          {
-				                          type    : "Tween",
-				                          target  : target,
-				                          from    : 250,
-				                          duration: 500,
-				                          easeFn  : "easeCircle",
-				                          apply   : {
-					                          transform: [{}, {
-						                          rotateY: 180,
-					                          }],
-				                          }
-			                          }
-		                          ])
-	};
-};
+let pushIn        = [
+	{
+		type    : "Tween",
+		from    : 0,
+		duration: 500,
+		easeFn  : "easeCircleIn",
+		apply   : {
+			transform: [{}, {
+				translateZ: "-.2box"
+			}],
+			filter   : {
+				sepia: 100
+			}
+		}
+	},
+	{
+		type    : "Tween",
+		from    : 500,
+		duration: 500,
+		easeFn  : "easeCircleIn",
+		apply   : {
+			transform: [{}, {
+				translateZ: ".2box"
+			}],
+			filter   : {
+				sepia: -100
+			}
+		}
+	},
+	{
+		type    : "Tween",
+		from    : 250,
+		duration: 500,
+		apply   : {
+			transform: [{}, {
+				rotateY: 180,
+			}],
+		}
+	}
+];
 const scrollAnims = {
 	scrollX: [
 		{
@@ -183,7 +175,6 @@ export default class Sample extends React.Component {
 						translateY: "1box",
 						rotateX   : -30,
 						rotateY   : 30,
-						//translateZ: "100px"
 					}
 				} }
 				tweenLines={ scrollAnims }
@@ -191,7 +182,7 @@ export default class Sample extends React.Component {
 				<div
 					onClick={ e => {
 						this.setState({ count: this.state.count + 1 })
-						this.pushAnim(pushIn("testItem"),
+						this.pushAnim(tweenTools.target(pushIn, "testItem"),
 						              () => {
 							              this.setState({ count: this.state.count - 1 })
 						              });
