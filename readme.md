@@ -211,6 +211,6 @@ export default class Sample extends React.Component {
 
 ### License ?
 
-MIT license
+AGPL license
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
