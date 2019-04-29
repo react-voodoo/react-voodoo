@@ -394,13 +394,14 @@ export default function asTweener( ...argz ) {
 			let _ = this._;
 			
 			_.axes[axe] = _.axes[axe] || {
-				tweenLines: [],
-				scrollPos : opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
-				targetPos : 0,
-				inertia   : new Inertia({
-					                        value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
-					                        ...(opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {})
-				                        }),
+				tweenLines    : [],
+				scrollPos     : opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
+				targetPos     : 0,
+				scrollableArea: 0,
+				inertia       : new Inertia({
+					                            value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
+					                            ...(opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {})
+				                            }),
 			};
 			
 			return _.axes[axe];
@@ -546,6 +547,7 @@ export default function asTweener( ...argz ) {
 			if ( this._.rendered ) {
 				let rootNode = this.getRootNode();
 				if ( !this._parentTweener && isBrowserSide ) {
+					
 					if ( !rootNode )
 						console.warn("fail registering scroll listener !! ")
 					else
@@ -553,61 +555,110 @@ export default function asTweener( ...argz ) {
 							rootNode,
 							this._.onScroll = ( e ) => {//@todo
 								
-								
 								// check if there scrollable stuff in dom targets
-								if ( this._shouldDispatch(e.target, e.deltaX * 5, e.deltaY * 5) ) {
-									this.dispatchScroll(e.deltaY * 5, "scrollY");
-									this.dispatchScroll(e.deltaX * 5, "scrollX");
-								}
-								//
-								//if ( prevent ) {
-								//	e.preventDefault();
-								//	e.originalEvent.stopPropagation();
-								//}
+								this._doDispatch(e.target, e.deltaX * 5, e.deltaY * 5);
 							}
 						);
-				}
-				if ( isBrowserSide ) {
-					let lastPos = {};
+					
+					let lastPos = {},
+					    parents,
+					    parentsState;
 					if ( !rootNode )
 						console.warn("fail registering drag listener !! ")
 					else
 						utils.addEvent(
 							rootNode, this._.dragList = {
 								'dragstart': ( e, touch, descr ) => {//@todo
-									let prevent,
-									    x = this._getAxis("scrollX"),
-									    y = this._getAxis("scrollY");
-									x.inertia.startMove();
-									y.inertia.startMove();
+									let tweener,
+									    x,
+									    y, i;
+									
+									parents      = utils.findReactParents(e.target);
+									parentsState = [];
+									for ( i = 0; i < parents.length; i++ ) {
+										tweener = parents[i];
+										// react comp with tweener support
+										if ( tweener.__isTweener && tweener._.scrollEnabled ) {
+											x = tweener._getAxis("scrollX");
+											y = tweener._getAxis("scrollY");
+											x.inertia.startMove();
+											y.inertia.startMove();
+											parentsState[i] = { x: x.scrollPos, y: y.scrollPos };
+											!x.inertiaFrame && tweener.applyInertia(x, "scrollX");
+											!y.inertiaFrame && tweener.applyInertia(y, "scrollY");
+										}
+										else if ( is.element(tweener) ) {
+											parentsState[i] = getComputedStyle(tweener, null);
+										}
+										
+									}
 									lastPos.x = x.scrollPos;
 									lastPos.y = y.scrollPos;
-									!x.inertiaFrame && this.applyInertia(x, "scrollX");
-									!y.inertiaFrame && this.applyInertia(y, "scrollY");
-									
-									
 								},
 								'drag'     : ( e, touch, descr ) => {//@todo
 									
-									let prevent,
-									    x = this._getAxis("scrollX"),
-									    y = this._getAxis("scrollY");
+									let tweener,
+									    x, deltaX, dX, xDispatched,
+									    y, deltaY, dY, yDispatched,
+									    style, i;
 									
-									lastPos = lastPos || { ...descr._startPos };
-									
-									// check if there scrollable stuff in dom targets
-									//if ( this.isAxisOut("scrollX", deltaX) )
-									x.inertia.hold(lastPos.x + (-(descr._lastPos.x - descr._startPos.x) / this._.box.x) * x.scrollableArea);
-									//if ( this.isAxisOut("scrollY", -deltaY) )
-									y.inertia.hold(lastPos.y + (-(descr._lastPos.y - descr._startPos.y) / this._.box.y) * y.scrollableArea);
-									
-									
-									//return !prevent;
+									for ( i = 0; i < parents.length; i++ ) {
+										tweener = parents[i];
+										dX      = -(descr._lastPos.x - descr._startPos.x);
+										dY      = -(descr._lastPos.y - descr._startPos.y);
+										// react comp with tweener support
+										if ( tweener.__isTweener && tweener._.scrollEnabled ) {
+											
+											x      = tweener._getAxis("scrollX");
+											y      = tweener._getAxis("scrollY");
+											deltaX = (-(descr._lastPos.x - descr._startPos.x) / tweener._.box.x) * x.scrollableArea;
+											deltaY = (-(descr._lastPos.y - descr._startPos.y) / tweener._.box.y) * y.scrollableArea;
+											if ( !xDispatched && !tweener.isAxisOut("scrollX", deltaX) ) {
+												//console.log(tweener.constructor.displayName, deltaX)
+												x.inertia.hold(parentsState[i].x + lastPos.x + deltaX);
+												xDispatched = true;
+											}
+											if ( !yDispatched && !tweener.isAxisOut("scrollY", deltaY) ) {
+												y.inertia.hold(parentsState[i].y + lastPos.y + deltaY);
+												yDispatched = true;
+											}
+										}
+										else if ( is.element(tweener) ) {
+											style = parentsState[i];
+											if ( /(auto|scroll)/.test(
+												style.getPropertyValue("overflow")
+												+ style.getPropertyValue("overflow-x")
+												+ style.getPropertyValue("overflow-y")
+											)
+											) {
+												if (
+													(dY < 0 && tweener.scrollTop !== 0)
+													||
+													(dY > 0 && tweener.scrollTop !== (tweener.scrollHeight - tweener.offsetHeight))
+												) {
+													return;
+												} // let the node do this scroll
+											}
+											
+										}
+										
+									}
 								},
 								'dropped'  : ( e, touch, descr ) => {
-									this._getAxis("scrollY").inertia.release();
-									this._getAxis("scrollX").inertia.release();
-									//lastPos = null;
+									let tweener,
+									    i;
+									
+									lastPos = lastPos || { ...descr._startPos };
+									for ( i = 0; i < parents.length; i++ ) {
+										tweener = parents[i];
+										// react comp with tweener support
+										if ( tweener.__isTweener ) {
+											tweener._getAxis("scrollY").inertia.release();
+											tweener._getAxis("scrollX").inertia.release();
+										}
+										
+									}
+									parents = parentsState = null;
 								}
 							}, null,
 							opts.enableMouseDrag
@@ -630,7 +681,7 @@ export default function asTweener( ...argz ) {
 				let x = dim.inertia.update();
 				
 				this.scrollTo(x, 0, axe);
-				console.log("scroll at " + x, axe);
+				//console.log("scroll at " + x, axe);
 				dim.inertiaFrame = window.requestAnimationFrame(this.applyInertia.bind(this, dim, axe));
 			}
 			else {
@@ -648,7 +699,7 @@ export default function asTweener( ...argz ) {
 			
 			if ( dim && oldPos !== newPos ) {
 				
-				console.log("dispatch " + delta, this.constructor.displayName);
+				//console.log("dispatch " + delta, this.constructor.displayName);
 				dim.inertia.dispatch(delta, 100);
 				!dim.inertiaFrame && this.applyInertia(dim, axe);
 				
@@ -667,22 +718,25 @@ export default function asTweener( ...argz ) {
 			return !dim || (pos <= 0 || pos >= dim.scrollableArea);
 		}
 		
-		_shouldDispatch( target, dx, dy ) {
-			let style, Comps, headTarget = target, i;
-			// todo optim
+		_doDispatch( target, dx, dy, holding ) {
+			let style,
+			    Comps,
+			    headTarget = target,
+			    i;
+			
 			// check if there scrollable stuff in dom targets
 			// get all the parents components & dom node of an dom element ( from fibers )
 			Comps = utils.findReactParents(headTarget);
-			
+			//console.log("dispatching ", dx, dy, Comps);
 			for ( i = 0; i < Comps.length; i++ ) {
 				// react comp with tweener support
 				if ( Comps[i].__isTweener ) {
 					if ( !Comps[i].isAxisOut("scrollX", dx) ) {
-						Comps[i].dispatchScroll(dx, "scrollX");
+						Comps[i].dispatchScroll(dx, "scrollX", holding);
 						dx = 0;
 					}
 					if ( !Comps[i].isAxisOut("scrollY", dy) ) {
-						Comps[i].dispatchScroll(dy, "scrollY")
+						Comps[i].dispatchScroll(dy, "scrollY", holding);
 						dy = 0;
 					}
 					if ( !dx && !dy )
@@ -870,11 +924,9 @@ export default function asTweener( ...argz ) {
 				         );
 			}
 			super.componentDidUpdate && super.componentDidUpdate(...arguments);
-			// return;
 		}
 		
 		render() {
-			//console.log('render', this.constructor.name)
 			return <TweenerContext.Consumer>
 				{
 					parentTweener => {

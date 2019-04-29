@@ -30685,6 +30685,7 @@ function asTweener() {
           tweenLines: [],
           scrollPos: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
           targetPos: 0,
+          scrollableArea: 0,
           inertia: new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_13__["default"](_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({
             value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0
           }, opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {}))
@@ -30859,53 +30860,92 @@ function asTweener() {
             if (!rootNode) console.warn("fail registering scroll listener !! ");else _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addWheelEvent(rootNode, this._.onScroll = function (e) {
               //@todo
               // check if there scrollable stuff in dom targets
-              if (_this8._shouldDispatch(e.target, e.deltaX * 5, e.deltaY * 5)) {
-                _this8.dispatchScroll(e.deltaY * 5, "scrollY");
-
-                _this8.dispatchScroll(e.deltaX * 5, "scrollX");
-              } //
-              //if ( prevent ) {
-              //	e.preventDefault();
-              //	e.originalEvent.stopPropagation();
-              //}
-
+              _this8._doDispatch(e.target, e.deltaX * 5, e.deltaY * 5);
             });
-          }
-
-          if (isBrowserSide) {
-            var lastPos = {};
+            var lastPos = {},
+                parents,
+                parentsState;
             if (!rootNode) console.warn("fail registering drag listener !! ");else _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(rootNode, this._.dragList = {
               'dragstart': function dragstart(e, touch, descr) {
                 //@todo
-                var prevent,
-                    x = _this8._getAxis("scrollX"),
-                    y = _this8._getAxis("scrollY");
+                var tweener, x, y, i;
+                parents = _utils__WEBPACK_IMPORTED_MODULE_12__["default"].findReactParents(e.target);
+                parentsState = [];
 
-                x.inertia.startMove();
-                y.inertia.startMove();
+                for (i = 0; i < parents.length; i++) {
+                  tweener = parents[i]; // react comp with tweener support
+
+                  if (tweener.__isTweener && tweener._.scrollEnabled) {
+                    x = tweener._getAxis("scrollX");
+                    y = tweener._getAxis("scrollY");
+                    x.inertia.startMove();
+                    y.inertia.startMove();
+                    parentsState[i] = {
+                      x: x.scrollPos,
+                      y: y.scrollPos
+                    };
+                    !x.inertiaFrame && tweener.applyInertia(x, "scrollX");
+                    !y.inertiaFrame && tweener.applyInertia(y, "scrollY");
+                  } else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(tweener)) {
+                    parentsState[i] = getComputedStyle(tweener, null);
+                  }
+                }
+
                 lastPos.x = x.scrollPos;
                 lastPos.y = y.scrollPos;
-                !x.inertiaFrame && _this8.applyInertia(x, "scrollX");
-                !y.inertiaFrame && _this8.applyInertia(y, "scrollY");
               },
               'drag': function drag(e, touch, descr) {
                 //@todo
-                var prevent,
-                    x = _this8._getAxis("scrollX"),
-                    y = _this8._getAxis("scrollY");
+                var tweener, x, deltaX, dX, xDispatched, y, deltaY, dY, yDispatched, style, i;
 
-                lastPos = lastPos || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, descr._startPos); // check if there scrollable stuff in dom targets
-                //if ( this.isAxisOut("scrollX", deltaX) )
+                for (i = 0; i < parents.length; i++) {
+                  tweener = parents[i];
+                  dX = -(descr._lastPos.x - descr._startPos.x);
+                  dY = -(descr._lastPos.y - descr._startPos.y); // react comp with tweener support
 
-                x.inertia.hold(lastPos.x + -(descr._lastPos.x - descr._startPos.x) / _this8._.box.x * x.scrollableArea); //if ( this.isAxisOut("scrollY", -deltaY) )
+                  if (tweener.__isTweener && tweener._.scrollEnabled) {
+                    x = tweener._getAxis("scrollX");
+                    y = tweener._getAxis("scrollY");
+                    deltaX = -(descr._lastPos.x - descr._startPos.x) / tweener._.box.x * x.scrollableArea;
+                    deltaY = -(descr._lastPos.y - descr._startPos.y) / tweener._.box.y * y.scrollableArea;
 
-                y.inertia.hold(lastPos.y + -(descr._lastPos.y - descr._startPos.y) / _this8._.box.y * y.scrollableArea); //return !prevent;
+                    if (!xDispatched && !tweener.isAxisOut("scrollX", deltaX)) {
+                      //console.log(tweener.constructor.displayName, deltaX)
+                      x.inertia.hold(parentsState[i].x + lastPos.x + deltaX);
+                      xDispatched = true;
+                    }
+
+                    if (!yDispatched && !tweener.isAxisOut("scrollY", deltaY)) {
+                      y.inertia.hold(parentsState[i].y + lastPos.y + deltaY);
+                      yDispatched = true;
+                    }
+                  } else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(tweener)) {
+                    style = parentsState[i];
+
+                    if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
+                      if (dY < 0 && tweener.scrollTop !== 0 || dY > 0 && tweener.scrollTop !== tweener.scrollHeight - tweener.offsetHeight) {
+                        return;
+                      } // let the node do this scroll
+
+                    }
+                  }
+                }
               },
               'dropped': function dropped(e, touch, descr) {
-                _this8._getAxis("scrollY").inertia.release();
+                var tweener, i;
+                lastPos = lastPos || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, descr._startPos);
 
-                _this8._getAxis("scrollX").inertia.release(); //lastPos = null;
+                for (i = 0; i < parents.length; i++) {
+                  tweener = parents[i]; // react comp with tweener support
 
+                  if (tweener.__isTweener) {
+                    tweener._getAxis("scrollY").inertia.release();
+
+                    tweener._getAxis("scrollX").inertia.release();
+                  }
+                }
+
+                parents = parentsState = null;
               }
             }, null, opts.enableMouseDrag);
           }
@@ -30923,8 +30963,8 @@ function asTweener() {
       value: function applyInertia(dim, axe) {
         if (dim.inertia.active) {
           var x = dim.inertia.update();
-          this.scrollTo(x, 0, axe);
-          console.log("scroll at " + x, axe);
+          this.scrollTo(x, 0, axe); //console.log("scroll at " + x, axe);
+
           dim.inertiaFrame = window.requestAnimationFrame(this.applyInertia.bind(this, dim, axe));
         } else {
           dim.inertiaFrame = null;
@@ -30941,7 +30981,7 @@ function asTweener() {
             newPos = oldPos + delta;
 
         if (dim && oldPos !== newPos) {
-          console.log("dispatch " + delta, this.constructor.displayName);
+          //console.log("dispatch " + delta, this.constructor.displayName);
           dim.inertia.dispatch(delta, 100);
           !dim.inertiaFrame && this.applyInertia(dim, axe); //if ( this.scrollTo(newPos, 0, axe) )
           //	prevent = !(opts.propagateAxes && opts.propagateAxes[axe]);
@@ -30960,43 +31000,44 @@ function asTweener() {
         return !dim || pos <= 0 || pos >= dim.scrollableArea;
       }
     }, {
-      key: "_shouldDispatch",
-      value: function _shouldDispatch(target, dx, dy) {
+      key: "_doDispatch",
+      value: function _doDispatch(target, dx, dy, holding) {
         var style,
             Comps,
             headTarget = target,
-            i; // todo optim
-        // check if there scrollable stuff in dom targets
+            i; // check if there scrollable stuff in dom targets
+        // get all the parents components & dom node of an dom element ( from fibers )
 
-        while (headTarget) {
-          style = getComputedStyle(headTarget, null);
-          Comps = _utils__WEBPACK_IMPORTED_MODULE_12__["default"].findReactComponents(headTarget);
+        Comps = _utils__WEBPACK_IMPORTED_MODULE_12__["default"].findReactParents(headTarget); //console.log("dispatching ", dx, dy, Comps);
 
-          for (i = 0; i < Comps.length; i++) {
-            if (Comps[i].__isTweener) {
-              if (!Comps[i].isAxisOut("scrollX", dx)) {
-                Comps[i].dispatchScroll(dx, "scrollX");
-                dx = 0;
-              }
-
-              if (!Comps[i].isAxisOut("scrollY", dy)) {
-                Comps[i].dispatchScroll(dy, "scrollY");
-                dy = 0;
-              }
-
-              if (!dx && !dy) return;
+        for (i = 0; i < Comps.length; i++) {
+          // react comp with tweener support
+          if (Comps[i].__isTweener) {
+            if (!Comps[i].isAxisOut("scrollX", dx)) {
+              Comps[i].dispatchScroll(dx, "scrollX", holding);
+              dx = 0;
             }
-          }
 
-          if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
-            if (dy < 0 && headTarget.scrollTop !== 0 || dy > 0 && headTarget.scrollTop !== headTarget.scrollHeight - headTarget.offsetHeight) {
-              return;
-            } // let the node do this scroll
+            if (!Comps[i].isAxisOut("scrollY", dy)) {
+              Comps[i].dispatchScroll(dy, "scrollY", holding);
+              dy = 0;
+            }
 
-          }
+            if (!dx && !dy) break;
+          } // dom element
+          else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(Comps[i])) {
+              style = getComputedStyle(headTarget, null);
 
-          headTarget = headTarget.parentNode;
-          if (headTarget === document || headTarget === target) break;
+              if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
+                if (dy < 0 && headTarget.scrollTop !== 0 || dy > 0 && headTarget.scrollTop !== headTarget.scrollHeight - headTarget.offsetHeight) {
+                  return;
+                } // let the node do this scroll
+
+              }
+
+              headTarget = headTarget.parentNode;
+              if (headTarget === document || headTarget === target) break;
+            }
         }
       } // ------------------------------------------------------------
       // ------------------ Motion/FSM anims ------------------------
@@ -31159,14 +31200,13 @@ function asTweener() {
           }, this);
         }
 
-        _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentDidUpdate", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentDidUpdate", this).apply(this, arguments); // return;
+        _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentDidUpdate", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TweenableComp.prototype), "componentDidUpdate", this).apply(this, arguments);
       }
     }, {
       key: "render",
       value: function render() {
         var _this13 = this;
 
-        //console.log('render', this.constructor.name)
         return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_14__["default"].Consumer, null, function (parentTweener) {
           _this13._parentTweener = parentTweener;
           return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_14__["default"].Provider, {
@@ -31265,6 +31305,8 @@ var signOf = function sign(x) {
   velocityResetTm: 150,
   clickTm: 250
 };
+
+var is = __webpack_require__(/*! is */ "./node_modules/is/index.js");
 
 var easingFn = __webpack_require__(/*! d3-ease */ "./node_modules/d3-ease/src/index.js");
 /**
@@ -33903,7 +33945,7 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
    * @param element
    * @returns {[React.Component]}
    */
-  findReactComponents: function findReactComponents(element) {
+  findReactParents: function findReactParents(element) {
     var fiberNode,
         comps = [];
 

@@ -26,6 +26,7 @@ var
 		clickTm        : 250
 	};
 
+var is       = require('is');
 var easingFn = require('d3-ease');
 /**
  * Main slideshow class
