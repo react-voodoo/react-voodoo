@@ -1,19 +1,15 @@
 /*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
  *
- * Copyright (C) 2019 Nathanael Braun
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
  */
 
 var
@@ -47,20 +43,27 @@ export default class Inertia {
 			...opt
 		};
 		
-		this.active   = false;
-		_.pos         = opt.value || 0;
-		_.refFPS      = 16;
-		_.min         = opt.min || 0;
-		_.max         = opt.max || 0;
-		_.currentStop = 0;
-		_.stops       = _.conf.stops;
-		_.inertiaFn   = easingFn.easePolyOut;
+		this.active      = false;
+		_.pos            = opt.value || 0;
+		_.refFPS         = 16;
+		_.min            = opt.min || 0;
+		_.max            = opt.max || 0;
+		_.currentStop    = 0;
+		_.lastInertiaPos = 0;
+		_.stops          = _.conf.stops;
+		_.inertiaFn      = easingFn.easePolyOut;
 	}
 	
 	update( at = Date.now() ) {
-		let _ = this._, nextValue;
-		if ( !_.inertia )
+		let _ = this._, nextValue, loop;
+		if ( !_.inertia ) {
+			if ( _.conf.shouldLoop ) {
+				while ( (loop = _.conf.shouldLoop(_.pos)) ) {
+					this.teleport(loop);
+				}
+			}
 			return _.pos;
+		}
 		let
 			pos          = _.inertiaFn((at - _.inertiaStartTm) / _.targetDuration) * _.targetDist,
 			delta        = pos - _.lastInertiaPos;
@@ -73,12 +76,27 @@ export default class Inertia {
 		//console.log(_.pos + delta);
 		nextValue = _.pos + delta;
 		
-		if ( _.conf.hookValueUpdate )
-			nextValue = _.conf.hookValueUpdate(nextValue);
+		if ( _.conf.shouldLoop ) {
+			
+			while ( (loop = _.conf.shouldLoop(nextValue)) ) {
+				//console.warn("loop", loop);
+				nextValue += loop;
+				this.teleport(loop);
+			}
+		}
 		
 		_.pos = nextValue;
 		
 		return nextValue;
+	}
+	
+	teleport( loopDist ) {
+		let _ = this._, nextValue;
+		if ( !_.inertia )
+			return _.pos += loopDist;
+		
+		_.lastInertiaPos += loopDist;
+		_.pos += loopDist
 	}
 	
 	dispatch( delta, tm = 250 ) {
@@ -109,7 +127,7 @@ export default class Inertia {
 	
 	_doSnap( forceSnap, maxDuration = 2000 ) {
 		let _   = this._,
-		    pos = _.targetDist + (_.pos - _.lastInertiaPos), target, mid, i
+		    pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)), target, mid, i
 		;
 		
 		if ( _.stops && _.stops.length ) {
@@ -130,9 +148,14 @@ export default class Inertia {
 					target = pos < mid ? _.stops[i - 1] : _.stops[i];
 			}
 			
-			//console.log("do snap", i, target);
+			if ( _.conf.willSnap ) {
+				_.conf.willSnap(i, target)
+			}
+			
+			_.lastInertiaPos = _.lastInertiaPos || 0;
+			console.log("do snap", i, target);
 			target           = target - (_.pos - _.lastInertiaPos);
-			_.targetDuration = min(maxDuration, abs((_.targetDuration / _.targetDist) * target));
+			_.targetDuration = min(maxDuration, abs((_.targetDuration / _.targetDist) * target)) || 0;
 			_.targetDist     = target;
 		}
 		else {
@@ -175,17 +198,22 @@ export default class Inertia {
 		    now          = Date.now() / 1000,//e.timeStamp,
 		    sinceLastPos = (now - _.baseTS),
 		    delta        = pos - _.pos,
-		    iVel         = delta / sinceLastPos;
+		    iVel         = delta / sinceLastPos,
+		    loop;
 		
 		//console.log(pos);
 		_.lastIVelocity = iVel;
 		_.lastVelocity  = iVel;
 		_.baseTS        = now;
 		
-		if ( _.conf.hookValueUpdate )
-			pos = _.conf.hookValueUpdate(pos);
-		
-		if ( !_.conf.infinite ) {
+		if ( _.conf.shouldLoop ) {
+			while ( (loop = _.conf.shouldLoop(pos)) ) {
+				//console.warn("loop", loop);
+				pos += loop;
+				this.teleport(loop);
+			}
+		}
+		else if ( !_.conf.infinite ) {
 			if ( pos > _.max ) {
 				pos = _.max + min((pos - _.max) / 10, 10);
 			}

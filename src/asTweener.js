@@ -1,19 +1,15 @@
 /*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
  *
- * Copyright (C) 2019 Nathanael Braun
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
  */
 
 import React    from "react";
@@ -93,6 +89,11 @@ export default function asTweener( ...argz ) {
 		}
 	}
 	
+	opts = {
+		...opts,
+		wheelRatio: 5,
+		
+	}
 	
 	return class TweenableComp extends BaseComponent {
 		static displayName = (BaseComponent.displayName || BaseComponent.name) + " (tweener)";
@@ -373,6 +374,7 @@ export default function asTweener( ...argz ) {
 					apply   : ( pos, max ) => {
 						let x = (from + (easing(pos / max)) * length);
 						if ( this._.tweenEnabled ) {
+							console.log('TweenableComp::setPos:514: ', x);
 							this._.axes[axe].tweenLines.forEach(
 								sl => sl.goTo(x)
 							);
@@ -429,8 +431,8 @@ export default function asTweener( ...argz ) {
 			    targetPos      = dim ? dim.targetPos : scrollPos,
 			    inertia        = _inertia !== false && (
 				    dim ? dim.inertia : new Inertia({// todo mk pure
-					                                    value: scrollPos,
-					                                    ...(_inertia || {})
+					                                    ...(_inertia || {}),
+					                                    value: scrollPos
 				                                    })),
 			    nextDescr      = {
 				    ...(_inertia || {}),
@@ -508,7 +510,12 @@ export default function asTweener( ...argz ) {
 				let oldPos = this._.axes[axe].targetPos,
 				    setPos = pos => {
 					
+					    //console.log('TweenableComp::setPos:514: ', pos);
 					    this._.axes[axe].scrollPos = pos;
+					    if ( this._.axes[axe].inertia ) {
+						    //this._.axes[axe].inertia.active = false;
+						    this._.axes[axe].inertia._.pos = pos;
+					    }
 					    this.componentDidScroll && this.componentDidScroll(~~pos);
 					    this._updateTweenRefs()
 				    }
@@ -548,7 +555,11 @@ export default function asTweener( ...argz ) {
 			let _static = this.constructor,
 			    _       = this._;
 			if ( this._.rendered ) {
-				let rootNode = this.getRootNode();
+				let rootNode   = this.getRootNode(),
+				    debounceTm = 0,
+				    debounceTr = 0,
+				    scrollLoad = { x: 0, y: 0 },
+				    lastScrollEvt;
 				if ( !this._parentTweener && isBrowserSide ) {
 					
 					if ( !rootNode )
@@ -557,13 +568,43 @@ export default function asTweener( ...argz ) {
 						utils.addWheelEvent(
 							rootNode,
 							this._.onScroll = ( e ) => {//@todo
-								
+								let now       = Date.now();
+								scrollLoad.y += e.deltaY;
+								scrollLoad.x += e.deltaX;
+								lastScrollEvt = e.originalEvent;
+								debounceTm    = debounceTm || now;
+								if ( debounceTr && debounceTm + 500 < now ) {
+									
+									clearTimeout(debounceTr)
+									this._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5)
+									scrollLoad.y = 0;
+									scrollLoad.x = 0;
+									debounceTm   = 0;
+									//debounceTm = now;
+									return;
+								}
+								clearTimeout(debounceTr)
+								//debounceTm = now;
+								debounceTr = setTimeout(
+									tm => {
+										//debugger
+										this._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5)
+										scrollLoad.y = 0;
+										scrollLoad.x = 0;
+										debounceTm   = 0;
+										debounceTr   = lastScrollEvt = undefined;
+									},
+									250
+								)
 								// check if there scrollable stuff in dom targets
-								this._doDispatch(e.target, e.deltaX * 5, e.deltaY * 5);
+								;
+								
+								
 							}
 						);
 					
 					let lastPos = {},
+					    cLock,
 					    parents,
 					    parentsState;
 					if ( !rootNode )
@@ -577,6 +618,7 @@ export default function asTweener( ...argz ) {
 									    y, i;
 									
 									parents      = utils.findReactParents(e.target);
+									//console.log(parents)
 									parentsState = [];
 									for ( i = 0; i < parents.length; i++ ) {
 										tweener = parents[i];
@@ -602,18 +644,31 @@ export default function asTweener( ...argz ) {
 									    y, deltaY, dY, yDispatched,
 									    style, i;
 									
+									dX = -(descr._lastPos.x - descr._startPos.x);
+									dY = -(descr._lastPos.y - descr._startPos.y);
+									
+									if ( opts.dragDirectionLock ) {
+										if ( cLock === "Y" || !cLock && Math.abs(dY * .5) > Math.abs(dX) ) {
+											cLock = "Y";
+											dX    = 0;
+										}
+										else if ( cLock === "X" || !cLock && Math.abs(dX * .5) > Math.abs(dY) ) {
+											cLock = "X";
+											dY    = 0;
+										}
+									}
+									
 									for ( i = 0; i < parents.length; i++ ) {
 										tweener = parents[i];
-										dX      = -(descr._lastPos.x - descr._startPos.x);
-										dY      = -(descr._lastPos.y - descr._startPos.y);
 										// react comp with tweener support
 										if ( tweener.__isTweener && tweener._.scrollEnabled ) {
 											
 											x      = tweener._getAxis("scrollX");
 											y      = tweener._getAxis("scrollY");
-											deltaX = (-(descr._lastPos.x - descr._startPos.x) / tweener._.box.x) * x.scrollableArea;
-											deltaY = (-(descr._lastPos.y - descr._startPos.y) / tweener._.box.y) * y.scrollableArea;
+											deltaX = (dX / tweener._.box.x) * x.scrollableArea;
+											deltaY = (dY / tweener._.box.y) * y.scrollableArea;
 											if ( !xDispatched && !tweener.isAxisOut("scrollX", deltaX) ) {
+												//console.log(this.constructor.displayName, "scrollX", deltaX);
 												x.inertia.hold(parentsState[i].x + deltaX);
 												xDispatched = true;
 											}
@@ -646,7 +701,7 @@ export default function asTweener( ...argz ) {
 								'dropped'  : ( e, touch, descr ) => {
 									let tweener,
 									    i;
-									
+									cLock = undefined;
 									for ( i = 0; i < parents.length; i++ ) {
 										tweener = parents[i];
 										// react comp with tweener support
@@ -678,6 +733,9 @@ export default function asTweener( ...argz ) {
 			if ( dim.inertia.active ) {
 				let x = dim.inertia.update();
 				
+				//this._.axes[axe].tweenLines.forEach(
+				//	sl => sl.goTo(x, this._.tweenRefMaps)
+				//);
 				this.scrollTo(x, 0, axe);
 				//console.log("scroll at " + x, axe);
 				dim.inertiaFrame = window.requestAnimationFrame(this.applyInertia.bind(this, dim, axe));
@@ -701,9 +759,7 @@ export default function asTweener( ...argz ) {
 				dim.inertia.dispatch(delta, 100);
 				!dim.inertiaFrame && this.applyInertia(dim, axe);
 				
-				//if ( this.scrollTo(newPos, 0, axe) )
-				//	prevent = !(opts.propagateAxes && opts.propagateAxes[axe]);
-				prevent = true;
+				//this.scrollTo(newPos, 0, axe)
 			}
 			
 			return prevent;
