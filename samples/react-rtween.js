@@ -2573,282 +2573,6 @@ module.exports = Array.isArray || function (arr) {
 
 /***/ }),
 
-/***/ "./node_modules/isfunction/lib/main.js":
-/*!*********************************************!*\
-  !*** ./node_modules/isfunction/lib/main.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// if (typeof require !== 'undefined') {}
-
-var isFunction = function (functionToCheck) {
-	var getType = {};
-	return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-};
-
-if ( true && module.exports) {
-	module.exports = isFunction;
-}
-
-/***/ }),
-
-/***/ "./node_modules/isnumber/index.js":
-/*!****************************************!*\
-  !*** ./node_modules/isnumber/index.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = isNumber
-
-/**
- * Determine if something is a non-infinite javascript number.
- * @param  {Number}  n A (potential) number to see if it is a number.
- * @return {Boolean}   True for non-infinite numbers, false for all else.
- */
-function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
-
-/***/ }),
-
-/***/ "./node_modules/isstring/isString.umd.js":
-/*!***********************************************!*\
-  !*** ./node_modules/isstring/isString.umd.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;;(function (factory) {
-  if (true)
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  else {}
-})(function () {
-  var strToString  = ('').toString,
-      hasBind      = Function.prototype && Function.prototype.bind,
-      strToStrCall = hasBind && strToString.call.bind(strToString),
-      isString     = function (str) {
-        /*@cc_on
-          @if (@_jscript_version >= 5) @*/
-            try {
-                hasBind ? strToStrCall(str) : strToString.call(str);
-                return true;
-            } catch (e) {
-                return false;
-            }
-          /*@end
-        @*/
-      };
-
-  return function (str) {
-    return  typeof str === 'string' ||
-            str && typeof str === 'object' &&
-            /*@cc_on
-              @if (@_jscript_version < 5.5)
-                /^\s*function\s*String\(\)\s*{\s*\[native code\]\s*}\s*$/.test(str.constructor)
-              @else @*/
-                isString(str)
-              /*@end
-            @*/
-            || false;
-  };
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/merge/merge.js":
-/*!*************************************!*\
-  !*** ./node_modules/merge/merge.js ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(module) {/*!
- * @name JavaScript/NodeJS Merge v1.2.1
- * @author yeikos
- * @repository https://github.com/yeikos/js.merge
-
- * Copyright 2014 yeikos - MIT license
- * https://raw.github.com/yeikos/js.merge/master/LICENSE
- */
-
-;(function(isNode) {
-
-	/**
-	 * Merge one or more objects 
-	 * @param bool? clone
-	 * @param mixed,... arguments
-	 * @return object
-	 */
-
-	var Public = function(clone) {
-
-		return merge(clone === true, false, arguments);
-
-	}, publicName = 'merge';
-
-	/**
-	 * Merge two or more objects recursively 
-	 * @param bool? clone
-	 * @param mixed,... arguments
-	 * @return object
-	 */
-
-	Public.recursive = function(clone) {
-
-		return merge(clone === true, true, arguments);
-
-	};
-
-	/**
-	 * Clone the input removing any reference
-	 * @param mixed input
-	 * @return mixed
-	 */
-
-	Public.clone = function(input) {
-
-		var output = input,
-			type = typeOf(input),
-			index, size;
-
-		if (type === 'array') {
-
-			output = [];
-			size = input.length;
-
-			for (index=0;index<size;++index)
-
-				output[index] = Public.clone(input[index]);
-
-		} else if (type === 'object') {
-
-			output = {};
-
-			for (index in input)
-
-				output[index] = Public.clone(input[index]);
-
-		}
-
-		return output;
-
-	};
-
-	/**
-	 * Merge two objects recursively
-	 * @param mixed input
-	 * @param mixed extend
-	 * @return mixed
-	 */
-
-	function merge_recursive(base, extend) {
-
-		if (typeOf(base) !== 'object')
-
-			return extend;
-
-		for (var key in extend) {
-
-			if (typeOf(base[key]) === 'object' && typeOf(extend[key]) === 'object') {
-
-				base[key] = merge_recursive(base[key], extend[key]);
-
-			} else {
-
-				base[key] = extend[key];
-
-			}
-
-		}
-
-		return base;
-
-	}
-
-	/**
-	 * Merge two or more objects
-	 * @param bool clone
-	 * @param bool recursive
-	 * @param array argv
-	 * @return object
-	 */
-
-	function merge(clone, recursive, argv) {
-
-		var result = argv[0],
-			size = argv.length;
-
-		if (clone || typeOf(result) !== 'object')
-
-			result = {};
-
-		for (var index=0;index<size;++index) {
-
-			var item = argv[index],
-
-				type = typeOf(item);
-
-			if (type !== 'object') continue;
-
-			for (var key in item) {
-
-				if (key === '__proto__') continue;
-
-				var sitem = clone ? Public.clone(item[key]) : item[key];
-
-				if (recursive) {
-
-					result[key] = merge_recursive(result[key], sitem);
-
-				} else {
-
-					result[key] = sitem;
-
-				}
-
-			}
-
-		}
-
-		return result;
-
-	}
-
-	/**
-	 * Get type of variable
-	 * @param mixed input
-	 * @return string
-	 *
-	 * @see http://jsperf.com/typeofvar
-	 */
-
-	function typeOf(input) {
-
-		return ({}).toString.call(input).slice(8, -1).toLowerCase();
-
-	}
-
-	if (isNode) {
-
-		module.exports = Public;
-
-	} else {
-
-		window[publicName] = Public;
-
-	}
-
-})( true && module && typeof module.exports === 'object' && module.exports);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
-
-/***/ }),
-
 /***/ "./node_modules/nanoid/format.js":
 /*!***************************************!*\
   !*** ./node_modules/nanoid/format.js ***!
@@ -29236,283 +28960,6 @@ module.exports = 0;
 
 /***/ }),
 
-/***/ "./node_modules/taskflows/index.js":
-/*!*****************************************!*\
-  !*** ./node_modules/taskflows/index.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * @author Nathanael BRAUN
- *
- * Date: 16/12/2015
- * Time: 09:37
- */
-
-/**
- * @author N.Braun
- *
- * Date: 03/09/14
- * Time: 11:00
- */
-/**
- *
- * Promise / semaphore manager & task sequencer
- *
- *
- * @class TaskFlow
- */
-
-
-
-var
-    isArray    = __webpack_require__(/*! isarray */ "./node_modules/isarray/index.js"),
-    isFunction = __webpack_require__(/*! isfunction */ "./node_modules/isfunction/lib/main.js"),
-    isNumber   = __webpack_require__(/*! isnumber */ "./node_modules/isnumber/index.js"),
-    isString   = __webpack_require__(/*! isstring */ "./node_modules/isstring/isString.umd.js"),
-    merge      = __webpack_require__(/*! merge */ "./node_modules/merge/merge.js"),
-    slice      = Array.prototype.slice,
-    splice     = Array.prototype.splice;
-
-/**
- * TaskFlow
- * @param todo
- * @param scope
- * @param followers
- * @param name
- * @constructor
- */
-
-
-var TaskFlowLib    = {},
-    TaskFlow       = function ( todo, scope, followers, name ) {
-        this.scope       = scope || {};
-        this.todo        = isArray(todo)?todo : todo&&[todo]||[];
-        this.doAfter     = [];
-        //this.overides = {};
-        this.locks       = 0;
-        this.fails       = 0;
-        this._complete   = false;
-        this._followers  = followers instanceof Array ? followers : [followers];
-        this._onfail     = null;
-        this.displayName = name;
-
-        this.release   = this.success   = this.release.bind(this);
-        this.asyncFail = this.fail.bind(this);
-    };
-TaskFlow.Task      = function () {
-};
-TaskFlow.Catch     = function () {
-};
-module.exports     = TaskFlow;
-TaskFlow.prototype =
-{
-    kill       : function () {
-        this.doAfter=this.scope=this._onfail = this._followers=0;
-        this.dead = true;
-    },
-    reset       : function () {
-        if (this.dead) return;
-        this._complete=false;
-        this._pos=0;
-    },
-    /**
-     * Add one shot success call back / TaskFlow
-     * Passed wf will be released (so it will start running if there no others locks)
-     * @param cb {function||TaskFlow}
-     * @returns {TaskFlow}
-     */
-    then        : function () {
-        if (this.dead) return;
-        this._followers = (this._followers instanceof Array) && this._followers || [];
-        for ( var i = 0, ln = arguments.length ; i < ln ; i++ ) {
-            if ( arguments[i] instanceof Array ) this.then.apply(this, arguments[i]);
-            else {
-                this._followers.push(arguments[i]);
-                if ( arguments[i] instanceof TaskFlow )// @todo in wait ?
-                    arguments[i].locks++;
-            }
-        }
-        if ( this._complete ) {
-            this.locks++;
-            this.release();
-        }
-        return this;
-    },
-    /**
-     * Add one shot fail call back
-     * @param cb {function||TaskFlow||array}
-     * @returns {TaskFlow}
-     */
-    catchFail   : function () {
-        if (this.dead) return;
-        var done     = this.fails && this._complete;
-        this._onfail = this._onfail || [];
-        for ( var i = 0, ln = arguments.length ; i < ln ; i++ ) {
-            if ( arguments[i] instanceof Array ) this.catchFail.apply(this, arguments[i]);
-            else {
-                if ( !done )
-                    this._onfail.push(arguments[i]);
-                else arguments[i]();
-            }
-        }
-        return this;
-    },
-    /**
-     * make this wf fall in failure, triggering one shot cb
-     * @todo
-     * @param cause
-     */
-    fail        : function ( cause ) {
-        if (this.dead) return;
-        var tmp, i = 0;
-        this._fail = cause;
-        if ( this._onfail )
-            while (i < this._onfail.length) {
-                tmp = this._onfail[i++];
-                if ( tmp instanceof Function ) tmp(this.scope, cause, this);
-                else if ( tmp instanceof TaskFlow ) tmp.release();
-            }
-    },
-    /**
-     * Push a task & start running the wf (or restart it from last pos) if no remaining locks
-     * @param {fn|TaskFlow} the tasks
-     * @returns {TaskFlow}
-     */
-    push        : function () {
-        if (this.dead) return;
-        this.locks++;
-        this._complete = false;
-        this.todo.push.apply(this.todo, arguments);
-        this.release();
-        return this;
-    },
-    /**
-     * Add a lock
-     * @param previous optional wf to wait (when previous will be done this will be unlocked
-     * @returns {TaskFlow}
-     */
-    wait        : function ( previous ) {
-        if (this.dead) return;
-        if ( isArray(previous) )
-            return previous.map(this.wait.bind(this));
-        if ( previous ) {
-            previous.then(this);
-        } else this.locks++;
-        return this;
-    },
-    /**
-     * Decrease locks for this wf, if it reach 0 all stuff passed to "then" call back will be exec / released
-     * @param desync
-     * @returns {*}
-     */
-    release     : function ( desync ) {
-        var me = this;
-        if (this.dead) return;
-        if ( desync && this.locks > 0 ) return setTimeout(this.success) && this;
-        var tmp;
-
-        if ( !--this.locks ) {
-            if ( this.doAfter.length || this.todo.length > this._pos ) {
-                //tmp            = this._nextTask;
-                //this._nextTask = null;
-
-                this.run(tmp);
-
-                return;
-            }
-            //console.log('run '+this.locks)
-            this._complete = true;
-            this.running = false;
-
-            if ( this._followers instanceof Array ) {
-                while (this._followers.length) {
-                    tmp = this._followers.shift();
-
-                    if ( tmp instanceof Function ) tmp(this.scope, this);
-                    else if ( tmp instanceof TaskFlow ) tmp.release();
-                }
-            } else {
-                tmp = this._followers;
-
-                if ( tmp instanceof Function ) tmp(this.scope, this);
-                else if ( tmp instanceof TaskFlow ) tmp.release();
-            }
-        }
-        return this;
-    },
-    _pos        : 0,
-    _nextTask   : 0,
-    pushSubTask : function ( task ) {
-        if (this.dead) return;
-        this.doAfter.push(task);
-    },
-    // override    : function ( taskName, fn ) {
-    //
-    //     this.overrides[taskName] = this.overrides[taskName] || [];
-    //     this.overrides[taskName].push(fn);
-    // },
-
-    /**
-     * Start this wf execution
-     * @returns {*}
-     */
-    run : function ( step, force, releaseAfter ) {
-        if (this.dead) return;
-        if ( !step && !this.locks && !this.doAfter.length && (this._pos>=this.todo.length) ) {
-            this.locks++;
-            this.running = false;
-            this.release();
-            return this;
-        }
-        if ( !force && this.locks ) return step && this.pushSubTask(step);
-
-        this.running = true;
-
-
-        step = step || this.doAfter.length && this.doAfter.shift() || this.todo[this._pos++];
-
-        this.locks++;
-        if ( isString(step) ) {
-
-            if ( !this._succesfull ) {
-                // there was a fail
-            }
-            if ( this.scope[step] instanceof Function ) {
-                step = this.scope[step](null, this.scope, this);
-
-            } else step = this.scope[step];
-        } else if ( step instanceof Function ) {
-
-            this._succesfull = true;
-            step             = step(this.scope, this);
-            this._succesfull = false;
-
-        } else if ( step instanceof TaskFlow ) {// sync wf
-            step.then(this);
-            step = null;
-        } else if ( step instanceof Array ) {//async pool
-            this.locks++;
-            for ( var i = 0 ; i < step.length ; i++, this.locks++ )
-                setTimeout(this.run.bind(this, step[i], true, true));
-            setTimeout(this.success);
-            step = null;
-        } else {
-            step = null;
-        }
-
-        !step && releaseAfter && this.release();
-        this.run(step, step && force, step && releaseAfter);
-        this.release();
-
-        return this;
-    }
-};
-
-/***/ }),
-
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -29579,39 +29026,6 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ "./node_modules/webpack/buildin/module.js":
-/*!***********************************!*\
-  !*** (webpack)/buildin/module.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(module) {
-	if (!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-
-/***/ }),
-
 /***/ "./src/MapOf.react_rtween_helpers_demux_____js.gen.js":
 /*!************************************************************!*\
   !*** ./src/MapOf.react_rtween_helpers_demux_____js.gen.js ***!
@@ -29637,13 +29051,18 @@ var req,
 req = __webpack_require__("./src/helpers/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$");
 req.keys().forEach(function (key) {
   var mod,
-      name = key.match(/^\.\/([^\\\/]+)\.js$/);
+      name = key.match(/^\.\/([^\\\/]+)\.js$/),
+      i = 0,
+      modExport = _exports;
   name = name && name[1] || key.substr(2);
+  name = name.split('/');
+  mod = req(key);
 
-  if (!_exports[name]) {
-    mod = req(key);
-    _exports[name] = Object.keys(mod).length === 1 && mod["default"] || mod;
+  while (i < name.length - 1) {
+    modExport = modExport[name[i]] = modExport[name[i]] || {}, i++;
   }
+
+  modExport[name[i]] = Object.keys(mod).length === 1 && mod["default"] || mod;
 });
 var $all = _exports.$all;
 var backgroundColor = _exports.backgroundColor;
@@ -29705,13 +29124,18 @@ var req,
 req = __webpack_require__("./src/helpers/demux/typed sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$");
 req.keys().forEach(function (key) {
   var mod,
-      name = key.match(/^\.\/([^\\\/]+)\.js$/);
+      name = key.match(/^\.\/([^\\\/]+)\.js$/),
+      i = 0,
+      modExport = _exports;
   name = name && name[1] || key.substr(2);
+  name = name.split('/');
+  mod = req(key);
 
-  if (!_exports[name]) {
-    mod = req(key);
-    _exports[name] = Object.keys(mod).length === 1 && mod["default"] || mod;
+  while (i < name.length - 1) {
+    modExport = modExport[name[i]] = modExport[name[i]] || {}, i++;
   }
+
+  modExport[name[i]] = Object.keys(mod).length === 1 && mod["default"] || mod;
 });
 var color = _exports.color;
 var _int = _exports["int"];
@@ -30246,16 +29670,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var taskflows__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! taskflows */ "./node_modules/taskflows/index.js");
-/* harmony import */ var taskflows__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(taskflows__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
-/* harmony import */ var _helpers_Inertia__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./helpers/Inertia */ "./src/helpers/Inertia.js");
-/* harmony import */ var _TweenerContext__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./TweenerContext */ "./src/TweenerContext.js");
-/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! rtween */ "./node_modules/rtween/dist/rTween.js");
-/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(rtween__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./helpers */ "./src/helpers/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
+/* harmony import */ var _helpers_Inertia__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./helpers/Inertia */ "./src/helpers/Inertia.js");
+/* harmony import */ var _TweenerContext__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./TweenerContext */ "./src/TweenerContext.js");
+/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! rtween */ "./node_modules/rtween/dist/rTween.js");
+/* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(rtween__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./helpers */ "./src/helpers/index.js");
 
 
 
@@ -30272,19 +29694,22 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Copyright (C) 2019 Nathanael Braun
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 
 
 
@@ -30447,7 +29872,7 @@ function asTweener() {
           _.iMapOrigin[id] = iMap;
           iStyle = iStyle || {};
           iMap = iMap || {};
-          Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true); // minus initial values
+          Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true); // minus initial values
 
           Object.keys(_.tweenRefOrigin[id]).forEach(function (key) {
             return _.tweenRefMaps[id][key] -= _.tweenRefOrigin[id][key];
@@ -30463,7 +29888,7 @@ function asTweener() {
           _.tweenRefOrigin[id] = tweenableMap; //_.tweenRefCSS[id]    = iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials,
           // _.muxDataByTarget[id], _.muxByTarget[id], true) };
 
-          Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
+          Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["muxToCss"])(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
         } else if (mapReset || !_.tweenRefs[id]) {
           mapReset = mapReset || !_.tweenRefs[id];
           _.iMapOrigin[id] = iMap;
@@ -30479,7 +29904,7 @@ function asTweener() {
           _.tweenRefs[id] = true;
           _.muxByTarget[id] = _.muxByTarget[id] || {};
           _.muxDataByTarget[id] = _.muxDataByTarget[id] || {};
-          iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true)); //_.tweenRefUnits[id] = extractUnits(iMap);
+          iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true)); //_.tweenRefUnits[id] = extractUnits(iMap);
           //}
 
           _.tweenRefOrigin[id] = tweenableMap;
@@ -30488,7 +29913,7 @@ function asTweener() {
           _.tweenRefCSS[id] = iStyle; // init / reset or get the tweenable view
 
           tweenableMap = _.tweenRefMaps[id] = !mapReset && _.tweenRefMaps[id] || Object.assign(_.tweenRefMaps[id] || {}, initials, tweenableMap || {});
-          Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
+          Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["muxToCss"])(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
         }
 
         if (noref) return {
@@ -30551,10 +29976,10 @@ function asTweener() {
           initial = anim.initial;
         }
 
-        if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_15___default.a)) {
+        if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) {
           // tweenLine, initials, data, demuxers
-          sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-          sl = new rtween__WEBPACK_IMPORTED_MODULE_15___default.a(sl, this._.tweenRefMaps);
+          sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
+          sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, this._.tweenRefMaps);
           Object.keys(initials).forEach(function (id) {
             return Object.assign(_this3._.tweenRefMaps[id], _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, initials[id], _this3._.tweenRefMaps[id]));
           });
@@ -30586,9 +30011,9 @@ function asTweener() {
       key: "registerPropChangeAnim",
       value: function registerPropChangeAnim(propId, propValue, anims) {
         this._.rtweensByProp = this._.rtweensByProp || {};
-        this._.rtween = this._.rtween || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
+        this._.rtween = this._.rtween || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
         this._.rtweensByProp[propId] = this._.rtweensByProp[propId] || {};
-        this._.rtweensByProp[propId][propValue] = this._.rtweensByProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
+        this._.rtweensByProp[propId][propValue] = this._.rtweensByProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
 
         this._.rtweensByProp[propId][propValue].mount(anims);
       }
@@ -30596,9 +30021,9 @@ function asTweener() {
       key: "registerStateChangeAnim",
       value: function registerStateChangeAnim(propId, propValue, anims) {
         this._.rtweensByStateProp = this._.rtweensByStateProp || {};
-        this._.rtween = this._.rtween || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
+        this._.rtween = this._.rtween || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
         this._.rtweensByStateProp[propId] = this._.rtweensByStateProp[propId] || {};
-        this._.rtweensByStateProp[propId][propValue] = this._.rtweensByStateProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_15___default.a();
+        this._.rtweensByStateProp[propId][propValue] = this._.rtweensByStateProp[propId][propValue] || new rtween__WEBPACK_IMPORTED_MODULE_14___default.a();
 
         this._.rtweensByStateProp[propId][propValue].mount(anims);
       }
@@ -30691,7 +30116,7 @@ function asTweener() {
           scrollPos: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
           targetPos: 0,
           scrollableArea: 0,
-          inertia: new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_13__["default"](_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({
+          inertia: new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_12__["default"](_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({
             value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0
           }, opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {}))
         };
@@ -30721,7 +30146,7 @@ function asTweener() {
             scrollPos = dim ? dim.scrollPos : defaultPosition || 0,
             scrollableArea = Math.max(dim && dim.scrollableArea || 0, _scrollableArea),
             targetPos = dim ? dim.targetPos : scrollPos,
-            inertia = _inertia !== false && (dim ? dim.inertia : new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_13__["default"](_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, _inertia || {}, {
+            inertia = _inertia !== false && (dim ? dim.inertia : new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_12__["default"](_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, _inertia || {}, {
           value: scrollPos
         }))),
             nextDescr = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, _inertia || {}, {
@@ -30755,9 +30180,9 @@ function asTweener() {
           size = anim.length;
         }
 
-        if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_15___default.a)) {
-          sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-          sl = new rtween__WEBPACK_IMPORTED_MODULE_15___default.a(sl, _.tweenRefMaps);
+        if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) {
+          sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
+          sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, _.tweenRefMaps);
           Object.keys(initials).forEach(function (id) {
             _this6._.tweenRefMaps[id] = _this6._.tweenRefMaps[id] || {}, Object.assign(_this6._.tweenRefMaps[id], _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, initials[id], _this6._.tweenRefMaps[id]));
           });
@@ -30875,7 +30300,7 @@ function asTweener() {
               lastScrollEvt;
 
           if (!this._parentTweener && isBrowserSide) {
-            if (!rootNode) console.warn("fail registering scroll listener !! ");else _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addWheelEvent(rootNode, this._.onScroll = function (e) {
+            if (!rootNode) console.warn("fail registering scroll listener !! ");else _utils__WEBPACK_IMPORTED_MODULE_11__["default"].addWheelEvent(rootNode, this._.onScroll = function (e) {
               //@todo
               var now = Date.now();
               scrollLoad.y += e.deltaY;
@@ -30912,11 +30337,11 @@ function asTweener() {
                 cLock,
                 parents,
                 parentsState;
-            if (!rootNode) console.warn("fail registering drag listener !! ");else _utils__WEBPACK_IMPORTED_MODULE_12__["default"].addEvent(rootNode, this._.dragList = {
+            if (!rootNode) console.warn("fail registering drag listener !! ");else _utils__WEBPACK_IMPORTED_MODULE_11__["default"].addEvent(rootNode, this._.dragList = {
               'dragstart': function dragstart(e, touch, descr) {
                 //@todo
                 var tweener, x, y, i;
-                parents = _utils__WEBPACK_IMPORTED_MODULE_12__["default"].findReactParents(e.target); //console.log(parents)
+                parents = _utils__WEBPACK_IMPORTED_MODULE_11__["default"].findReactParents(e.target); //console.log(parents)
 
                 parentsState = [];
 
@@ -31063,7 +30488,7 @@ function asTweener() {
             i; // check if there scrollable stuff in dom targets
         // get all the parents components & dom node of an dom element ( from fibers )
 
-        Comps = _utils__WEBPACK_IMPORTED_MODULE_12__["default"].findReactParents(headTarget); //console.log("dispatching ", dx, dy, Comps);
+        Comps = _utils__WEBPACK_IMPORTED_MODULE_11__["default"].findReactParents(headTarget); //console.log("dispatching ", dx, dy, Comps);
 
         for (i = 0; i < Comps.length; i++) {
           // react comp with tweener support
@@ -31105,7 +30530,7 @@ function asTweener() {
 
         var tmap = {},
             initials = {};
-        Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
+        Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
         Object.keys(tmap).map(function (p) {
           return _this9._.tweenRefMaps[id][p] = (!reset && _this9._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
         });
@@ -31124,7 +30549,7 @@ function asTweener() {
         if (!this._.tweenRefCSS) this.makeTweenable();
 
         if (!postPone && this.refs[target]) {
-          var node = this.refs[target] instanceof Element ? this.refs[target] : react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this.refs[target]);
+          var node = this.refs[target] instanceof Element ? this.refs[target] : react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this.refs[target]);
           node && Object.assign(node.style, style);
         }
 
@@ -31145,12 +30570,12 @@ function asTweener() {
     }, {
       key: "getTweenableRef",
       value: function getTweenableRef(id) {
-        return this._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this._.refs[id]);
+        return this._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this._.refs[id]);
       }
     }, {
       key: "getRootNode",
       value: function getRootNode() {
-        return this._.rootRef && this.getTweenableRef(this._.rootRef) || react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this);
+        return this._.rootRef && this.getTweenableRef(this._.rootRef) || react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this);
       }
     }, {
       key: "_rafLoop",
@@ -31167,7 +30592,7 @@ function asTweener() {
         if (this._.tweenEnabled) {
           for (var i = 0, target, node; i < this._.tweenRefTargets.length; i++) {
             target = this._.tweenRefTargets[i];
-            Object(_helpers__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
+            Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["muxToCss"])(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
             node = this.getTweenableRef(target);
             node && Object.assign(node.style, this._.tweenRefCSS[target]);
           }
@@ -31186,8 +30611,8 @@ function asTweener() {
         if (this._.scrollEnabled) {
           this._.scrollEnabled = false; //this._.axes          = undefined;
 
-          node && this._.onScroll && !this._parentTweener && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].rmWheelEvent(node, this._.onScroll);
-          node && this._.dragList && _utils__WEBPACK_IMPORTED_MODULE_12__["default"].removeEvent(node, this._.dragList);
+          node && this._.onScroll && !this._parentTweener && _utils__WEBPACK_IMPORTED_MODULE_11__["default"].rmWheelEvent(node, this._.onScroll);
+          node && this._.dragList && _utils__WEBPACK_IMPORTED_MODULE_11__["default"].removeEvent(node, this._.dragList);
         }
 
         _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(TweenableComp.prototype), "componentWillUnmount", this) && _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(TweenableComp.prototype), "componentWillUnmount", this).apply(this, arguments);
@@ -31255,9 +30680,9 @@ function asTweener() {
       value: function render() {
         var _this13 = this;
 
-        return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_14__["default"].Consumer, null, function (parentTweener) {
+        return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_13__["default"].Consumer, null, function (parentTweener) {
           _this13._parentTweener = parentTweener;
-          return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_14__["default"].Provider, {
+          return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_13__["default"].Provider, {
             value: _this13
           }, _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(TweenableComp.prototype), "render", _this13).call(_this13));
         });

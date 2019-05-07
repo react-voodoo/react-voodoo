@@ -1,6 +1,6 @@
 {
   "name": "react-rtween",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "license": "AGPL-3.0",
   "main": "./dist/react-rtween.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -62,18 +62,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
-    "camelcase-css": "^2.0.1",
-    "color": "^3.1.0",
-    "color-convert": "^2.0.0",
     "color-rgba": "^2.1.0",
-    "css-color-converter": "^1.1.0",
     "d3-ease": "^1.0.5",
-    "inrtia": "^0.2.3",
     "is": "^3.2.1",
-    "isfunction": "0.0.6",
-    "kebab-case": "^1.0.0",
-    "rtween": "^1.2.1",
-    "taskflows": "^1.0.0"
+    "rtween": "^1.2.1"
   },
   "devDependencies": {
     "wpi-react-hmr-ssr": "^1.1.3",
