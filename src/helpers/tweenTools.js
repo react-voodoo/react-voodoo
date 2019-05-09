@@ -15,6 +15,7 @@
 import is from "is";
 
 export function offset( items, start = 0 ) {
+	items = is.array(items) ? items : items && [items] || items;
 	return items.map(
 		item => (
 			{
@@ -26,6 +27,7 @@ export function offset( items, start = 0 ) {
 }
 
 export function scale( items, duration = 0 ) {
+	items = is.array(items) ? items : items && [items] || items;
 	
 	// get items current duration
 	let iDuration = 0;
@@ -62,7 +64,7 @@ function inverseValues( v ) {
 }
 
 export function reverse( items ) {
-	
+	items         = is.array(items) ? items : items && [items] || items;
 	// get items current duration
 	let iDuration = 0;
 	items.forEach(
@@ -84,7 +86,65 @@ export function reverse( items ) {
 	)
 }
 
+export function addCss( target, ...sources ) {
+	let source = sources.shift();
+	for ( const key in source ) {
+		if ( !source.hasOwnProperty(key) )
+			continue;
+		if ( is.object(source[key]) ) {
+			if ( !target[key] ) {
+				target[key] = {};
+			}
+			
+			addCss(target[key], source[key]);
+		}
+		else if ( is.array(source[key]) ) {
+			if ( !target[key] ) {
+				target[key] = [];
+			}
+			addCss(target[key], source[key]);
+		}
+		else {
+			target[key] = addAllType(target[key], source[key])
+		}
+	}
+	
+	return sources.length && addCss(target, ...sources) || target;
+}
+
+function addAllType( v1, v2 ) {
+	if ( !v1 )
+		return v2;
+	if ( !v2 )
+		return v1;
+	let values1 = ('' + v1).split(/(\-?\d+(?:\.\d+)?|\-?\.\d+)/ig),
+	    values2 = ('' + v2).split(/(\-?\d+(?:\.\d+)?|\-?\.\d+)/ig),
+	    r       = values1.map(
+		    ( val, i ) => (i % 2 ? parseFloat(val) + parseFloat(values2[i] || 0) : val)
+	    ).filter(i => (i !== ''));
+	
+	return r.length === 1 ? parseInt(r[0]) : r.join("")
+}
+
+export function extractCss( items, inverse ) {
+	let css = {};
+	items   = is.array(items) ? items : items && [items] || items;
+	items.forEach(
+		item => {
+			addCss(css, item.apply)
+		}
+	);
+	if ( inverse )
+		css = inverseValues(css);
+	
+	
+	//if ( inverse && css.hasOwnProperty('opacity') )
+	//	css.opacity -= 1;
+	return css;
+}
+
 export function target( items, target ) {
+	items = is.array(items) ? items : items && [items] || items;
 	return items.map(
 		item => (
 			{
@@ -96,6 +156,7 @@ export function target( items, target ) {
 }
 
 export function shiftTransforms( items, shift = 1 ) {
+	items = is.array(items) ? items : items && [items] || items;
 	return items.map(
 		item => {
 			let t = item.apply && item.apply.transform;

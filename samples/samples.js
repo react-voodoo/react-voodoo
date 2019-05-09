@@ -30006,7 +30006,7 @@ function (_React$Component) {
       var _this$props = this.props,
           children = _this$props.children,
           axe = _this$props.axe,
-          stops = _this$props.stops,
+          scrollableWindow = _this$props.scrollableWindow,
           inertia = _this$props.inertia,
           size = _this$props.size,
           defaultPosition = _this$props.defaultPosition,
@@ -30027,7 +30027,7 @@ function (_React$Component) {
         if (!_this3._previousInertia || _this3._previousInertia !== inertia) {
           //....
           _this3._previousInertia = inertia;
-          tweener.initAxis(axe, inertia, size, defaultPosition);
+          tweener.initAxis(axe, inertia, size, scrollableWindow, defaultPosition);
         }
 
         if (!_this3._previousTweener || _this3._previousTweener !== tweener) {
@@ -30551,6 +30551,8 @@ function asTweener() {
       value: function resetTweenable() {
         var _this2 = this;
 
+        var _ = this._;
+
         for (var _len2 = arguments.length, targets = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
           targets[_key2] = arguments[_key2];
         }
@@ -30558,7 +30560,16 @@ function asTweener() {
         targets.forEach(function (t) {
           // delete this._.tweenRefs[t];
           // delete this._.tweenRefCSS[t];
-          _this2._.tweenRefMaps[t] = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, _this2._.tweenRefOrigin[t]);
+          //this._.tweenRefMaps[t] = Object.fromEntries(Object.entries(this._.tweenRefMaps[t]).map(( obj ) =>
+          //let newCss        = {};
+          //_.tweenRefMaps[t] = { ..._.tweenRefOrigin[t] };
+          //Object.keys(_.tweenRefCSS[t])
+          //      .forEach(
+          //	      key => (newCss[key] = '')
+          //      );
+          //Object.assign(newCss, _.tweenRefOriginCss[t]);
+          //_.tweenRefCSS[t] = newCss;
+          _this2.tweenRef(t, _.tweenRefOriginCss[t], _.iMapOrigin[t], null, null, true);
         });
 
         this._updateTweenRefs();
@@ -30580,10 +30591,8 @@ function asTweener() {
       value: function tweenRef(id, iStyle, iMap, pos, noref, mapReset) {
         // ref initial style
         this.makeTweenable();
-        var _static = this.constructor,
-            _ = this._,
-            tweenableMap = {},
-            cState = _static.motionStates && _static.motionStates[_.curMotionStateId];
+        var _ = this._,
+            tweenableMap = {};
         var initials = {};
         if (!_.tweenRefs[id]) _.tweenRefTargets.push(id);
 
@@ -30592,35 +30601,59 @@ function asTweener() {
           _.iMapOrigin[id] = iMap;
           iStyle = iStyle || {};
           iMap = iMap || {};
-          Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true); // minus initial values
 
-          Object.keys(_.tweenRefOrigin[id]).forEach(function (key) {
-            return _.tweenRefMaps[id][key] -= _.tweenRefOrigin[id][key];
-          }); // set defaults values in case of
+          if (mapReset) {
+            _.muxByTarget[id] = {};
+            _.muxDataByTarget[id] = {};
+            Object.keys(_.tweenRefCSS[id]) // unset
+            .forEach(function (key) {
+              return iStyle[key] = iStyle[key] || '';
+            });
+            _.tweenRefMaps[id] = tweenableMap = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, _.tweenRefOrigin[id]);
+            iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true));
+            Object.assign(_.tweenRefCSS[id], _.tweenRefOriginCss[id]); //Object.keys(_.tweenRefMaps[id])// unset
+            //      .forEach(
+            //	      key => (
+            //		      tweenableMap.hasOwnProperty(key)
+            //		      ? _.tweenRefMaps[id][key] = tweenableMap[key] : delete _.tweenRefMaps[id][key]
+            //	      )
+            //      );
+          } else {
+            //_.muxByTarget[id]     = {};
+            delete _.muxDataByTarget[id].transform_head;
+            iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true)); // minus initial values
 
-          Object.keys(initials).forEach(function (key) {
-            return _.tweenRefMaps[id][key] = _.tweenRefMaps[id][key] || initials[key];
-          }); // add new initial values
+            Object.keys(_.tweenRefOrigin[id]).forEach(function (key) {
+              return _.tweenRefMaps[id][key] -= _.tweenRefOrigin[id][key];
+            }); // set defaults values in case of
 
-          Object.keys(tweenableMap).forEach(function (key) {
-            return _.tweenRefMaps[id][key] += tweenableMap[key];
-          });
-          _.tweenRefOrigin[id] = tweenableMap; //_.tweenRefCSS[id]    = iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials,
-          // _.muxDataByTarget[id], _.muxByTarget[id], true) };
+            Object.keys(initials).forEach(function (key) {
+              return _.tweenRefMaps[id][key] = is__WEBPACK_IMPORTED_MODULE_10___default.a.number(_.tweenRefMaps[id][key]) ? _.tweenRefMaps[id][key] : initials[key];
+            }); // add new initial values
+
+            Object.keys(tweenableMap).forEach(function (key) {
+              return _.tweenRefMaps[id][key] += tweenableMap[key];
+            });
+            Object.keys(_.tweenRefMaps[id]) // unset
+            .forEach(function (key) {
+              //key == "width" &&
+              if (_.tweenRefOrigin[id].hasOwnProperty(key) && !tweenableMap.hasOwnProperty(key)) {
+                delete _.tweenRefMaps[id][key];
+                delete _.muxByTarget[id][key];
+              }
+            });
+            _.tweenRefOrigin[id] = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, tweenableMap);
+            _.tweenRefOriginCss[id] = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle);
+          } //let newCss        = {};
+          //_.tweenRefMaps[t] = { ..._.tweenRefOrigin[t] };
+          //_.tweenRefMaps[id] = tweenableMap;
+
 
           Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["muxToCss"])(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
-        } else if (mapReset || !_.tweenRefs[id]) {
-          mapReset = mapReset || !_.tweenRefs[id];
+        } else if (!_.tweenRefs[id]) {
           _.iMapOrigin[id] = iMap;
-
-          if (cState && cState.refs && cState.refs[id]) {
-            iStyle = iStyle || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, cState.refs[id][0]);
-            iMap = iMap || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, cState.refs[id][1]);
-          } else {
-            iStyle = iStyle || {};
-            iMap = iMap || {};
-          }
-
+          iStyle = iStyle || {};
+          iMap = iMap || {};
           _.tweenRefs[id] = true;
           _.muxByTarget[id] = _.muxByTarget[id] || {};
           _.muxDataByTarget[id] = _.muxDataByTarget[id] || {};
@@ -30628,11 +30661,10 @@ function asTweener() {
           //}
 
           _.tweenRefOrigin[id] = tweenableMap;
-          _.tweenRefCSS[id] = _.tweenRefCSS[id] || _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle);
-          if (mapReset) Object.assign(_.tweenRefCSS[id], iStyle);
+          _.tweenRefOriginCss[id] = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle);
           _.tweenRefCSS[id] = iStyle; // init / reset or get the tweenable view
 
-          tweenableMap = _.tweenRefMaps[id] = !mapReset && _.tweenRefMaps[id] || Object.assign(_.tweenRefMaps[id] || {}, initials, tweenableMap || {});
+          tweenableMap = _.tweenRefMaps[id] = Object.assign(_.tweenRefMaps[id] || {}, initials, tweenableMap || {});
           Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["muxToCss"])(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
         }
 
@@ -30762,6 +30794,7 @@ function asTweener() {
           this._.tweenRefInitialData = {};
           this._.tweenEnabled = true;
           this._.tweenRefOrigin = {};
+          this._.tweenRefOriginCss = {};
           this._.axes = {};
           this._.muxDataByTarget = this._.muxDataByTarget || {};
           this._.tweenRefDemuxed = this._.tweenRefDemuxed || {};
@@ -30805,10 +30838,9 @@ function asTweener() {
             var x = from + easing(pos / max) * length;
 
             if (_this5._.tweenEnabled) {
-              console.log('TweenableComp::setPos:514: ', x);
-
+              //console.log('TweenableComp::setPos:514: ', x);
               _this5._.axes[axe].tweenLines.forEach(function (sl) {
-                return sl.goTo(x);
+                return sl.goTo(x, _this5._.tweenRefMaps);
               });
 
               tick && tick(x);
@@ -30835,6 +30867,7 @@ function asTweener() {
           tweenLines: [],
           scrollPos: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
           targetPos: 0,
+          scrollableWindow: 0,
           scrollableArea: 0,
           inertia: new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_12__["default"](_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({
             value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0
@@ -30857,7 +30890,9 @@ function asTweener() {
       value: function initAxis(axe, _inertia) {
         var _scrollableArea = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
-        var defaultPosition = arguments.length > 3 ? arguments[3] : undefined;
+        var _scrollableWindow = arguments.length > 3 ? arguments[3] : undefined;
+
+        var defaultPosition = arguments.length > 4 ? arguments[4] : undefined;
         this.makeTweenable();
         this.makeScrollable();
 
@@ -30865,6 +30900,7 @@ function asTweener() {
             dim = _.axes[axe],
             scrollPos = dim ? dim.scrollPos : defaultPosition || 0,
             scrollableArea = Math.max(dim && dim.scrollableArea || 0, _scrollableArea),
+            scrollableWindow = Math.max(dim && dim.scrollableWindow || 0, _scrollableWindow),
             targetPos = dim ? dim.targetPos : scrollPos,
             inertia = _inertia !== false && (dim ? dim.inertia : new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_12__["default"](_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, _inertia || {}, {
           value: scrollPos
@@ -30874,11 +30910,12 @@ function asTweener() {
           scrollPos: scrollPos,
           targetPos: targetPos,
           inertia: inertia,
+          scrollableWindow: scrollableWindow,
           scrollableArea: scrollableArea
         });
 
         dim = this._.axes[axe] = nextDescr;
-        _inertia && (dim.inertia._.stops = _inertia.stops);
+        _inertia && (dim.inertia._.wayPoints = _inertia.wayPoints);
       }
     }, {
       key: "addScrollableAnim",
@@ -30956,15 +30993,15 @@ function asTweener() {
         if (this._.axes && this._.axes[axe]) {
           var oldPos = this._.axes[axe].targetPos,
               setPos = function setPos(pos) {
-            //console.log('TweenableComp::setPos:514: ', pos);
-            _this7._.axes[axe].scrollPos = pos;
+            //console.log('TweenableComp::setPos:514: ', this.constructor.displayName);
+            _this7._.axes[axe].targetPos = _this7._.axes[axe].scrollPos = pos;
 
             if (_this7._.axes[axe].inertia) {
               //this._.axes[axe].inertia.active = false;
               _this7._.axes[axe].inertia._.pos = pos;
             }
 
-            _this7.componentDidScroll && _this7.componentDidScroll(~~pos);
+            _this7.componentDidScroll && _this7.componentDidScroll(~~pos, axe);
 
             _this7._updateTweenRefs();
           };
@@ -31025,70 +31062,72 @@ function asTweener() {
               var now = Date.now();
               scrollLoad.y += e.deltaY;
               scrollLoad.x += e.deltaX;
-              lastScrollEvt = e.originalEvent;
-              debounceTm = debounceTm || now;
+              lastScrollEvt = e.originalEvent; //debounceTm    = debounceTm || now;
+              //if ( debounceTr && debounceTm + 500 < now ) {
+              //
+              //	clearTimeout(debounceTr)
+              //	this._doDispatch(document.elementFromPoint(lastScrollEvt.clientX,
+              // lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5) scrollLoad.y = 0;
+              // scrollLoad.x = 0; debounceTm   = 0; //debounceTm = now; return; }
+              // clearTimeout(debounceTr) //debounceTm = now; debounceTr = setTimeout( tm => {
+              // debugger
 
-              if (debounceTr && debounceTm + 500 < now) {
-                clearTimeout(debounceTr);
+              _this8._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5);
 
-                _this8._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5);
+              scrollLoad.y = 0;
+              scrollLoad.x = 0;
+              debounceTm = 0;
+              debounceTr = lastScrollEvt = undefined; //	},
+              //	50
+              //)
+              // check if there scrollable stuff in dom targets
 
-                scrollLoad.y = 0;
-                scrollLoad.x = 0;
-                debounceTm = 0; //debounceTm = now;
-
-                return;
-              }
-
-              clearTimeout(debounceTr); //debounceTm = now;
-
-              debounceTr = setTimeout(function (tm) {
-                //debugger
-                _this8._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5);
-
-                scrollLoad.y = 0;
-                scrollLoad.x = 0;
-                debounceTm = 0;
-                debounceTr = lastScrollEvt = undefined;
-              }, 250) // check if there scrollable stuff in dom targets
               ;
             });
-            var lastPos = {},
-                cLock,
-                parents,
-                parentsState;
+            var lastStartTm, cLock, dX, parents, dY, parentsState;
             if (!rootNode) console.warn("fail registering drag listener !! ");else _utils__WEBPACK_IMPORTED_MODULE_11__["default"].addEvent(rootNode, this._.dragList = {
               'dragstart': function dragstart(e, touch, descr) {
                 //@todo
                 var tweener, x, y, i;
                 parents = _utils__WEBPACK_IMPORTED_MODULE_11__["default"].findReactParents(e.target); //console.log(parents)
 
+                lastStartTm = Date.now();
+                dX = 0;
+                dY = 0;
                 parentsState = [];
+                document.body.style.touchAction = 'none';
+                document.body.style.userSelect = 'none';
 
                 for (i = 0; i < parents.length; i++) {
                   tweener = parents[i]; // react comp with tweener support
 
                   if (tweener.__isTweener && tweener._.scrollEnabled) {
                     x = tweener._getAxis("scrollX");
-                    y = tweener._getAxis("scrollY");
-                    x.inertia.startMove();
-                    y.inertia.startMove();
-                    parentsState[i] = {
-                      x: x.scrollPos,
-                      y: y.scrollPos
-                    };
-                    !x.inertiaFrame && tweener.applyInertia(x, "scrollX");
-                    !y.inertiaFrame && tweener.applyInertia(y, "scrollY");
+                    y = tweener._getAxis("scrollY"); //x.inertia.startMove();
+                    //y.inertia.startMove();
+                    //parentsState[i] = { x: x.scrollPos, y: y.scrollPos };
+                    //!x.inertiaFrame && tweener.applyInertia(x, "scrollX");
+                    //!y.inertiaFrame && tweener.applyInertia(y, "scrollY");
                   } else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(tweener)) {
                     parentsState[i] = getComputedStyle(tweener, null);
                   }
                 }
               },
+              'click': function click(e, touch, descr) {
+                //@todo
+                if (lastStartTm && !(lastStartTm > Date.now() - 150 && Math.abs(dY) < 10 && Math.abs(dX) < 10)) // skip tap & click
+                  {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }
+              },
               'drag': function drag(e, touch, descr) {
                 //@todo
-                var tweener, x, deltaX, dX, xDispatched, y, deltaY, dY, yDispatched, style, i;
-                dX = -(descr._lastPos.x - descr._startPos.x);
-                dY = -(descr._lastPos.y - descr._startPos.y);
+                var tweener, x, deltaX, xDispatched, y, deltaY, yDispatched, style, i;
+                dX += -(descr._lastPos.x - descr._startPos.x);
+                dY += -(descr._lastPos.y - descr._startPos.y);
+                if (lastStartTm > Date.now() - 150 && Math.abs(dY) < 10 && Math.abs(dX) < 10) // skip tap & click
+                  return;
 
                 if (opts.dragDirectionLock) {
                   if (cLock === "Y" || !cLock && Math.abs(dY * .5) > Math.abs(dX)) {
@@ -31098,7 +31137,8 @@ function asTweener() {
                     cLock = "X";
                     dY = 0;
                   }
-                }
+                } //console.log("drag", dY);
+
 
                 for (i = 0; i < parents.length; i++) {
                   tweener = parents[i]; // react comp with tweener support
@@ -31106,16 +31146,27 @@ function asTweener() {
                   if (tweener.__isTweener && tweener._.scrollEnabled) {
                     x = tweener._getAxis("scrollX");
                     y = tweener._getAxis("scrollY");
-                    deltaX = dX / tweener._.box.x * x.scrollableArea;
-                    deltaY = dY / tweener._.box.y * y.scrollableArea;
 
-                    if (!xDispatched && !tweener.isAxisOut("scrollX", deltaX)) {
-                      //console.log(this.constructor.displayName, "scrollX", deltaX);
+                    if (!parentsState[i]) {
+                      parentsState[i] = {
+                        x: x.scrollPos,
+                        y: y.scrollPos
+                      };
+                      x.inertia.startMove();
+                      y.inertia.startMove();
+                      !x.inertiaFrame && tweener.applyInertia(x, "scrollX");
+                      !y.inertiaFrame && tweener.applyInertia(y, "scrollY");
+                    }
+
+                    deltaX = dX / tweener._.box.x * (x.scrollableWindow || x.scrollableArea);
+                    deltaY = dY / tweener._.box.y * (y.scrollableWindow || y.scrollableArea);
+
+                    if (!xDispatched && !tweener.isAxisOut("scrollX", parentsState[i].x + deltaX, true)) {
                       x.inertia.hold(parentsState[i].x + deltaX);
                       xDispatched = true;
                     }
 
-                    if (!yDispatched && !tweener.isAxisOut("scrollY", deltaY)) {
+                    if (!yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true)) {
                       y.inertia.hold(parentsState[i].y + deltaY);
                       yDispatched = true;
                     }
@@ -31130,15 +31181,21 @@ function asTweener() {
                     }
                   }
                 }
+
+                dX = 0;
+                dY = 0;
               },
               'dropped': function dropped(e, touch, descr) {
                 var tweener, i;
-                cLock = undefined;
+                cLock = undefined; //lastStartTm                     = undefined;
+
+                document.body.style.userSelect = '';
+                document.body.style.touchAction = '';
 
                 for (i = 0; i < parents.length; i++) {
                   tweener = parents[i]; // react comp with tweener support
 
-                  if (tweener.__isTweener && tweener._.scrollEnabled) {
+                  if (tweener.__isTweener && tweener._.scrollEnabled && parentsState[i]) {
                     tweener._getAxis("scrollY").inertia.release();
 
                     tweener._getAxis("scrollX").inertia.release();
@@ -31161,18 +31218,37 @@ function asTweener() {
     }, {
       key: "applyInertia",
       value: function applyInertia(dim, axe) {
-        if (dim.inertia.active) {
-          var x = dim.inertia.update(); //this._.axes[axe].tweenLines.forEach(
-          //	sl => sl.goTo(x, this._.tweenRefMaps)
-          //);
+        var _this9 = this;
 
-          this.scrollTo(x, 0, axe); //console.log("scroll at " + x, axe);
+        var x = dim.inertia.update();
 
-          dim.inertiaFrame = window.requestAnimationFrame(this.applyInertia.bind(this, dim, axe));
+        this._.axes[axe].tweenLines.forEach(function (sl) {
+          _this9._.axes[axe].targetPos = _this9._.axes[axe].scrollPos = x;
+          sl.goTo(x, _this9._.tweenRefMaps);
+        }); //console.log("scroll at " + x, axe, dim.inertia.active || dim.inertia.holding);
+        //this.scrollTo(x, 0, axe);
+
+
+        this.componentDidScroll && this.componentDidScroll(x, axe);
+
+        this._updateTweenRefs();
+
+        if (dim.inertia.active || dim.inertia.holding) {
+          dim.inertiaFrame = setTimeout(this.applyInertia.bind(this, dim, axe));
         } else {
-          dim.inertiaFrame = null;
-          console.log("complete");
+          dim.inertiaFrame = null; //console.log("complete");
         }
+      }
+    }, {
+      key: "isInertiaActive",
+      value: function isInertiaActive() {
+        //todo
+        var _ = this._,
+            active = false;
+        _.axes && Object.keys(_.axes).forEach(function (axe) {
+          return active = active || _.axes[axe] && _.axes[axe].inertia.active;
+        });
+        return active;
       }
     }, {
       key: "dispatchScroll",
@@ -31193,10 +31269,10 @@ function asTweener() {
       }
     }, {
       key: "isAxisOut",
-      value: function isAxisOut(axis, v) {
+      value: function isAxisOut(axis, v, abs) {
         var _ = this._,
             dim = _.axes && _.axes[axis],
-            pos = dim && dim.scrollPos + v;
+            pos = abs ? v : dim && dim.scrollPos + v;
         return !dim || pos <= 0 || pos >= dim.scrollableArea;
       }
     }, {
@@ -31246,35 +31322,35 @@ function asTweener() {
     }, {
       key: "applyTweenState",
       value: function applyTweenState(id, map, reset) {
-        var _this9 = this;
+        var _this10 = this;
 
         var tmap = {},
             initials = {};
         Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
         Object.keys(tmap).map(function (p) {
-          return _this9._.tweenRefMaps[id][p] = (!reset && _this9._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
+          return _this10._.tweenRefMaps[id][p] = (!reset && _this10._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
         });
       }
     }, {
       key: "updateRefStyle",
       value: function updateRefStyle(target, style, postPone) {
-        var _this10 = this;
+        var _this11 = this;
 
+        var _ = this._,
+            initials = {},
+            map = {};
         if (isArray(target) && isArray(style)) return target.map(function (m, i) {
-          return _this10.updateRefStyle(m, style[i], postPone);
+          return _this11.updateRefStyle(m, style[i], postPone);
         });
         if (isArray(target)) return target.map(function (m) {
-          return _this10.updateRefStyle(m, style, postPone);
+          return _this11.updateRefStyle(m, style, postPone);
         });
         if (!this._.tweenRefCSS) this.makeTweenable();
+        Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target], true);
 
-        if (!postPone && this.refs[target]) {
-          var node = this.refs[target] instanceof Element ? this.refs[target] : react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this.refs[target]);
-          node && Object.assign(node.style, style);
-        }
+        this._updateTweenRefs(); //Object.assign(initials, _.tweenRefCSS[target]);
+        //_.tweenRefCSS[target] = initials;
 
-        this._.tweenRefCSS[target] = this._.tweenRefCSS[target] || {};
-        Object.assign(this._.tweenRefCSS[target], style);
       }
     }, {
       key: "_updateBox",
@@ -31302,7 +31378,10 @@ function asTweener() {
       value: function _rafLoop() {
         this._updateTweenRefs();
 
-        if (this._.runningAnims.length) requestAnimationFrame(this._._rafLoop);else {
+        if (this._.runningAnims.length) {
+          requestAnimationFrame(this._._rafLoop);
+        } else {
+          //this._.live && console.log("RAF off", this.constructor.displayName);
           this._.live = false;
         }
       }
@@ -31310,6 +31389,9 @@ function asTweener() {
       key: "_updateTweenRefs",
       value: function _updateTweenRefs() {
         if (this._.tweenEnabled) {
+          //let now = Date.now();
+          //console.log(now - this._lf)
+          //this._lf = now;
           for (var i = 0, target, node; i < this._.tweenRefTargets.length; i++) {
             target = this._.tweenRefTargets[i];
             Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["muxToCss"])(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
@@ -31340,7 +31422,7 @@ function asTweener() {
     }, {
       key: "componentDidMount",
       value: function componentDidMount() {
-        var _this11 = this;
+        var _this12 = this;
 
         var _static = this.constructor;
         this._.rendered = true;
@@ -31359,7 +31441,7 @@ function asTweener() {
 
         if (_static.scrollableAnim) {
           if (is__WEBPACK_IMPORTED_MODULE_10___default.a.array(_static.scrollableAnim)) this.addScrollableAnim(_static.scrollableAnim);else Object.keys(_static.scrollableAnim).forEach(function (axe) {
-            return _this11.addScrollableAnim(_static.scrollableAnim[axe], axe);
+            return _this12.addScrollableAnim(_static.scrollableAnim[axe], axe);
           });
         }
 
@@ -31374,7 +31456,7 @@ function asTweener() {
     }, {
       key: "componentDidUpdate",
       value: function componentDidUpdate(prevProps, prevState) {
-        var _this12 = this;
+        var _this13 = this;
 
         if (this._.tweenEnabled) {
           this._updateBox();
@@ -31382,12 +31464,12 @@ function asTweener() {
           this._updateTweenRefs();
 
           this._.rtweensByProp && Object.keys(prevProps).forEach(function (k) {
-            return _this12._.rtweensByProp[k] && _this12.props[k] !== prevProps[k] && _this12._.rtweensByProp[k][_this12.props[k]] && _this12.pushAnim(_this12._.rtweensByProp[k][_this12.props[k]]
+            return _this13._.rtweensByProp[k] && _this13.props[k] !== prevProps[k] && _this13._.rtweensByProp[k][_this13.props[k]] && _this13.pushAnim(_this13._.rtweensByProp[k][_this13.props[k]]
             /*get current pos*/
             );
           }, this);
           this._.rtweensByStateProp && prevState && Object.keys(prevState).forEach(function (k) {
-            return _this12._.rtweensByStateProp[k] && _this12.state[k] !== prevState[k] && _this12._.rtweensByStateProp[k][_this12.state[k]] && _this12.pushAnim(_this12._.rtweensByStateProp[k][_this12.state[k]]
+            return _this13._.rtweensByStateProp[k] && _this13.state[k] !== prevState[k] && _this13._.rtweensByStateProp[k][_this13.state[k]] && _this13.pushAnim(_this13._.rtweensByStateProp[k][_this13.state[k]]
             /*get current pos*/
             );
           }, this);
@@ -31398,13 +31480,13 @@ function asTweener() {
     }, {
       key: "render",
       value: function render() {
-        var _this13 = this;
+        var _this14 = this;
 
         return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_13__["default"].Consumer, null, function (parentTweener) {
-          _this13._parentTweener = parentTweener;
+          _this14._parentTweener = parentTweener;
           return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_13__["default"].Provider, {
-            value: _this13
-          }, _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(TweenableComp.prototype), "render", _this13).call(_this13));
+            value: _this14
+          }, _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(TweenableComp.prototype), "render", _this14).call(_this14));
         });
       }
     }, {
@@ -31526,6 +31608,7 @@ function () {
     _.currentStop = 0;
     _.lastInertiaPos = 0;
     _.stops = _.conf.stops;
+    _.wayPoints = _.conf.wayPoints;
     _.inertiaFn = easingFn.easePolyOut;
   }
 
@@ -31555,6 +31638,10 @@ function () {
       if (at - _.inertiaStartTm >= _.targetDuration) {
         _.inertia = this.active = false;
         _.lastInertiaPos = delta = 0;
+
+        if (_.conf.onInertiaEnd) {
+          _.conf.onInertiaEnd(_.pos, _.targetWayPoint);
+        }
       }
 
       delta = delta || 0; //console.log(_.pos + delta);
@@ -31584,7 +31671,7 @@ function () {
   }, {
     key: "dispatch",
     value: function dispatch(delta) {
-      var tm = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 250;
+      var tm = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
       var _ = this._,
           now = Date.now(),
           pos;
@@ -31603,9 +31690,7 @@ function () {
         _.targetDuration += tm;
       }
 
-      this._doSnap(signOf(delta), 750); //pos =
-      //console.log(_);
-
+      this._doSnap(signOf(delta), 750);
     }
   }, {
     key: "_doSnap",
@@ -31617,29 +31702,31 @@ function () {
           mid,
           i;
 
-      if (_.stops && _.stops.length) {
-        for (i = 0; i < _.stops.length; i++) {
-          if (_.stops[i] > pos) break;
+      if (_.wayPoints && _.wayPoints.length) {
+        for (i = 0; i < _.wayPoints.length; i++) {
+          if (_.wayPoints[i].at > pos) break;
         }
 
-        if (i == _.stops.length) {
-          target = _.stops[i - 1];
+        if (i == _.wayPoints.length) {
+          target = _.wayPoints[i - 1].at;
         } else if (i === 0) {
-          target = _.stops[0];
+          target = _.wayPoints[0].at;
         } else {
-          mid = _.stops[i - 1] + (_.stops[i] - _.stops[i - 1]) / 2;
-          if (forceSnap) target = forceSnap < 0 ? _.stops[i - 1] : _.stops[i];else target = pos < mid ? _.stops[i - 1] : _.stops[i];
+          mid = _.wayPoints[i - 1].at + (_.wayPoints[i].at - _.wayPoints[i - 1].at) / 2;
+          if (forceSnap) forceSnap < 0 && i--;else if (pos < mid) i--;
+          target = _.wayPoints[i].at;
         }
 
         if (_.conf.willSnap) {
-          _.conf.willSnap(i, target);
+          _.conf.willSnap(i, _.wayPoints[i]);
         }
 
         _.lastInertiaPos = _.lastInertiaPos || 0;
-        console.log("do snap", i, target);
         target = target - (_.pos - _.lastInertiaPos);
-        _.targetDuration = min(maxDuration, abs(_.targetDuration / _.targetDist * target)) || 0;
+        _.targetDuration = max(50, min(maxDuration, abs(_.targetDuration / _.targetDist * target))) || 0; //console.log("do snap", i, target, _.targetDist, _.targetDuration);
+
         _.targetDist = target;
+        _.targetWayPoint = _.wayPoints[i];
       } else {
         target = ~~(_.pos - _.lastInertiaPos);
 
@@ -31672,6 +31759,7 @@ function () {
       _.lastAccel = 0;
       _.posDiff = 0;
       this.active = true;
+      this.holding = true;
       _.inertia = false;
     }
   }, {
@@ -31710,14 +31798,17 @@ function () {
     value: function release() {
       var _ = this._,
           velSign = signOf(_.lastVelocity);
+      this.holding = false;
 
       if (_.pos > _.max) {
+        this.active = true;
         _.inertia = true;
         _.lastInertiaPos = 0;
         _.inertiaStartTm = _.inertiaLastTm = Date.now();
         _.targetDist = _.max - _.pos;
         _.targetDuration = abs(_.targetDist * 10);
       } else if (_.pos < _.min) {
+        this.active = true;
         _.inertia = true;
         _.lastInertiaPos = 0;
         _.inertiaStartTm = _.inertiaLastTm = Date.now();
@@ -31734,6 +31825,7 @@ function () {
         _.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
         if (!_.targetDuration) _.targetDuration = 50; //console.log(_);
 
+        this.active = true;
         _.inertia = true;
         _.lastInertiaPos = 0;
         _.inertiaStartTm = _.inertiaLastTm = Date.now();
@@ -33150,15 +33242,15 @@ var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['box', 'em', 'ex'
 };
 
 function demux(key, tweenable, target, data, box) {
-  var value = floatCut(tweenable[key], 2),
+  var value = tweenable[key],
       unit = data[key];
 
   if (unit === 'box') {
-    value = value * (box[defaultBox[key]] || box.x);
+    value = floatCut(value * (box[defaultBox[key]] || box.x), 3);
     unit = 'px';
   }
 
-  target[key] = unit ? value + unit : value;
+  target[key] = unit ? value + unit : floatCut(value, 3);
 }
 
 function muxer(key, value, target, data, initials, forceUnits) {
@@ -33350,7 +33442,7 @@ function deMuxLine(tweenLine, initials, data, demuxers) {
 /*!***********************************!*\
   !*** ./src/helpers/tweenTools.js ***!
   \***********************************/
-/*! exports provided: offset, scale, reverse, target, shiftTransforms */
+/*! exports provided: offset, scale, reverse, addCss, extractCss, target, shiftTransforms */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33358,6 +33450,8 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "offset", function() { return offset; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reverse", function() { return reverse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addCss", function() { return addCss; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extractCss", function() { return extractCss; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "target", function() { return target; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shiftTransforms", function() { return shiftTransforms; });
 /* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/slicedToArray.js");
@@ -33390,6 +33484,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function offset(items) {
   var start = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items;
   return items.map(function (item) {
     return _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, item, {
       from: item.from + start
@@ -33398,7 +33493,8 @@ function offset(items) {
 }
 function scale(items) {
   var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  // get items current duration
+  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items; // get items current duration
+
   var iDuration = 0;
   items.forEach(function (item) {
     iDuration = Math.max(iDuration, item.from + item.duration);
@@ -33430,7 +33526,8 @@ function inverseValues(v) {
 }
 
 function reverse(items) {
-  // get items current duration
+  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items; // get items current duration
+
   var iDuration = 0;
   items.forEach(function (item) {
     iDuration = Math.max(iDuration, item.from + item.duration);
@@ -33443,7 +33540,62 @@ function reverse(items) {
     return item;
   });
 }
+function addCss(target) {
+  for (var _len = arguments.length, sources = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    sources[_key - 1] = arguments[_key];
+  }
+
+  var source = sources.shift();
+
+  for (var key in source) {
+    if (!source.hasOwnProperty(key)) continue;
+
+    if (is__WEBPACK_IMPORTED_MODULE_2___default.a.object(source[key])) {
+      if (!target[key]) {
+        target[key] = {};
+      }
+
+      addCss(target[key], source[key]);
+    } else if (is__WEBPACK_IMPORTED_MODULE_2___default.a.array(source[key])) {
+      if (!target[key]) {
+        target[key] = [];
+      }
+
+      addCss(target[key], source[key]);
+    } else {
+      target[key] = addAllType(target[key], source[key]);
+    }
+  }
+
+  return sources.length && addCss.apply(void 0, [target].concat(sources)) || target;
+}
+
+function addAllType(v1, v2) {
+  if (!v1) return v2;
+  if (!v2) return v1;
+  var values1 = ('' + v1).split(/(\-?\d+(?:\.\d+)?|\-?\.\d+)/ig),
+      values2 = ('' + v2).split(/(\-?\d+(?:\.\d+)?|\-?\.\d+)/ig),
+      r = values1.map(function (val, i) {
+    return i % 2 ? parseFloat(val) + parseFloat(values2[i] || 0) : val;
+  }).filter(function (i) {
+    return i !== '';
+  });
+  return r.length === 1 ? parseInt(r[0]) : r.join("");
+}
+
+function extractCss(items, inverse) {
+  var css = {};
+  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items;
+  items.forEach(function (item) {
+    addCss(css, item.apply);
+  });
+  if (inverse) css = inverseValues(css); //if ( inverse && css.hasOwnProperty('opacity') )
+  //	css.opacity -= 1;
+
+  return css;
+}
 function target(items, target) {
+  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items;
   return items.map(function (item) {
     return _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, item, {
       target: target
@@ -33452,6 +33604,7 @@ function target(items, target) {
 }
 function shiftTransforms(items) {
   var shift = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items;
   return items.map(function (item) {
     var t = item.apply && item.apply.transform;
 
@@ -33485,6 +33638,9 @@ function shiftTransforms(items) {
   reactHotLoader.register(scale, "scale", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
   reactHotLoader.register(inverseValues, "inverseValues", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
   reactHotLoader.register(reverse, "reverse", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(addCss, "addCss", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(addAllType, "addAllType", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(extractCss, "extractCss", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
   reactHotLoader.register(target, "target", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
   reactHotLoader.register(shiftTransforms, "shiftTransforms", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
 })();
@@ -34174,21 +34330,24 @@ if(false) {}
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sample; });
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
-/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
-/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react_rtween__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-rtween */ "./src/index.js");
-/* harmony import */ var _samples_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./samples.scss */ "./src/samples/SimpleTest/samples.scss");
-/* harmony import */ var _samples_scss__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_samples_scss__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js");
+/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_rtween__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-rtween */ "./src/index.js");
+/* harmony import */ var _samples_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./samples.scss */ "./src/samples/SimpleTest/samples.scss");
+/* harmony import */ var _samples_scss__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_samples_scss__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -34312,34 +34471,35 @@ var scrollAnims = {
     }
   }]
 };
-var Sample = (_dec = Object(react_rtween__WEBPACK_IMPORTED_MODULE_6__["asTweener"])({
+var Sample = (_dec = Object(react_rtween__WEBPACK_IMPORTED_MODULE_7__["asTweener"])({
   enableMouseDrag: true
 }), _dec(_class = (_temp =
 /*#__PURE__*/
 function (_React$Component) {
-  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(Sample, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(Sample, _React$Component);
 
   function Sample() {
     var _getPrototypeOf2;
 
     var _this;
 
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, Sample);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Sample);
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(Sample)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(Sample)).call.apply(_getPrototypeOf2, [this].concat(args)));
     _this.state = {
       count: 0
     };
     return _this;
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Sample, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Sample, [{
     key: "componentDidScroll",
-    value: function componentDidScroll(pos) {
+    value: function componentDidScroll(pos, axe) {
+      console.log('scroll', pos, axe);
       this.forceUpdate(); // force update to show scroll pos
     }
   }, {
@@ -34347,35 +34507,37 @@ function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+      var scrollAnims_u = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, scrollAnims);
+
+      return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
         className: "SimpleTest",
         style: {
           width: "100%",
           height: "100%"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(react_rtween__WEBPACK_IMPORTED_MODULE_6__["TweenAxis"], {
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_rtween__WEBPACK_IMPORTED_MODULE_7__["TweenAxis"], {
         axe: "scrollY",
         defaultPosition: 100
-      }), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(react_rtween__WEBPACK_IMPORTED_MODULE_6__["TweenAxis"], {
+      }), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_rtween__WEBPACK_IMPORTED_MODULE_7__["TweenAxis"], {
         axe: "scrollX",
         defaultPosition: 100
-      }), "hello ! ", this.state.count, " concurent anims ", react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("br", null), "scrollPos : ", react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("pre", null, JSON.stringify(this.getAxisState(), null, 2)), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("br", null), "y:", react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("button", {
+      }), "hello ! ", this.state.count, " concurent anims ", react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("br", null), "scrollPos : ", react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("pre", null, JSON.stringify(this.getAxisState(), null, 2)), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("br", null), "y:", react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("button", {
         onClick: function onClick(e) {
           return _this2.scrollTo(0, 500);
         }
-      }, "( go to 0 )"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("button", {
+      }, "( go to 0 )"), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("button", {
         onClick: function onClick(e) {
           return _this2.scrollTo(200, 500);
         }
-      }, "( go to 200 )"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("br", null), "x:", react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("button", {
+      }, "( go to 200 )"), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("br", null), "x:", react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("button", {
         onClick: function onClick(e) {
           return _this2.scrollTo(0, 500, "scrollX");
         }
-      }, "( go to 0 )"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("button", {
+      }, "( go to 0 )"), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("button", {
         onClick: function onClick(e) {
           return _this2.scrollTo(200, 500, "scrollX");
         }
-      }, "( go to 200 )"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(react_rtween__WEBPACK_IMPORTED_MODULE_6__["TweenRef"], {
+      }, "( go to 200 )"), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_rtween__WEBPACK_IMPORTED_MODULE_7__["TweenRef"], {
         id: "testItem",
         initial: {
           position: "absolute",
@@ -34396,14 +34558,14 @@ function (_React$Component) {
             rotateY: 30
           }
         },
-        tweenLines: scrollAnims
-      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+        tweenLines: scrollAnims_u
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
         onClick: function onClick(e) {
           _this2.setState({
             count: _this2.state.count + 1
           });
 
-          _this2.pushAnim(react_rtween__WEBPACK_IMPORTED_MODULE_6__["tweenTools"].target(pushIn, "testItem"), function () {
+          _this2.pushAnim(react_rtween__WEBPACK_IMPORTED_MODULE_7__["tweenTools"].target(pushIn, "testItem"), function () {
             _this2.setState({
               count: _this2.state.count - 1
             });
@@ -34422,7 +34584,7 @@ function (_React$Component) {
   }]);
 
   return Sample;
-}(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component), _temp)) || _class);
+}(react__WEBPACK_IMPORTED_MODULE_6___default.a.Component), _temp)) || _class);
 
 ;
 

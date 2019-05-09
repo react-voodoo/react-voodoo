@@ -68,7 +68,7 @@
     "rtween": "^1.2.1"
   },
   "devDependencies": {
-    "wpi-react-hmr-ssr": "^1.1.3",
+    "wpi-react-hmr-ssr": "^1.1.10",
     "webpack-inherit": "^1.4.10"
   }
 }

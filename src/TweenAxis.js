@@ -53,7 +53,7 @@ export default class TweenAxis extends React.Component {
 		let {
 			    children,
 			    axe,
-			    stops, inertia, size, defaultPosition,
+			    scrollableWindow, inertia, size, defaultPosition,
 			    items = [],
 		    } = this.props;
 		return <TweenerContext.Consumer>
@@ -72,7 +72,7 @@ export default class TweenAxis extends React.Component {
 					//}
 					if ( !this._previousInertia || this._previousInertia !== inertia ) {//....
 						this._previousInertia = inertia;
-						tweener.initAxis(axe, inertia, size, defaultPosition);
+						tweener.initAxis(axe, inertia, size, scrollableWindow, defaultPosition);
 					}
 					if ( !this._previousTweener || this._previousTweener !== tweener ) {// mk axe not modifiable
 						this._previousTweener && this._lastTL && this._previousTweener.rmScrollableAnim(this._lastTL, axe);

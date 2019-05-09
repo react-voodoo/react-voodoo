@@ -129,11 +129,13 @@ export default class Sample extends React.Component {
 		count: 0
 	};
 	
-	componentDidScroll( pos ) {
+	componentDidScroll( pos, axe ) {
+		console.log('scroll', pos, axe)
 		this.forceUpdate();// force update to show scroll pos
 	}
 	
 	render() {
+		let scrollAnims_u = {...scrollAnims};
 		return <div className={ "SimpleTest" } style={ {
 			width : "100%",
 			height: "100%"
@@ -177,7 +179,7 @@ export default class Sample extends React.Component {
 						rotateY   : 30,
 					}
 				} }
-				tweenLines={ scrollAnims }
+				tweenLines={ scrollAnims_u }
 			>
 				<div
 					onClick={ e => {

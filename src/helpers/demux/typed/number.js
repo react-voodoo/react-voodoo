@@ -42,15 +42,15 @@ const
 	};
 
 function demux( key, tweenable, target, data, box ) {
-	let value = floatCut(tweenable[key], 2),
+	let value = tweenable[key],
 	    unit  = data[key];
 	
 	if ( unit === 'box' ) {
-		value = value * (box[defaultBox[key]] || box.x);
+		value = floatCut(value * (box[defaultBox[key]] || box.x), 3);
 		unit  = 'px';
 	}
 	
-	target[key] = unit ? value + unit : value;
+	target[key] = unit ? value + unit : floatCut(value, 3);
 }
 
 function muxer( key, value, target, data, initials, forceUnits ) {
