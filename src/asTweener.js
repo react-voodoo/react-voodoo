@@ -662,8 +662,8 @@ export default function asTweener( ...argz ) {
 									dX                              = 0;
 									dY                              = 0;
 									parentsState                    = [];
-									document.body.style.touchAction = 'none';
-									document.body.style.userSelect  = 'none';
+									//document.body.style.touchAction = 'none';
+									//document.body.style.userSelect  = 'none';
 									for ( i = 0; i < parents.length; i++ ) {
 										tweener = parents[i];
 										// react comp with tweener support
@@ -767,8 +767,8 @@ export default function asTweener( ...argz ) {
 									    i;
 									cLock                           = undefined;
 									//lastStartTm                     = undefined;
-									document.body.style.userSelect  = '';
-									document.body.style.touchAction = '';
+									//document.body.style.userSelect  = '';
+									//document.body.style.touchAction = '';
 									
 									for ( i = 0; i < parents.length; i++ ) {
 										tweener = parents[i];
