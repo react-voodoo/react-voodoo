@@ -43,16 +43,17 @@ export default class Inertia {
 			...opt
 		};
 		
-		this.active      = false;
-		_.pos            = opt.value || 0;
-		_.refFPS         = 16;
-		_.min            = opt.min || 0;
-		_.max            = opt.max || 0;
-		_.currentStop    = 0;
-		_.lastInertiaPos = 0;
-		_.stops          = _.conf.stops;
-		_.wayPoints      = _.conf.wayPoints;
-		_.inertiaFn      = easingFn.easePolyOut;
+		this.active           = false;
+		_.pos                 = opt.value || 0;
+		_.refFPS              = 16;
+		_.min                 = opt.min || 0;
+		_.max                 = opt.max || 0;
+		_.currentStop         = 0;
+		_.lastInertiaPos      = 0;
+		_.stops               = _.conf.stops;
+		_.wayPoints           = _.conf.wayPoints;
+		_.inertiaFn           = easingFn.easePolyOut;
+		_.targetWayPointIndex = 0;
 	}
 	
 	update( at = Date.now() ) {
@@ -128,36 +129,47 @@ export default class Inertia {
 	
 	_doSnap( forceSnap, maxDuration = 2000 ) {
 		let _   = this._,
-		    pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)), target, mid, i
+		    pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)), target, mid, i, i2
 		;
 		
 		if ( _.wayPoints && _.wayPoints.length ) {
 			for ( i = 0; i < _.wayPoints.length; i++ )
 				if ( _.wayPoints[i].at > pos )
 					break;
+			
 			if ( i == _.wayPoints.length ) {
-				target = _.wayPoints[i - 1].at;
+				i--
 			}
 			else if ( i === 0 ) {
-				target = _.wayPoints[0].at;
+				i = 0;
 			}
 			else {
 				mid = _.wayPoints[i - 1].at + (_.wayPoints[i].at - _.wayPoints[i - 1].at) / 2;
 				if ( forceSnap ) forceSnap < 0 && i--;
 				else if ( pos < mid ) i--;
-				target = _.wayPoints[i].at;
 			}
+			
+			if ( _.conf.maxJump && is.number(_.targetWayPointIndex) ) {
+				let d = (i - _.targetWayPointIndex);
+				//console.log('Inertia::_doSnap:154: ', i);
+				if ( d ) {
+					i -= d;
+					i += _.conf.maxJump * (d / abs(d))
+				}//console.log('Inertia::_doSnap:154: ', i);
+			}
+			target = _.wayPoints[i].at;
 			
 			if ( _.conf.willSnap ) {
 				_.conf.willSnap(i, _.wayPoints[i]);
 			}
 			
-			_.lastInertiaPos = _.lastInertiaPos || 0;
-			target           = target - (_.pos - _.lastInertiaPos);
-			_.targetDuration = max(50, min(maxDuration, abs((_.targetDuration / _.targetDist) * target))) || 0;
+			_.lastInertiaPos      = _.lastInertiaPos || 0;
+			target                = target - (_.pos - _.lastInertiaPos);
+			_.targetDuration      = max(50, min(maxDuration, abs((_.targetDuration / _.targetDist) * target))) || 0;
 			//console.log("do snap", i, target, _.targetDist, _.targetDuration);
-			_.targetDist     = target;
-			_.targetWayPoint = _.wayPoints[i];
+			_.targetDist          = target;
+			_.targetWayPoint      = _.wayPoints[i];
+			_.targetWayPointIndex = i;
 		}
 		else {
 			target = ~~(_.pos - _.lastInertiaPos);

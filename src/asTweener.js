@@ -16,11 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React    from "react";
-import is       from "is";
-import utils    from "./utils";
-import Inertia  from './helpers/Inertia';
+import React                             from "react";
+import is                                from "is";
+import utils                             from "./utils";
+import Inertia                           from './helpers/Inertia';
 
+var easingFn = require('d3-ease');
 import TweenerContext                    from "./TweenerContext";
 import rtween                            from "rtween";
 import ReactDom                          from "react-dom";
@@ -551,42 +552,46 @@ export default function asTweener( ...argz ) {
 			!found && console.warn("TweenAxis not found !")
 		}
 		
-		scrollTo( newPos, ms = 0, axe = "scrollY" ) {
-			if ( this._.axes && this._.axes[axe] ) {
-				let oldPos = this._.axes[axe].targetPos,
-				    setPos = pos => {
+		scrollTo( newPos, ms = 0, axe = "scrollY", ease ) {
+			return new Promise(
+				(( resolve, reject ) => {
 					
-					    //console.log('TweenableComp::setPos:514: ', this.constructor.displayName);
-					    this._.axes[axe].targetPos = this._.axes[axe].scrollPos = pos;
-					    if ( this._.axes[axe].inertia ) {
-						    //this._.axes[axe].inertia.active = false;
-						    this._.axes[axe].inertia._.pos = pos;
-					    }
-					    this.componentDidScroll && this.componentDidScroll(~~pos, axe);
-					    this._updateTweenRefs()
-				    }
-				;
-				
-				newPos                     = Math.max(0, newPos);
-				newPos                     = Math.min(newPos, this._.axes[axe].scrollableArea || 0);
-				this._.axes[axe].targetPos = newPos;
-				
-				if ( !ms ) {
-					this._.axes[axe].tweenLines.forEach(
-						sl => sl.goTo(newPos, this._.tweenRefMaps)
-					);
-					setPos(newPos);
-				}
-				else {
-					this._runScrollGoTo(axe, newPos, ms, undefined, setPos)
-				}
-				
-				if ( !this._.live ) {
-					this._.live = true;
-					requestAnimationFrame(this._._rafLoop);
-				}
-				return !(oldPos - newPos);
-			}
+					if ( this._.axes && this._.axes[axe] ) {
+						let oldPos = this._.axes[axe].targetPos,
+						    setPos = pos => {
+							
+							    //console.log('TweenableComp::setPos:514: ', this.constructor.displayName);
+							    this._.axes[axe].targetPos = this._.axes[axe].scrollPos = pos;
+							    if ( this._.axes[axe].inertia ) {
+								    this._.axes[axe].inertia._.pos = pos;
+							    }
+							    this.componentDidScroll && this.componentDidScroll(~~pos, axe);
+							    this._updateTweenRefs()
+						    }
+						;
+						
+						newPos                     = Math.max(0, newPos);
+						newPos                     = Math.min(newPos, this._.axes[axe].scrollableArea || 0);
+						this._.axes[axe].targetPos = newPos;
+						
+						if ( !ms ) {
+							this._.axes[axe].tweenLines.forEach(
+								sl => sl.goTo(newPos, this._.tweenRefMaps)
+							);
+							setPos(newPos);
+							resolve()
+						}
+						else {
+							this._runScrollGoTo(axe, newPos, ms, easingFn[ease], setPos, resolve)
+						}
+						
+						if ( !this._.live ) {
+							this._.live = true;
+							requestAnimationFrame(this._._rafLoop);
+						}
+						//return !(oldPos - newPos);
+					}
+				}))
 		}
 		
 		makeScrollable() {
@@ -656,12 +661,12 @@ export default function asTweener( ...argz ) {
 									    x,
 									    y, i;
 									
-									parents                         = utils.findReactParents(e.target);
+									parents      = utils.findReactParents(e.target);
 									//console.log(parents)
-									lastStartTm                     = Date.now();
-									dX                              = 0;
-									dY                              = 0;
-									parentsState                    = [];
+									lastStartTm  = Date.now();
+									dX           = 0;
+									dY           = 0;
+									parentsState = [];
 									//document.body.style.touchAction = 'none';
 									//document.body.style.userSelect  = 'none';
 									for ( i = 0; i < parents.length; i++ ) {
@@ -765,7 +770,7 @@ export default function asTweener( ...argz ) {
 								'dropped'  : ( e, touch, descr ) => {
 									let tweener,
 									    i;
-									cLock                           = undefined;
+									cLock = undefined;
 									//lastStartTm                     = undefined;
 									//document.body.style.userSelect  = '';
 									//document.body.style.touchAction = '';

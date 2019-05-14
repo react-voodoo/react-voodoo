@@ -18,10 +18,9 @@
 import React    from "react";
 import ReactDom from "react-dom";
 
-import Samples from "react-rtween/samples/*/(*).js"
 import "./samples/samples.scss";
+import Samples  from "react-rtween/samples/*/(*).js"
 
-console.log(Samples);
 
 class App extends React.Component {
 	state = {

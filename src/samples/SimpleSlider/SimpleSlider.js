@@ -1,4 +1,4 @@
-/*!
+/*
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
  *
@@ -12,53 +12,40 @@
  *  @contact : n8tz.js@gmail.com
  */
 
-@mixin use_hvCenteredContent() {
+import React  from "react";
+import Slider from "./etc/Slider";
+import anims  from "./etc/anims";
+import "./samples.scss";
 
-  &:before {
-    content: ' ';
-    display: inline-block;
-    height: 100%;
-    width: 1px;
-    margin-right: -1px;
-    vertical-align: middle;
-    overflow: hidden;
-  }
-  text-align: center;
-  > * {
-    text-align: left;
-    vertical-align: middle;
-    display: inline-block;
-  }
-}
-@mixin use_hvCenteredAbs() {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-body, html, #app {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  //user-select: none;
-}
-.sampleLst {
-  overflow: auto;
-
-  > div {
-    color: white;
-    background: #2e91d1;
-    display: inline-block;
-    text-align: center;
-    margin: 5px 10px;
-    line-height: 40px;
-    width: calc(100% - 20px);
-    height: 40px;
-    cursor: pointer;
-
-    &:hover {
-      background: #206491;
-    }
-  }
+export default class SimpleSlider extends React.Component {
+	state = {
+		count: 0
+	};
+	
+	componentDidScroll( pos, axe ) {
+		console.log('scroll', pos, axe)
+		this.forceUpdate();// force update to show scroll pos
+	}
+	
+	render() {
+		return <div className={ "SimpleSlider" } style={ {
+			width : "100%",
+			height: "100%"
+		} }>
+			<Slider { ...anims }>
+				<div className={ "item" } style={ { background: "url(https://source.unsplash.com/600x400/?logo)" } }>
+					drag me
+				</div>
+				<div className={ "item" } style={ { background: "url(https://source.unsplash.com/600x400/?bridge)" } }>
+					drag me
+				</div>
+				<div className={ "item" } style={ { background: "url(https://source.unsplash.com/600x400/?sky)" } }>
+					drag me
+				</div>
+				<div className={ "item" } style={ { background: "url(https://source.unsplash.com/600x400/?cat)" } }>
+					drag me
+				</div>
+			</Slider>
+		</div>;
+	}
 }

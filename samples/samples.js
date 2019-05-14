@@ -1238,6 +1238,25 @@ exports.push([module.i, "@charset \"UTF-8\";\n/*!\r\n * The MIT License (MIT)\r\
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/samples/SimpleSlider/samples.scss":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/sass-loader/lib/loader.js??ref--6-3!./src/samples/SimpleSlider/samples.scss ***!
+  \**********************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/*!\r\n *\r\n * Copyright (C) 2019 Nathanael Braun\r\n *\r\n * This program is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU Affero General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * This program is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU Affero General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU Affero General Public License\r\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\r\n */\n.SimpleSlider {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  -webkit-perspective: 200px;\n          perspective: 200px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .SimpleSlider .slide .item {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    -webkit-transform: translate(-50%, -50%);\n        -ms-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%);\n    text-align: center;\n    width: 200px;\n    height: 200px;\n    -ms-touch-action: none;\n        touch-action: none; }\n    .SimpleSlider .slide .item:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleSlider .slide .item > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/samples/SimpleTest/samples.scss":
 /*!********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/sass-loader/lib/loader.js??ref--6-3!./src/samples/SimpleTest/samples.scss ***!
@@ -29830,12 +29849,13 @@ var _default = _exports;
 /*!********************************************************!*\
   !*** ./src/MapOf.react_rtween_samples_______js.gen.js ***!
   \********************************************************/
-/*! exports provided: SimpleHeaderTest, SimpleTest, default */
+/*! exports provided: SimpleHeaderTest, SimpleSlider, SimpleTest, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleHeaderTest", function() { return SimpleHeaderTest; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleSlider", function() { return SimpleSlider; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleTest", function() { return SimpleTest; });
 (function () {
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
@@ -29863,6 +29883,7 @@ req.keys().forEach(function (key) {
   modExport[name[i]] = Object.keys(mod).length === 1 && mod["default"] || mod;
 });
 var SimpleHeaderTest = _exports.SimpleHeaderTest;
+var SimpleSlider = _exports.SimpleSlider;
 var SimpleTest = _exports.SimpleTest;
 var _default = _exports;
 /* harmony default export */ __webpack_exports__["default"] = (_default);
@@ -29879,6 +29900,7 @@ var _default = _exports;
   reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_samples_______js.gen.js");
   reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_samples_______js.gen.js");
   reactHotLoader.register(SimpleHeaderTest, "SimpleHeaderTest", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_samples_______js.gen.js");
+  reactHotLoader.register(SimpleSlider, "SimpleSlider", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_samples_______js.gen.js");
   reactHotLoader.register(SimpleTest, "SimpleTest", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_samples_______js.gen.js");
   reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_samples_______js.gen.js");
 })();
@@ -30435,6 +30457,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var easingFn = __webpack_require__(/*! d3-ease */ "./node_modules/d3-ease/src/index.js");
+
+
 
 
 
@@ -30989,44 +31014,45 @@ function asTweener() {
 
         var ms = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
         var axe = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "scrollY";
+        var ease = arguments.length > 3 ? arguments[3] : undefined;
+        return new Promise(function (resolve, reject) {
+          if (_this7._.axes && _this7._.axes[axe]) {
+            var oldPos = _this7._.axes[axe].targetPos,
+                setPos = function setPos(pos) {
+              //console.log('TweenableComp::setPos:514: ', this.constructor.displayName);
+              _this7._.axes[axe].targetPos = _this7._.axes[axe].scrollPos = pos;
 
-        if (this._.axes && this._.axes[axe]) {
-          var oldPos = this._.axes[axe].targetPos,
-              setPos = function setPos(pos) {
-            //console.log('TweenableComp::setPos:514: ', this.constructor.displayName);
-            _this7._.axes[axe].targetPos = _this7._.axes[axe].scrollPos = pos;
+              if (_this7._.axes[axe].inertia) {
+                _this7._.axes[axe].inertia._.pos = pos;
+              }
 
-            if (_this7._.axes[axe].inertia) {
-              //this._.axes[axe].inertia.active = false;
-              _this7._.axes[axe].inertia._.pos = pos;
+              _this7.componentDidScroll && _this7.componentDidScroll(~~pos, axe);
+
+              _this7._updateTweenRefs();
+            };
+
+            newPos = Math.max(0, newPos);
+            newPos = Math.min(newPos, _this7._.axes[axe].scrollableArea || 0);
+            _this7._.axes[axe].targetPos = newPos;
+
+            if (!ms) {
+              _this7._.axes[axe].tweenLines.forEach(function (sl) {
+                return sl.goTo(newPos, _this7._.tweenRefMaps);
+              });
+
+              setPos(newPos);
+              resolve();
+            } else {
+              _this7._runScrollGoTo(axe, newPos, ms, easingFn[ease], setPos, resolve);
             }
 
-            _this7.componentDidScroll && _this7.componentDidScroll(~~pos, axe);
+            if (!_this7._.live) {
+              _this7._.live = true;
+              requestAnimationFrame(_this7._._rafLoop);
+            } //return !(oldPos - newPos);
 
-            _this7._updateTweenRefs();
-          };
-
-          newPos = Math.max(0, newPos);
-          newPos = Math.min(newPos, this._.axes[axe].scrollableArea || 0);
-          this._.axes[axe].targetPos = newPos;
-
-          if (!ms) {
-            this._.axes[axe].tweenLines.forEach(function (sl) {
-              return sl.goTo(newPos, _this7._.tweenRefMaps);
-            });
-
-            setPos(newPos);
-          } else {
-            this._runScrollGoTo(axe, newPos, ms, undefined, setPos);
           }
-
-          if (!this._.live) {
-            this._.live = true;
-            requestAnimationFrame(this._._rafLoop);
-          }
-
-          return !(oldPos - newPos);
-        }
+        });
       }
     }, {
       key: "makeScrollable",
@@ -31094,9 +31120,8 @@ function asTweener() {
                 lastStartTm = Date.now();
                 dX = 0;
                 dY = 0;
-                parentsState = [];
-                document.body.style.touchAction = 'none';
-                document.body.style.userSelect = 'none';
+                parentsState = []; //document.body.style.touchAction = 'none';
+                //document.body.style.userSelect  = 'none';
 
                 for (i = 0; i < parents.length; i++) {
                   tweener = parents[i]; // react comp with tweener support
@@ -31188,9 +31213,8 @@ function asTweener() {
               'dropped': function dropped(e, touch, descr) {
                 var tweener, i;
                 cLock = undefined; //lastStartTm                     = undefined;
-
-                document.body.style.userSelect = '';
-                document.body.style.touchAction = '';
+                //document.body.style.userSelect  = '';
+                //document.body.style.touchAction = '';
 
                 for (i = 0; i < parents.length; i++) {
                   tweener = parents[i]; // react comp with tweener support
@@ -31610,6 +31634,7 @@ function () {
     _.stops = _.conf.stops;
     _.wayPoints = _.conf.wayPoints;
     _.inertiaFn = easingFn.easePolyOut;
+    _.targetWayPointIndex = 0;
   }
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Inertia, [{
@@ -31700,7 +31725,8 @@ function () {
           pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)),
           target,
           mid,
-          i;
+          i,
+          i2;
 
       if (_.wayPoints && _.wayPoints.length) {
         for (i = 0; i < _.wayPoints.length; i++) {
@@ -31708,14 +31734,25 @@ function () {
         }
 
         if (i == _.wayPoints.length) {
-          target = _.wayPoints[i - 1].at;
+          i--;
         } else if (i === 0) {
-          target = _.wayPoints[0].at;
+          i = 0;
         } else {
           mid = _.wayPoints[i - 1].at + (_.wayPoints[i].at - _.wayPoints[i - 1].at) / 2;
           if (forceSnap) forceSnap < 0 && i--;else if (pos < mid) i--;
-          target = _.wayPoints[i].at;
         }
+
+        if (_.conf.maxJump && is.number(_.targetWayPointIndex)) {
+          var d = i - _.targetWayPointIndex; //console.log('Inertia::_doSnap:154: ', i);
+
+          if (d) {
+            i -= d;
+            i += _.conf.maxJump * (d / abs(d));
+          } //console.log('Inertia::_doSnap:154: ', i);
+
+        }
+
+        target = _.wayPoints[i].at;
 
         if (_.conf.willSnap) {
           _.conf.willSnap(i, _.wayPoints[i]);
@@ -31727,6 +31764,7 @@ function () {
 
         _.targetDist = target;
         _.targetWayPoint = _.wayPoints[i];
+        _.targetWayPointIndex = i;
       } else {
         target = ~~(_.pos - _.lastInertiaPos);
 
@@ -33795,6 +33833,7 @@ var _default = Tweenable;
 
 var map = {
 	"./SimpleHeaderTest/SimpleHeaderTest.js": "./src/samples/SimpleHeaderTest/SimpleHeaderTest.js",
+	"./SimpleSlider/SimpleSlider.js": "./src/samples/SimpleSlider/SimpleSlider.js",
 	"./SimpleTest/SimpleTest.js": "./src/samples/SimpleTest/SimpleTest.js"
 };
 
@@ -33843,9 +33882,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var react_rtween_samples_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-rtween/samples/* /(*).js */ "./src/MapOf.react_rtween_samples_______js.gen.js");
-/* harmony import */ var _samples_samples_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./samples/samples.scss */ "./src/samples/samples.scss");
-/* harmony import */ var _samples_samples_scss__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_samples_samples_scss__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _samples_samples_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./samples/samples.scss */ "./src/samples/samples.scss");
+/* harmony import */ var _samples_samples_scss__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_samples_samples_scss__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react_rtween_samples_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-rtween/samples/* /(*).js */ "./src/MapOf.react_rtween_samples_______js.gen.js");
 
 
 
@@ -33878,7 +33917,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-console.log(react_rtween_samples_js__WEBPACK_IMPORTED_MODULE_7__["default"]);
 
 var App =
 /*#__PURE__*/
@@ -33908,7 +33946,7 @@ function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var Comp = react_rtween_samples_js__WEBPACK_IMPORTED_MODULE_7__["default"][this.state.current];
+      var Comp = react_rtween_samples_js__WEBPACK_IMPORTED_MODULE_8__["default"][this.state.current];
       return react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
         className: "app",
         style: {
@@ -33924,7 +33962,7 @@ function (_React$Component) {
           width: "200px",
           height: "100%"
         }
-      }, Object.keys(react_rtween_samples_js__WEBPACK_IMPORTED_MODULE_7__["default"]).map(function (key) {
+      }, Object.keys(react_rtween_samples_js__WEBPACK_IMPORTED_MODULE_8__["default"]).map(function (key) {
         return react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
           onClick: function onClick(e) {
             return _this2.setState({
@@ -34299,6 +34337,637 @@ function (_React$Component2) {
 
 
 var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/sass-loader/lib/loader.js??ref--6-3!./samples.scss */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/samples/SimpleHeaderTest/samples.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./src/samples/SimpleSlider/SimpleSlider.js":
+/*!**************************************************!*\
+  !*** ./src/samples/SimpleSlider/SimpleSlider.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SimpleSlider; });
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _etc_Slider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./etc/Slider */ "./src/samples/SimpleSlider/etc/Slider.js");
+/* harmony import */ var _etc_anims__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./etc/anims */ "./src/samples/SimpleSlider/etc/anims.js");
+/* harmony import */ var _samples_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./samples.scss */ "./src/samples/SimpleSlider/samples.scss");
+/* harmony import */ var _samples_scss__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_samples_scss__WEBPACK_IMPORTED_MODULE_8__);
+
+
+
+
+
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
+  enterModule && enterModule(module);
+})();
+
+/*
+ * The MIT License (MIT)
+ * Copyright (c) 2019. Wise Wild Web
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ *  @author : Nathanael Braun
+ *  @contact : n8tz.js@gmail.com
+ */
+
+
+
+
+
+var SimpleSlider =
+/*#__PURE__*/
+function (_React$Component) {
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(SimpleSlider, _React$Component);
+
+  function SimpleSlider() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, SimpleSlider);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(SimpleSlider)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this.state = {
+      count: 0
+    };
+    return _this;
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(SimpleSlider, [{
+    key: "componentDidScroll",
+    value: function componentDidScroll(pos, axe) {
+      console.log('scroll', pos, axe);
+      this.forceUpdate(); // force update to show scroll pos
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+        className: "SimpleSlider",
+        style: {
+          width: "100%",
+          height: "100%"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_etc_Slider__WEBPACK_IMPORTED_MODULE_6__["default"], _etc_anims__WEBPACK_IMPORTED_MODULE_7__["default"], react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+        className: "item",
+        style: {
+          background: "url(https://source.unsplash.com/600x400/?logo)"
+        }
+      }, "drag me"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+        className: "item",
+        style: {
+          background: "url(https://source.unsplash.com/600x400/?bridge)"
+        }
+      }, "drag me"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+        className: "item",
+        style: {
+          background: "url(https://source.unsplash.com/600x400/?sky)"
+        }
+      }, "drag me"), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+        className: "item",
+        style: {
+          background: "url(https://source.unsplash.com/600x400/?cat)"
+        }
+      }, "drag me")));
+    }
+  }, {
+    key: "__reactstandin__regenerateByEval",
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }]);
+
+  return SimpleSlider;
+}(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
+
+
+;
+
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).default;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(SimpleSlider, "SimpleSlider", "G:\\n8tz\\libs\\react-rtween\\src\\samples\\SimpleSlider\\SimpleSlider.js");
+})();
+
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/samples/SimpleSlider/etc/Slider.js":
+/*!************************************************!*\
+  !*** ./src/samples/SimpleSlider/etc/Slider.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Slider; });
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_rtween__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-rtween */ "./src/index.js");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_8__);
+
+
+
+
+
+
+
+var _dec, _class, _class2, _temp;
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
+  enterModule && enterModule(module);
+})();
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+var Slider = (_dec = Object(react_rtween__WEBPACK_IMPORTED_MODULE_7__["asTweener"])({
+  enableMouseDrag: true
+}), _dec(_class = (_temp = _class2 =
+/*#__PURE__*/
+function (_React$Component) {
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(Slider, _React$Component);
+
+  function Slider() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Slider);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(Slider)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this.state = {};
+    return _this;
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Slider, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          autoScroll = _this$props.autoScroll,
+          _this$props$defaultIn = _this$props.defaultIndex,
+          defaultIndex = _this$props$defaultIn === void 0 ? 0 : _this$props$defaultIn;
+
+      if (autoScroll) {
+        this._updater = setTimeout(function (tm) {
+          return _this2.goNext();
+        }, autoScroll);
+      }
+    }
+  }, {
+    key: "goNext",
+    value: function goNext() {
+      var _this$state = this.state,
+          step = _this$state.step,
+          dec = _this$state.dec,
+          nbItems = _this$state.nbItems,
+          nextIndex = (nbItems + this.state.index + 1) % nbItems;
+      if (this.state.index > nextIndex) this.scrollTo(dec + 100 - step, 0, "scrollX");
+      console.log(nextIndex);
+      this.setState({
+        index: nextIndex
+      });
+    }
+  }, {
+    key: "goTo",
+    value: function goTo(index) {
+      this.setState({
+        index: index
+      });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState, snapshot) {
+      var _this3 = this;
+
+      var _this$props2 = this.props,
+          autoScroll = _this$props2.autoScroll,
+          _this$props2$defaultI = _this$props2.defaultIndex,
+          defaultIndex = _this$props2$defaultI === void 0 ? 0 : _this$props2$defaultI,
+          _this$state2 = this.state,
+          _this$state2$index = _this$state2.index,
+          index = _this$state2$index === void 0 ? this.props.defaultIndex : _this$state2$index,
+          step = _this$state2.step,
+          dec = _this$state2.dec;
+
+      if (prevState.dec !== dec) {
+        this.scrollTo(this._getAxis("scrollX").scrollPos + dec - prevState.dec, 0, "scrollX");
+      }
+
+      if (prevState.index !== index) {
+        if (this._wasUserSnap) {
+          this._wasUserSnap = false;
+        } else {
+          this.scrollTo(dec + step * index + 100, 500, "scrollX");
+        }
+
+        if (autoScroll) {
+          clearTimeout(this._updater);
+          this._updater = setTimeout(function (tm) {
+            return _this3.goNext();
+          }, autoScroll);
+        }
+      }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearTimeout(this._updater);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this4 = this;
+
+      var _this$props3 = this.props,
+          _this$props3$defaultI = _this$props3.defaultIndex,
+          defaultIndex = _this$props3$defaultI === void 0 ? 0 : _this$props3$defaultI,
+          defaultInitial = _this$props3.defaultInitial,
+          onClick = _this$props3.onClick,
+          _this$state3 = this.state,
+          _this$state3$index = _this$state3.index,
+          index = _this$state3$index === void 0 ? defaultIndex : _this$state3$index,
+          allItems = _this$state3.allItems,
+          nbGhostItems = _this$state3.nbGhostItems,
+          step = _this$state3.step,
+          dec = _this$state3.dec,
+          tweenLines = _this$state3.tweenLines,
+          nbItems = _this$state3.nbItems; //console.log("render", index)
+
+      return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
+        className: "rSlide slider",
+        style: {
+          userSelect: "none"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_rtween__WEBPACK_IMPORTED_MODULE_7__["TweenAxis"], {
+        axe: "scrollX",
+        defaultPosition: 100 + dec + index * step,
+        size: nbGhostItems * step + 100,
+        scrollableWindow: 4 * step,
+        inertia: {
+          shouldLoop: function shouldLoop(v) {
+            var windowSize = _this4.state.windowSize;
+            if (v > 100 + windowSize * 2) return -windowSize;
+            if (v < 100 + windowSize) return windowSize;
+          },
+          willSnap: function willSnap(i, v) {
+            var nbItems = _this4.state.nbItems;
+            _this4._wasUserSnap = true;
+
+            _this4.setState({
+              index: i % nbItems
+            }); //console.log(i % nbItems, v)
+
+          },
+          value: 100 + dec + index * step,
+          wayPoints: allItems.map(function (child, i) {
+            return {
+              at: 100 + i * step
+            };
+          })
+        }
+      }), allItems.map(function (Child, i) {
+        return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_rtween__WEBPACK_IMPORTED_MODULE_7__["TweenRef"], {
+          key: i,
+          initial: defaultInitial,
+          tweenLines: tweenLines[i]
+        }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
+          className: "slide",
+          onClick: onClick && function (e) {
+            return onClick(e, i % nbItems, _this4);
+          }
+        }, Child));
+      }));
+    }
+  }, {
+    key: "__reactstandin__regenerateByEval",
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }], [{
+    key: "getDerivedStateFromProps",
+    value: function getDerivedStateFromProps(props, state) {
+      var _props$defaultIndex = props.defaultIndex,
+          defaultIndex = _props$defaultIndex === void 0 ? 0 : _props$defaultIndex,
+          _props$visibleItems = props.visibleItems,
+          visibleItems = _props$visibleItems === void 0 ? 5 : _props$visibleItems,
+          _props$overlaps = props.overlaps,
+          overlaps = _props$overlaps === void 0 ? 1 / (visibleItems - visibleItems % 2) : _props$overlaps,
+          _childs = props.children,
+          defaultEntering = props.defaultEntering,
+          defaultLeaving = props.defaultLeaving,
+          children = is__WEBPACK_IMPORTED_MODULE_8___default.a.array(_childs) ? _childs : [],
+          _state$index = state.index,
+          index = _state$index === void 0 ? defaultIndex : _state$index,
+          allItems = [].concat(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(children), _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(children), _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(children)).map(function (elem, i) {
+        return react__WEBPACK_IMPORTED_MODULE_6___default.a.cloneElement(elem, {
+          key: i
+        });
+      }),
+          nbGhostItems = allItems.length,
+          step = 100 * overlaps,
+          dec = children.length * step;
+      return {
+        allItems: allItems,
+        nbGhostItems: nbGhostItems,
+        nbItems: children.length,
+        step: step,
+        dec: dec,
+        tweenLines: allItems.map(function (e, i) {
+          return {
+            scrollX: react_rtween__WEBPACK_IMPORTED_MODULE_7__["tweenTools"].offset([].concat(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(defaultEntering), _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(react_rtween__WEBPACK_IMPORTED_MODULE_7__["tweenTools"].offset(defaultLeaving, 100))), i * step)
+          };
+        }),
+        windowSize: children.length * step,
+        index: index
+      };
+    }
+  }]);
+
+  return Slider;
+}(react__WEBPACK_IMPORTED_MODULE_6___default.a.Component), _class2.defaultProps = {
+  defaultIndex: 0,
+  visibleItems: 10,
+  overlaps: 1 / 4,
+  defaultInitial: {},
+  defaultEntering: [],
+  defaultLeaving: []
+}, _temp)) || _class);
+
+;
+;
+
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).default;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(Slider, "Slider", "G:\\n8tz\\libs\\react-rtween\\src\\samples\\SimpleSlider\\etc\\Slider.js");
+})();
+
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/samples/SimpleSlider/etc/anims.js":
+/*!***********************************************!*\
+  !*** ./src/samples/SimpleSlider/etc/anims.js ***!
+  \***********************************************/
+/*! exports provided: defaultInitial, defaultEntering, defaultLeaving, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultInitial", function() { return defaultInitial; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultEntering", function() { return defaultEntering; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultLeaving", function() { return defaultLeaving; });
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
+  enterModule && enterModule(module);
+})();
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+var stepAngle = "20deg";
+var defaultInitial = {
+  position: "absolute",
+  //height   : "100%",
+  top: "50%",
+  left: "50%",
+  zIndex: 50,
+  opacity: 0,
+  transform: [{
+    perspective: "1250px",
+    translateY: "-5000px",
+    rotate: "-" + stepAngle
+  }, {
+    translateY: "5000px",
+    translateZ: "-500px",
+    rotateY: "-65deg"
+  }, {
+    translateX: "-50%",
+    translateY: "-50%"
+  }]
+};
+var defaultEntering = [{
+  type: "Tween",
+  from: 0,
+  duration: 100,
+  //easeFn  : "easePolyIn",
+  apply: {
+    transform: {
+      rotate: stepAngle
+    },
+    zIndex: 150
+  }
+}, {
+  type: "Tween",
+  from: 0,
+  duration: 35,
+  apply: {
+    opacity: 1
+  }
+}, {
+  type: "Tween",
+  from: 40,
+  duration: 60,
+  apply: {
+    transform: [{}, {
+      rotateY: "65deg",
+      translateZ: "500px" //rotateX: "-90deg",
+
+    }]
+  }
+}];
+var defaultLeaving = [{
+  type: "Tween",
+  from: 0,
+  duration: 60,
+  apply: {
+    transform: [{}, {
+      rotateY: "65deg",
+      translateZ: "-500px"
+    }]
+  }
+}, {
+  type: "Tween",
+  from: 65,
+  duration: 35,
+  apply: {
+    opacity: -1
+  }
+}, {
+  type: "Tween",
+  from: 0,
+  duration: 100,
+  //easeFn  : "easePolyOut",
+  apply: {
+    zIndex: -150,
+    transform: {
+      rotate: stepAngle
+    }
+  }
+}];
+var _default = {
+  defaultLeaving: defaultLeaving,
+  defaultEntering: defaultEntering,
+  defaultInitial: defaultInitial
+};
+/* harmony default export */ __webpack_exports__["default"] = (_default);
+;
+
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).default;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(stepAngle, "stepAngle", "G:\\n8tz\\libs\\react-rtween\\src\\samples\\SimpleSlider\\etc\\anims.js");
+  reactHotLoader.register(defaultInitial, "defaultInitial", "G:\\n8tz\\libs\\react-rtween\\src\\samples\\SimpleSlider\\etc\\anims.js");
+  reactHotLoader.register(defaultEntering, "defaultEntering", "G:\\n8tz\\libs\\react-rtween\\src\\samples\\SimpleSlider\\etc\\anims.js");
+  reactHotLoader.register(defaultLeaving, "defaultLeaving", "G:\\n8tz\\libs\\react-rtween\\src\\samples\\SimpleSlider\\etc\\anims.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\samples\\SimpleSlider\\etc\\anims.js");
+})();
+
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/samples/SimpleSlider/samples.scss":
+/*!***********************************************!*\
+  !*** ./src/samples/SimpleSlider/samples.scss ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/sass-loader/lib/loader.js??ref--6-3!./samples.scss */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/samples/SimpleSlider/samples.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
