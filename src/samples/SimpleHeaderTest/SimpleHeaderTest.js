@@ -15,7 +15,6 @@
 import React                            from "react";
 import {asTweener, TweenRef, TweenAxis} from "react-rtween";
 import "./samples.scss";
-import ReactDom                         from "react-dom";
 
 
 import {scrollY, initialPage, initialFooter, pushIn} from "./etc/anims";
@@ -37,7 +36,7 @@ class Header extends React.Component {
 						bottom    : "60px",
 						height    : "100px",
 						marginLeft: "-100px",
-						transform: { perspective: "200px" }
+						transform : { perspective: "200px" }
 					} }
 					onClick={ ( e, tweener ) => {
 						tweener.pushAnim(pushIn("logo"));

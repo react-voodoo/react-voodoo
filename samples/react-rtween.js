@@ -103,21 +103,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-module.exports = _arrayWithHoles;
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":
 /*!******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js ***!
@@ -353,58 +338,6 @@ module.exports = _iterableToArray;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
-  \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _iterableToArrayLimit(arr, i) {
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-module.exports = _iterableToArrayLimit;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/nonIterableRest.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/nonIterableRest.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-}
-
-module.exports = _nonIterableRest;
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime/helpers/nonIterableSpread.js":
 /*!******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/nonIterableSpread.js ***!
@@ -492,27 +425,6 @@ function _setPrototypeOf(o, p) {
 }
 
 module.exports = _setPrototypeOf;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/slicedToArray.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/slicedToArray.js ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayWithHoles = __webpack_require__(/*! ./arrayWithHoles */ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js");
-
-var iterableToArrayLimit = __webpack_require__(/*! ./iterableToArrayLimit */ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js");
-
-var nonIterableRest = __webpack_require__(/*! ./nonIterableRest */ "./node_modules/@babel/runtime/helpers/nonIterableRest.js");
-
-function _slicedToArray(arr, i) {
-  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || nonIterableRest();
-}
-
-module.exports = _slicedToArray;
 
 /***/ }),
 
@@ -32750,13 +32662,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extractCss", function() { return extractCss; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "target", function() { return target; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shiftTransforms", function() { return shiftTransforms; });
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/slicedToArray.js");
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
-/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_2__);
-
+/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js");
+/* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_1__);
 
 
 (function () {
@@ -32780,23 +32689,23 @@ __webpack_require__.r(__webpack_exports__);
 
 function offset(items) {
   var start = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items;
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items;
   return items.map(function (item) {
-    return _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, item, {
+    return _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, item, {
       from: item.from + start
     });
   });
 }
 function scale(items) {
   var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items; // get items current duration
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items; // get items current duration
 
   var iDuration = 0;
   items.forEach(function (item) {
     iDuration = Math.max(iDuration, item.from + item.duration);
   });
   return items.map(function (item) {
-    return _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, item, {
+    return _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, item, {
       from: item.from / iDuration * duration,
       duration: item.duration / iDuration * duration
     });
@@ -32804,15 +32713,15 @@ function scale(items) {
 }
 
 function inverseValues(v) {
-  if (is__WEBPACK_IMPORTED_MODULE_2___default.a.number(v)) return -v;
-  if (is__WEBPACK_IMPORTED_MODULE_2___default.a.object(v)) return Object.fromEntries(Object.entries(v).map(function (_ref) {
-    var _ref2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_ref, 2),
-        key = _ref2[0],
-        v = _ref2[1];
+  if (is__WEBPACK_IMPORTED_MODULE_1___default.a.number(v)) return -v;
 
-    return [key, inverseValues(v)];
-  }));
-  if (is__WEBPACK_IMPORTED_MODULE_2___default.a.array(v)) return v.map(function (item) {
+  if (is__WEBPACK_IMPORTED_MODULE_1___default.a.object(v)) {
+    return Object.keys(v).reduce(function (h, key) {
+      return h[key] = inverseValues(v[key]), h;
+    }, {});
+  }
+
+  if (is__WEBPACK_IMPORTED_MODULE_1___default.a.array(v)) return v.map(function (item) {
     return inverseValues(item);
   });
   var values = v.split(/(\-?\d+(?:\.\d+)?|\-?\.\d+)/ig);
@@ -32822,14 +32731,14 @@ function inverseValues(v) {
 }
 
 function reverse(items) {
-  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items; // get items current duration
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items; // get items current duration
 
   var iDuration = 0;
   items.forEach(function (item) {
     iDuration = Math.max(iDuration, item.from + item.duration);
   });
   return items.map(function (item) {
-    item = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, item, {
+    item = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, item, {
       from: iDuration - (item.from + item.duration),
       apply: inverseValues(item.apply)
     });
@@ -32846,13 +32755,13 @@ function addCss(target) {
   for (var key in source) {
     if (!source.hasOwnProperty(key)) continue;
 
-    if (is__WEBPACK_IMPORTED_MODULE_2___default.a.object(source[key])) {
+    if (is__WEBPACK_IMPORTED_MODULE_1___default.a.object(source[key])) {
       if (!target[key]) {
         target[key] = {};
       }
 
       addCss(target[key], source[key]);
-    } else if (is__WEBPACK_IMPORTED_MODULE_2___default.a.array(source[key])) {
+    } else if (is__WEBPACK_IMPORTED_MODULE_1___default.a.array(source[key])) {
       if (!target[key]) {
         target[key] = [];
       }
@@ -32881,7 +32790,7 @@ function addAllType(v1, v2) {
 
 function extractCss(items, inverse) {
   var css = {};
-  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items;
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items;
   items.forEach(function (item) {
     addCss(css, item.apply);
   });
@@ -32891,28 +32800,28 @@ function extractCss(items, inverse) {
   return css;
 }
 function target(items, target) {
-  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items;
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items;
   return items.map(function (item) {
-    return _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, item, {
+    return _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, item, {
       target: target
     });
   });
 }
 function shiftTransforms(items) {
   var shift = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-  items = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(items) ? items : items && [items] || items;
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items;
   return items.map(function (item) {
     var t = item.apply && item.apply.transform;
 
     if (t) {
-      t = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(t) ? t : [t];
+      t = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(t) ? t : [t];
 
       for (var i = 0; i < shift; i++) {
         t.unshift({});
       }
 
-      item = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, item, {
-        apply: _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_1___default()({}, item.apply, {
+      item = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, item, {
+        apply: _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, item.apply, {
           transform: t
         })
       });
