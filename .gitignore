@@ -29,8 +29,6 @@ $RECYCLE.BIN/
 
 node_modules/
 .tmp
-!*/dist
-/dist
 uploads/*
 node_modules
 .idea

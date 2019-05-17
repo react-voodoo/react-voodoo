@@ -51,9 +51,8 @@ export function scale( items, duration = 0 ) {
 function inverseValues( v ) {
 	if ( is.number(v) )
 		return -v;
-	if ( is.object(v) ) {
+	if ( is.object(v) )
 		return Object.keys(v).reduce(( h, key ) => (h[key] = inverseValues(v[key]), h), {});
-	}
 	if ( is.array(v) )
 		return v.map(( item ) => (inverseValues(item)));
 	
