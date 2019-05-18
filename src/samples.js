@@ -24,7 +24,7 @@ import Samples  from "react-rtween/samples/*/(*).js"
 
 class App extends React.Component {
 	state = {
-		current: "SimpleHeaderTest"
+		current: "SimpleSlider"
 	};
 	
 	render() {

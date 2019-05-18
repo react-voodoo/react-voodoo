@@ -167,9 +167,9 @@ export default class Inertia {
 				_.conf.willSnap(i, _.wayPoints[i]);
 			}
 			
-			_.lastInertiaPos = _.lastInertiaPos || 0;
-			target           = target - (_.pos - _.lastInertiaPos);
-			_.targetDuration = max(50, min(maxDuration, abs((_.targetDuration / _.targetDist) * target))) || 0;
+			_.lastInertiaPos      = _.lastInertiaPos || 0;
+			target                = target - (_.pos - _.lastInertiaPos);
+			_.targetDuration      = max(50, min(maxDuration, abs((_.targetDuration / _.targetDist) * target))) || 0;
 			//console.log("do snap", i, target, _.targetDist, _.targetDuration);
 			_.targetDist          = target;
 			_.targetWayPoint      = _.wayPoints[i];
@@ -212,12 +212,22 @@ export default class Inertia {
 	}
 	
 	hold( pos ) {
-		let _            = this._,
-		    now          = Date.now() / 1000,//e.timeStamp,
+		let _ = this._,
+		    loop;
+		if ( _.conf.shouldLoop ) {
+			while ( (loop = _.conf.shouldLoop(pos)) ) {
+				//console.warn("loop", loop);
+				pos += loop;
+			}
+			while ( (loop = _.conf.shouldLoop(_.pos)) ) {
+				//console.warn("loop", loop);
+				_.pos += loop;
+			}
+		}
+		let now          = Date.now() / 1000,//e.timeStamp,
 		    sinceLastPos = (now - _.baseTS),
 		    delta        = pos - _.pos,
-		    iVel         = delta / sinceLastPos,
-		    loop;
+		    iVel         = delta / sinceLastPos;
 		//if (is.nan(pos))
 		//	debugger
 		//console.log("hold", pos, _.pos);
@@ -225,14 +235,7 @@ export default class Inertia {
 		_.lastVelocity  = iVel;
 		_.baseTS        = now;
 		
-		if ( _.conf.shouldLoop ) {
-			while ( (loop = _.conf.shouldLoop(pos)) ) {
-				//console.warn("loop", loop);
-				pos += loop;
-				this.teleport(loop);
-			}
-		}
-		else if ( !_.conf.infinite ) {
+		if ( !_.conf.infinite ) {
 			if ( pos > _.max ) {
 				pos = _.max + min((pos - _.max) / 10, 10);
 			}

@@ -31015,12 +31015,25 @@ function () {
     key: "hold",
     value: function hold(pos) {
       var _ = this._,
-          now = Date.now() / 1000,
+          loop;
+
+      if (_.conf.shouldLoop) {
+        while (loop = _.conf.shouldLoop(pos)) {
+          //console.warn("loop", loop);
+          pos += loop;
+        }
+
+        while (loop = _.conf.shouldLoop(_.pos)) {
+          //console.warn("loop", loop);
+          _.pos += loop;
+        }
+      }
+
+      var now = Date.now() / 1000,
           //e.timeStamp,
       sinceLastPos = now - _.baseTS,
           delta = pos - _.pos,
-          iVel = delta / sinceLastPos,
-          loop; //if (is.nan(pos))
+          iVel = delta / sinceLastPos; //if (is.nan(pos))
       //	debugger
       //console.log("hold", pos, _.pos);
 
@@ -31028,13 +31041,7 @@ function () {
       _.lastVelocity = iVel;
       _.baseTS = now;
 
-      if (_.conf.shouldLoop) {
-        while (loop = _.conf.shouldLoop(pos)) {
-          //console.warn("loop", loop);
-          pos += loop;
-          this.teleport(loop);
-        }
-      } else if (!_.conf.infinite) {
+      if (!_.conf.infinite) {
         if (pos > _.max) {
           pos = _.max + min((pos - _.max) / 10, 10);
         } else if (pos < _.min) {
