@@ -22,7 +22,7 @@ import utils                             from "./utils";
 import Inertia                           from './helpers/Inertia';
 import TweenerContext                    from "./TweenerContext";
 import rTween                            from "rtween";
-import easingFn                          from "d3-ease";
+import * as easingFn                     from "d3-ease";
 import ReactDom                          from "react-dom";
 import {deMuxTween, muxToCss, deMuxLine} from "./helpers/css";
 
@@ -716,7 +716,7 @@ export default function asTweener( ...argz ) {
 										}
 									}
 									
-									//console.log("drag", dY);
+									//console.log("drag", dX, dY, cLock);
 									for ( i = 0; i < parents.length; i++ ) {
 										tweener = parents[i];
 										// react comp with tweener support
@@ -732,12 +732,13 @@ export default function asTweener( ...argz ) {
 												!x.inertiaFrame && tweener.applyInertia(x, "scrollX");
 												!y.inertiaFrame && tweener.applyInertia(y, "scrollY");
 											}
-											deltaX = (dX / tweener._.box.x) * (x.scrollableWindow || x.scrollableArea);
-											deltaY = (dY / tweener._.box.y) * (y.scrollableWindow || y.scrollableArea);
+											deltaX = dX && (dX / tweener._.box.x) * (x.scrollableWindow || x.scrollableArea) || 0;
+											deltaY = dY && (dY / tweener._.box.y) * (y.scrollableWindow || y.scrollableArea) || 0;
 											if ( !xDispatched && !tweener.isAxisOut("scrollX", parentsState[i].x + deltaX, true) ) {
 												x.inertia.hold(parentsState[i].x + deltaX);
 												xDispatched = true;
 											}
+											//console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true));
 											if ( !yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true) ) {
 												y.inertia.hold(parentsState[i].y + deltaY);
 												yDispatched = true;

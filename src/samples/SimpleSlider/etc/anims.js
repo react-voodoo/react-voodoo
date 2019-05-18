@@ -28,35 +28,36 @@ export const defaultInitial  = {
 	transform: [
 		{
 			perspective: "1250px",
-			translateY : "-5000px",
+			translateY : "-10000px",
 			rotate     : "-" + stepAngle
 		},
 		{
-			translateY: "5000px",
+			translateY: "10000px",
 			translateZ: "-500px",
 			rotateY   : "-65deg",
+			//rotateX   : "-20deg",
 		},
 		{
 			translateX: "-50%",
 			translateY: "-50%"
 		}]
 };
-export const scrollY = [
+export const scrollY         = [
 	{
+		type    : "Tween",
 		from    : 0,
 		duration: 1000,
 		apply   : {
 			transform: [
 				{
-					translateY : "10000px",
+					translateY: "7500px",
 					//rotate     : "-" + stepAngle
 				},
 				{
-					translateY: "-10000px",
+					translateY: "-7500px",
+					//rotateX   : "40deg",
 				},
 				{
-					//translateX: "-50%",
-					//translateY: "-50%"
 				}]
 		}
 	},

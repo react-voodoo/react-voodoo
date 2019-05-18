@@ -136,6 +136,8 @@ export default class Slider extends React.Component {
 				className={ "rSlide slider" }
 				style={
 					{
+						width     : "100%",
+						height    : "100%",
 						userSelect: "none"
 					}
 				}
@@ -169,6 +171,7 @@ export default class Slider extends React.Component {
 				<TweenAxis
 					axe={ "scrollY" }
 					size={ 1000 }
+					defaultPosition={ 500 }
 				/>
 				{
 					allItems.map(

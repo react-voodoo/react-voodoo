@@ -111,6 +111,7 @@ export default class Inertia {
 	dispatch( delta, tm = 500 ) {
 		let _       = this._, now = Date.now(), pos;
 		this.active = true;
+		//console.log("dispatch", delta);
 		if ( !_.inertia || signOf(delta) !== signOf(_.targetDist) ) {
 			_.inertia        = true;
 			_.lastInertiaPos = 0;
@@ -166,9 +167,9 @@ export default class Inertia {
 				_.conf.willSnap(i, _.wayPoints[i]);
 			}
 			
-			_.lastInertiaPos      = _.lastInertiaPos || 0;
-			target                = target - (_.pos - _.lastInertiaPos);
-			_.targetDuration      = max(50, min(maxDuration, abs((_.targetDuration / _.targetDist) * target))) || 0;
+			_.lastInertiaPos = _.lastInertiaPos || 0;
+			target           = target - (_.pos - _.lastInertiaPos);
+			_.targetDuration = max(50, min(maxDuration, abs((_.targetDuration / _.targetDist) * target))) || 0;
 			//console.log("do snap", i, target, _.targetDist, _.targetDuration);
 			_.targetDist          = target;
 			_.targetWayPoint      = _.wayPoints[i];
@@ -217,8 +218,9 @@ export default class Inertia {
 		    delta        = pos - _.pos,
 		    iVel         = delta / sinceLastPos,
 		    loop;
-		
-		//console.log(pos);
+		//if (is.nan(pos))
+		//	debugger
+		//console.log("hold", pos, _.pos);
 		_.lastIVelocity = iVel;
 		_.lastVelocity  = iVel;
 		_.baseTS        = now;
