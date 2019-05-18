@@ -17,7 +17,7 @@ ___
 - Allow SSR rendering of =! scroll / swipe position
 - etc
 
-## Draft [sample](http://htmlpreview.github.io/?https://github.com/n8tz/react-rtween/blob/master/samples/index.html)
+## Draft [samples](http://htmlpreview.github.io/?https://github.com/n8tz/react-rtween/blob/master/samples/index.html)
 
 ```jsx
 import React                                        from "react";
@@ -26,7 +26,6 @@ import {asTweener, TweenRef, TweenAxis, tweenTools} from "react-rtween";
 
 let pushIn        = [
 	{
-		type    : "Tween",
 		from    : 0,
 		duration: 500,
 		easeFn  : "easeCircleIn",

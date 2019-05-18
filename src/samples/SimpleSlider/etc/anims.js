@@ -41,6 +41,26 @@ export const defaultInitial  = {
 			translateY: "-50%"
 		}]
 };
+export const scrollY = [
+	{
+		from    : 0,
+		duration: 1000,
+		apply   : {
+			transform: [
+				{
+					translateY : "10000px",
+					//rotate     : "-" + stepAngle
+				},
+				{
+					translateY: "-10000px",
+				},
+				{
+					//translateX: "-50%",
+					//translateY: "-50%"
+				}]
+		}
+	},
+];
 export const defaultEntering = [
 	{
 		type    : "Tween",
@@ -110,5 +130,6 @@ export const defaultLeaving  = [
 export default {
 	defaultLeaving,
 	defaultEntering,
-	defaultInitial
+	defaultInitial,
+	scrollY
 }

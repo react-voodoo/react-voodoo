@@ -20,12 +20,11 @@ import React                             from "react";
 import is                                from "is";
 import utils                             from "./utils";
 import Inertia                           from './helpers/Inertia';
-
-var easingFn = require('d3-ease');
 import TweenerContext                    from "./TweenerContext";
-import rtween                            from "rtween";
+import rTween                            from "rtween";
+import easingFn                          from "d3-ease";
 import ReactDom                          from "react-dom";
-import {deMuxTween, muxToCss, deMuxLine} from "./helpers";
+import {deMuxTween, muxToCss, deMuxLine} from "./helpers/css";
 
 /**
  * @todo : clean & comments
@@ -87,7 +86,7 @@ export default function asTweener( ...argz ) {
 	let BaseComponent = (!argz[0] || argz[0].prototype instanceof React.Component || argz[0] === React.Component) && argz.shift(),
 	    opts          = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift() || {};
 	
-	if ( !(BaseComponent && (BaseComponent.prototype instanceof React.Component || BaseComponent === React.Component)) ) {
+	if ( !BaseComponent ) {
 		return function ( BaseComponent ) {
 			return asTweener(BaseComponent, opts)
 		}
@@ -96,11 +95,10 @@ export default function asTweener( ...argz ) {
 	opts = {
 		...opts,
 		wheelRatio: 5,
-		
 	}
 	
 	return class TweenableComp extends BaseComponent {
-		static displayName = (BaseComponent.displayName || BaseComponent.name) + " (tweener)";
+		static displayName = (BaseComponent.displayName || BaseComponent.name);
 		
 		constructor() {
 			super(...arguments);
@@ -294,7 +292,7 @@ export default function asTweener( ...argz ) {
 		 * @param anim
 		 * @param then
 		 * @param skipInit
-		 * @returns {rtween}
+		 * @returns {rTween}
 		 */
 		pushAnim( anim, then, skipInit ) {
 			var sl, initial, muxed, initials = {};
@@ -306,10 +304,10 @@ export default function asTweener( ...argz ) {
 				initial = anim.initial;
 			}
 			
-			if ( !(sl instanceof rtween) ) {
+			if ( !(sl instanceof rTween) ) {
 				// tweenLine, initials, data, demuxers
 				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-				sl = new rtween(sl, this._.tweenRefMaps);
+				sl = new rTween(sl, this._.tweenRefMaps);
 				Object.keys(initials)
 				      .forEach(
 					      id => (
@@ -352,20 +350,20 @@ export default function asTweener( ...argz ) {
 		
 		registerPropChangeAnim( propId, propValue, anims ) {
 			this._.rtweensByProp                    = this._.rtweensByProp || {};
-			this._.rtween                           = this._.rtween || new rtween();
+			this._.rtween                           = this._.rtween || new rTween();
 			this._.rtweensByProp[propId]            = this._.rtweensByProp[propId] || {};
 			this._.rtweensByProp[propId][propValue] = this._.rtweensByProp[propId][propValue] ||
-				new rtween();
+				new rTween();
 			
 			this._.rtweensByProp[propId][propValue].mount(anims);
 		}
 		
 		registerStateChangeAnim( propId, propValue, anims ) {
 			this._.rtweensByStateProp                    = this._.rtweensByStateProp || {};
-			this._.rtween                                = this._.rtween || new rtween();
+			this._.rtween                                = this._.rtween || new rTween();
 			this._.rtweensByStateProp[propId]            = this._.rtweensByStateProp[propId] || {};
 			this._.rtweensByStateProp[propId][propValue] = this._.rtweensByStateProp[propId][propValue] ||
-				new rtween();
+				new rTween();
 			
 			this._.rtweensByStateProp[propId][propValue].mount(anims);
 		}
@@ -466,7 +464,7 @@ export default function asTweener( ...argz ) {
 			return state;
 		}
 		
-		initAxis( axe, {inertia:_inertia, scrollableArea:_scrollableArea = 0, scrollableWindow:_scrollableWindow, defaultPosition, scrollFirst} ) {
+		initAxis( axe, { inertia: _inertia, scrollableArea: _scrollableArea = 0, scrollableWindow: _scrollableWindow, defaultPosition, scrollFirst } ) {
 			this.makeTweenable();
 			this.makeScrollable();
 			let _                = this._,
@@ -510,9 +508,9 @@ export default function asTweener( ...argz ) {
 				size = anim.length;
 			}
 			
-			if ( !(sl instanceof rtween) ) {
+			if ( !(sl instanceof rTween) ) {
 				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-				sl = new rtween(sl, _.tweenRefMaps);
+				sl = new rTween(sl, _.tweenRefMaps);
 				Object.keys(initials)
 				      .forEach(
 					      id => {
