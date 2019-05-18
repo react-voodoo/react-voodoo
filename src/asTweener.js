@@ -601,6 +601,16 @@ export default function asTweener( ...argz ) {
 			}
 		}
 		
+		getScrollableNodes( node ) {
+			let scrollable = utils.findReactParents(node);
+			scrollable     = this.hookScrollableTargets && this.hookScrollableTargets(scrollable) || scrollable;
+			
+			return scrollable.map(
+				id => (is.string(id)
+				       ? this._.refs[id] && ReactDom.findDOMNode(this._.refs[id]) || this.refs[id] || document.getElementById(id)
+				       : id));
+		}
+		
 		_registerScrollListeners() {
 			let _static = this.constructor,
 			    _       = this._;
@@ -618,7 +628,7 @@ export default function asTweener( ...argz ) {
 						utils.addWheelEvent(
 							rootNode,
 							this._.onScroll = ( e ) => {//@todo
-								let now       = Date.now();
+								let now       = Date.now(), prevent;
 								scrollLoad.y += e.deltaY;
 								scrollLoad.x += e.deltaX;
 								lastScrollEvt = e.originalEvent;
@@ -631,11 +641,15 @@ export default function asTweener( ...argz ) {
 								// scrollLoad.x = 0; debounceTm   = 0; //debounceTm = now; return; }
 								// clearTimeout(debounceTr) //debounceTm = now; debounceTr = setTimeout( tm => {
 								// debugger
-								this._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5)
+								prevent      = this._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5)
 								scrollLoad.y = 0;
 								scrollLoad.x = 0;
 								debounceTm   = 0;
 								debounceTr   = lastScrollEvt = undefined;
+								if ( prevent ) {
+									e.originalEvent.stopPropagation();
+									e.originalEvent.preventDefault();
+								}
 								//	},
 								//	50
 								//)
@@ -660,7 +674,7 @@ export default function asTweener( ...argz ) {
 									    x,
 									    y, i;
 									
-									parents      = utils.findReactParents(e.target);
+									parents      = this.getScrollableNodes(e.target);
 									//console.log(parents)
 									lastStartTm  = Date.now();
 									dX           = 0;
@@ -699,24 +713,26 @@ export default function asTweener( ...argz ) {
 									    y, deltaY, yDispatched,
 									    style, i;
 									
-									dX += -(descr._lastPos.x - descr._startPos.x);
-									dY += -(descr._lastPos.y - descr._startPos.y);
+									dX = -(descr._lastPos.x - descr._startPos.x);
+									dY = -(descr._lastPos.y - descr._startPos.y);
 									
 									if ( lastStartTm > Date.now() - 150 && Math.abs(dY) < 10 && Math.abs(dX) < 10 )// skip tap & click
 										return;
 									
 									if ( opts.dragDirectionLock ) {
 										if ( cLock === "Y" || !cLock && Math.abs(dY * .5) > Math.abs(dX) ) {
-											cLock = "Y";
-											dX    = 0;
+											cLock       = "Y";
+											dX          = 0;
+											xDispatched = true;
 										}
 										else if ( cLock === "X" || !cLock && Math.abs(dX * .5) > Math.abs(dY) ) {
-											cLock = "X";
-											dY    = 0;
+											cLock       = "X";
+											dY          = 0;
+											yDispatched = true;
 										}
 									}
 									
-									//console.log("drag", dX, dY, cLock);
+									//console.log("drag", dX, dY, cLock, opts.dragDirectionLock);
 									for ( i = 0; i < parents.length; i++ ) {
 										tweener = parents[i];
 										// react comp with tweener support
@@ -738,10 +754,16 @@ export default function asTweener( ...argz ) {
 												x.inertia.hold(parentsState[i].x + deltaX);
 												xDispatched = true;
 											}
-											//console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true));
+											//console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y +
+											// deltaY, true));
 											if ( !yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true) ) {
 												y.inertia.hold(parentsState[i].y + deltaY);
 												yDispatched = true;
+											}
+											if ( yDispatched && xDispatched ) {
+												e.stopPropagation();
+												e.preventDefault();
+												return;
 											}
 										}
 										else if ( is.element(tweener) ) {
@@ -764,8 +786,8 @@ export default function asTweener( ...argz ) {
 										}
 										
 									}
-									dX = 0;
-									dY = 0;
+									//dX = 0;
+									//dY = 0;
 								},
 								'dropped'  : ( e, touch, descr ) => {
 									let tweener,
@@ -870,8 +892,7 @@ export default function asTweener( ...argz ) {
 			// check if there scrollable stuff in dom targets
 			// get all the parents components & dom node of an dom element ( from fibers )
 			
-			//if (cfg.)
-			Comps = utils.findReactParents(headTarget);
+			Comps = this.getScrollableNodes(headTarget);
 			//console.log("dispatching ", dx, dy, Comps);
 			for ( i = 0; i < Comps.length; i++ ) {
 				// react comp with tweener support
@@ -885,11 +906,11 @@ export default function asTweener( ...argz ) {
 						dy = 0;
 					}
 					if ( !dx && !dy )
-						break;
+						return true;
 				}
 				// dom element
 				else if ( is.element(Comps[i]) ) {
-					style = getComputedStyle(headTarget, null)
+					style = getComputedStyle(Comps[i], null)
 					if ( /(auto|scroll)/.test(
 						style.getPropertyValue("overflow")
 						+ style.getPropertyValue("overflow-x")
@@ -897,17 +918,17 @@ export default function asTweener( ...argz ) {
 					)
 					) {
 						if (
-							(dy < 0 && headTarget.scrollTop !== 0)
+							(dy < 0 && Comps[i].scrollTop !== 0)
 							||
-							(dy > 0 && headTarget.scrollTop !== (headTarget.scrollHeight - headTarget.offsetHeight))
+							(dy > 0 && Comps[i].scrollTop !== (Comps[i].scrollHeight - Comps[i].offsetHeight))
 						) {
 							return;
 						} // let the node do this scroll
 					}
 					
-					headTarget = headTarget.parentNode;
-					if ( headTarget === document || headTarget === target )
-						break;
+					//headTarget = headTarget.parentNode;
+					//if ( headTarget === document || headTarget === target )
+					//	break;
 				}
 			}
 		}

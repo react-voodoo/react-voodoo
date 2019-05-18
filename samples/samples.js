@@ -1143,7 +1143,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "/*!\r\n *\r\n * Copyright (C) 2019 Nathanael Braun\r\n *\r\n * This program is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU Affero General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * This program is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU Affero General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU Affero General Public License\r\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\r\n */\n.sample {\n  -webkit-perspective: 200px;\n          perspective: 200px; }\n\n.SimpleHeader {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  background: #3b55a0;\n  overflow-x: hidden;\n  position: relative;\n  width: 100%;\n  height: 100%;\n  text-align: center; }\n  .SimpleHeader header {\n    background: green;\n    position: fixed;\n    width: calc(100% - 17px);\n    top: 0px;\n    left: 0px; }\n    @media (hover: none) {\n      .SimpleHeader header {\n        /* ... */\n        width: 100%; } }\n  .SimpleHeader footer {\n    background: red;\n    position: fixed;\n    width: calc(100% - 17px); }\n    @media (hover: none) {\n      .SimpleHeader footer {\n        /* ... */\n        width: 100%; } }\n  .SimpleHeader .content {\n    padding: 10px;\n    text-align: left;\n    width: 700px;\n    display: inline-block; }\n  .SimpleHeader .logo {\n    text-align: center;\n    -webkit-perspective: 200px;\n            perspective: 200px;\n    position: absolute;\n    bottom: 20px;\n    line-height: 1em;\n    vertical-align: middle;\n    width: 200px;\n    height: 100px;\n    margin-left: -100px;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover;\n    border: 1px solid gray;\n    border-radius: 5px;\n    display: inline-block;\n    cursor: pointer; }\n    .SimpleHeader .logo:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleHeader .logo > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n    .SimpleHeader .logo span {\n      background: white;\n      border-radius: 5px;\n      padding: 5px; }\n", ""]);
+exports.push([module.i, "/*!\r\n *\r\n * Copyright (C) 2019 Nathanael Braun\r\n *\r\n * This program is free software: you can redistribute it and/or modify\r\n * it under the terms of the GNU Affero General Public License as published by\r\n * the Free Software Foundation, either version 3 of the License, or\r\n * (at your option) any later version.\r\n *\r\n * This program is distributed in the hope that it will be useful,\r\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n * GNU Affero General Public License for more details.\r\n *\r\n * You should have received a copy of the GNU Affero General Public License\r\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\r\n */\n.sample {\n  -webkit-perspective: 200px;\n          perspective: 200px; }\n\n.SimpleHeader {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  background: #3b55a0;\n  overflow-x: hidden;\n  overflow-y: auto;\n  position: relative;\n  width: 100%;\n  height: 100%; }\n  .SimpleHeader header {\n    background: green;\n    position: fixed;\n    width: calc(100% - 17px);\n    top: 0px;\n    left: 0px; }\n    @media (hover: none) {\n      .SimpleHeader header {\n        /* ... */\n        width: 100%; } }\n  .SimpleHeader footer {\n    background: red;\n    position: fixed;\n    width: calc(100% - 17px); }\n    @media (hover: none) {\n      .SimpleHeader footer {\n        /* ... */\n        width: 100%; } }\n  .SimpleHeader .content {\n    padding: 10px;\n    text-align: left;\n    width: 700px;\n    display: inline-block; }\n  .SimpleHeader .logo {\n    text-align: center;\n    -webkit-perspective: 200px;\n            perspective: 200px;\n    position: absolute;\n    bottom: 20px;\n    line-height: 1em;\n    vertical-align: middle;\n    width: 200px;\n    height: 100px;\n    margin-left: -100px;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover;\n    border: 1px solid gray;\n    border-radius: 5px;\n    display: inline-block;\n    cursor: pointer; }\n    .SimpleHeader .logo:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleHeader .logo > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n    .SimpleHeader .logo span {\n      background: white;\n      border-radius: 5px;\n      padding: 5px; }\n", ""]);
 
 // exports
 
@@ -30990,9 +30990,20 @@ function asTweener() {
         }
       }
     }, {
+      key: "getScrollableNodes",
+      value: function getScrollableNodes(node) {
+        var _this8 = this;
+
+        var scrollable = _utils__WEBPACK_IMPORTED_MODULE_11__["default"].findReactParents(node);
+        scrollable = this.hookScrollableTargets && this.hookScrollableTargets(scrollable) || scrollable;
+        return scrollable.map(function (id) {
+          return is__WEBPACK_IMPORTED_MODULE_10___default.a.string(id) ? _this8._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(_this8._.refs[id]) || _this8.refs[id] || document.getElementById(id) : id;
+        });
+      }
+    }, {
       key: "_registerScrollListeners",
       value: function _registerScrollListeners() {
-        var _this8 = this;
+        var _this9 = this;
 
         var _static = this.constructor,
             _ = this._;
@@ -31010,7 +31021,8 @@ function asTweener() {
           if (!this._parentTweener && isBrowserSide) {
             if (!rootNode) console.warn("fail registering scroll listener !! ");else _utils__WEBPACK_IMPORTED_MODULE_11__["default"].addWheelEvent(rootNode, this._.onScroll = function (e) {
               //@todo
-              var now = Date.now();
+              var now = Date.now(),
+                  prevent;
               scrollLoad.y += e.deltaY;
               scrollLoad.x += e.deltaX;
               lastScrollEvt = e.originalEvent; //debounceTm    = debounceTm || now;
@@ -31023,15 +31035,20 @@ function asTweener() {
               // clearTimeout(debounceTr) //debounceTm = now; debounceTr = setTimeout( tm => {
               // debugger
 
-              _this8._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5);
-
+              prevent = _this9._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5);
               scrollLoad.y = 0;
               scrollLoad.x = 0;
               debounceTm = 0;
-              debounceTr = lastScrollEvt = undefined; //	},
+              debounceTr = lastScrollEvt = undefined;
+
+              if (prevent) {
+                e.originalEvent.stopPropagation();
+                e.originalEvent.preventDefault();
+              } //	},
               //	50
               //)
               // check if there scrollable stuff in dom targets
+
 
               ;
             });
@@ -31040,7 +31057,7 @@ function asTweener() {
               'dragstart': function dragstart(e, touch, descr) {
                 //@todo
                 var tweener, x, y, i;
-                parents = _utils__WEBPACK_IMPORTED_MODULE_11__["default"].findReactParents(e.target); //console.log(parents)
+                parents = _this9.getScrollableNodes(e.target); //console.log(parents)
 
                 lastStartTm = Date.now();
                 dX = 0;
@@ -31074,8 +31091,8 @@ function asTweener() {
               'drag': function drag(e, touch, descr) {
                 //@todo
                 var tweener, x, deltaX, xDispatched, y, deltaY, yDispatched, style, i;
-                dX += -(descr._lastPos.x - descr._startPos.x);
-                dY += -(descr._lastPos.y - descr._startPos.y);
+                dX = -(descr._lastPos.x - descr._startPos.x);
+                dY = -(descr._lastPos.y - descr._startPos.y);
                 if (lastStartTm > Date.now() - 150 && Math.abs(dY) < 10 && Math.abs(dX) < 10) // skip tap & click
                   return;
 
@@ -31083,11 +31100,13 @@ function asTweener() {
                   if (cLock === "Y" || !cLock && Math.abs(dY * .5) > Math.abs(dX)) {
                     cLock = "Y";
                     dX = 0;
+                    xDispatched = true;
                   } else if (cLock === "X" || !cLock && Math.abs(dX * .5) > Math.abs(dY)) {
                     cLock = "X";
                     dY = 0;
+                    yDispatched = true;
                   }
-                } //console.log("drag", dX, dY, cLock);
+                } //console.log("drag", dX, dY, cLock, opts.dragDirectionLock);
 
 
                 for (i = 0; i < parents.length; i++) {
@@ -31114,12 +31133,19 @@ function asTweener() {
                     if (!xDispatched && !tweener.isAxisOut("scrollX", parentsState[i].x + deltaX, true)) {
                       x.inertia.hold(parentsState[i].x + deltaX);
                       xDispatched = true;
-                    } //console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true));
+                    } //console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y +
+                    // deltaY, true));
 
 
                     if (!yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true)) {
                       y.inertia.hold(parentsState[i].y + deltaY);
                       yDispatched = true;
+                    }
+
+                    if (yDispatched && xDispatched) {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      return;
                     }
                   } else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(tweener)) {
                     style = parentsState[i];
@@ -31131,10 +31157,9 @@ function asTweener() {
 
                     }
                   }
-                }
+                } //dX = 0;
+                //dY = 0;
 
-                dX = 0;
-                dY = 0;
               },
               'dropped': function dropped(e, touch, descr) {
                 var tweener, i;
@@ -31168,13 +31193,13 @@ function asTweener() {
     }, {
       key: "applyInertia",
       value: function applyInertia(dim, axe) {
-        var _this9 = this;
+        var _this10 = this;
 
         var x = dim.inertia.update();
 
         this._.axes[axe].tweenLines.forEach(function (sl) {
-          _this9._.axes[axe].targetPos = _this9._.axes[axe].scrollPos = x;
-          sl.goTo(x, _this9._.tweenRefMaps);
+          _this10._.axes[axe].targetPos = _this10._.axes[axe].scrollPos = x;
+          sl.goTo(x, _this10._.tweenRefMaps);
         }); //console.log("scroll at " + x, axe, dim.inertia.active || dim.inertia.holding);
         //this.scrollTo(x, 0, axe);
 
@@ -31233,9 +31258,8 @@ function asTweener() {
             headTarget = target,
             i; // check if there scrollable stuff in dom targets
         // get all the parents components & dom node of an dom element ( from fibers )
-        //if (cfg.)
 
-        Comps = _utils__WEBPACK_IMPORTED_MODULE_11__["default"].findReactParents(headTarget); //console.log("dispatching ", dx, dy, Comps);
+        Comps = this.getScrollableNodes(headTarget); //console.log("dispatching ", dx, dy, Comps);
 
         for (i = 0; i < Comps.length; i++) {
           // react comp with tweener support
@@ -31250,20 +31274,20 @@ function asTweener() {
               dy = 0;
             }
 
-            if (!dx && !dy) break;
+            if (!dx && !dy) return true;
           } // dom element
           else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(Comps[i])) {
-              style = getComputedStyle(headTarget, null);
+              style = getComputedStyle(Comps[i], null);
 
               if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
-                if (dy < 0 && headTarget.scrollTop !== 0 || dy > 0 && headTarget.scrollTop !== headTarget.scrollHeight - headTarget.offsetHeight) {
+                if (dy < 0 && Comps[i].scrollTop !== 0 || dy > 0 && Comps[i].scrollTop !== Comps[i].scrollHeight - Comps[i].offsetHeight) {
                   return;
                 } // let the node do this scroll
 
-              }
+              } //headTarget = headTarget.parentNode;
+              //if ( headTarget === document || headTarget === target )
+              //	break;
 
-              headTarget = headTarget.parentNode;
-              if (headTarget === document || headTarget === target) break;
             }
         }
       } // ------------------------------------------------------------
@@ -31273,28 +31297,28 @@ function asTweener() {
     }, {
       key: "applyTweenState",
       value: function applyTweenState(id, map, reset) {
-        var _this10 = this;
+        var _this11 = this;
 
         var tmap = {},
             initials = {};
         Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
         Object.keys(tmap).map(function (p) {
-          return _this10._.tweenRefMaps[id][p] = (!reset && _this10._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
+          return _this11._.tweenRefMaps[id][p] = (!reset && _this11._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
         });
       }
     }, {
       key: "updateRefStyle",
       value: function updateRefStyle(target, style, postPone) {
-        var _this11 = this;
+        var _this12 = this;
 
         var _ = this._,
             initials = {},
             map = {};
         if (isArray(target) && isArray(style)) return target.map(function (m, i) {
-          return _this11.updateRefStyle(m, style[i], postPone);
+          return _this12.updateRefStyle(m, style[i], postPone);
         });
         if (isArray(target)) return target.map(function (m) {
-          return _this11.updateRefStyle(m, style, postPone);
+          return _this12.updateRefStyle(m, style, postPone);
         });
         if (!this._.tweenRefCSS) this.makeTweenable();
         Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target], true);
@@ -31373,7 +31397,7 @@ function asTweener() {
     }, {
       key: "componentDidMount",
       value: function componentDidMount() {
-        var _this12 = this;
+        var _this13 = this;
 
         var _static = this.constructor;
         this._.rendered = true;
@@ -31392,7 +31416,7 @@ function asTweener() {
 
         if (_static.scrollableAnim) {
           if (is__WEBPACK_IMPORTED_MODULE_10___default.a.array(_static.scrollableAnim)) this.addScrollableAnim(_static.scrollableAnim);else Object.keys(_static.scrollableAnim).forEach(function (axe) {
-            return _this12.addScrollableAnim(_static.scrollableAnim[axe], axe);
+            return _this13.addScrollableAnim(_static.scrollableAnim[axe], axe);
           });
         }
 
@@ -31407,7 +31431,7 @@ function asTweener() {
     }, {
       key: "componentDidUpdate",
       value: function componentDidUpdate(prevProps, prevState) {
-        var _this13 = this;
+        var _this14 = this;
 
         if (this._.tweenEnabled) {
           this._updateBox();
@@ -31415,12 +31439,12 @@ function asTweener() {
           this._updateTweenRefs();
 
           this._.rtweensByProp && Object.keys(prevProps).forEach(function (k) {
-            return _this13._.rtweensByProp[k] && _this13.props[k] !== prevProps[k] && _this13._.rtweensByProp[k][_this13.props[k]] && _this13.pushAnim(_this13._.rtweensByProp[k][_this13.props[k]]
+            return _this14._.rtweensByProp[k] && _this14.props[k] !== prevProps[k] && _this14._.rtweensByProp[k][_this14.props[k]] && _this14.pushAnim(_this14._.rtweensByProp[k][_this14.props[k]]
             /*get current pos*/
             );
           }, this);
           this._.rtweensByStateProp && prevState && Object.keys(prevState).forEach(function (k) {
-            return _this13._.rtweensByStateProp[k] && _this13.state[k] !== prevState[k] && _this13._.rtweensByStateProp[k][_this13.state[k]] && _this13.pushAnim(_this13._.rtweensByStateProp[k][_this13.state[k]]
+            return _this14._.rtweensByStateProp[k] && _this14.state[k] !== prevState[k] && _this14._.rtweensByStateProp[k][_this14.state[k]] && _this14.pushAnim(_this14._.rtweensByStateProp[k][_this14.state[k]]
             /*get current pos*/
             );
           }, this);
@@ -31431,13 +31455,13 @@ function asTweener() {
     }, {
       key: "render",
       value: function render() {
-        var _this14 = this;
+        var _this15 = this;
 
         return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_13__["default"].Consumer, null, function (parentTweener) {
-          _this14._parentTweener = parentTweener;
+          _this15._parentTweener = parentTweener;
           return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_13__["default"].Provider, {
-            value: _this14
-          }, _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(TweenableComp.prototype), "render", _this14).call(_this14));
+            value: _this15
+          }, _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(TweenableComp.prototype), "render", _this15).call(_this15));
         });
       }
     }, {
@@ -33822,7 +33846,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /*
  *
- * Copyright (C) 2019 Nathanael Braun
+ * Copyright (C) 2019 Nathan Braun
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -33860,7 +33884,7 @@ function (_React$Component) {
 
     _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(App)).call.apply(_getPrototypeOf2, [this].concat(args)));
     _this.state = {
-      current: "SimpleSlider"
+      current: "SimpleHeaderTest"
     };
     return _this;
   }
@@ -33982,7 +34006,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _class, _temp;
+var _dec, _class, _temp;
 
 (function () {
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
@@ -34103,7 +34127,7 @@ function (_React$Component2) {
   return Footer;
 }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
 
-var Sample = Object(react_rtween__WEBPACK_IMPORTED_MODULE_6__["asTweener"])(_class = (_temp =
+var Sample = (_dec = Object(react_rtween__WEBPACK_IMPORTED_MODULE_6__["asTweener"])(), _dec(_class = (_temp =
 /*#__PURE__*/
 function (_React$Component3) {
   _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(Sample, _React$Component3);
@@ -34120,14 +34144,26 @@ function (_React$Component3) {
     }
 
     _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(Sample)).call.apply(_getPrototypeOf2, [this].concat(args)));
-    _this.state = {};
+    _this.state = {
+      currentHeaderMode: "top"
+    };
     return _this;
   }
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Sample, [{
+    key: "hookScrollableTargets",
+    value: function hookScrollableTargets(targets) {
+      if (this.state.currentHeaderMode === "top") return [this, "MainPage"];
+      if (this.state.currentHeaderMode === "bot") return [this, "MainPage"];
+      return ["MainPage", this];
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+        id: "MainPage",
         className: "SimpleHeader",
         style: {
           width: "100%",
@@ -34136,14 +34172,21 @@ function (_React$Component3) {
       }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(react_rtween__WEBPACK_IMPORTED_MODULE_6__["TweenAxis"], {
         axe: "scrollY",
         items: _etc_anims__WEBPACK_IMPORTED_MODULE_8__["scrollY"],
-        scrollFirst: ["root"],
         inertia: {
+          willSnap: function willSnap(i, v) {
+            _this2.setState({
+              currentHeaderMode: v.id
+            });
+          },
           wayPoints: [{
-            at: 0
+            at: 0,
+            id: 'top'
           }, {
-            at: 50
+            at: 50,
+            id: 'mid'
           }, {
-            at: 100
+            at: 100,
+            id: 'bot'
           }]
         }
       }), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(Header, null), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(Footer, null), react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(react_rtween__WEBPACK_IMPORTED_MODULE_6__["TweenRef"], {
@@ -34165,8 +34208,7 @@ function (_React$Component3) {
   }]);
 
   return Sample;
-}(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component), _temp)) || _class;
-
+}(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component), _temp)) || _class);
 
 ;
 

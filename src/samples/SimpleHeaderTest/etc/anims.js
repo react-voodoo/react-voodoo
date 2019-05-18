@@ -22,12 +22,12 @@ export const initialPage   = {
 	},
 };
 export const initialFooter = {
-	position       : "fixed",
-	left           : "0%",
-	right          : "0%",
-	bottom         : "0px",
-	height         : "50px",
-	transform      : {
+	position : "fixed",
+	left     : "0%",
+	right    : "0%",
+	bottom   : "0px",
+	height   : "50px",
+	transform: {
 		translateY: "50px"
 	},
 };

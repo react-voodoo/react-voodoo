@@ -67,12 +67,23 @@ class Footer extends React.Component {
 	
 }
 
-@asTweener
+@asTweener()
 export default class Sample extends React.Component {
-	state = {};
+	state = {
+		currentHeaderMode: "top"
+	};
+	
+	hookScrollableTargets( targets ) {
+		if ( this.state.currentHeaderMode === "top" )
+			return [this, "MainPage"];
+		if ( this.state.currentHeaderMode === "bot" )
+			return [this, "MainPage"];
+		return ["MainPage", this];
+	}
 	
 	render() {
 		return <div
+			id={ "MainPage" }
 			className={ "SimpleHeader" }
 			style={ {
 				width : "100%",
@@ -82,10 +93,12 @@ export default class Sample extends React.Component {
 			<TweenAxis
 				axe={ "scrollY" }
 				items={ scrollY }
-				scrollFirst={ ["root"] }
 				inertia={
 					{
-						wayPoints: [{ at: 0 }, { at: 50 }, { at: 100 }],
+						willSnap : ( i, v ) => {
+							this.setState({ currentHeaderMode: v.id })
+						},
+						wayPoints: [{ at: 0, id: 'top' }, { at: 50, id: 'mid' }, { at: 100, id: 'bot' }],
 					}
 				}
 			/>
