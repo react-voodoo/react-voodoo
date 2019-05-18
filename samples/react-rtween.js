@@ -27281,7 +27281,7 @@ if (false) {} else {
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-module.exports=function(t){var s={};function e(i){if(s[i])return s[i].exports;var n=s[i]={i:i,l:!1,exports:{}};return t[i].call(n.exports,n,n.exports,e),n.l=!0,n.exports}return e.m=t,e.c=s,e.d=function(t,s,i){e.o(t,s)||Object.defineProperty(t,s,{enumerable:!0,get:i})},e.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},e.t=function(t,s){if(1&s&&(t=e(t)),8&s)return t;if(4&s&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(e.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&s&&"string"!=typeof t)for(var n in t)e.d(i,n,function(s){return t[s]}.bind(null,n));return i},e.n=function(t){var s=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(s,"a",s),s},e.o=function(t,s){return Object.prototype.hasOwnProperty.call(t,s)},e.p="/",e(e.s=10)}([function(t,s){t.exports=__webpack_require__(/*! is */ "./node_modules/is/index.js")},function(t,s,e){var i=Math.PI,n=e(0).number;Math.sin,Math.cos;t.exports=function(t,s,e){e&&t&&(t=t[e]=t[e]||{});var r="var _2PI=2*Math.PI,",o=s.axes&&s.axes[0]||"x",_=s.axes&&s.axes[1]||"y",h=(s.factors&&s.factors[0]||1)*s.radius,a=(s.factors&&s.factors[1]||1)*s.radius,c=2*(s.startPos||0)*i,u=n(s.length)?s.length:1;return r+="pos1=("+c+"+((lastPos+update)*_2PI)*"+u+" )%(_2PI),pos2 = ("+c+"+(lastPos)*_2PI*"+u+" )%(_2PI);",r+="scope."+o+"+="+h+"*(Math.cos(pos1)-Math.cos(pos2));scope."+_+" += "+a+"*(Math.sin(pos1)-Math.sin(pos2));",new Function("lastPos, update, scope, cfg, target",r)},t.exports.isFactory=!0},function(t,s,e){var i,n,r={};"undefined"==typeof document?(i=function(t){return r[t]||e(9)(t)},n=function(t,s){return r[t].at(s)}):(i=function(t){var s=r[t];s||(r[t]=s=document.createElementNS("http://www.w3.org/2000/svg","path"),s.setAttribute("d",t))},n=function(t,s){return r[t].getPointAtLength(s*r[t].getTotalLength())}),t.exports=function(t,s,e){var r,o,_=s.axes&&s.axes[0]||"x",h=s.axes&&s.axes[1]||"y";return i(s.path),function(t,s,e,i,a){var c=r==t?o:n(i.path,i.reverse?1-t:t),u=o=n(i.path,i.reverse?1-(t+s):t+s);r=t+s,e[_]+=4*(u.x-c.x),e[h]+=4*(u.y-c.y)}},t.exports.isFactory=!0},function(t,s){t.exports=function(t,s,e){var i="";for(var n in e&&(i+="scope = scope['"+e+"'];\n"),s.apply)s.apply.hasOwnProperty(n)&&(t&&(t[n]=t[n]||0),i+="scope."+n+"+=("+(s.easeFn?"cfg.easeFn(lastPos+update)- cfg.easeFn(lastPos)":"update")+") * cfg.apply."+n+";");return new Function("lastPos, update, scope, cfg, target",i)},t.exports.isFactory=!0},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js")},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js")},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js")},function(t,s){t.exports=__webpack_require__(/*! d3-ease */ "./node_modules/d3-ease/src/index.js")},function(t,s,e){var i={"./Ring":1,"./Ring.js":1,"./SVGPath":2,"./SVGPath.js":2,"./Tween":3,"./Tween.js":3};function n(t){var s=r(t);return e(s)}function r(t){if(!e.o(i,t)){var s=new Error("Cannot find module '"+t+"'");throw s.code="MODULE_NOT_FOUND",s}return i[t]}n.keys=function(){return Object.keys(i)},n.resolve=r,t.exports=n,n.id=8},function(t,s){t.exports=__webpack_require__(/*! point-at-length */ "./node_modules/point-at-length/index.js")},function(t,s,e){"use strict";e.r(s);var i,n=e(4),r=e.n(n),o=e(5),_=e.n(o),h=e(6),a=e.n(h),c=e(0),u=e.n(c),g=e(7),p=u.a.array,l=u.a.number,f=u.a.string,m=(Array.prototype.slice,Array.prototype.push),d=Math.abs,k=function(t){this.__cPos=0,this.__cIndex=0,this.onScopeUpdated=!1,this.__activeProcess=[],this.__outgoing=[],this.__incoming=[]},y=!1,v=[],x=function(){function t(s,e){_()(this,t),this.scope=e,s=s||{},this.__marks=[],this.__marksLength=[],this.__marksKeys=[],this.__processors=[],this.__config=[],this.__activeForks=[],this.__activeProcess=[],this.__activeProcess=[],this.__outgoing=[],this.__incoming=[],this.__cPos=0,this.__cIndex=0,this.__cMaxKey=1,p(s)?(this.localLength=1,this.mount(s,e)):(Object.assign(this,s),s.rTween&&this.mount(s.rTween,e))}return a()(t,[{key:"run",value:function(s,e,i){t.Runner.run(this,s,i||this.duration,e)}},{key:"runTo",value:function(s,e){var n=this,r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:function(t){return t},o=arguments.length>3?arguments[3]:void 0,_=arguments.length>4?arguments[4]:void 0,h=this.__cPos,a=s-h;v.push({apply:function(t,s){var e=h+r(t/s)*a;n.goTo(e),o&&o(e)},duration:e,cpos:0,cb:_}),y||(y=!0,i=Date.now(),setTimeout(t.Runner._tick,16))}},{key:"mount",value:function(t,s){var i,n,o,_=this.duration||0,h=0;for(i=0,n=t.length;i<n;i++)f(t[i].easeFn)&&(t[i]=r()({},t[i],{easeFn:g[t[i].easeFn]||!1})),(o="Subline"==t[i].type?t[i].apply.fork(null,t[i],t[i].easeFn):e(8)("./"+(t[i].type||"Event")))?l(t[i].from)?(this.addProcess(t[i].from,t[i].from+t[i].duration,o,t[i]),h=Math.max(h,t[i].from+t[i].duration)):(this.addProcess(_,_+t[i].duration,o,t[i]),_+=t[i].duration||0):console.log("rTween : Anim not found : "+t[i].type);return this.duration=Math.max(_,h),this}},{key:"fork",value:function(t){return this._masterLine=this._masterLine||this,k.prototype=this._masterLine,new k(t)}},{key:"addProcess",value:function(s,e,i,n){var r=0,o=(i.localLength,e-s||0),_=this.__cMaxKey++;for(i instanceof t&&(i=i.fork(null,n)),this.__activeForks[_]=!0,this.__processors[_]=i.isFactory?i(null,n,n.target):i,this.__marksLength[_]=o,this.__config[_]=n;r<=this.__marks.length&&this.__marks[r]<s;)r++;for(this.__marks.splice(r,0,s),this.__marksKeys.splice(r,0,_);r<=this.__marks.length&&this.__marks[r]<=e;)r++;return this.__marks.splice(r,0,e),this.__marksKeys.splice(r,0,-_),this}},{key:"_getIndex",value:function(t){return-1!==(t=this.__marksKeys.indexOf(t))&&t}},{key:"go",value:function(t,s,e){return this.goTo(t*this.duration,s,e),this.__cRPos=t,s||this.scope}},{key:"getPosAt",value:function(t,s){return this.__activeProcess.length=0,this.__outgoing.length=0,this.__incoming.length=0,this.__cPos=0,this.__cIndex=0,this.go(t,s)}},{key:"goTo",value:function(t,s,e){s=s||this.scope,this.window&&(t=this.window.start+t/this.duration*this.window.length),this._started||(this._started=!0,this.__cIndex=this.__cPos=0);var i,n,r,o,_,h,a=this.__cIndex,c=this.__outgoing,u=this.__incoming,g=this.__marks.length,p=t-this.__cPos;for(e&&(this.__activeProcess.length=0,this.__outgoing.length=0,this.__incoming.length=0);a<g&&t>this.__marks[a]||p>=0&&this.__marks[a]==t;)-1!=(i=this.__activeProcess.indexOf(-this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=this.__activeProcess.indexOf(this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=u.indexOf(-this.__marksKeys[a]))?(u.splice(i,1),c.push(this.__marksKeys[a])):u.push(this.__marksKeys[a]),a++;for(;a-1>=0&&(t<this.__marks[a-1]||p<0&&this.__marks[a-1]==t);)a--,-1!=(i=this.__activeProcess.indexOf(-this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=this.__activeProcess.indexOf(this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=u.indexOf(-this.__marksKeys[a]))?(u.splice(i,1),c.push(this.__marksKeys[a])):u.push(this.__marksKeys[a]);for(this.__cIndex=a,a=0,n=c.length;a<n;a++)i=this._getIndex(c[a]),h=d(c[a]),c[a]<0?(r=o=Math.min(this.__marks[i],Math.max(this.__cPos,this.__marks[i]-this.__marksLength[h]))-(this.__marks[i]-this.__marksLength[h]),_=this.__marksLength[h]-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]):(r=o=Math.max(this.__marks[i],Math.min(this.__cPos,this.__marks[i]+this.__marksLength[h]))-this.__marks[i],_=0-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]),this.__processors[h].go?this.__processors[h].go(r+_,s,e):this.__processors[h](r,_,s,this.__config[h],this.__config[h].target||this.__config[h].$target&&this.__context&&this.__context[this.__config[h].$target]);for(a=0,n=u.length;a<n;a++)i=this._getIndex(u[a]),h=d(u[a]),u[a]<0?(r=o=this.__marksLength[h],_=Math.max(this.__marks[i]-this.__marksLength[h],Math.min(this.__cPos+p,this.__marks[i]))-(this.__marks[i]-this.__marksLength[h])-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]):(r=o=0,_=Math.max(this.__marks[i],Math.min(this.__cPos+p,this.__marks[i]+this.__marksLength[h]))-this.__marks[i]-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]),this.__processors[h].go?(this.__processors[h].go(r,0,!0),this.__processors[h].go(r+_,s)):e||this.__processors[h](r,_,s,this.__config[h],this.__config[h].target||this.__config[h].$target&&this.__context&&this.__context[this.__config[h].$target]);for(a=0,n=this.__activeProcess.length;a<n;a++)i=this._getIndex(this.__activeProcess[a]),h=d(this.__activeProcess[a]),r=this.__activeProcess[a]<0?this.__cPos-(this.__marks[i]-this.__marksLength[h]):this.__cPos-this.__marks[i],r=(this.localLength||1)*r/this.__marksLength[h],_=p*(this.localLength||1)/this.__marksLength[h],this.__processors[h].go?this.__processors[h].go(r+_,s):e||this.__processors[h](r,_,s,this.__config[h],this.__config[h].target||this.__config[h].$target&&this.__context&&this.__context[this.__config[h].$target]);m.apply(this.__activeProcess,u),c.length=0,u.length=0,this.__cPos=t,this.onScopeUpdated&&this.onScopeUpdated(t,p,s)}}]),t}();x.Runner={run:function(t,s,e,n){v.push({apply:function(e,i){return t.go(e/i,s)},duration:e,cpos:0,cb:n}),t.go(0,s,!0),y||(y=!0,i=Date.now(),setTimeout(this._tick,16))},_tick:function t(){var s=0,e=Date.now(),n=e-i;for(i=e;s<v.length;s++)v[s].cpos=Math.min(n+v[s].cpos,v[s].duration),v[s].apply(v[s].cpos,v[s].duration),v[s].cpos==v[s].duration&&(v[s].cb&&setTimeout(v[s].cb),v.splice(s,1),s--);v.length?setTimeout(t,16):y=!1}},e.d(s,"rTween",function(){return P});s.default=x;var P=x}]);
+module.exports=function(t){var s={};function e(i){if(s[i])return s[i].exports;var n=s[i]={i:i,l:!1,exports:{}};return t[i].call(n.exports,n,n.exports,e),n.l=!0,n.exports}return e.m=t,e.c=s,e.d=function(t,s,i){e.o(t,s)||Object.defineProperty(t,s,{enumerable:!0,get:i})},e.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},e.t=function(t,s){if(1&s&&(t=e(t)),8&s)return t;if(4&s&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(e.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&s&&"string"!=typeof t)for(var n in t)e.d(i,n,function(s){return t[s]}.bind(null,n));return i},e.n=function(t){var s=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(s,"a",s),s},e.o=function(t,s){return Object.prototype.hasOwnProperty.call(t,s)},e.p="/",e(e.s=11)}([function(t,s){t.exports=__webpack_require__(/*! is */ "./node_modules/is/index.js")},function(t,s){t.exports=function(t,s,e){return function(t,s,e,i,n){i.entering&&(0!==t&&1!==t||i.entering(s)),i.leaving&&(0===t||1===t||t+s!==0&&t+s!==1||i.leaving(s))}},t.exports.isFactory=!0},function(t,s,e){var i=Math.PI,n=e(0).number;Math.sin,Math.cos;t.exports=function(t,s,e){e&&t&&(t=t[e]=t[e]||{});var r="var _2PI=2*Math.PI,",o=s.axes&&s.axes[0]||"x",_=s.axes&&s.axes[1]||"y",h=(s.factors&&s.factors[0]||1)*s.radius,a=(s.factors&&s.factors[1]||1)*s.radius,c=2*(s.startPos||0)*i,u=n(s.length)?s.length:1;return r+="pos1=("+c+"+((lastPos+update)*_2PI)*"+u+" )%(_2PI),pos2 = ("+c+"+(lastPos)*_2PI*"+u+" )%(_2PI);",r+="scope."+o+"+="+h+"*(Math.cos(pos1)-Math.cos(pos2));scope."+_+" += "+a+"*(Math.sin(pos1)-Math.sin(pos2));",new Function("lastPos, update, scope, cfg, target",r)},t.exports.isFactory=!0},function(t,s,e){var i,n,r={};"undefined"==typeof document?(i=function(t){return r[t]||e(10)(t)},n=function(t,s){return r[t].at(s)}):(i=function(t){var s=r[t];s||(r[t]=s=document.createElementNS("http://www.w3.org/2000/svg","path"),s.setAttribute("d",t))},n=function(t,s){return r[t].getPointAtLength(s*r[t].getTotalLength())}),t.exports=function(t,s,e){var r,o,_=s.axes&&s.axes[0]||"x",h=s.axes&&s.axes[1]||"y";return i(s.path),function(t,s,e,i,a){var c=r==t?o:n(i.path,i.reverse?1-t:t),u=o=n(i.path,i.reverse?1-(t+s):t+s);r=t+s,e[_]+=4*(u.x-c.x),e[h]+=4*(u.y-c.y)}},t.exports.isFactory=!0},function(t,s){t.exports=function(t,s,e){var i="";for(var n in e&&(i+="scope = scope['"+e+"'];\n"),s.apply)s.apply.hasOwnProperty(n)&&(t&&(t[n]=t[n]||0),i+="scope."+n+"+=("+(s.easeFn?"cfg.easeFn(lastPos+update)- cfg.easeFn(lastPos)":"update")+") * cfg.apply."+n+";");return new Function("lastPos, update, scope, cfg, target",i)},t.exports.isFactory=!0},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js")},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js")},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js")},function(t,s){t.exports=__webpack_require__(/*! d3-ease */ "./node_modules/d3-ease/src/index.js")},function(t,s,e){var i={"./Event":1,"./Event.js":1,"./Ring":2,"./Ring.js":2,"./SVGPath":3,"./SVGPath.js":3,"./Tween":4,"./Tween.js":4};function n(t){var s=r(t);return e(s)}function r(t){if(!e.o(i,t)){var s=new Error("Cannot find module '"+t+"'");throw s.code="MODULE_NOT_FOUND",s}return i[t]}n.keys=function(){return Object.keys(i)},n.resolve=r,t.exports=n,n.id=9},function(t,s){t.exports=__webpack_require__(/*! point-at-length */ "./node_modules/point-at-length/index.js")},function(t,s,e){"use strict";e.r(s);var i,n=e(5),r=e.n(n),o=e(6),_=e.n(o),h=e(7),a=e.n(h),c=e(0),u=e.n(c),g=e(8),p=u.a.array,l=u.a.number,f=u.a.string,m=(Array.prototype.slice,Array.prototype.push),d=Math.abs,k=function(t){this.__cPos=0,this.__cIndex=0,this.onScopeUpdated=!1,this.__activeProcess=[],this.__outgoing=[],this.__incoming=[]},y=!1,v=[],x=function(){function t(s,e){_()(this,t),this.scope=e,s=s||{},this.__marks=[],this.__marksLength=[],this.__marksKeys=[],this.__processors=[],this.__config=[],this.__activeForks=[],this.__activeProcess=[],this.__activeProcess=[],this.__outgoing=[],this.__incoming=[],this.__cPos=0,this.__cIndex=0,this.__cMaxKey=1,p(s)?(this.localLength=1,this.mount(s,e)):(Object.assign(this,s),s.rTween&&this.mount(s.rTween,e))}return a()(t,[{key:"run",value:function(s,e,i){t.Runner.run(this,s,i||this.duration,e)}},{key:"runTo",value:function(s,e){var n=this,r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:function(t){return t},o=arguments.length>3?arguments[3]:void 0,_=arguments.length>4?arguments[4]:void 0,h=this.__cPos,a=s-h;v.push({apply:function(t,s){var e=h+r(t/s)*a;n.goTo(e),o&&o(e)},duration:e,cpos:0,cb:_}),y||(y=!0,i=Date.now(),setTimeout(t.Runner._tick,16))}},{key:"mount",value:function(t,s){var i,n,o,_=this.duration||0,h=0;for(i=0,n=t.length;i<n;i++)f(t[i].easeFn)&&(t[i]=r()({},t[i],{easeFn:g[t[i].easeFn]||!1})),(o="Subline"==t[i].type?t[i].apply.fork(null,t[i],t[i].easeFn):e(9)("./"+(t[i].type||"Tween")))?l(t[i].from)?(this.addProcess(t[i].from,t[i].from+t[i].duration,o,t[i]),h=Math.max(h,t[i].from+t[i].duration)):(this.addProcess(_,_+t[i].duration,o,t[i]),_+=t[i].duration||0):console.log("rTween : Anim not found : "+t[i].type);return this.duration=Math.max(_,h),this}},{key:"fork",value:function(t){return this._masterLine=this._masterLine||this,k.prototype=this._masterLine,new k(t)}},{key:"addProcess",value:function(s,e,i,n){var r=0,o=(i.localLength,e-s||0),_=this.__cMaxKey++;for(i instanceof t&&(i=i.fork(null,n)),this.__activeForks[_]=!0,this.__processors[_]=i.isFactory?i(null,n,n.target):i,this.__marksLength[_]=o,this.__config[_]=n;r<=this.__marks.length&&this.__marks[r]<s;)r++;for(this.__marks.splice(r,0,s),this.__marksKeys.splice(r,0,_);r<=this.__marks.length&&this.__marks[r]<=e;)r++;return this.__marks.splice(r,0,e),this.__marksKeys.splice(r,0,-_),this}},{key:"_getIndex",value:function(t){return-1!==(t=this.__marksKeys.indexOf(t))&&t}},{key:"go",value:function(t,s,e){return this.goTo(t*this.duration,s,e),this.__cRPos=t,s||this.scope}},{key:"getPosAt",value:function(t,s){return this.__activeProcess.length=0,this.__outgoing.length=0,this.__incoming.length=0,this.__cPos=0,this.__cIndex=0,this.go(t,s)}},{key:"goTo",value:function(t,s,e){s=s||this.scope,this.window&&(t=this.window.start+t/this.duration*this.window.length),this._started||(this._started=!0,this.__cIndex=this.__cPos=0);var i,n,r,o,_,h,a=this.__cIndex,c=this.__outgoing,u=this.__incoming,g=this.__marks.length,p=t-this.__cPos;for(e&&(this.__activeProcess.length=0,this.__outgoing.length=0,this.__incoming.length=0);a<g&&t>this.__marks[a]||p>=0&&this.__marks[a]==t;)-1!=(i=this.__activeProcess.indexOf(-this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=this.__activeProcess.indexOf(this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=u.indexOf(-this.__marksKeys[a]))?(u.splice(i,1),c.push(this.__marksKeys[a])):u.push(this.__marksKeys[a]),a++;for(;a-1>=0&&(t<this.__marks[a-1]||p<0&&this.__marks[a-1]==t);)a--,-1!=(i=this.__activeProcess.indexOf(-this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=this.__activeProcess.indexOf(this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=u.indexOf(-this.__marksKeys[a]))?(u.splice(i,1),c.push(this.__marksKeys[a])):u.push(this.__marksKeys[a]);for(this.__cIndex=a,a=0,n=c.length;a<n;a++)i=this._getIndex(c[a]),h=d(c[a]),c[a]<0?(r=o=Math.min(this.__marks[i],Math.max(this.__cPos,this.__marks[i]-this.__marksLength[h]))-(this.__marks[i]-this.__marksLength[h]),_=this.__marksLength[h]-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]):(r=o=Math.max(this.__marks[i],Math.min(this.__cPos,this.__marks[i]+this.__marksLength[h]))-this.__marks[i],_=0-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]),this.__processors[h].go?this.__processors[h].go(r+_,s,e):this.__processors[h](r,_,s,this.__config[h],this.__config[h].target||this.__config[h].$target&&this.__context&&this.__context[this.__config[h].$target]);for(a=0,n=u.length;a<n;a++)i=this._getIndex(u[a]),h=d(u[a]),u[a]<0?(r=o=this.__marksLength[h],_=Math.max(this.__marks[i]-this.__marksLength[h],Math.min(this.__cPos+p,this.__marks[i]))-(this.__marks[i]-this.__marksLength[h])-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]):(r=o=0,_=Math.max(this.__marks[i],Math.min(this.__cPos+p,this.__marks[i]+this.__marksLength[h]))-this.__marks[i]-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]),this.__processors[h].go?(this.__processors[h].go(r,0,!0),this.__processors[h].go(r+_,s)):e||this.__processors[h](r,_,s,this.__config[h],this.__config[h].target||this.__config[h].$target&&this.__context&&this.__context[this.__config[h].$target]);for(a=0,n=this.__activeProcess.length;a<n;a++)i=this._getIndex(this.__activeProcess[a]),h=d(this.__activeProcess[a]),r=this.__activeProcess[a]<0?this.__cPos-(this.__marks[i]-this.__marksLength[h]):this.__cPos-this.__marks[i],r=(this.localLength||1)*r/this.__marksLength[h],_=p*(this.localLength||1)/this.__marksLength[h],this.__processors[h].go?this.__processors[h].go(r+_,s):e||this.__processors[h](r,_,s,this.__config[h],this.__config[h].target||this.__config[h].$target&&this.__context&&this.__context[this.__config[h].$target]);m.apply(this.__activeProcess,u),c.length=0,u.length=0,this.__cPos=t,this.onScopeUpdated&&this.onScopeUpdated(t,p,s)}}]),t}();x.Runner={run:function(t,s,e,n){v.push({apply:function(e,i){return t.go(e/i,s)},duration:e,cpos:0,cb:n}),t.go(0,s,!0),y||(y=!0,i=Date.now(),setTimeout(this._tick,16))},_tick:function t(){var s=0,e=Date.now(),n=e-i;for(i=e;s<v.length;s++)v[s].cpos=Math.min(n+v[s].cpos,v[s].duration),v[s].apply(v[s].cpos,v[s].duration),v[s].cpos==v[s].duration&&(v[s].cb&&setTimeout(v[s].cb),v.splice(s,1),s--);v.length?setTimeout(t,16):y=!1}},e.d(s,"rTween",function(){return P});s.default=x;var P=x}]);
 
 /***/ }),
 
@@ -28938,10 +28938,10 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ "./src/MapOf.react_rtween_helpers_demux_____js.gen.js":
-/*!************************************************************!*\
-  !*** ./src/MapOf.react_rtween_helpers_demux_____js.gen.js ***!
-  \************************************************************/
+/***/ "./src/MapOf.react_rtween_helpers_css_demux_____js.gen.js":
+/*!****************************************************************!*\
+  !*** ./src/MapOf.react_rtween_helpers_css_demux_____js.gen.js ***!
+  \****************************************************************/
 /*! exports provided: $all, backgroundColor, filter, transform, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -28960,7 +28960,7 @@ __webpack_require__.r(__webpack_exports__);
 var req,
     _exports = {},
     root;
-req = __webpack_require__("./src/helpers/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$");
+req = __webpack_require__("./src/helpers/css/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$");
 req.keys().forEach(function (key) {
   var mod,
       name = key.match(/^\.\/([^\\\/]+)\.js$/),
@@ -28991,14 +28991,14 @@ var _default = _exports;
     return;
   }
 
-  reactHotLoader.register(req, "req", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_____js.gen.js");
-  reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_____js.gen.js");
-  reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_____js.gen.js");
-  reactHotLoader.register($all, "$all", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_____js.gen.js");
-  reactHotLoader.register(backgroundColor, "backgroundColor", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_____js.gen.js");
-  reactHotLoader.register(filter, "filter", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_____js.gen.js");
-  reactHotLoader.register(transform, "transform", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_____js.gen.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_____js.gen.js");
+  reactHotLoader.register(req, "req", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register($all, "$all", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(backgroundColor, "backgroundColor", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(filter, "filter", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(transform, "transform", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_____js.gen.js");
 })();
 
 ;
@@ -29011,10 +29011,10 @@ var _default = _exports;
 
 /***/ }),
 
-/***/ "./src/MapOf.react_rtween_helpers_demux_typed_____js.gen.js":
-/*!******************************************************************!*\
-  !*** ./src/MapOf.react_rtween_helpers_demux_typed_____js.gen.js ***!
-  \******************************************************************/
+/***/ "./src/MapOf.react_rtween_helpers_css_demux_typed_____js.gen.js":
+/*!**********************************************************************!*\
+  !*** ./src/MapOf.react_rtween_helpers_css_demux_typed_____js.gen.js ***!
+  \**********************************************************************/
 /*! exports provided: color, int, multi, number, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -29033,7 +29033,7 @@ __webpack_require__.r(__webpack_exports__);
 var req,
     _exports = {},
     root;
-req = __webpack_require__("./src/helpers/demux/typed sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$");
+req = __webpack_require__("./src/helpers/css/demux/typed sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$");
 req.keys().forEach(function (key) {
   var mod,
       name = key.match(/^\.\/([^\\\/]+)\.js$/),
@@ -29065,14 +29065,14 @@ var _default = _exports;
     return;
   }
 
-  reactHotLoader.register(req, "req", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_typed_____js.gen.js");
-  reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_typed_____js.gen.js");
-  reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_typed_____js.gen.js");
-  reactHotLoader.register(color, "color", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_typed_____js.gen.js");
-  reactHotLoader.register(_int, "int", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_typed_____js.gen.js");
-  reactHotLoader.register(multi, "multi", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_typed_____js.gen.js");
-  reactHotLoader.register(number, "number", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_typed_____js.gen.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_demux_typed_____js.gen.js");
+  reactHotLoader.register(req, "req", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(color, "color", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(_int, "int", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(multi, "multi", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(number, "number", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_rtween_helpers_css_demux_typed_____js.gen.js");
 })();
 
 ;
@@ -29598,9 +29598,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TweenerContext__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./TweenerContext */ "./src/TweenerContext.js");
 /* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! rtween */ "./node_modules/rtween/dist/rTween.js");
 /* harmony import */ var rtween__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(rtween__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./helpers */ "./src/helpers/index.js");
+/* harmony import */ var d3_ease__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! d3-ease */ "./node_modules/d3-ease/src/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _helpers_css__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./helpers/css */ "./src/helpers/css/index.js");
 
 
 
@@ -29637,8 +29638,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-var easingFn = __webpack_require__(/*! d3-ease */ "./node_modules/d3-ease/src/index.js");
 
 
 
@@ -29718,7 +29717,7 @@ function asTweener() {
   var BaseComponent = (!argz[0] || argz[0].prototype instanceof react__WEBPACK_IMPORTED_MODULE_9___default.a.Component || argz[0] === react__WEBPACK_IMPORTED_MODULE_9___default.a.Component) && argz.shift(),
       opts = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift() || {};
 
-  if (!(BaseComponent && (BaseComponent.prototype instanceof react__WEBPACK_IMPORTED_MODULE_9___default.a.Component || BaseComponent === react__WEBPACK_IMPORTED_MODULE_9___default.a.Component))) {
+  if (!BaseComponent) {
     return function (BaseComponent) {
       return asTweener(BaseComponent, opts);
     };
@@ -29816,7 +29815,7 @@ function asTweener() {
               return iStyle[key] = iStyle[key] || '';
             });
             _.tweenRefMaps[id] = tweenableMap = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, _.tweenRefOrigin[id]);
-            iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true));
+            iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle, Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true));
             Object.assign(_.tweenRefCSS[id], _.tweenRefOriginCss[id]); //Object.keys(_.tweenRefMaps[id])// unset
             //      .forEach(
             //	      key => (
@@ -29827,7 +29826,7 @@ function asTweener() {
           } else {
             //_.muxByTarget[id]     = {};
             delete _.muxDataByTarget[id].transform_head;
-            iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true)); // minus initial values
+            iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle, Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true)); // minus initial values
 
             Object.keys(_.tweenRefOrigin[id]).forEach(function (key) {
               return _.tweenRefMaps[id][key] -= _.tweenRefOrigin[id][key];
@@ -29855,7 +29854,7 @@ function asTweener() {
           //_.tweenRefMaps[id] = tweenableMap;
 
 
-          Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["muxToCss"])(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
+          Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
         } else if (!_.tweenRefs[id]) {
           _.iMapOrigin[id] = iMap;
           iStyle = iStyle || {};
@@ -29863,7 +29862,7 @@ function asTweener() {
           _.tweenRefs[id] = true;
           _.muxByTarget[id] = _.muxByTarget[id] || {};
           _.muxDataByTarget[id] = _.muxDataByTarget[id] || {};
-          iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle, Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true)); //_.tweenRefUnits[id] = extractUnits(iMap);
+          iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle, Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true)); //_.tweenRefUnits[id] = extractUnits(iMap);
           //}
 
           _.tweenRefOrigin[id] = tweenableMap;
@@ -29871,7 +29870,7 @@ function asTweener() {
           _.tweenRefCSS[id] = iStyle; // init / reset or get the tweenable view
 
           tweenableMap = _.tweenRefMaps[id] = Object.assign(_.tweenRefMaps[id] || {}, initials, tweenableMap || {});
-          Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["muxToCss"])(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
+          Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
         }
 
         if (noref) return {
@@ -29914,7 +29913,7 @@ function asTweener() {
        * @param anim
        * @param then
        * @param skipInit
-       * @returns {rtween}
+       * @returns {rTween}
        */
 
     }, {
@@ -29936,7 +29935,7 @@ function asTweener() {
 
         if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) {
           // tweenLine, initials, data, demuxers
-          sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
+          sl = Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
           sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, this._.tweenRefMaps);
           Object.keys(initials).forEach(function (id) {
             return Object.assign(_this3._.tweenRefMaps[id], _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, initials[id], _this3._.tweenRefMaps[id]));
@@ -30147,7 +30146,7 @@ function asTweener() {
         }
 
         if (!(sl instanceof rtween__WEBPACK_IMPORTED_MODULE_14___default.a)) {
-          sl = Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
+          sl = Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
           sl = new rtween__WEBPACK_IMPORTED_MODULE_14___default.a(sl, _.tweenRefMaps);
           Object.keys(initials).forEach(function (id) {
             _this6._.tweenRefMaps[id] = _this6._.tweenRefMaps[id] || {}, Object.assign(_this6._.tweenRefMaps[id], _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, initials[id], _this6._.tweenRefMaps[id]));
@@ -30227,7 +30226,7 @@ function asTweener() {
               setPos(newPos);
               resolve();
             } else {
-              _this7._runScrollGoTo(axe, newPos, ms, easingFn[ease], setPos, resolve);
+              _this7._runScrollGoTo(axe, newPos, ms, d3_ease__WEBPACK_IMPORTED_MODULE_15__[ease], setPos, resolve);
             }
 
             if (!_this7._.live) {
@@ -30346,7 +30345,7 @@ function asTweener() {
                     cLock = "X";
                     dY = 0;
                   }
-                } //console.log("drag", dY);
+                } //console.log("drag", dX, dY, cLock);
 
 
                 for (i = 0; i < parents.length; i++) {
@@ -30367,13 +30366,14 @@ function asTweener() {
                       !y.inertiaFrame && tweener.applyInertia(y, "scrollY");
                     }
 
-                    deltaX = dX / tweener._.box.x * (x.scrollableWindow || x.scrollableArea);
-                    deltaY = dY / tweener._.box.y * (y.scrollableWindow || y.scrollableArea);
+                    deltaX = dX && dX / tweener._.box.x * (x.scrollableWindow || x.scrollableArea) || 0;
+                    deltaY = dY && dY / tweener._.box.y * (y.scrollableWindow || y.scrollableArea) || 0;
 
                     if (!xDispatched && !tweener.isAxisOut("scrollX", parentsState[i].x + deltaX, true)) {
                       x.inertia.hold(parentsState[i].x + deltaX);
                       xDispatched = true;
-                    }
+                    } //console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true));
+
 
                     if (!yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true)) {
                       y.inertia.hold(parentsState[i].y + deltaY);
@@ -30535,7 +30535,7 @@ function asTweener() {
 
         var tmap = {},
             initials = {};
-        Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
+        Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
         Object.keys(tmap).map(function (p) {
           return _this10._.tweenRefMaps[id][p] = (!reset && _this10._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
         });
@@ -30555,7 +30555,7 @@ function asTweener() {
           return _this11.updateRefStyle(m, style, postPone);
         });
         if (!this._.tweenRefCSS) this.makeTweenable();
-        Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["deMuxTween"])(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target], true);
+        Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target], true);
 
         this._updateTweenRefs(); //Object.assign(initials, _.tweenRefCSS[target]);
         //_.tweenRefCSS[target] = initials;
@@ -30575,12 +30575,12 @@ function asTweener() {
     }, {
       key: "getTweenableRef",
       value: function getTweenableRef(id) {
-        return this._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this._.refs[id]);
+        return this._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this._.refs[id]);
       }
     }, {
       key: "getRootNode",
       value: function getRootNode() {
-        return this._.rootRef && this.getTweenableRef(this._.rootRef) || react_dom__WEBPACK_IMPORTED_MODULE_15___default.a.findDOMNode(this);
+        return this._.rootRef && this.getTweenableRef(this._.rootRef) || react_dom__WEBPACK_IMPORTED_MODULE_16___default.a.findDOMNode(this);
       }
     }, {
       key: "_rafLoop",
@@ -30603,7 +30603,7 @@ function asTweener() {
           //this._lf = now;
           for (var i = 0, target, node; i < this._.tweenRefTargets.length; i++) {
             target = this._.tweenRefTargets[i];
-            Object(_helpers__WEBPACK_IMPORTED_MODULE_16__["muxToCss"])(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
+            Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
             node = this.getTweenableRef(target);
             node && Object.assign(node.style, this._.tweenRefCSS[target]);
           }
@@ -30708,7 +30708,7 @@ function asTweener() {
     }]);
 
     return TweenableComp;
-  }(BaseComponent), _class.displayName = (BaseComponent.displayName || BaseComponent.name) + " (tweener)", _temp;
+  }(BaseComponent), _class.displayName = BaseComponent.displayName || BaseComponent.name, _temp;
 }
 ;
 
@@ -30765,19 +30765,25 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Copyright (C) 2019 Nathanael Braun
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var signOf = function sign(x) {
+var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
+    easingFn = __webpack_require__(/*! d3-ease */ "./node_modules/d3-ease/src/index.js"),
+    signOf = function sign(x) {
   return typeof x === 'number' ? x ? x < 0 ? -1 : 1 : x === x ? x : NaN : NaN;
 },
     abs = Math.abs,
@@ -30789,12 +30795,8 @@ var signOf = function sign(x) {
   velocityResetTm: 150,
   clickTm: 250
 };
-
-var is = __webpack_require__(/*! is */ "./node_modules/is/index.js");
-
-var easingFn = __webpack_require__(/*! d3-ease */ "./node_modules/d3-ease/src/index.js");
 /**
- * Main slideshow class
+ * Main inertia class
  * @class Caipi slideshow
  * @type {module.exports}
  */
@@ -30885,7 +30887,7 @@ function () {
       var _ = this._,
           now = Date.now(),
           pos;
-      this.active = true;
+      this.active = true; //console.log("dispatch", delta);
 
       if (!_.inertia || signOf(delta) !== signOf(_.targetDist)) {
         _.inertia = true;
@@ -30994,7 +30996,9 @@ function () {
       sinceLastPos = now - _.baseTS,
           delta = pos - _.pos,
           iVel = delta / sinceLastPos,
-          loop; //console.log(pos);
+          loop; //if (is.nan(pos))
+      //	debugger
+      //console.log("hold", pos, _.pos);
 
       _.lastIVelocity = iVel;
       _.lastVelocity = iVel;
@@ -31098,10 +31102,10 @@ function () {
 
 /***/ }),
 
-/***/ "./src/helpers/cssUtils.js":
-/*!*********************************!*\
-  !*** ./src/helpers/cssUtils.js ***!
-  \*********************************/
+/***/ "./src/helpers/css/cssUtils.js":
+/*!*************************************!*\
+  !*** ./src/helpers/css/cssUtils.js ***!
+  \*************************************/
 /*! exports provided: expandShorthandProperty, isShorthandProperty, isValidDeclaration, canAnimate, getProperty */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -31658,12 +31662,12 @@ function getProperty(property, expand) {
     return;
   }
 
-  reactHotLoader.register(props, "props", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\cssUtils.js");
-  reactHotLoader.register(expandShorthandProperty, "expandShorthandProperty", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\cssUtils.js");
-  reactHotLoader.register(isShorthandProperty, "isShorthandProperty", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\cssUtils.js");
-  reactHotLoader.register(isValidDeclaration, "isValidDeclaration", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\cssUtils.js");
-  reactHotLoader.register(canAnimate, "canAnimate", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\cssUtils.js");
-  reactHotLoader.register(getProperty, "getProperty", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\cssUtils.js");
+  reactHotLoader.register(props, "props", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
+  reactHotLoader.register(expandShorthandProperty, "expandShorthandProperty", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
+  reactHotLoader.register(isShorthandProperty, "isShorthandProperty", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
+  reactHotLoader.register(isValidDeclaration, "isValidDeclaration", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
+  reactHotLoader.register(canAnimate, "canAnimate", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
+  reactHotLoader.register(getProperty, "getProperty", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
 })();
 
 ;
@@ -31672,22 +31676,22 @@ function getProperty(property, expand) {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
   leaveModule && leaveModule(module);
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
-/***/ "./src/helpers/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$":
-/*!*****************************************************!*\
-  !*** ./src/helpers/demux sync ^\.\/([^\\\/]+)\.js$ ***!
-  \*****************************************************/
+/***/ "./src/helpers/css/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$":
+/*!*********************************************************!*\
+  !*** ./src/helpers/css/demux sync ^\.\/([^\\\/]+)\.js$ ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./$all.js": "./src/helpers/demux/$all.js",
-	"./backgroundColor.js": "./src/helpers/demux/backgroundColor.js",
-	"./filter.js": "./src/helpers/demux/filter.js",
-	"./transform.js": "./src/helpers/demux/transform.js"
+	"./$all.js": "./src/helpers/css/demux/$all.js",
+	"./backgroundColor.js": "./src/helpers/css/demux/backgroundColor.js",
+	"./filter.js": "./src/helpers/css/demux/filter.js",
+	"./transform.js": "./src/helpers/css/demux/transform.js"
 };
 
 
@@ -31708,14 +31712,14 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = "./src/helpers/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$";
+webpackContext.id = "./src/helpers/css/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$";
 
 /***/ }),
 
-/***/ "./src/helpers/demux/$all.js":
-/*!***********************************!*\
-  !*** ./src/helpers/demux/$all.js ***!
-  \***********************************/
+/***/ "./src/helpers/css/demux/$all.js":
+/*!***************************************!*\
+  !*** ./src/helpers/css/demux/$all.js ***!
+  \***************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -31794,12 +31798,12 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
     return;
   }
 
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\$all.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\$all.js");
-  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\$all.js");
-  reactHotLoader.register(defaultValue, "defaultValue", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\$all.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\$all.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\$all.js");
+  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(defaultValue, "defaultValue", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
 })();
 
 ;
@@ -31808,20 +31812,20 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
   leaveModule && leaveModule(module);
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
-/***/ "./src/helpers/demux/backgroundColor.js":
-/*!**********************************************!*\
-  !*** ./src/helpers/demux/backgroundColor.js ***!
-  \**********************************************/
+/***/ "./src/helpers/css/demux/backgroundColor.js":
+/*!**************************************************!*\
+  !*** ./src/helpers/css/demux/backgroundColor.js ***!
+  \**************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _typed_color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typed/color */ "./src/helpers/demux/typed/color.js");
+/* harmony import */ var _typed_color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typed/color */ "./src/helpers/css/demux/typed/color.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _typed_color__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
 /*
@@ -31839,14 +31843,14 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-; /* eslint-disable global-require, import/no-unresolved */ (function register() { /* react-hot-loader/webpack */ var reactHotLoader = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").default; if (!reactHotLoader) { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : exports; /* eslint-enable camelcase, no-undef */ if (typeof webpackExports === 'function') { reactHotLoader.register(webpackExports, 'module.exports', "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\backgroundColor.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } reactHotLoader.register(namedExport, key, "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\backgroundColor.js"); } })(); 
+; /* eslint-disable global-require, import/no-unresolved */ (function register() { /* react-hot-loader/webpack */ var reactHotLoader = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js").default; if (!reactHotLoader) { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : exports; /* eslint-enable camelcase, no-undef */ if (typeof webpackExports === 'function') { reactHotLoader.register(webpackExports, 'module.exports', "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\backgroundColor.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } reactHotLoader.register(namedExport, key, "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\backgroundColor.js"); } })(); 
 
 /***/ }),
 
-/***/ "./src/helpers/demux/filter.js":
-/*!*************************************!*\
-  !*** ./src/helpers/demux/filter.js ***!
-  \*************************************/
+/***/ "./src/helpers/css/demux/filter.js":
+/*!*****************************************!*\
+  !*** ./src/helpers/css/demux/filter.js ***!
+  \*****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -31943,12 +31947,12 @@ var _default = function _default(key, value, target, data, initials) {
     return;
   }
 
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\filter.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\filter.js");
-  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\filter.js");
-  reactHotLoader.register(filters, "filters", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\filter.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\filter.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\filter.js");
+  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
+  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
+  reactHotLoader.register(filters, "filters", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
 })();
 
 ;
@@ -31957,14 +31961,14 @@ var _default = function _default(key, value, target, data, initials) {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
   leaveModule && leaveModule(module);
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
-/***/ "./src/helpers/demux/transform.js":
-/*!****************************************!*\
-  !*** ./src/helpers/demux/transform.js ***!
-  \****************************************/
+/***/ "./src/helpers/css/demux/transform.js":
+/*!********************************************!*\
+  !*** ./src/helpers/css/demux/transform.js ***!
+  \********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -32084,11 +32088,11 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
     return;
   }
 
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\transform.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\transform.js");
-  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\transform.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\transform.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\transform.js");
+  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\transform.js");
 })();
 
 ;
@@ -32097,22 +32101,22 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
   leaveModule && leaveModule(module);
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
-/***/ "./src/helpers/demux/typed sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$":
-/*!***********************************************************!*\
-  !*** ./src/helpers/demux/typed sync ^\.\/([^\\\/]+)\.js$ ***!
-  \***********************************************************/
+/***/ "./src/helpers/css/demux/typed sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$":
+/*!***************************************************************!*\
+  !*** ./src/helpers/css/demux/typed sync ^\.\/([^\\\/]+)\.js$ ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./color.js": "./src/helpers/demux/typed/color.js",
-	"./int.js": "./src/helpers/demux/typed/int.js",
-	"./multi.js": "./src/helpers/demux/typed/multi.js",
-	"./number.js": "./src/helpers/demux/typed/number.js"
+	"./color.js": "./src/helpers/css/demux/typed/color.js",
+	"./int.js": "./src/helpers/css/demux/typed/int.js",
+	"./multi.js": "./src/helpers/css/demux/typed/multi.js",
+	"./number.js": "./src/helpers/css/demux/typed/number.js"
 };
 
 
@@ -32133,14 +32137,14 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = "./src/helpers/demux/typed sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$";
+webpackContext.id = "./src/helpers/css/demux/typed sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$";
 
 /***/ }),
 
-/***/ "./src/helpers/demux/typed/color.js":
-/*!******************************************!*\
-  !*** ./src/helpers/demux/typed/color.js ***!
-  \******************************************/
+/***/ "./src/helpers/css/demux/typed/color.js":
+/*!**********************************************!*\
+  !*** ./src/helpers/css/demux/typed/color.js ***!
+  \**********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -32195,8 +32199,8 @@ var _default = function _default(key, value, target, data, initials) {
     return;
   }
 
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\color.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\color.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\color.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\color.js");
 })();
 
 ;
@@ -32205,14 +32209,14 @@ var _default = function _default(key, value, target, data, initials) {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
   leaveModule && leaveModule(module);
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
-/***/ "./src/helpers/demux/typed/int.js":
-/*!****************************************!*\
-  !*** ./src/helpers/demux/typed/int.js ***!
-  \****************************************/
+/***/ "./src/helpers/css/demux/typed/int.js":
+/*!********************************************!*\
+  !*** ./src/helpers/css/demux/typed/int.js ***!
+  \********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -32296,11 +32300,11 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
     return;
   }
 
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\int.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\int.js");
-  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\int.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\int.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\int.js");
+  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\int.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\int.js");
+  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\int.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\int.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\int.js");
 })();
 
 ;
@@ -32309,14 +32313,14 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
   leaveModule && leaveModule(module);
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
-/***/ "./src/helpers/demux/typed/multi.js":
-/*!******************************************!*\
-  !*** ./src/helpers/demux/typed/multi.js ***!
-  \******************************************/
+/***/ "./src/helpers/css/demux/typed/multi.js":
+/*!**********************************************!*\
+  !*** ./src/helpers/css/demux/typed/multi.js ***!
+  \**********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -32324,7 +32328,7 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _number__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./number */ "./src/helpers/demux/typed/number.js");
+/* harmony import */ var _number__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./number */ "./src/helpers/css/demux/typed/number.js");
 (function () {
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
   enterModule && enterModule(module);
@@ -32395,10 +32399,10 @@ var _default = function _default(count) {
     return;
   }
 
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\multi.js");
-  reactHotLoader.register(alias, "alias", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\multi.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\multi.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\multi.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\multi.js");
+  reactHotLoader.register(alias, "alias", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\multi.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\multi.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\multi.js");
 })();
 
 ;
@@ -32407,14 +32411,14 @@ var _default = function _default(count) {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
   leaveModule && leaveModule(module);
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
-/***/ "./src/helpers/demux/typed/number.js":
-/*!*******************************************!*\
-  !*** ./src/helpers/demux/typed/number.js ***!
-  \*******************************************/
+/***/ "./src/helpers/css/demux/typed/number.js":
+/*!***********************************************!*\
+  !*** ./src/helpers/css/demux/typed/number.js ***!
+  \***********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -32509,13 +32513,13 @@ var _default = muxer;
     return;
   }
 
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\number.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\number.js");
-  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\number.js");
-  reactHotLoader.register(defaultBox, "defaultBox", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\number.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\number.js");
-  reactHotLoader.register(muxer, "muxer", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\number.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\demux\\typed\\number.js");
+  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(defaultBox, "defaultBox", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(muxer, "muxer", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
 })();
 
 ;
@@ -32524,14 +32528,14 @@ var _default = muxer;
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
   leaveModule && leaveModule(module);
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
-/***/ "./src/helpers/index.js":
-/*!******************************!*\
-  !*** ./src/helpers/index.js ***!
-  \******************************/
+/***/ "./src/helpers/css/index.js":
+/*!**********************************!*\
+  !*** ./src/helpers/css/index.js ***!
+  \**********************************/
 /*! exports provided: muxToCss, deMuxTween, deMuxLine */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -32542,9 +32546,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deMuxLine", function() { return deMuxLine; });
 /* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js");
 /* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cssUtils */ "./src/helpers/cssUtils.js");
-/* harmony import */ var _demux_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./demux/(*).js */ "./src/MapOf.react_rtween_helpers_demux_____js.gen.js");
-/* harmony import */ var _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./demux/typed/(*).js */ "./src/MapOf.react_rtween_helpers_demux_typed_____js.gen.js");
+/* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cssUtils */ "./src/helpers/css/cssUtils.js");
+/* harmony import */ var _demux_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./demux/(*).js */ "./src/MapOf.react_rtween_helpers_css_demux_____js.gen.js");
+/* harmony import */ var _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./demux/typed/(*).js */ "./src/MapOf.react_rtween_helpers_css_demux_typed_____js.gen.js");
 
 
 (function () {
@@ -32645,10 +32649,10 @@ function deMuxLine(tweenLine, initials, data, demuxers) {
     return;
   }
 
-  reactHotLoader.register(cssDemux, "cssDemux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\index.js");
-  reactHotLoader.register(muxToCss, "muxToCss", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\index.js");
-  reactHotLoader.register(deMuxTween, "deMuxTween", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\index.js");
-  reactHotLoader.register(deMuxLine, "deMuxLine", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\index.js");
+  reactHotLoader.register(cssDemux, "cssDemux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\index.js");
+  reactHotLoader.register(muxToCss, "muxToCss", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\index.js");
+  reactHotLoader.register(deMuxTween, "deMuxTween", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\index.js");
+  reactHotLoader.register(deMuxLine, "deMuxLine", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\index.js");
 })();
 
 ;
@@ -32657,7 +32661,7 @@ function deMuxLine(tweenLine, initials, data, demuxers) {
   var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
   leaveModule && leaveModule(module);
 })();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
