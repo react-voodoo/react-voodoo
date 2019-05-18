@@ -1,20 +1,21 @@
 <h1 align="center">react-rtween</h1>
-<p align="center">Fast, scalable, multiscope, reversible, delta based, tween composition engine</p>
+<p align="center">Fast, SSR compatible, reversible, scalable, swipeable, tween composition engine for React</p>
 
 ___
 
 <a href="https://www.npmjs.com/package/react-rtween">
 <img src="https://img.shields.io/npm/v/react-rtween.svg" alt="Npm version" /></a>
 
-<p align="center">/!\ This is alpha /!\</p>
+<p align="center">/!\ This is beta /!\</p>
 
 
 ## wtf is react-rTween ?
 
+- Is a more generic equivalent system than Swiper, for react
 - rTween engine allow to apply forward and backward multiples tweens on same properties and multiple objects
-- Allow **live composition & hot switching of multiple** scrollable animation
+- Allow **live composition & hot switching of multiple** scrollable/swipeable animations
+- Allow SSR rendering of =! scroll / swipe position
 - etc
-
 
 ## Draft [sample](http://htmlpreview.github.io/?https://github.com/n8tz/react-rtween/blob/master/samples/index.html)
 
@@ -205,9 +206,9 @@ export default class Sample extends React.Component {
 ### Todo :
 
 - Nice examples 
-- Matrix support
 - Better scroll support
-- Doc & clean
+- Full css support ( full background transitions )
+- Doc, tests & clean
 
 ### License ?
 

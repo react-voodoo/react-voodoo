@@ -4,6 +4,7 @@
   "license": "AGPL-3.0",
   "main": "./dist/react-rtween.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
+  "description": "Fast, scalable, swipeable, SSR compatible, tween composition engine for React",
   "wpInherit": {
     "default": {
       "rootFolder": "src",
