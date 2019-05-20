@@ -31107,13 +31107,16 @@ function asTweener() {
                     //!y.inertiaFrame && tweener.applyInertia(y, "scrollY");
                   } else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(tweener)) {
                     style = getComputedStyle(tweener, null);
-                    if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) parentsState[i] = {
-                      y: tweener.scrollTop,
-                      x: tweener.scrollLeft,
-                      inertia: _this9._activateNodeInertia(tweener)
-                    };
-                    parentsState[i].inertia.x.startMove();
-                    parentsState[i].inertia.y.startMove();
+
+                    if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
+                      parentsState[i] = {
+                        y: tweener.scrollTop,
+                        x: tweener.scrollLeft,
+                        inertia: _this9._activateNodeInertia(tweener)
+                      };
+                      parentsState[i].inertia.x.startMove();
+                      parentsState[i].inertia.y.startMove();
+                    }
                   }
                 }
 
