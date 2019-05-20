@@ -700,15 +700,15 @@ export default function asTweener( ...argz ) {
 											if ( /(auto|scroll)/.test(
 												style.getPropertyValue("overflow")
 												+ style.getPropertyValue("overflow-x")
-												+ style.getPropertyValue("overflow-y")) )
-												
+												+ style.getPropertyValue("overflow-y")) ) {
 												parentsState[i] = {
 													y      : tweener.scrollTop,
 													x      : tweener.scrollLeft,
 													inertia: this._activateNodeInertia(tweener)
 												};
-											parentsState[i].inertia.x.startMove();
-											parentsState[i].inertia.y.startMove();
+												parentsState[i].inertia.x.startMove();
+												parentsState[i].inertia.y.startMove();
+											}
 										}
 										
 									}
