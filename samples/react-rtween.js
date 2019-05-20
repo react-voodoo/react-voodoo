@@ -29737,6 +29737,35 @@ function asTweener() {
       _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, TweenableComp);
 
       _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(TweenableComp).apply(this, arguments));
+
+      _this._updateNodeInertia = function () {
+        var _ = _this._,
+            current,
+            ln = _.activeInertia.length;
+        if (_this._inertiaRaf) cancelAnimationFrame(_this._inertiaRaf);
+
+        for (var i = 0; ln > i; i++) {
+          current = _.activeInertia[i];
+
+          if (current.inertia.x.active || current.inertia.x.holding) {
+            current.target.scrollLeft = current.inertia.x.update();
+          }
+
+          if (current.inertia.y.active || current.inertia.y.holding) {
+            current.target.scrollTop = current.inertia.y.update();
+          }
+
+          if (!current.inertia.x.active && !current.inertia.y.active && !current.inertia.x.holding && !current.inertia.y.holding) {
+            _.activeInertia.slice(i, 1);
+
+            i--;
+            ln--;
+          }
+        }
+
+        if (ln !== 0) _this._inertiaRaf = requestAnimationFrame(_this._updateNodeInertia);else _this._inertiaRaf = null;
+      };
+
       _this._ = {
         refs: {},
         muxByTarget: {}
@@ -30243,6 +30272,7 @@ function asTweener() {
         if (!this._.scrollEnabled) {
           this._.scrollEnabled = true;
           this._.scrollHook = [];
+          this._.activeInertia = [];
 
           this._registerScrollListeners();
         }
@@ -30314,7 +30344,7 @@ function asTweener() {
             if (!rootNode) console.warn("fail registering drag listener !! ");else _utils__WEBPACK_IMPORTED_MODULE_11__["default"].addEvent(rootNode, this._.dragList = {
               'dragstart': function dragstart(e, touch, descr) {
                 //@todo
-                var tweener, x, y, i;
+                var tweener, x, y, i, style;
                 parents = _this9.getScrollableNodes(e.target); //console.log(parents)
 
                 lastStartTm = Date.now();
@@ -30334,9 +30364,20 @@ function asTweener() {
                     //!x.inertiaFrame && tweener.applyInertia(x, "scrollX");
                     //!y.inertiaFrame && tweener.applyInertia(y, "scrollY");
                   } else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(tweener)) {
-                    parentsState[i] = getComputedStyle(tweener, null);
+                    style = getComputedStyle(tweener, null);
+                    if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) parentsState[i] = {
+                      y: tweener.scrollTop,
+                      x: tweener.scrollLeft,
+                      inertia: _this9._activateNodeInertia(tweener)
+                    };
+                    parentsState[i].inertia.x.startMove();
+                    parentsState[i].inertia.y.startMove();
                   }
                 }
+
+                _this9._updateNodeInertia(); //e.stopPropagation();
+                //e.preventDefault();
+
               },
               'click': function click(e, touch, descr) {
                 //@todo
@@ -30348,11 +30389,13 @@ function asTweener() {
               },
               'drag': function drag(e, touch, descr) {
                 //@todo
-                var tweener, x, deltaX, xDispatched, y, deltaY, yDispatched, style, i;
+                var tweener, x, deltaX, xDispatched, vX, y, deltaY, yDispatched, vY, cState, i;
                 dX = -(descr._lastPos.x - descr._startPos.x);
                 dY = -(descr._lastPos.y - descr._startPos.y);
                 if (lastStartTm > Date.now() - 150 && Math.abs(dY) < 10 && Math.abs(dX) < 10) // skip tap & click
                   return;
+                xDispatched = !dX;
+                yDispatched = !dY;
 
                 if (opts.dragDirectionLock) {
                   if (cLock === "Y" || !cLock && Math.abs(dY * .5) > Math.abs(dX)) {
@@ -30388,39 +30431,62 @@ function asTweener() {
                     deltaX = dX && dX / tweener._.box.x * (x.scrollableWindow || x.scrollableArea) || 0;
                     deltaY = dY && dY / tweener._.box.y * (y.scrollableWindow || y.scrollableArea) || 0;
 
-                    if (!xDispatched && !tweener.isAxisOut("scrollX", parentsState[i].x + deltaX, true)) {
+                    if (!xDispatched && !tweener.isAxisOut("scrollX", parentsState[i].x + deltaX, true) && (!tweener.componentShouldScroll || tweener.componentShouldScroll("scrollX", deltaX))) {
                       x.inertia.hold(parentsState[i].x + deltaX);
                       xDispatched = true;
                     } //console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y +
                     // deltaY, true));
 
 
-                    if (!yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true)) {
+                    if (!yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true) && (!tweener.componentShouldScroll || tweener.componentShouldScroll("scrollY", deltaY))) {
                       y.inertia.hold(parentsState[i].y + deltaY);
                       yDispatched = true;
                     }
-
-                    if (yDispatched && xDispatched) {
-                      e.stopPropagation();
-                      e.preventDefault();
-                      return;
-                    }
                   } else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(tweener)) {
-                    style = parentsState[i];
+                    cState = parentsState[i];
 
-                    if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
-                      if (dY < 0 && tweener.scrollTop !== 0 || dY > 0 && tweener.scrollTop !== tweener.scrollHeight - tweener.offsetHeight) {
-                        return;
+                    if (cState) {
+                      if (!yDispatched && (dY < 0 && tweener.scrollTop !== 0 || dY > 0 && tweener.scrollTop !== tweener.scrollHeight - tweener.offsetHeight)) {
+                        //cState.lastY = cState.y + dY;
+                        //
+                        //tweener.scrollTo({
+                        //	                 top: cState.y + dY,
+                        //	                 //left    : undefined,
+                        //	                 //behavior: 'smooth'
+                        //                 })
+                        //tweener.dispatchEvent(e)
+                        cState.inertia.y.hold(cState.y + dY); //tweener.scrollTop = cState.y + dY;
+
+                        yDispatched = true;
+                      } // let the node do this scroll
+
+
+                      if (!xDispatched && (dX < 0 && tweener.scrollLeft !== 0 || dX > 0 && tweener.scrollLeft !== tweener.scrollWidth - tweener.offsetWidth)) {
+                        //cState.lastX = cState.x + dX;
+                        //tweener.scrollTo({
+                        //	                 left: cState.x + dX,
+                        //	                 //behavior: 'smooth'
+                        //                 })
+                        //tweener.dispatchEvent(e)
+                        //tweener.scrollTo(style.x + dX)
+                        cState.inertia.x.hold(cState.x + dX); //tweener.scrollLeft = cState.x + dX;
+
+                        xDispatched = true;
                       } // let the node do this scroll
 
                     }
-                  }
-                } //dX = 0;
-                //dY = 0;
+                  } //if ( yDispatched && xDispatched ) {
+                  //return;
+                  //}
 
+                }
+
+                e.stopPropagation();
+                e.preventDefault(); //dX = 0;
+                //dY = 0;
               },
               'dropped': function dropped(e, touch, descr) {
-                var tweener, i;
+                var tweener, x, deltaX, xDispatched, vX, y, deltaY, yDispatched, vY, cState, i;
                 cLock = undefined; //lastStartTm                     = undefined;
                 //document.body.style.userSelect  = '';
                 //document.body.style.touchAction = '';
@@ -30432,6 +30498,13 @@ function asTweener() {
                     tweener._getAxis("scrollY").inertia.release();
 
                     tweener._getAxis("scrollX").inertia.release();
+                  } else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(tweener)) {
+                    cState = parentsState[i];
+
+                    if (cState) {
+                      cState.inertia.x.release();
+                      cState.inertia.y.release();
+                    }
                   }
                 }
 
@@ -30484,6 +30557,34 @@ function asTweener() {
         return active;
       }
     }, {
+      key: "_activateNodeInertia",
+      value: function _activateNodeInertia(node) {
+        var _ = this._,
+            i = _.activeInertia.findIndex(function (item) {
+          return item.target === node;
+        });
+
+        if (i === -1) {
+          _.activeInertia.push({
+            inertia: {
+              x: new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_12__["default"]({
+                max: node.scrollWidth - node.offsetLeft,
+                value: node.scrollLeft
+              }),
+              y: new _helpers_Inertia__WEBPACK_IMPORTED_MODULE_12__["default"]({
+                max: node.scrollHeight - node.offsetHeight,
+                value: node.scrollTop
+              })
+            },
+            target: node
+          });
+
+          i = _.activeInertia.length - 1;
+        }
+
+        return _.activeInertia[i].inertia;
+      }
+    }, {
       key: "dispatchScroll",
       value: function dispatchScroll(delta) {
         var axe = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "scrollY";
@@ -30522,12 +30623,12 @@ function asTweener() {
         for (i = 0; i < Comps.length; i++) {
           // react comp with tweener support
           if (Comps[i].__isTweener) {
-            if (!Comps[i].isAxisOut("scrollX", dx)) {
+            if (!Comps[i].isAxisOut("scrollX", dx) && (!Comps[i].componentShouldScroll || Comps[i].componentShouldScroll("scrollX", dx))) {
               Comps[i].dispatchScroll(dx, "scrollX", holding);
               dx = 0;
             }
 
-            if (!Comps[i].isAxisOut("scrollY", dy)) {
+            if (!Comps[i].isAxisOut("scrollY", dy) && (!Comps[i].componentShouldScroll || Comps[i].componentShouldScroll("scrollY", dy))) {
               Comps[i].dispatchScroll(dy, "scrollY", holding);
               dy = 0;
             }
@@ -30767,12 +30868,13 @@ function asTweener() {
 /*!********************************!*\
   !*** ./src/helpers/Inertia.js ***!
   \********************************/
-/*! exports provided: default */
+/*! exports provided: applyInertia, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Inertia; });
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyInertia", function() { return applyInertia; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Inertia; });
 /* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js");
 /* harmony import */ var _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
@@ -30819,16 +30921,55 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
   velocityResetTm: 150,
   clickTm: 250
 };
+
+function applyInertia(_) {
+  var velSign = signOf(_.lastVelocity); // calc momentum distance...
+  // get nb loop needed to get vel < .05
+
+  _.loopsTarget = floor(Math.log(.05 / abs(_.lastVelocity)) / Math.log(.9)); // get velocity sum basing on nb loops needed
+
+  _.loopsVelSum = (Math.pow(.9, _.loopsTarget) - abs(_.lastVelocity)) / (.9 - 1); // deduce real dist of momentum
+
+  _.targetDist = _.loopsVelSum * _.refFPS * velSign / 1000 || 0;
+  _.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
+}
+var inertiaByNode = {
+  nodes: [],
+  inertia: []
+};
 /**
  * Main inertia class
  * @class Caipi slideshow
  * @type {module.exports}
  */
 
-
 var Inertia =
 /*#__PURE__*/
 function () {
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Inertia, null, [{
+    key: "getInertiaByNode",
+    value: function getInertiaByNode(node) {
+      var i = inertiaByNode.nodes.indexOf(node);
+
+      if (i === -1) {
+        inertiaByNode.nodes.push(node);
+        inertiaByNode.inertia.push({
+          x: new Inertia({
+            max: node.scrollWidth - node.offsetLeft,
+            value: node.scrollLeft
+          }),
+          y: new Inertia({
+            max: node.scrollHeight - node.offsetHeight,
+            value: node.scrollTop
+          })
+        });
+        i = inertiaByNode.nodes.length - 1;
+      }
+
+      return inertiaByNode.inertia[i];
+    }
+  }]);
+
   function Inertia(opt) {
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Inertia);
 
@@ -31074,13 +31215,7 @@ function () {
         _.targetDuration = abs(_.targetDist * 10);
       } else {
         // calc momentum distance...
-        // get nb loop needed to get vel < .05
-        _.loopsTarget = floor(Math.log(.05 / abs(_.lastVelocity)) / Math.log(.9)); // get velocity sum basing on nb loops needed
-
-        _.loopsVelSum = (Math.pow(.9, _.loopsTarget) - abs(_.lastVelocity)) / (.9 - 1); // deduce real dist of momentum
-
-        _.targetDist = _.loopsVelSum * _.refFPS * velSign / 1000 || 0;
-        _.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
+        applyInertia(_);
         if (!_.targetDuration) _.targetDuration = 50; //console.log(_);
 
         this.active = true;
@@ -31120,6 +31255,8 @@ function () {
   reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
   reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
   reactHotLoader.register(consts, "consts", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(applyInertia, "applyInertia", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(inertiaByNode, "inertiaByNode", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
   reactHotLoader.register(Inertia, "Inertia", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
 })();
 
@@ -33341,8 +33478,6 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
 },
     Dom = {
   addEvent: function addEvent(node, type, fn, mouseDrag, bubble) {
-    var desc;
-
     if (is.object(type)) {
       for (var o in type) {
         if (type.hasOwnProperty(o)) this.addEvent(node, o, type[o], mouseDrag, bubble);
@@ -33357,7 +33492,9 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
       __.getDraggable(node, mouseDrag).dropped.push([fn, mouseDrag]);
     } else {
       if (node.addEventListener) {
-        node.addEventListener(type, fn, bubble);
+        node.addEventListener(type, fn, {
+          passive: false
+        });
       } else if (node.attachEvent) {
         node.attachEvent('on' + type, fn.related = function (e) {
           return fn.call(node, e);

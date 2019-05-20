@@ -32,12 +32,44 @@ const
 		clickTm        : 250
 	};
 
+export function applyInertia( _ ) {
+	let velSign = signOf(_.lastVelocity);
+	// calc momentum distance...
+	// get nb loop needed to get vel < .05
+	_.loopsTarget = floor(Math.log(.05 / abs(_.lastVelocity)) / Math.log(.9));
+	
+	// get velocity sum basing on nb loops needed
+	_.loopsVelSum    = (Math.pow(.9, _.loopsTarget) - abs(_.lastVelocity)) / (.9 - 1);
+	// deduce real dist of momentum
+	_.targetDist     = (_.loopsVelSum * _.refFPS * velSign) / 1000 || 0;
+	_.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
+}
+
+const inertiaByNode = {
+	nodes  : [],
+	inertia: []
+};
 /**
  * Main inertia class
  * @class Caipi slideshow
  * @type {module.exports}
  */
 export default class Inertia {
+	
+	static getInertiaByNode( node ) {
+		let i = inertiaByNode.nodes.indexOf(node);
+		if ( i === -1 ) {
+			inertiaByNode.nodes.push(node);
+			inertiaByNode.inertia.push(
+				{
+					x: new Inertia({ max: node.scrollWidth - node.offsetLeft, value: node.scrollLeft }),
+					y: new Inertia({ max: node.scrollHeight - node.offsetHeight, value: node.scrollTop })
+				}
+			);
+			i = inertiaByNode.nodes.length-1;
+		}
+		return inertiaByNode.inertia[i];
+	}
 	
 	constructor( opt ) {
 		let _  = this._ = {};
@@ -274,14 +306,7 @@ export default class Inertia {
 		}
 		else {
 			// calc momentum distance...
-			// get nb loop needed to get vel < .05
-			_.loopsTarget = floor(Math.log(.05 / abs(_.lastVelocity)) / Math.log(.9));
-			
-			// get velocity sum basing on nb loops needed
-			_.loopsVelSum    = (Math.pow(.9, _.loopsTarget) - abs(_.lastVelocity)) / (.9 - 1);
-			// deduce real dist of momentum
-			_.targetDist     = (_.loopsVelSum * _.refFPS * velSign) / 1000 || 0;
-			_.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
+			applyInertia(_);
 			
 			if ( !_.targetDuration )
 				_.targetDuration = 50;

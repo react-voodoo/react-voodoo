@@ -207,6 +207,7 @@ export default class Sample extends React.Component {
 - Nice examples 
 - Better scroll support
 - Full css support ( full background transitions )
+- Refactos
 - Doc, tests & clean
 
 ### License ?

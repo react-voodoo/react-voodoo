@@ -339,7 +339,6 @@ var
 	},
 	Dom       = {
 		addEvent     : function ( node, type, fn, mouseDrag, bubble ) {
-			var desc;
 			if ( is.object(type) ) {
 				for ( var o in type )
 					if ( type.hasOwnProperty(o) )
@@ -357,7 +356,7 @@ var
 			}
 			else {
 				if ( node.addEventListener ) {
-					node.addEventListener(type, fn, bubble);
+					node.addEventListener(type, fn, { passive: false });
 				}
 				else if ( node.attachEvent ) {
 					node.attachEvent('on' + type,

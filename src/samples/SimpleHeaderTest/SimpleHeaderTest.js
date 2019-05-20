@@ -18,6 +18,7 @@
 
 import React                            from "react";
 import {asTweener, TweenRef, TweenAxis} from "react-rtween";
+import ReactDom                         from "react-dom";
 import "./samples.scss";
 
 
@@ -73,17 +74,18 @@ export default class Sample extends React.Component {
 		currentHeaderMode: "top"
 	};
 	
-	hookScrollableTargets( targets ) {
-		if ( this.state.currentHeaderMode === "top" )
-			return [this, "MainPage"];
-		if ( this.state.currentHeaderMode === "bot" )
-			return [this, "MainPage"];
-		return ["MainPage", this];
+	hookScrollableTargets( targets, dir ) {
+		return [this, ReactDom.findDOMNode(this)];
+	}
+	
+	componentShouldScroll( axis, delta ) {
+		if ( this.state.currentHeaderMode === "mid" && delta < 0 && (ReactDom.findDOMNode(this).scrollTop !== 0) )
+			return false;
+		return true;
 	}
 	
 	render() {
 		return <div
-			id={ "MainPage" }
 			className={ "SimpleHeader" }
 			style={ {
 				width : "100%",
@@ -93,8 +95,10 @@ export default class Sample extends React.Component {
 			<TweenAxis
 				axe={ "scrollY" }
 				items={ scrollY }
+				scrollableWindow={ 200 }
 				inertia={
 					{
+						maxJump  : 1,
 						willSnap : ( i, v ) => {
 							this.setState({ currentHeaderMode: v.id })
 						},

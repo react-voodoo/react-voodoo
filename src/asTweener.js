@@ -19,7 +19,7 @@
 import React                             from "react";
 import is                                from "is";
 import utils                             from "./utils";
-import Inertia                           from './helpers/Inertia';
+import Inertia, {applyInertia}           from './helpers/Inertia';
 import TweenerContext                    from "./TweenerContext";
 import rTween                            from "rtween";
 import * as easingFn                     from "d3-ease";
@@ -597,6 +597,7 @@ export default function asTweener( ...argz ) {
 			if ( !this._.scrollEnabled ) {
 				this._.scrollEnabled = true;
 				this._.scrollHook    = [];
+				this._.activeInertia = [];
 				this._registerScrollListeners();
 			}
 		}
@@ -672,7 +673,7 @@ export default function asTweener( ...argz ) {
 								'dragstart': ( e, touch, descr ) => {//@todo
 									let tweener,
 									    x,
-									    y, i;
+									    y, i, style;
 									
 									parents      = this.getScrollableNodes(e.target);
 									//console.log(parents)
@@ -695,10 +696,25 @@ export default function asTweener( ...argz ) {
 											//!y.inertiaFrame && tweener.applyInertia(y, "scrollY");
 										}
 										else if ( is.element(tweener) ) {
-											parentsState[i] = getComputedStyle(tweener, null);
+											style = getComputedStyle(tweener, null);
+											if ( /(auto|scroll)/.test(
+												style.getPropertyValue("overflow")
+												+ style.getPropertyValue("overflow-x")
+												+ style.getPropertyValue("overflow-y")) )
+												
+												parentsState[i] = {
+													y      : tweener.scrollTop,
+													x      : tweener.scrollLeft,
+													inertia: this._activateNodeInertia(tweener)
+												};
+											parentsState[i].inertia.x.startMove();
+											parentsState[i].inertia.y.startMove();
 										}
 										
 									}
+									this._updateNodeInertia()
+									//e.stopPropagation();
+									//e.preventDefault();
 								},
 								'click'    : ( e, touch, descr ) => {//@todo
 									if ( lastStartTm && !(lastStartTm > Date.now() - 150 && Math.abs(dY) < 10 && Math.abs(dX) < 10) )// skip tap & click
@@ -709,9 +725,9 @@ export default function asTweener( ...argz ) {
 								},
 								'drag'     : ( e, touch, descr ) => {//@todo
 									let tweener,
-									    x, deltaX, xDispatched,
-									    y, deltaY, yDispatched,
-									    style, i;
+									    x, deltaX, xDispatched, vX,
+									    y, deltaY, yDispatched, vY,
+									    cState, i;
 									
 									dX = -(descr._lastPos.x - descr._startPos.x);
 									dY = -(descr._lastPos.y - descr._startPos.y);
@@ -719,6 +735,8 @@ export default function asTweener( ...argz ) {
 									if ( lastStartTm > Date.now() - 150 && Math.abs(dY) < 10 && Math.abs(dX) < 10 )// skip tap & click
 										return;
 									
+									xDispatched = !dX;
+									yDispatched = !dY;
 									if ( opts.dragDirectionLock ) {
 										if ( cLock === "Y" || !cLock && Math.abs(dY * .5) > Math.abs(dX) ) {
 											cLock       = "Y";
@@ -731,7 +749,6 @@ export default function asTweener( ...argz ) {
 											yDispatched = true;
 										}
 									}
-									
 									//console.log("drag", dX, dY, cLock, opts.dragDirectionLock);
 									for ( i = 0; i < parents.length; i++ ) {
 										tweener = parents[i];
@@ -750,48 +767,76 @@ export default function asTweener( ...argz ) {
 											}
 											deltaX = dX && (dX / tweener._.box.x) * (x.scrollableWindow || x.scrollableArea) || 0;
 											deltaY = dY && (dY / tweener._.box.y) * (y.scrollableWindow || y.scrollableArea) || 0;
-											if ( !xDispatched && !tweener.isAxisOut("scrollX", parentsState[i].x + deltaX, true) ) {
+											if ( !xDispatched && !tweener.isAxisOut("scrollX", parentsState[i].x + deltaX, true)
+												&& (!tweener.componentShouldScroll || tweener.componentShouldScroll("scrollX", deltaX)) ) {
 												x.inertia.hold(parentsState[i].x + deltaX);
 												xDispatched = true;
 											}
 											//console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y +
 											// deltaY, true));
-											if ( !yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true) ) {
+											if ( !yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true)
+												&& (!tweener.componentShouldScroll || tweener.componentShouldScroll("scrollY", deltaY)) ) {
 												y.inertia.hold(parentsState[i].y + deltaY);
 												yDispatched = true;
 											}
-											if ( yDispatched && xDispatched ) {
-												e.stopPropagation();
-												e.preventDefault();
-												return;
-											}
 										}
 										else if ( is.element(tweener) ) {
-											style = parentsState[i];
-											if ( /(auto|scroll)/.test(
-												style.getPropertyValue("overflow")
-												+ style.getPropertyValue("overflow-x")
-												+ style.getPropertyValue("overflow-y")
-											)
-											) {
-												if (
-													(dY < 0 && tweener.scrollTop !== 0)
-													||
-													(dY > 0 && tweener.scrollTop !== (tweener.scrollHeight - tweener.offsetHeight))
+											cState = parentsState[i];
+											if ( cState ) {
+												if ( !yDispatched &&
+													((dY < 0 && tweener.scrollTop !== 0)
+														||
+														(dY > 0 && tweener.scrollTop !== (tweener.scrollHeight - tweener.offsetHeight)))
 												) {
-													return;
+													//cState.lastY = cState.y + dY;
+													//
+													//tweener.scrollTo({
+													//	                 top: cState.y + dY,
+													//	                 //left    : undefined,
+													//	                 //behavior: 'smooth'
+													//                 })
+													//tweener.dispatchEvent(e)
+													cState.inertia.y.hold(cState.y + dY)
+													//tweener.scrollTop = cState.y + dY;
+													yDispatched = true;
+												} // let the node do this scroll
+												if ( !xDispatched &&
+													((dX < 0 && tweener.scrollLeft !== 0)
+														||
+														(dX > 0 && tweener.scrollLeft !== (tweener.scrollWidth - tweener.offsetWidth)))
+												) {
+													//cState.lastX = cState.x + dX;
+													//tweener.scrollTo({
+													//	                 left: cState.x + dX,
+													//	                 //behavior: 'smooth'
+													//                 })
+													//tweener.dispatchEvent(e)
+													//tweener.scrollTo(style.x + dX)
+													cState.inertia.x.hold(cState.x + dX)
+													//tweener.scrollLeft = cState.x + dX;
+													xDispatched = true;
 												} // let the node do this scroll
 											}
 											
 										}
 										
+										//if ( yDispatched && xDispatched ) {
+										//return;
+										//}
 									}
+									e.stopPropagation();
+									e.preventDefault();
 									//dX = 0;
 									//dY = 0;
-								},
-								'dropped'  : ( e, touch, descr ) => {
+								}
+								
+								,
+								'dropped': ( e, touch, descr ) => {
 									let tweener,
-									    i;
+									    x, deltaX, xDispatched, vX,
+									    y, deltaY, yDispatched, vY,
+									    cState, i;
+									
 									cLock = undefined;
 									//lastStartTm                     = undefined;
 									//document.body.style.userSelect  = '';
@@ -804,11 +849,19 @@ export default function asTweener( ...argz ) {
 											tweener._getAxis("scrollY").inertia.release();
 											tweener._getAxis("scrollX").inertia.release();
 										}
+										else if ( is.element(tweener) ) {
+											cState = parentsState[i];
+											if ( cState ) {
+												cState.inertia.x.release();
+												cState.inertia.y.release();
+											}
+										}
 										
 									}
 									parents = parentsState = null;
 								}
-							}, null,
+							},
+							null,
 							opts.enableMouseDrag
 						)
 				}
@@ -818,10 +871,10 @@ export default function asTweener( ...argz ) {
 				this._.doRegister = true;
 			}
 		}
-		
-		// ------------------------------------------------------------
-		// --------------- Inertia & scroll modifiers -----------------
-		// ------------------------------------------------------------
+
+// ------------------------------------------------------------
+// --------------- Inertia & scroll modifiers -----------------
+// ------------------------------------------------------------
 		
 		
 		applyInertia( dim, axe ) {
@@ -857,6 +910,49 @@ export default function asTweener( ...argz ) {
 			return active;
 		}
 		
+		_activateNodeInertia( node ) {
+			let _ = this._,
+			    i = _.activeInertia.findIndex(item => (item.target === node));
+			if ( i === -1 ) {
+				_.activeInertia.push(
+					{
+						inertia: {
+							x: new Inertia({ max: node.scrollWidth - node.offsetLeft, value: node.scrollLeft }),
+							y: new Inertia({ max: node.scrollHeight - node.offsetHeight, value: node.scrollTop })
+						},
+						target : node
+					});
+				i = _.activeInertia.length - 1;
+			}
+			return _.activeInertia[i].inertia;
+			
+		}
+		
+		_updateNodeInertia = () => {
+			let _ = this._, current, ln = _.activeInertia.length;
+			
+			if ( this._inertiaRaf )
+				cancelAnimationFrame(this._inertiaRaf);
+			
+			for ( let i = 0; ln > i; i++ ) {
+				current = _.activeInertia[i];
+				if ( current.inertia.x.active || current.inertia.x.holding ) {
+					current.target.scrollLeft = current.inertia.x.update()
+				}
+				if ( current.inertia.y.active || current.inertia.y.holding ) {
+					current.target.scrollTop = current.inertia.y.update()
+				}
+				
+				if ( !current.inertia.x.active && !current.inertia.y.active && !current.inertia.x.holding && !current.inertia.y.holding ) {
+					_.activeInertia.slice(i, 1);
+					i--;
+					ln--;
+				}
+			}
+			if ( ln !== 0 )
+				this._inertiaRaf = requestAnimationFrame(this._updateNodeInertia)
+			else this._inertiaRaf = null;
+		}
 		
 		dispatchScroll( delta, axe = "scrollY" ) {
 			let prevent,
@@ -897,11 +993,11 @@ export default function asTweener( ...argz ) {
 			for ( i = 0; i < Comps.length; i++ ) {
 				// react comp with tweener support
 				if ( Comps[i].__isTweener ) {
-					if ( !Comps[i].isAxisOut("scrollX", dx) ) {
+					if ( !Comps[i].isAxisOut("scrollX", dx) && (!Comps[i].componentShouldScroll || Comps[i].componentShouldScroll("scrollX", dx)) ) {
 						Comps[i].dispatchScroll(dx, "scrollX", holding);
 						dx = 0;
 					}
-					if ( !Comps[i].isAxisOut("scrollY", dy) ) {
+					if ( !Comps[i].isAxisOut("scrollY", dy) && (!Comps[i].componentShouldScroll || Comps[i].componentShouldScroll("scrollY", dy)) ) {
 						Comps[i].dispatchScroll(dy, "scrollY", holding);
 						dy = 0;
 					}
@@ -932,10 +1028,10 @@ export default function asTweener( ...argz ) {
 				}
 			}
 		}
-		
-		// ------------------------------------------------------------
-		// ------------------ Motion/FSM anims ------------------------
-		// ------------------------------------------------------------
+
+// ------------------------------------------------------------
+// ------------------ Motion/FSM anims ------------------------
+// ------------------------------------------------------------
 		
 		applyTweenState( id, map, reset ) {
 			let tmap = {}, initials = {};
