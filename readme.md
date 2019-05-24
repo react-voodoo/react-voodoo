@@ -11,7 +11,7 @@ ___
 
 ## wtf is react-rTween ?
 
-- Is a more generic equivalent system than Swiper, for react
+- Is a generic tweener for react
 - rTween engine allow to apply forward and backward multiples tweens on same properties and multiple objects
 - Allow **live composition & hot switching of multiple** scrollable/swipeable animations
 - Allow SSR rendering of =! scroll / swipe position
