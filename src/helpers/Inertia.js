@@ -51,25 +51,9 @@ const inertiaByNode = {
 };
 /**
  * Main inertia class
- * @class Caipi slideshow
  * @type {module.exports}
  */
 export default class Inertia {
-	
-	static getInertiaByNode( node ) {
-		let i = inertiaByNode.nodes.indexOf(node);
-		if ( i === -1 ) {
-			inertiaByNode.nodes.push(node);
-			inertiaByNode.inertia.push(
-				{
-					x: new Inertia({ max: node.scrollWidth - node.offsetLeft, value: node.scrollLeft }),
-					y: new Inertia({ max: node.scrollHeight - node.offsetHeight, value: node.scrollTop })
-				}
-			);
-			i = inertiaByNode.nodes.length-1;
-		}
-		return inertiaByNode.inertia[i];
-	}
 	
 	constructor( opt ) {
 		let _  = this._ = {};
@@ -131,6 +115,17 @@ export default class Inertia {
 		return nextValue;
 	}
 	
+	setPos( pos ) {
+		let _            = this._, nextValue;
+		_.inertia        = false;
+		this.active      = false;
+		_.lastInertiaPos = 0;
+		_.targetDist     = 0;
+		_.pos            = pos;
+		_.pos            = max(_.pos, _.max);
+		_.pos            = min(_.pos, _.min);
+	}
+	
 	teleport( loopDist ) {
 		let _ = this._, nextValue;
 		if ( !_.inertia )
@@ -161,6 +156,19 @@ export default class Inertia {
 			_.targetDuration += tm;
 		}
 		this._doSnap(signOf(delta), 750)
+	}
+	
+	isOutbound( delta ) {
+		let _   = this._, loop,
+		    pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)) + delta;
+		
+		if ( _.conf.shouldLoop ) {
+			while ( (loop = _.conf.shouldLoop(nextValue)) ) {
+				//console.warn("loop", loop);
+				pos += loop;
+			}
+		}
+		return pos > _.min && pos < _.max;
 	}
 	
 	_doSnap( forceSnap, maxDuration = 2000 ) {

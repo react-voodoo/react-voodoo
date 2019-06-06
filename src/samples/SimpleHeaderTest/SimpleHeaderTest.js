@@ -98,7 +98,6 @@ export default class Sample extends React.Component {
 				scrollableWindow={ 200 }
 				inertia={
 					{
-						maxJump  : 1,
 						willSnap : ( i, v ) => {
 							this.setState({ currentHeaderMode: v.id })
 						},

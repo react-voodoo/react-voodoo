@@ -29334,17 +29334,21 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Copyright (C) 2019 Nathanael Braun
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 
@@ -29478,9 +29482,7 @@ function (_React$Component) {
   return TweenRef;
 }(react__WEBPACK_IMPORTED_MODULE_6___default.a.Component);
 
-TweenRef.propTypes = {//record  : PropTypes.object.isRequired,
-  //onSelect: PropTypes.func
-};
+TweenRef.propTypes = {};
 
 ;
 
@@ -29748,11 +29750,11 @@ function asTweener() {
           current = _.activeInertia[i];
 
           if (current.inertia.x.active || current.inertia.x.holding) {
-            current.target.scrollLeft = current.inertia.x.update();
+            current.target.scrollLeft = ~~current.inertia.x.update();
           }
 
           if (current.inertia.y.active || current.inertia.y.holding) {
-            current.target.scrollTop = current.inertia.y.update();
+            current.target.scrollTop = ~~current.inertia.y.update();
           }
 
           if (!current.inertia.x.active && !current.inertia.y.active && !current.inertia.x.holding && !current.inertia.y.holding) {
@@ -29792,17 +29794,6 @@ function asTweener() {
         }
 
         targets.forEach(function (t) {
-          // delete this._.tweenRefs[t];
-          // delete this._.tweenRefCSS[t];
-          //this._.tweenRefMaps[t] = Object.fromEntries(Object.entries(this._.tweenRefMaps[t]).map(( obj ) =>
-          //let newCss        = {};
-          //_.tweenRefMaps[t] = { ..._.tweenRefOrigin[t] };
-          //Object.keys(_.tweenRefCSS[t])
-          //      .forEach(
-          //	      key => (newCss[key] = '')
-          //      );
-          //Object.assign(newCss, _.tweenRefOriginCss[t]);
-          //_.tweenRefCSS[t] = newCss;
           _this2.tweenRef(t, _.tweenRefOriginCss[t], _.iMapOrigin[t], null, null, true);
         });
 
@@ -29845,13 +29836,7 @@ function asTweener() {
             });
             _.tweenRefMaps[id] = tweenableMap = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, _.tweenRefOrigin[id]);
             iStyle = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle, Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true));
-            Object.assign(_.tweenRefCSS[id], _.tweenRefOriginCss[id]); //Object.keys(_.tweenRefMaps[id])// unset
-            //      .forEach(
-            //	      key => (
-            //		      tweenableMap.hasOwnProperty(key)
-            //		      ? _.tweenRefMaps[id][key] = tweenableMap[key] : delete _.tweenRefMaps[id][key]
-            //	      )
-            //      );
+            Object.assign(_.tweenRefCSS[id], _.tweenRefOriginCss[id]);
           } else {
             //_.muxByTarget[id]     = {};
             delete _.muxDataByTarget[id].transform_head;
@@ -30235,7 +30220,8 @@ function asTweener() {
               _this7._.axes[axe].targetPos = _this7._.axes[axe].scrollPos = pos;
 
               if (_this7._.axes[axe].inertia) {
-                _this7._.axes[axe].inertia._.pos = pos;
+                _this7._.axes[axe].inertia.setPos(pos); //this._.axes[axe].inertia._doSnap()
+
               }
 
               _this7.componentDidScroll && _this7.componentDidScroll(~~pos, axe);
@@ -30369,11 +30355,10 @@ function asTweener() {
                     if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
                       parentsState[i] = {
                         y: tweener.scrollTop,
-                        x: tweener.scrollLeft,
-                        inertia: _this9._activateNodeInertia(tweener)
-                      };
-                      parentsState[i].inertia.x.startMove();
-                      parentsState[i].inertia.y.startMove();
+                        x: tweener.scrollLeft //inertia: this._activateNodeInertia(tweener)
+
+                      }; //parentsState[i].inertia.x.startMove();
+                      //parentsState[i].inertia.y.startMove();
                     }
                   }
                 }
@@ -30384,7 +30369,7 @@ function asTweener() {
               },
               'click': function click(e, touch, descr) {
                 //@todo
-                if (lastStartTm && !(lastStartTm > Date.now() - 150 && Math.abs(dY) < 10 && Math.abs(dX) < 10)) // skip tap & click
+                if (lastStartTm && !(lastStartTm > Date.now() - 350 && Math.abs(dY) < 10 && Math.abs(dX) < 10)) // skip tap & click
                   {
                     e.preventDefault();
                     e.stopPropagation();
@@ -30395,7 +30380,7 @@ function asTweener() {
                 var tweener, x, deltaX, xDispatched, vX, y, deltaY, yDispatched, vY, cState, i;
                 dX = -(descr._lastPos.x - descr._startPos.x);
                 dY = -(descr._lastPos.y - descr._startPos.y);
-                if (lastStartTm > Date.now() - 150 && Math.abs(dY) < 10 && Math.abs(dX) < 10) // skip tap & click
+                if (lastStartTm > Date.now() - 350 && Math.abs(dY) < 10 && Math.abs(dX) < 10) // skip tap & click
                   return;
                 xDispatched = !dX;
                 yDispatched = !dY;
@@ -30458,9 +30443,10 @@ function asTweener() {
                         //	                 //behavior: 'smooth'
                         //                 })
                         //tweener.dispatchEvent(e)
-                        cState.inertia.y.hold(cState.y + dY); //tweener.scrollTop = cState.y + dY;
-
-                        yDispatched = true;
+                        //cState.inertia.y.hold(cState.y + dY)
+                        //tweener.scrollTop = cState.y + dY;
+                        //yDispatched = true;
+                        return;
                       } // let the node do this scroll
 
 
@@ -30472,21 +30458,21 @@ function asTweener() {
                         //                 })
                         //tweener.dispatchEvent(e)
                         //tweener.scrollTo(style.x + dX)
-                        cState.inertia.x.hold(cState.x + dX); //tweener.scrollLeft = cState.x + dX;
-
+                        //cState.inertia.x.hold(cState.x + dX)
+                        //tweener.scrollLeft = cState.x + dX;
                         xDispatched = true;
                       } // let the node do this scroll
 
                     }
-                  } //if ( yDispatched && xDispatched ) {
-                  //return;
-                  //}
-
+                  }
                 }
 
-                e.stopPropagation();
-                e.preventDefault(); //dX = 0;
+                if (yDispatched && xDispatched) {
+                  e.stopPropagation();
+                  e.preventDefault(); //return;
+                } //dX = 0;
                 //dY = 0;
+
               },
               'dropped': function dropped(e, touch, descr) {
                 var tweener, x, deltaX, xDispatched, vX, y, deltaY, yDispatched, vY, cState, i;
@@ -30501,14 +30487,14 @@ function asTweener() {
                     tweener._getAxis("scrollY").inertia.release();
 
                     tweener._getAxis("scrollX").inertia.release();
-                  } else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(tweener)) {
-                    cState = parentsState[i];
+                  } //else if ( is.element(tweener) ) {
+                  //	cState = parentsState[i];
+                  //	if ( cState ) {
+                  //		cState.inertia.x.release();
+                  //		cState.inertia.y.release();
+                  //	}
+                  //}
 
-                    if (cState) {
-                      cState.inertia.x.release();
-                      cState.inertia.y.release();
-                    }
-                  }
                 }
 
                 parents = parentsState = null;
@@ -30618,6 +30604,7 @@ function asTweener() {
         var style,
             Comps,
             headTarget = target,
+            nodeInertia,
             i; // check if there scrollable stuff in dom targets
         // get all the parents components & dom node of an dom element ( from fibers )
 
@@ -30635,23 +30622,32 @@ function asTweener() {
               Comps[i].dispatchScroll(dy, "scrollY", holding);
               dy = 0;
             }
-
-            if (!dx && !dy) return true;
           } // dom element
           else if (is__WEBPACK_IMPORTED_MODULE_10___default.a.element(Comps[i])) {
               style = getComputedStyle(Comps[i], null);
 
               if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
                 if (dy < 0 && Comps[i].scrollTop !== 0 || dy > 0 && Comps[i].scrollTop !== Comps[i].scrollHeight - Comps[i].offsetHeight) {
-                  return;
+                  return; //nodeInertia.y.dispatch(dy * 10)
+                  //dy = 0;
                 } // let the node do this scroll
+                //if ( nodeInertia.x.isOutbound(dx) ) {
+                //	nodeInertia.x.dispatch(dx * 10)
+                //	dx = 0;
+                //} // let the node do this scroll
 
               } //headTarget = headTarget.parentNode;
               //if ( headTarget === document || headTarget === target )
               //	break;
 
             }
+
+          if (!dx && !dy) break;
         }
+
+        this._updateNodeInertia();
+
+        if (!dx && !dy) return true;
       } // ------------------------------------------------------------
       // ------------------ Motion/FSM anims ------------------------
       // ------------------------------------------------------------
@@ -30836,7 +30832,7 @@ function asTweener() {
     }]);
 
     return TweenableComp;
-  }(BaseComponent), _class.displayName = BaseComponent.displayName || BaseComponent.name, _temp;
+  }(BaseComponent), _class.displayName = String.fromCharCode(0xD83E, 0xDDD9) + (BaseComponent.displayName || BaseComponent.name), _temp;
 }
 ;
 
@@ -30942,37 +30938,12 @@ var inertiaByNode = {
 };
 /**
  * Main inertia class
- * @class Caipi slideshow
  * @type {module.exports}
  */
 
 var Inertia =
 /*#__PURE__*/
 function () {
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Inertia, null, [{
-    key: "getInertiaByNode",
-    value: function getInertiaByNode(node) {
-      var i = inertiaByNode.nodes.indexOf(node);
-
-      if (i === -1) {
-        inertiaByNode.nodes.push(node);
-        inertiaByNode.inertia.push({
-          x: new Inertia({
-            max: node.scrollWidth - node.offsetLeft,
-            value: node.scrollLeft
-          }),
-          y: new Inertia({
-            max: node.scrollHeight - node.offsetHeight,
-            value: node.scrollTop
-          })
-        });
-        i = inertiaByNode.nodes.length - 1;
-      }
-
-      return inertiaByNode.inertia[i];
-    }
-  }]);
-
   function Inertia(opt) {
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Inertia);
 
@@ -31040,6 +31011,19 @@ function () {
       return nextValue;
     }
   }, {
+    key: "setPos",
+    value: function setPos(pos) {
+      var _ = this._,
+          nextValue;
+      _.inertia = false;
+      this.active = false;
+      _.lastInertiaPos = 0;
+      _.targetDist = 0;
+      _.pos = pos;
+      _.pos = max(_.pos, _.max);
+      _.pos = min(_.pos, _.min);
+    }
+  }, {
     key: "teleport",
     value: function teleport(loopDist) {
       var _ = this._,
@@ -31071,6 +31055,22 @@ function () {
       }
 
       this._doSnap(signOf(delta), 750);
+    }
+  }, {
+    key: "isOutbound",
+    value: function isOutbound(delta) {
+      var _ = this._,
+          loop,
+          pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)) + delta;
+
+      if (_.conf.shouldLoop) {
+        while (loop = _.conf.shouldLoop(nextValue)) {
+          //console.warn("loop", loop);
+          pos += loop;
+        }
+      }
+
+      return pos > _.min && pos < _.max;
     }
   }, {
     key: "_doSnap",
@@ -33192,25 +33192,23 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Copyright (C) 2019 Nathanael Braun
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
-    floatCut = function floatCut(v, l) {
-  var p = Math.pow(10, l);
-  return Math.round(v * p) / p;
-},
-    min = Math.min,
-    max = Math.max,
     isBrowser = typeof window !== 'undefined',
     _dom = isBrowser ? {
   prefix: /webkit/i.test(navigator.appVersion) ? 'webkit' : /firefox/i.test(navigator.userAgent) ? 'Moz' : /trident/i.test(navigator.userAgent) ? 'ms' : 'opera' in window ? 'O' : '',
@@ -33765,9 +33763,6 @@ var _default = Dom;
     return;
   }
 
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(isBrowser, "isBrowser", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(_dom, "_dom", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
   reactHotLoader.register(__, "__", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
@@ -33848,8 +33843,6 @@ var SimpleObjectProto = {}.constructor;
  */
 
 function withTweener() {
-  var _class, _temp;
-
   for (var _len = arguments.length, argz = new Array(_len), _key = 0; _key < _len; _key++) {
     argz[_key] = arguments[_key];
   }
@@ -33863,7 +33856,7 @@ function withTweener() {
     };
   }
 
-  return _temp = _class =
+  var TweenerToProps =
   /*#__PURE__*/
   function (_React$Component) {
     _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(TweenerToProps, _React$Component);
@@ -33895,7 +33888,16 @@ function withTweener() {
     }]);
 
     return TweenerToProps;
-  }(react__WEBPACK_IMPORTED_MODULE_6___default.a.Component), _class.displayName = (BaseComponent.displayName || BaseComponent.name) + " (withTweener)", _temp;
+  }(react__WEBPACK_IMPORTED_MODULE_6___default.a.Component);
+
+  TweenerToProps.displayName = BaseComponent.displayName || BaseComponent.name;
+  var withRef = react__WEBPACK_IMPORTED_MODULE_6___default.a.forwardRef(function (props, ref) {
+    return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(TweenerToProps, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
+      forwardedRef: ref
+    }));
+  });
+  withRef.displayName = TweenerToProps.displayName;
+  return withRef;
 }
 ;
 
