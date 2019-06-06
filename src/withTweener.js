@@ -37,7 +37,7 @@ export default function withTweener( ...argz ) {
 		}
 	}
 	
-	class TweenerToProps extends React.Component {
+	return class TweenerToProps extends React.Component {
 		static displayName = (BaseComponent.displayName || BaseComponent.name);
 		
 		render() {
@@ -50,11 +50,4 @@ export default function withTweener( ...argz ) {
 			</TweenerContext.Consumer>;
 		}
 	}
-	
-	
-	let withRef         = React.forwardRef(( props, ref ) => {
-		return <TweenerToProps { ...props } forwardedRef={ ref }/>;
-	});
-	withRef.displayName = TweenerToProps.displayName;
-	return withRef;
 }

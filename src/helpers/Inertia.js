@@ -51,6 +51,7 @@ const inertiaByNode = {
 };
 /**
  * Main inertia class
+ * @class Caipi slideshow
  * @type {module.exports}
  */
 export default class Inertia {

@@ -1,6 +1,6 @@
 {
   "name": "react-rtween",
-  "version": "1.5.8",
+  "version": "1.5.9",
   "license": "AGPL-3.0",
   "main": "./dist/react-rtween.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
