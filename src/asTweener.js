@@ -147,7 +147,6 @@ export default function asTweener( ...argz ) {
 			if ( !_.tweenRefs[id] )
 				_.tweenRefTargets.push(id);
 			
-			
 			if ( _.tweenRefs[id] && (_.iMapOrigin[id] !== iMap || mapReset) ) {
 				// hot switch initial values
 				
@@ -208,6 +207,7 @@ export default function asTweener( ...argz ) {
 				//let newCss        = {};
 				//_.tweenRefMaps[t] = { ..._.tweenRefOrigin[t] };
 				
+				//_.tweenRefMaps[id] = tweenableMap;
 				muxToCss(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
 			}
 			else if ( !_.tweenRefs[id] ) {
@@ -226,31 +226,13 @@ export default function asTweener( ...argz ) {
 				_.tweenRefOrigin[id]    = tweenableMap;
 				_.tweenRefOriginCss[id] = { ...iStyle };
 				_.tweenRefCSS[id]       = iStyle;
-				_.tweenRefMaps[id]      = _.tweenRefMaps[id] || {};
-				
-				
-				//Object.keys(initials)
-				//      .forEach(
-				//	      key => (_.tweenRefMaps[id][key] = is.number(_.tweenRefMaps[id][key])
-				//	                                        ? _.tweenRefMaps[id][key]
-				//	                                        : initials[key])
-				//      );
-				if ( tweenableMap.hasOwnProperty("opacity") && _.tweenRefMaps[id].hasOwnProperty("opacity") ) {
-					_.tweenRefMaps[id].opacity -= initials.opacity;
-				}
 				// init / reset or get the tweenable view
-				tweenableMap = Object.assign({ ..._.tweenRefMaps[id] }, initials, tweenableMap || {});
-				// set defaults values in case of
-				// add new initial values
-				Object.keys(tweenableMap)
-				      .forEach(
-					      key => (_.tweenRefMaps[id][key] = (_.tweenRefMaps[id][key] || 0) + tweenableMap[key])
-				      );
-				tweenableMap = _.tweenRefMaps[id];
+				tweenableMap            = _.tweenRefMaps[id] = Object.assign(_.tweenRefMaps[id] || {}, initials, tweenableMap || {});
+				
 				muxToCss(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
 				
+				
 			}
-			//console.log('tweenRef::tweenRef:519: ', id, _.tweenRefCSS[id], tweenableMap);
 			if ( noref )
 				return {
 					style: { ..._.tweenRefCSS[id] }
@@ -491,7 +473,6 @@ export default function asTweener( ...argz ) {
 			;
 			
 			dim = this._.axes[axe] = nextDescr;
-			//console.log('TweenableComp::initAxis:519: ', axe, dim.scrollPos);
 			(_inertia) && (dim.inertia._.wayPoints = _inertia.wayPoints);
 		}
 		
@@ -535,7 +516,6 @@ export default function asTweener( ...argz ) {
 			dim.inertia.setBounds(0, dim.scrollableArea);
 			sl.goTo(dim.scrollPos, this._.tweenRefMaps);
 			this._updateTweenRefs();
-			//console.log('TweenableComp::addScrollableAnim:519: ', axe, dim.scrollPos);
 			return sl;
 		}
 		
@@ -1200,8 +1180,8 @@ export default function asTweener( ...argz ) {
 				{
 					parentTweener => {
 						this._parentTweener = parentTweener;
-						return <TweenerContext.Provider value={this}>
-							{super.render()}
+						return <TweenerContext.Provider value={ this }>
+							{ super.render() }
 						</TweenerContext.Provider>;
 					}
 				}
