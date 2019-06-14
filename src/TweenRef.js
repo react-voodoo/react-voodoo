@@ -70,17 +70,6 @@ export default class TweenRef extends React.Component {
 					
 					parentTweener = tweener || parentTweener;
 					
-					if ( React.isValidElement(children) ) {
-						children = React.cloneElement(
-							children,
-							{
-								...parentTweener.tweenRef(id, style || children.props.style, initial, pos, noRef, reset),
-								onDoubleClick: onDoubleClick && (e => onDoubleClick(e, parentTweener)),
-								onClick      : onClick && (e => onClick(e, parentTweener))
-							}
-						);
-						
-					}
 					if ( this._previousTweener !== parentTweener || this._previousScrollable !== tweenLines ) {
 						
 						if ( this._tweenLines ) {
@@ -106,6 +95,17 @@ export default class TweenRef extends React.Component {
 						
 						this._previousTweener    = parentTweener;
 						this._previousScrollable = tweenLines;
+						
+					}
+					if ( React.isValidElement(children) ) {
+						children = React.cloneElement(
+							children,
+							{
+								...parentTweener.tweenRef(id, style || children.props.style, initial, pos, noRef, reset),
+								onDoubleClick: onDoubleClick && (e => onDoubleClick(e, parentTweener)),
+								onClick      : onClick && (e => onClick(e, parentTweener))
+							}
+						);
 						
 					}
 					return children;
