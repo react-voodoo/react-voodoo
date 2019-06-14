@@ -30170,17 +30170,7 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_9__["default"].Consumer, null, function (parentTweener) {
         //@todo : should use didmount ?
         parentTweener = tweener || parentTweener;
-
-        if (react__WEBPACK_IMPORTED_MODULE_6___default.a.isValidElement(children)) {
-          children = react__WEBPACK_IMPORTED_MODULE_6___default.a.cloneElement(children, _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_5___default()({}, parentTweener.tweenRef(id, style || children.props.style, initial, pos, noRef, reset), {
-            onDoubleClick: onDoubleClick && function (e) {
-              return onDoubleClick(e, parentTweener);
-            },
-            onClick: onClick && function (e) {
-              return onClick(e, parentTweener);
-            }
-          }));
-        }
+        var twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, reset);
 
         if (_this3._previousTweener !== parentTweener || _this3._previousScrollable !== tweenLines) {
           if (_this3._tweenLines) {
@@ -30195,6 +30185,7 @@ function (_React$Component) {
             return h[axe] = parentTweener.addScrollableAnim(setTarget(tweenLines[axe], id), axe), h;
           }, {});
           if (_this3._previousTweener !== parentTweener) _this3._previousTweener && _this3._previousTweener.rmTweenRef(_this3.__tweenableId);
+          twRef.style = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_5___default()({}, parentTweener._updateTweenRef(id));
 
           if (_this3.props.hasOwnProperty("isRoot")) {
             _this3._previousTweener && _this3._previousTweener.setRootRef(undefined);
@@ -30203,6 +30194,17 @@ function (_React$Component) {
 
           _this3._previousTweener = parentTweener;
           _this3._previousScrollable = tweenLines;
+        }
+
+        if (react__WEBPACK_IMPORTED_MODULE_6___default.a.isValidElement(children)) {
+          children = react__WEBPACK_IMPORTED_MODULE_6___default.a.cloneElement(children, _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_5___default()({}, twRef, {
+            onDoubleClick: onDoubleClick && function (e) {
+              return onDoubleClick(e, parentTweener);
+            },
+            onClick: onClick && function (e) {
+              return onClick(e, parentTweener);
+            }
+          }));
         }
 
         return children;
@@ -30603,7 +30605,6 @@ function asTweener() {
             _.tweenRefOriginCss[id] = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle);
           } //let newCss        = {};
           //_.tweenRefMaps[t] = { ..._.tweenRefOrigin[t] };
-          //_.tweenRefMaps[id] = tweenableMap;
 
 
           Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
@@ -30619,11 +30620,28 @@ function asTweener() {
 
           _.tweenRefOrigin[id] = tweenableMap;
           _.tweenRefOriginCss[id] = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, iStyle);
-          _.tweenRefCSS[id] = iStyle; // init / reset or get the tweenable view
+          _.tweenRefCSS[id] = iStyle;
+          _.tweenRefMaps[id] = _.tweenRefMaps[id] || {}; //Object.keys(initials)
+          //      .forEach(
+          //	      key => (_.tweenRefMaps[id][key] = is.number(_.tweenRefMaps[id][key])
+          //	                                        ? _.tweenRefMaps[id][key]
+          //	                                        : initials[key])
+          //      );
+          //if ( tweenableMap.hasOwnProperty("opacity") && _.tweenRefMaps[id].hasOwnProperty("opacity") ) {
+          //	_.tweenRefMaps[id].opacity -= initials.opacity;
+          //}
+          // init / reset or get the tweenable view
 
-          tweenableMap = _.tweenRefMaps[id] = Object.assign(_.tweenRefMaps[id] || {}, initials, tweenableMap || {});
+          tweenableMap = Object.assign(_babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, _.tweenRefMaps[id]), initials, tweenableMap || {}); // set defaults values in case of
+          // add new initial values
+
+          Object.keys(tweenableMap).forEach(function (key) {
+            return _.tweenRefMaps[id][key] = (_.tweenRefMaps[id][key] || 0) + tweenableMap[key];
+          });
+          tweenableMap = _.tweenRefMaps[id];
           Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
-        }
+        } //console.log('tweenRef::tweenRef:519: ', id, _.tweenRefCSS[id], tweenableMap);
+
 
         if (noref) return {
           style: _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_8___default()({}, _.tweenRefCSS[id])
@@ -30874,7 +30892,8 @@ function asTweener() {
           scrollableArea: scrollableArea
         });
 
-        dim = this._.axes[axe] = nextDescr;
+        dim = this._.axes[axe] = nextDescr; //console.log('TweenableComp::initAxis:519: ', axe, dim.scrollPos);
+
         _inertia && (dim.inertia._.wayPoints = _inertia.wayPoints);
       }
     }, {
@@ -30915,7 +30934,8 @@ function asTweener() {
         dim.inertia.setBounds(0, dim.scrollableArea);
         sl.goTo(dim.scrollPos, this._.tweenRefMaps);
 
-        this._updateTweenRefs();
+        this._updateTweenRefs(); //console.log('TweenableComp::addScrollableAnim:519: ', axe, dim.scrollPos);
+
 
         return sl;
       }
@@ -31408,8 +31428,7 @@ function asTweener() {
         var _this12 = this;
 
         var _ = this._,
-            initials = {},
-            map = {};
+            initials = {};
         if (isArray(target) && isArray(style)) return target.map(function (m, i) {
           return _this12.updateRefStyle(m, style[i], postPone);
         });
@@ -31419,7 +31438,7 @@ function asTweener() {
         if (!this._.tweenRefCSS) this.makeTweenable();
         Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["deMuxTween"])(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target], true);
 
-        this._updateTweenRefs(); //Object.assign(initials, _.tweenRefCSS[target]);
+        this._updateTweenRef(target); //Object.assign(initials, _.tweenRefCSS[target]);
         //_.tweenRefCSS[target] = initials;
 
       }
@@ -31460,16 +31479,20 @@ function asTweener() {
       key: "_updateTweenRefs",
       value: function _updateTweenRefs() {
         if (this._.tweenEnabled) {
-          //let now = Date.now();
-          //console.log(now - this._lf)
-          //this._lf = now;
-          for (var i = 0, target, node; i < this._.tweenRefTargets.length; i++) {
+          for (var i = 0, target, node, style; i < this._.tweenRefTargets.length; i++) {
             target = this._.tweenRefTargets[i];
-            Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
-            node = this.getTweenableRef(target);
-            node && Object.assign(node.style, this._.tweenRefCSS[target]);
+            style = this._updateTweenRef(target);
           }
         }
+      }
+    }, {
+      key: "_updateTweenRef",
+      value: function _updateTweenRef(target) {
+        var node;
+        this._.tweenRefCSS[target] && Object(_helpers_css__WEBPACK_IMPORTED_MODULE_17__["muxToCss"])(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
+        node = this.getTweenableRef(target);
+        node && Object.assign(node.style, this._.tweenRefCSS[target]);
+        return this._.tweenRefCSS[target];
       }
     }, {
       key: "componentWillUnmount",
