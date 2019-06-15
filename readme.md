@@ -1,5 +1,5 @@
 <h1 align="center">react-rtween</h1>
-<p align="center">Fast, SSR compatible, reversible, scalable, swipeable, tween composition engine for React</p>
+<p align="center">Fast, SSR compatible, additive & swipeable, tween composition engine for React</p>
 
 ___
 

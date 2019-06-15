@@ -4,6 +4,7 @@
   "license": "AGPL-3.0",
   "main": "./dist/react-rtween.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
+  "repository": "https://github.com/n8tz/react-rtween",
   "description": "Fast, additive & swipeable tween composition engine for React",
   "wpInherit": {
     "default": {
