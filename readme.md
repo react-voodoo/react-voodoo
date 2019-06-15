@@ -6,16 +6,21 @@ ___
 <a href="https://www.npmjs.com/package/react-rtween">
 <img src="https://img.shields.io/npm/v/react-rtween.svg" alt="Npm version" /></a>
 
-<p align="center">/!\ This is alpha /!\</p>
+<p align="center">/!\ This is beta /!\</p>
 
 
 ## wtf is react-rTween ?
 
-- Is a generic tweener for react
-- rTween engine allow to apply forward and backward multiples tweens on same properties and multiple objects
-- Allow **live composition & hot switching of multiple** scrollable/swipeable animations
-- Allow SSR rendering of =! scroll / swipe position
-- etc
+react-rtween is a the ultimate tweener for react
+
+It allow :
+
+- Additive tween ( applying forward and backward multiples tween on same properties )
+- Scrollable & swipeable animations
+- SSR rendering of =! scroll / swipe position
+- Hot switching scrollable anims ( responsive )
+- Predictive inertia
+- etc...
 
 ## Draft [samples](http://htmlpreview.github.io/?https://github.com/n8tz/react-rtween/blob/master/samples/index.html)
 
@@ -39,7 +44,6 @@ let pushIn        = [
 		}
 	},
 	{
-		type    : "Tween",
 		from    : 500,
 		duration: 500,
 		easeFn  : "easeCircleIn",
@@ -53,7 +57,6 @@ let pushIn        = [
 		}
 	},
 	{
-		type    : "Tween",
 		from    : 250,
 		duration: 500,
 		easeFn  : "easeCircle",
@@ -67,7 +70,6 @@ let pushIn        = [
 const scrollAnims = {
 	scrollX: [
 		{
-			type    : "Tween",
 			from    : 0,
 			duration: 200,
 			apply   : {
@@ -77,7 +79,6 @@ const scrollAnims = {
 			}
 		},
 		{
-			type    : "Tween",
 			from    : 0,
 			duration: 100,
 			apply   : {
@@ -87,7 +88,6 @@ const scrollAnims = {
 			}
 		},
 		{
-			type    : "Tween",
 			from    : 100,
 			duration: 100,
 			apply   : {
@@ -99,7 +99,6 @@ const scrollAnims = {
 	],
 	scrollY: [
 		{
-			type    : "Tween",
 			from    : 0,
 			duration: 200,
 			apply   : {
@@ -109,7 +108,6 @@ const scrollAnims = {
 			}
 		},
 		{
-			type    : "Tween",
 			from    : 0,
 			duration: 100,
 			apply   : {
@@ -119,7 +117,6 @@ const scrollAnims = {
 			}
 		},
 		{
-			type    : "Tween",
 			from    : 100,
 			duration: 100,
 			apply   : {
