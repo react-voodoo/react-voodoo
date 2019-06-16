@@ -493,6 +493,7 @@ export default function asTweener( ...argz ) {
 			dim = this._.axes[axe] = nextDescr;
 			//console.log('TweenableComp::initAxis:519: ', axe, dim.scrollPos);
 			(_inertia) && (dim.inertia._.wayPoints = _inertia.wayPoints);
+			//(_inertia) && (dim.inertia._.pos = scrollPos);
 		}
 		
 		addScrollableAnim( anim, axe = "scrollY", size ) {

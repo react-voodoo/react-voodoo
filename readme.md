@@ -11,7 +11,7 @@ ___
 
 ## wtf is react-rTween ?
 
-react-rtween is a the ultimate tweener for react
+react-rtween is an additive tweener for react
 
 It allow :
 
@@ -204,8 +204,8 @@ export default class Sample extends React.Component {
 - Nice examples 
 - Better scroll support
 - Full css support ( full background transitions )
-- Refactos
 - Doc, tests & clean
+- SVG bindings
 
 ### License ?
 

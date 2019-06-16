@@ -30152,7 +30152,7 @@ function asTweener() {
 
         dim = this._.axes[axe] = nextDescr; //console.log('TweenableComp::initAxis:519: ', axe, dim.scrollPos);
 
-        _inertia && (dim.inertia._.wayPoints = _inertia.wayPoints);
+        _inertia && (dim.inertia._.wayPoints = _inertia.wayPoints); //(_inertia) && (dim.inertia._.pos = scrollPos);
       }
     }, {
       key: "addScrollableAnim",
@@ -30951,10 +30951,6 @@ function applyInertia(_) {
   _.targetDist = _.loopsVelSum * _.refFPS * velSign / 1000 || 0;
   _.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
 }
-var inertiaByNode = {
-  nodes: [],
-  inertia: []
-};
 /**
  * Main inertia class
  * @class Caipi slideshow
@@ -31040,8 +31036,11 @@ function () {
       _.lastInertiaPos = 0;
       _.targetDist = 0;
       _.pos = pos;
-      _.pos = max(_.pos, _.max);
-      _.pos = min(_.pos, _.min);
+
+      if (_.conf.bounds) {
+        _.pos = max(_.pos, _.max);
+        _.pos = min(_.pos, _.min);
+      }
     }
   }, {
     key: "teleport",
@@ -31205,7 +31204,7 @@ function () {
       _.lastVelocity = iVel;
       _.baseTS = now;
 
-      if (!_.conf.infinite) {
+      if (_.conf.bounds) {
         if (pos > _.max) {
           pos = _.max + min((pos - _.max) / 10, 10);
         } else if (pos < _.min) {
@@ -31222,20 +31221,22 @@ function () {
           velSign = signOf(_.lastVelocity);
       this.holding = false;
 
-      if (_.pos > _.max) {
-        this.active = true;
-        _.inertia = true;
-        _.lastInertiaPos = 0;
-        _.inertiaStartTm = _.inertiaLastTm = Date.now();
-        _.targetDist = _.max - _.pos;
-        _.targetDuration = abs(_.targetDist * 10);
-      } else if (_.pos < _.min) {
-        this.active = true;
-        _.inertia = true;
-        _.lastInertiaPos = 0;
-        _.inertiaStartTm = _.inertiaLastTm = Date.now();
-        _.targetDist = _.pos - _.min;
-        _.targetDuration = abs(_.targetDist * 10);
+      if (_.conf.bounds) {
+        if (_.pos > _.max) {
+          this.active = true;
+          _.inertia = true;
+          _.lastInertiaPos = 0;
+          _.inertiaStartTm = _.inertiaLastTm = Date.now();
+          _.targetDist = _.max - _.pos;
+          _.targetDuration = abs(_.targetDist * 10);
+        } else if (_.pos < _.min) {
+          this.active = true;
+          _.inertia = true;
+          _.lastInertiaPos = 0;
+          _.inertiaStartTm = _.inertiaLastTm = Date.now();
+          _.targetDist = _.pos - _.min;
+          _.targetDuration = abs(_.targetDist * 10);
+        }
       } else {
         // calc momentum distance...
         applyInertia(_);
@@ -31279,7 +31280,6 @@ function () {
   reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
   reactHotLoader.register(consts, "consts", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
   reactHotLoader.register(applyInertia, "applyInertia", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
-  reactHotLoader.register(inertiaByNode, "inertiaByNode", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
   reactHotLoader.register(Inertia, "Inertia", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
 })();
 

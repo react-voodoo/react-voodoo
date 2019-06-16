@@ -1,11 +1,11 @@
 {
   "name": "react-rtween",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "license": "AGPL-3.0",
   "main": "./dist/react-rtween.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
   "repository": "https://github.com/n8tz/react-rtween",
-  "description": "Fast, additive & swipeable tween composition engine for React",
+  "description": "Fast, additive & swipeable animation engine for React",
   "wpInherit": {
     "default": {
       "rootFolder": "src",
