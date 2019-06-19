@@ -60,7 +60,7 @@ export function muxToCss( tweenable, css, demuxers, data, box ) {
 	      )
 }
 
-export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, forceUnits ) {
+export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, forceUnits, reOrder ) {
 	let fTween = {}, excluded = {};
 	Object.keys(tween)
 	      .forEach(
@@ -80,10 +80,10 @@ export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, force
 	      .forEach(
 		      ( key ) => {
 			      if ( cssDemux[key] ) {//key, value, target, data, initials
-				      demuxers[key] = cssDemux[key](key, fTween[key], deMuxedTween, data, initials, forceUnits)
+				      demuxers[key] = cssDemux[key](key, fTween[key], deMuxedTween, data, initials, forceUnits, reOrder)
 			      }
 			      else
-				      demuxers[key] = cssDemux.$all(key, fTween[key], deMuxedTween, data, initials, forceUnits)
+				      demuxers[key] = cssDemux.$all(key, fTween[key], deMuxedTween, data, initials, forceUnits, reOrder)
 		      }
 	      )
 	return excluded;

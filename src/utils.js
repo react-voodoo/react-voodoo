@@ -589,14 +589,15 @@ var
 		 * @returns {[React.Component]}
 		 */
 		findReactParents( element ) {
-			let fiberNode, comps = [];
+			let fiberNode, comps = [element];
 			for ( const key in element ) {
+				
 				if ( key.startsWith('__reactInternalInstance$') ) {
-					fiberNode = element[key].return;
+					fiberNode = element[key];
 					while ( fiberNode.return ) {
-						fiberNode = fiberNode.return;
-						if ( fiberNode.stateNode )
+						if ( fiberNode.stateNode && !comps.includes(fiberNode.stateNode) )
 							comps.push(fiberNode.stateNode)
+						fiberNode = fiberNode.return;
 					}
 					return comps;
 				}

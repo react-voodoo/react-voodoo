@@ -53,7 +53,7 @@ function demux( key, tweenable, target, data, box ) {
 	if ( data["transform_head"] === key ) {
 		let transforms = "";
 		data[key].forEach(
-			( tmap, i ) => Object.keys(tmap).forEach(
+			( tmap = {}, i ) => Object.keys(tmap).forEach(
 				fkey => {
 					let dkey = key + '_' + fkey + '_' + i, value;
 					
@@ -93,15 +93,16 @@ export default ( key, value, target, data, initials, forceUnits ) => {
 		value = [value];
 	
 	value.forEach(
-		( tmap, i ) =>
-			Object.keys(tmap).forEach(
+		( tmap, i ) => {
+			let baseData = {}
+			//data[key][i]       = forceUnits ? {} : data[key][i] || {};
+			tmap && Object.keys(tmap).forEach(
 				fkey => {
-					let fValue         = tmap[fkey],
-					    dkey           = key + '_' + fkey + '_' + i,
-					    match          = is.string(fValue) ? fValue.match(unitsRe) : false;
-					data[key][i]       = data[key][i] || {};
-					data[key][i][fkey] = true;
-					initials[dkey]     = 0;
+					let fValue     = tmap[fkey],
+					    dkey       = key + '_' + fkey + '_' + i,
+					    match      = is.string(fValue) ? fValue.match(unitsRe) : false;
+					baseData[fkey] = true;
+					initials[dkey] = 0;
 					if ( match ) {
 						if ( !forceUnits && data[dkey] && data[dkey] !== match[2] ) {
 							console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
@@ -119,6 +120,11 @@ export default ( key, value, target, data, initials, forceUnits ) => {
 					}
 				}
 			)
+			data[key][i] =
+				forceUnits
+				? { ...baseData, ...(data[key][i] || {}) }
+				: { ...(data[key][i] || {}), ...baseData };
+		}
 	)
 	return demux;
 }

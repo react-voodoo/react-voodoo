@@ -44,6 +44,11 @@ export function applyInertia( _ ) {
 	_.targetDist     = (_.loopsVelSum * _.refFPS * velSign) / 1000 || 0;
 	_.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
 }
+
+const inertiaByNode = {
+	nodes  : [],
+	inertia: []
+};
 /**
  * Main inertia class
  * @class Caipi slideshow
