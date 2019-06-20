@@ -41,19 +41,56 @@ const
 		height: 'y',
 	};
 
-function demux( key, tweenable, target, data, box ) {
-	let value = tweenable[key],
-	    unit  = data[key];
+function demuxOne( key, twVal, baseKey, data, box ) {
+	let value = twVal,
+	    unit  = data[key] || defaultUnits[baseKey];
 	
 	if ( unit === 'box' ) {
-		value = floatCut(value * (box[defaultBox[key]] || box.x), 3);
+		value = floatCut(value * (box[defaultBox[baseKey]] || box.x), 3);
 		unit  = 'px';
 	}
 	
-	target[key] = unit ? value + unit : floatCut(value, 3);
+	return unit ? value + unit : floatCut(value, 3);
+}
+
+function demux( key, tweenable, target, data, box ) {
+	let value;
+	
+	value = demuxOne(key + "_" + 0, tweenable[key + "_" + 0], key, data, box);
+	
+	if ( data[key] && data[key].length > 1 ) {
+		for ( let i = 1; i < data[key].length; i++ ) {
+			if ( tweenable[key + "_" + i] < 0 )
+				value += " - " + demuxOne(key + "_" + i, -tweenable[key + "_" + i], key, data, box);
+			else
+				value += " + " + demuxOne(key + "_" + i, tweenable[key + "_" + i], key, data, box);
+		}
+		value = "calc(" + value + ")";
+	}
+	
+	target[key] = value;
 }
 
 function muxer( key, value, target, data, initials, forceUnits ) {
+	
+	data[key] = data[key] || [];
+	if ( is.array(value) ) {
+		for ( let i = 0; i < value.length; i++ ) {
+			data[key][i] = true;
+			if ( value[i] === "-100%" && key === "height" )
+				debugger
+			muxOne(key + "_" + i, value[i] || 0, target, key, data, initials, forceUnits)
+		}
+	}
+	else {
+		data[key][0] = true;
+		muxOne(key + "_" + 0, value || 0, target, key, data, initials, forceUnits)
+	}
+	
+	return demux;
+}
+
+function muxOne( key, value, target, baseKey, data, initials, forceUnits ) {
 	
 	
 	let match     = is.string(value) ? value.match(unitsRe) : false;
@@ -70,8 +107,8 @@ function muxer( key, value, target, data, initials, forceUnits ) {
 	}
 	else {
 		target[key] = parseFloat(value);
-		if ( !data[key] && key in defaultUnits )
-			data[key] = defaultUnits[key];
+		//if ( !data[key] && baseKey in defaultUnits )
+		//	data[key] = defaultUnits[baseKey];
 	}
 	
 	return demux;

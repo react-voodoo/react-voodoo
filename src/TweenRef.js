@@ -38,18 +38,34 @@ export default class TweenRef extends React.Component {
 		
 		if ( this._tweenLines ) {
 			Object.keys(this._tweenLines)
-			      .forEach(axe => this._previousTweener.rmScrollableAnim(this._tweenLines[axe], axe));
+			      .forEach(axe => this._currentTweener.rmScrollableAnim(this._tweenLines[axe], axe));
 			
 		}
-		if ( this._previousTweener ) {
-			this._previousTweener.rmTweenRef(this.__tweenableId)
-			this._previousTweener.setRootRef(undefined);
+		if ( this._currentTweener ) {
+			this._currentTweener.rmTweenRef(this.__tweenableId)
+			this._currentTweener.setRootRef(undefined);
 		}
-		delete this._previousTweener;
+		delete this._currentTweener;
 		delete this._previousScrollable;
 	}
 	
-	componentDidUpdate( prevProps, prevState, snapshot ) {
+	componentDidMount() {
+		let {
+			    children,
+			    id            = this.__tweenableId,
+			    style, initial, pos, noRef, reset, tweener,
+			    isRoot,
+			    tweenLines,
+			    onClick       = children && children.props && children.props.onClick,
+			    onDoubleClick = children && children.props && children.props.onDoubleClick
+		    }      = this.props,
+		    target = this._currentTweener.getTweenableRef(id);
+		//debugger
+		let props  = [...target.style];
+		//console.log(props)
+		props.forEach(p => (target.style[p] = 'unset'));
+		this._currentTweener._updateTweenRef()
+		//console.log({ ...this._currentTweener.getTweenableRef(id).style }, this._currentTweener)
 	}
 	
 	render() {
@@ -71,11 +87,11 @@ export default class TweenRef extends React.Component {
 					
 					let twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, reset);
 					
-					if ( this._previousTweener !== parentTweener || this._previousScrollable !== tweenLines ) {
+					if ( this._currentTweener !== parentTweener || this._previousScrollable !== tweenLines ) {
 						
 						if ( this._tweenLines ) {
 							Object.keys(this._tweenLines)
-							      .forEach(axe => this._previousTweener.rmScrollableAnim(this._tweenLines[axe], axe));
+							      .forEach(axe => this._currentTweener.rmScrollableAnim(this._tweenLines[axe], axe));
 							
 						}
 						if ( tweenLines && is.array(tweenLines) )
@@ -85,17 +101,17 @@ export default class TweenRef extends React.Component {
 								Object.keys(tweenLines)
 								      .reduce(( h, axe ) => (h[axe] = parentTweener.addScrollableAnim(setTarget(tweenLines[axe], id), axe), h), {});
 						
-						if ( this._previousTweener !== parentTweener )
-							this._previousTweener && this._previousTweener.rmTweenRef(this.__tweenableId)
+						if ( this._currentTweener !== parentTweener )
+							this._currentTweener && this._currentTweener.rmTweenRef(this.__tweenableId)
 						
 						twRef.style = { ...parentTweener._updateTweenRef(id) };
 						
 						if ( this.props.hasOwnProperty("isRoot") ) {
-							this._previousTweener && this._previousTweener.setRootRef(undefined);
+							this._currentTweener && this._currentTweener.setRootRef(undefined);
 							tweener.setRootRef(id);
 						}
 						
-						this._previousTweener    = parentTweener;
+						this._currentTweener     = parentTweener;
 						this._previousScrollable = tweenLines;
 						
 					}

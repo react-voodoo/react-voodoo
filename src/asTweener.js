@@ -175,7 +175,7 @@ export default function asTweener( ...argz ) {
 					_.muxByTarget[id]     = {};
 					_.muxDataByTarget[id] = {};
 					//delete _.muxDataByTarget[id].transform_head;
-					iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true, true) };
+					iStyle                = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true, true) };
 					// minus initial values
 					Object.keys(_.tweenRefOrigin[id])
 					      .forEach(

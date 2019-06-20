@@ -20,6 +20,7 @@ const
 		['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
 		+ ")"
 	),
+	abs             = Math.abs,
 	floatCut        = function ( v, l ) {
 		var p = Math.pow(10, l);
 		return Math.round(v * p) / p;
@@ -36,14 +37,45 @@ const
 	};
 
 function demux( key, tweenable, target, data, box ) {
-	target[key] = data[key] ? floatCut(tweenable[key], 2) + data[key] : floatCut(tweenable[key], 2);
+	let value;
+	
+	value = data[key + "_" + 0] || defaultUnits[key]
+	        ? floatCut(tweenable[key + "_" + 0], 2) + (data[key + "_" + 0] || defaultUnits[key])
+	        : floatCut(tweenable[key + "_" + 0], 2);
+	
+	if ( data[key] && data[key].length > 1 ) {
+		for ( let i = 1; i < data[key].length; i++ ) {
+			if ( tweenable[key + "_" + i] < 0 )
+				value += " - " + abs(floatCut(tweenable[key + "_" + i], 2)) + (data[key + "_" + i] || defaultUnits[key]);
+			else
+				value += " + " + floatCut(tweenable[key + "_" + i], 2) + (data[key + "_" + i] || defaultUnits[key]);
+		}
+		value = "calc(" + value + ")";
+	}
+	target[key] = value;
 }
 
 export default ( key, value, target, data, initials, forceUnits ) => {
 	
-	let match = is.string(value) ? value.match(unitsRe) : false;
+	data[key] = data[key] || [];
+	if ( is.array(value) ) {
+		for ( let i = 0; i < value.length; i++ ) {
+			data[key][i] = true;
+			mux(key + "_" + i, key, value[i] || 0, target, data, initials, forceUnits)
+		}
+	}
+	else {
+		data[key][0] = true;
+		mux(key + "_" + 0, key, value || 0, target, data, initials, forceUnits)
+	}
 	
-	initials[key] = is.number(initials[key]) ? initials[key] : defaultValue[key] || 0;
+	return demux;
+}
+
+function mux( key, baseKey, value, target, data, initials, forceUnits ) {
+	
+	let match     = is.string(value) ? value.match(unitsRe) : false;
+	initials[key] = is.number(initials[key]) ? initials[key] : defaultValue[baseKey] || 0;
 	if ( match ) {
 		if ( !forceUnits && data[key] && data[key] !== match[2] ) {
 			console.warn("Have != units on prop ! Ignore ", key, "present:" + data[key], "new:" + match[2]);
@@ -55,9 +87,9 @@ export default ( key, value, target, data, initials, forceUnits ) => {
 		}
 	}
 	else {
-		target[key] = value;
-		if ( !data[key] && key in defaultUnits )
-			data[key] = defaultUnits[key];
+		target[key] = parseFloat(value);
+		//if ( !data[key] && baseKey in defaultUnits )
+		//	data[key] = defaultUnits[baseKey];
 	}
 	
 	return demux;
