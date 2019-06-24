@@ -1,30 +1,31 @@
 /*
- * The MIT License (MIT)
- * Copyright (c) 2019. Wise Wild Web
+ * Copyright (C) 2019 Nathanael Braun
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- *  @author : Nathanael Braun
- *  @contact : n8tz.js@gmail.com
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 import is from "is";
 
 const
-	unitsRe      = new RegExp(
+	units           = ['box', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
+	unitsRe         = new RegExp(
 		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
-		['box', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
+		units.join('|')
 		+ ")"
 	),
-	floatCut     = function ( v, l ) {
-		let p = Math.pow(10, l);
-		return Math.round(v * p) / p;
-	},
-	defaultUnits = {
+	floatCut        = ( v = 0 ) => v.toFixed(3),
+	defaultUnits    = {
 		left  : 'px',
 		right : 'px',
 		top   : 'px',
@@ -32,83 +33,82 @@ const
 		width : 'px',
 		height: 'px',
 	},
-	defaultBox   = {
+	defaultBox      = {
 		left  : 'x',
 		right : 'x',
 		top   : 'y',
 		bottom: 'y',
 		width : 'x',
 		height: 'y',
+	}, defaultValue = {
+		opacity: 1
 	};
 
 function demuxOne( key, twVal, baseKey, data, box ) {
 	let value = twVal,
-	    unit  = data[key] || defaultUnits[baseKey];
+	    unit  = data[baseKey][key] || defaultUnits[baseKey];
 	
 	if ( unit === 'box' ) {
-		value = floatCut(value * (box[defaultBox[baseKey]] || box.x), 3);
+		value = value * (box[defaultBox[baseKey]] || box.x);
 		unit  = 'px';
+		
 	}
-	
-	return unit ? value + unit : floatCut(value, 3);
+	//if ( Math.abs(value) < .0001 && value !== 0 )
+	//	debugger
+	return unit ? floatCut(value) + unit : floatCut(value);
 }
 
 function demux( key, tweenable, target, data, box ) {
-	let value;
+	let value, i = 0;
 	
-	value = demuxOne(key + "_" + 0, tweenable[key + "_" + 0], key, data, box);
+	value = "";
 	
-	if ( data[key] && data[key].length > 1 ) {
-		for ( let i = 1; i < data[key].length; i++ ) {
-			if ( tweenable[key + "_" + i] < 0 )
-				value += " - " + demuxOne(key + "_" + i, -tweenable[key + "_" + i], key, data, box);
+	for ( let rKey in data[key] )
+		if ( data[key].hasOwnProperty(rKey) ) {
+			if ( tweenable[rKey] < 0 )
+				value += (i ? " - " : "-") + demuxOne(rKey, -tweenable[rKey], key, data, box);
 			else
-				value += " + " + demuxOne(key + "_" + i, tweenable[key + "_" + i], key, data, box);
+				value += (i ? " + " : "") + demuxOne(rKey, tweenable[rKey], key, data, box);
+			i++;
 		}
+	if ( i > 1 )
 		value = "calc(" + value + ")";
-	}
 	
-	target[key] = value;
+	return target[key] = value;
 }
 
 function muxer( key, value, target, data, initials, forceUnits ) {
 	
-	data[key] = data[key] || [];
+	data[key] = data[key] || {};
 	if ( is.array(value) ) {
 		for ( let i = 0; i < value.length; i++ ) {
-			data[key][i] = true;
-			if ( value[i] === "-100%" && key === "height" )
-				debugger
-			muxOne(key + "_" + i, value[i] || 0, target, key, data, initials, forceUnits)
+			
+			muxOne(key, value[i] || 0, target, data, initials, forceUnits)
 		}
 	}
 	else {
-		data[key][0] = true;
-		muxOne(key + "_" + 0, value || 0, target, key, data, initials, forceUnits)
+		muxOne(key, value || 0, target, data, initials, forceUnits)
 	}
 	
 	return demux;
 }
 
-function muxOne( key, value, target, baseKey, data, initials, forceUnits ) {
+function muxOne( key, value, target, data, initials, forceUnits ) {
 	
 	
-	let match     = is.string(value) ? value.match(unitsRe) : false;
-	initials[key] = 0;
+	let match   = is.string(value) ? value.match(unitsRe) : false,
+	    unit    = match && match[2] || defaultUnits[key],
+	    unitKey = units.indexOf(unit),
+	    realKey = unitKey !== -1 && (key + '_' + unitKey) || key;
+	
+	initials[realKey]  = defaultValue[key] || 0;
+	data[key][realKey] = unit;
+	
 	if ( match ) {
-		if ( !forceUnits && data[key] && data[key] !== match[2] ) {
-			console.warn("Have != units on prop ! Ignore ", key, "present:" + data[key], "new:" + match[2]);
-			target[key] = 0;
-		}
-		else {
-			data[key]   = match[2];
-			target[key] = parseFloat(match[1]);
-		}
+		target[realKey] = parseFloat(match[1]);
 	}
 	else {
-		target[key] = parseFloat(value);
-		//if ( !data[key] && baseKey in defaultUnits )
-		//	data[key] = defaultUnits[baseKey];
+		target[realKey] = parseFloat(value);
 	}
 	
 	return demux;
