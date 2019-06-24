@@ -67,7 +67,7 @@
     "color-rgba": "^2.1.0",
     "d3-ease": "^1.0.5",
     "is": "^3.2.1",
-    "tween-axis": "^1.2.3"
+    "tween-axis": "^1.2.4"
   },
   "devDependencies": {
     "wpi-react-hmr-ssr": "^1.1.10",

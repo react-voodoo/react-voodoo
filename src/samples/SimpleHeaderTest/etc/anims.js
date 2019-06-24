@@ -1,4 +1,5 @@
 /*
+ *
  * Copyright (C) 2019 Nathanael Braun
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,7 +36,6 @@ export function pushIn( target ) {
 	return {
 		anims: [
 			{
-				type    : "Tween",
 				target  : target,
 				from    : 0,
 				duration: 500,
@@ -50,7 +50,6 @@ export function pushIn( target ) {
 				}
 			},
 			{
-				type    : "Tween",
 				target  : target,
 				from    : 500,
 				duration: 500,
@@ -86,7 +85,6 @@ export const scrollY = [
 		from    : 0,
 		duration: 50,
 		apply   : {
-			//paddingTop: -130,
 			transform: {
 				translateY: "-130px"
 			}
@@ -107,9 +105,9 @@ export const scrollY = [
 		from    : 0,
 		duration: 50,
 		apply   : {
-			left      : -50,
-			height    : -50,
-			marginLeft: 110,
+			left      : "-50%",
+			height    : "-50px",
+			marginLeft: "110px",
 		}
 	},
 	
