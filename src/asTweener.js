@@ -1,4 +1,5 @@
 /*
+ *
  * Copyright (C) 2019 Nathanael Braun
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,15 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React                             from "react";
-import is                                from "is";
-import utils                             from "./utils";
-import Inertia, {applyInertia}           from './helpers/Inertia';
-import TweenerContext                    from "./TweenerContext";
-import rTween                            from "rtween";
 import * as easingFn                     from "d3-ease";
+import is                                from "is";
+import React                             from "react";
 import ReactDom                          from "react-dom";
-import {deMuxTween, muxToCss, deMuxLine} from "./helpers/css";
+import rTween                            from "tween-axis";
+import {deMuxLine, deMuxTween, muxToCss} from "./helpers/css";
+import Inertia                           from './helpers/Inertia';
+import TweenerContext                    from "./TweenerContext";
+import utils                             from "./utils";
 
 /**
  * @todo : clean & comments
