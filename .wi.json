@@ -1,0 +1,65 @@
+{
+  "default": {
+    "rootFolder": "src",
+    "basedOn": "Component",
+    "vars": {
+      "rootAlias": "react-rtween",
+      "production": true,
+      "externals": true,
+
+      "babelPreset": {
+        "targets": {
+          "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
+        },
+        "loose": true
+      },
+      "webpackPatch": {
+        "optimization": {
+          "usedExports": true
+        }
+      }
+    },
+    "extend": [
+      "wpi-react-hmr-ssr"
+    ]
+  },
+  "staging": {
+    "rootFolder": "src",
+    "basedOn": "Component",
+    "vars": {
+      "rootAlias": "react-rtween",
+      "externals": true,
+      "babelPreset": {
+        "targets": {
+          "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
+        },
+        "loose": true
+      },
+      "webpackPatch": {}
+    },
+    "extend": [
+      "wpi-react-hmr-ssr"
+    ]
+  },
+  "samples": {
+    "rootFolder": "src",
+    "basedOn": "ComponentSamples",
+    "vars": {
+      "rootAlias": "react-rtween",
+      "babelPreset": {
+        "targets": {
+          "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
+        },
+        "loose": true
+      },
+      "webpackPatch": {
+        "devServer": {
+          "port": 9501
+        }
+      }
+    },
+    "extend": [
+      "wpi-react-hmr-ssr"
+    ]
+  }
+}
