@@ -27,7 +27,7 @@ It allow :
 - Better scroll support / fixs
 - Full css support ( full background transitions )
 - Doc, tests & clean
-- Convert tween-axis to css keyframe anims on SSR + use them magically
+- Convert tween-axis to css keyframe anims 
 - various simple & smart optims
 - SVG bindings
 
