@@ -15,10 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import is      from "is";
 import React   from 'react';
 import shortid from 'shortid';
-
-import is from "is";
 
 import TweenerContext from "./TweenerContext";
 
@@ -64,10 +63,10 @@ export default class TweenRef extends React.Component {
 		    }      = this.props,
 		    target = this._currentTweener.getTweenableRef(id);
 		//debugger
-		//let props  = [...target.style];
+		let props  = [...target.style];
 		//console.log(props)
-		//props.forEach(p => (target.style[p] = 'unset'));
-		//this._currentTweener._updateTweenRef()
+		props.forEach(p => (target.style[p] = "unset"));
+		this._currentTweener._updateTweenRef()
 		//console.log({ ...this._currentTweener.getTweenableRef(id).style }, this._currentTweener)
 	}
 	

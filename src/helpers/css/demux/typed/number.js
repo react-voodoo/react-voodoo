@@ -54,7 +54,6 @@ function demuxOne( key, twVal, baseKey, data, box ) {
 		
 	}
 	//if ( Math.abs(value) < .0001 && value !== 0 )
-	//	debugger
 	return unit ? floatCut(value) + unit : floatCut(value);
 }
 
@@ -74,7 +73,7 @@ function demux( key, tweenable, target, data, box ) {
 	if ( i > 1 )
 		value = "calc(" + value + ")";
 	
-	return target[key] = value;
+	target[key] = value;
 }
 
 function muxer( key, value, target, data, initials, forceUnits ) {

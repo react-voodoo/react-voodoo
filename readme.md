@@ -22,7 +22,16 @@ It allow :
 - Predictive inertia
 - etc...
 
-## Draft [samples](http://htmlpreview.github.io/?https://github.com/n8tz/react-rtween/blob/master/samples/index.html)
+## todo / roadmap ?
+
+- Better scroll support / fixs
+- Full css support ( full background transitions )
+- Doc, tests & clean
+- Convert tween-axis to css keyframe anims on SSR + use them magically
+- various simple & smart optims
+- SVG bindings
+
+## Draft & minimalist [samples](http://htmlpreview.github.io/?https://github.com/n8tz/react-rtween/blob/master/samples/index.html)
 
 ```jsx
 import React                                        from "react";
@@ -198,14 +207,6 @@ export default class Sample extends React.Component {
 	}
 }
 ```
-
-### Todo :
-
-- Nice examples 
-- Better scroll support
-- Full css support ( full background transitions )
-- Doc, tests & clean
-- SVG bindings
 
 ### License ?
 

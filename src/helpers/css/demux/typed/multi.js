@@ -33,8 +33,10 @@ function demux( key, tweenable, target, data, box, offset ) {
 	
 	let count = data[key], v = '', nowhere = {};
 	
-	for ( let i = 0; i < count; i++ )
-		v += number.demux(key + '_' + i, tweenable, nowhere, data, box, offset) + ' ';
+	for ( let i = 0; i < count; i++ ) {
+		number.demux(key + '_' + i, tweenable, nowhere, data, box, offset);
+		v += nowhere[key + '_' + i] + ' ';
+	}
 	
 	target[key] = v;
 }
