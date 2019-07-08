@@ -28773,14 +28773,14 @@ var _default = _exports;
     return;
   }
 
-  reactHotLoader.register(req, "req", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
-  reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
-  reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
-  reactHotLoader.register($all, "$all", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
-  reactHotLoader.register(backgroundColor, "backgroundColor", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
-  reactHotLoader.register(filter, "filter", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
-  reactHotLoader.register(transform, "transform", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(req, "req", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register($all, "$all", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(backgroundColor, "backgroundColor", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(filter, "filter", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(transform, "transform", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_____js.gen.js");
 })();
 
 ;
@@ -28850,14 +28850,14 @@ var _default = _exports;
     return;
   }
 
-  reactHotLoader.register(req, "req", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
-  reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
-  reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
-  reactHotLoader.register(color, "color", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
-  reactHotLoader.register(int, "int", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
-  reactHotLoader.register(multi, "multi", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
-  reactHotLoader.register(number, "number", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(req, "req", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(color, "color", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(int, "int", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(multi, "multi", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(number, "number", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_helpers_css_demux_typed_____js.gen.js");
 })();
 
 ;
@@ -29047,8 +29047,8 @@ TweenAxis.propTypes = {
     return;
   }
 
-  reactHotLoader.register(setTarget, "setTarget", "G:\\n8tz\\libs\\react-rtween\\src\\TweenAxis.js");
-  reactHotLoader.register(TweenAxis, "TweenAxis", "G:\\n8tz\\libs\\react-rtween\\src\\TweenAxis.js");
+  reactHotLoader.register(setTarget, "setTarget", "G:\\n8tz\\libs\\react-voodoo\\src\\TweenAxis.js");
+  reactHotLoader.register(TweenAxis, "TweenAxis", "G:\\n8tz\\libs\\react-voodoo\\src\\TweenAxis.js");
 })();
 
 ;
@@ -29275,8 +29275,8 @@ TweenRef.propTypes = {};
     return;
   }
 
-  reactHotLoader.register(setTarget, "setTarget", "G:\\n8tz\\libs\\react-rtween\\src\\TweenRef.js");
-  reactHotLoader.register(TweenRef, "TweenRef", "G:\\n8tz\\libs\\react-rtween\\src\\TweenRef.js");
+  reactHotLoader.register(setTarget, "setTarget", "G:\\n8tz\\libs\\react-voodoo\\src\\TweenRef.js");
+  reactHotLoader.register(TweenRef, "TweenRef", "G:\\n8tz\\libs\\react-voodoo\\src\\TweenRef.js");
 })();
 
 ;
@@ -29338,8 +29338,8 @@ var _default = TweenerContext;
     return;
   }
 
-  reactHotLoader.register(TweenerContext, "TweenerContext", "G:\\n8tz\\libs\\react-rtween\\src\\TweenerContext.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\TweenerContext.js");
+  reactHotLoader.register(TweenerContext, "TweenerContext", "G:\\n8tz\\libs\\react-voodoo\\src\\TweenerContext.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\TweenerContext.js");
 })();
 
 ;
@@ -30634,14 +30634,14 @@ function asTweener() {
     return;
   }
 
-  reactHotLoader.register(isBrowserSide, "isBrowserSide", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
-  reactHotLoader.register(isArray, "isArray", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
-  reactHotLoader.register(_live, "_live", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
-  reactHotLoader.register(lastTm, "lastTm", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
-  reactHotLoader.register(_running, "_running", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
-  reactHotLoader.register(SimpleObjectProto, "SimpleObjectProto", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
-  reactHotLoader.register(Runner, "Runner", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
-  reactHotLoader.register(asTweener, "asTweener", "G:\\n8tz\\libs\\react-rtween\\src\\asTweener.js");
+  reactHotLoader.register(isBrowserSide, "isBrowserSide", "G:\\n8tz\\libs\\react-voodoo\\src\\asTweener.js");
+  reactHotLoader.register(isArray, "isArray", "G:\\n8tz\\libs\\react-voodoo\\src\\asTweener.js");
+  reactHotLoader.register(_live, "_live", "G:\\n8tz\\libs\\react-voodoo\\src\\asTweener.js");
+  reactHotLoader.register(lastTm, "lastTm", "G:\\n8tz\\libs\\react-voodoo\\src\\asTweener.js");
+  reactHotLoader.register(_running, "_running", "G:\\n8tz\\libs\\react-voodoo\\src\\asTweener.js");
+  reactHotLoader.register(SimpleObjectProto, "SimpleObjectProto", "G:\\n8tz\\libs\\react-voodoo\\src\\asTweener.js");
+  reactHotLoader.register(Runner, "Runner", "G:\\n8tz\\libs\\react-voodoo\\src\\asTweener.js");
+  reactHotLoader.register(asTweener, "asTweener", "G:\\n8tz\\libs\\react-voodoo\\src\\asTweener.js");
 })();
 
 ;
@@ -31041,16 +31041,16 @@ function () {
     return;
   }
 
-  reactHotLoader.register(signOf, "signOf", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
-  reactHotLoader.register(abs, "abs", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
-  reactHotLoader.register(floor, "floor", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
-  reactHotLoader.register(round, "round", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
-  reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
-  reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
-  reactHotLoader.register(consts, "consts", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
-  reactHotLoader.register(applyInertia, "applyInertia", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
-  reactHotLoader.register(inertiaByNode, "inertiaByNode", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
-  reactHotLoader.register(Inertia, "Inertia", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(signOf, "signOf", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(abs, "abs", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(floor, "floor", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(round, "round", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(consts, "consts", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(applyInertia, "applyInertia", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(inertiaByNode, "inertiaByNode", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\Inertia.js");
+  reactHotLoader.register(Inertia, "Inertia", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\Inertia.js");
 })();
 
 ;
@@ -31635,12 +31635,12 @@ function getProperty(property, expand) {
     return;
   }
 
-  reactHotLoader.register(props, "props", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
-  reactHotLoader.register(expandShorthandProperty, "expandShorthandProperty", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
-  reactHotLoader.register(isShorthandProperty, "isShorthandProperty", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
-  reactHotLoader.register(isValidDeclaration, "isValidDeclaration", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
-  reactHotLoader.register(canAnimate, "canAnimate", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
-  reactHotLoader.register(getProperty, "getProperty", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\cssUtils.js");
+  reactHotLoader.register(props, "props", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\cssUtils.js");
+  reactHotLoader.register(expandShorthandProperty, "expandShorthandProperty", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\cssUtils.js");
+  reactHotLoader.register(isShorthandProperty, "isShorthandProperty", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\cssUtils.js");
+  reactHotLoader.register(isValidDeclaration, "isValidDeclaration", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\cssUtils.js");
+  reactHotLoader.register(canAnimate, "canAnimate", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\cssUtils.js");
+  reactHotLoader.register(getProperty, "getProperty", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\cssUtils.js");
 })();
 
 ;
@@ -31807,14 +31807,14 @@ function mux(key, baseKey, value, target, data, initials, forceUnits) {
     return;
   }
 
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
-  reactHotLoader.register(abs, "abs", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
-  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
-  reactHotLoader.register(defaultValue, "defaultValue", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
-  reactHotLoader.register(mux, "mux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(abs, "abs", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(defaultValue, "defaultValue", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(mux, "mux", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\$all.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\$all.js");
 })();
 
 ;
@@ -31861,7 +31861,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  */
 
 
-; /* eslint-disable global-require, import/no-unresolved, no-var, camelcase, func-names */ (function register() { /* react-hot-loader/webpack */ var safe_require = function safe_require() { return  false ? undefined : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js"); }; var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : safe_require()).default; if (!reactHotLoader) { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : exports; /* eslint-enable camelcase, no-undef */ if (!webpackExports) { return; } if (typeof webpackExports === 'function') { reactHotLoader.register(webpackExports, 'module.exports', "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\backgroundColor.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } reactHotLoader.register(namedExport, key, "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\backgroundColor.js"); } })(); 
+; /* eslint-disable global-require, import/no-unresolved, no-var, camelcase, func-names */ (function register() { /* react-hot-loader/webpack */ var safe_require = function safe_require() { return  false ? undefined : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js"); }; var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : safe_require()).default; if (!reactHotLoader) { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : exports; /* eslint-enable camelcase, no-undef */ if (!webpackExports) { return; } if (typeof webpackExports === 'function') { reactHotLoader.register(webpackExports, 'module.exports', "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\backgroundColor.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } reactHotLoader.register(namedExport, key, "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\backgroundColor.js"); } })(); 
 
 /***/ }),
 
@@ -31972,12 +31972,12 @@ var _default = function _default(key, value, target, data, initials) {
     return;
   }
 
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
-  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
-  reactHotLoader.register(filters, "filters", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\filter.js");
+  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\filter.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\filter.js");
+  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\filter.js");
+  reactHotLoader.register(filters, "filters", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\filter.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\filter.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\filter.js");
 })();
 
 ;
@@ -32130,11 +32130,11 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
     return;
   }
 
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\transform.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\transform.js");
-  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\transform.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\transform.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
 })();
 
 ;
@@ -32248,8 +32248,8 @@ var _default = function _default(key, value, target, data, initials) {
     return;
   }
 
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\color.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\color.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\color.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\color.js");
 })();
 
 ;
@@ -32356,11 +32356,11 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
     return;
   }
 
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\int.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\int.js");
-  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\int.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\int.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\int.js");
+  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\int.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\int.js");
+  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\int.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\int.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\int.js");
 })();
 
 ;
@@ -32467,10 +32467,10 @@ var _default = function _default(count) {
     return;
   }
 
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\multi.js");
-  reactHotLoader.register(alias, "alias", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\multi.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\multi.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\multi.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\multi.js");
+  reactHotLoader.register(alias, "alias", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\multi.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\multi.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\multi.js");
 })();
 
 ;
@@ -32623,17 +32623,17 @@ var _default = muxer;
     return;
   }
 
-  reactHotLoader.register(units, "units", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
-  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
-  reactHotLoader.register(defaultBox, "defaultBox", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
-  reactHotLoader.register(defaultValue, "defaultValue", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
-  reactHotLoader.register(demuxOne, "demuxOne", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
-  reactHotLoader.register(muxer, "muxer", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
-  reactHotLoader.register(muxOne, "muxOne", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(units, "units", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(defaultBox, "defaultBox", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(defaultValue, "defaultValue", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(demuxOne, "demuxOne", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(muxer, "muxer", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(muxOne, "muxOne", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\number.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\typed\\number.js");
 })();
 
 ;
@@ -32770,10 +32770,10 @@ function deMuxLine(tweenLine, initials, data, demuxers) {
     return;
   }
 
-  reactHotLoader.register(cssDemux, "cssDemux", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\index.js");
-  reactHotLoader.register(muxToCss, "muxToCss", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\index.js");
-  reactHotLoader.register(deMuxTween, "deMuxTween", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\index.js");
-  reactHotLoader.register(deMuxLine, "deMuxLine", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\css\\index.js");
+  reactHotLoader.register(cssDemux, "cssDemux", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\index.js");
+  reactHotLoader.register(muxToCss, "muxToCss", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\index.js");
+  reactHotLoader.register(deMuxTween, "deMuxTween", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\index.js");
+  reactHotLoader.register(deMuxLine, "deMuxLine", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\index.js");
 })();
 
 ;
@@ -32991,15 +32991,15 @@ function shiftTransforms(items, shift) {
     return;
   }
 
-  reactHotLoader.register(offset, "offset", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
-  reactHotLoader.register(scale, "scale", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
-  reactHotLoader.register(inverseValues, "inverseValues", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
-  reactHotLoader.register(reverse, "reverse", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
-  reactHotLoader.register(addCss, "addCss", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
-  reactHotLoader.register(addAllType, "addAllType", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
-  reactHotLoader.register(extractCss, "extractCss", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
-  reactHotLoader.register(target, "target", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
-  reactHotLoader.register(shiftTransforms, "shiftTransforms", "G:\\n8tz\\libs\\react-rtween\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(offset, "offset", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(scale, "scale", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(inverseValues, "inverseValues", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(reverse, "reverse", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(addCss, "addCss", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(addAllType, "addAllType", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(extractCss, "extractCss", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(target, "target", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(shiftTransforms, "shiftTransforms", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
 })();
 
 ;
@@ -33116,8 +33116,8 @@ var _default = Tweenable;
     return;
   }
 
-  reactHotLoader.register(Tweenable, "Tweenable", "G:\\n8tz\\libs\\react-rtween\\src\\index.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\index.js");
+  reactHotLoader.register(Tweenable, "Tweenable", "G:\\n8tz\\libs\\react-voodoo\\src\\index.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\index.js");
 })();
 
 ;
@@ -33725,14 +33725,14 @@ var _default = Dom;
     return;
   }
 
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(isBrowser, "isBrowser", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(_dom, "_dom", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(__, "__", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(Dom, "Dom", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-rtween\\src\\utils.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\utils.js");
+  reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-voodoo\\src\\utils.js");
+  reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-voodoo\\src\\utils.js");
+  reactHotLoader.register(isBrowser, "isBrowser", "G:\\n8tz\\libs\\react-voodoo\\src\\utils.js");
+  reactHotLoader.register(_dom, "_dom", "G:\\n8tz\\libs\\react-voodoo\\src\\utils.js");
+  reactHotLoader.register(__, "__", "G:\\n8tz\\libs\\react-voodoo\\src\\utils.js");
+  reactHotLoader.register(Dom, "Dom", "G:\\n8tz\\libs\\react-voodoo\\src\\utils.js");
+  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\utils.js");
 })();
 
 ;
@@ -33865,8 +33865,8 @@ function withTweener() {
     return;
   }
 
-  reactHotLoader.register(SimpleObjectProto, "SimpleObjectProto", "G:\\n8tz\\libs\\react-rtween\\src\\withTweener.js");
-  reactHotLoader.register(withTweener, "withTweener", "G:\\n8tz\\libs\\react-rtween\\src\\withTweener.js");
+  reactHotLoader.register(SimpleObjectProto, "SimpleObjectProto", "G:\\n8tz\\libs\\react-voodoo\\src\\withTweener.js");
+  reactHotLoader.register(withTweener, "withTweener", "G:\\n8tz\\libs\\react-voodoo\\src\\withTweener.js");
 })();
 
 ;
