@@ -3,7 +3,7 @@
     "rootFolder": "src",
     "basedOn": "Component",
     "vars": {
-      "rootAlias": "react-rtween",
+      "rootAlias": "react-voodoo",
       "production": true,
       "externals": true,
 
@@ -27,7 +27,7 @@
     "rootFolder": "src",
     "basedOn": "Component",
     "vars": {
-      "rootAlias": "react-rtween",
+      "rootAlias": "react-voodoo",
       "externals": true,
       "babelPreset": {
         "targets": {
@@ -45,7 +45,7 @@
     "rootFolder": "src",
     "basedOn": "ComponentSamples",
     "vars": {
-      "rootAlias": "react-rtween",
+      "rootAlias": "react-voodoo",
       "babelPreset": {
         "targets": {
           "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"

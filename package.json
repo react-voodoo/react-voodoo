@@ -1,10 +1,10 @@
 {
-  "name": "react-rtween",
-  "version": "1.6.3",
+  "name": "react-voodoo",
+  "version": "1.0.0",
   "license": "AGPL-3.0",
-  "main": "./dist/react-rtween.js",
+  "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
-  "repository": "https://github.com/n8tz/react-rtween",
+  "repository": "https://github.com/n8tz/react-voodoo",
   "description": "Fast, additive & swipeable animation engine for React",
   "scripts": {
     "build": "wpi && wpi :samples",
@@ -24,7 +24,7 @@
     "tween-axis": "^1.2.4"
   },
   "devDependencies": {
-    "wpi-react-hmr-ssr": "^1.1.17",
-    "webpack-inherit": "^1.5.11"
+    "wpi-react-hmr-ssr": "^1.2.1",
+    "webpack-inherit": "^1.6.3"
   }
 }

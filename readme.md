@@ -1,17 +1,17 @@
-<h1 align="center">react-rtween</h1>
+<h1 align="center">react-voodoo</h1>
 <p align="center">Fast, SSR compatible, additive & swipeable, tween composition engine for React</p>
 
 ___
 
-<a href="https://www.npmjs.com/package/react-rtween">
-<img src="https://img.shields.io/npm/v/react-rtween.svg" alt="Npm version" /></a>
+<a href="https://www.npmjs.com/package/react-voodoo">
+<img src="https://img.shields.io/npm/v/react-voodoo.svg" alt="Npm version" /></a>
 
 <p align="center">/!\ This is beta /!\</p>
 
 
-## wtf is react-rTween ?
+## wtf is react-voodoo ?
 
-react-rtween is an additive tweener for react
+react-voodoo is an additive tweener for react
 
 It allow :
 
@@ -31,11 +31,11 @@ It allow :
 - various simple & smart optims
 - SVG bindings
 
-## Draft & minimalist [samples](http://htmlpreview.github.io/?https://github.com/n8tz/react-rtween/blob/master/samples/index.html)
+## Draft & minimalist [samples](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo/blob/master/samples/index.html)
 
 ```jsx
 import React                                        from "react";
-import {asTweener, TweenRef, TweenAxis, tweenTools} from "react-rtween";
+import {asTweener, TweenRef, TweenAxis, tweenTools} from "react-voodoo";
 
 
 let pushIn        = [
