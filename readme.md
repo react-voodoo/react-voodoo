@@ -1,4 +1,4 @@
- tmp<h1 align="center">react-voodoo</h1>
+<h1 align="center">react-voodoo</h1>
 <p align="center">Fast, SSR compatible, additive & swipeable, tween composition engine for React</p>
 
 ___
