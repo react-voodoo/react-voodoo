@@ -1,4 +1,4 @@
-<h1 align="center">react-voodoo</h1>
+<h1 align="center">react-voodoo tweener</h1>
 <p align="center">Fast, SSR compatible, additive & swipeable, tween composition engine for React</p>
 
 ___
@@ -26,12 +26,12 @@ It allow :
 
 - Better scroll support / fixs
 - Full css support ( full background transitions )
-- Doc, tests & clean
+- Doc, tests & code cleaning
 - Convert tween-axis to css keyframe anims 
 - various simple & smart optims
 - SVG bindings
 
-## Draft & minimalist [samples](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo/blob/master/samples/index.html)
+## Draft & minimalist [samples](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo/blob/dev/samples/index.html)
 
 ```jsx
 import React                                        from "react";

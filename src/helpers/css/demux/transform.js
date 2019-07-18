@@ -16,6 +16,7 @@
  */
 
 import is from "is";
+import number from "./typed/number";
 
 const
 	unitsRe      = new RegExp(
@@ -58,24 +59,27 @@ function demux( key, tweenable, target, data, box ) {
 		data[key].forEach(
 			( tmap = {}, i ) => Object.keys(tmap).forEach(
 				fkey => {
-					let dkey = key + '_' + fkey + '_' + i, value;
+					let dkey = key + '_' + fkey + '_' + i,
+					    tmpValue={};
 					
-					if ( data[dkey] === 'deg' )
-						tweenable[dkey] = tweenable[dkey] % 360;
+					//if ( data[dkey] === 'deg' )
+					//	tweenable[dkey] = tweenable[dkey] % 360;
+					//debugger
 					
-					if ( data[dkey] === 'box' ) {
-						if ( fkey === "translateX" )
-							value = tweenable[dkey] * box.x;
-						else if ( fkey === "translateY" )
-							value = tweenable[dkey] * box.y;
-						else if ( fkey === "translateZ" )
-							value = tweenable[dkey] * box.z;
-						transforms += fkey + "(" + floatCut(value, 2) + "px) ";
-					}
-					else {
-						value = tweenable[dkey];
-						transforms += fkey + "(" + floatCut(value, 2) + data[dkey] + ") ";
-					}
+					number.demux( dkey, tweenable, tmpValue, data, box )
+					//if ( data[dkey] === 'box' ) {
+					//	if ( fkey === "translateX" )
+					//		value = tweenable[dkey] * box.x;
+					//	else if ( fkey === "translateY" )
+					//		value = tweenable[dkey] * box.y;
+					//	else if ( fkey === "translateZ" )
+					//		value = tweenable[dkey] * box.z;
+					//	transforms += fkey + "(" + floatCut(value, 2) + "px) ";
+					//}
+					//else {
+					//	value = tweenable[dkey];
+						transforms += fkey + "(" + tmpValue[dkey] + ") ";
+					//}
 					
 					
 				}
@@ -104,23 +108,24 @@ export default ( key, value, target, data, initials, forceUnits ) => {
 					let fValue     = tmap[fkey],
 					    dkey       = key + '_' + fkey + '_' + i,
 					    match      = is.string(fValue) ? fValue.match(unitsRe) : false;
+					number( dkey, fValue, target, data, initials, forceUnits )
 					baseData[fkey] = true;
-					initials[dkey] = 0;
-					if ( match ) {
-						if ( !forceUnits && data[dkey] && data[dkey] !== match[2] ) {
-							console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
-							target[dkey] = 0;
-						}
-						else {
-							data[dkey]   = match[2];
-							target[dkey] = parseFloat(match[1]);
-						}
-					}
-					else {
-						target[dkey] = fValue;
-						if ( !data[dkey] && fkey in defaultUnits )
-							data[dkey] = defaultUnits[fkey];
-					}
+					//initials[dkey] = 0;
+					//if ( match ) {
+					//	if ( !forceUnits && data[dkey] && data[dkey] !== match[2] ) {
+					//		console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
+					//		target[dkey] = 0;
+					//	}
+					//	else {
+					//		data[dkey]   = match[2];
+					//		target[dkey] = parseFloat(match[1]);
+					//	}
+					//}
+					//else {
+					//	target[dkey] = fValue;
+					//	if ( !data[dkey] && fkey in defaultUnits )
+					//		data[dkey] = defaultUnits[fkey];
+					//}
 				}
 			)
 			data[key][i] =

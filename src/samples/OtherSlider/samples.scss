@@ -1,4 +1,4 @@
-/*
+/*!
  * The MIT License (MIT)
  * Copyright (c) 2019. Wise Wild Web
  *
@@ -11,63 +11,58 @@
  *  @author : Nathanael Braun
  *  @contact : n8tz.js@gmail.com
  */
-import React    from "react";
-import ReactDom from "react-dom";
-import Samples  from "react-voodoo/samples/*/(*).js"
 
-import "./samples/samples.scss";
+@mixin use_hvCenteredContent() {
 
-
-class App extends React.Component {
-	state = {
-		current: "OtherSlider"
-	};
-	
-	render() {
-		let Comp = Samples[this.state.current];
-		return <div className={"app"} style={{
-			width : "100%",
-			height: "100%"
-		}}>
-			
-			<div className={"sampleLst"} style={{
-				position: "absolute",
-				top     : "0px",
-				left    : "0px",
-				width   : "200px",
-				height  : "100%"
-			}}>
-				{
-					Object.keys(Samples).map(
-						key => <div onClick={e => this.setState({ current: key })} key={key}>{key}</div>
-					)
-				}
-			</div>
-			<div className={"sample"} style={{
-				overflow: "hidden",
-				position: "absolute",
-				top     : "0px",
-				left    : "200px",
-				width   : "calc( 100% - 200px )",
-				height  : "100%"
-			}}>
-				<Comp/>
-			</div>
-		</div>
-	}
+  &:before {
+    content: ' ';
+    display: inline-block;
+    height: 100%;
+    width: 1px;
+    margin-right: -1px;
+    vertical-align: middle;
+    overflow: hidden;
+  }
+  text-align: center;
+  > * {
+    text-align: left;
+    vertical-align: middle;
+    display: inline-block;
+  }
 }
 
-function renderSamples() {
-	
-	
-	ReactDom.render(
-		<App/>
-		, document.getElementById('app'));
-	
+@mixin use_hvCenteredAbs() {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-renderSamples()
+.OtherSlider {
+  background: rgba(190, 190, 190, 0.21);
+  text-align: center;
+  perspective: 200px;
+  user-select: none;
 
-if ( process.env.NODE_ENV !== 'production' && module.hot ) {
-	module.hot.accept('.', renderSamples);
+  .Slider {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    left: 0%;
+    height: 80%;
+  }
+
+  .slide {
+    .item {
+      background-color: green;
+
+      //@include use_hvCenteredAbs();
+      @include use_hvCenteredContent();
+      //width: 100%;
+      margin: 5px;
+      height: calc(100% - 10px);
+      touch-action: none;
+    }
+
+  }
 }

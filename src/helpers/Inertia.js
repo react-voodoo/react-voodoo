@@ -163,6 +163,7 @@ export default class Inertia {
 	isOutbound( delta ) {
 		let _   = this._, loop,
 		    pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)) + delta;
+		//if ( _.conf.infinite ) return false;
 		
 		if ( _.conf.shouldLoop ) {
 			while ( (loop = _.conf.shouldLoop(nextValue)) ) {

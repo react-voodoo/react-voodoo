@@ -30853,7 +30853,7 @@ function () {
   _proto.isOutbound = function isOutbound(delta) {
     var _ = this._,
         loop,
-        pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)) + delta;
+        pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)) + delta; //if ( _.conf.infinite ) return false;
 
     if (_.conf.shouldLoop) {
       while (loop = _.conf.shouldLoop(nextValue)) {
@@ -32003,6 +32003,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _typed_number__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./typed/number */ "./src/helpers/css/demux/typed/number.js");
 
 
 (function () {
@@ -32030,6 +32031,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 
 
 var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'cap', 'ch', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
@@ -32071,16 +32073,23 @@ function demux(key, tweenable, target, data, box) {
 
       return Object.keys(tmap).forEach(function (fkey) {
         var dkey = key + '_' + fkey + '_' + i,
-            value;
-        if (data[dkey] === 'deg') tweenable[dkey] = tweenable[dkey] % 360;
+            tmpValue = {}; //if ( data[dkey] === 'deg' )
+        //	tweenable[dkey] = tweenable[dkey] % 360;
+        //debugger
 
-        if (data[dkey] === 'box') {
-          if (fkey === "translateX") value = tweenable[dkey] * box.x;else if (fkey === "translateY") value = tweenable[dkey] * box.y;else if (fkey === "translateZ") value = tweenable[dkey] * box.z;
-          transforms += fkey + "(" + floatCut(value, 2) + "px) ";
-        } else {
-          value = tweenable[dkey];
-          transforms += fkey + "(" + floatCut(value, 2) + data[dkey] + ") ";
-        }
+        _typed_number__WEBPACK_IMPORTED_MODULE_2__["default"].demux(dkey, tweenable, tmpValue, data, box); //if ( data[dkey] === 'box' ) {
+        //	if ( fkey === "translateX" )
+        //		value = tweenable[dkey] * box.x;
+        //	else if ( fkey === "translateY" )
+        //		value = tweenable[dkey] * box.y;
+        //	else if ( fkey === "translateZ" )
+        //		value = tweenable[dkey] * box.z;
+        //	transforms += fkey + "(" + floatCut(value, 2) + "px) ";
+        //}
+        //else {
+        //	value = tweenable[dkey];
+
+        transforms += fkey + "(" + tmpValue[dkey] + ") "; //}
       });
     });
     target.transform = transforms;
@@ -32099,21 +32108,23 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
       var fValue = tmap[fkey],
           dkey = key + '_' + fkey + '_' + i,
           match = is__WEBPACK_IMPORTED_MODULE_1___default.a.string(fValue) ? fValue.match(unitsRe) : false;
-      baseData[fkey] = true;
-      initials[dkey] = 0;
-
-      if (match) {
-        if (!forceUnits && data[dkey] && data[dkey] !== match[2]) {
-          console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
-          target[dkey] = 0;
-        } else {
-          data[dkey] = match[2];
-          target[dkey] = parseFloat(match[1]);
-        }
-      } else {
-        target[dkey] = fValue;
-        if (!data[dkey] && fkey in defaultUnits) data[dkey] = defaultUnits[fkey];
-      }
+      Object(_typed_number__WEBPACK_IMPORTED_MODULE_2__["default"])(dkey, fValue, target, data, initials, forceUnits);
+      baseData[fkey] = true; //initials[dkey] = 0;
+      //if ( match ) {
+      //	if ( !forceUnits && data[dkey] && data[dkey] !== match[2] ) {
+      //		console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
+      //		target[dkey] = 0;
+      //	}
+      //	else {
+      //		data[dkey]   = match[2];
+      //		target[dkey] = parseFloat(match[1]);
+      //	}
+      //}
+      //else {
+      //	target[dkey] = fValue;
+      //	if ( !data[dkey] && fkey in defaultUnits )
+      //		data[dkey] = defaultUnits[fkey];
+      //}
     });
     data[key][i] = forceUnits ? _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, baseData, {}, data[key][i] || {}) : _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, data[key][i] || {}, {}, baseData);
   });
@@ -32521,7 +32532,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  */
 
 
-var units = ['box', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
+var units = ['box', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
     unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + units.join('|') + ")"),
     floatCut = function floatCut(v) {
   if (v === void 0) {
@@ -32790,12 +32801,15 @@ function deMuxLine(tweenLine, initials, data, demuxers) {
 /*!***********************************!*\
   !*** ./src/helpers/tweenTools.js ***!
   \***********************************/
-/*! exports provided: offset, scale, reverse, addCss, extractCss, target, shiftTransforms */
+/*! exports provided: re_cssValueWithUnit, cssAdd, cssMult, offset, scale, reverse, addCss, extractCss, target, shiftTransforms */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "offset", function() { return offset; });
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "re_cssValueWithUnit", function() { return re_cssValueWithUnit; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cssAdd", function() { return cssAdd; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cssMult", function() { return cssMult; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "offset", function() { return offset; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reverse", function() { return reverse; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addCss", function() { return addCss; });
@@ -32834,6 +32848,80 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+var re_cssValueWithUnit = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")");
+/**
+ * add any css val with it unit ( todo: optims&use objects for multi unit
+ * @param val1
+ * @param val2
+ * @returns {Array}
+ */
+
+function cssAdd(val1, val2) {
+  if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(val1)) val1 = [val1];
+  if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(val2)) val2 = [val2];
+  var units1 = val1.map(function (v) {
+    return v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'];
+  }),
+      units2 = val2.map(function (v) {
+    return v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'];
+  }),
+      remap = {},
+      result = [],
+      i;
+  i = 0;
+
+  while (i < units1.length) {
+    remap[units1[i][2]] = remap[units1[i][2]] || 0;
+    remap[units1[i][2]] += parseFloat(units1[i][1]);
+    i++;
+  }
+
+  i = 0;
+
+  while (i < units2.length) {
+    remap[units2[i][2]] = remap[units2[i][2]] || 0;
+    remap[units2[i][2]] += parseFloat(units2[i][1]);
+    i++;
+  }
+
+  Object.keys(remap).forEach(function (unit) {
+    return result.push(remap[unit] + unit);
+  });
+
+  for (var _len = arguments.length, argz = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+    argz[_key - 2] = arguments[_key];
+  }
+
+  return argz.length ? cssAdd.apply(void 0, [result].concat(argz)) : result;
+}
+/**
+ * Multiply any css val with it unit ( todo: optims & use objects for multi unit
+ * @param val1
+ * @param val2
+ * @returns {Array}
+ */
+
+function cssMult(val1, val) {
+  if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(val1)) val1 = [val1];
+  var units1 = val1.map(function (v) {
+    return v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'];
+  }),
+      remap = {},
+      result = [],
+      i;
+  i = 0;
+
+  while (i < units1.length) {
+    remap[units1[i][2]] = remap[units1[i][2]] || 1;
+    remap[units1[i][2]] = parseFloat(units1[i][1]) * val;
+    i++;
+  }
+
+  Object.keys(remap).forEach(function (unit) {
+    return result.push(remap[unit] + unit);
+  });
+  return result;
+}
 function offset(items, start) {
   if (start === void 0) {
     start = 0;
@@ -32895,8 +32983,8 @@ function reverse(items) {
   });
 }
 function addCss(target) {
-  for (var _len = arguments.length, sources = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    sources[_key - 1] = arguments[_key];
+  for (var _len2 = arguments.length, sources = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    sources[_key2 - 1] = arguments[_key2];
   }
 
   var source = sources.shift();
@@ -32991,6 +33079,9 @@ function shiftTransforms(items, shift) {
     return;
   }
 
+  reactHotLoader.register(re_cssValueWithUnit, "re_cssValueWithUnit", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(cssAdd, "cssAdd", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(cssMult, "cssMult", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
   reactHotLoader.register(offset, "offset", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
   reactHotLoader.register(scale, "scale", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
   reactHotLoader.register(inverseValues, "inverseValues", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");

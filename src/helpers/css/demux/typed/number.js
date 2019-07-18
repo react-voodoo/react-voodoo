@@ -18,7 +18,7 @@
 import is from "is";
 
 const
-	units           = ['box', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
+	units           = ['box', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
 	unitsRe         = new RegExp(
 		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
 		units.join('|')
