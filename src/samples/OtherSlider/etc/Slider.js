@@ -114,7 +114,7 @@ export default class Slider extends React.Component {
 		    nbClones                 = 0,
 		    dec                      = !infinite ? windowSize : 0;
 		
-		while ( (visibleItems + enteringSteps + leavingSteps) > (nbGhostItems-visibleItems) ) {
+		while ( (visibleItems + enteringSteps + leavingSteps) > (nbGhostItems - visibleItems) ) {
 			if ( infinite ) {
 				allItems.unshift(...children);
 				allItems.push(...children);
@@ -215,6 +215,7 @@ export default class Slider extends React.Component {
 						( Child, i ) =>
 							<TweenRef
 								key={i}
+								//id={"s_" + i}
 								initial={
 									defaultInitial
 								}

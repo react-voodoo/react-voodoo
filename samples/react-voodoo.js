@@ -29214,7 +29214,7 @@ function (_React$Component) {
     return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_5__["default"].Consumer, null, function (parentTweener) {
       //@todo : should use didmount ?
       parentTweener = tweener || parentTweener;
-      var twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, reset);
+      var twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, reset); //if ( this._currentTweener !== parentTweener )
 
       if (_this3._currentTweener !== parentTweener || _this3._previousScrollable !== tweenLines) {
         if (_this3._tweenLines) {
@@ -29223,12 +29223,13 @@ function (_React$Component) {
           });
         }
 
+        _this3._currentTweener && _this3._currentTweener.rmTweenRef(id);
         if (tweenLines && is__WEBPACK_IMPORTED_MODULE_2___default.a.array(tweenLines)) _this3._tweenLines = {
           scrollY: parentTweener.addScrollableAnim(setTarget(tweenLines, id))
         };else _this3._tweenLines = tweenLines && Object.keys(tweenLines).reduce(function (h, axe) {
           return h[axe] = parentTweener.addScrollableAnim(setTarget(tweenLines[axe], id), axe), h;
         }, {});
-        if (_this3._currentTweener !== parentTweener) _this3._currentTweener && _this3._currentTweener.rmTweenRef(_this3.__tweenableId);
+        twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, reset);
         twRef.style = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, parentTweener._updateTweenRef(id));
 
         if (_this3.props.hasOwnProperty("isRoot")) {
@@ -29592,7 +29593,7 @@ function asTweener() {
       var _ = this._,
           tweenableMap = {};
       var initials = {};
-      if (!_.tweenRefs[id]) _.tweenRefTargets.push(id);
+      if (!_.tweenRefs[id]) _.tweenRefTargets.push(id); //debugger
 
       if (_.tweenRefs[id] && (_.iMapOrigin[id] !== iMap || mapReset)) {
         // hot switch initial values
@@ -29633,6 +29634,7 @@ function asTweener() {
             if (_.tweenRefOrigin[id].hasOwnProperty(key) && !tweenableMap.hasOwnProperty(key)) {
               delete _.tweenRefMaps[id][key];
               delete _.muxByTarget[id][key];
+              _.refs[id] && (_.refs[id].style[key] = undefined);
             }
           });
           _.tweenRefOrigin[id] = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, tweenableMap);
@@ -32034,10 +32036,14 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 
 
 
-var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'cap', 'ch', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
-    floatCut = function floatCut(v, l) {
-  var p = Math.pow(10, l);
-  return Math.round(v * p) / p;
+var units = ['box', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
+    unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
+    floatCut = function floatCut(v) {
+  if (v === void 0) {
+    v = 0;
+  }
+
+  return v.toFixed(3);
 },
     defaultUnits = {
   //matrix     : true,
@@ -32061,23 +32067,64 @@ var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'cap', 'c
   rotateY: 'deg',
   rotateZ: 'deg',
   perspective: 'px'
+},
+    defaultBox = {
+  translateX: 'x',
+  translateY: 'y',
+  translateZ: 'z',
+  rotateX: 'x',
+  rotateY: 'y',
+  rotateZ: 'z',
+  left: 'x',
+  right: 'x',
+  top: 'y',
+  bottom: 'y',
+  width: 'x',
+  height: 'y'
 };
+
+function demuxOne(key, dkey, twVal, baseKey, data, box) {
+  var value = twVal,
+      unit = data[dkey][key] || defaultUnits[baseKey];
+
+  if (unit === 'box') {
+    value = value * (box[defaultBox[baseKey]] || box.x);
+    unit = 'px';
+  }
+
+  if (unit === 'deg') value = value % 360; //if ( Math.abs(value) < .0001 && value !== 0 )
+
+  return unit ? floatCut(value) + unit : floatCut(value);
+}
 
 function demux(key, tweenable, target, data, box) {
   if (data["transform_head"] === key) {
-    var transforms = "";
+    var transforms = "",
+        tmpValue = {};
     data[key].forEach(function (tmap, i) {
       if (tmap === void 0) {
         tmap = {};
       }
 
       return Object.keys(tmap).forEach(function (fkey) {
-        var dkey = key + '_' + fkey + '_' + i,
-            tmpValue = {}; //if ( data[dkey] === 'deg' )
+        var dkey = key + '_' + fkey + '_' + i;
+        var value,
+            y = 0;
+        value = "";
+
+        for (var rKey in data[dkey]) {
+          if (data[dkey].hasOwnProperty(rKey)) {
+            if (tweenable[dkey] < 0) value += (y ? " - " : "-") + demuxOne(rKey, dkey, -tweenable[rKey], fkey, data, box);else value += (y ? " + " : "") + demuxOne(rKey, dkey, tweenable[rKey], fkey, data, box);
+            y++;
+          }
+        }
+
+        if (y > 1) value = "calc(" + value + ")"; //target[dkey] = value;
+        //if ( data[dkey] === 'deg' )
         //	tweenable[dkey] = tweenable[dkey] % 360;
         //debugger
-
-        _typed_number__WEBPACK_IMPORTED_MODULE_2__["default"].demux(dkey, tweenable, tmpValue, data, box); //if ( data[dkey] === 'box' ) {
+        //number.demux(dkey, tweenable, tmpValue, data, box, fkey)
+        //if ( data[dkey] === 'box' ) {
         //	if ( fkey === "translateX" )
         //		value = tweenable[dkey] * box.x;
         //	else if ( fkey === "translateY" )
@@ -32089,12 +32136,31 @@ function demux(key, tweenable, target, data, box) {
         //else {
         //	value = tweenable[dkey];
 
-        transforms += fkey + "(" + tmpValue[dkey] + ") "; //}
+        transforms += fkey + "(" + value + ") "; //}
       });
     });
     target.transform = transforms;
   }
 }
+
+function muxOne(key, value, target, data, initials, forceUnits) {
+  var match = is__WEBPACK_IMPORTED_MODULE_1___default.a.string(value) ? value.match(unitsRe) : false,
+      unit = match && match[2] || defaultUnits[key],
+      unitKey = units.indexOf(unit),
+      realKey = unitKey !== -1 && key + '_' + unitKey || key;
+  initials[realKey] = 0;
+  data[key][realKey] = unit;
+
+  if (match) {
+    target[realKey] = parseFloat(match[1]);
+  } else {
+    target[realKey] = parseFloat(value);
+  }
+
+  return demux;
+}
+
+;
 
 var _default = function _default(key, value, target, data, initials, forceUnits) {
   data["transform_head"] = data["transform_head"] || key;
@@ -32106,25 +32172,42 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
 
     tmap && Object.keys(tmap).forEach(function (fkey) {
       var fValue = tmap[fkey],
-          dkey = key + '_' + fkey + '_' + i,
-          match = is__WEBPACK_IMPORTED_MODULE_1___default.a.string(fValue) ? fValue.match(unitsRe) : false;
-      Object(_typed_number__WEBPACK_IMPORTED_MODULE_2__["default"])(dkey, fValue, target, data, initials, forceUnits);
-      baseData[fkey] = true; //initials[dkey] = 0;
+          dkey = key + '_' + fkey + '_' + i; //match  = is.string(fValue) ? fValue.match(unitsRe) : false;
+      //number(dkey, fValue, target, data, initials, forceUnits)
+
+      baseData[fkey] = true;
+      data[dkey] = data[dkey] || {};
+
+      if (is__WEBPACK_IMPORTED_MODULE_1___default.a.array(fValue)) {
+        for (var u = 0; u < fValue.length; u++) {
+          muxOne(dkey, fValue[u] || 0, target, data, initials, forceUnits);
+        }
+      } else {
+        muxOne(dkey, fValue || 0, target, data, initials, forceUnits);
+      } //let match   = is.string(fValue) ? fValue.match(unitsRe) : false,
+      //    unit    = match && match[2] || defaultUnits[fkey],
+      //    unitKey = units.indexOf(unit),
+      //    realKey = unitKey !== -1 && (dkey + '_' + unitKey) || dkey;
+      //
+      //initials[realKey]   = 0;
+      //data[dkey]          = data[dkey] || {};
+      //data[dkey][realKey] = unit;
+      //
       //if ( match ) {
-      //	if ( !forceUnits && data[dkey] && data[dkey] !== match[2] ) {
-      //		console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
-      //		target[dkey] = 0;
-      //	}
-      //	else {
-      //		data[dkey]   = match[2];
-      //		target[dkey] = parseFloat(match[1]);
-      //	}
+      //	target[realKey] = parseFloat(match[1]);
       //}
       //else {
-      //	target[dkey] = fValue;
-      //	if ( !data[dkey] && fkey in defaultUnits )
-      //		data[dkey] = defaultUnits[fkey];
+      //	target[realKey] = parseFloat(fValue);
       //}
+      //
+      //initials[dkey] = 0;
+      //if ( match ) {
+      //	if ( !forceUnits && data[dkey] && data[dkey] !== match[2] ) {
+      //		console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" +
+      // match[2]); target[dkey] = 0; } else { data[dkey]   = match[2]; target[dkey] =
+      // parseFloat(match[1]); } } else { target[dkey] = fValue; if ( !data[dkey] && fkey in defaultUnits
+      // ) data[dkey] = defaultUnits[fkey]; }
+
     });
     data[key][i] = forceUnits ? _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, baseData, {}, data[key][i] || {}) : _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, data[key][i] || {}, {}, baseData);
   });
@@ -32141,10 +32224,14 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
     return;
   }
 
+  reactHotLoader.register(units, "units", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
   reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
   reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
   reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(defaultBox, "defaultBox", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(demuxOne, "demuxOne", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
   reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(muxOne, "muxOne", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
   reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
 })();
 
@@ -32547,9 +32634,34 @@ var units = ['box', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 
   top: 'px',
   bottom: 'px',
   width: 'px',
-  height: 'px'
+  height: 'px',
+  translateX: 'px',
+  translateY: 'px',
+  translateZ: 'px',
+  scale: '',
+  //scaleX     : 'px',
+  //scaleY     : 'px',
+  rotate: 'deg',
+  //skew       : 'deg',
+  skewX: 'deg',
+  skewY: 'deg',
+  //matrix3d   : true,
+  //translate3d: true,
+  //scale3d    : true,
+  scaleZ: 'px',
+  //rotate3d   : true,
+  rotateX: 'deg',
+  rotateY: 'deg',
+  rotateZ: 'deg',
+  perspective: 'px'
 },
     defaultBox = {
+  translateX: 'x',
+  translateY: 'y',
+  translateZ: 'z',
+  rotateX: 'x',
+  rotateY: 'y',
+  rotateZ: 'z',
   left: 'x',
   right: 'x',
   top: 'y',
@@ -32574,14 +32686,14 @@ function demuxOne(key, twVal, baseKey, data, box) {
   return unit ? floatCut(value) + unit : floatCut(value);
 }
 
-function demux(key, tweenable, target, data, box) {
+function demux(key, tweenable, target, data, box, baseKey) {
   var value,
       i = 0;
   value = "";
 
   for (var rKey in data[key]) {
     if (data[key].hasOwnProperty(rKey)) {
-      if (tweenable[rKey] < 0) value += (i ? " - " : "-") + demuxOne(rKey, -tweenable[rKey], key, data, box);else value += (i ? " + " : "") + demuxOne(rKey, tweenable[rKey], key, data, box);
+      if (tweenable[rKey] < 0) value += (i ? " - " : "-") + demuxOne(rKey, -tweenable[rKey], baseKey || key, data, box);else value += (i ? " + " : "") + demuxOne(rKey, tweenable[rKey], baseKey || key, data, box);
       i++;
     }
   }
@@ -32623,6 +32735,7 @@ function muxOne(key, value, target, data, initials, forceUnits) {
 
 ;
 muxer.demux = demux;
+muxer.demuxOne = demuxOne;
 var _default = muxer;
 /* harmony default export */ __webpack_exports__["default"] = (_default);
 ;

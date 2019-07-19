@@ -149,7 +149,7 @@ export default function asTweener( ...argz ) {
 			if ( !_.tweenRefs[id] )
 				_.tweenRefTargets.push(id);
 			
-			
+			//debugger
 			if ( _.tweenRefs[id] && (_.iMapOrigin[id] !== iMap || mapReset) ) {
 				// hot switch initial values
 				
@@ -203,6 +203,7 @@ export default function asTweener( ...argz ) {
 							      if ( _.tweenRefOrigin[id].hasOwnProperty(key) && !tweenableMap.hasOwnProperty(key) ) {
 								      delete _.tweenRefMaps[id][key]
 								      delete _.muxByTarget[id][key]
+								      _.refs[id] && (_.refs[id].style[key] = undefined);
 							      }
 						      }
 					      );

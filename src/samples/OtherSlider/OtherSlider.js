@@ -14,40 +14,42 @@
 
 import React  from "react";
 import anims  from "./anims/(*)/anims.js";
+import debounce  from "debounce";
 import Slider from "./etc/Slider";
 import "./samples.scss";
 
 export default class OtherSlider extends React.Component {
 	state = {
-		responsiveMode: "portrait"
+		responsiveMode: "landscape"
 	};
+	
 	//
-	//componentWillMount() {
-	//	this._applyResponsive()
-	//}
-	//
-	//componentDidMount() {
-	//	window.addEventListener(
-	//		"resize",
-	//		this._applyResponsive);
-	//}
-	//
-	//componentWillUnmount() {
-	//	window.removeEventListener(
-	//		"resize",
-	//		this._applyResponsive);
-	//}
-	//
-	//_applyResponsive = () => {
-	//	let width          = window.innerWidth,
-	//	    height         = window.innerHeight,
-	//	    responsiveMode = "landscape";
-	//
-	//	if ( width < height )
-	//		responsiveMode = "portrait"
-	//	console.log(width, height, responsiveMode)
-	//	this.setState({ responsiveMode })
-	//}
+	componentWillMount() {
+		this._applyResponsive()
+	}
+	
+	componentDidMount() {
+		window.addEventListener(
+			"resize",
+			this._applyResponsive);
+	}
+	
+	componentWillUnmount() {
+		window.removeEventListener(
+			"resize",
+			this._applyResponsive);
+	}
+	
+	_applyResponsive = debounce(() => {
+		let width          = window.innerWidth,
+		    height         = window.innerHeight,
+		    responsiveMode = "landscape";
+		
+		if ( width < height )
+			responsiveMode = "portrait"
+		console.log(width, height, responsiveMode)
+		this.setState({ responsiveMode })
+	}, 10)
 	
 	componentDidScroll( pos, axe ) {
 		this.forceUpdate();// force update to show scroll pos

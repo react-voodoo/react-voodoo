@@ -18,41 +18,38 @@ import "./samples.scss";
 
 
 let pushIn        = [
+	//{
+	//	from    : 0,
+	//	duration: 500,
+	//	easeFn  : "easeCircleIn",
+	//	apply   : {
+	//		transform: [{}, {
+	//			//translateZ: "-.2box"
+	//		}],
+	//		//filter   : {
+	//			//sepia: 100
+	//		//}
+	//	}
+	//},
+	//{
+	//	from    : 500,
+	//	duration: 500,
+	//	easeFn  : "easeCircleIn",
+	//	apply   : {
+	//		transform: [{}, {
+	//			//translateZ: ".2box"
+	//		}],
+	//		//filter   : {
+	//			//sepia: -100
+	//		//}
+	//	}
+	//},
 	{
-		type    : "Tween",
-		from    : 0,
-		duration: 500,
-		easeFn  : "easeCircleIn",
-		apply   : {
-			transform: [{}, {
-				translateZ: "-.2box"
-			}],
-			filter   : {
-				sepia: 100
-			}
-		}
-	},
-	{
-		type    : "Tween",
-		from    : 500,
-		duration: 500,
-		easeFn  : "easeCircleIn",
-		apply   : {
-			transform: [{}, {
-				translateZ: ".2box"
-			}],
-			filter   : {
-				sepia: -100
-			}
-		}
-	},
-	{
-		type    : "Tween",
 		from    : 250,
-		duration: 500,
+		duration: 5000,
 		apply   : {
 			transform: [{}, {
-				rotateY: 180,
+				rotateY: "180deg",
 			}],
 		}
 	}
