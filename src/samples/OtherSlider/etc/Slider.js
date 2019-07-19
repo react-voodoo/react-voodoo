@@ -114,7 +114,7 @@ export default class Slider extends React.Component {
 		    nbClones                 = 0,
 		    dec                      = !infinite ? windowSize : 0;
 		
-		while ( (visibleItems + enteringSteps + leavingSteps) > (nbGhostItems / 2) ) {
+		while ( (visibleItems + enteringSteps + leavingSteps) > (nbGhostItems-visibleItems) ) {
 			if ( infinite ) {
 				allItems.unshift(...children);
 				allItems.push(...children);
@@ -194,10 +194,10 @@ export default class Slider extends React.Component {
 								let { windowSize } = this.state;
 								
 								if ( Math.round(v) >= (nbClones * windowSize + 3 * windowSize) )
-									return -jumpLength;
+									return -windowSize;
 								
-								if ( v < (nbClones * windowSize + 2 * windowSize) )
-									return jumpLength;
+								if ( Math.round(v) < (nbClones * windowSize + 2 * windowSize) )
+									return windowSize;
 							}),
 							willSnap  : ( i, v ) => {
 								let { nbItems }   = this.state;

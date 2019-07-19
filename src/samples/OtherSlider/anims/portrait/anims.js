@@ -13,17 +13,17 @@
  */
 import {tweenTools} from "react-voodoo";
 
-export const visibleItems = 7;
+export const visibleItems = 4;
 let margin                = "5px",
     area                  = "60vh",
     itemHeight            = tweenTools.cssAdd(tweenTools.cssMult(area, 1 / (visibleItems))),
     step                  = tweenTools.cssMult(itemHeight, 1),
-    zMax                  = tweenTools.cssMult(area, 1.45),
+    zMax                  = tweenTools.cssMult(area, 2.05),
     angle                 = "27.5deg";
 
 
-export const enteringSteps = 5;
-export const leavingSteps  = 5;
+export const enteringSteps = 4;
+export const leavingSteps  = 4;
 //export const defaultIndex  = 2;
 export const infinite      = true;
 

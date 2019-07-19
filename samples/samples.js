@@ -34479,15 +34479,15 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  *  @contact : n8tz.js@gmail.com
  */
 
-var visibleItems = 7;
+var visibleItems = 4;
 var margin = "5px",
     area = "60vh",
     itemHeight = react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].cssAdd(react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].cssMult(area, 1 / visibleItems)),
     step = react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].cssMult(itemHeight, 1),
-    zMax = react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].cssMult(area, 1.45),
+    zMax = react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].cssMult(area, 2.05),
     angle = "27.5deg";
-var enteringSteps = 5;
-var leavingSteps = 5; //export const defaultIndex  = 2;
+var enteringSteps = 4;
+var leavingSteps = 4; //export const defaultIndex  = 2;
 
 var infinite = true;
 var scrollDir = "scrollY";
@@ -34756,7 +34756,7 @@ function (_React$Component) {
         nbClones = 0,
         dec = !infinite ? windowSize : 0;
 
-    while (visibleItems + enteringSteps + leavingSteps > nbGhostItems / 2) {
+    while (visibleItems + enteringSteps + leavingSteps > nbGhostItems - visibleItems) {
       if (infinite) {
         var _allItems, _allItems2;
 
@@ -34838,8 +34838,8 @@ function (_React$Component) {
         //maxJump,
         shouldLoop: infinite && function (v) {
           var windowSize = _this4.state.windowSize;
-          if (Math.round(v) >= nbClones * windowSize + 3 * windowSize) return -jumpLength;
-          if (v < nbClones * windowSize + 2 * windowSize) return jumpLength;
+          if (Math.round(v) >= nbClones * windowSize + 3 * windowSize) return -windowSize;
+          if (Math.round(v) < nbClones * windowSize + 2 * windowSize) return windowSize;
         },
         willSnap: function willSnap(i, v) {
           var nbItems = _this4.state.nbItems;
