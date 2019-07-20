@@ -166,6 +166,136 @@ export default class MyTweenerComp extends React.Component{
 ```
 
 ### asTweener
+
+Return a react-voodoo tweener component inheriting the target React component
+
+The resulting component will have the tweener hooks
+
+```jsx harmony
+
+import React from "react";
+import {asTweener, TweenAxis, TweenRef, tweenTools} from "react-voodoo";
+
+@asTweener(
+	{
+	    // max click tm in ms before a click become a drag
+		maxClickTm        : 200,
+		// max drag offset in px before a click become a drag
+		maxClickOffset    : 100,
+		
+		// mouse scroll force
+		wheelRatio        : 5,
+		
+		// only apply 1 drag direction  
+		dragDirectionLock : false,
+		
+		// allow dragging with mouse
+		enableMouseDrag   : false
+	}
+)
+export default class MyTweenerComp extends React.Component{
+	/**
+	* Hook to determine if this component should apply a scroll event
+	* ( if not, the parent tweener / scrollable node will apply it )
+    * @param axisId
+    * @param delta
+    * return {boolean|undefined}
+    */
+	componentShouldScroll(axisId, delta){
+		
+	}
+	/**
+	* did scroll event
+    * @param pos
+    * @param axisId
+    */
+	componentDidScroll( pos, axisId ) {
+	}
+	/**
+	* did resize event
+    * @param pos
+    * @param axisId
+    */
+	windowDidResize( event ) {
+	}
+}
+```
+
 ### withTweener
-### TweenRef
-### TweenAxis
+
+Hoc to use a specified tweener in a component childs ( by default tweenRefs are manager by theirs first tweener parent )
+
+```jsx harmony
+
+import React from "react";
+import {withTweener} from "react-voodoo";
+
+@withTweener
+export default class MyTweenerComp extends React.Component{
+	render(){}
+}
+
+// use <MyTweenerComp tweener={tweenerComponent}/>
+```
+
+## tweenTools
+
+The package expose some tween & css utils
+
+```jsx harmony
+/**
+ * add any css val with multiple units 
+ * @param val1
+ * @param val2
+ * @returns {Array}
+ */
+export function cssAdd( val1, val2, ...argz ) {}
+
+/**
+ * Multiply any css val with multiple unit
+ * @param val1
+ * @param val
+ * @returns {Array}
+ */
+export function cssMult( val1, val ) {}
+
+/**
+* Apply an offset on all the given tween
+* @param items
+* @param start
+*/
+export function offset( items, start = 0 ) {}
+
+/**
+* Scale a tween collection to the specified duration 
+* @param items
+* @param duration
+* @param withOffset
+* @returns {(T | {duration: number, from: number})[]}
+*/
+export function scale( items, duration = 0, withOffset ) {}
+
+/**
+* Reverse an array of tween ( order & values )
+* @param items
+* @returns {(T | {apply: (*|string), from: number})[]}
+*/
+export function reverse( items ) {}
+
+/**
+* Add specified target to all tweens
+* @param items
+* @param target
+* @returns {(T | {target: *})[]}
+*/
+export function target( items, target ) {}
+
+
+/**
+* Shift transforms of the specified tween array
+* @param items
+* @param shift
+*/
+export function shiftTransforms( items, shift = 1 ) {}
+
+```

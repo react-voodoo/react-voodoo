@@ -395,9 +395,11 @@ export default function asTweener( ...argz ) {
 				
 				isBrowserSide && window.addEventListener(
 					"resize",
-					this._.onResize = () => {//@todo
+					this._.onResize = (e) => {//@todo
 						this._updateBox();
-						this._updateTweenRefs()
+						this._updateTweenRefs();
+						this.windowDidResize
+						&& this.windowDidResize(e)
 					});
 			}
 		}
@@ -449,14 +451,11 @@ export default function asTweener( ...argz ) {
 			
 			_.axes[axe] = _.axes[axe] || {
 				tweenAxis       : [],
-				scrollPos       : opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
+				scrollPos       : 0,
 				targetPos       : 0,
 				scrollableWindow: 0,
 				scrollableArea  : 0,
-				inertia         : new Inertia({
-					                              value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
-					                              ...(opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {})
-				                              }),
+				inertia         : new Inertia({}),
 			};
 			
 			return _.axes[axe];
