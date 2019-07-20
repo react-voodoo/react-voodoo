@@ -31,7 +31,7 @@ It allow :
 - various simple & smart optims
 - SVG bindings
 
-## Draft & minimalist [samples](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo/blob/dev/samples/index.html)
+## Draft & minimalist [samples](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo/blob/master/samples/index.html)
 
 ```jsx
 import React                                        from "react";
