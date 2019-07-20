@@ -14,9 +14,9 @@ react-voodoo manage theirs application basing on the react bindings & the browse
 ### Units 
 
 Voodoo tweener add 3 (client side) units : 
- - (float)box : 1box = (width or height) of the 1st parent with [asTweener]();
- - (float)bh : 1bh = height of the 1st parent with [asTweener]();
- - (float)bw : 1bw = width of the 1st parent with [asTweener]();
+ - (float)box : 1box = (width or height) of the 1st parent with [asTweener](readme.md#astweener);
+ - (float)bh : 1bh = height of the 1st parent with [asTweener](readme.md#astweener);
+ - (float)bw : 1bw = width of the 1st parent with [asTweener](readme.md#astweener);
 <!-- - (float)bz : 1bz = perspective of the 1st parent with [asTweener]();-->
 
 * These units are calculated dynamically & updated when the windows trigger resize events
@@ -165,7 +165,7 @@ export default class MyTweenerComp extends React.Component{
 
 ```
 
-### asTweener ( hoc )
-### withTweener ( hoc )
+### asTweener
+### withTweener
 ### TweenRef
 ### TweenAxis
