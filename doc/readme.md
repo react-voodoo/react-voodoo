@@ -1,32 +1,86 @@
 <h1 align="center">react-voodoo tweener</h1>
-<p align="center">Fast, SSR compatible, additive & swipeable, tween composition engine for React</p>
 
 ___
 
-<a href="https://www.npmjs.com/package/react-voodoo">
-<img src="https://img.shields.io/npm/v/react-voodoo.svg" alt="Npm version" /></a>
 
-<p align="center">/!\ This is beta /!\</p>
+## Concepts & syntax
+
+### Tween Axis
+
+In react-voodoo Tween axis are scrollable / swipeable arrays of relatives tween. <br>
+All tween are dynamically composed by [tween-axis](https://github.com/n8tz/tween-axis), which make them additive & relative, so they can be applied simultaneously on same values.<br> 
+react-voodoo manage theirs application basing on the react bindings & the browser events.<br> 
+
+### Units 
+
+Voodoo tweener add 3 (client side) units : 
+ - (float)box : 1box = (width or height) of the 1st parent with [asTweener]();
+ - (float)bh : 1bh = height of the 1st parent with [asTweener]();
+ - (float)bw : 1bw = width of the 1st parent with [asTweener]();
+<!-- - (float)bz : 1bz = perspective of the 1st parent with [asTweener]();-->
+
+* These units are calculated dynamically & updated when the windows trigger resize events
+
+### Styles syntax
+
+All styles use camelcase css in js syntax except for transform & filter.
+
+```jsx harmony
+let style = {
+        
+        height : "50%",
+        
+        // the tweener deal with multiple units 
+        // it will use css calc fn if there's more than 1 unit used 
+        width : ["50%", "10vw", "-50px", ".2box"],
+
+        // transform can use multiple "layers"
+        transform: [
+            {
+                // can only use rotate(X|Y|Z) & translate(X|Y|Z) 
+                rotateX:"25deg"
+            }, 
+            {
+                translateZ: "-.2box"
+            }
+        ],
+        filter   : {
+            sepia: 100
+        }
+    
+}
+```
+
+### tween syntax
+
+```jsx harmony
+let anim        = [
+	{
+		// target tween ref id ( optional if used as tweenAxis on a TweenRef ) 
+		target: "someTweenRefId",
+		
+		// tween start position
+		from    : 0,
+		
+		// tween duration 
+		duration: 500,
+		
+		// function or easing fn id from [d3-ease](https://github.com/d3/d3-ease)
+		easeFn  : "easeCircleIn",
+		
+		// relative css values to be applied  
+		apply   : {
+			// Same syntax as the styles
+			transform: [{}, {
+				translateZ: "-.2box"
+			}]
+		}
+	}
+];
+```
 
 
-## wtf is react-voodoo ?
-
-react-voodoo is an additive tweener for react
-
-It allow :
-
-- Additive tween ( applying forward and backward multiples tween on same properties )
-- Scrollable & swipeable animations
-- SSR rendering of =! scroll / swipe position
-- Hot switching scrollable anims ( responsive )
-- Predictive inertia
-- etc...
-
-## Draft & minimalist samples [here](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo/blob/master/samples/index.html) ( [sources](src/.samples) )
-
-## Draft & minimalist doc [here](doc/readme.md)
-
-## Basics
+## React syntax
 
 ```jsx harmony
 
@@ -111,17 +165,7 @@ export default class MyTweenerComp extends React.Component{
 
 ```
 
-## todo / roadmap ?
-
-- Better scroll support / fixs
-- Full css support ( full background transitions )
-- Doc, tests & code cleaning
-- various simple & smart optims
-- Allow tween-axis to css keyframe anims ? 
-- Allow SVG bindings ?
-
-### License ?
-
-AGPL license
-
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
+### asTweener ( hoc )
+### withTweener ( hoc )
+### TweenRef
+### TweenAxis

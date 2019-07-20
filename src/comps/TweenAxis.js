@@ -21,15 +21,6 @@ import React     from 'react';
 
 import TweenerContext from "./TweenerContext";
 
-function setTarget( anims, target ) {
-	return anims.map(
-		tween => ({
-			...tween,
-			target
-		})
-	)
-}
-
 export default class TweenAxis extends React.Component {
 	static propTypes = {
 		axe            : PropTypes.string.isRequired,

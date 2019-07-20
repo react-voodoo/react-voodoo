@@ -326,32 +326,32 @@ export default function asTweener( ...argz ) {
 				      )
 			}
 			
-			
-			// console.warn("Should start anim ", sl);
 			this.makeTweenable();
 			
-			
-			!skipInit && initial && Object.keys(initial).map(
-				( id ) => this.applyTweenState(id, initial[id], anim.reset)
-			);
-			
-			
-			sl.run(this._.tweenRefMaps, () => {
-				var i = this._.runningAnims.indexOf(sl);
-				if ( i != -1 )
-					this._.runningAnims.splice(i, 1);
-				
-				then && then(sl);
-			});//launch
-			this._.runningAnims.push(sl);
-			
-			
-			if ( !this._.live ) {
-				this._.live = true;
-				//console.log("RAF On");
-				requestAnimationFrame(this._._rafLoop = this._._rafLoop || this._rafLoop.bind(this));
-			}
-			return sl;
+			return new Promise(
+				resolve => {
+					
+					!skipInit && initial && Object.keys(initial).map(
+						( id ) => this.applyTweenState(id, initial[id], anim.reset)
+					);
+					
+					// start timer launch @todo
+					sl.run(this._.tweenRefMaps, () => {
+						var i = this._.runningAnims.indexOf(sl);
+						if ( i != -1 )
+							this._.runningAnims.splice(i, 1);
+						
+						resolve(sl);
+					});
+					
+					this._.runningAnims.push(sl);
+					
+					if ( !this._.live ) {
+						this._.live = true;
+						requestAnimationFrame(this._._rafLoop = this._._rafLoop || this._rafLoop.bind(this));
+					}
+				}
+			).then(sl => (then && then(sl)));
 			
 		}
 		
