@@ -65,18 +65,15 @@ export default class Slider extends React.Component {
 	}
 	
 	componentDidUpdate( prevProps, prevState, snapshot ) {
-		let { autoScroll, scrollDir }                      = this.props,
-		    { index = this.props.defaultIndex, step, dec } = this.state;
+		let { autoScroll, scrollDir }                                                   = this.props,
+		    { index = this.props.defaultIndex, step, windowSize, nbClones, jumpLength } = this.state;
 		
-		if ( prevState.dec !== dec ) {
-			this.scrollTo(this._getAxis(scrollDir).scrollPos + dec - prevState.dec, 0, scrollDir);
-		}
 		if ( prevState.index !== index ) {
 			if ( this._wasUserSnap ) {
 				this._wasUserSnap = false;
 			}
 			else {
-				this.scrollTo(dec + step * index + 100, 500, scrollDir);
+				this.scrollTo(windowSize + index * step + nbClones * jumpLength + 2 * windowSize, 500, scrollDir);
 			}
 			if ( autoScroll ) {
 				clearTimeout(this._updater);
@@ -103,57 +100,56 @@ export default class Slider extends React.Component {
 			    leavingSteps,
 			    defaultEntering,
 			    defaultLeaving,
-			    scrollDir, windowSize,
+			    scrollDir,
+			    windowSize,
 			    infinite
 		    }                        = props,
 		    children                 = is.array(_childs) ? _childs : [],
 		    { index = defaultIndex } = state,
 		    allItems                 = [...children],
 		    nbGhostItems             = allItems.length,
-		    step                     = windowSize * overlaps,
+		    step                     = 100 * overlaps,
 		    nbClones                 = 0,
-		    dec                      = !infinite ? windowSize : 0;
+		    enteringSize             = enteringSteps * step;
 		
-		while ( (visibleItems + enteringSteps + leavingSteps) > (nbGhostItems - visibleItems) ) {
-			if ( infinite ) {
+		if ( infinite ) {
+			while ( (visibleItems + enteringSteps + leavingSteps) > (nbGhostItems - visibleItems) ) {
 				allItems.unshift(...children);
 				allItems.push(...children);
-				dec += windowSize;
+				nbGhostItems += children.length * 2;
+				nbClones++;
 			}
-			nbGhostItems += children.length * 2;
-			nbClones++;
 		}
-		allItems = allItems.map(( elem, i ) => React.cloneElement(elem, { key: i }))
+		allItems = allItems.map(( elem, i ) => React.cloneElement(elem, { key: i }));
 		
-		console.log('InfiniteList::getDerivedStateFromProps:107: ', nbClones);
 		return {
 			allItems,
 			nbGhostItems,
 			nbItems   : children.length,
 			step,
-			dec,
 			nbClones,
 			tweenLines: allItems.map(( e, i ) => ({
 				[scrollDir]: [
 					...tweenTools.offset(
-						tweenTools.scale(defaultEntering, step * enteringSteps)
+						tweenTools.scale(defaultEntering, enteringSize)
 						,
-						i * step + nbClones * windowSize - (step * enteringSteps) + step
+						i * step + step
 					),
 					...tweenTools.offset(
 						[
 							...tweenTools.scale(scrollAxis, windowSize),
 						],
-						i * step + nbClones * windowSize
+						i * step + enteringSize
 					),
 					...tweenTools.offset(
 						tweenTools.scale(defaultLeaving, step * leavingSteps)
 						,
-						i * step + nbClones * windowSize + windowSize
+						i * step + enteringSize + windowSize
 					),
 				],
 			})),
-			windowSize: 100,
+			windowSize,
+			enteringSize,
 			jumpLength: (children.length) * step,
 			index
 		}
@@ -170,8 +166,8 @@ export default class Slider extends React.Component {
 			    visibleItems, scrollDir,
 			    className    = ""
 		    }                                                                                                      = this.props,
-		    { index = defaultIndex, nbClones, allItems, nbGhostItems, step, dec, tweenLines, nbItems, jumpLength } = this.state;
-		
+		    { index = defaultIndex, nbClones, allItems, enteringSize, step, dec, tweenLines, nbItems, jumpLength } = this.state;
+		console.log('Slider::render:171: ', nbClones, index * step + nbClones * jumpLength + windowSize);
 		return (
 			<div
 				className={"Slider " + className}
@@ -184,29 +180,30 @@ export default class Slider extends React.Component {
 			>
 				<TweenAxis
 					axe={scrollDir}
-					defaultPosition={index * step + nbClones * windowSize + dec}
-					size={windowSize + 2 * nbClones * windowSize + 2 * windowSize}
+					defaultPosition={index * step + nbClones * jumpLength + enteringSize + windowSize}
+					size={enteringSize + 2 * nbClones * jumpLength + jumpLength + windowSize}
 					scrollableWindow={visibleItems * step}
 					inertia={
 						{
-							//maxJump,
+							maxJump,
 							shouldLoop: infinite && (( v ) => {
 								let { windowSize } = this.state;
 								
-								if ( Math.round(v) >= (nbClones * windowSize + 3 * windowSize) )
-									return -windowSize;
+								if ( Math.round(v) >= (nbClones * jumpLength + enteringSize + jumpLength) )
+									return -jumpLength;
 								
-								if ( Math.round(v) < (nbClones * windowSize + 2 * windowSize) )
-									return windowSize;
+								if ( Math.round(v) < (nbClones * jumpLength + enteringSize) )
+									return jumpLength;
 							}),
+							//min      : windowSize,
+							//max      : nbClones * jumpLength + jumpLength + windowSize,
 							willSnap  : ( i, v ) => {
 								let { nbItems }   = this.state;
 								this._wasUserSnap = true;
 								//this.setState({ index: (i) % nbItems })
-								//console.log(i % nbItems, v)
+								console.log((i-visibleItems+nbItems) % nbItems, v)
 							},
-							//value     : 100 + dec + index * step,
-							wayPoints : allItems.map(( child, i ) => ({ at: i * step + dec }))
+							wayPoints : allItems.map(( child, i ) => ({ at: i * step + enteringSize }))
 						}
 					}
 				/>

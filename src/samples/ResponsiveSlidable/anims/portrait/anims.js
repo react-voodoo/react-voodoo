@@ -14,8 +14,7 @@
 import {tweenTools} from "react-voodoo";
 
 export const visibleItems = 4;
-let margin                = "5px",
-    area                  = "60vh",
+let area                  = "60vh",
     itemHeight            = tweenTools.cssAdd(tweenTools.cssMult(area, 1 / (visibleItems))),
     step                  = tweenTools.cssMult(itemHeight, 1),
     zMax                  = tweenTools.cssMult(area, 2.05),
@@ -24,7 +23,6 @@ let margin                = "5px",
 
 export const enteringSteps = 4;
 export const leavingSteps  = 4;
-//export const defaultIndex  = 2;
 export const infinite      = true;
 
 export const scrollDir = "scrollY";
@@ -38,7 +36,6 @@ export const defaultInitial  = {
 	top            : tweenTools.cssAdd(area, tweenTools.cssMult(step, -1), "10vh"),
 	left           : "0%",
 	zIndex         : 500,
-	//opacity  : 0,
 	transform      : [
 		{
 			perspective: zMax,
@@ -99,9 +96,3 @@ export const defaultLeaving  = [
 	       }
        ]
 ;
-//export default {
-//	defaultLeaving,
-//	defaultEntering,
-//	defaultInitial,
-//	scrollY
-//}

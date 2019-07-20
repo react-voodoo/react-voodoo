@@ -19,7 +19,7 @@ import is from "is";
 
 export const re_cssValueWithUnit = new RegExp(
 	"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
-	['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
+	['box', 'bz', 'bh', 'bw', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
 	+ ")"
 );
 
@@ -96,7 +96,7 @@ export function offset( items, start = 0 ) {
 	)
 }
 
-export function scale( items, duration = 0 ) {
+export function scale( items, duration = 0, withOffset ) {
 	items = is.array(items) ? items : items && [items] || items;
 	
 	// get items current duration
@@ -107,7 +107,7 @@ export function scale( items, duration = 0 ) {
 		}
 	)
 	
-	return items.map(
+	items = items.map(
 		item => (
 			{
 				...item,
@@ -116,6 +116,7 @@ export function scale( items, duration = 0 ) {
 			}
 		)
 	)
+	return withOffset ? offset(items, withOffset) : items
 }
 
 function inverseValues( v ) {

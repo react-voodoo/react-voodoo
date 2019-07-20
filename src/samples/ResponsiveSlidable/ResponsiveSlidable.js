@@ -12,13 +12,13 @@
  *  @contact : n8tz.js@gmail.com
  */
 
-import React  from "react";
-import anims  from "./anims/(*)/anims.js";
-import debounce  from "debounce";
-import Slider from "./etc/Slider";
+import debounce from "debounce";
+import React    from "react";
+import anims    from "./anims/(*)/anims.js";
+import Slider   from "./etc/Slider";
 import "./samples.scss";
 
-export default class OtherSlider extends React.Component {
+export default class ResponsiveSlidable extends React.Component {
 	state = {
 		responsiveMode: "landscape"
 	};
@@ -57,7 +57,7 @@ export default class OtherSlider extends React.Component {
 	
 	render() {
 		const responsiveMode = this.state.responsiveMode;
-		return <div className={"OtherSlider"} style={{
+		return <div className={"ResponsiveSlidable"} style={{
 			width : "100%",
 			height: "100%"
 		}}>
@@ -73,6 +73,12 @@ export default class OtherSlider extends React.Component {
 				</div>
 				<div className={"item"} style={{ backgroundImage: "url(https://source.unsplash.com/600x400/?cat)" }}>
 					4
+				</div>
+				<div className={"item"} style={{ backgroundImage: "url(https://source.unsplash.com/600x400/?beer)" }}>
+					5
+				</div>
+				<div className={"item"} style={{ backgroundImage: "url(https://source.unsplash.com/600x400/?dog)" }}>
+					6
 				</div>
 			</Slider>
 		</div>;

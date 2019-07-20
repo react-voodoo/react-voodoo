@@ -54,6 +54,9 @@ const inertiaByNode = {
  * @type {module.exports}
  */
 export default class Inertia {
+	static config = {
+		bounds: true
+	};
 	
 	constructor( opt ) {
 		let _  = this._ = {};
@@ -157,6 +160,19 @@ export default class Inertia {
 			_.targetDist += delta;
 			_.targetDuration += tm;
 		}
+		
+		if ( _.conf.bounds ) {
+			if ( (_.pos + _.targetDist) > _.max ) {
+				
+				_.targetDist     = _.max - _.pos;
+				_.targetDuration = abs(_.targetDist * 10);
+			}
+			else if ( (_.pos + _.targetDist) < _.min ) {
+				
+				_.targetDist     = _.min - _.pos;
+				_.targetDuration = abs(_.targetDist * 10);
+			}
+		}
 		this._doSnap(signOf(delta), 750)
 	}
 	
@@ -239,6 +255,7 @@ export default class Inertia {
 	
 	setBounds( min, max ) {
 		let _ = this._;
+		//console.log('Inertia::setBounds:245: ', min, max);
 		_.min = min;
 		_.max = max;
 	}
@@ -295,42 +312,32 @@ export default class Inertia {
 		let _        = this._,
 		    velSign  = signOf(_.lastVelocity);
 		this.holding = false;
+		// calc momentum distance...
+		applyInertia(_);
+		
 		if ( _.conf.bounds ) {
-			if ( _.pos > _.max ) {
-				this.active      = true;
-				_.inertia        = true;
-				_.lastInertiaPos = 0;
-				_.inertiaStartTm =
-					_.inertiaLastTm = Date.now();
+			if ( (_.pos + _.targetDist) > _.max ) {
 				
 				_.targetDist     = _.max - _.pos;
 				_.targetDuration = abs(_.targetDist * 10);
 			}
-			else if ( _.pos < _.min ) {
-				this.active      = true;
-				_.inertia        = true;
-				_.lastInertiaPos = 0;
-				_.inertiaStartTm =
-					_.inertiaLastTm = Date.now();
+			else if ( (_.pos + _.targetDist) < _.min ) {
 				
-				_.targetDist     = _.pos - _.min;
+				_.targetDist     = _.min - _.pos;
 				_.targetDuration = abs(_.targetDist * 10);
 			}
 		}
-		else {
-			// calc momentum distance...
-			applyInertia(_);
-			
-			if ( !_.targetDuration )
-				_.targetDuration = 50;
-			
-			//console.log(_);
-			this.active      = true;
-			_.inertia        = true;
-			_.lastInertiaPos = 0;
-			_.inertiaStartTm =
-				_.inertiaLastTm = Date.now();
-		}
+		//else {
+		if ( !_.targetDuration )
+			_.targetDuration = 50;
+		
+		//console.log(_);
+		this.active      = true;
+		_.inertia        = true;
+		_.lastInertiaPos = 0;
+		_.inertiaStartTm =
+			_.inertiaLastTm = Date.now();
+		//}
 		this._doSnap(null, 500)
 	}
 }

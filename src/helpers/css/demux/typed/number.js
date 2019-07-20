@@ -18,10 +18,10 @@
 import is from "is";
 
 const
-	units           = ['box', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
-	unitsRe         = new RegExp(
+	units        = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
+	unitsRe      = new RegExp(
 		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
-		units.join('|')
+		['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
 		+ ")"
 	),
 	floatCut        = ( v = 0 ) => v.toFixed(3),
@@ -77,6 +77,18 @@ function demuxOne( key, twVal, baseKey, data, box ) {
 		value = value * (box[defaultBox[baseKey]] || box.x);
 		unit  = 'px';
 		
+	}
+	if ( unit === 'bw' ) {
+		value = value * box.x;
+		unit  = 'px';
+	}
+	if ( unit === 'bh' ) {
+		value = value * box.y;
+		unit  = 'px';
+	}
+	if ( unit === 'bz' ) {
+		value = value * box.z;
+		unit  = 'px';
 	}
 	//if ( Math.abs(value) < .0001 && value !== 0 )
 	return unit ? floatCut(value) + unit : floatCut(value);

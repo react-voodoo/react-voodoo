@@ -29185,7 +29185,7 @@ function (_React$Component) {
     var props = [].concat(target.style); //console.log(props)
 
     props.forEach(function (p) {
-      return target.style[p] = "unset";
+      return target.style[p] = undefined;
     });
 
     this._currentTweener._updateTweenRef(); //console.log({ ...this._currentTweener.getTweenableRef(id).style }, this._currentTweener)
@@ -29214,22 +29214,23 @@ function (_React$Component) {
     return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_5__["default"].Consumer, null, function (parentTweener) {
       //@todo : should use didmount ?
       parentTweener = tweener || parentTweener;
-      var twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, reset); //if ( this._currentTweener !== parentTweener )
+      var twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, reset);
 
       if (_this3._currentTweener !== parentTweener || _this3._previousScrollable !== tweenLines) {
         if (_this3._tweenLines) {
           Object.keys(_this3._tweenLines).forEach(function (axe) {
             return _this3._currentTweener.rmScrollableAnim(_this3._tweenLines[axe], axe);
           });
-        }
+        } //if ( this._currentTweener !== parentTweener )
+
 
         _this3._currentTweener && _this3._currentTweener.rmTweenRef(id);
+        twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, _this3._previousScrollable !== tweenLines);
         if (tweenLines && is__WEBPACK_IMPORTED_MODULE_2___default.a.array(tweenLines)) _this3._tweenLines = {
           scrollY: parentTweener.addScrollableAnim(setTarget(tweenLines, id))
         };else _this3._tweenLines = tweenLines && Object.keys(tweenLines).reduce(function (h, axe) {
           return h[axe] = parentTweener.addScrollableAnim(setTarget(tweenLines[axe], id), axe), h;
         }, {});
-        twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, reset);
         twRef.style = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, parentTweener._updateTweenRef(id));
 
         if (_this3.props.hasOwnProperty("isRoot")) {
@@ -29612,9 +29613,9 @@ function asTweener() {
           iStyle = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, iStyle, {}, Object(_helpers_css__WEBPACK_IMPORTED_MODULE_8__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true));
           Object.assign(_.tweenRefCSS[id], _.tweenRefOriginCss[id]);
         } else {
-          _.muxByTarget[id] = {}; // should reset only a part of.. complex
+          //_.muxByTarget[id] = {};
+          // should reset only a part of.. complex
           //_.muxDataByTarget[id] = {};
-
           iStyle = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, iStyle, {}, Object(_helpers_css__WEBPACK_IMPORTED_MODULE_8__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true, true)); // minus initial values
 
           Object.keys(_.tweenRefOrigin[id]).forEach(function (key) {
@@ -30849,6 +30850,16 @@ function () {
       _.targetDuration += tm;
     }
 
+    if (_.conf.bounds) {
+      if (_.pos + _.targetDist > _.max) {
+        _.targetDist = _.max - _.pos;
+        _.targetDuration = abs(_.targetDist * 10);
+      } else if (_.pos + _.targetDist < _.min) {
+        _.targetDist = _.min - _.pos;
+        _.targetDuration = abs(_.targetDist * 10);
+      }
+    }
+
     this._doSnap(signOf(delta), 750);
   };
 
@@ -30934,7 +30945,8 @@ function () {
   };
 
   _proto.setBounds = function setBounds(min, max) {
-    var _ = this._;
+    var _ = this._; //console.log('Inertia::setBounds:245: ', min, max);
+
     _.min = min;
     _.max = max;
   };
@@ -30992,34 +31004,27 @@ function () {
   _proto.release = function release() {
     var _ = this._,
         velSign = signOf(_.lastVelocity);
-    this.holding = false;
+    this.holding = false; // calc momentum distance...
+
+    applyInertia(_);
 
     if (_.conf.bounds) {
-      if (_.pos > _.max) {
-        this.active = true;
-        _.inertia = true;
-        _.lastInertiaPos = 0;
-        _.inertiaStartTm = _.inertiaLastTm = Date.now();
+      if (_.pos + _.targetDist > _.max) {
         _.targetDist = _.max - _.pos;
         _.targetDuration = abs(_.targetDist * 10);
-      } else if (_.pos < _.min) {
-        this.active = true;
-        _.inertia = true;
-        _.lastInertiaPos = 0;
-        _.inertiaStartTm = _.inertiaLastTm = Date.now();
-        _.targetDist = _.pos - _.min;
+      } else if (_.pos + _.targetDist < _.min) {
+        _.targetDist = _.min - _.pos;
         _.targetDuration = abs(_.targetDist * 10);
       }
-    } else {
-      // calc momentum distance...
-      applyInertia(_);
-      if (!_.targetDuration) _.targetDuration = 50; //console.log(_);
+    } //else {
 
-      this.active = true;
-      _.inertia = true;
-      _.lastInertiaPos = 0;
-      _.inertiaStartTm = _.inertiaLastTm = Date.now();
-    }
+
+    if (!_.targetDuration) _.targetDuration = 50; //console.log(_);
+
+    this.active = true;
+    _.inertia = true;
+    _.lastInertiaPos = 0;
+    _.inertiaStartTm = _.inertiaLastTm = Date.now(); //}
 
     this._doSnap(null, 500);
   };
@@ -31033,6 +31038,9 @@ function () {
   return Inertia;
 }();
 
+Inertia.config = {
+  bounds: true
+};
 
 ;
 
@@ -32005,7 +32013,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _typed_number__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./typed/number */ "./src/helpers/css/demux/typed/number.js");
 
 
 (function () {
@@ -32035,9 +32042,8 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  */
 
 
-
-var units = ['box', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
-    unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
+var units = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
+    unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
     floatCut = function floatCut(v) {
   if (v === void 0) {
     v = 0;
@@ -32092,6 +32098,21 @@ function demuxOne(key, dkey, twVal, baseKey, data, box) {
     unit = 'px';
   }
 
+  if (unit === 'bw') {
+    value = value * box.x;
+    unit = 'px';
+  }
+
+  if (unit === 'wh') {
+    value = value * box.y;
+    unit = 'px';
+  }
+
+  if (unit === 'bz') {
+    value = value * box.z;
+    unit = 'px';
+  }
+
   if (unit === 'deg') value = value % 360; //if ( Math.abs(value) < .0001 && value !== 0 )
 
   return unit ? floatCut(value) + unit : floatCut(value);
@@ -32119,24 +32140,8 @@ function demux(key, tweenable, target, data, box) {
           }
         }
 
-        if (y > 1) value = "calc(" + value + ")"; //target[dkey] = value;
-        //if ( data[dkey] === 'deg' )
-        //	tweenable[dkey] = tweenable[dkey] % 360;
-        //debugger
-        //number.demux(dkey, tweenable, tmpValue, data, box, fkey)
-        //if ( data[dkey] === 'box' ) {
-        //	if ( fkey === "translateX" )
-        //		value = tweenable[dkey] * box.x;
-        //	else if ( fkey === "translateY" )
-        //		value = tweenable[dkey] * box.y;
-        //	else if ( fkey === "translateZ" )
-        //		value = tweenable[dkey] * box.z;
-        //	transforms += fkey + "(" + floatCut(value, 2) + "px) ";
-        //}
-        //else {
-        //	value = tweenable[dkey];
-
-        transforms += fkey + "(" + value + ") "; //}
+        if (y > 1) value = "calc(" + value + ")";
+        transforms += fkey + "(" + value + ") ";
       });
     });
     target.transform = transforms;
@@ -32162,7 +32167,7 @@ function muxOne(key, value, target, data, initials, forceUnits) {
 
 ;
 
-var _default = function _default(key, value, target, data, initials, forceUnits) {
+var _default = function _default(key, value, target, data, initials, forceUnits, reset) {
   data["transform_head"] = data["transform_head"] || key;
   data[key] = data[key] || [{}];
   initials[key] = 0;
@@ -32184,30 +32189,7 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
         }
       } else {
         muxOne(dkey, fValue || 0, target, data, initials, forceUnits);
-      } //let match   = is.string(fValue) ? fValue.match(unitsRe) : false,
-      //    unit    = match && match[2] || defaultUnits[fkey],
-      //    unitKey = units.indexOf(unit),
-      //    realKey = unitKey !== -1 && (dkey + '_' + unitKey) || dkey;
-      //
-      //initials[realKey]   = 0;
-      //data[dkey]          = data[dkey] || {};
-      //data[dkey][realKey] = unit;
-      //
-      //if ( match ) {
-      //	target[realKey] = parseFloat(match[1]);
-      //}
-      //else {
-      //	target[realKey] = parseFloat(fValue);
-      //}
-      //
-      //initials[dkey] = 0;
-      //if ( match ) {
-      //	if ( !forceUnits && data[dkey] && data[dkey] !== match[2] ) {
-      //		console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" +
-      // match[2]); target[dkey] = 0; } else { data[dkey]   = match[2]; target[dkey] =
-      // parseFloat(match[1]); } } else { target[dkey] = fValue; if ( !data[dkey] && fkey in defaultUnits
-      // ) data[dkey] = defaultUnits[fkey]; }
-
+      }
     });
     data[key][i] = forceUnits ? _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, baseData, {}, data[key][i] || {}) : _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, data[key][i] || {}, {}, baseData);
   });
@@ -32619,8 +32601,8 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  */
 
 
-var units = ['box', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
-    unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + units.join('|') + ")"),
+var units = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
+    unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
     floatCut = function floatCut(v) {
   if (v === void 0) {
     v = 0;
@@ -32679,6 +32661,21 @@ function demuxOne(key, twVal, baseKey, data, box) {
 
   if (unit === 'box') {
     value = value * (box[defaultBox[baseKey]] || box.x);
+    unit = 'px';
+  }
+
+  if (unit === 'bw') {
+    value = value * box.x;
+    unit = 'px';
+  }
+
+  if (unit === 'bh') {
+    value = value * box.y;
+    unit = 'px';
+  }
+
+  if (unit === 'bz') {
+    value = value * box.z;
     unit = 'px';
   } //if ( Math.abs(value) < .0001 && value !== 0 )
 
@@ -32961,7 +32958,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var re_cssValueWithUnit = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")");
+var re_cssValueWithUnit = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['box', 'bz', 'bh', 'bw', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")");
 /**
  * add any css val with it unit ( todo: optims&use objects for multi unit
  * @param val1
@@ -33047,7 +33044,7 @@ function offset(items, start) {
     });
   });
 }
-function scale(items, duration) {
+function scale(items, duration, withOffset) {
   if (duration === void 0) {
     duration = 0;
   }
@@ -33058,12 +33055,13 @@ function scale(items, duration) {
   items.forEach(function (item) {
     iDuration = Math.max(iDuration, item.from + item.duration);
   });
-  return items.map(function (item) {
+  items = items.map(function (item) {
     return _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, item, {
       from: item.from / iDuration * duration,
       duration: item.duration / iDuration * duration
     });
   });
+  return withOffset ? offset(items, withOffset) : items;
 }
 
 function inverseValues(v) {

@@ -44,5 +44,11 @@
     @include use_hvCenteredContent();
     background: url("https://source.unsplash.com/600x400/?logo") no-repeat center center;
     background-size: cover;
+    >span{
+      border-radius: 5px;
+      padding: 5px;
+      background-color: rgba(255, 255, 255, 0.57);
+      font-weight: bold;
+    }
   }
 }

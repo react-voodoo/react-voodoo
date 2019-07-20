@@ -16,14 +16,12 @@
  */
 
 import is from "is";
-import number from "./typed/number";
 
 const
-	units        = ['box', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
-	
+	units        = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
 	unitsRe      = new RegExp(
 		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
-		['\\w+', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
+		['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
 		+ ")"
 	),
 	floatCut     = ( v = 0 ) => v.toFixed(3),
@@ -72,7 +70,18 @@ function demuxOne( key, dkey, twVal, baseKey, data, box ) {
 	if ( unit === 'box' ) {
 		value = value * (box[defaultBox[baseKey]] || box.x);
 		unit  = 'px';
-		
+	}
+	if ( unit === 'bw' ) {
+		value = value * box.x;
+		unit  = 'px';
+	}
+	if ( unit === 'wh' ) {
+		value = value * box.y;
+		unit  = 'px';
+	}
+	if ( unit === 'bz' ) {
+		value = value * box.z;
+		unit  = 'px';
 	}
 	
 	if ( unit === 'deg' )
@@ -104,26 +113,7 @@ function demux( key, tweenable, target, data, box ) {
 						}
 					if ( y > 1 )
 						value = "calc(" + value + ")";
-					
-					//target[dkey] = value;
-					//if ( data[dkey] === 'deg' )
-					//	tweenable[dkey] = tweenable[dkey] % 360;
-					//debugger
-					
-					//number.demux(dkey, tweenable, tmpValue, data, box, fkey)
-					//if ( data[dkey] === 'box' ) {
-					//	if ( fkey === "translateX" )
-					//		value = tweenable[dkey] * box.x;
-					//	else if ( fkey === "translateY" )
-					//		value = tweenable[dkey] * box.y;
-					//	else if ( fkey === "translateZ" )
-					//		value = tweenable[dkey] * box.z;
-					//	transforms += fkey + "(" + floatCut(value, 2) + "px) ";
-					//}
-					//else {
-					//	value = tweenable[dkey];
 					transforms += fkey + "(" + value + ") ";
-					//}
 					
 					
 				}
@@ -141,7 +131,7 @@ function muxOne( key, value, target, data, initials, forceUnits ) {
 	    unitKey = units.indexOf(unit),
 	    realKey = unitKey !== -1 && (key + '_' + unitKey) || key;
 	
-	initials[realKey]  =  0;
+	initials[realKey]  = 0;
 	data[key][realKey] = unit;
 	
 	if ( match ) {
@@ -153,7 +143,7 @@ function muxOne( key, value, target, data, initials, forceUnits ) {
 	
 	return demux;
 };
-export default ( key, value, target, data, initials, forceUnits ) => {
+export default ( key, value, target, data, initials, forceUnits, reset ) => {
 	
 	data["transform_head"] = data["transform_head"] || key;
 	data[key]              = data[key] || [{}];
@@ -177,39 +167,12 @@ export default ( key, value, target, data, initials, forceUnits ) => {
 					data[dkey] = data[dkey] || {};
 					if ( is.array(fValue) ) {
 						for ( let u = 0; u < fValue.length; u++ ) {
-							
 							muxOne(dkey, fValue[u] || 0, target, data, initials, forceUnits)
 						}
 					}
 					else {
 						muxOne(dkey, fValue || 0, target, data, initials, forceUnits)
 					}
-					
-					
-					//let match   = is.string(fValue) ? fValue.match(unitsRe) : false,
-					//    unit    = match && match[2] || defaultUnits[fkey],
-					//    unitKey = units.indexOf(unit),
-					//    realKey = unitKey !== -1 && (dkey + '_' + unitKey) || dkey;
-					//
-					//initials[realKey]   = 0;
-					//data[dkey]          = data[dkey] || {};
-					//data[dkey][realKey] = unit;
-					//
-					//if ( match ) {
-					//	target[realKey] = parseFloat(match[1]);
-					//}
-					//else {
-					//	target[realKey] = parseFloat(fValue);
-					//}
-					//
-					
-					//initials[dkey] = 0;
-					//if ( match ) {
-					//	if ( !forceUnits && data[dkey] && data[dkey] !== match[2] ) {
-					//		console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" +
-					// match[2]); target[dkey] = 0; } else { data[dkey]   = match[2]; target[dkey] =
-					// parseFloat(match[1]); } } else { target[dkey] = fValue; if ( !data[dkey] && fkey in defaultUnits
-					// ) data[dkey] = defaultUnits[fkey]; }
 				}
 			)
 			data[key][i] =
