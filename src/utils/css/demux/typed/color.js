@@ -16,21 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component}     from 'react';
-import TweenAxis       from './comps/TweenAxis';
-import TweenerContext  from './comps/TweenerContext';
-import TweenRef        from './comps/TweenRef';
-import asTweener       from './spells/asTweener';
-import withTweener     from './spells/withTweener';
-import * as tweenTools from './utils/tweenTools.js';
+import rgba from "color-rgba";
 
-@asTweener
-class Tweenable extends Component {
-	render() {
-		return this.props.children;
-	}
+function demux( key, tweenable, target, data ) {
+	target[key] = "rgba(" + tweenable[key + '_r'] + ", " + tweenable[key + '_g'] + ", " + tweenable[key + '_b'] + ", " + tweenable[key + '_a'] + ")";
 }
 
-
-export {asTweener, withTweener, tweenTools, Tweenable, TweenRef, TweenerContext, TweenAxis};
-export default Tweenable;
+export default ( key, value, target, data, initials ) => {
+	let vect           = rgba(value);
+	target[key + '_r'] = vect[0];
+	target[key + '_g'] = vect[1];
+	target[key + '_b'] = vect[2];
+	target[key + '_a'] = vect[3];
+	
+	initials[key + '_r'] = 0;
+	initials[key + '_g'] = 0;
+	initials[key + '_b'] = 0;
+	initials[key + '_a'] = 1;
+	
+	return demux;
+}
