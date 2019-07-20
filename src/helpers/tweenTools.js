@@ -17,6 +17,73 @@
 
 import is from "is";
 
+export const re_cssValueWithUnit = new RegExp(
+	"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
+	['box', 'bz', 'bh', 'bw', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
+	+ ")"
+);
+
+/**
+ * add any css val with it unit ( todo: optims&use objects for multi unit
+ * @param val1
+ * @param val2
+ * @returns {Array}
+ */
+export function cssAdd( val1, val2, ...argz ) {
+	if ( !is.array(val1) )
+		val1 = [val1];
+	if ( !is.array(val2) )
+		val2 = [val2];
+	
+	let units1             = val1.map(v => (v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'])),
+	    units2             = val2.map(v => (v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'])),
+	    remap = {}, result = [], i;
+	
+	i = 0;
+	while ( i < units1.length ) {
+		remap[units1[i][2]] = remap[units1[i][2]] || 0;
+		remap[units1[i][2]] += parseFloat(units1[i][1]);
+		i++;
+	}
+	i = 0;
+	while ( i < units2.length ) {
+		remap[units2[i][2]] = remap[units2[i][2]] || 0;
+		remap[units2[i][2]] += parseFloat(units2[i][1]);
+		i++;
+	}
+	Object.keys(remap)
+	      .forEach(
+		      unit => (result.push(remap[unit] + unit))
+	      );
+	return argz.length ? cssAdd(result, ...argz) : result;
+}
+
+/**
+ * Multiply any css val with it unit ( todo: optims & use objects for multi unit
+ * @param val1
+ * @param val2
+ * @returns {Array}
+ */
+export function cssMult( val1, val ) {
+	if ( !is.array(val1) )
+		val1 = [val1];
+	
+	let units1             = val1.map(v => (v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'])),
+	    remap = {}, result = [], i;
+	
+	i = 0;
+	while ( i < units1.length ) {
+		remap[units1[i][2]] = remap[units1[i][2]] || 1;
+		remap[units1[i][2]] = parseFloat(units1[i][1]) * val;
+		i++;
+	}
+	Object.keys(remap)
+	      .forEach(
+		      unit => (result.push(remap[unit] + unit))
+	      );
+	return result;
+}
+
 export function offset( items, start = 0 ) {
 	items = is.array(items) ? items : items && [items] || items;
 	return items.map(
@@ -29,7 +96,7 @@ export function offset( items, start = 0 ) {
 	)
 }
 
-export function scale( items, duration = 0 ) {
+export function scale( items, duration = 0, withOffset ) {
 	items = is.array(items) ? items : items && [items] || items;
 	
 	// get items current duration
@@ -40,7 +107,7 @@ export function scale( items, duration = 0 ) {
 		}
 	)
 	
-	return items.map(
+	items = items.map(
 		item => (
 			{
 				...item,
@@ -49,6 +116,7 @@ export function scale( items, duration = 0 ) {
 			}
 		)
 	)
+	return withOffset ? offset(items, withOffset) : items
 }
 
 function inverseValues( v ) {

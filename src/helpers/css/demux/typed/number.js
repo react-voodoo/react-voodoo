@@ -18,28 +18,53 @@
 import is from "is";
 
 const
-	units           = ['box', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
-	unitsRe         = new RegExp(
+	units        = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
+	unitsRe      = new RegExp(
 		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
-		units.join('|')
+		['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
 		+ ")"
 	),
 	floatCut        = ( v = 0 ) => v.toFixed(3),
 	defaultUnits    = {
-		left  : 'px',
-		right : 'px',
-		top   : 'px',
-		bottom: 'px',
-		width : 'px',
-		height: 'px',
+		left       : 'px',
+		right      : 'px',
+		top        : 'px',
+		bottom     : 'px',
+		width      : 'px',
+		height     : 'px',
+		translateX : 'px',
+		translateY : 'px',
+		translateZ : 'px',
+		scale      : '',
+		//scaleX     : 'px',
+		//scaleY     : 'px',
+		rotate     : 'deg',
+		//skew       : 'deg',
+		skewX      : 'deg',
+		skewY      : 'deg',
+		//matrix3d   : true,
+		//translate3d: true,
+		//scale3d    : true,
+		scaleZ     : 'px',
+		//rotate3d   : true,
+		rotateX    : 'deg',
+		rotateY    : 'deg',
+		rotateZ    : 'deg',
+		perspective: 'px',
 	},
 	defaultBox      = {
-		left  : 'x',
-		right : 'x',
-		top   : 'y',
-		bottom: 'y',
-		width : 'x',
-		height: 'y',
+		translateX: 'x',
+		translateY: 'y',
+		translateZ: 'z',
+		rotateX   : 'x',
+		rotateY   : 'y',
+		rotateZ   : 'z',
+		left      : 'x',
+		right     : 'x',
+		top       : 'y',
+		bottom    : 'y',
+		width     : 'x',
+		height    : 'y',
 	}, defaultValue = {
 		opacity: 1
 	};
@@ -53,11 +78,23 @@ function demuxOne( key, twVal, baseKey, data, box ) {
 		unit  = 'px';
 		
 	}
+	if ( unit === 'bw' ) {
+		value = value * box.x;
+		unit  = 'px';
+	}
+	if ( unit === 'bh' ) {
+		value = value * box.y;
+		unit  = 'px';
+	}
+	if ( unit === 'bz' ) {
+		value = value * box.z;
+		unit  = 'px';
+	}
 	//if ( Math.abs(value) < .0001 && value !== 0 )
 	return unit ? floatCut(value) + unit : floatCut(value);
 }
 
-function demux( key, tweenable, target, data, box ) {
+function demux( key, tweenable, target, data, box, baseKey ) {
 	let value, i = 0;
 	
 	value = "";
@@ -65,9 +102,9 @@ function demux( key, tweenable, target, data, box ) {
 	for ( let rKey in data[key] )
 		if ( data[key].hasOwnProperty(rKey) ) {
 			if ( tweenable[rKey] < 0 )
-				value += (i ? " - " : "-") + demuxOne(rKey, -tweenable[rKey], key, data, box);
+				value += (i ? " - " : "-") + demuxOne(rKey, -tweenable[rKey], baseKey || key, data, box);
 			else
-				value += (i ? " + " : "") + demuxOne(rKey, tweenable[rKey], key, data, box);
+				value += (i ? " + " : "") + demuxOne(rKey, tweenable[rKey], baseKey || key, data, box);
 			i++;
 		}
 	if ( i > 1 )
@@ -112,5 +149,6 @@ function muxOne( key, value, target, data, initials, forceUnits ) {
 	
 	return demux;
 };
-muxer.demux = demux;
+muxer.demux    = demux;
+muxer.demuxOne = demuxOne;
 export default muxer;

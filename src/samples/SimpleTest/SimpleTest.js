@@ -13,13 +13,12 @@
  */
 
 import React                                        from "react";
-import {asTweener, TweenRef, TweenAxis, tweenTools} from "react-voodoo";
+import {asTweener, TweenAxis, TweenRef, tweenTools} from "react-voodoo";
 import "./samples.scss";
 
 
 let pushIn        = [
 	{
-		type    : "Tween",
 		from    : 0,
 		duration: 500,
 		easeFn  : "easeCircleIn",
@@ -33,7 +32,6 @@ let pushIn        = [
 		}
 	},
 	{
-		type    : "Tween",
 		from    : 500,
 		duration: 500,
 		easeFn  : "easeCircleIn",
@@ -47,80 +45,103 @@ let pushIn        = [
 		}
 	},
 	{
-		type    : "Tween",
 		from    : 250,
 		duration: 500,
 		apply   : {
 			transform: [{}, {
-				rotateY: 180,
+				rotateY: "180deg",
 			}],
 		}
 	}
 ];
+let goDown        = ( rotateDir = "rotateY", angle = 5, deepness = 30 ) => [
+	{
+		from    : 0,
+		duration: 50,
+		apply   : {
+			transform: {
+				translateZ: -deepness
+			},
+		}
+	},
+	{
+		from    : 0,
+		duration: 25,
+		apply   : {
+			transform: {
+				[rotateDir]: angle,
+			},
+		}
+	},
+	{
+		from    : 25,
+		duration: 25,
+		apply   : {
+			transform: {
+				[rotateDir]: -angle,
+			},
+		}
+	},
+	{
+		from    : 50,
+		duration: 50,
+		apply   : {
+			transform: {
+				translateZ: deepness
+			},
+		}
+	},
+	{
+		from    : 50,
+		duration: 25,
+		apply   : {
+			transform: {
+				[rotateDir]: -angle,
+			},
+		}
+	},
+	{
+		from    : 75,
+		duration: 25,
+		apply   : {
+			transform: {
+				[rotateDir]: angle,
+			},
+		}
+	}];
 const scrollAnims = {
 	scrollX: [
 		{
-			type    : "Tween",
 			from    : 0,
 			duration: 200,
 			apply   : {
 				transform: {
-					translateX: "-1box"
+					translateX: "-.8box"
 				},
 			}
 		},
-		{
-			type    : "Tween",
-			from    : 0,
-			duration: 100,
-			apply   : {
-				transform: {
-					rotateX: 30,
-				},
-			}
-		},
-		{
-			type    : "Tween",
-			from    : 100,
-			duration: 100,
-			apply   : {
-				transform: {
-					rotateX: 30,
-				},
-			}
-		}
+		
+		...tweenTools.scale(goDown("rotateY", -4), 200, 0),
+		...tweenTools.scale(goDown("rotateY", -4), 50, 0),
+		...tweenTools.scale(goDown("rotateY", -4), 50, 50),
+		...tweenTools.scale(goDown("rotateY", -4), 50, 100),
+		...tweenTools.scale(goDown("rotateY", -4), 50, 150),
 	],
 	scrollY: [
 		{
-			type    : "Tween",
 			from    : 0,
 			duration: 200,
 			apply   : {
 				transform: {
-					translateY: "-1box"
+					translateY: "-.8box"
 				},
 			}
 		},
-		{
-			type    : "Tween",
-			from    : 0,
-			duration: 100,
-			apply   : {
-				transform: {
-					rotateY: -30,
-				},
-			}
-		},
-		{
-			type    : "Tween",
-			from    : 100,
-			duration: 100,
-			apply   : {
-				transform: {
-					rotateY: -30,
-				},
-			}
-		}
+		...tweenTools.scale(goDown("rotateX", 4), 200, 0),
+		...tweenTools.scale(goDown("rotateX", 4), 50, 0),
+		...tweenTools.scale(goDown("rotateX", 4), 50, 50),
+		...tweenTools.scale(goDown("rotateX", 4), 50, 100),
+		...tweenTools.scale(goDown("rotateX", 4), 50, 150),
 	]
 };
 @asTweener({ enableMouseDrag: true })
@@ -135,31 +156,30 @@ export default class Sample extends React.Component {
 	}
 	
 	render() {
-		let scrollAnims_u = {...scrollAnims};
-		return <div className={ "SimpleTest" } style={ {
+		return <div className={"SimpleTest"} style={{
 			width : "100%",
 			height: "100%"
-		} }>
+		}}>
 			<TweenAxis
-				axe={ "scrollY" }
-				defaultPosition={ 100 }
+				axe={"scrollY"}
+				defaultPosition={100}
 			/>
 			<TweenAxis
-				axe={ "scrollX" }
-				defaultPosition={ 100 }
+				axe={"scrollX"}
+				defaultPosition={100}
 			/>
-			hello ! { this.state.count } concurent anims <br/>
-			scrollPos : <pre>{ JSON.stringify(this.getAxisState(), null, 2) }</pre>
+			hello ! {this.state.count} concurent anims <br/>
+			scrollPos : <pre>{JSON.stringify(this.getAxisState(), null, 2)}</pre>
 			<br/>y:
-			<button onClick={ e => this.scrollTo(0, 500) }>( go to 0 )</button>
-			<button onClick={ e => this.scrollTo(200, 500) }>( go to 200 )</button>
+			<button onClick={e => this.scrollTo(0, 500)}>( go to 0 )</button>
+			<button onClick={e => this.scrollTo(200, 500)}>( go to 200 )</button>
 			<br/>x:
-			<button onClick={ e => this.scrollTo(0, 500, "scrollX") }>( go to 0 )</button>
-			<button onClick={ e => this.scrollTo(200, 500, "scrollX") }>( go to 200 )</button>
+			<button onClick={e => this.scrollTo(0, 500, "scrollX")}>( go to 0 )</button>
+			<button onClick={e => this.scrollTo(200, 500, "scrollX")}>( go to 200 )</button>
 			
 			<TweenRef
-				id={ "testItem" }
-				initial={ {
+				id={"testItem"}
+				initial={{
 					position       : "absolute",
 					display        : "inline-block",
 					width          : "15em",
@@ -168,28 +188,32 @@ export default class Sample extends React.Component {
 					backgroundColor: "red",
 					overflow       : "hidden",
 					margin         : "-7.5em 0 0 -7.5em",
-					top            : "0%",
-					left           : "0%",
+					top            : ".1box",
+					left           : ".1box",
+					transformOrigin: "50% 50%",
 					
 					transform: {
 						translateZ: "0box",
-						translateX: "1box",
-						translateY: "1box",
-						rotateX   : -30,
-						rotateY   : 30,
+						translateX: ".8box",
+						translateY: ".8box",
+						//rotateX   : -30,
+						//rotateY   : 30,
+						
+						//rotateY: 180,
 					}
-				} }
-				tweenLines={ scrollAnims_u }
+				}}
+				tweenLines={scrollAnims}
 			>
 				<div
-					onClick={ e => {
+					onClick={e => {
 						this.setState({ count: this.state.count + 1 })
 						this.pushAnim(tweenTools.target(pushIn, "testItem"),
 						              () => {
 							              this.setState({ count: this.state.count - 1 })
 						              });
-					} }
-					style={ {} }>click me !
+					}}
+					style={{}}>
+					<span>drag and/or click me !</span>
 				</div>
 			</TweenRef>
 		</div>;

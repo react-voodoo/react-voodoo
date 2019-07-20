@@ -29185,7 +29185,7 @@ function (_React$Component) {
     var props = [].concat(target.style); //console.log(props)
 
     props.forEach(function (p) {
-      return target.style[p] = "unset";
+      return target.style[p] = undefined;
     });
 
     this._currentTweener._updateTweenRef(); //console.log({ ...this._currentTweener.getTweenableRef(id).style }, this._currentTweener)
@@ -29221,14 +29221,16 @@ function (_React$Component) {
           Object.keys(_this3._tweenLines).forEach(function (axe) {
             return _this3._currentTweener.rmScrollableAnim(_this3._tweenLines[axe], axe);
           });
-        }
+        } //if ( this._currentTweener !== parentTweener )
 
+
+        _this3._currentTweener && _this3._currentTweener.rmTweenRef(id);
+        twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, _this3._previousScrollable !== tweenLines);
         if (tweenLines && is__WEBPACK_IMPORTED_MODULE_2___default.a.array(tweenLines)) _this3._tweenLines = {
           scrollY: parentTweener.addScrollableAnim(setTarget(tweenLines, id))
         };else _this3._tweenLines = tweenLines && Object.keys(tweenLines).reduce(function (h, axe) {
           return h[axe] = parentTweener.addScrollableAnim(setTarget(tweenLines[axe], id), axe), h;
         }, {});
-        if (_this3._currentTweener !== parentTweener) _this3._currentTweener && _this3._currentTweener.rmTweenRef(_this3.__tweenableId);
         twRef.style = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, parentTweener._updateTweenRef(id));
 
         if (_this3.props.hasOwnProperty("isRoot")) {
@@ -29592,7 +29594,7 @@ function asTweener() {
       var _ = this._,
           tweenableMap = {};
       var initials = {};
-      if (!_.tweenRefs[id]) _.tweenRefTargets.push(id);
+      if (!_.tweenRefs[id]) _.tweenRefTargets.push(id); //debugger
 
       if (_.tweenRefs[id] && (_.iMapOrigin[id] !== iMap || mapReset)) {
         // hot switch initial values
@@ -29611,9 +29613,9 @@ function asTweener() {
           iStyle = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, iStyle, {}, Object(_helpers_css__WEBPACK_IMPORTED_MODULE_8__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true));
           Object.assign(_.tweenRefCSS[id], _.tweenRefOriginCss[id]);
         } else {
-          _.muxByTarget[id] = {}; // should reset only a part of.. complex
+          //_.muxByTarget[id] = {};
+          // should reset only a part of.. complex
           //_.muxDataByTarget[id] = {};
-
           iStyle = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, iStyle, {}, Object(_helpers_css__WEBPACK_IMPORTED_MODULE_8__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], true, true)); // minus initial values
 
           Object.keys(_.tweenRefOrigin[id]).forEach(function (key) {
@@ -29633,6 +29635,7 @@ function asTweener() {
             if (_.tweenRefOrigin[id].hasOwnProperty(key) && !tweenableMap.hasOwnProperty(key)) {
               delete _.tweenRefMaps[id][key];
               delete _.muxByTarget[id][key];
+              _.refs[id] && (_.refs[id].style[key] = undefined);
             }
           });
           _.tweenRefOrigin[id] = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, tweenableMap);
@@ -30847,13 +30850,23 @@ function () {
       _.targetDuration += tm;
     }
 
+    if (_.conf.bounds) {
+      if (_.pos + _.targetDist > _.max) {
+        _.targetDist = _.max - _.pos;
+        _.targetDuration = abs(_.targetDist * 10);
+      } else if (_.pos + _.targetDist < _.min) {
+        _.targetDist = _.min - _.pos;
+        _.targetDuration = abs(_.targetDist * 10);
+      }
+    }
+
     this._doSnap(signOf(delta), 750);
   };
 
   _proto.isOutbound = function isOutbound(delta) {
     var _ = this._,
         loop,
-        pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)) + delta;
+        pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)) + delta; //if ( _.conf.infinite ) return false;
 
     if (_.conf.shouldLoop) {
       while (loop = _.conf.shouldLoop(nextValue)) {
@@ -30932,7 +30945,8 @@ function () {
   };
 
   _proto.setBounds = function setBounds(min, max) {
-    var _ = this._;
+    var _ = this._; //console.log('Inertia::setBounds:245: ', min, max);
+
     _.min = min;
     _.max = max;
   };
@@ -30990,34 +31004,27 @@ function () {
   _proto.release = function release() {
     var _ = this._,
         velSign = signOf(_.lastVelocity);
-    this.holding = false;
+    this.holding = false; // calc momentum distance...
+
+    applyInertia(_);
 
     if (_.conf.bounds) {
-      if (_.pos > _.max) {
-        this.active = true;
-        _.inertia = true;
-        _.lastInertiaPos = 0;
-        _.inertiaStartTm = _.inertiaLastTm = Date.now();
+      if (_.pos + _.targetDist > _.max) {
         _.targetDist = _.max - _.pos;
         _.targetDuration = abs(_.targetDist * 10);
-      } else if (_.pos < _.min) {
-        this.active = true;
-        _.inertia = true;
-        _.lastInertiaPos = 0;
-        _.inertiaStartTm = _.inertiaLastTm = Date.now();
-        _.targetDist = _.pos - _.min;
+      } else if (_.pos + _.targetDist < _.min) {
+        _.targetDist = _.min - _.pos;
         _.targetDuration = abs(_.targetDist * 10);
       }
-    } else {
-      // calc momentum distance...
-      applyInertia(_);
-      if (!_.targetDuration) _.targetDuration = 50; //console.log(_);
+    } //else {
 
-      this.active = true;
-      _.inertia = true;
-      _.lastInertiaPos = 0;
-      _.inertiaStartTm = _.inertiaLastTm = Date.now();
-    }
+
+    if (!_.targetDuration) _.targetDuration = 50; //console.log(_);
+
+    this.active = true;
+    _.inertia = true;
+    _.lastInertiaPos = 0;
+    _.inertiaStartTm = _.inertiaLastTm = Date.now(); //}
 
     this._doSnap(null, 500);
   };
@@ -31031,6 +31038,9 @@ function () {
   return Inertia;
 }();
 
+Inertia.config = {
+  bounds: true
+};
 
 ;
 
@@ -32032,10 +32042,14 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  */
 
 
-var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'cap', 'ch', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
-    floatCut = function floatCut(v, l) {
-  var p = Math.pow(10, l);
-  return Math.round(v * p) / p;
+var units = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
+    unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
+    floatCut = function floatCut(v) {
+  if (v === void 0) {
+    v = 0;
+  }
+
+  return v.toFixed(3);
 },
     defaultUnits = {
   //matrix     : true,
@@ -32059,35 +32073,101 @@ var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'cap', 'c
   rotateY: 'deg',
   rotateZ: 'deg',
   perspective: 'px'
+},
+    defaultBox = {
+  translateX: 'x',
+  translateY: 'y',
+  translateZ: 'z',
+  rotateX: 'x',
+  rotateY: 'y',
+  rotateZ: 'z',
+  left: 'x',
+  right: 'x',
+  top: 'y',
+  bottom: 'y',
+  width: 'x',
+  height: 'y'
 };
+
+function demuxOne(key, dkey, twVal, baseKey, data, box) {
+  var value = twVal,
+      unit = data[dkey][key] || defaultUnits[baseKey];
+
+  if (unit === 'box') {
+    value = value * (box[defaultBox[baseKey]] || box.x);
+    unit = 'px';
+  }
+
+  if (unit === 'bw') {
+    value = value * box.x;
+    unit = 'px';
+  }
+
+  if (unit === 'wh') {
+    value = value * box.y;
+    unit = 'px';
+  }
+
+  if (unit === 'bz') {
+    value = value * box.z;
+    unit = 'px';
+  }
+
+  if (unit === 'deg') value = value % 360; //if ( Math.abs(value) < .0001 && value !== 0 )
+
+  return unit ? floatCut(value) + unit : floatCut(value);
+}
 
 function demux(key, tweenable, target, data, box) {
   if (data["transform_head"] === key) {
-    var transforms = "";
+    var transforms = "",
+        tmpValue = {};
     data[key].forEach(function (tmap, i) {
       if (tmap === void 0) {
         tmap = {};
       }
 
       return Object.keys(tmap).forEach(function (fkey) {
-        var dkey = key + '_' + fkey + '_' + i,
-            value;
-        if (data[dkey] === 'deg') tweenable[dkey] = tweenable[dkey] % 360;
+        var dkey = key + '_' + fkey + '_' + i;
+        var value,
+            y = 0;
+        value = "";
 
-        if (data[dkey] === 'box') {
-          if (fkey === "translateX") value = tweenable[dkey] * box.x;else if (fkey === "translateY") value = tweenable[dkey] * box.y;else if (fkey === "translateZ") value = tweenable[dkey] * box.z;
-          transforms += fkey + "(" + floatCut(value, 2) + "px) ";
-        } else {
-          value = tweenable[dkey];
-          transforms += fkey + "(" + floatCut(value, 2) + data[dkey] + ") ";
+        for (var rKey in data[dkey]) {
+          if (data[dkey].hasOwnProperty(rKey)) {
+            if (tweenable[dkey] < 0) value += (y ? " - " : "-") + demuxOne(rKey, dkey, -tweenable[rKey], fkey, data, box);else value += (y ? " + " : "") + demuxOne(rKey, dkey, tweenable[rKey], fkey, data, box);
+            y++;
+          }
         }
+
+        if (y > 1) value = "calc(" + value + ")";
+        transforms += fkey + "(" + value + ") ";
       });
     });
     target.transform = transforms;
   }
 }
 
-var _default = function _default(key, value, target, data, initials, forceUnits) {
+function muxOne(key, value, target, data, initials, forceUnits) {
+  var match = is__WEBPACK_IMPORTED_MODULE_1___default.a.string(value) ? value.match(unitsRe) : false,
+      unit = match && match[2] || defaultUnits[key],
+      unitKey = units.indexOf(unit),
+      realKey = unitKey !== -1 && key + '_' + unitKey || key;
+  initials[realKey] = 0;
+  data[key][realKey] = unit;
+
+  if (match) {
+    target[realKey] = parseFloat(match[1]);
+  } else {
+    target[realKey] = parseFloat(value);
+  }
+
+  return demux;
+}
+
+;
+
+var _default = function _default(key, value, target, data, initials, forceUnits, reset) {
   data["transform_head"] = data["transform_head"] || key;
   data[key] = data[key] || [{}];
   initials[key] = 0;
@@ -32097,22 +32177,18 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
 
     tmap && Object.keys(tmap).forEach(function (fkey) {
       var fValue = tmap[fkey],
-          dkey = key + '_' + fkey + '_' + i,
-          match = is__WEBPACK_IMPORTED_MODULE_1___default.a.string(fValue) ? fValue.match(unitsRe) : false;
-      baseData[fkey] = true;
-      initials[dkey] = 0;
+          dkey = key + '_' + fkey + '_' + i; //match  = is.string(fValue) ? fValue.match(unitsRe) : false;
+      //number(dkey, fValue, target, data, initials, forceUnits)
 
-      if (match) {
-        if (!forceUnits && data[dkey] && data[dkey] !== match[2]) {
-          console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
-          target[dkey] = 0;
-        } else {
-          data[dkey] = match[2];
-          target[dkey] = parseFloat(match[1]);
+      baseData[fkey] = true;
+      data[dkey] = data[dkey] || {};
+
+      if (is__WEBPACK_IMPORTED_MODULE_1___default.a.array(fValue)) {
+        for (var u = 0; u < fValue.length; u++) {
+          muxOne(dkey, fValue[u] || 0, target, data, initials, forceUnits);
         }
       } else {
-        target[dkey] = fValue;
-        if (!data[dkey] && fkey in defaultUnits) data[dkey] = defaultUnits[fkey];
+        muxOne(dkey, fValue || 0, target, data, initials, forceUnits);
       }
     });
     data[key][i] = forceUnits ? _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, baseData, {}, data[key][i] || {}) : _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, data[key][i] || {}, {}, baseData);
@@ -32130,10 +32206,14 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
     return;
   }
 
+  reactHotLoader.register(units, "units", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
   reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
   reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
   reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(defaultBox, "defaultBox", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(demuxOne, "demuxOne", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
   reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
+  reactHotLoader.register(muxOne, "muxOne", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
   reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\css\\demux\\transform.js");
 })();
 
@@ -32521,8 +32601,8 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  */
 
 
-var units = ['box', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
-    unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + units.join('|') + ")"),
+var units = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
+    unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
     floatCut = function floatCut(v) {
   if (v === void 0) {
     v = 0;
@@ -32536,9 +32616,34 @@ var units = ['box', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', '
   top: 'px',
   bottom: 'px',
   width: 'px',
-  height: 'px'
+  height: 'px',
+  translateX: 'px',
+  translateY: 'px',
+  translateZ: 'px',
+  scale: '',
+  //scaleX     : 'px',
+  //scaleY     : 'px',
+  rotate: 'deg',
+  //skew       : 'deg',
+  skewX: 'deg',
+  skewY: 'deg',
+  //matrix3d   : true,
+  //translate3d: true,
+  //scale3d    : true,
+  scaleZ: 'px',
+  //rotate3d   : true,
+  rotateX: 'deg',
+  rotateY: 'deg',
+  rotateZ: 'deg',
+  perspective: 'px'
 },
     defaultBox = {
+  translateX: 'x',
+  translateY: 'y',
+  translateZ: 'z',
+  rotateX: 'x',
+  rotateY: 'y',
+  rotateZ: 'z',
   left: 'x',
   right: 'x',
   top: 'y',
@@ -32557,20 +32662,35 @@ function demuxOne(key, twVal, baseKey, data, box) {
   if (unit === 'box') {
     value = value * (box[defaultBox[baseKey]] || box.x);
     unit = 'px';
+  }
+
+  if (unit === 'bw') {
+    value = value * box.x;
+    unit = 'px';
+  }
+
+  if (unit === 'bh') {
+    value = value * box.y;
+    unit = 'px';
+  }
+
+  if (unit === 'bz') {
+    value = value * box.z;
+    unit = 'px';
   } //if ( Math.abs(value) < .0001 && value !== 0 )
 
 
   return unit ? floatCut(value) + unit : floatCut(value);
 }
 
-function demux(key, tweenable, target, data, box) {
+function demux(key, tweenable, target, data, box, baseKey) {
   var value,
       i = 0;
   value = "";
 
   for (var rKey in data[key]) {
     if (data[key].hasOwnProperty(rKey)) {
-      if (tweenable[rKey] < 0) value += (i ? " - " : "-") + demuxOne(rKey, -tweenable[rKey], key, data, box);else value += (i ? " + " : "") + demuxOne(rKey, tweenable[rKey], key, data, box);
+      if (tweenable[rKey] < 0) value += (i ? " - " : "-") + demuxOne(rKey, -tweenable[rKey], baseKey || key, data, box);else value += (i ? " + " : "") + demuxOne(rKey, tweenable[rKey], baseKey || key, data, box);
       i++;
     }
   }
@@ -32612,6 +32732,7 @@ function muxOne(key, value, target, data, initials, forceUnits) {
 
 ;
 muxer.demux = demux;
+muxer.demuxOne = demuxOne;
 var _default = muxer;
 /* harmony default export */ __webpack_exports__["default"] = (_default);
 ;
@@ -32790,12 +32911,15 @@ function deMuxLine(tweenLine, initials, data, demuxers) {
 /*!***********************************!*\
   !*** ./src/helpers/tweenTools.js ***!
   \***********************************/
-/*! exports provided: offset, scale, reverse, addCss, extractCss, target, shiftTransforms */
+/*! exports provided: re_cssValueWithUnit, cssAdd, cssMult, offset, scale, reverse, addCss, extractCss, target, shiftTransforms */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "offset", function() { return offset; });
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "re_cssValueWithUnit", function() { return re_cssValueWithUnit; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cssAdd", function() { return cssAdd; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cssMult", function() { return cssMult; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "offset", function() { return offset; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reverse", function() { return reverse; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addCss", function() { return addCss; });
@@ -32834,6 +32958,80 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+var re_cssValueWithUnit = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['box', 'bz', 'bh', 'bw', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")");
+/**
+ * add any css val with it unit ( todo: optims&use objects for multi unit
+ * @param val1
+ * @param val2
+ * @returns {Array}
+ */
+
+function cssAdd(val1, val2) {
+  if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(val1)) val1 = [val1];
+  if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(val2)) val2 = [val2];
+  var units1 = val1.map(function (v) {
+    return v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'];
+  }),
+      units2 = val2.map(function (v) {
+    return v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'];
+  }),
+      remap = {},
+      result = [],
+      i;
+  i = 0;
+
+  while (i < units1.length) {
+    remap[units1[i][2]] = remap[units1[i][2]] || 0;
+    remap[units1[i][2]] += parseFloat(units1[i][1]);
+    i++;
+  }
+
+  i = 0;
+
+  while (i < units2.length) {
+    remap[units2[i][2]] = remap[units2[i][2]] || 0;
+    remap[units2[i][2]] += parseFloat(units2[i][1]);
+    i++;
+  }
+
+  Object.keys(remap).forEach(function (unit) {
+    return result.push(remap[unit] + unit);
+  });
+
+  for (var _len = arguments.length, argz = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+    argz[_key - 2] = arguments[_key];
+  }
+
+  return argz.length ? cssAdd.apply(void 0, [result].concat(argz)) : result;
+}
+/**
+ * Multiply any css val with it unit ( todo: optims & use objects for multi unit
+ * @param val1
+ * @param val2
+ * @returns {Array}
+ */
+
+function cssMult(val1, val) {
+  if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(val1)) val1 = [val1];
+  var units1 = val1.map(function (v) {
+    return v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'];
+  }),
+      remap = {},
+      result = [],
+      i;
+  i = 0;
+
+  while (i < units1.length) {
+    remap[units1[i][2]] = remap[units1[i][2]] || 1;
+    remap[units1[i][2]] = parseFloat(units1[i][1]) * val;
+    i++;
+  }
+
+  Object.keys(remap).forEach(function (unit) {
+    return result.push(remap[unit] + unit);
+  });
+  return result;
+}
 function offset(items, start) {
   if (start === void 0) {
     start = 0;
@@ -32846,7 +33044,7 @@ function offset(items, start) {
     });
   });
 }
-function scale(items, duration) {
+function scale(items, duration, withOffset) {
   if (duration === void 0) {
     duration = 0;
   }
@@ -32857,12 +33055,13 @@ function scale(items, duration) {
   items.forEach(function (item) {
     iDuration = Math.max(iDuration, item.from + item.duration);
   });
-  return items.map(function (item) {
+  items = items.map(function (item) {
     return _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, item, {
       from: item.from / iDuration * duration,
       duration: item.duration / iDuration * duration
     });
   });
+  return withOffset ? offset(items, withOffset) : items;
 }
 
 function inverseValues(v) {
@@ -32895,8 +33094,8 @@ function reverse(items) {
   });
 }
 function addCss(target) {
-  for (var _len = arguments.length, sources = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    sources[_key - 1] = arguments[_key];
+  for (var _len2 = arguments.length, sources = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    sources[_key2 - 1] = arguments[_key2];
   }
 
   var source = sources.shift();
@@ -32991,6 +33190,9 @@ function shiftTransforms(items, shift) {
     return;
   }
 
+  reactHotLoader.register(re_cssValueWithUnit, "re_cssValueWithUnit", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(cssAdd, "cssAdd", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
+  reactHotLoader.register(cssMult, "cssMult", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
   reactHotLoader.register(offset, "offset", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
   reactHotLoader.register(scale, "scale", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
   reactHotLoader.register(inverseValues, "inverseValues", "G:\\n8tz\\libs\\react-voodoo\\src\\helpers\\tweenTools.js");
