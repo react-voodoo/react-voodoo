@@ -30015,7 +30015,7 @@ function asTweener() {
           scrollableArea = Math.max(dim && dim.scrollableArea || 0, _scrollableArea),
           scrollableWindow = Math.max(dim && dim.scrollableWindow || 0, _scrollableWindow),
           targetPos = dim ? dim.targetPos : scrollPos,
-          inertia = _inertia !== false && (dim ? dim.inertia : new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"](_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, _inertia || {}, {
+          inertia = _inertia !== false && (!reset && dim ? dim.inertia : new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"](_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, _inertia || {}, {
         value: scrollPos
       }))),
           nextDescr = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, _inertia || {}, {
