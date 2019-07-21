@@ -107,6 +107,9 @@ export default class MyTweenerComp extends React.Component{
                 // size of the scrollable window for drag synchronisation
 				scrollableWindow={ 200 }
 				
+				// optional bounds ( inertia will target them if target pos is out )
+				bounds={ { min : 100, max : 900 } }
+				 
 				// default length of this scrollable axis
 				size={ 1000 }
 				 
