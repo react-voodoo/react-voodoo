@@ -44,10 +44,10 @@ export default class MyTweenerComp extends React.Component{
 			    // * scrollY & scrollX automatically receive mouse & touch events
 				axe={"scrollY"}
 				
-				// default start position
-				defaultPosition={100}
-				
-				// Global scrollable tween with theirs TweenRef target ids
+                // default start position
+                defaultPosition={100}
+                
+                // Global scrollable tween with theirs TweenRef target ids
                 items={pageTweenAxisWithTargets}
                 
                 // size of the scrollable window for drag synchronisation
@@ -55,6 +55,9 @@ export default class MyTweenerComp extends React.Component{
 				
 				// default length of this scrollable axis
 				size={ 1000 }
+				 
+				// optional bounds ( inertia will target them if target pos is out )
+				bounds={ { min : 100, max : 900 } }
 				 
 				// inertia cfg ( false to disable it ) 
 				inertia={
