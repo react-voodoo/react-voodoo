@@ -150,8 +150,8 @@ export function reverse( items ) {
 			item =
 				{
 					...item,
-					from : iDuration - (item.from + item.duration),
-					apply: inverseValues(item.apply)
+					from: iDuration - (item.from + item.duration),
+					...(item.apply ? { apply: inverseValues(item.apply) } : undefined)
 				};
 			return item;
 		}

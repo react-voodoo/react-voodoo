@@ -395,7 +395,7 @@ export default function asTweener( ...argz ) {
 				
 				isBrowserSide && window.addEventListener(
 					"resize",
-					this._.onResize = (e) => {//@todo
+					this._.onResize = ( e ) => {//@todo
 						this._updateBox();
 						this._updateTweenRefs();
 						this.windowDidResize
@@ -451,11 +451,14 @@ export default function asTweener( ...argz ) {
 			
 			_.axes[axe] = _.axes[axe] || {
 				tweenAxis       : [],
-				scrollPos       : 0,
+				scrollPos       : opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
 				targetPos       : 0,
 				scrollableWindow: 0,
 				scrollableArea  : 0,
-				inertia         : new Inertia({}),
+				inertia         : new Inertia({
+					                              value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
+					                              ...(opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {})
+				                              }),
 			};
 			
 			return _.axes[axe];
@@ -470,12 +473,15 @@ export default function asTweener( ...argz ) {
 			return state;
 		}
 		
-		initAxis( axe, { inertia: _inertia, scrollableArea: _scrollableArea = 0, scrollableWindow: _scrollableWindow, defaultPosition, scrollFirst } ) {
+		initAxis( axe, { inertia: _inertia, scrollableArea: _scrollableArea = 0, scrollableBounds: _scrollableBounds, scrollableWindow: _scrollableWindow, defaultPosition, scrollFirst }, reset ) {
 			this.makeTweenable();
 			this.makeScrollable();
 			let _                = this._,
 			    dim              = _.axes[axe],
-			    scrollPos        = dim ? dim.scrollPos : defaultPosition || 0,
+			    scrollableBounds = _scrollableBounds,
+			    scrollPos        = !reset && dim
+			                       ? dim.scrollPos
+			                       : defaultPosition || scrollableBounds && scrollableBounds.min || 0,
 			    scrollableArea   = Math.max(dim && dim.scrollableArea || 0, _scrollableArea),
 			    scrollableWindow = Math.max(dim && dim.scrollableWindow || 0, _scrollableWindow),
 			    targetPos        = dim ? dim.targetPos : scrollPos,
@@ -492,12 +498,17 @@ export default function asTweener( ...argz ) {
 				    targetPos,
 				    inertia,
 				    scrollableWindow,
+				    scrollableBounds,
 				    scrollableArea
 			    }
 			;
-			
-			dim = this._.axes[axe] = nextDescr;
-			(_inertia) && (dim.inertia._.wayPoints = _inertia.wayPoints);
+			this._.axes[axe] = nextDescr;
+			(_inertia) && inertia && (inertia._.wayPoints = _inertia.wayPoints);
+			(_inertia) && inertia && !inertia.active && (inertia._.pos = scrollPos);
+			if ( inertia && scrollableBounds )
+				inertia.setBounds(scrollableBounds.min, scrollableBounds.max);
+			else
+				inertia && inertia.setBounds(0, scrollableArea)
 		}
 		
 		addScrollableAnim( anim, axe = "scrollY", size ) {
@@ -537,7 +548,8 @@ export default function asTweener( ...argz ) {
 			dim.scrollPos      = dim.scrollPos || 0;
 			dim.scrollableArea = dim.scrollableArea || 0;
 			dim.scrollableArea = Math.max(dim.scrollableArea, sl.duration);
-			dim.inertia.setBounds(0, dim.scrollableArea);
+			if ( !dim.scrollableBounds )
+				dim.inertia.setBounds(0, dim.scrollableArea);
 			sl.goTo(dim.scrollPos, this._.tweenRefMaps);
 			this._updateTweenRefs();
 			return sl;
@@ -550,7 +562,8 @@ export default function asTweener( ...argz ) {
 			if ( i != -1 ) {
 				dim.tweenAxis.splice(i, 1);
 				dim.scrollableArea = Math.max(...dim.tweenAxis.map(tl => tl.duration), 0);
-				dim.inertia.setBounds(0, dim.scrollableArea || 0);
+				if ( !dim.scrollableBounds )
+					dim.inertia.setBounds(0, dim.scrollableArea || 0);
 				sl.goTo(0, this._.tweenRefMaps)
 				found = true;
 			}
@@ -1010,6 +1023,7 @@ export default function asTweener( ...argz ) {
 			for ( i = 0; i < Comps.length; i++ ) {
 				// react comp with tweener support
 				if ( Comps[i].__isTweener ) {
+					//debugger
 					if ( !Comps[i].isAxisOut("scrollX", dx) && (!Comps[i].componentShouldScroll || Comps[i].componentShouldScroll("scrollX", dx)) ) {
 						Comps[i].dispatchScroll(dx, "scrollX", holding);
 						dx = 0;

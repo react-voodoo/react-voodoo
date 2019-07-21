@@ -20,7 +20,7 @@
 import {expandShorthandProperty, isShorthandProperty, isValidDeclaration} from "./cssUtils";
 import * as cssDemuxers                                                   from "./demux/(*).js";
 
-import {number, int, multi} from "./demux/typed/(*).js";
+import {int, multi, number} from "./demux/typed/(*).js";
 
 
 const cssDemux = {
@@ -101,12 +101,15 @@ export function deMuxLine( tweenLine, initials, data, demuxers ) {
 			initials[tween.target] = initials[tween.target] || {};
 			data[tween.target]     = data[tween.target] || {};
 			
-			deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target]);
-			line.push(
-				{
-					...tween,
-					apply: demuxedTween
-				});
+			if ( !tween.type || tween.type === "Tween" ) {
+				deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target]);
+				line.push(
+					{
+						...tween,
+						apply: demuxedTween
+					});
+			}
+			else line.push({...tween});
 			return line
 		},
 		[]

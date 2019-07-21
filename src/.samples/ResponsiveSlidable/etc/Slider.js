@@ -20,7 +20,7 @@ import React                                        from "react";
 import {asTweener, TweenAxis, TweenRef, tweenTools} from "react-voodoo";
 
 @asTweener({ enableMouseDrag: true })
-export default class Slider extends React.Component {
+export default class SlidableList extends React.Component {
 	static defaultProps = {
 		defaultIndex   : 0,
 		visibleItems   : 4,
@@ -113,7 +113,7 @@ export default class Slider extends React.Component {
 		    nbClones                 = 0,
 		    enteringSize             = enteringSteps * step;
 		
-		if ( infinite ) {
+		if ( infinite && children.length ) {
 			while ( (visibleItems + enteringSteps + leavingSteps) > (nbGhostItems - visibleItems) ) {
 				allItems.unshift(...children);
 				allItems.push(...children);
@@ -131,6 +131,17 @@ export default class Slider extends React.Component {
 			nbClones,
 			tweenLines: allItems.map(( e, i ) => ({
 				[scrollDir]: [
+					//{
+					//	type    : "Event",
+					//	from    : i * step + enteringSize,
+					//	duration: step,
+					//	entering( pos, sens ) {
+					//		console.warn(i,"entering", pos, sens)
+					//	},
+					//	leaving( pos, sens ) {
+					//		console.warn(i,"leaving", pos, sens)
+					//	}
+					//},
 					...tweenTools.offset(
 						tweenTools.scale(defaultEntering, enteringSize)
 						,
@@ -168,10 +179,9 @@ export default class Slider extends React.Component {
 			    className    = ""
 		    }                                                                                                      = this.props,
 		    { index = defaultIndex, nbClones, allItems, enteringSize, step, dec, tweenLines, nbItems, jumpLength } = this.state;
-		console.log('Slider::render:171: ', nbClones, index * step + nbClones * jumpLength + windowSize);
 		return (
 			<div
-				className={"Slider " + className}
+				className={"SlidableList " + className}
 				style={
 					{
 						userSelect: "none",
@@ -182,8 +192,13 @@ export default class Slider extends React.Component {
 				<TweenAxis
 					axe={scrollDir}
 					defaultPosition={index * step + nbClones * jumpLength + enteringSize + windowSize}
-					size={enteringSize + 2 * nbClones * jumpLength + jumpLength + windowSize}
 					scrollableWindow={visibleItems * step}
+					bounds={
+						!infinite && {
+							min: enteringSize + nbClones * jumpLength + windowSize,
+							max: enteringSize + nbClones * jumpLength + jumpLength,
+						}
+					}
 					inertia={
 						{
 							maxJump,
@@ -196,15 +211,13 @@ export default class Slider extends React.Component {
 								if ( Math.round(v) < (nbClones * jumpLength + enteringSize) )
 									return jumpLength;
 							}),
-							//min      : windowSize,
-							//max      : nbClones * jumpLength + jumpLength + windowSize,
 							willSnap  : ( i, v ) => {
 								let { nbItems }   = this.state;
 								this._wasUserSnap = true;
 								//this.setState({ index: (i) % nbItems })
-								console.log((i-visibleItems+nbItems) % nbItems, v)
+								//console.log((i - visibleItems + nbItems) % nbItems, v)
 							},
-							wayPoints : allItems.map(( child, i ) => ({ at: i * step + enteringSize }))
+							wayPoints : allItems.map(( child, i ) => ({ at: i * step + enteringSize + windowSize }))
 						}
 					}
 				/>
