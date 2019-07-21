@@ -486,10 +486,10 @@ export default function asTweener( ...argz ) {
 			    scrollableWindow = Math.max(dim && dim.scrollableWindow || 0, _scrollableWindow),
 			    targetPos        = dim ? dim.targetPos : scrollPos,
 			    inertia          = _inertia !== false && (
-				    dim ? dim.inertia : new Inertia({// todo mk pure
-					                                    ...(_inertia || {}),
-					                                    value: scrollPos
-				                                    })),
+				    !reset && dim ? dim.inertia : new Inertia({// todo mk pure
+					                                              ...(_inertia || {}),
+					                                              value: scrollPos
+				                                              })),
 			    nextDescr        = {
 				    ...(_inertia || {}),
 				    scrollFirst,
@@ -500,9 +500,8 @@ export default function asTweener( ...argz ) {
 				    scrollableWindow,
 				    scrollableBounds,
 				    scrollableArea
-			    }
-			;
-			this._.axes[axe] = nextDescr;
+			    };
+			this._.axes[axe]     = nextDescr;
 			(_inertia) && inertia && (inertia._.wayPoints = _inertia.wayPoints);
 			(_inertia) && inertia && !inertia.active && (inertia._.pos = scrollPos);
 			if ( inertia && scrollableBounds )
