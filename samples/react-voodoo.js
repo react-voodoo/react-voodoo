@@ -28958,6 +28958,7 @@ function (_React$Component) {
         children = _this$props.children,
         axe = _this$props.axe,
         scrollFirst = _this$props.scrollFirst,
+        bounds = _this$props.bounds,
         scrollableWindow = _this$props.scrollableWindow,
         inertia = _this$props.inertia,
         size = _this$props.size,
@@ -28976,26 +28977,40 @@ function (_React$Component) {
       //	);
       //
       //}
-      if (!_this3._previousInertia || _this3._previousInertia !== inertia) {
+      if (!_this3._previousAxis || _this3._previousAxis !== axe) {
         //....
+        _this3._previousAxis = axe;
         _this3._previousInertia = inertia;
         tweener.initAxis(axe, {
           inertia: inertia,
           size: size,
           scrollableWindow: scrollableWindow,
           defaultPosition: defaultPosition,
-          scrollFirst: scrollFirst
+          scrollFirst: scrollFirst,
+          scrollableBounds: bounds
+        }, true);
+      } else if (!_this3._previousInertia || _this3._previousInertia !== inertia) {
+        //....
+        _this3._previousInertia = inertia;
+        _this3._previousAxis = axe;
+        tweener.initAxis(axe, {
+          inertia: inertia,
+          size: size,
+          scrollableWindow: scrollableWindow,
+          defaultPosition: defaultPosition,
+          scrollFirst: scrollFirst,
+          scrollableBounds: bounds
         });
       }
 
       if (!_this3._previousTweener || _this3._previousTweener !== tweener) {
         // mk axe not modifiable
-        _this3._previousTweener && _this3._lastTL && _this3._previousTweener.rmScrollableAnim(_this3._lastTL, axe);
+        _this3._previousTweener && _this3._lastTL && _this3._previousTweener.rmScrollableAnim(_this3._lastTL, _this3._previousAxis);
         if (items.length) _this3._lastTL = tweener.addScrollableAnim(items, axe, size);
         _this3._previousTweener = tweener;
         _this3._previousTweens = items;
       } else if (_this3._previousTweens !== items) {
-        _this3._lastTL && tweener.rmScrollableAnim(_this3._lastTL, axe);
+        _this3._lastTL && tweener.rmScrollableAnim(_this3._lastTL, _this3._previousAxis);
         _this3._lastTL = null;
         if (items.length) _this3._lastTL = tweener.addScrollableAnim(items, axe, size);
         _this3._previousTweens = items;
@@ -29017,6 +29032,7 @@ function (_React$Component) {
 TweenAxis.propTypes = {
   axe: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   items: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
+  bounds: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object,
   inertia: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.any,
   defaultPosition: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
   size: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.any
@@ -29144,47 +29160,39 @@ function (_React$Component) {
 
     delete this._currentTweener;
     delete this._previousScrollable;
-  };
-
-  _proto.componentDidMount = function componentDidMount() {
-    var _this$props = this.props,
-        children = _this$props.children,
-        _this$props$id = _this$props.id,
-        id = _this$props$id === void 0 ? this.__tweenableId : _this$props$id,
-        target = this._currentTweener.getTweenableRef(id); //debugger
-
-
-    var props = [].concat(target.style); // should reset ssr initials ?
-    //console.log(props)
-
-    props.forEach(function (p) {
-      return target.style[p] = undefined;
-    });
-
-    this._currentTweener._updateTweenRef();
-  };
+  } //componentDidMount() {
+  //	let {
+  //		    children,
+  //		    id = this.__tweenableId,
+  //	    }      = this.props,
+  //	    target = this._currentTweener.getTweenableRef(id);
+  //	let props  = [...target.style];// should reset ssr initials ?
+  //	props.forEach(p => (target.style[p] = undefined));
+  //	this._currentTweener._updateTweenRef()
+  //}
+  ;
 
   _proto.render = function render() {
     var _this3 = this;
 
-    var _this$props2 = this.props,
-        children = _this$props2.children,
-        _this$props2$id = _this$props2.id,
-        id = _this$props2$id === void 0 ? this.__tweenableId : _this$props2$id,
-        style = _this$props2.style,
-        initial = _this$props2.initial,
-        pos = _this$props2.pos,
-        noRef = _this$props2.noRef,
-        reset = _this$props2.reset,
-        tweener = _this$props2.tweener,
-        isRoot = _this$props2.isRoot,
-        tweenLines = _this$props2.tweenLines,
-        _this$props2$tweenAxi = _this$props2.tweenAxis,
-        tweenAxis = _this$props2$tweenAxi === void 0 ? tweenLines : _this$props2$tweenAxi,
-        _this$props2$onClick = _this$props2.onClick,
-        onClick = _this$props2$onClick === void 0 ? children && children.props && children.props.onClick : _this$props2$onClick,
-        _this$props2$onDouble = _this$props2.onDoubleClick,
-        onDoubleClick = _this$props2$onDouble === void 0 ? children && children.props && children.props.onDoubleClick : _this$props2$onDouble;
+    var _this$props = this.props,
+        children = _this$props.children,
+        _this$props$id = _this$props.id,
+        id = _this$props$id === void 0 ? this.__tweenableId : _this$props$id,
+        style = _this$props.style,
+        initial = _this$props.initial,
+        pos = _this$props.pos,
+        noRef = _this$props.noRef,
+        reset = _this$props.reset,
+        tweener = _this$props.tweener,
+        isRoot = _this$props.isRoot,
+        tweenLines = _this$props.tweenLines,
+        _this$props$tweenAxis = _this$props.tweenAxis,
+        tweenAxis = _this$props$tweenAxis === void 0 ? tweenLines : _this$props$tweenAxis,
+        _this$props$onClick = _this$props.onClick,
+        onClick = _this$props$onClick === void 0 ? children && children.props && children.props.onClick : _this$props$onClick,
+        _this$props$onDoubleC = _this$props.onDoubleClick,
+        onDoubleClick = _this$props$onDoubleC === void 0 ? children && children.props && children.props.onDoubleClick : _this$props$onDoubleC;
     return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_5__["default"].Consumer, null, function (parentTweener) {
       //@todo : me be better method
       parentTweener = tweener || parentTweener;
@@ -29968,11 +29976,13 @@ function asTweener() {
       var _ = this._;
       _.axes[axe] = _.axes[axe] || {
         tweenAxis: [],
-        scrollPos: 0,
+        scrollPos: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
         targetPos: 0,
         scrollableWindow: 0,
         scrollableArea: 0,
-        inertia: new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"]({})
+        inertia: new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"](_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({
+          value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0
+        }, opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {}))
       };
       return _.axes[axe];
     };
@@ -29986,10 +29996,11 @@ function asTweener() {
       return state;
     };
 
-    _proto.initAxis = function initAxis(axe, _ref) {
+    _proto.initAxis = function initAxis(axe, _ref, reset) {
       var _inertia = _ref.inertia,
           _ref$scrollableArea = _ref.scrollableArea,
           _scrollableArea = _ref$scrollableArea === void 0 ? 0 : _ref$scrollableArea,
+          _scrollableBounds = _ref.scrollableBounds,
           _scrollableWindow = _ref.scrollableWindow,
           defaultPosition = _ref.defaultPosition,
           scrollFirst = _ref.scrollFirst;
@@ -29999,7 +30010,8 @@ function asTweener() {
 
       var _ = this._,
           dim = _.axes[axe],
-          scrollPos = dim ? dim.scrollPos : defaultPosition || 0,
+          scrollableBounds = _scrollableBounds,
+          scrollPos = !reset && dim ? dim.scrollPos : defaultPosition || scrollableBounds && scrollableBounds.min || 0,
           scrollableArea = Math.max(dim && dim.scrollableArea || 0, _scrollableArea),
           scrollableWindow = Math.max(dim && dim.scrollableWindow || 0, _scrollableWindow),
           targetPos = dim ? dim.targetPos : scrollPos,
@@ -30013,11 +30025,14 @@ function asTweener() {
         targetPos: targetPos,
         inertia: inertia,
         scrollableWindow: scrollableWindow,
+        scrollableBounds: scrollableBounds,
         scrollableArea: scrollableArea
       });
 
-      dim = this._.axes[axe] = nextDescr;
-      _inertia && (dim.inertia._.wayPoints = _inertia.wayPoints);
+      this._.axes[axe] = nextDescr;
+      _inertia && inertia && (inertia._.wayPoints = _inertia.wayPoints);
+      _inertia && inertia && !inertia.active && (inertia._.pos = scrollPos);
+      if (inertia && scrollableBounds) inertia.setBounds(scrollableBounds.min, scrollableBounds.max);else inertia && inertia.setBounds(0, scrollableArea);
     };
 
     _proto.addScrollableAnim = function addScrollableAnim(anim, axe, size) {
@@ -30054,7 +30069,7 @@ function asTweener() {
       dim.scrollPos = dim.scrollPos || 0;
       dim.scrollableArea = dim.scrollableArea || 0;
       dim.scrollableArea = Math.max(dim.scrollableArea, sl.duration);
-      dim.inertia.setBounds(0, dim.scrollableArea);
+      if (!dim.scrollableBounds) dim.inertia.setBounds(0, dim.scrollableArea);
       sl.goTo(dim.scrollPos, this._.tweenRefMaps);
 
       this._updateTweenRefs();
@@ -30078,7 +30093,7 @@ function asTweener() {
         dim.scrollableArea = Math.max.apply(Math, dim.tweenAxis.map(function (tl) {
           return tl.duration;
         }).concat([0]));
-        dim.inertia.setBounds(0, dim.scrollableArea || 0);
+        if (!dim.scrollableBounds) dim.inertia.setBounds(0, dim.scrollableArea || 0);
         sl.goTo(0, this._.tweenRefMaps);
         found = true;
       }
@@ -30496,6 +30511,7 @@ function asTweener() {
       for (i = 0; i < Comps.length; i++) {
         // react comp with tweener support
         if (Comps[i].__isTweener) {
+          //debugger
           if (!Comps[i].isAxisOut("scrollX", dx) && (!Comps[i].componentShouldScroll || Comps[i].componentShouldScroll("scrollX", dx))) {
             Comps[i].dispatchScroll(dx, "scrollX", holding);
             dx = 0;
@@ -32677,10 +32693,14 @@ function deMuxLine(tweenLine, initials, data, demuxers) {
     demuxers[tween.target] = demuxers[tween.target] || {};
     initials[tween.target] = initials[tween.target] || {};
     data[tween.target] = data[tween.target] || {};
-    deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target]);
-    line.push(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, tween, {
-      apply: demuxedTween
-    }));
+
+    if (!tween.type || tween.type === "Tween") {
+      deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target]);
+      line.push(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, tween, {
+        apply: demuxedTween
+      }));
+    } else line.push(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, tween));
+
     return line;
   }, []);
 }
@@ -33923,9 +33943,10 @@ function reverse(items) {
   });
   return items.map(function (item) {
     item = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, item, {
-      from: iDuration - (item.from + item.duration),
+      from: iDuration - (item.from + item.duration)
+    }, item.apply ? {
       apply: inverseValues(item.apply)
-    });
+    } : undefined);
     return item;
   });
 }

@@ -25,6 +25,7 @@ export default class TweenAxis extends React.Component {
 	static propTypes = {
 		axe            : PropTypes.string.isRequired,
 		items          : PropTypes.array,
+		bounds         : PropTypes.object,
 		inertia        : PropTypes.any,
 		defaultPosition: PropTypes.number,
 		size           : PropTypes.any
@@ -45,7 +46,7 @@ export default class TweenAxis extends React.Component {
 	render() {
 		let {
 			    children,
-			    axe, scrollFirst,
+			    axe, scrollFirst, bounds,
 			    scrollableWindow, inertia, size, defaultPosition,
 			    items = [],
 		    } = this.props;
@@ -63,19 +64,39 @@ export default class TweenAxis extends React.Component {
 					//	);
 					//
 					//}
-					if ( !this._previousInertia || this._previousInertia !== inertia ) {//....
+					if ( !this._previousAxis || this._previousAxis !== axe ) {//....
+						this._previousAxis    = axe;
 						this._previousInertia = inertia;
-						tweener.initAxis(axe, { inertia, size, scrollableWindow, defaultPosition, scrollFirst });
+						tweener.initAxis(axe, {
+							inertia,
+							size,
+							scrollableWindow,
+							defaultPosition,
+							scrollFirst,
+							scrollableBounds: bounds
+						}, true);
+					}
+					else if ( !this._previousInertia || this._previousInertia !== inertia ) {//....
+						this._previousInertia = inertia;
+						this._previousAxis    = axe;
+						tweener.initAxis(axe, {
+							inertia,
+							size,
+							scrollableWindow,
+							defaultPosition,
+							scrollFirst,
+							scrollableBounds: bounds
+						});
 					}
 					if ( !this._previousTweener || this._previousTweener !== tweener ) {// mk axe not modifiable
-						this._previousTweener && this._lastTL && this._previousTweener.rmScrollableAnim(this._lastTL, axe);
+						this._previousTweener && this._lastTL && this._previousTweener.rmScrollableAnim(this._lastTL, this._previousAxis);
 						if ( items.length )
 							this._lastTL = tweener.addScrollableAnim(items, axe, size);
 						this._previousTweener = tweener;
 						this._previousTweens  = items;
 					}
 					else if ( this._previousTweens !== items ) {
-						this._lastTL && tweener.rmScrollableAnim(this._lastTL, axe);
+						this._lastTL && tweener.rmScrollableAnim(this._lastTL, this._previousAxis);
 						this._lastTL = null;
 						if ( items.length )
 							this._lastTL = tweener.addScrollableAnim(items, axe, size);

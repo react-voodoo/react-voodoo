@@ -38,7 +38,6 @@ export default class TweenRef extends React.Component {
 	__tweenableId    = shortid.generate();
 	
 	componentWillUnmount() {
-		
 		if ( this._tweenAxis ) {
 			Object.keys(this._tweenAxis)
 			      .forEach(axe => this._currentTweener.rmScrollableAnim(this._tweenAxis[axe], axe));
@@ -52,18 +51,16 @@ export default class TweenRef extends React.Component {
 		delete this._previousScrollable;
 	}
 	
-	componentDidMount() {
-		let {
-			    children,
-			    id = this.__tweenableId,
-		    }      = this.props,
-		    target = this._currentTweener.getTweenableRef(id);
-		//debugger
-		let props  = [...target.style];// should reset ssr initials ?
-		//console.log(props)
-		props.forEach(p => (target.style[p] = undefined));
-		this._currentTweener._updateTweenRef()
-	}
+	//componentDidMount() {
+	//	let {
+	//		    children,
+	//		    id = this.__tweenableId,
+	//	    }      = this.props,
+	//	    target = this._currentTweener.getTweenableRef(id);
+	//	let props  = [...target.style];// should reset ssr initials ?
+	//	props.forEach(p => (target.style[p] = undefined));
+	//	this._currentTweener._updateTweenRef()
+	//}
 	
 	render() {
 		let {
