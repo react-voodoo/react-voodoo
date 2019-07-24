@@ -21,8 +21,8 @@ export const visibleItems = 4;
 let area                  = "60vh",
     itemHeight            = tweenTools.cssAdd(tweenTools.cssMult(area, 1 / (visibleItems))),
     step                  = tweenTools.cssMult(itemHeight, 1),
-    zMax                  = tweenTools.cssMult(area, .64),
-    angle                 = "90deg";
+    zMax                  = tweenTools.cssMult(area, 2.05),
+    angle                 = "27.5deg";
 
 
 export const enteringSteps = 4;

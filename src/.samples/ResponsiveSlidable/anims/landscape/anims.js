@@ -18,11 +18,11 @@
 import {tweenTools} from "react-voodoo";
 
 export const visibleItems = 5;
-let area                  = ".6bw",
+let area                  = ".8bw",
     itemWidth             = tweenTools.cssMult(area, 1 / (visibleItems)),
     step                  = tweenTools.cssMult(itemWidth, 1),
-    zMax                  = "300px",
-    angle                 = "90deg";
+    zMax                  = tweenTools.cssMult(area, 1.75),
+    angle                 = "20deg";
 
 
 export const enteringSteps = 3;
@@ -31,26 +31,17 @@ export const infinite      = true;
 
 export const scrollDir = "scrollX";
 
-export const slotInitialStyle = {
-	position : "absolute",
-	//overflow : "hidden",
-	height   : "100%",
-	width    : itemWidth,
-	left     : "0%",
-	top      : "0%",
-	zIndex   : 500,
-	transform: [
+export const defaultInitial  = {
+	position       : "absolute",
+	overflow       : "hidden",
+	transformOrigin: "50% 50%",
+	height         : "100%",
+	width          : itemWidth,
+	left           : tweenTools.cssAdd(area, ".1bw", tweenTools.cssMult(itemWidth, -1)),
+	top            : "0%",
+	zIndex         : 500,
+	transform      : [
 		{
-			translateX: tweenTools.cssAdd(area, ".2bw", tweenTools.cssMult(itemWidth, -1)),
-		}]
-};
-export const itemInitialStyle = {
-	height   : "100%",
-	width    : "100%",
-	transform: [
-		{
-			translateX: tweenTools.cssMult(step, -1),
-			
 			perspective: zMax,
 			translateZ : "-" + zMax
 		},
@@ -61,37 +52,29 @@ export const itemInitialStyle = {
 			translateZ: zMax,
 		}]
 };
-export const scrollAxis       = [
+export const scrollAxis      = [
 	{
 		from    : 0,
 		duration: 100,
 		apply   : {
-			transform: [
-				{
-					translateX: "-" + area,
-				}]
+			left: "-" + area,
 		}
 	},
 ];
-export const defaultEntering  = [
+export const defaultEntering = [
 	{
 		from    : 100 - (100 / enteringSteps),
 		duration: 100 / enteringSteps,
 		apply   : {
-			//zIndex   : 500,
-			transform: [
-				{},
-				{},
-				{
-					translateX: step,
-				}]
+			zIndex: 500,
+			left  : step,
 		}
 	},
 	{
 		from    : 0,
 		duration: 100,
 		apply   : {
-			//zIndex: 500,
+			zIndex: 500,
 			
 			transform: [
 				{},
@@ -102,16 +85,16 @@ export const defaultEntering  = [
 		}
 	},
 ];
-export const defaultLeaving   = [
+export const defaultLeaving  = [
 	       {
 		       from    : 0,
 		       duration: 100,
 		       apply   : {
-			       //zIndex   : -500,
+			       zIndex   : -500,
 			       transform: [
 				       {},
 				       {
-					       //rotateY: "-" + angle,
+					       rotateY: "-" + angle,
 				       }]
 		       }
 	       }

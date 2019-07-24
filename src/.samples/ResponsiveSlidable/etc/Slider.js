@@ -22,20 +22,19 @@ import {asTweener, TweenAxis, TweenRef, tweenTools} from "react-voodoo";
 @asTweener({ enableMouseDrag: true })
 export default class SlidableList extends React.Component {
 	static defaultProps = {
-		defaultIndex    : 0,
-		visibleItems    : 4,
-		maxJump         : undefined,
-		infinite        : false,
+		defaultIndex   : 0,
+		visibleItems   : 4,
+		maxJump        : undefined,
+		infinite       : false,
 		//overlaps       : 1 / 6,
-		slotInitialStyle: {},
-		itemInitialStyle: {},
-		defaultEntering : [],
-		defaultLeaving  : [],
-		enteringSteps   : 1,
-		leavingSteps    : 1,
-		scrollAxis      : [],
-		windowSize      : 100,
-		scrollDir       : "scrollY"
+		defaultInitial : {},
+		defaultEntering: [],
+		defaultLeaving : [],
+		enteringSteps  : 1,
+		leavingSteps   : 1,
+		scrollAxis     : [],
+		windowSize     : 100,
+		scrollDir      : "scrollY"
 	};
 	state               = {};
 	
@@ -127,52 +126,43 @@ export default class SlidableList extends React.Component {
 		return {
 			allItems,
 			nbGhostItems,
-			nbItems       : children.length,
+			nbItems   : children.length,
 			step,
 			nbClones,
-			slotTweenLines: allItems.map(( e, i ) => ({
+			tweenLines: allItems.map(( e, i ) => ({
 				[scrollDir]: [
-					//...tweenTools.offset(
-					//	tweenTools.scale(defaultEntering, enteringSize)
-					//	,
-					//	i * step + step
-					//),
+					//{
+					//	type    : "Event",
+					//	from    : i * step + enteringSize,
+					//	duration: step,
+					//	entering( pos, sens ) {
+					//		console.warn(i,"entering", pos, sens)
+					//	},
+					//	leaving( pos, sens ) {
+					//		console.warn(i,"leaving", pos, sens)
+					//	}
+					//},
+					...tweenTools.offset(
+						tweenTools.scale(defaultEntering, enteringSize)
+						,
+						i * step + step
+					),
 					...tweenTools.offset(
 						[
 							...tweenTools.scale(scrollAxis, windowSize),
 						],
 						i * step + enteringSize
 					),
-					//...tweenTools.offset(
-					//	tweenTools.scale(defaultLeaving, step * leavingSteps)
-					//	,
-					//	i * step + enteringSize + windowSize
-					//),
-				],
-			})),
-			itemTweenLines: allItems.map(( e, i ) => ({
-				[scrollDir]: [
-					//...tweenTools.offset(
-					//	tweenTools.scale(defaultEntering, enteringSize)
-					//	,
-					//	i * step + step
-					//),
-					////...tweenTools.offset(
-					////	[
-					////		...tweenTools.scale(scrollAxis, windowSize),
-					////	],
-					////	i * step + enteringSize
-					////),
-					//...tweenTools.offset(
-					//	tweenTools.scale(defaultLeaving, step * leavingSteps)
-					//	,
-					//	i * step + enteringSize + windowSize
-					//),
+					...tweenTools.offset(
+						tweenTools.scale(defaultLeaving, step * leavingSteps)
+						,
+						i * step + enteringSize + windowSize
+					),
 				],
 			})),
 			windowSize,
 			enteringSize,
-			jumpLength    : (children.length) * step,
+			jumpLength: (children.length) * step,
 			index
 		}
 	}
@@ -180,15 +170,15 @@ export default class SlidableList extends React.Component {
 	render() {
 		let {
 			    defaultIndex = 0,
-			    slotInitialStyle,
+			    defaultInitial,
 			    style        = {},
 			    onClick,
 			    infinite, windowSize,
-			    maxJump, itemInitialStyle,
+			    maxJump, enteringSteps,
 			    visibleItems, scrollDir,
 			    className    = ""
-		    }                                                                                                                     = this.props,
-		    { index = defaultIndex, nbClones, allItems, enteringSize, step, slotTweenLines, itemTweenLines, nbItems, jumpLength } = this.state;
+		    }                                                                                                      = this.props,
+		    { index = defaultIndex, nbClones, allItems, enteringSize, step, dec, tweenLines, nbItems, jumpLength } = this.state;
 		return (
 			<div
 				className={"SlidableList " + className}
@@ -213,7 +203,7 @@ export default class SlidableList extends React.Component {
 						{
 							maxJump,
 							shouldLoop: infinite && (( v ) => {
-								let { jumpLength } = this.state;
+								let { windowSize } = this.state;
 								
 								if ( Math.round(v) >= (nbClones * jumpLength + enteringSize + jumpLength) )
 									return -jumpLength;
@@ -236,24 +226,16 @@ export default class SlidableList extends React.Component {
 						( Child, i ) =>
 							<TweenRef
 								key={i}
+								//id={"s_" + i}
 								initial={
-									slotInitialStyle
+									defaultInitial
 								}
 								tweenLines={
-									slotTweenLines[i]
+									tweenLines[i]
 								}
 							>
-								<div className={"slot"}>
-									<TweenRef
-										initial={
-											itemInitialStyle
-										}
-										tweenLines={
-											itemTweenLines[i]
-										}
-									>
-										{Child}
-									</TweenRef>
+								<div className={"slide"} onClick={onClick && (e => onClick(e, i % nbItems, this))}>
+									{Child}
 								</div>
 							</TweenRef>
 					)

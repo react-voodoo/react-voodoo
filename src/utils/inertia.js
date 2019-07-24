@@ -27,6 +27,8 @@ const
 	round    = Math.round,
 	min      = Math.min,
 	max      = Math.max,
+	floatCut = ( v = 0 ) => v.toFixed(3),
+	
 	consts   = {
 		velocityResetTm: 150,
 		clickTm        : 250
@@ -77,6 +79,9 @@ export default class Inertia {
 		_.wayPoints           = _.conf.wayPoints;
 		_.inertiaFn           = easingFn.easePolyOut;
 		_.targetWayPointIndex = 0;
+		
+		this._detectCurrentSnap()
+		
 	}
 	
 	update( at = Date.now() ) {
@@ -90,17 +95,30 @@ export default class Inertia {
 			return _.pos;
 		}
 		let
-			pos          = _.inertiaFn((at - _.inertiaStartTm) / _.targetDuration) * _.targetDist,
-			delta        = pos - _.lastInertiaPos;
+			pos   = _.inertiaFn((at - _.inertiaStartTm) / _.targetDuration) * _.targetDist,
+			delta = pos - _.lastInertiaPos;
+		
 		_.lastInertiaPos = pos;
+		
 		if ( (at - _.inertiaStartTm) >= _.targetDuration ) {
 			_.inertia        = this.active = false;
 			_.lastInertiaPos = delta = 0;
+			
+			if ( _.targetWayPoint ) {
+				delta = _.targetWayPoint.at - _.pos;
+				//console.log("snap done ", _.targetWayPoint, _.pos + delta);
+				_.currentWayPoint      = _.targetWayPoint;
+				_.currentWayPointIndex = _.targetWayPointIndex;
+				_.targetWayPoint       = null;
+				_.targetWayPointIndex  = null;
+				//_.lastSnapTm           = Date.now();
+			}
 			
 			if ( _.conf.onInertiaEnd ) {
 				_.conf.onInertiaEnd(_.pos, _.targetWayPoint)
 			}
 		}
+		
 		delta     = delta || 0;
 		//console.log(_.pos + delta);
 		nextValue = _.pos + delta;
@@ -126,10 +144,17 @@ export default class Inertia {
 		_.lastInertiaPos = 0;
 		_.targetDist     = 0;
 		_.pos            = pos;
+		//console.log("setPos", pos);
 		if ( _.conf.bounds ) {
-			_.pos = max(_.pos, _.max);
-			_.pos = min(_.pos, _.min);
+			_.pos = max(_.pos, _.min);
+			_.pos = min(_.pos, _.max);
 		}
+	}
+	
+	setWayPoints( wayPoints ) {
+		let _       = this._, nextValue;
+		_.wayPoints = wayPoints;
+		this._detectCurrentSnap();
 	}
 	
 	teleport( loopDist ) {
@@ -142,9 +167,13 @@ export default class Inertia {
 	}
 	
 	dispatch( delta, tm = 500 ) {
-		let _       = this._, now = Date.now(), pos;
+		let _   = this._,
+		    now = Date.now(),
+		    pos;
+		
 		this.active = true;
-		//console.log("dispatch", delta);
+		
+		// if no inertia has started || if direction has change
 		if ( !_.inertia || signOf(delta) !== signOf(_.targetDist) ) {
 			_.inertia        = true;
 			_.lastInertiaPos = 0;
@@ -161,6 +190,10 @@ export default class Inertia {
 			_.targetDist += delta;
 			_.targetDuration += tm;
 		}
+		//
+		//if ( _.conf.maxJump ) {
+		//
+		//}
 		
 		if ( _.conf.bounds ) {
 			if ( (_.pos + _.targetDist) > _.max ) {
@@ -191,17 +224,37 @@ export default class Inertia {
 		return pos > _.min && pos < _.max;
 	}
 	
+	_detectCurrentSnap() {
+		let _   = this._,
+		    pos = _.pos,
+		    i;
+		
+		if ( _.wayPoints && _.wayPoints.length ) {
+			for ( i = 0; i < _.wayPoints.length; i++ )
+				if ( floatCut(_.wayPoints[i].at) === floatCut(pos) ) {
+					_.currentWayPoint      = _.wayPoints[i];
+					_.currentWayPointIndex = i;
+					//console.warn("snap set", i);
+					
+					return i;
+				}
+		}
+	}
+	
 	_doSnap( forceSnap, maxDuration = 2000 ) {
 		let _   = this._,
-		    pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)), target, mid, i, i2
-		;
+		    pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)),
+		    target,
+		    mid,
+		    i,
+		    i2;
 		
 		if ( _.wayPoints && _.wayPoints.length ) {
 			for ( i = 0; i < _.wayPoints.length; i++ )
 				if ( _.wayPoints[i].at > pos )
 					break;
 			
-			if ( i == _.wayPoints.length ) {
+			if ( i === _.wayPoints.length ) {
 				i--
 			}
 			else if ( i === 0 ) {
@@ -213,13 +266,13 @@ export default class Inertia {
 				else if ( pos < mid ) i--;
 			}
 			
-			if ( _.conf.maxJump && is.number(_.targetWayPointIndex) ) {
-				let d = (i - _.targetWayPointIndex);
-				//console.log('Inertia::_doSnap:154: ', i);
-				if ( d ) {
-					i -= d;
-					i += _.conf.maxJump * (d / abs(d))
-				}//console.log('Inertia::_doSnap:154: ', i);
+			if ( _.conf.maxJump && is.number(_.currentWayPointIndex) ) {
+				let d = (i - _.currentWayPointIndex);
+				//console.log('Inertia::_doSnap:154: ', i, d);
+				if ( abs(d) > _.conf.maxJump ) {
+					//console.log('max: ', i, d);
+					i = _.currentWayPointIndex + signOf(d) * _.conf.maxJump;
+				}
 			}
 			target = _.wayPoints[i].at;
 			
@@ -295,6 +348,10 @@ export default class Inertia {
 		_.lastIVelocity = iVel;
 		_.lastVelocity  = iVel;
 		_.baseTS        = now;
+		
+		// clear snap
+		_.targetWayPoint      = undefined;
+		_.targetWayPointIndex = undefined;
 		
 		if ( _.conf.bounds ) {
 			if ( pos > _.max ) {
