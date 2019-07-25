@@ -20,7 +20,7 @@ import * as easingFn                     from "d3-ease";
 import is                                from "is";
 import React                             from "react";
 import ReactDom                          from "react-dom";
-import rTween                            from "tween-axis";
+import TweenAxis                         from "tween-axis";
 import TweenerContext                    from "../comps/TweenerContext";
 import {deMuxLine, deMuxTween, muxToCss} from "../utils/css";
 import domUtils                          from "../utils/dom";
@@ -32,7 +32,6 @@ import Inertia                           from '../utils/inertia';
 
 
 let isBrowserSide           = (new Function("try {return this===window;}catch(e){ return false;}"))(),
-    isArray                 = is.array,
     _live, lastTm, _running = [];
 
 const SimpleObjectProto = ({}).constructor;
@@ -299,11 +298,11 @@ export default function asTweener( ...argz ) {
 		 * @param anim
 		 * @param then
 		 * @param skipInit
-		 * @returns {rTween}
+		 * @returns {TweenAxis}
 		 */
 		pushAnim( anim, then, skipInit ) {
 			var sl, initial, muxed, initials = {};
-			if ( isArray(anim) ) {
+			if ( is.array(anim) ) {
 				sl = anim;
 			}
 			else {
@@ -311,10 +310,10 @@ export default function asTweener( ...argz ) {
 				initial = anim.initial;
 			}
 			
-			if ( !(sl instanceof rTween) ) {
+			if ( !(sl instanceof TweenAxis) ) {
 				// tweenLine, initials, data, demuxers
 				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-				sl = new rTween(sl, this._.tweenRefMaps);
+				sl = new TweenAxis(sl, this._.tweenRefMaps);
 				Object.keys(initials)
 				      .forEach(
 					      id => (
@@ -355,30 +354,8 @@ export default function asTweener( ...argz ) {
 			
 		}
 		
-		registerPropChangeAnim( propId, propValue, anims ) {
-			this._.rtweensByProp                    = this._.rtweensByProp || {};
-			this._.rtween                           = this._.rtween || new rTween();
-			this._.rtweensByProp[propId]            = this._.rtweensByProp[propId] || {};
-			this._.rtweensByProp[propId][propValue] = this._.rtweensByProp[propId][propValue] ||
-				new rTween();
-			
-			this._.rtweensByProp[propId][propValue].mount(anims);
-		}
-		
-		registerStateChangeAnim( propId, propValue, anims ) {
-			this._.rtweensByStateProp                    = this._.rtweensByStateProp || {};
-			this._.rtween                                = this._.rtween || new rTween();
-			this._.rtweensByStateProp[propId]            = this._.rtweensByStateProp[propId] || {};
-			this._.rtweensByStateProp[propId][propValue] = this._.rtweensByStateProp[propId][propValue] ||
-				new rTween();
-			
-			this._.rtweensByStateProp[propId][propValue].mount(anims);
-		}
-		
 		makeTweenable() {
 			if ( !this._.tweenEnabled ) {
-				this._.rtweensByProp       = {};
-				this._.rtweensByStateProp  = {};
 				this._.tweenRefCSS         = {};
 				this._.tweenRefs           = {};
 				this._.tweenRefMaps        = {};
@@ -409,7 +386,7 @@ export default function asTweener( ...argz ) {
 		// ------------------------------------------------------------
 		
 		/**
-		 * Tween this tween line to 'to' during 'tm' ms using easing fn
+		 * Tween axis to 'to' during 'tm' ms using easing fn
 		 * @param to {int}
 		 * @param tm {int} duration in ms
 		 * @param easing {function} easing fn
@@ -503,7 +480,7 @@ export default function asTweener( ...argz ) {
 			    };
 			
 			this._.axes[axe] = nextDescr;
-			(_inertia) && inertia && (inertia._.wayPoints = _inertia.wayPoints);
+			(_inertia) && inertia && (inertia.setWayPoints(_inertia.wayPoints));
 			(_inertia) && inertia && !inertia.active && (inertia._.pos = scrollPos);
 			if ( inertia && scrollableBounds )
 				inertia.setBounds(scrollableBounds.min, scrollableBounds.max);
@@ -517,7 +494,7 @@ export default function asTweener( ...argz ) {
 			    initials = {},
 			    dim      = this._getAxis(axe);
 			
-			if ( isArray(anim) ) {
+			if ( is.array(anim) ) {
 				sl = anim;
 			}
 			else {
@@ -525,9 +502,9 @@ export default function asTweener( ...argz ) {
 				size = anim.length;
 			}
 			
-			if ( !(sl instanceof rTween) ) {
+			if ( !(sl instanceof TweenAxis) ) {
 				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-				sl = new rTween(sl, _.tweenRefMaps);
+				sl = new TweenAxis(sl, _.tweenRefMaps);
 				Object.keys(initials)
 				      .forEach(
 					      id => {
@@ -1096,9 +1073,9 @@ export default function asTweener( ...argz ) {
 		
 		updateRefStyle( target, style, postPone ) {
 			let _ = this._, initials = {};
-			if ( isArray(target) && isArray(style) )
+			if ( is.array(target) && is.array(style) )
 				return target.map(( m, i ) => this.updateRefStyle(m, style[i], postPone));
-			if ( isArray(target) )
+			if ( is.array(target) )
 				return target.map(( m ) => this.updateRefStyle(m, style, postPone));
 			
 			if ( !this._.tweenRefCSS )
@@ -1210,28 +1187,6 @@ export default function asTweener( ...argz ) {
 			if ( this._.tweenEnabled ) {
 				this._updateBox();
 				this._updateTweenRefs();
-				
-				this._.rtweensByProp
-				&& Object.keys(prevProps)
-				         .forEach(
-					         ( k ) =>
-						         this._.rtweensByProp[k]
-						         && (this.props[k] !== prevProps[k])
-						         && this._.rtweensByProp[k][this.props[k]]
-						         && this.pushAnim(this._.rtweensByProp[k][this.props[k]]/*get current pos*/),
-					         this
-				         );
-				this._.rtweensByStateProp
-				&& prevState
-				&& Object.keys(prevState)
-				         .forEach(
-					         ( k ) =>
-						         this._.rtweensByStateProp[k]
-						         && (this.state[k] !== prevState[k])
-						         && this._.rtweensByStateProp[k][this.state[k]]
-						         && this.pushAnim(this._.rtweensByStateProp[k][this.state[k]]/*get current pos*/),
-					         this
-				         );
 			}
 			super.componentDidUpdate && super.componentDidUpdate(...arguments);
 		}

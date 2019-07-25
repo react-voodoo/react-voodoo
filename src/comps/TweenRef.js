@@ -80,10 +80,11 @@ export default class TweenRef extends React.Component {
 					
 					parentTweener = tweener || parentTweener;
 					
-					if ( !parentTweener ) {
-						console.error("No voodoo tweener found in the context, is there any parent with asTweener ?")
-						return <React.Fragment/>;
-					}
+					if (!parentTweener)
+						{
+							console.error("No voodoo tweener found in the context, is there any parent with asTweener ?")
+							return <React.Fragment/>;
+						}
 					
 					let twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, reset);
 					

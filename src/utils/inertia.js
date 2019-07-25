@@ -115,7 +115,7 @@ export default class Inertia {
 			}
 			
 			if ( _.conf.onInertiaEnd ) {
-				_.conf.onInertiaEnd(_.pos, _.targetWayPoint)
+				_.conf.onInertiaEnd(_.pos, _.currentWayPoint)
 			}
 		}
 		
