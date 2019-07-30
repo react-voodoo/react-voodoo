@@ -37,7 +37,7 @@ let style = {
         // transform can use multiple "layers"
         transform: [
             {
-                // can only use rotate(X|Y|Z) & translate(X|Y|Z) 
+                // use rotate(X|Y|Z) & translate(X|Y|Z)
                 rotateX:"25deg"
             }, 
             {
@@ -216,7 +216,7 @@ export default class MyTweenerComp extends React.Component{
     * return {array}
     */
 	hookScrollableTargets( targets ) {
-	    return ["myTween", ...targets];
+	    return ["myTweenRefId", ...targets];
 	}
 	/**
 	* did scroll event
