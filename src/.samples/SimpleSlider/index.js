@@ -17,14 +17,15 @@
  */
 
 import React  from "react";
-import Slider from "./etc/Slider";
 import anims  from "./etc/anims";
+import Slider from "./etc/Slider";
 import "./sample.scss";
 
 export default class SimpleSlider extends React.Component {
 	state = {
 		count: 0
 	};
+	ref   = React.createRef();
 	
 	componentDidScroll( pos, axe ) {
 		console.log('scroll', pos, axe)
@@ -32,21 +33,21 @@ export default class SimpleSlider extends React.Component {
 	}
 	
 	render() {
-		return <div className={ "SimpleSlider" } style={ {
+		return <div className={"SimpleSlider"} style={{
 			width : "100%",
 			height: "100%"
-		} }>
-			<Slider { ...anims }>
-				<div className={ "item" } style={ { background: "url(https://source.unsplash.com/600x400/?logo)" } }>
+		}}>
+			<Slider {...anims} ref={this.ref}>
+				<div className={"item"} style={{ background: "url(https://source.unsplash.com/600x400/?logo)" }}>
 					drag me
 				</div>
-				<div className={ "item" } style={ { background: "url(https://source.unsplash.com/600x400/?bridge)" } }>
+				<div className={"item"} style={{ background: "url(https://source.unsplash.com/600x400/?bridge)" }}>
 					drag me
 				</div>
-				<div className={ "item" } style={ { background: "url(https://source.unsplash.com/600x400/?sky)" } }>
+				<div className={"item"} style={{ background: "url(https://source.unsplash.com/600x400/?sky)" }}>
 					drag me
 				</div>
-				<div className={ "item" } style={ { background: "url(https://source.unsplash.com/600x400/?cat)" } }>
+				<div className={"item"} style={{ background: "url(https://source.unsplash.com/600x400/?cat)" }}>
 					drag me
 				</div>
 			</Slider>

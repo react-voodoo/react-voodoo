@@ -75,7 +75,7 @@ export default class Sample extends React.Component {
 	};
 	
 	hookScrollableTargets( targets, dir ) {
-		return [this, ReactDom.findDOMNode(this)];
+		return [this.props.tweener, ReactDom.findDOMNode(this)];
 	}
 	
 	componentShouldScroll( axis, delta ) {

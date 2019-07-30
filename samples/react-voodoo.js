@@ -28646,7 +28646,7 @@ module.exports = 0;
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-module.exports=function(t){var s={};function e(i){if(s[i])return s[i].exports;var n=s[i]={i:i,l:!1,exports:{}};return t[i].call(n.exports,n,n.exports,e),n.l=!0,n.exports}return e.m=t,e.c=s,e.d=function(t,s,i){e.o(t,s)||Object.defineProperty(t,s,{enumerable:!0,get:i})},e.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},e.t=function(t,s){if(1&s&&(t=e(t)),8&s)return t;if(4&s&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(e.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&s&&"string"!=typeof t)for(var n in t)e.d(i,n,function(s){return t[s]}.bind(null,n));return i},e.n=function(t){var s=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(s,"a",s),s},e.o=function(t,s){return Object.prototype.hasOwnProperty.call(t,s)},e.p="/",e(e.s=11)}([function(t,s){t.exports=__webpack_require__(/*! is */ "./node_modules/is/index.js")},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js")},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js")},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js")},function(t,s,e){var i={"./Event.js":5,"./Ring.js":6,"./SVGPath.js":7,"./Tween.js":9};function n(t){var s=r(t);return e(s)}function r(t){if(!e.o(i,t)){var s=new Error("Cannot find module '"+t+"'");throw s.code="MODULE_NOT_FOUND",s}return i[t]}n.keys=function(){return Object.keys(i)},n.resolve=r,t.exports=n,n.id=4},function(t,s){t.exports=function(t,s,e){return function(t,s,e,i,n){i.entering&&(0!==t&&1!==t||i.entering(s)),i.leaving&&(0===t||1===t||t+s!==0&&t+s!==1||i.leaving(s))}},t.exports.isFactory=!0},function(t,s,e){var i=Math.PI,n=e(0).number;Math.sin,Math.cos;t.exports=function(t,s,e){e&&t&&(t=t[e]=t[e]||{});var r="var _2PI=2*Math.PI,",o=s.axes&&s.axes[0]||"x",_=s.axes&&s.axes[1]||"y",a=(s.factors&&s.factors[0]||1)*s.radius,h=(s.factors&&s.factors[1]||1)*s.radius,c=2*(s.startPos||0)*i,u=n(s.length)?s.length:1;return r+="pos1=("+c+"+((lastPos+update)*_2PI)*"+u+" )%(_2PI),pos2 = ("+c+"+(lastPos)*_2PI*"+u+" )%(_2PI);",r+="scope."+o+"+="+a+"*(Math.cos(pos1)-Math.cos(pos2));scope."+_+" += "+h+"*(Math.sin(pos1)-Math.sin(pos2));",new Function("lastPos, update, scope, cfg, target",r)},t.exports.isFactory=!0},function(t,s,e){var i,n,r={};"undefined"==typeof document?(i=function(t){return r[t]||e(8)(t)},n=function(t,s){return r[t].at(s)}):(i=function(t){var s=r[t];s||(r[t]=s=document.createElementNS("http://www.w3.org/2000/svg","path"),s.setAttribute("d",t))},n=function(t,s){return r[t].getPointAtLength(s*r[t].getTotalLength())}),t.exports=function(t,s,e){var r,o,_=s.axes&&s.axes[0]||"x",a=s.axes&&s.axes[1]||"y";return i(s.path),function(t,s,e,i,h){var c=r==t?o:n(i.path,i.reverse?1-t:t),u=o=n(i.path,i.reverse?1-(t+s):t+s);r=t+s,e[_]+=4*(u.x-c.x),e[a]+=4*(u.y-c.y)}},t.exports.isFactory=!0},function(t,s){t.exports=__webpack_require__(/*! point-at-length */ "./node_modules/point-at-length/index.js")},function(t,s){t.exports=function(t,s,e){var i="";for(var n in e&&(i+="scope = scope['"+e+"'];\n"),s.apply)s.apply.hasOwnProperty(n)&&(t&&(t[n]=t[n]||0),i+="scope."+n+"+=("+(s.easeFn?"cfg.easeFn(lastPos+update)- cfg.easeFn(lastPos)":"update")+") * cfg.apply."+n+";");return new Function("lastPos, update, scope, cfg, target",i)},t.exports.isFactory=!0},function(t,s){t.exports=__webpack_require__(/*! d3-ease */ "./node_modules/d3-ease/src/index.js")},function(t,s,e){"use strict";e.r(s);var i,n=e(1),r=e.n(n),o=e(2),_=e.n(o),a=e(3),h=e.n(a),c=e(0),u=e.n(c),g={};(i=e(4)).keys().forEach(function(t){var s,e=t.match(/^\.\/([^\\\/]+)\.js$/);e=e&&e[1]||t.substr(2),g[e]||(s=i(t),g[e]=1===Object.keys(s).length&&s.default||s)});g.Event,g.Ring,g.SVGPath,g.Tween;var l,p=g,f=e(10),m=u.a.array,d=u.a.number,k=u.a.string,y=(Array.prototype.slice,Array.prototype.push),v=Math.abs,x=!1,P=[],L=function(){function t(s,e){_()(this,t),this.scope=e,s=s||{},this.__marks=[],this.__marksLength=[],this.__marksKeys=[],this.__processors=[],this.__config=[],this.__activeForks=[],this.__activeProcess=[],this.__activeProcess=[],this.__outgoing=[],this.__incoming=[],this.__cPos=0,this.__cIndex=0,this.__cMaxKey=1,m(s)?(this.localLength=1,this.mount(s,e)):(Object.assign(this,s),s.TweenAxis&&this.mount(s.TweenAxis,e))}return h()(t,[{key:"run",value:function(s,e,i){t.Runner.run(this,s,i||this.duration,e)}},{key:"runTo",value:function(s,e){var i=this,n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:function(t){return t},r=arguments.length>3?arguments[3]:void 0,o=arguments.length>4?arguments[4]:void 0,_=this.__cPos,a=s-_;P.push({apply:function(t,s){var e=_+n(t/s)*a;i.goTo(e),r&&r(e)},duration:e,cpos:0,cb:o}),x||(x=!0,l=Date.now(),setTimeout(t.Runner._tick,16))}},{key:"mount",value:function(t,s){var e,i,n,o=this.duration||0,_=0;for(e=0,i=t.length;e<i;e++)k(t[e].easeFn)&&(t[e]=r()({},t[e],{easeFn:f[t[e].easeFn]||!1})),(n="Subline"==t[e].type?t[e].apply.fork(null,t[e],t[e].easeFn):p[t[e].type||"Tween"])?d(t[e].from)?(this.addProcess(t[e].from,t[e].from+t[e].duration,n,t[e]),_=Math.max(_,t[e].from+t[e].duration)):(this.addProcess(o,o+t[e].duration,n,t[e]),o+=t[e].duration||0):console.log("TweenAxis : Anim not found : "+t[e].type);return this.duration=Math.max(o,_),this}},{key:"fork",value:function(t){return this._masterLine=this._masterLine||this,forkedTweenAxis.prototype=this._masterLine,new forkedTweenAxis(t)}},{key:"addProcess",value:function(s,e,i,n){var r=0,o=(i.localLength,e-s||0),_=this.__cMaxKey++;for(i instanceof t&&(i=i.fork(null,n)),this.__activeForks[_]=!0,this.__processors[_]=i.isFactory?i(null,n,n.target):i,this.__marksLength[_]=o,this.__config[_]=n;r<=this.__marks.length&&this.__marks[r]<s;)r++;for(this.__marks.splice(r,0,s),this.__marksKeys.splice(r,0,_);r<=this.__marks.length&&this.__marks[r]<=e;)r++;return this.__marks.splice(r,0,e),this.__marksKeys.splice(r,0,-_),this}},{key:"_getIndex",value:function(t){return-1!==(t=this.__marksKeys.indexOf(t))&&t}},{key:"go",value:function(t,s,e){return this.goTo(t*this.duration,s,e),this.__cRPos=t,s||this.scope}},{key:"getPosAt",value:function(t,s){return this.__activeProcess.length=0,this.__outgoing.length=0,this.__incoming.length=0,this.__cPos=0,this.__cIndex=0,this.go(t,s)}},{key:"goTo",value:function(t,s,e){s=s||this.scope,this.window&&(t=this.window.start+t/this.duration*this.window.length),this._started||(this._started=!0,this.__cIndex=this.__cPos=0);var i,n,r,o,_,a,h=this.__cIndex,c=this.__outgoing,u=this.__incoming,g=this.__marks.length,l=t-this.__cPos;for(e&&(this.__activeProcess.length=0,this.__outgoing.length=0,this.__incoming.length=0);h<g&&t>this.__marks[h]||l>=0&&this.__marks[h]==t;)-1!=(i=this.__activeProcess.indexOf(-this.__marksKeys[h]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[h])):-1!=(i=this.__activeProcess.indexOf(this.__marksKeys[h]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[h])):-1!=(i=u.indexOf(-this.__marksKeys[h]))?(u.splice(i,1),c.push(this.__marksKeys[h])):u.push(this.__marksKeys[h]),h++;for(;h-1>=0&&(t<this.__marks[h-1]||l<0&&this.__marks[h-1]==t);)h--,-1!=(i=this.__activeProcess.indexOf(-this.__marksKeys[h]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[h])):-1!=(i=this.__activeProcess.indexOf(this.__marksKeys[h]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[h])):-1!=(i=u.indexOf(-this.__marksKeys[h]))?(u.splice(i,1),c.push(this.__marksKeys[h])):u.push(this.__marksKeys[h]);for(this.__cIndex=h,h=0,n=c.length;h<n;h++)i=this._getIndex(c[h]),a=v(c[h]),c[h]<0?(r=o=Math.min(this.__marks[i],Math.max(this.__cPos,this.__marks[i]-this.__marksLength[a]))-(this.__marks[i]-this.__marksLength[a]),_=this.__marksLength[a]-o,r=(this.localLength||1)*r/this.__marksLength[a],_=(this.localLength||1)*_/this.__marksLength[a]):(r=o=Math.max(this.__marks[i],Math.min(this.__cPos,this.__marks[i]+this.__marksLength[a]))-this.__marks[i],_=0-o,r=(this.localLength||1)*r/this.__marksLength[a],_=(this.localLength||1)*_/this.__marksLength[a]),this.__processors[a].go?this.__processors[a].go(r+_,s,e):this.__processors[a](r,_,s,this.__config[a],this.__config[a].target||this.__config[a].$target&&this.__context&&this.__context[this.__config[a].$target]);for(h=0,n=u.length;h<n;h++)i=this._getIndex(u[h]),a=v(u[h]),u[h]<0?(r=o=this.__marksLength[a],_=Math.max(this.__marks[i]-this.__marksLength[a],Math.min(this.__cPos+l,this.__marks[i]))-(this.__marks[i]-this.__marksLength[a])-o,r=(this.localLength||1)*r/this.__marksLength[a],_=(this.localLength||1)*_/this.__marksLength[a]):(r=o=0,_=Math.max(this.__marks[i],Math.min(this.__cPos+l,this.__marks[i]+this.__marksLength[a]))-this.__marks[i]-o,r=(this.localLength||1)*r/this.__marksLength[a],_=(this.localLength||1)*_/this.__marksLength[a]),this.__processors[a].go?(this.__processors[a].go(r,0,!0),this.__processors[a].go(r+_,s)):e||this.__processors[a](r,_,s,this.__config[a],this.__config[a].target||this.__config[a].$target&&this.__context&&this.__context[this.__config[a].$target]);for(h=0,n=this.__activeProcess.length;h<n;h++)i=this._getIndex(this.__activeProcess[h]),a=v(this.__activeProcess[h]),r=this.__activeProcess[h]<0?this.__cPos-(this.__marks[i]-this.__marksLength[a]):this.__cPos-this.__marks[i],r=(this.localLength||1)*r/this.__marksLength[a],_=l*(this.localLength||1)/this.__marksLength[a],this.__processors[a].go?this.__processors[a].go(r+_,s):e||this.__processors[a](r,_,s,this.__config[a],this.__config[a].target||this.__config[a].$target&&this.__context&&this.__context[this.__config[a].$target]);y.apply(this.__activeProcess,u),c.length=0,u.length=0,this.__cPos=t,this.onScopeUpdated&&this.onScopeUpdated(t,l,s)}}]),t}();L.Runner={run:function(t,s,e,i){P.push({apply:function(e,i){return t.go(e/i,s)},duration:e,cpos:0,cb:i}),t.go(0,s,!0),x||(x=!0,l=Date.now(),setTimeout(this._tick,16))},_tick:function t(){var s=0,e=Date.now(),i=e-l;for(l=e;s<P.length;s++)P[s].cpos=Math.min(i+P[s].cpos,P[s].duration),P[s].apply(P[s].cpos,P[s].duration),P[s].cpos==P[s].duration&&(P[s].cb&&setTimeout(P[s].cb),P.splice(s,1),s--);P.length?setTimeout(t,16):x=!1}},e.d(s,"rTween",function(){return b});s.default=L;var b=L}]);
+module.exports=function(t){var s={};function e(i){if(s[i])return s[i].exports;var n=s[i]={i:i,l:!1,exports:{}};return t[i].call(n.exports,n,n.exports,e),n.l=!0,n.exports}return e.m=t,e.c=s,e.d=function(t,s,i){e.o(t,s)||Object.defineProperty(t,s,{enumerable:!0,get:i})},e.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},e.t=function(t,s){if(1&s&&(t=e(t)),8&s)return t;if(4&s&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(e.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&s&&"string"!=typeof t)for(var n in t)e.d(i,n,function(s){return t[s]}.bind(null,n));return i},e.n=function(t){var s=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(s,"a",s),s},e.o=function(t,s){return Object.prototype.hasOwnProperty.call(t,s)},e.p="/",e(e.s=10)}([function(t,s){t.exports=__webpack_require__(/*! is */ "./node_modules/is/index.js")},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js")},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js")},function(t,s){t.exports=__webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js")},function(t,s,e){var i={"./Event.js":5,"./SVGPath.js":6,"./Tween.js":8};function n(t){var s=r(t);return e(s)}function r(t){if(!e.o(i,t)){var s=new Error("Cannot find module '"+t+"'");throw s.code="MODULE_NOT_FOUND",s}return i[t]}n.keys=function(){return Object.keys(i)},n.resolve=r,t.exports=n,n.id=4},function(t,s){t.exports=function(t,s,e){return function(t,s,e,i,n){i.entering&&(0!==t&&1!==t||i.entering(s)),i.leaving&&(0===t||1===t||t+s!==0&&t+s!==1||i.leaving(s))}},t.exports.isFactory=!0},function(t,s,e){var i,n,r={};"undefined"==typeof document?(i=function(t){return r[t]||e(7)(t)},n=function(t,s){return r[t].at(s)}):(i=function(t){var s=r[t];s||(r[t]=s=document.createElementNS("http://www.w3.org/2000/svg","path"),s.setAttribute("d",t))},n=function(t,s){return r[t].getPointAtLength(s*r[t].getTotalLength())}),t.exports=function(t,s,e){var r,o,_=s.axes&&s.axes[0]||"x",h=s.axes&&s.axes[1]||"y";return i(s.path),function(t,s,e,i,a){var c=r==t?o:n(i.path,i.reverse?1-t:t),u=o=n(i.path,i.reverse?1-(t+s):t+s);r=t+s,e[_]+=4*(u.x-c.x),e[h]+=4*(u.y-c.y)}},t.exports.isFactory=!0},function(t,s){t.exports=__webpack_require__(/*! point-at-length */ "./node_modules/point-at-length/index.js")},function(t,s){t.exports=function(t,s,e){var i="";for(var n in e&&(i+="scope = scope['"+e+"'];\n"),s.apply)s.apply.hasOwnProperty(n)&&(t&&(t[n]=t[n]||0),i+="scope."+n+"+=("+(s.easeFn?"cfg.easeFn(lastPos+update)- cfg.easeFn(lastPos)":"update")+") * cfg.apply."+n+";");return new Function("lastPos, update, scope, cfg, target",i)},t.exports.isFactory=!0},function(t,s){t.exports=__webpack_require__(/*! d3-ease */ "./node_modules/d3-ease/src/index.js")},function(t,s,e){"use strict";e.r(s);var i,n=e(1),r=e.n(n),o=e(2),_=e.n(o),h=e(3),a=e.n(h),c=e(0),u=e.n(c),g={};(i=e(4)).keys().forEach(function(t){var s,e=t.match(/^\.\/([^\\\/]+)\.js$/);e=e&&e[1]||t.substr(2),g[e]||(s=i(t),g[e]=1===Object.keys(s).length&&s.default||s)});g.Event,g.SVGPath,g.Tween;var l,p=g,f=e(9),m=(Array.prototype.slice,Array.prototype.push),k=Math.abs,d=function(t){this.__cPos=0,this.__cIndex=0,this.onScopeUpdated=!1,this.__activeProcess=[],this.__outgoing=[],this.__incoming=[]},y=!1,v=[],x=function(){function t(s,e){_()(this,t),this.scope=e,s=s||{},this.__marks=[],this.__marksLength=[],this.__marksKeys=[],this.__processors=[],this.__config=[],this.__activeForks=[],this.__activeProcess=[],this.__activeProcess=[],this.__outgoing=[],this.__incoming=[],this.__cPos=0,this.__cIndex=0,this.__cMaxKey=1,u.a.array(s)?(this.localLength=1,this.mount(s,e)):(Object.assign(this,s),s.TweenAxis&&this.mount(s.TweenAxis,e))}return a()(t,[{key:"run",value:function(s,e,i){t.Runner.run(this,s,i||this.duration,e)}},{key:"runTo",value:function(s,e){var i=this,n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:function(t){return t},r=arguments.length>3?arguments[3]:void 0,o=arguments.length>4?arguments[4]:void 0,_=this.__cPos,h=s-_;v.push({apply:function(t,s){var e=_+n(t/s)*h;i.goTo(e),r&&r(e)},duration:e,cpos:0,cb:o}),y||(y=!0,l=Date.now(),setTimeout(t.Runner._tick,16))}},{key:"mount",value:function(t,s){var e,i,n,o=this.duration||0,_=0;for(e=0,i=t.length;e<i;e++)u.a.string(t[e].easeFn)&&(t[e]=r()({},t[e],{easeFn:f[t[e].easeFn]||!1})),(n="Subline"==t[e].type?t[e].apply.fork(null,t[e],t[e].easeFn):p[t[e].type||"Tween"])?u.a.number(t[e].from)?(this.addProcess(t[e].from,t[e].from+t[e].duration,n,t[e]),_=Math.max(_,t[e].from+t[e].duration)):(this.addProcess(o,o+t[e].duration,n,t[e]),o+=t[e].duration||0):console.log("TweenAxis : Anim not found : "+t[e].type);return this.duration=Math.max(o,_),this}},{key:"fork",value:function(t){return this._masterLine=this._masterLine||this,d.prototype=this._masterLine,new d(t)}},{key:"addProcess",value:function(s,e,i,n){var r=0,o=(i.localLength,e-s||0),_=this.__cMaxKey++;for(i instanceof t&&(i=i.fork(null,n)),this.__activeForks[_]=!0,this.__processors[_]=i.isFactory?i(null,n,n.target):i,this.__marksLength[_]=o,this.__config[_]=n;r<=this.__marks.length&&this.__marks[r]<s;)r++;for(this.__marks.splice(r,0,s),this.__marksKeys.splice(r,0,_);r<=this.__marks.length&&this.__marks[r]<=e;)r++;return this.__marks.splice(r,0,e),this.__marksKeys.splice(r,0,-_),this}},{key:"_getIndex",value:function(t){return-1!==(t=this.__marksKeys.indexOf(t))&&t}},{key:"go",value:function(t,s,e){return this.goTo(t*this.duration,s,e),this.__cRPos=t,s||this.scope}},{key:"getPosAt",value:function(t,s){return this.__activeProcess.length=0,this.__outgoing.length=0,this.__incoming.length=0,this.__cPos=0,this.__cIndex=0,this.go(t,s)}},{key:"goTo",value:function(t,s,e){s=s||this.scope,this.window&&(t=this.window.start+t/this.duration*this.window.length),this._started||(this._started=!0,this.__cIndex=this.__cPos=0);var i,n,r,o,_,h,a=this.__cIndex,c=this.__outgoing,u=this.__incoming,g=this.__marks.length,l=t-this.__cPos;for(e&&(this.__activeProcess.length=0,this.__outgoing.length=0,this.__incoming.length=0);a<g&&t>this.__marks[a]||l>=0&&this.__marks[a]==t;)-1!=(i=this.__activeProcess.indexOf(-this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=this.__activeProcess.indexOf(this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=u.indexOf(-this.__marksKeys[a]))?(u.splice(i,1),c.push(this.__marksKeys[a])):u.push(this.__marksKeys[a]),a++;for(;a-1>=0&&(t<this.__marks[a-1]||l<0&&this.__marks[a-1]==t);)a--,-1!=(i=this.__activeProcess.indexOf(-this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=this.__activeProcess.indexOf(this.__marksKeys[a]))?(this.__activeProcess.splice(i,1),c.push(this.__marksKeys[a])):-1!=(i=u.indexOf(-this.__marksKeys[a]))?(u.splice(i,1),c.push(this.__marksKeys[a])):u.push(this.__marksKeys[a]);for(this.__cIndex=a,a=0,n=c.length;a<n;a++)i=this._getIndex(c[a]),h=k(c[a]),c[a]<0?(r=o=Math.min(this.__marks[i],Math.max(this.__cPos,this.__marks[i]-this.__marksLength[h]))-(this.__marks[i]-this.__marksLength[h]),_=this.__marksLength[h]-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]):(r=o=Math.max(this.__marks[i],Math.min(this.__cPos,this.__marks[i]+this.__marksLength[h]))-this.__marks[i],_=0-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]),this.__processors[h].go?this.__processors[h].go(r+_,s,e):this.__processors[h](r,_,s,this.__config[h],this.__config[h].target||this.__config[h].$target&&this.__context&&this.__context[this.__config[h].$target]);for(a=0,n=u.length;a<n;a++)i=this._getIndex(u[a]),h=k(u[a]),u[a]<0?(r=o=this.__marksLength[h],_=Math.max(this.__marks[i]-this.__marksLength[h],Math.min(this.__cPos+l,this.__marks[i]))-(this.__marks[i]-this.__marksLength[h])-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]):(r=o=0,_=Math.max(this.__marks[i],Math.min(this.__cPos+l,this.__marks[i]+this.__marksLength[h]))-this.__marks[i]-o,r=(this.localLength||1)*r/this.__marksLength[h],_=(this.localLength||1)*_/this.__marksLength[h]),this.__processors[h].go?(this.__processors[h].go(r,0,!0),this.__processors[h].go(r+_,s)):e||this.__processors[h](r,_,s,this.__config[h],this.__config[h].target||this.__config[h].$target&&this.__context&&this.__context[this.__config[h].$target]);for(a=0,n=this.__activeProcess.length;a<n;a++)i=this._getIndex(this.__activeProcess[a]),h=k(this.__activeProcess[a]),r=this.__activeProcess[a]<0?this.__cPos-(this.__marks[i]-this.__marksLength[h]):this.__cPos-this.__marks[i],r=(this.localLength||1)*r/this.__marksLength[h],_=l*(this.localLength||1)/this.__marksLength[h],this.__processors[h].go?this.__processors[h].go(r+_,s):e||this.__processors[h](r,_,s,this.__config[h],this.__config[h].target||this.__config[h].$target&&this.__context&&this.__context[this.__config[h].$target]);m.apply(this.__activeProcess,u),c.length=0,u.length=0,this.__cPos=t,this.onScopeUpdated&&this.onScopeUpdated(t,l,s)}}]),t}();x.Runner={run:function(t,s,e,i){v.push({apply:function(e,i){return t.go(e/i,s)},duration:e,cpos:0,cb:i}),t.go(0,s,!0),y||(y=!0,l=Date.now(),setTimeout(this._tick,16))},_tick:function t(){var s=0,e=Date.now(),i=e-l;for(l=e;s<v.length;s++)v[s].cpos=Math.min(i+v[s].cpos,v[s].duration),v[s].apply(v[s].cpos,v[s].duration),v[s].cpos==v[s].duration&&(v[s].cb&&setTimeout(v[s].cb),v.splice(s,1),s--);v.length?setTimeout(t,16):y=!1}},e.d(s,"tweenAxis",function(){return P});s.default=x;var P=x}]);
 
 /***/ }),
 
@@ -29196,6 +29196,12 @@ function (_React$Component) {
     return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_5__["default"].Consumer, null, function (parentTweener) {
       //@todo : me be better method
       parentTweener = tweener || parentTweener;
+
+      if (!parentTweener) {
+        console.error("No voodoo tweener found in the context, is there any parent with asTweener ?");
+        return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_3___default.a.Fragment, null);
+      }
+
       var twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial, pos, noRef, reset);
 
       if (_this3._currentTweener !== parentTweener || _this3._previousScrollable !== tweenAxis) {
@@ -29589,8 +29595,6 @@ var Runner = {
  */
 
 function asTweener() {
-  var _class, _temp;
-
   for (var _len = arguments.length, argz = new Array(_len), _key = 0; _key < _len; _key++) {
     argz[_key] = arguments[_key];
   }
@@ -29609,16 +29613,17 @@ function asTweener() {
     maxClickTm: 200,
     maxClickOffset: 100
   }, opts);
-  return _temp = _class =
+
+  var TweenableComp =
   /*#__PURE__*/
-  function (_BaseComponent) {
-    _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default()(TweenableComp, _BaseComponent);
+  function (_React$Component) {
+    _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default()(TweenableComp, _React$Component);
 
     // mage
     function TweenableComp() {
       var _this;
 
-      _this = _BaseComponent.apply(this, arguments) || this;
+      _this = _React$Component.apply(this, arguments) || this;
 
       _this._updateNodeInertia = function () {
         var _ = _this._,
@@ -29659,6 +29664,7 @@ function asTweener() {
       };
       _this._._rafLoop = _this._rafLoop.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_0___default()(_this));
       _this.__isTweener = true;
+      _this._.rootRef = _this.props.forwardedRef || react__WEBPACK_IMPORTED_MODULE_5___default.a.createRef();
       return _this;
     }
 
@@ -29739,7 +29745,7 @@ function asTweener() {
             if (_.tweenRefOrigin[id].hasOwnProperty(key) && !tweenableMap.hasOwnProperty(key)) {
               delete _.tweenRefMaps[id][key];
               delete _.muxByTarget[id][key];
-              _.refs[id] && (_.refs[id].style[key] = undefined);
+              _.refs[id] && _.refs[id].style && (_.refs[id].style[key] = undefined);
             }
           });
           _.tweenRefOrigin[id] = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, tweenableMap);
@@ -29870,50 +29876,32 @@ function asTweener() {
       });
     };
 
-    _proto.registerPropChangeAnim = function registerPropChangeAnim(propId, propValue, anims) {
-      this._.rtweensByProp = this._.rtweensByProp || {};
-      this._.rtween = this._.rtween || new tween_axis__WEBPACK_IMPORTED_MODULE_7___default.a();
-      this._.rtweensByProp[propId] = this._.rtweensByProp[propId] || {};
-      this._.rtweensByProp[propId][propValue] = this._.rtweensByProp[propId][propValue] || new tween_axis__WEBPACK_IMPORTED_MODULE_7___default.a();
-
-      this._.rtweensByProp[propId][propValue].mount(anims);
-    };
-
-    _proto.registerStateChangeAnim = function registerStateChangeAnim(propId, propValue, anims) {
-      this._.rtweensByStateProp = this._.rtweensByStateProp || {};
-      this._.rtween = this._.rtween || new tween_axis__WEBPACK_IMPORTED_MODULE_7___default.a();
-      this._.rtweensByStateProp[propId] = this._.rtweensByStateProp[propId] || {};
-      this._.rtweensByStateProp[propId][propValue] = this._.rtweensByStateProp[propId][propValue] || new tween_axis__WEBPACK_IMPORTED_MODULE_7___default.a();
-
-      this._.rtweensByStateProp[propId][propValue].mount(anims);
-    };
-
     _proto.makeTweenable = function makeTweenable() {
       var _this4 = this;
 
-      if (!this._.tweenEnabled) {
-        this._.rtweensByProp = {};
-        this._.rtweensByStateProp = {};
-        this._.tweenRefCSS = {};
-        this._.tweenRefs = {};
-        this._.tweenRefMaps = {};
-        this._.iMapOrigin = {};
-        this._.tweenRefInitialData = {};
-        this._.tweenEnabled = true;
-        this._.tweenRefOrigin = {};
-        this._.tweenRefOriginCss = {};
-        this._.axes = {};
-        this._.muxDataByTarget = this._.muxDataByTarget || {};
-        this._.tweenRefDemuxed = this._.tweenRefDemuxed || {};
-        this._.tweenRefTargets = this._.tweenRefTargets || [];
-        this._.runningAnims = this._.runningAnims || [];
+      var _ = this._;
+
+      if (!_.tweenEnabled) {
+        _.tweenRefCSS = {};
+        _.tweenRefs = {};
+        _.tweenRefMaps = {};
+        _.iMapOrigin = {};
+        _.tweenRefInitialData = {};
+        _.tweenEnabled = true;
+        _.tweenRefOrigin = {};
+        _.tweenRefOriginCss = {};
+        _.axes = {};
+        _.muxDataByTarget = _.muxDataByTarget || {};
+        _.tweenRefDemuxed = _.tweenRefDemuxed || {};
+        _.tweenRefTargets = _.tweenRefTargets || [];
+        _.runningAnims = _.runningAnims || [];
         isBrowserSide && window.addEventListener("resize", this._.onResize = function (e) {
           //@todo
           _this4._updateBox();
 
           _this4._updateTweenRefs();
 
-          _this4.windowDidResize && _this4.windowDidResize(e);
+          _.rootRef && _.rootRef.current && _.rootRef.current.windowDidResize && _.rootRef.current.windowDidResize(e);
         });
       }
     } // ------------------------------------------------------------
@@ -30007,7 +29995,6 @@ function asTweener() {
 
       this.makeTweenable();
       this.makeScrollable();
-
       var _ = this._,
           dim = _.axes[axe],
           scrollableBounds = _scrollableBounds,
@@ -30015,10 +30002,11 @@ function asTweener() {
           scrollableArea = Math.max(dim && dim.scrollableArea || 0, _scrollableArea),
           scrollableWindow = Math.max(dim && dim.scrollableWindow || 0, _scrollableWindow),
           targetPos = dim ? dim.targetPos : scrollPos,
-          inertia = _inertia !== false && (!reset && dim ? dim.inertia : new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"](_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, _inertia || {}, {
+          inertia = _inertia !== false && (dim ? dim.inertia : new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"](_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, _inertia || {}, {
         value: scrollPos
       }))),
-          nextDescr = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, _inertia || {}, {
+          nextDescr = {
+        //...(_inertia || {}),
         scrollFirst: scrollFirst,
         tweenAxis: dim && dim.tweenAxis || [],
         scrollPos: scrollPos,
@@ -30027,8 +30015,7 @@ function asTweener() {
         scrollableWindow: scrollableWindow,
         scrollableBounds: scrollableBounds,
         scrollableArea: scrollableArea
-      });
-
+      };
       this._.axes[axe] = nextDescr;
       _inertia && inertia && (inertia._.wayPoints = _inertia.wayPoints);
       _inertia && inertia && !inertia.active && (inertia._.pos = scrollPos);
@@ -30116,7 +30103,8 @@ function asTweener() {
         if (_this7._.axes && _this7._.axes[axe]) {
           var oldPos = _this7._.axes[axe].targetPos,
               setPos = function setPos(pos) {
-            //console.log('TweenableComp::setPos:514: ', this.constructor.displayName);
+            pos = ~~(pos * 10000) / 10000; //console.log('TweenableComp::setPos:514: ', this.constructor.displayName);
+
             _this7._.axes[axe].targetPos = _this7._.axes[axe].scrollPos = pos;
 
             if (_this7._.axes[axe].inertia) {
@@ -30124,7 +30112,7 @@ function asTweener() {
 
             }
 
-            _this7.componentDidScroll && _this7.componentDidScroll(~~pos, axe);
+            _.rootRef && _.rootRef.current && _.rootRef.current.componentDidScroll && _.rootRef.current.componentDidScroll(~~pos, axe);
 
             _this7._updateTweenRefs();
           };
@@ -30147,8 +30135,11 @@ function asTweener() {
           if (!_this7._.live) {
             _this7._.live = true;
             requestAnimationFrame(_this7._._rafLoop);
-          } //return !(oldPos - newPos);
-
+          }
+        }
+      }).then(function (p) {
+        if (_this7._.axes[axe].inertia) {
+          _this7._.axes[axe].inertia._detectCurrentSnap();
         }
       });
     };
@@ -30166,11 +30157,19 @@ function asTweener() {
     _proto.getScrollableNodes = function getScrollableNodes(node) {
       var _this8 = this;
 
-      var scrollable = _utils_dom__WEBPACK_IMPORTED_MODULE_10__["default"].findReactParents(node);
-      scrollable = this.hookScrollableTargets && this.hookScrollableTargets(scrollable) || scrollable;
+      var scrollable = _utils_dom__WEBPACK_IMPORTED_MODULE_10__["default"].findReactParents(node),
+          _ = this._;
+      scrollable = _.rootRef && _.rootRef.current && _.rootRef.current.hookScrollableTargets && _.rootRef.current.hookScrollableTargets(scrollable) || scrollable;
       return scrollable.map(function (id) {
         return is__WEBPACK_IMPORTED_MODULE_4___default.a.string(id) ? _this8._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_6___default.a.findDOMNode(_this8._.refs[id]) || _this8.refs[id] || document.getElementById(id) : id;
       });
+    };
+
+    _proto.componentShouldScroll = function componentShouldScroll() {
+      var _$rootRef$current;
+
+      var _ = this._;
+      return _.rootRef && _.rootRef.current && _.rootRef.current.componentShouldScroll ? (_$rootRef$current = _.rootRef.current).componentShouldScroll.apply(_$rootRef$current, arguments) : true;
     }
     /**
      * todo
@@ -30306,14 +30305,14 @@ function asTweener() {
                     deltaX = dX && dX / tweener._.box.x * (x.scrollableWindow || x.scrollableArea) || 0;
                     deltaY = dY && dY / tweener._.box.y * (y.scrollableWindow || y.scrollableArea) || 0;
 
-                    if (!xDispatched && !tweener.isAxisOut("scrollX", parentsState[i].x + deltaX, true) && (!tweener.componentShouldScroll || tweener.componentShouldScroll("scrollX", deltaX))) {
+                    if (!xDispatched && !tweener.isAxisOut("scrollX", parentsState[i].x + deltaX, true) && tweener.componentShouldScroll("scrollX", deltaX)) {
                       x.inertia.hold(parentsState[i].x + deltaX);
                       xDispatched = true;
                     } //console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y
                     // + deltaY, true));
 
 
-                    if (!yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true) && (!tweener.componentShouldScroll || tweener.componentShouldScroll("scrollY", deltaY))) {
+                    if (!yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true) && tweener.componentShouldScroll("scrollY", deltaY)) {
                       y.inertia.hold(parentsState[i].y + deltaY);
                       yDispatched = true;
                     }
@@ -30358,7 +30357,7 @@ function asTweener() {
 
                 if (yDispatched && xDispatched) {
                   e.stopPropagation();
-                  e.preventDefault(); //return;
+                  e.cancelable && e.preventDefault(); //return;
                 } //dX = 0;
                 //dY = 0;
 
@@ -30387,15 +30386,16 @@ function asTweener() {
 
               }
 
-              if (lastStartTm && lastStartTm > Date.now() - opts.maxClickTm && Math.abs(dY) < opts.maxClickOffset && Math.abs(dX) < opts.maxClickOffset) // skip tap
+              if (lastStartTm && !(lastStartTm > Date.now() - opts.maxClickTm && Math.abs(dY) < opts.maxClickOffset && Math.abs(dX) < opts.maxClickOffset)) // skip tap
                 // &
                 // click
                 {
                   e.stopPropagation();
-                  e.preventDefault(); //console.log("prevented", Math.abs(dX), Math.abs(dY))
-
-                  return;
-                } else {} //console.log("not prevented", Math.abs(dX), Math.abs(dY))
+                  e.cancelable && e.preventDefault(); //console.log("prevented", Math.abs(dX), Math.abs(dY))
+                  //return;
+                } //else {
+              //console.log("not prevented", Math.abs(dX), Math.abs(dY))
+              //}
               //lastStartTm = 0;
 
 
@@ -30416,7 +30416,8 @@ function asTweener() {
     _proto.applyInertia = function applyInertia(dim, axe) {
       var _this10 = this;
 
-      var x = dim.inertia.update();
+      var x = dim.inertia.update(),
+          _ = this._;
 
       this._.axes[axe].tweenAxis.forEach(function (sl) {
         _this10._.axes[axe].targetPos = _this10._.axes[axe].scrollPos = x;
@@ -30425,7 +30426,7 @@ function asTweener() {
       //this.scrollTo(x, 0, axe);
 
 
-      this.componentDidScroll && this.componentDidScroll(x, axe);
+      _.rootRef && _.rootRef.current && _.rootRef.current.componentDidScroll && _.rootRef.current.componentDidScroll(x, axe);
 
       this._updateTweenRefs();
 
@@ -30495,7 +30496,8 @@ function asTweener() {
       var _ = this._,
           dim = _.axes && _.axes[axis],
           pos = abs ? v : dim && dim.scrollPos + v;
-      return !dim || pos <= 0 || pos >= dim.scrollableArea;
+      pos = pos && Math.round(pos);
+      return !dim || (dim.scrollableBounds ? pos <= dim.scrollableBounds.min || pos >= dim.scrollableBounds.max : pos <= 0 || pos >= dim.scrollableArea);
     };
 
     _proto._doDispatch = function _doDispatch(target, dx, dy, holding) {
@@ -30512,6 +30514,8 @@ function asTweener() {
         // react comp with tweener support
         if (Comps[i].__isTweener) {
           //debugger
+          //console.log(Comps[i], dx, dy, Comps[i].isAxisOut("scrollX", dx), Comps[i].isAxisOut("scrollY",
+          // dy));
           if (!Comps[i].isAxisOut("scrollX", dx) && (!Comps[i].componentShouldScroll || Comps[i].componentShouldScroll("scrollX", dx))) {
             Comps[i].dispatchScroll(dx, "scrollX", holding);
             dx = 0;
@@ -30638,7 +30642,7 @@ function asTweener() {
         node && this._.dragList && _utils_dom__WEBPACK_IMPORTED_MODULE_10__["default"].removeEvent(node, this._.dragList);
       }
 
-      _BaseComponent.prototype.componentWillUnmount && _BaseComponent.prototype.componentWillUnmount.apply(this, arguments);
+      _React$Component.prototype.componentWillUnmount && _React$Component.prototype.componentWillUnmount.apply(this, arguments);
     };
 
     _proto.componentDidMount = function componentDidMount() {
@@ -30654,11 +30658,6 @@ function asTweener() {
         this._updateTweenRefs();
       }
 
-      if (this._.delayedMotionTarget) {
-        this.goToMotionStateId(this._.delayedMotionTarget);
-        delete this._.delayedMotionTarget;
-      }
-
       if (_static.scrollableAnim) {
         if (is__WEBPACK_IMPORTED_MODULE_4___default.a.array(_static.scrollableAnim)) this.addScrollableAnim(_static.scrollableAnim);else Object.keys(_static.scrollableAnim).forEach(function (axe) {
           return _this13.addScrollableAnim(_static.scrollableAnim[axe], axe);
@@ -30671,40 +30670,30 @@ function asTweener() {
         this._.doRegister = false;
       }
 
-      _BaseComponent.prototype.componentDidMount && _BaseComponent.prototype.componentDidMount.apply(this, arguments);
+      _React$Component.prototype.componentDidMount && _React$Component.prototype.componentDidMount.apply(this, arguments);
     };
 
     _proto.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
-      var _this14 = this;
-
       if (this._.tweenEnabled) {
         this._updateBox();
 
         this._updateTweenRefs();
-
-        this._.rtweensByProp && Object.keys(prevProps).forEach(function (k) {
-          return _this14._.rtweensByProp[k] && _this14.props[k] !== prevProps[k] && _this14._.rtweensByProp[k][_this14.props[k]] && _this14.pushAnim(_this14._.rtweensByProp[k][_this14.props[k]]
-          /*get current pos*/
-          );
-        }, this);
-        this._.rtweensByStateProp && prevState && Object.keys(prevState).forEach(function (k) {
-          return _this14._.rtweensByStateProp[k] && _this14.state[k] !== prevState[k] && _this14._.rtweensByStateProp[k][_this14.state[k]] && _this14.pushAnim(_this14._.rtweensByStateProp[k][_this14.state[k]]
-          /*get current pos*/
-          );
-        }, this);
       }
 
-      _BaseComponent.prototype.componentDidUpdate && _BaseComponent.prototype.componentDidUpdate.apply(this, arguments);
+      _React$Component.prototype.componentDidUpdate && _React$Component.prototype.componentDidUpdate.apply(this, arguments);
     };
 
     _proto.render = function render() {
-      var _this15 = this;
+      var _this14 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_comps_TweenerContext__WEBPACK_IMPORTED_MODULE_8__["default"].Consumer, null, function (parentTweener) {
-        _this15._parentTweener = parentTweener;
+        _this14._parentTweener = parentTweener;
         return react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_comps_TweenerContext__WEBPACK_IMPORTED_MODULE_8__["default"].Provider, {
-          value: _this15
-        }, _BaseComponent.prototype.render.call(_this15));
+          value: _this14
+        }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(BaseComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, _this14.props, {
+          ref: _this14._.rootRef,
+          tweener: _this14
+        })));
       });
     };
 
@@ -30715,7 +30704,16 @@ function asTweener() {
     };
 
     return TweenableComp;
-  }(BaseComponent), _class.displayName = String.fromCharCode(0xD83E, 0xDDD9) + (BaseComponent.displayName || BaseComponent.name), _temp;
+  }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
+
+  TweenableComp.displayName = String.fromCharCode(0xD83E, 0xDDD9) + (BaseComponent.displayName || BaseComponent.name);
+  var withRef = react__WEBPACK_IMPORTED_MODULE_5___default.a.forwardRef(function (props, ref) {
+    return react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(TweenableComp, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
+      forwardedRef: ref
+    }));
+  });
+  withRef.displayName = TweenableComp.displayName;
+  return withRef;
 }
 ;
 
@@ -31681,8 +31679,7 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-; /* eslint-disable global-require, import/no-unresolved, no-var, camelcase, func-names */ (function register() { /* react-hot-loader/webpack */ var safe_require = function safe_require() { return  false ? undefined : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js"); }; var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : safe_require()).default; if (!reactHotLoader) { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : exports; /* eslint-enable camelcase, no-undef */ if (!webpackExports) { return; } if (typeof webpackExports === 'function') { reactHotLoader.register(webpackExports, 'module.exports', "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\backgroundColor.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } reactHotLoader.register(namedExport, key, "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\backgroundColor.js"); } })(); 
+ void function register() { /* react-hot-loader/webpack */ var safe_require = function safe_require() { return  false ? undefined : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js"); }; var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : safe_require()).default; if (!reactHotLoader) { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : exports; /* eslint-enable camelcase, no-undef */ if (!webpackExports) { return; } if (typeof webpackExports === 'function') { reactHotLoader.register(webpackExports, 'module.exports', "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\backgroundColor.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } reactHotLoader.register(namedExport, key, "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\backgroundColor.js"); } }(); 
 
 /***/ }),
 
@@ -32765,12 +32762,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
-    floatCut = function floatCut(v, l) {
-  var p = Math.pow(10, l);
-  return Math.round(v * p) / p;
-},
-    min = Math.min,
-    max = Math.max,
     isBrowser = typeof window !== 'undefined',
     _dom = isBrowser ? {
   prefix: /webkit/i.test(navigator.appVersion) ? 'webkit' : /firefox/i.test(navigator.userAgent) ? 'Moz' : /trident/i.test(navigator.userAgent) ? 'ms' : 'opera' in window ? 'O' : '',
@@ -32999,44 +32990,6 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
     }
 
     console.warn("Rm event : Listener not found !!");
-  },
-  _createElement: function _createElement(tag, opt, refs, parent) {
-    var a,
-        o,
-        i,
-        ln,
-        node = parent || document.createElement(tag); //if (parent) opt = {content:opt};
-
-    if (opt) for (o in opt) {
-      if (opt.hasOwnProperty(o) && opt[o] !== undefined && !_createElementAttr.hasOwnProperty(o)) {
-        a = document.createAttribute(o);
-        a.value = opt[o];
-        node.setAttributeNode(a);
-      }
-    }
-    refs && opt.$id && (refs[opt.$id] = node);
-    opt.style && Dom.applyCss(node, opt.style);
-    opt.cls && Dom.addCls(node, opt.cls);
-
-    if (opt.events) {
-      for (o in opt.events) {
-        if (opt.events.hasOwnProperty(o) && o !== "$scope") Dom.addEvent(node, o, opt.events[o], opt.events.$scope);
-      }
-    }
-
-    if (opt.content) {
-      if (typeof opt.content === 'string' || typeof opt.content[o] == 'number') {
-        node.innerHTML = opt.content;
-      } else if (opt.content instanceof Array) {
-        for (i = 0, ln = opt.content.length; i < ln; i++) {
-          node.appendChild(typeof opt.content[i] == 'string' || typeof opt.content[i] == 'number' || !opt.content[i] ? document.createTextNode(opt.content[i] || '') : isElement(opt.content[i]) ? opt.content[i] : __createElement(opt.content[i].tagName || 'div', opt.content[i], refs));
-        }
-      } else {
-        node.appendChild(opt.content instanceof HTMLElement ? opt.content : __createElement(opt.content.tagName || 'div', opt.content, refs));
-      }
-    }
-
-    return node;
   }
 },
     Dom = {
@@ -33325,9 +33278,6 @@ var _default = Dom;
     return;
   }
 
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");
-  reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");
-  reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");
   reactHotLoader.register(isBrowser, "isBrowser", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");
   reactHotLoader.register(_dom, "_dom", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");
   reactHotLoader.register(__, "__", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");
@@ -33396,6 +33346,13 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
     round = Math.round,
     min = Math.min,
     max = Math.max,
+    floatCut = function floatCut(v) {
+  if (v === void 0) {
+    v = 0;
+  }
+
+  return v.toFixed(3);
+},
     consts = {
   velocityResetTm: 150,
   clickTm: 250
@@ -33440,6 +33397,8 @@ function () {
     _.wayPoints = _.conf.wayPoints;
     _.inertiaFn = easingFn.easePolyOut;
     _.targetWayPointIndex = 0;
+
+    this._detectCurrentSnap();
   }
 
   var _proto = Inertia.prototype;
@@ -33472,8 +33431,17 @@ function () {
       _.inertia = this.active = false;
       _.lastInertiaPos = delta = 0;
 
+      if (_.targetWayPoint) {
+        delta = _.targetWayPoint.at - _.pos; //console.log("snap done ", _.targetWayPoint, _.pos + delta);
+
+        _.currentWayPoint = _.targetWayPoint;
+        _.currentWayPointIndex = _.targetWayPointIndex;
+        _.targetWayPoint = null;
+        _.targetWayPointIndex = null; //_.lastSnapTm           = Date.now();
+      }
+
       if (_.conf.onInertiaEnd) {
-        _.conf.onInertiaEnd(_.pos, _.targetWayPoint);
+        _.conf.onInertiaEnd(_.pos, _.currentWayPoint);
       }
     }
 
@@ -33500,12 +33468,20 @@ function () {
     this.active = false;
     _.lastInertiaPos = 0;
     _.targetDist = 0;
-    _.pos = pos;
+    _.pos = pos; //console.log("setPos", pos);
 
     if (_.conf.bounds) {
-      _.pos = max(_.pos, _.max);
-      _.pos = min(_.pos, _.min);
+      _.pos = max(_.pos, _.min);
+      _.pos = min(_.pos, _.max);
     }
+  };
+
+  _proto.setWayPoints = function setWayPoints(wayPoints) {
+    var _ = this._,
+        nextValue;
+    _.wayPoints = wayPoints;
+
+    this._detectCurrentSnap();
   };
 
   _proto.teleport = function teleport(loopDist) {
@@ -33524,7 +33500,7 @@ function () {
     var _ = this._,
         now = Date.now(),
         pos;
-    this.active = true; //console.log("dispatch", delta);
+    this.active = true; // if no inertia has started || if direction has change
 
     if (!_.inertia || signOf(delta) !== signOf(_.targetDist)) {
       _.inertia = true;
@@ -33537,7 +33513,11 @@ function () {
       _.lastInertiaPos = 0;
       _.targetDist += delta;
       _.targetDuration += tm;
-    }
+    } //
+    //if ( _.conf.maxJump ) {
+    //
+    //}
+
 
     if (_.conf.bounds) {
       if (_.pos + _.targetDist > _.max) {
@@ -33567,6 +33547,23 @@ function () {
     return pos > _.min && pos < _.max;
   };
 
+  _proto._detectCurrentSnap = function _detectCurrentSnap() {
+    var _ = this._,
+        pos = _.pos,
+        i;
+
+    if (_.wayPoints && _.wayPoints.length) {
+      for (i = 0; i < _.wayPoints.length; i++) {
+        if (floatCut(_.wayPoints[i].at) === floatCut(pos)) {
+          _.currentWayPoint = _.wayPoints[i];
+          _.currentWayPointIndex = i; //console.warn("snap set", i);
+
+          return i;
+        }
+      }
+    }
+  };
+
   _proto._doSnap = function _doSnap(forceSnap, maxDuration) {
     if (maxDuration === void 0) {
       maxDuration = 2000;
@@ -33584,7 +33581,7 @@ function () {
         if (_.wayPoints[i].at > pos) break;
       }
 
-      if (i == _.wayPoints.length) {
+      if (i === _.wayPoints.length) {
         i--;
       } else if (i === 0) {
         i = 0;
@@ -33593,14 +33590,13 @@ function () {
         if (forceSnap) forceSnap < 0 && i--;else if (pos < mid) i--;
       }
 
-      if (_.conf.maxJump && is.number(_.targetWayPointIndex)) {
-        var d = i - _.targetWayPointIndex; //console.log('Inertia::_doSnap:154: ', i);
+      if (_.conf.maxJump && is.number(_.currentWayPointIndex)) {
+        var d = i - _.currentWayPointIndex; //console.log('Inertia::_doSnap:154: ', i, d);
 
-        if (d) {
-          i -= d;
-          i += _.conf.maxJump * (d / abs(d));
-        } //console.log('Inertia::_doSnap:154: ', i);
-
+        if (abs(d) > _.conf.maxJump) {
+          //console.log('max: ', i, d);
+          i = _.currentWayPointIndex + signOf(d) * _.conf.maxJump;
+        }
       }
 
       target = _.wayPoints[i].at;
@@ -33677,7 +33673,10 @@ function () {
 
     _.lastIVelocity = iVel;
     _.lastVelocity = iVel;
-    _.baseTS = now;
+    _.baseTS = now; // clear snap
+
+    _.targetWayPoint = undefined;
+    _.targetWayPointIndex = undefined;
 
     if (_.conf.bounds) {
       if (pos > _.max) {
@@ -33746,6 +33745,7 @@ Inertia.config = {
   reactHotLoader.register(round, "round", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\inertia.js");
   reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\inertia.js");
   reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\inertia.js");
+  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\inertia.js");
   reactHotLoader.register(consts, "consts", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\inertia.js");
   reactHotLoader.register(applyInertia, "applyInertia", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\inertia.js");
   reactHotLoader.register(inertiaByNode, "inertiaByNode", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\inertia.js");

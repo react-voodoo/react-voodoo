@@ -1,7 +1,7 @@
 {
   "default": {
     "rootFolder": "src",
-    "basedOn": "Component",
+    "basedOn": "defaultComponent",
     "vars": {
       "rootAlias": "react-voodoo",
       "production": true,
@@ -19,12 +19,12 @@
       }
     },
     "extend": [
-      "wpi-react-hmr-ssr"
+      "wi-layer-react-express"
     ]
   },
   "staging": {
     "rootFolder": "src",
-    "basedOn": "Component",
+    "basedOn": "defaultComponent",
     "vars": {
       "rootAlias": "react-voodoo",
       "externals": true,
@@ -37,14 +37,15 @@
       "webpackPatch": {}
     },
     "extend": [
-      "wpi-react-hmr-ssr"
+      "wi-layer-react-express"
     ]
   },
   "samples": {
     "rootFolder": "src",
-    "basedOn": "ComponentSamples",
+    "basedOn": "defaultSamples",
     "vars": {
       "rootAlias": "react-voodoo",
+      "indexTpl": "./src/.samples/index.html",
       "babelPreset": {
         "targets": {
           "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
@@ -58,7 +59,7 @@
       }
     },
     "extend": [
-      "wpi-react-hmr-ssr"
+      "wi-layer-react-express"
     ]
   }
 }
