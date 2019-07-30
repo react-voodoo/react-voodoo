@@ -20,7 +20,7 @@ import * as easingFn                     from "d3-ease";
 import is                                from "is";
 import React                             from "react";
 import ReactDom                          from "react-dom";
-import TweenAxis                         from "tween-axis";
+import rTween                            from "tween-axis";
 import TweenerContext                    from "../comps/TweenerContext";
 import {deMuxLine, deMuxTween, muxToCss} from "../utils/css";
 import domUtils                          from "../utils/dom";
@@ -32,6 +32,7 @@ import Inertia                           from '../utils/inertia';
 
 
 let isBrowserSide           = (new Function("try {return this===window;}catch(e){ return false;}"))(),
+    isArray                 = is.array,
     _live, lastTm, _running = [];
 
 const SimpleObjectProto = ({}).constructor;
@@ -99,7 +100,7 @@ export default function asTweener( ...argz ) {
 		
 	};
 	
-	return class TweenableComp extends BaseComponent {
+	class TweenableComp extends React.Component {
 		static displayName = String.fromCharCode(0xD83E, 0xDDD9) + (BaseComponent.displayName || BaseComponent.name);// mage
 		
 		constructor() {
@@ -298,11 +299,11 @@ export default function asTweener( ...argz ) {
 		 * @param anim
 		 * @param then
 		 * @param skipInit
-		 * @returns {TweenAxis}
+		 * @returns {rTween}
 		 */
 		pushAnim( anim, then, skipInit ) {
 			var sl, initial, muxed, initials = {};
-			if ( is.array(anim) ) {
+			if ( isArray(anim) ) {
 				sl = anim;
 			}
 			else {
@@ -310,10 +311,10 @@ export default function asTweener( ...argz ) {
 				initial = anim.initial;
 			}
 			
-			if ( !(sl instanceof TweenAxis) ) {
+			if ( !(sl instanceof rTween) ) {
 				// tweenLine, initials, data, demuxers
 				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-				sl = new TweenAxis(sl, this._.tweenRefMaps);
+				sl = new rTween(sl, this._.tweenRefMaps);
 				Object.keys(initials)
 				      .forEach(
 					      id => (
@@ -356,6 +357,8 @@ export default function asTweener( ...argz ) {
 		
 		makeTweenable() {
 			if ( !this._.tweenEnabled ) {
+				this._.rtweensByProp       = {};
+				this._.rtweensByStateProp  = {};
 				this._.tweenRefCSS         = {};
 				this._.tweenRefs           = {};
 				this._.tweenRefMaps        = {};
@@ -386,7 +389,7 @@ export default function asTweener( ...argz ) {
 		// ------------------------------------------------------------
 		
 		/**
-		 * Tween axis to 'to' during 'tm' ms using easing fn
+		 * Tween this tween line to 'to' during 'tm' ms using easing fn
 		 * @param to {int}
 		 * @param tm {int} duration in ms
 		 * @param easing {function} easing fn
@@ -480,7 +483,7 @@ export default function asTweener( ...argz ) {
 			    };
 			
 			this._.axes[axe] = nextDescr;
-			(_inertia) && inertia && (inertia.setWayPoints(_inertia.wayPoints));
+			(_inertia) && inertia && (inertia._.wayPoints = _inertia.wayPoints);
 			(_inertia) && inertia && !inertia.active && (inertia._.pos = scrollPos);
 			if ( inertia && scrollableBounds )
 				inertia.setBounds(scrollableBounds.min, scrollableBounds.max);
@@ -494,7 +497,7 @@ export default function asTweener( ...argz ) {
 			    initials = {},
 			    dim      = this._getAxis(axe);
 			
-			if ( is.array(anim) ) {
+			if ( isArray(anim) ) {
 				sl = anim;
 			}
 			else {
@@ -502,9 +505,9 @@ export default function asTweener( ...argz ) {
 				size = anim.length;
 			}
 			
-			if ( !(sl instanceof TweenAxis) ) {
+			if ( !(sl instanceof rTween) ) {
 				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-				sl = new TweenAxis(sl, _.tweenRefMaps);
+				sl = new rTween(sl, _.tweenRefMaps);
 				Object.keys(initials)
 				      .forEach(
 					      id => {
@@ -856,7 +859,7 @@ export default function asTweener( ...argz ) {
 										//}
 										
 									}
-									if ( lastStartTm && ((lastStartTm > Date.now() - opts.maxClickTm) && Math.abs(dY)
+									if ( lastStartTm && !((lastStartTm > Date.now() - opts.maxClickTm) && Math.abs(dY)
 										< opts.maxClickOffset && Math.abs(dX) < opts.maxClickOffset) )// skip tap
 									                                                                  // &
 									                                                                  // click
@@ -867,9 +870,9 @@ export default function asTweener( ...argz ) {
 										//console.log("prevented", Math.abs(dX), Math.abs(dY))
 										return;
 									}
-									else {
-										//console.log("not prevented", Math.abs(dX), Math.abs(dY))
-									}
+									//else {
+									//console.log("not prevented", Math.abs(dX), Math.abs(dY))
+									//}
 									//lastStartTm = 0;
 									parents = parentsState = null;
 								}
@@ -1073,9 +1076,9 @@ export default function asTweener( ...argz ) {
 		
 		updateRefStyle( target, style, postPone ) {
 			let _ = this._, initials = {};
-			if ( is.array(target) && is.array(style) )
+			if ( isArray(target) && isArray(style) )
 				return target.map(( m, i ) => this.updateRefStyle(m, style[i], postPone));
-			if ( is.array(target) )
+			if ( isArray(target) )
 				return target.map(( m ) => this.updateRefStyle(m, style, postPone));
 			
 			if ( !this._.tweenRefCSS )
@@ -1161,10 +1164,6 @@ export default function asTweener( ...argz ) {
 				this._updateBox();
 				this._updateTweenRefs();
 			}
-			if ( this._.delayedMotionTarget ) {
-				this.goToMotionStateId(this._.delayedMotionTarget);
-				delete this._.delayedMotionTarget;
-			}
 			if ( _static.scrollableAnim ) {
 				if ( is.array(_static.scrollableAnim) )
 					this.addScrollableAnim(_static.scrollableAnim);
@@ -1197,7 +1196,7 @@ export default function asTweener( ...argz ) {
 					parentTweener => {
 						this._parentTweener = parentTweener;
 						return <TweenerContext.Provider value={this}>
-							{super.render()}
+							<BaseComponent {...this.props} ref={this.props.forwardedRef}/>
 						</TweenerContext.Provider>;
 					}
 				}
@@ -1205,4 +1204,9 @@ export default function asTweener( ...argz ) {
 		}
 	}
 	
+	let withRef         = React.forwardRef(( props, ref ) => {
+		return <TweenableComp {...props} forwardedRef={ref}/>;
+	});
+	withRef.displayName = TweenableComp.displayName;
+	return withRef;
 }

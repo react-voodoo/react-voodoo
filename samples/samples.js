@@ -33879,7 +33879,7 @@ function asTweener() {
 
               }
 
-              if (lastStartTm && lastStartTm > Date.now() - opts.maxClickTm && Math.abs(dY) < opts.maxClickOffset && Math.abs(dX) < opts.maxClickOffset) // skip tap
+              if (lastStartTm && !(lastStartTm > Date.now() - opts.maxClickTm && Math.abs(dY) < opts.maxClickOffset && Math.abs(dX) < opts.maxClickOffset)) // skip tap
                 // &
                 // click
                 {
@@ -33887,7 +33887,9 @@ function asTweener() {
                   e.preventDefault(); //console.log("prevented", Math.abs(dX), Math.abs(dY))
 
                   return;
-                } else {} //console.log("not prevented", Math.abs(dX), Math.abs(dY))
+                } //else {
+              //console.log("not prevented", Math.abs(dX), Math.abs(dY))
+              //}
               //lastStartTm = 0;
 
 
@@ -36260,12 +36262,6 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
-    floatCut = function floatCut(v, l) {
-  var p = Math.pow(10, l);
-  return Math.round(v * p) / p;
-},
-    min = Math.min,
-    max = Math.max,
     isBrowser = typeof window !== 'undefined',
     _dom = isBrowser ? {
   prefix: /webkit/i.test(navigator.appVersion) ? 'webkit' : /firefox/i.test(navigator.userAgent) ? 'Moz' : /trident/i.test(navigator.userAgent) ? 'ms' : 'opera' in window ? 'O' : '',
@@ -36494,44 +36490,6 @@ var is = __webpack_require__(/*! is */ "./node_modules/is/index.js"),
     }
 
     console.warn("Rm event : Listener not found !!");
-  },
-  _createElement: function _createElement(tag, opt, refs, parent) {
-    var a,
-        o,
-        i,
-        ln,
-        node = parent || document.createElement(tag); //if (parent) opt = {content:opt};
-
-    if (opt) for (o in opt) {
-      if (opt.hasOwnProperty(o) && opt[o] !== undefined && !_createElementAttr.hasOwnProperty(o)) {
-        a = document.createAttribute(o);
-        a.value = opt[o];
-        node.setAttributeNode(a);
-      }
-    }
-    refs && opt.$id && (refs[opt.$id] = node);
-    opt.style && Dom.applyCss(node, opt.style);
-    opt.cls && Dom.addCls(node, opt.cls);
-
-    if (opt.events) {
-      for (o in opt.events) {
-        if (opt.events.hasOwnProperty(o) && o !== "$scope") Dom.addEvent(node, o, opt.events[o], opt.events.$scope);
-      }
-    }
-
-    if (opt.content) {
-      if (typeof opt.content === 'string' || typeof opt.content[o] == 'number') {
-        node.innerHTML = opt.content;
-      } else if (opt.content instanceof Array) {
-        for (i = 0, ln = opt.content.length; i < ln; i++) {
-          node.appendChild(typeof opt.content[i] == 'string' || typeof opt.content[i] == 'number' || !opt.content[i] ? document.createTextNode(opt.content[i] || '') : isElement(opt.content[i]) ? opt.content[i] : __createElement(opt.content[i].tagName || 'div', opt.content[i], refs));
-        }
-      } else {
-        node.appendChild(opt.content instanceof HTMLElement ? opt.content : __createElement(opt.content.tagName || 'div', opt.content, refs));
-      }
-    }
-
-    return node;
   }
 },
     Dom = {
@@ -36820,9 +36778,6 @@ var _default = Dom;
     return;
   }
 
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");
-  reactHotLoader.register(min, "min", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");
-  reactHotLoader.register(max, "max", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");
   reactHotLoader.register(isBrowser, "isBrowser", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");
   reactHotLoader.register(_dom, "_dom", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");
   reactHotLoader.register(__, "__", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\dom.js");

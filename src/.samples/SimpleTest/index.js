@@ -57,12 +57,12 @@ export default class Sample extends React.Component {
 		this.forceUpdate();// force update to show scroll pos
 	}
 	
-	pushAnim = () => {
+	pushAnim = ( e, tweener ) => {
 		this.setState({ count: this.state.count + 1 })
-		this.pushAnim(tweenTools.target(pushIn, "testItem"),
-		              () => {
-			              this.setState({ count: this.state.count - 1 })
-		              });
+		tweener.pushAnim(tweenTools.target(pushIn, "testItem"),
+		                 () => {
+			                 this.setState({ count: this.state.count - 1 })
+		                 });
 		
 	}
 	
@@ -93,9 +93,9 @@ export default class Sample extends React.Component {
 					id={"testItem"}
 					initial={testItemStyle}
 					tweenLines={tweenAxis}
+					onClick={this.pushAnim}
 				>
-					<div
-						onClick={this.pushAnim}>
+					<div>
 						<span>drag and/or click me !</span>
 					</div>
 				</TweenRef>
