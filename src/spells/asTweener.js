@@ -553,18 +553,18 @@ export default function asTweener( ...argz ) {
 		}
 		
 		scrollTo( newPos, ms = 0, axe = "scrollY", ease ) {
+			let _ = this._;
 			return new Promise(
 				(( resolve, reject ) => {
-					
-					if ( this._.axes && this._.axes[axe] ) {
-						let oldPos = this._.axes[axe].targetPos,
+					if ( _.axes && _.axes[axe] ) {
+						let oldPos = _.axes[axe].targetPos,
 						    setPos = pos => {
-							    pos                        = (~~(pos * 10000)) / 10000;
+							    pos                   = (~~(pos * 10000)) / 10000;
 							    //console.log('TweenableComp::setPos:514: ', this.constructor.displayName);
-							    this._.axes[axe].targetPos = this._.axes[axe].scrollPos = pos;
-							    if ( this._.axes[axe].inertia ) {
-								    this._.axes[axe].inertia.setPos(pos);
-								    //this._.axes[axe].inertia._doSnap()
+							    _.axes[axe].targetPos = _.axes[axe].scrollPos = pos;
+							    if ( _.axes[axe].inertia ) {
+								    _.axes[axe].inertia.setPos(pos);
+								    //_.axes[axe].inertia._doSnap()
 							    }
 							    _.rootRef &&
 							    _.rootRef.current &&
@@ -574,13 +574,13 @@ export default function asTweener( ...argz ) {
 						    }
 						;
 						
-						newPos                     = Math.max(0, newPos);
-						newPos                     = Math.min(newPos, this._.axes[axe].scrollableArea || 0);
-						this._.axes[axe].targetPos = newPos;
+						newPos                = Math.max(0, newPos);
+						newPos                = Math.min(newPos, _.axes[axe].scrollableArea || 0);
+						_.axes[axe].targetPos = newPos;
 						
 						if ( !ms ) {
-							this._.axes[axe].tweenAxis.forEach(
-								sl => sl.goTo(newPos, this._.tweenRefMaps)
+							_.axes[axe].tweenAxis.forEach(
+								sl => sl.goTo(newPos, _.tweenRefMaps)
 							);
 							setPos(newPos);
 							resolve()
@@ -589,15 +589,15 @@ export default function asTweener( ...argz ) {
 							this._runScrollGoTo(axe, newPos, ms, easingFn[ease], setPos, resolve)
 						}
 						
-						if ( !this._.live ) {
-							this._.live = true;
-							requestAnimationFrame(this._._rafLoop);
+						if ( !_.live ) {
+							_.live = true;
+							requestAnimationFrame(_._rafLoop);
 						}
 					}
 				})).then(
 				p => {
-					if ( this._.axes[axe].inertia ) {
-						this._.axes[axe].inertia._detectCurrentSnap();
+					if ( _.axes[axe].inertia ) {
+						_.axes[axe].inertia._detectCurrentSnap();
 					}
 				}
 			)
