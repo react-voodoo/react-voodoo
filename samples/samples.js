@@ -31765,8 +31765,7 @@ function (_React$Component) {
   };
 
   _proto.render = function render() {
-    var _this2 = this;
-
+    var tweener = this.props.tweener;
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
       className: "SimpleTest",
       style: {
@@ -31781,27 +31780,27 @@ function (_React$Component) {
       defaultPosition: 100
     }), "hello ! ", this.state.count, " concurent anims ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), "y:", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
       onClick: function onClick(e) {
-        return _this2.scrollTo(0, 500);
+        return tweener.scrollTo(0, 500);
       }
     }, "( go to 0 )"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
       onClick: function onClick(e) {
-        return _this2.scrollTo(100, 500);
+        return tweener.scrollTo(100, 500);
       }
     }, "( go to 100 )"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
       onClick: function onClick(e) {
-        return _this2.scrollTo(200, 500);
+        return tweener.scrollTo(200, 500);
       }
     }, "( go to 200 )"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), "x:", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
       onClick: function onClick(e) {
-        return _this2.scrollTo(0, 500, "scrollX");
+        return tweener.scrollTo(0, 500, "scrollX");
       }
     }, "( go to 0 )"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
       onClick: function onClick(e) {
-        return _this2.scrollTo(100, 500, "scrollX");
+        return tweener.scrollTo(100, 500, "scrollX");
       }
     }, "( go to 100 )"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
       onClick: function onClick(e) {
-        return _this2.scrollTo(200, 500, "scrollX");
+        return tweener.scrollTo(200, 500, "scrollX");
       }
     }, "( go to 200 )"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["TweenRef"], {
       id: "testItem",
@@ -33587,16 +33586,17 @@ function asTweener() {
         axe = "scrollY";
       }
 
+      var _ = this._;
       return new Promise(function (resolve, reject) {
-        if (_this7._.axes && _this7._.axes[axe]) {
-          var oldPos = _this7._.axes[axe].targetPos,
+        if (_.axes && _.axes[axe]) {
+          var oldPos = _.axes[axe].targetPos,
               setPos = function setPos(pos) {
             pos = ~~(pos * 10000) / 10000; //console.log('TweenableComp::setPos:514: ', this.constructor.displayName);
 
-            _this7._.axes[axe].targetPos = _this7._.axes[axe].scrollPos = pos;
+            _.axes[axe].targetPos = _.axes[axe].scrollPos = pos;
 
-            if (_this7._.axes[axe].inertia) {
-              _this7._.axes[axe].inertia.setPos(pos); //this._.axes[axe].inertia._doSnap()
+            if (_.axes[axe].inertia) {
+              _.axes[axe].inertia.setPos(pos); //_.axes[axe].inertia._doSnap()
 
             }
 
@@ -33606,12 +33606,12 @@ function asTweener() {
           };
 
           newPos = Math.max(0, newPos);
-          newPos = Math.min(newPos, _this7._.axes[axe].scrollableArea || 0);
-          _this7._.axes[axe].targetPos = newPos;
+          newPos = Math.min(newPos, _.axes[axe].scrollableArea || 0);
+          _.axes[axe].targetPos = newPos;
 
           if (!ms) {
-            _this7._.axes[axe].tweenAxis.forEach(function (sl) {
-              return sl.goTo(newPos, _this7._.tweenRefMaps);
+            _.axes[axe].tweenAxis.forEach(function (sl) {
+              return sl.goTo(newPos, _.tweenRefMaps);
             });
 
             setPos(newPos);
@@ -33620,14 +33620,14 @@ function asTweener() {
             _this7._runScrollGoTo(axe, newPos, ms, d3_ease__WEBPACK_IMPORTED_MODULE_3__[ease], setPos, resolve);
           }
 
-          if (!_this7._.live) {
-            _this7._.live = true;
-            requestAnimationFrame(_this7._._rafLoop);
+          if (!_.live) {
+            _.live = true;
+            requestAnimationFrame(_._rafLoop);
           }
         }
       }).then(function (p) {
-        if (_this7._.axes[axe].inertia) {
-          _this7._.axes[axe].inertia._detectCurrentSnap();
+        if (_.axes[axe].inertia) {
+          _.axes[axe].inertia._detectCurrentSnap();
         }
       });
     };

@@ -30099,16 +30099,17 @@ function asTweener() {
         axe = "scrollY";
       }
 
+      var _ = this._;
       return new Promise(function (resolve, reject) {
-        if (_this7._.axes && _this7._.axes[axe]) {
-          var oldPos = _this7._.axes[axe].targetPos,
+        if (_.axes && _.axes[axe]) {
+          var oldPos = _.axes[axe].targetPos,
               setPos = function setPos(pos) {
             pos = ~~(pos * 10000) / 10000; //console.log('TweenableComp::setPos:514: ', this.constructor.displayName);
 
-            _this7._.axes[axe].targetPos = _this7._.axes[axe].scrollPos = pos;
+            _.axes[axe].targetPos = _.axes[axe].scrollPos = pos;
 
-            if (_this7._.axes[axe].inertia) {
-              _this7._.axes[axe].inertia.setPos(pos); //this._.axes[axe].inertia._doSnap()
+            if (_.axes[axe].inertia) {
+              _.axes[axe].inertia.setPos(pos); //_.axes[axe].inertia._doSnap()
 
             }
 
@@ -30118,12 +30119,12 @@ function asTweener() {
           };
 
           newPos = Math.max(0, newPos);
-          newPos = Math.min(newPos, _this7._.axes[axe].scrollableArea || 0);
-          _this7._.axes[axe].targetPos = newPos;
+          newPos = Math.min(newPos, _.axes[axe].scrollableArea || 0);
+          _.axes[axe].targetPos = newPos;
 
           if (!ms) {
-            _this7._.axes[axe].tweenAxis.forEach(function (sl) {
-              return sl.goTo(newPos, _this7._.tweenRefMaps);
+            _.axes[axe].tweenAxis.forEach(function (sl) {
+              return sl.goTo(newPos, _.tweenRefMaps);
             });
 
             setPos(newPos);
@@ -30132,14 +30133,14 @@ function asTweener() {
             _this7._runScrollGoTo(axe, newPos, ms, d3_ease__WEBPACK_IMPORTED_MODULE_3__[ease], setPos, resolve);
           }
 
-          if (!_this7._.live) {
-            _this7._.live = true;
-            requestAnimationFrame(_this7._._rafLoop);
+          if (!_.live) {
+            _.live = true;
+            requestAnimationFrame(_._rafLoop);
           }
         }
       }).then(function (p) {
-        if (_this7._.axes[axe].inertia) {
-          _this7._.axes[axe].inertia._detectCurrentSnap();
+        if (_.axes[axe].inertia) {
+          _.axes[axe].inertia._detectCurrentSnap();
         }
       });
     };

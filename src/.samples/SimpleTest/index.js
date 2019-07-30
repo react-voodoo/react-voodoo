@@ -67,6 +67,7 @@ export default class Sample extends React.Component {
 	}
 	
 	render() {
+		let tweener = this.props.tweener;
 		return <div className={"SimpleTest"} style={{
 			width : "100%",
 			height: "100%"
@@ -81,13 +82,13 @@ export default class Sample extends React.Component {
 			/>
 			hello ! {this.state.count} concurent anims <br/>
 			<br/>y:
-			<button onClick={e => this.scrollTo(0, 500)}>( go to 0 )</button>
-			<button onClick={e => this.scrollTo(100, 500)}>( go to 100 )</button>
-			<button onClick={e => this.scrollTo(200, 500)}>( go to 200 )</button>
+			<button onClick={e => tweener.scrollTo(0, 500)}>( go to 0 )</button>
+			<button onClick={e => tweener.scrollTo(100, 500)}>( go to 100 )</button>
+			<button onClick={e => tweener.scrollTo(200, 500)}>( go to 200 )</button>
 			<br/>x:
-			<button onClick={e => this.scrollTo(0, 500, "scrollX")}>( go to 0 )</button>
-			<button onClick={e => this.scrollTo(100, 500, "scrollX")}>( go to 100 )</button>
-			<button onClick={e => this.scrollTo(200, 500, "scrollX")}>( go to 200 )</button>
+			<button onClick={e => tweener.scrollTo(0, 500, "scrollX")}>( go to 0 )</button>
+			<button onClick={e => tweener.scrollTo(100, 500, "scrollX")}>( go to 100 )</button>
+			<button onClick={e => tweener.scrollTo(200, 500, "scrollX")}>( go to 200 )</button>
 			<span>
 				<TweenRef
 					id={"testItem"}
