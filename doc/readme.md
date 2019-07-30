@@ -208,6 +208,17 @@ export default class MyTweenerComp extends React.Component{
 		
 	}
 	/**
+	* Hook to change the targets order of scroll & drag events
+	*
+	* The returning array could also contain tween refs id & dom node id
+	*
+    * @param targets {array} array of node & react elements (default is all parents of the touch/mouse event)
+    * return {array}
+    */
+	hookScrollableTargets( targets ) {
+	    return ["myTween", ...targets];
+	}
+	/**
 	* did scroll event
     * @param pos
     * @param axisId

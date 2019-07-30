@@ -54,7 +54,7 @@ export default class SlidableList extends React.Component {
 		    nextIndex                 = ((nbItems + this.state.index + 1) % nbItems);
 		
 		if ( this.state.index > nextIndex )
-			this.scrollTo(dec + 100 - step, 0, scrollDir);
+			this.props.tweener.scrollTo(dec + 100 - step, 0, scrollDir);
 		
 		//console.log(nextIndex)
 		this.setState({ index: nextIndex })
@@ -74,7 +74,7 @@ export default class SlidableList extends React.Component {
 				this._wasUserSnap = false;
 			}
 			else {
-				this.scrollTo(windowSize + index * step + nbClones * jumpLength + 2 * windowSize, 500, scrollDir);
+				this.props.tweener.scrollTo(windowSize + index * step + nbClones * jumpLength + 2 * windowSize, 500, scrollDir);
 			}
 			if ( autoScroll ) {
 				clearTimeout(this._updater);

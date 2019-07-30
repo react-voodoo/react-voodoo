@@ -74,7 +74,7 @@ export default class Sample extends React.Component {
 		currentHeaderMode: "top"
 	};
 	
-	hookScrollableTargets( targets, dir ) {
+	hookScrollableTargets( ) {
 		return [this.props.tweener, ReactDom.findDOMNode(this)];
 	}
 	
