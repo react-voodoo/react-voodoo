@@ -40,17 +40,17 @@ export default class MyTweenerComp extends React.Component{
 	render() {
 		return <div>
 			<TweenAxis
-			    // Tween axis Id 
-			    // * scrollY & scrollX automatically receive mouse & touch events
+				// Tween axis Id 
+				// * scrollY & scrollX automatically receive mouse & touch events
 				axe={"scrollY"}
 				
-                // default start position
-                defaultPosition={100}
-                
-                // Global scrollable tween with theirs TweenRef target ids
-                items={pageTweenAxisWithTargets}
-                
-                // size of the scrollable window for drag synchronisation
+				// default start position
+				defaultPosition={100}
+
+				// Global scrollable tween with theirs TweenRef target ids
+				items={pageTweenAxisWithTargets}
+
+				// size of the scrollable window for drag synchronisation
 				scrollableWindow={ 200 }
 				
 				// default length of this scrollable axis
@@ -75,35 +75,35 @@ export default class MyTweenerComp extends React.Component{
 					}
 			/>
 			
-            <TweenRef
-                id={"testItem"} // optional id
-                initial={
-                	{
-                		// css syntax + voodoo tweener units & transform management 
-                	}
-                }
-                // Scrollable tween with no id required ( it will be ignored )
-                // * will use scrollY axis as default                 
-                tweenAxis={
-                	{
-                		scrollY : itemTweenAxis
-                	}
-                } 
-                // on(Dbl)Click is forwarder with the tweener component as 2nd arg
-                onClick={
-                	(e, tweener)=>{
-                		// start playing an anim
-                	    tweener.pushAnim(
-                                // make all tween target "testItem"
-                                tweenTools.target(pushIn, "testItem")
-                            ).then(
-                            	(tweenAxis) => {
-                                   // doSomething next
-                                }
-                            );
-                    }
-                }
-            >
+		    <TweenRef
+			id={"testItem"} // optional id
+			initial={
+				{
+					// css syntax + voodoo tweener units & transform management 
+				}
+			}
+			// Scrollable tween with no id required ( it will be ignored )
+			// * will use scrollY axis as default                 
+			tweenAxis={
+				{
+					scrollY : itemTweenAxis
+				}
+			} 
+			// on(Dbl)Click is forwarder with the tweener component as 2nd arg
+			onClick={
+				(e, tweener)=>{
+					// start playing an anim
+				    tweener.pushAnim(
+					// make all tween target "testItem"
+					tweenTools.target(pushIn, "testItem")
+				    ).then(
+					(tweenAxis) => {
+					   // doSomething next
+					}
+				    );
+			    }
+			}
+		    >
                 <div>
                     Some content to tween
                 </div>
