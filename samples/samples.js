@@ -923,6 +923,25 @@ exports.push([module.i, "/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * 
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/.samples/SimpleCatTest/sample.scss":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/sass-loader/lib/loader.js??ref--6-3!./src/.samples/SimpleCatTest/sample.scss ***!
+  \***********************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.SimpleTest {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  -webkit-perspective: 200px;\n          perspective: 200px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .SimpleTest .cat {\n    border-radius: 5px;\n    background: url(\"http://www.pngall.com/wp-content/uploads/2016/06/Nyan-Cat.png\") no-repeat center center;\n    background-size: contain; }\n  .SimpleTest .mouse {\n    text-align: center;\n    background: url(\"https://www.pinclipart.com/picdir/big/174-1740432_clip-art-of-unicorns.png\") no-repeat center center;\n    background-size: contain;\n    border-radius: 5px;\n    padding: 5px;\n    font-weight: bold; }\n    .SimpleTest .mouse:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleTest .mouse > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/.samples/SimpleHeaderTest/sample.scss":
 /*!**************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/sass-loader/lib/loader.js??ref--6-3!./src/.samples/SimpleHeaderTest/sample.scss ***!
@@ -29497,6 +29516,7 @@ module.exports = function(originalModule) {
 
 var map = {
 	"./ResponsiveSlidable/index.js": "./src/.samples/ResponsiveSlidable/index.js",
+	"./SimpleCatTest/index.js": "./src/.samples/SimpleCatTest/index.js",
 	"./SimpleHeaderTest/index.js": "./src/.samples/SimpleHeaderTest/index.js",
 	"./SimpleSlider/index.js": "./src/.samples/SimpleSlider/index.js",
 	"./SimpleTest/index.js": "./src/.samples/SimpleTest/index.js"
@@ -29942,7 +29962,7 @@ function (_React$Component) {
         dec = _this$state.dec,
         nbItems = _this$state.nbItems,
         nextIndex = (nbItems + this.state.index + 1) % nbItems;
-    if (this.state.index > nextIndex) this.scrollTo(dec + 100 - step, 0, scrollDir); //console.log(nextIndex)
+    if (this.state.index > nextIndex) this.props.tweener.scrollTo(dec + 100 - step, 0, scrollDir); //console.log(nextIndex)
 
     this.setState({
       index: nextIndex
@@ -29973,7 +29993,7 @@ function (_React$Component) {
       if (this._wasUserSnap) {
         this._wasUserSnap = false;
       } else {
-        this.scrollTo(windowSize + index * step + nbClones * jumpLength + 2 * windowSize, 500, scrollDir);
+        this.props.tweener.scrollTo(windowSize + index * step + nbClones * jumpLength + 2 * windowSize, 500, scrollDir);
       }
 
       if (autoScroll) {
@@ -30376,6 +30396,256 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./src/.samples/SimpleCatTest/index.js":
+/*!*********************************************!*\
+  !*** ./src/.samples/SimpleCatTest/index.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sample; });
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "./node_modules/@babel/runtime/helpers/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_voodoo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-voodoo */ "./src/index.js");
+/* harmony import */ var _sample_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./sample.scss */ "./src/.samples/SimpleCatTest/sample.scss");
+/* harmony import */ var _sample_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_sample_scss__WEBPACK_IMPORTED_MODULE_3__);
+
+
+var _dec, _class, _temp;
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+var theCatStyle = {
+  position: "absolute",
+  display: "inline-block",
+  width: "5em",
+  height: "5em",
+  cursor: "pointer",
+  overflow: "hidden",
+  margin: "-2.5em 0 0 -2.5em",
+  top: "0box",
+  left: "0box",
+  transformOrigin: "50% 50%",
+  transform: {
+    translateX: ".5box",
+    translateY: ".5box"
+  }
+};
+var theMouseStyle = {
+  position: "absolute",
+  display: "inline-block",
+  width: "50px",
+  height: "50px",
+  cursor: "pointer",
+  overflow: "hidden",
+  margin: "-25px 0 0 -25px",
+  top: "0box",
+  left: "0box",
+  transformOrigin: "50% 50%",
+  transform: {
+    translateX: ".5box",
+    translateY: ".5box"
+  }
+};
+var Sample = (_dec = Object(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["asTweener"])({
+  enableMouseDrag: true
+}), _dec(_class = (_temp =
+/*#__PURE__*/
+function (_React$Component) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0___default()(Sample, _React$Component);
+
+  function Sample() {
+    var _this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
+    _this.state = {
+      count: 0
+    };
+    _this.root = react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
+    _this.currentTarget = {
+      x: .5,
+      y: .5
+    };
+
+    _this.pushGoTo = function (e) {
+      var root = _this.root.current,
+          bbox = root.getBoundingClientRect(),
+          tweener = _this.props.tweener,
+          target = {
+        y: e.clientY - bbox.top,
+        x: e.clientX - bbox.left
+      },
+          lastTarget = _this.currentTarget;
+      target.y /= bbox.height;
+      target.x /= bbox.width;
+      target.y = target.y.toFixed(3);
+      target.x = target.x.toFixed(3);
+      _this.currentTarget = target;
+
+      _this.setState({
+        count: _this.state.count + 1
+      }); //tweener.updateRefStyle(
+      //	"theMouse",
+      //	{
+      //		transform: {
+      //			translateX: target.x + "box",
+      //			translateY: target.y + "box"
+      //		}
+      //	}
+      //)
+
+
+      tweener.pushAnim([{
+        target: "theMouse",
+        duration: 200,
+        apply: {
+          transform: {
+            translateX: target.x - lastTarget.x + "box",
+            translateY: target.y - lastTarget.y + "box"
+          }
+        }
+      }], function () {});
+      tweener.pushAnim([{
+        target: "theCat",
+        duration: 750,
+        apply: {
+          transform: {
+            translateX: target.x - lastTarget.x + "box",
+            translateY: target.y - lastTarget.y + "box"
+          }
+        }
+      }], function () {
+        _this.setState({
+          count: _this.state.count - 1
+        });
+      });
+    };
+
+    return _this;
+  }
+
+  var _proto = Sample.prototype;
+
+  _proto.render = function render() {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "SimpleTest",
+      onClick: this.pushGoTo,
+      ref: this.root,
+      style: {
+        width: "100%",
+        height: "100%"
+      }
+    }, "hello ! ", this.state.count, " concurent anims ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["TweenRef"], {
+      id: "theMouse",
+      initial: theMouseStyle
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "mouse"
+    })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["TweenRef"], {
+      id: "theCat",
+      initial: theCatStyle
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "cat"
+    })));
+  };
+
+  // @ts-ignore
+  _proto.__reactstandin__regenerateByEval = function __reactstandin__regenerateByEval(key, code) {
+    // @ts-ignore
+    this[key] = eval(code);
+  };
+
+  return Sample;
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component), _temp)) || _class);
+
+;
+
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).default;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(theCatStyle, "theCatStyle", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleCatTest\\index.js");
+  reactHotLoader.register(theMouseStyle, "theMouseStyle", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleCatTest\\index.js");
+  reactHotLoader.register(Sample, "Sample", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleCatTest\\index.js");
+})();
+
+;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/.samples/SimpleCatTest/sample.scss":
+/*!************************************************!*\
+  !*** ./src/.samples/SimpleCatTest/sample.scss ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/sass-loader/lib/loader.js??ref--6-3!./sample.scss */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/.samples/SimpleCatTest/sample.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./src/.samples/SimpleHeaderTest/etc/anims.js":
 /*!****************************************************!*\
   !*** ./src/.samples/SimpleHeaderTest/etc/anims.js ***!
@@ -30729,7 +30999,7 @@ function (_React$Component3) {
 
   var _proto3 = Sample.prototype;
 
-  _proto3.hookScrollableTargets = function hookScrollableTargets(targets, dir) {
+  _proto3.hookScrollableTargets = function hookScrollableTargets() {
     return [this.props.tweener, react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.findDOMNode(this)];
   };
 
@@ -30851,13 +31121,16 @@ if(false) {}
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Slider; });
-/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "./node_modules/@babel/runtime/helpers/inheritsLoose.js");
-/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_voodoo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-voodoo */ "./src/index.js");
-/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
-/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "./node_modules/@babel/runtime/helpers/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_voodoo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-voodoo */ "./src/index.js");
+
 
 
 var _dec, _class, _class2, _temp;
@@ -30891,12 +31164,12 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
 
 
 
-var Slider = (_dec = Object(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["asTweener"])({
+var Slider = (_dec = Object(react_voodoo__WEBPACK_IMPORTED_MODULE_4__["asTweener"])({
   enableMouseDrag: true
 }), _dec(_class = (_temp = _class2 =
 /*#__PURE__*/
 function (_React$Component) {
-  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0___default()(Slider, _React$Component);
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default()(Slider, _React$Component);
 
   function Slider() {
     var _this;
@@ -30932,9 +31205,11 @@ function (_React$Component) {
         step = _this$state.step,
         dec = _this$state.dec,
         nbItems = _this$state.nbItems,
+        scrollDir = _this$state.scrollDir,
+        tweener = this.props.tweener,
         nextIndex = (nbItems + this.state.index + 1) % nbItems;
-    if (this.state.index > nextIndex) this.scrollTo(dec + 100 - step, 0, "scrollX");
-    console.log(nextIndex);
+    if (this.state.index > nextIndex) tweener.scrollTo(dec + 100 - step, 0, scrollDir); //console.log(nextIndex)
+
     this.setState({
       index: nextIndex
     });
@@ -30951,8 +31226,8 @@ function (_React$Component) {
 
     var _this$props2 = this.props,
         autoScroll = _this$props2.autoScroll,
-        _this$props2$defaultI = _this$props2.defaultIndex,
-        defaultIndex = _this$props2$defaultI === void 0 ? 0 : _this$props2$defaultI,
+        scrollDir = _this$props2.scrollDir,
+        tweener = _this$props2.tweener,
         _this$state2 = this.state,
         _this$state2$index = _this$state2.index,
         index = _this$state2$index === void 0 ? this.props.defaultIndex : _this$state2$index,
@@ -30960,14 +31235,14 @@ function (_React$Component) {
         dec = _this$state2.dec;
 
     if (prevState.dec !== dec) {
-      this.scrollTo(this._getAxis("scrollX").scrollPos + dec - prevState.dec, 0, "scrollX");
+      tweener.scrollTo(tweener._getAxis(scrollDir).scrollPos + dec - prevState.dec, 0, scrollDir);
     }
 
     if (prevState.index !== index) {
       if (this._wasUserSnap) {
         this._wasUserSnap = false;
       } else {
-        this.scrollTo(dec + step * index + 100, 500, "scrollX");
+        tweener.scrollTo(dec + step * index + 100, 500, scrollDir);
       }
 
       if (autoScroll) {
@@ -30986,37 +31261,39 @@ function (_React$Component) {
   Slider.getDerivedStateFromProps = function getDerivedStateFromProps(props, state) {
     var _props$defaultIndex = props.defaultIndex,
         defaultIndex = _props$defaultIndex === void 0 ? 0 : _props$defaultIndex,
-        _props$visibleItems = props.visibleItems,
-        visibleItems = _props$visibleItems === void 0 ? 5 : _props$visibleItems,
+        visibleItems = props.visibleItems,
         _props$overlaps = props.overlaps,
-        overlaps = _props$overlaps === void 0 ? 1 / (visibleItems - visibleItems % 2) : _props$overlaps,
+        overlaps = _props$overlaps === void 0 ? 1 / (visibleItems - visibleItems % 2 || 1) : _props$overlaps,
         _childs = props.children,
+        scrollDir = props.scrollDir,
         defaultEntering = props.defaultEntering,
         defaultLeaving = props.defaultLeaving,
         scrollY = props.scrollY,
-        children = is__WEBPACK_IMPORTED_MODULE_3___default.a.array(_childs) ? _childs : [],
+        infinite = props.infinite,
+        children = is__WEBPACK_IMPORTED_MODULE_2___default.a.array(_childs) ? _childs : [],
         _state$index = state.index,
         index = _state$index === void 0 ? defaultIndex : _state$index,
-        allItems = [].concat(children, children, children).map(function (elem, i) {
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.cloneElement(elem, {
+        allItems = !infinite ? [].concat(children) : [].concat(children, children, children).map(function (elem, i) {
+      return react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(elem, {
         key: i
       });
     }),
         nbGhostItems = allItems.length,
         step = 100 * overlaps,
-        dec = children.length * step;
+        dec = infinite ? children.length * step : 0,
+        scrollAxis = [].concat(defaultEntering, react_voodoo__WEBPACK_IMPORTED_MODULE_4__["tweenTools"].offset(defaultLeaving, 100)),
+        tweenLines = allItems.map(function (e, i) {
+      var _ref;
+
+      return _ref = {}, _ref[scrollDir] = react_voodoo__WEBPACK_IMPORTED_MODULE_4__["tweenTools"].offset(scrollAxis, i * step), _ref;
+    });
     return {
       allItems: allItems,
       nbGhostItems: nbGhostItems,
       nbItems: children.length,
       step: step,
       dec: dec,
-      tweenLines: allItems.map(function (e, i) {
-        return {
-          scrollX: react_voodoo__WEBPACK_IMPORTED_MODULE_2__["tweenTools"].offset([].concat(defaultEntering, react_voodoo__WEBPACK_IMPORTED_MODULE_2__["tweenTools"].offset(defaultLeaving, 100)), i * step),
-          scrollY: scrollY
-        };
-      }),
+      tweenLines: tweenLines,
       windowSize: children.length * step,
       index: index
     };
@@ -31029,7 +31306,15 @@ function (_React$Component) {
         _this$props3$defaultI = _this$props3.defaultIndex,
         defaultIndex = _this$props3$defaultI === void 0 ? 0 : _this$props3$defaultI,
         defaultInitial = _this$props3.defaultInitial,
+        _this$props3$style = _this$props3.style,
+        style = _this$props3$style === void 0 ? {} : _this$props3$style,
         onClick = _this$props3.onClick,
+        infinite = _this$props3.infinite,
+        maxJump = _this$props3.maxJump,
+        visibleItems = _this$props3.visibleItems,
+        scrollDir = _this$props3.scrollDir,
+        _this$props3$classNam = _this$props3.className,
+        className = _this$props3$classNam === void 0 ? "" : _this$props3$classNam,
         _this$state3 = this.state,
         _this$state3$index = _this$state3.index,
         index = _this$state3$index === void 0 ? defaultIndex : _this$state3$index,
@@ -31038,22 +31323,25 @@ function (_React$Component) {
         step = _this$state3.step,
         dec = _this$state3.dec,
         tweenLines = _this$state3.tweenLines,
-        nbItems = _this$state3.nbItems; //console.log("render", index)
+        nbItems = _this$state3.nbItems; //console.log("render slider", 100 + dec + index * step, tweenLines)
 
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      className: "rSlide slider",
-      style: {
-        width: "100%",
-        height: "100%",
+    return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+      className: "rSlide slider " + className,
+      style: _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({
         userSelect: "none"
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["TweenAxis"], {
-      axe: "scrollX",
+      }, style)
+    }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_4__["TweenAxis"], {
+      axe: scrollDir,
       defaultPosition: 100 + dec + index * step,
       size: nbGhostItems * step + 100,
-      scrollableWindow: 4 * step,
+      scrollableWindow: visibleItems * step,
+      bounds: !infinite && {
+        min: 100,
+        max: dec + nbGhostItems * step
+      },
       inertia: {
-        shouldLoop: function shouldLoop(v) {
+        maxJump: maxJump,
+        shouldLoop: infinite && function (v) {
           var windowSize = _this4.state.windowSize;
           if (v > 100 + windowSize * 2) return -windowSize;
           if (v < 100 + windowSize) return windowSize;
@@ -31067,23 +31355,19 @@ function (_React$Component) {
           }); //console.log(i % nbItems, v)
 
         },
-        value: 100 + dec + index * step,
         wayPoints: allItems.map(function (child, i) {
           return {
             at: 100 + i * step
           };
         })
       }
-    }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["TweenAxis"], {
-      axe: "scrollY",
-      size: 1000,
-      defaultPosition: 500
     }), allItems.map(function (Child, i) {
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["TweenRef"], {
-        key: i,
+      return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_4__["TweenRef"], {
+        key: i //id={"slider_" + i}
+        ,
         initial: defaultInitial,
         tweenLines: tweenLines[i]
-      }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
         className: "slide",
         onClick: onClick && function (e) {
           return onClick(e, i % nbItems, _this4);
@@ -31099,14 +31383,17 @@ function (_React$Component) {
   };
 
   return Slider;
-}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component), _class2.defaultProps = {
+}(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component), _class2.defaultProps = {
   defaultIndex: 0,
-  visibleItems: 10,
-  overlaps: 1 / 4,
+  visibleItems: 4,
+  maxJump: undefined,
+  infinite: false,
+  //overlaps       : 1 / 6,
   defaultInitial: {},
   defaultEntering: [],
   defaultLeaving: [],
-  scrollY: []
+  scrollY: [],
+  scrollDir: "scrollX"
 }, _temp)) || _class);
 
 ;
@@ -31977,12 +32264,13 @@ var _default = _exports;
 /*!*************************************************************!*\
   !*** ./src/MapOf.react_voodoo__samples_____index_js.gen.js ***!
   \*************************************************************/
-/*! exports provided: ResponsiveSlidable, SimpleHeaderTest, SimpleSlider, SimpleTest, default */
+/*! exports provided: ResponsiveSlidable, SimpleCatTest, SimpleHeaderTest, SimpleSlider, SimpleTest, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResponsiveSlidable", function() { return ResponsiveSlidable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleCatTest", function() { return SimpleCatTest; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleHeaderTest", function() { return SimpleHeaderTest; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleSlider", function() { return SimpleSlider; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleTest", function() { return SimpleTest; });
@@ -32016,6 +32304,7 @@ req.keys().forEach(function (key) {
   modExport[name[i]] = Object.keys(mod).length === 1 && mod.default || mod;
 });
 var ResponsiveSlidable = _exports.ResponsiveSlidable;
+var SimpleCatTest = _exports.SimpleCatTest;
 var SimpleHeaderTest = _exports.SimpleHeaderTest;
 var SimpleSlider = _exports.SimpleSlider;
 var SimpleTest = _exports.SimpleTest;
@@ -32034,6 +32323,7 @@ var _default = _exports;
   reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
   reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
   reactHotLoader.register(ResponsiveSlidable, "ResponsiveSlidable", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
+  reactHotLoader.register(SimpleCatTest, "SimpleCatTest", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
   reactHotLoader.register(SimpleHeaderTest, "SimpleHeaderTest", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
   reactHotLoader.register(SimpleSlider, "SimpleSlider", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
   reactHotLoader.register(SimpleTest, "SimpleTest", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
@@ -32861,7 +33151,7 @@ function (_React$Component) {
 
     _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
     _this.state = {
-      current: "ResponsiveSlidable"
+      current: "SimpleCatTest"
     };
     return _this;
   }
