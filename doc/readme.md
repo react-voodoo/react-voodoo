@@ -170,7 +170,7 @@ export default class MyTweenerComp extends React.Component{
 
 ### asTweener
 
-Return a react-voodoo tweener component inheriting the target React component
+Return a react-voodoo tweener component composing the target React component
 
 The resulting component will have the tweener hooks
 
