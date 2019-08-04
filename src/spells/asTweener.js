@@ -20,7 +20,7 @@ import * as easingFn                     from "d3-ease";
 import is                                from "is";
 import React                             from "react";
 import ReactDom                          from "react-dom";
-import tweenAxis                            from "tween-axis";
+import tweenAxis                         from "tween-axis";
 import TweenerContext                    from "../comps/TweenerContext";
 import {deMuxLine, deMuxTween, muxToCss} from "../utils/css";
 import domUtils                          from "../utils/dom";
@@ -402,6 +402,20 @@ export default function asTweener( ...argz ) {
 		}
 		
 		
+		/**
+		 * Update tweenRef raw tweened values
+		 * @param id
+		 * @param map
+		 * @param reset
+		 */
+		applyTweenState( id, map, reset ) {
+			let tmap = {}, initials = {};
+			deMuxTween(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id])
+			Object.keys(tmap).map(
+				( p ) => this._.tweenRefMaps[id][p] = (!reset && this._.tweenRefMaps[id][p] || initials[p]) + tmap[p]
+			);
+		}
+		
 		// ------------------------------------------------------------
 		// ------------------ Scrollable axes -------------------------
 		// ------------------------------------------------------------
@@ -675,6 +689,10 @@ export default function asTweener( ...argz ) {
 				       : id));
 		}
 		
+		/**
+		 * Hook to know if the composed element allow scrolling
+		 * @returns {boolean}
+		 */
 		componentShouldScroll() {
 			let _ = this._;
 			return _.rootRef &&
@@ -684,7 +702,9 @@ export default function asTweener( ...argz ) {
 		}
 		
 		/**
-		 * todo
+		 * todo rewrite or use lib
+		 * Init touch & scroll listeners
+		 * Drive scroll & drag values updates
 		 * @private
 		 */
 		_registerScrollListeners() {
@@ -957,7 +977,11 @@ export default function asTweener( ...argz ) {
 		// --------------- Inertia & scroll modifiers -----------------
 		// ------------------------------------------------------------
 		
-		
+		/**
+		 * Retrieve updates from an axis inertia & apply them
+		 * @param dim
+		 * @param axe
+		 */
 		applyInertia( dim, axe ) {
 			let x = dim.inertia.update(), _ = this._;
 			
@@ -983,6 +1007,10 @@ export default function asTweener( ...argz ) {
 			}
 		}
 		
+		/**
+		 * Return true if at least 1 of this tweener axis have it's inertia active
+		 * @returns {boolean}
+		 */
 		isInertiaActive() {//todo
 			let _ = this._, active = false;
 			_.axes &&
@@ -991,50 +1019,6 @@ export default function asTweener( ...argz ) {
 				      axe => (active = active || _.axes[axe] && _.axes[axe].inertia.active)
 			      );
 			return active;
-		}
-		
-		_activateNodeInertia( node ) {
-			let _ = this._,
-			    i = _.activeInertia.findIndex(item => (item.target === node));
-			if ( i === -1 ) {
-				_.activeInertia.push(
-					{
-						inertia: {
-							x: new Inertia({ max: node.scrollWidth - node.offsetLeft, value: node.scrollLeft }),
-							y: new Inertia({ max: node.scrollHeight - node.offsetHeight, value: node.scrollTop })
-						},
-						target : node
-					});
-				i = _.activeInertia.length - 1;
-			}
-			return _.activeInertia[i].inertia;
-			
-		}
-		
-		_updateNodeInertia = () => {
-			let _ = this._, current, ln = _.activeInertia.length;
-			
-			if ( this._inertiaRaf )
-				cancelAnimationFrame(this._inertiaRaf);
-			
-			for ( let i = 0; ln > i; i++ ) {
-				current = _.activeInertia[i];
-				if ( current.inertia.x.active || current.inertia.x.holding ) {
-					current.target.scrollLeft = ~~current.inertia.x.update()
-				}
-				if ( current.inertia.y.active || current.inertia.y.holding ) {
-					current.target.scrollTop = ~~current.inertia.y.update()
-				}
-				
-				if ( !current.inertia.x.active && !current.inertia.y.active && !current.inertia.x.holding && !current.inertia.y.holding ) {
-					_.activeInertia.slice(i, 1);
-					i--;
-					ln--;
-				}
-			}
-			if ( ln !== 0 )
-				this._inertiaRaf = requestAnimationFrame(this._updateNodeInertia)
-			else this._inertiaRaf = null;
 		}
 		
 		dispatchScroll( delta, axe = "scrollY" ) {
@@ -1133,13 +1117,50 @@ export default function asTweener( ...argz ) {
 				return true;
 		}
 		
-		applyTweenState( id, map, reset ) {
-			let tmap = {}, initials = {};
-			deMuxTween(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id])
-			Object.keys(tmap).map(
-				( p ) => this._.tweenRefMaps[id][p] = (!reset && this._.tweenRefMaps[id][p] || initials[p]) + tmap[p]
-			);
+		_activateNodeInertia( node ) {
+			let _ = this._,
+			    i = _.activeInertia.findIndex(item => (item.target === node));
+			if ( i === -1 ) {
+				_.activeInertia.push(
+					{
+						inertia: {
+							x: new Inertia({ max: node.scrollWidth - node.offsetLeft, value: node.scrollLeft }),
+							y: new Inertia({ max: node.scrollHeight - node.offsetHeight, value: node.scrollTop })
+						},
+						target : node
+					});
+				i = _.activeInertia.length - 1;
+			}
+			return _.activeInertia[i].inertia;
+			
 		}
+		
+		_updateNodeInertia = () => {
+			let _ = this._, current, ln = _.activeInertia.length;
+			
+			if ( this._inertiaRaf )
+				cancelAnimationFrame(this._inertiaRaf);
+			
+			for ( let i = 0; ln > i; i++ ) {
+				current = _.activeInertia[i];
+				if ( current.inertia.x.active || current.inertia.x.holding ) {
+					current.target.scrollLeft = ~~current.inertia.x.update()
+				}
+				if ( current.inertia.y.active || current.inertia.y.holding ) {
+					current.target.scrollTop = ~~current.inertia.y.update()
+				}
+				
+				if ( !current.inertia.x.active && !current.inertia.y.active && !current.inertia.x.holding && !current.inertia.y.holding ) {
+					_.activeInertia.slice(i, 1);
+					i--;
+					ln--;
+				}
+			}
+			if ( ln !== 0 )
+				this._inertiaRaf = requestAnimationFrame(this._updateNodeInertia)
+			else this._inertiaRaf = null;
+		}
+		
 		
 		// ------------------------------------------------------------
 		// --------------- Initialization & drawers -------------------
@@ -1174,6 +1195,10 @@ export default function asTweener( ...argz ) {
 						_.rootRef.current.windowDidResize(e)
 					});
 			}
+		}
+		
+		setRootRef( id ) {
+			this._.rootRef = id;
 		}
 		
 		

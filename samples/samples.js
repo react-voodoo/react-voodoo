@@ -961,10 +961,10 @@ exports.push([module.i, "/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/.samples/SimpleTest/sample.scss":
-/*!********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/sass-loader/lib/loader.js??ref--6-3!./src/.samples/SimpleTest/sample.scss ***!
-  \********************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/.samples/SimpleInertiaTest/sample.scss":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/sass-loader/lib/loader.js??ref--6-3!./src/.samples/SimpleInertiaTest/sample.scss ***!
+  \***************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29499,7 +29499,7 @@ var map = {
 	"./ResponsiveSlidable/index.js": "./src/.samples/ResponsiveSlidable/index.js",
 	"./SimpleCatTest/index.js": "./src/.samples/SimpleCatTest/index.js",
 	"./SimpleHeaderTest/index.js": "./src/.samples/SimpleHeaderTest/index.js",
-	"./SimpleTest/index.js": "./src/.samples/SimpleTest/index.js"
+	"./SimpleInertiaTest/index.js": "./src/.samples/SimpleInertiaTest/index.js"
 };
 
 
@@ -31091,10 +31091,10 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./src/.samples/SimpleTest/anims.js":
-/*!******************************************!*\
-  !*** ./src/.samples/SimpleTest/anims.js ***!
-  \******************************************/
+/***/ "./src/.samples/SimpleInertiaTest/anims.js":
+/*!*************************************************!*\
+  !*** ./src/.samples/SimpleInertiaTest/anims.js ***!
+  \*************************************************/
 /*! exports provided: pushIn, tweenAxis */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -31251,9 +31251,9 @@ var tweenAxis = {
     return;
   }
 
-  reactHotLoader.register(pushIn, "pushIn", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleTest\\anims.js");
-  reactHotLoader.register(goDown, "goDown", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleTest\\anims.js");
-  reactHotLoader.register(tweenAxis, "tweenAxis", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleTest\\anims.js");
+  reactHotLoader.register(pushIn, "pushIn", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleInertiaTest\\anims.js");
+  reactHotLoader.register(goDown, "goDown", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleInertiaTest\\anims.js");
+  reactHotLoader.register(tweenAxis, "tweenAxis", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleInertiaTest\\anims.js");
 })();
 
 ;
@@ -31266,10 +31266,10 @@ var tweenAxis = {
 
 /***/ }),
 
-/***/ "./src/.samples/SimpleTest/index.js":
-/*!******************************************!*\
-  !*** ./src/.samples/SimpleTest/index.js ***!
-  \******************************************/
+/***/ "./src/.samples/SimpleInertiaTest/index.js":
+/*!*************************************************!*\
+  !*** ./src/.samples/SimpleInertiaTest/index.js ***!
+  \*************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -31281,8 +31281,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_voodoo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-voodoo */ "./src/index.js");
-/* harmony import */ var _anims__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./anims */ "./src/.samples/SimpleTest/anims.js");
-/* harmony import */ var _sample_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sample.scss */ "./src/.samples/SimpleTest/sample.scss");
+/* harmony import */ var _anims__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./anims */ "./src/.samples/SimpleInertiaTest/anims.js");
+/* harmony import */ var _sample_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sample.scss */ "./src/.samples/SimpleInertiaTest/sample.scss");
 /* harmony import */ var _sample_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_sample_scss__WEBPACK_IMPORTED_MODULE_4__);
 
 
@@ -31444,8 +31444,8 @@ function (_React$Component) {
     return;
   }
 
-  reactHotLoader.register(testItemStyle, "testItemStyle", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleTest\\index.js");
-  reactHotLoader.register(Sample, "Sample", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleTest\\index.js");
+  reactHotLoader.register(testItemStyle, "testItemStyle", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleInertiaTest\\index.js");
+  reactHotLoader.register(Sample, "Sample", "G:\\n8tz\\libs\\react-voodoo\\src\\.samples\\SimpleInertiaTest\\index.js");
 })();
 
 ;
@@ -31458,15 +31458,15 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ "./src/.samples/SimpleTest/sample.scss":
-/*!*********************************************!*\
-  !*** ./src/.samples/SimpleTest/sample.scss ***!
-  \*********************************************/
+/***/ "./src/.samples/SimpleInertiaTest/sample.scss":
+/*!****************************************************!*\
+  !*** ./src/.samples/SimpleInertiaTest/sample.scss ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/sass-loader/lib/loader.js??ref--6-3!./sample.scss */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/.samples/SimpleTest/sample.scss");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/sass-loader/lib/loader.js??ref--6-3!./sample.scss */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/.samples/SimpleInertiaTest/sample.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -31593,7 +31593,7 @@ var _default = _exports;
 /*!*************************************************************!*\
   !*** ./src/MapOf.react_voodoo__samples_____index_js.gen.js ***!
   \*************************************************************/
-/*! exports provided: ResponsiveSlidable, SimpleCatTest, SimpleHeaderTest, SimpleTest, default */
+/*! exports provided: ResponsiveSlidable, SimpleCatTest, SimpleHeaderTest, SimpleInertiaTest, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31601,7 +31601,7 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResponsiveSlidable", function() { return ResponsiveSlidable; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleCatTest", function() { return SimpleCatTest; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleHeaderTest", function() { return SimpleHeaderTest; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleTest", function() { return SimpleTest; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleInertiaTest", function() { return SimpleInertiaTest; });
 (function () {
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
   enterModule && enterModule(module);
@@ -31634,7 +31634,7 @@ req.keys().forEach(function (key) {
 var ResponsiveSlidable = _exports.ResponsiveSlidable;
 var SimpleCatTest = _exports.SimpleCatTest;
 var SimpleHeaderTest = _exports.SimpleHeaderTest;
-var SimpleTest = _exports.SimpleTest;
+var SimpleInertiaTest = _exports.SimpleInertiaTest;
 var _default = _exports;
 /* harmony default export */ __webpack_exports__["default"] = (_default);
 ;
@@ -31652,7 +31652,7 @@ var _default = _exports;
   reactHotLoader.register(ResponsiveSlidable, "ResponsiveSlidable", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
   reactHotLoader.register(SimpleCatTest, "SimpleCatTest", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
   reactHotLoader.register(SimpleHeaderTest, "SimpleHeaderTest", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
-  reactHotLoader.register(SimpleTest, "SimpleTest", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
+  reactHotLoader.register(SimpleInertiaTest, "SimpleInertiaTest", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
   reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo__samples_____index_js.gen.js");
 })();
 
@@ -32769,25 +32769,10 @@ function asTweener() {
       _this.__isTweener = true;
       _this._.rootRef = _this.props.forwardedRef || react__WEBPACK_IMPORTED_MODULE_5___default.a.createRef();
       return _this;
-    }
+    } // ------------------------------------------------------------
+    // -------------------- TweenRefs utils -----------------------
+    // ------------------------------------------------------------
 
-    var _proto = TweenableComp.prototype;
-
-    _proto.resetTweenable = function resetTweenable() {
-      var _this2 = this;
-
-      var _ = this._;
-
-      for (var _len2 = arguments.length, targets = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        targets[_key2] = arguments[_key2];
-      }
-
-      targets.forEach(function (t) {
-        _this2.tweenRef(t, _.tweenRefOriginCss[t], _.iMapOrigin[t], null, null, true);
-      });
-
-      this._updateTweenRefs();
-    }
     /**
      * Register tweenable element
      * return its current style
@@ -32799,7 +32784,9 @@ function asTweener() {
      * @param mapReset
      * @returns {style,ref}
      */
-    ;
+
+
+    var _proto = TweenableComp.prototype;
 
     _proto.tweenRef = function tweenRef(id, iStyle, iMap, pos, noref, mapReset) {
       // ref initial style
@@ -32899,7 +32886,12 @@ function asTweener() {
         // __tweenCSS : this._.tweenRefCSS[id]
 
       };
-    };
+    }
+    /**
+     * Delete tweenable element
+     * @param id
+     */
+    ;
 
     _proto.rmTweenRef = function rmTweenRef(id) {
       if (this._.tweenRefs[id]) {
@@ -32914,10 +32906,71 @@ function asTweener() {
         delete this._.tweenRefMaps[id];
         delete this._.refs[id];
       }
-    };
+    }
+    /**
+     * Reset tweenRefs
+     * @param targets
+     */
+    ;
 
-    _proto.setRootRef = function setRootRef(id) {
-      this._.rootRef = id;
+    _proto.resetTweenable = function resetTweenable() {
+      var _this2 = this;
+
+      var _ = this._;
+
+      for (var _len2 = arguments.length, targets = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        targets[_key2] = arguments[_key2];
+      }
+
+      targets.forEach(function (t) {
+        _this2.tweenRef(t, _.tweenRefOriginCss[t], _.iMapOrigin[t], null, null, true);
+      });
+
+      this._updateTweenRefs();
+    }
+    /**
+     * Update tweenRefs style ( anims & axis will still update the ref )
+     * @param target
+     * @param style
+     * @param postPone
+     * @returns {*}
+     */
+    ;
+
+    _proto.updateRefStyle = function updateRefStyle(target, style, postPone) {
+      var _this3 = this;
+
+      var _ = this._,
+          initials = {};
+      if (isArray(target) && isArray(style)) return target.map(function (m, i) {
+        return _this3.updateRefStyle(m, style[i], postPone);
+      });
+      if (isArray(target)) return target.map(function (m) {
+        return _this3.updateRefStyle(m, style, postPone);
+      });
+      if (!this._.tweenRefCSS) this.makeTweenable();
+      Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["deMuxTween"])(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target], true);
+
+      this._updateTweenRef(target);
+    }
+    /**
+     * Retrieve the tween ref dom node
+     * @param id
+     * @returns {*}
+     */
+    ;
+
+    _proto.getTweenableRef = function getTweenableRef(id) {
+      return this._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_6___default.a.findDOMNode(this._.refs[id]);
+    }
+    /**
+     * Get the root dom node of the tweener element
+     * @returns {*}
+     */
+    ;
+
+    _proto.getRootNode = function getRootNode() {
+      return this._.rootRef && this.getTweenableRef(this._.rootRef) || react_dom__WEBPACK_IMPORTED_MODULE_6___default.a.findDOMNode(this);
     } // ------------------------------------------------------------
     // -------------------- Pushable anims ------------------------
     // ------------------------------------------------------------
@@ -32927,12 +32980,12 @@ function asTweener() {
      * @param anim
      * @param then
      * @param skipInit
-     * @returns {rTween}
+     * @returns {tweenAxis}
      */
     ;
 
     _proto.pushAnim = function pushAnim(anim, then, skipInit) {
-      var _this3 = this;
+      var _this4 = this;
 
       var sl,
           initial,
@@ -32951,141 +33004,66 @@ function asTweener() {
         sl = Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
         sl = new tween_axis__WEBPACK_IMPORTED_MODULE_7___default.a(sl, this._.tweenRefMaps);
         Object.keys(initials).forEach(function (id) {
-          return Object.assign(_this3._.tweenRefMaps[id], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, initials[id], {}, _this3._.tweenRefMaps[id]));
+          return Object.assign(_this4._.tweenRefMaps[id], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, initials[id], {}, _this4._.tweenRefMaps[id]));
         });
       }
 
       this.makeTweenable();
       return new Promise(function (resolve) {
         !skipInit && initial && Object.keys(initial).map(function (id) {
-          return _this3.applyTweenState(id, initial[id], anim.reset);
+          return _this4.applyTweenState(id, initial[id], anim.reset);
         }); // start timer launch @todo
 
-        sl.run(_this3._.tweenRefMaps, function () {
-          var i = _this3._.runningAnims.indexOf(sl);
+        sl.run(_this4._.tweenRefMaps, function () {
+          var i = _this4._.runningAnims.indexOf(sl);
 
-          if (i != -1) _this3._.runningAnims.splice(i, 1);
+          if (i != -1) _this4._.runningAnims.splice(i, 1);
           resolve(sl);
         });
 
-        _this3._.runningAnims.push(sl);
+        _this4._.runningAnims.push(sl);
 
-        if (!_this3._.live) {
-          _this3._.live = true;
-          requestAnimationFrame(_this3._._rafLoop = _this3._._rafLoop || _this3._rafLoop.bind(_this3));
+        if (!_this4._.live) {
+          _this4._.live = true;
+          requestAnimationFrame(_this4._._rafLoop = _this4._._rafLoop || _this4._rafLoop.bind(_this4));
         }
       }).then(function (sl) {
         return then && then(sl);
       });
-    };
-
-    _proto.makeTweenable = function makeTweenable() {
-      var _this4 = this;
-
-      var _ = this._;
-
-      if (!_.tweenEnabled) {
-        _.tweenRefCSS = {};
-        _.tweenRefs = {};
-        _.tweenRefMaps = {};
-        _.iMapOrigin = {};
-        _.tweenRefInitialData = {};
-        _.tweenEnabled = true;
-        _.tweenRefOrigin = {};
-        _.tweenRefOriginCss = {};
-        _.axes = {};
-        _.muxDataByTarget = _.muxDataByTarget || {};
-        _.tweenRefDemuxed = _.tweenRefDemuxed || {};
-        _.tweenRefTargets = _.tweenRefTargets || [];
-        _.runningAnims = _.runningAnims || [];
-        isBrowserSide && window.addEventListener("resize", this._.onResize = function (e) {
-          //@todo
-          _this4._updateBox();
-
-          _this4._updateTweenRefs();
-
-          _.rootRef && _.rootRef.current && _.rootRef.current.windowDidResize && _.rootRef.current.windowDidResize(e);
-        });
-      }
-    } // ------------------------------------------------------------
-    // ------------------ Scrollable anims ------------------------
-    // ------------------------------------------------------------
-
+    }
     /**
-     * Tween this tween line to 'to' during 'tm' ms using easing fn
-     * @param to {int}
-     * @param tm {int} duration in ms
-     * @param easing {function} easing fn
-     * @param tick {function} fn called at each tick
-     * @param cb {function} fn called on complete
+     * Update tweenRef raw tweened values
+     * @param id
+     * @param map
+     * @param reset
      */
     ;
 
-    _proto._runScrollGoTo = function _runScrollGoTo(axe, to, tm, easing, tick, cb) {
+    _proto.applyTweenState = function applyTweenState(id, map, reset) {
       var _this5 = this;
 
-      if (easing === void 0) {
-        easing = function easing(x) {
-          return x;
-        };
-      }
-
-      var from = this._.axes[axe].scrollPos,
-          length = to - from;
-
-      _running.push({
-        apply: function apply(pos, max) {
-          var x = from + easing(pos / max) * length;
-
-          if (_this5._.tweenEnabled) {
-            //console.log('TweenableComp::setPos:514: ', x);
-            _this5._.axes[axe].tweenAxis.forEach(function (sl) {
-              return sl.goTo(x, _this5._.tweenRefMaps);
-            });
-
-            tick && tick(x);
-          }
-        },
-        duration: tm,
-        cpos: 0,
-        cb: cb
+      var tmap = {},
+          initials = {};
+      Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
+      Object.keys(tmap).map(function (p) {
+        return _this5._.tweenRefMaps[id][p] = (!reset && _this5._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
       });
+    } // ------------------------------------------------------------
+    // ------------------ Scrollable axes -------------------------
+    // ------------------------------------------------------------
 
-      if (!_live) {
-        _live = true;
-        lastTm = Date.now(); // console.log("TL runner On");
-
-        setTimeout(Runner._tick, 16);
-      }
-    };
-
-    _proto._getAxis = function _getAxis(axe) {
-      if (axe === void 0) {
-        axe = "scrollY";
-      }
-
-      var _ = this._;
-      _.axes[axe] = _.axes[axe] || {
-        tweenAxis: [],
-        scrollPos: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
-        targetPos: 0,
-        scrollableWindow: 0,
-        scrollableArea: 0,
-        inertia: new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"](_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({
-          value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0
-        }, opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {}))
-      };
-      return _.axes[axe];
-    };
-
-    _proto.getAxisState = function getAxisState() {
-      var _ = this._,
-          state = {};
-      _.axes && Object.keys(_.axes).forEach(function (axe) {
-        return state[axe] = _.axes[axe].targetPos || _.axes[axe].scrollPos;
-      });
-      return state;
-    };
+    /**
+     * Will init / update a scrollable axis
+     * @param axe
+     * @param _inertia
+     * @param _scrollableArea
+     * @param _scrollableBounds
+     * @param _scrollableWindow
+     * @param defaultPosition
+     * @param scrollFirst
+     * @param reset
+     */
+    ;
 
     _proto.initAxis = function initAxis(axe, _ref, reset) {
       var _inertia = _ref.inertia,
@@ -33125,74 +33103,49 @@ function asTweener() {
       if (inertia && scrollableBounds) inertia.setBounds(scrollableBounds.min, scrollableBounds.max);else inertia && inertia.setBounds(0, scrollableArea);
     };
 
-    _proto.addScrollableAnim = function addScrollableAnim(anim, axe, size) {
-      var _this6 = this;
-
+    _proto._getAxis = function _getAxis(axe) {
       if (axe === void 0) {
         axe = "scrollY";
       }
 
-      var sl,
-          _ = this._,
-          initials = {},
-          dim = this._getAxis(axe);
+      var _ = this._;
+      _.axes[axe] = _.axes[axe] || {
+        tweenAxis: [],
+        scrollPos: opts.initialScrollPos && opts.initialScrollPos[axe] || 0,
+        targetPos: 0,
+        scrollableWindow: 0,
+        scrollableArea: 0,
+        inertia: new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"](_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({
+          value: opts.initialScrollPos && opts.initialScrollPos[axe] || 0
+        }, opts.axes && opts.axes[axe] && opts.axes[axe].inertia || {}))
+      };
+      return _.axes[axe];
+    }
+    /**
+     * Return axis infos
+     */
+    ;
 
-      if (isArray(anim)) {
-        sl = anim;
-      } else {
-        sl = anim.anims;
-        size = anim.length;
-      }
-
-      if (!(sl instanceof tween_axis__WEBPACK_IMPORTED_MODULE_7___default.a)) {
-        sl = Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-        sl = new tween_axis__WEBPACK_IMPORTED_MODULE_7___default.a(sl, _.tweenRefMaps);
-        Object.keys(initials).forEach(function (id) {
-          _this6._.tweenRefMaps[id] = _this6._.tweenRefMaps[id] || {}, Object.assign(_this6._.tweenRefMaps[id], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, initials[id], {}, _this6._.tweenRefMaps[id]));
-        });
-      }
-
-      this.makeTweenable();
-      this.makeScrollable(); // init scroll
-
-      dim.tweenAxis.push(sl);
-      dim.scrollPos = dim.scrollPos || 0;
-      dim.scrollableArea = dim.scrollableArea || 0;
-      dim.scrollableArea = Math.max(dim.scrollableArea, sl.duration);
-      if (!dim.scrollableBounds) dim.inertia.setBounds(0, dim.scrollableArea);
-      sl.goTo(dim.scrollPos, this._.tweenRefMaps);
-
-      this._updateTweenRefs();
-
-      return sl;
-    };
-
-    _proto.rmScrollableAnim = function rmScrollableAnim(sl, axe) {
-      if (axe === void 0) {
-        axe = "scrollY";
-      }
-
+    _proto.getAxisState = function getAxisState() {
       var _ = this._,
-          found,
-          dim = this._getAxis(axe);
-
-      var i = dim.tweenAxis.indexOf(sl);
-
-      if (i != -1) {
-        dim.tweenAxis.splice(i, 1);
-        dim.scrollableArea = Math.max.apply(Math, dim.tweenAxis.map(function (tl) {
-          return tl.duration;
-        }).concat([0]));
-        if (!dim.scrollableBounds) dim.inertia.setBounds(0, dim.scrollableArea || 0);
-        sl.goTo(0, this._.tweenRefMaps);
-        found = true;
-      }
-
-      !found && console.warn("TweenAxis not found !");
-    };
+          state = {};
+      _.axes && Object.keys(_.axes).forEach(function (axe) {
+        return state[axe] = _.axes[axe].targetPos || _.axes[axe].scrollPos;
+      });
+      return state;
+    }
+    /**
+     * Do scroll an axis
+     * @param newPos
+     * @param ms
+     * @param axe
+     * @param ease
+     * @returns {Promise<any | never>}
+     */
+    ;
 
     _proto.scrollTo = function scrollTo(newPos, ms, axe, ease) {
-      var _this7 = this;
+      var _this6 = this;
 
       if (ms === void 0) {
         ms = 0;
@@ -33218,7 +33171,7 @@ function asTweener() {
 
             _.rootRef && _.rootRef.current && _.rootRef.current.componentDidScroll && _.rootRef.current.componentDidScroll(~~pos, axe);
 
-            _this7._updateTweenRefs();
+            _this6._updateTweenRefs();
           };
 
           newPos = Math.max(0, newPos);
@@ -33233,7 +33186,7 @@ function asTweener() {
             setPos(newPos);
             resolve();
           } else {
-            _this7._runScrollGoTo(axe, newPos, ms, d3_ease__WEBPACK_IMPORTED_MODULE_3__[ease], setPos, resolve);
+            _this6._runScrollGoTo(axe, newPos, ms, d3_ease__WEBPACK_IMPORTED_MODULE_3__[ease], setPos, resolve);
           }
 
           if (!_.live) {
@@ -33246,28 +33199,158 @@ function asTweener() {
           _.axes[axe].inertia._detectCurrentSnap();
         }
       });
-    };
+    }
+    /**
+     * Add scrollable tween axis (scrollable anims) to a global axis
+     * @param anim
+     * @param axe
+     * @param size
+     * @returns {tweenAxis}
+     */
+    ;
 
-    _proto.makeScrollable = function makeScrollable() {
-      if (!this._.scrollEnabled) {
-        this._.scrollEnabled = true;
-        this._.scrollHook = [];
-        this._.activeInertia = [];
+    _proto.addScrollableAnim = function addScrollableAnim(anim, axe, size) {
+      var _this7 = this;
 
-        this._registerScrollListeners();
+      if (axe === void 0) {
+        axe = "scrollY";
       }
-    };
+
+      var sl,
+          _ = this._,
+          initials = {},
+          dim = this._getAxis(axe);
+
+      if (isArray(anim)) {
+        sl = anim;
+      } else {
+        sl = anim.anims;
+        size = anim.length;
+      }
+
+      if (!(sl instanceof tween_axis__WEBPACK_IMPORTED_MODULE_7___default.a)) {
+        sl = Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
+        sl = new tween_axis__WEBPACK_IMPORTED_MODULE_7___default.a(sl, _.tweenRefMaps);
+        Object.keys(initials).forEach(function (id) {
+          _this7._.tweenRefMaps[id] = _this7._.tweenRefMaps[id] || {}, Object.assign(_this7._.tweenRefMaps[id], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, initials[id], {}, _this7._.tweenRefMaps[id]));
+        });
+      }
+
+      this.makeTweenable();
+      this.makeScrollable(); // init scroll
+
+      dim.tweenAxis.push(sl);
+      dim.scrollPos = dim.scrollPos || 0;
+      dim.scrollableArea = dim.scrollableArea || 0;
+      dim.scrollableArea = Math.max(dim.scrollableArea, sl.duration);
+      if (!dim.scrollableBounds) dim.inertia.setBounds(0, dim.scrollableArea);
+      sl.goTo(dim.scrollPos, this._.tweenRefMaps);
+
+      this._updateTweenRefs();
+
+      return sl;
+    }
+    /**
+     * Remove a tweenAxis object from a component scrollable axis
+     * @param sl
+     * @param axe
+     */
+    ;
+
+    _proto.rmScrollableAnim = function rmScrollableAnim(sl, axe) {
+      if (axe === void 0) {
+        axe = "scrollY";
+      }
+
+      var _ = this._,
+          found,
+          dim = this._getAxis(axe);
+
+      var i = dim.tweenAxis.indexOf(sl);
+
+      if (i != -1) {
+        dim.tweenAxis.splice(i, 1);
+        dim.scrollableArea = Math.max.apply(Math, dim.tweenAxis.map(function (tl) {
+          return tl.duration;
+        }).concat([0]));
+        if (!dim.scrollableBounds) dim.inertia.setBounds(0, dim.scrollableArea || 0);
+        sl.goTo(0, this._.tweenRefMaps);
+        found = true;
+      }
+
+      !found && console.warn("TweenAxis not found !");
+    }
+    /**
+     * @private fn to push scrollTo
+     * @param axe
+     * @param to
+     * @param tm
+     * @param easing
+     * @param tick
+     * @param cb
+     * @private
+     */
+    ;
+
+    _proto._runScrollGoTo = function _runScrollGoTo(axe, to, tm, easing, tick, cb) {
+      var _this8 = this;
+
+      if (easing === void 0) {
+        easing = function easing(x) {
+          return x;
+        };
+      }
+
+      var from = this._.axes[axe].scrollPos,
+          length = to - from;
+
+      _running.push({
+        apply: function apply(pos, max) {
+          var x = from + easing(pos / max) * length;
+
+          if (_this8._.tweenEnabled) {
+            //console.log('TweenableComp::setPos:514: ', x);
+            _this8._.axes[axe].tweenAxis.forEach(function (sl) {
+              return sl.goTo(x, _this8._.tweenRefMaps);
+            });
+
+            tick && tick(x);
+          }
+        },
+        duration: tm,
+        cpos: 0,
+        cb: cb
+      });
+
+      if (!_live) {
+        _live = true;
+        lastTm = Date.now(); // console.log("TL runner On");
+
+        setTimeout(Runner._tick, 16);
+      }
+    }
+    /**
+     * Return scrollable parent node list basing a dom node
+     * @param node
+     * @returns {T[]}
+     */
+    ;
 
     _proto.getScrollableNodes = function getScrollableNodes(node) {
-      var _this8 = this;
+      var _this9 = this;
 
       var scrollable = _utils_dom__WEBPACK_IMPORTED_MODULE_10__["default"].findReactParents(node),
           _ = this._;
       scrollable = _.rootRef && _.rootRef.current && _.rootRef.current.hookScrollableTargets && _.rootRef.current.hookScrollableTargets(scrollable) || scrollable;
       return scrollable.map(function (id) {
-        return is__WEBPACK_IMPORTED_MODULE_4___default.a.string(id) ? _this8._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_6___default.a.findDOMNode(_this8._.refs[id]) || _this8.refs[id] || document.getElementById(id) : id;
+        return is__WEBPACK_IMPORTED_MODULE_4___default.a.string(id) ? _this9._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_6___default.a.findDOMNode(_this9._.refs[id]) || _this9.refs[id] || document.getElementById(id) : id;
       });
-    };
+    }
+    /**
+     * Hook to know if the composed element allow scrolling
+     * @returns {boolean}
+     */
+    ;
 
     _proto.componentShouldScroll = function componentShouldScroll() {
       var _$rootRef$current;
@@ -33276,13 +33359,15 @@ function asTweener() {
       return _.rootRef && _.rootRef.current && _.rootRef.current.componentShouldScroll ? (_$rootRef$current = _.rootRef.current).componentShouldScroll.apply(_$rootRef$current, arguments) : true;
     }
     /**
-     * todo
+     * todo rewrite or use lib
+     * Init touch & scroll listeners
+     * Drive scroll & drag values updates
      * @private
      */
     ;
 
     _proto._registerScrollListeners = function _registerScrollListeners() {
-      var _this9 = this;
+      var _this10 = this;
 
       var _static = this.constructor,
           _ = this._;
@@ -33305,7 +33390,7 @@ function asTweener() {
             scrollLoad.y += e.deltaY;
             scrollLoad.x += e.deltaX;
             lastScrollEvt = e.originalEvent;
-            prevent = _this9._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5);
+            prevent = _this10._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5);
             scrollLoad.y = 0;
             scrollLoad.x = 0;
             debounceTm = 0;
@@ -33321,7 +33406,7 @@ function asTweener() {
             'dragstart': function dragstart(e, touch, descr) {
               //@todo
               var tweener, x, y, i, style;
-              parents = _this9.getScrollableNodes(e.target); //console.log("start")
+              parents = _this10.getScrollableNodes(e.target); //console.log("start")
 
               lastStartTm = Date.now();
               dX = 0;
@@ -33349,7 +33434,7 @@ function asTweener() {
                 }
               }
 
-              _this9._updateNodeInertia(); //e.stopPropagation();
+              _this10._updateNodeInertia(); //e.stopPropagation();
               //e.preventDefault();
 
             },
@@ -33515,17 +33600,23 @@ function asTweener() {
     } // ------------------------------------------------------------
     // --------------- Inertia & scroll modifiers -----------------
     // ------------------------------------------------------------
+
+    /**
+     * Retrieve updates from an axis inertia & apply them
+     * @param dim
+     * @param axe
+     */
     ;
 
     _proto.applyInertia = function applyInertia(dim, axe) {
-      var _this10 = this;
+      var _this11 = this;
 
       var x = dim.inertia.update(),
           _ = this._;
 
       this._.axes[axe].tweenAxis.forEach(function (sl) {
-        _this10._.axes[axe].targetPos = _this10._.axes[axe].scrollPos = x;
-        sl.goTo(x, _this10._.tweenRefMaps);
+        _this11._.axes[axe].targetPos = _this11._.axes[axe].scrollPos = x;
+        sl.goTo(x, _this11._.tweenRefMaps);
       }); //console.log("scroll at " + x, axe, dim.inertia.active || dim.inertia.holding);
       //this.scrollTo(x, 0, axe);
 
@@ -33539,7 +33630,12 @@ function asTweener() {
       } else {
         dim.inertiaFrame = null; //console.log("complete");
       }
-    };
+    }
+    /**
+     * Return true if at least 1 of this tweener axis have it's inertia active
+     * @returns {boolean}
+     */
+    ;
 
     _proto.isInertiaActive = function isInertiaActive() {
       //todo
@@ -33549,33 +33645,6 @@ function asTweener() {
         return active = active || _.axes[axe] && _.axes[axe].inertia.active;
       });
       return active;
-    };
-
-    _proto._activateNodeInertia = function _activateNodeInertia(node) {
-      var _ = this._,
-          i = _.activeInertia.findIndex(function (item) {
-        return item.target === node;
-      });
-
-      if (i === -1) {
-        _.activeInertia.push({
-          inertia: {
-            x: new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"]({
-              max: node.scrollWidth - node.offsetLeft,
-              value: node.scrollLeft
-            }),
-            y: new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"]({
-              max: node.scrollHeight - node.offsetHeight,
-              value: node.scrollTop
-            })
-          },
-          target: node
-        });
-
-        i = _.activeInertia.length - 1;
-      }
-
-      return _.activeInertia[i].inertia;
     };
 
     _proto.dispatchScroll = function dispatchScroll(delta, axe) {
@@ -33657,32 +33726,78 @@ function asTweener() {
       if (!dx && !dy) return true;
     };
 
-    _proto.applyTweenState = function applyTweenState(id, map, reset) {
-      var _this11 = this;
-
-      var tmap = {},
-          initials = {};
-      Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id]);
-      Object.keys(tmap).map(function (p) {
-        return _this11._.tweenRefMaps[id][p] = (!reset && _this11._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
+    _proto._activateNodeInertia = function _activateNodeInertia(node) {
+      var _ = this._,
+          i = _.activeInertia.findIndex(function (item) {
+        return item.target === node;
       });
+
+      if (i === -1) {
+        _.activeInertia.push({
+          inertia: {
+            x: new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"]({
+              max: node.scrollWidth - node.offsetLeft,
+              value: node.scrollLeft
+            }),
+            y: new _utils_inertia__WEBPACK_IMPORTED_MODULE_11__["default"]({
+              max: node.scrollHeight - node.offsetHeight,
+              value: node.scrollTop
+            })
+          },
+          target: node
+        });
+
+        i = _.activeInertia.length - 1;
+      }
+
+      return _.activeInertia[i].inertia;
     };
 
-    _proto.updateRefStyle = function updateRefStyle(target, style, postPone) {
+    // ------------------------------------------------------------
+    // --------------- Initialization & drawers -------------------
+    // ------------------------------------------------------------
+    _proto.makeTweenable = function makeTweenable() {
       var _this12 = this;
 
-      var _ = this._,
-          initials = {};
-      if (isArray(target) && isArray(style)) return target.map(function (m, i) {
-        return _this12.updateRefStyle(m, style[i], postPone);
-      });
-      if (isArray(target)) return target.map(function (m) {
-        return _this12.updateRefStyle(m, style, postPone);
-      });
-      if (!this._.tweenRefCSS) this.makeTweenable();
-      Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["deMuxTween"])(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target], true);
+      var _ = this._;
 
-      this._updateTweenRef(target);
+      if (!_.tweenEnabled) {
+        _.tweenRefCSS = {};
+        _.tweenRefs = {};
+        _.tweenRefMaps = {};
+        _.iMapOrigin = {};
+        _.tweenRefInitialData = {};
+        _.tweenEnabled = true;
+        _.tweenRefOrigin = {};
+        _.tweenRefOriginCss = {};
+        _.axes = {};
+        _.muxDataByTarget = _.muxDataByTarget || {};
+        _.tweenRefDemuxed = _.tweenRefDemuxed || {};
+        _.tweenRefTargets = _.tweenRefTargets || [];
+        _.runningAnims = _.runningAnims || [];
+        isBrowserSide && window.addEventListener("resize", this._.onResize = function (e) {
+          //@todo
+          _this12._updateBox();
+
+          _this12._updateTweenRefs();
+
+          _.rootRef && _.rootRef.current && _.rootRef.current.windowDidResize && _.rootRef.current.windowDidResize(e);
+        });
+      }
+    };
+
+    _proto.setRootRef = function setRootRef(id) {
+      this._.rootRef = id;
+    };
+
+    _proto.makeScrollable = function makeScrollable() {
+      if (!this._.scrollEnabled) {
+        this._.scrollEnabled = true;
+        this._.scrollHook = [];
+        this._.activeInertia = [];
+
+        this._registerScrollListeners();
+      }
     };
 
     _proto._updateBox = function _updateBox() {
@@ -33693,14 +33808,6 @@ function asTweener() {
         this._.box.x = node.offsetWidth;
         this._.box.y = node.offsetHeight;
       }
-    };
-
-    _proto.getTweenableRef = function getTweenableRef(id) {
-      return this._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_6___default.a.findDOMNode(this._.refs[id]);
-    };
-
-    _proto.getRootNode = function getRootNode() {
-      return this._.rootRef && this.getTweenableRef(this._.rootRef) || react_dom__WEBPACK_IMPORTED_MODULE_6___default.a.findDOMNode(this);
     };
 
     _proto._rafLoop = function _rafLoop() {
@@ -33729,7 +33836,10 @@ function asTweener() {
       node = this.getTweenableRef(target);
       node && Object.assign(node.style, this._.tweenRefCSS[target]);
       return this._.tweenRefCSS[target];
-    };
+    } // ------------------------------------------------------------
+    // --------------- React Hooks --------------------------------
+    // ------------------------------------------------------------
+    ;
 
     _proto.componentWillUnmount = function componentWillUnmount() {
       var node = this.getRootNode();
