@@ -46,7 +46,9 @@ body, html, #app {
   width: 100%;
   height: 100%;
   margin: 0;
-  overflow: auto !important;
+  position: fixed;
+  overflow: hidden;
+  //overflow: auto !important;
 }
 
 .sampleLst {
