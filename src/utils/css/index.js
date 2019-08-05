@@ -41,17 +41,6 @@ const cssDemux = {
 	paddingBottom  : number,
 	transformOrigin: multi(2),
 	zIndex         : int,
-	//rotate       : transforms,
-	//rotateX      : transforms,
-	//rotateY      : transforms,
-	//x            : transforms,
-	//y            : transforms,
-	//z            : transforms,
-	//_x           : transforms,
-	//_y           : transforms,
-	//_z           : transforms,
-	//blur         : transforms,
-	//perspective  : transforms
 };
 
 export function muxToCss( tweenable, css, demuxers, data, box ) {
@@ -109,7 +98,7 @@ export function deMuxLine( tweenLine, initials, data, demuxers ) {
 						apply: demuxedTween
 					});
 			}
-			else line.push({...tween});
+			else line.push({ ...tween });
 			return line
 		},
 		[]

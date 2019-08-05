@@ -30731,7 +30731,6 @@ var scrollY = [{
   from: 0,
   duration: 50,
   apply: {
-    //paddingTop: -130,
     transform: {
       translateY: "-130px"
     }
@@ -30749,7 +30748,7 @@ var scrollY = [{
   duration: 50,
   apply: {
     transform: {
-      translateZ: "100px"
+      scale: 1.1
     }
   }
 }, {
@@ -30762,20 +30761,15 @@ var scrollY = [{
     marginLeft: "110px"
   }
 }, {
-  type: "Tween",
   target: "body",
   from: 50,
   duration: 50,
-  //easeFn  : "easePolyOut",
   apply: {
-    //paddingTop   : -50,
-    //marginBottom: "50px",
     transform: {
       translateY: "-170px"
     }
   }
 }, {
-  type: "Tween",
   target: "footer",
   from: 50,
   duration: 50,
@@ -30786,7 +30780,6 @@ var scrollY = [{
     }
   }
 }, {
-  type: "Tween",
   target: "header",
   from: 50,
   duration: 50,
@@ -30794,7 +30787,6 @@ var scrollY = [{
     height: -50
   }
 }, {
-  type: "Tween",
   target: "logo",
   from: 50,
   duration: 50,
@@ -31682,13 +31674,12 @@ var _default = _exports;
 /*!**************************************************************!*\
   !*** ./src/MapOf.react_voodoo_utils_css_demux_____js.gen.js ***!
   \**************************************************************/
-/*! exports provided: $all, backgroundColor, filter, transform, default */
+/*! exports provided: backgroundColor, filter, transform, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "$all", function() { return $all; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "backgroundColor", function() { return backgroundColor; });
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "backgroundColor", function() { return backgroundColor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filter", function() { return filter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transform", function() { return transform; });
 (function () {
@@ -31720,7 +31711,6 @@ req.keys().forEach(function (key) {
 
   modExport[name[i]] = Object.keys(mod).length === 1 && mod.default || mod;
 });
-var $all = _exports.$all;
 var backgroundColor = _exports.backgroundColor;
 var filter = _exports.filter;
 var transform = _exports.transform;
@@ -31738,7 +31728,6 @@ var _default = _exports;
   reactHotLoader.register(req, "req", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_utils_css_demux_____js.gen.js");
   reactHotLoader.register(_exports, "_exports", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_utils_css_demux_____js.gen.js");
   reactHotLoader.register(root, "root", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_utils_css_demux_____js.gen.js");
-  reactHotLoader.register($all, "$all", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_utils_css_demux_____js.gen.js");
   reactHotLoader.register(backgroundColor, "backgroundColor", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_utils_css_demux_____js.gen.js");
   reactHotLoader.register(filter, "filter", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_utils_css_demux_____js.gen.js");
   reactHotLoader.register(transform, "transform", "G:\\n8tz\\libs\\react-voodoo\\src\\MapOf.react_voodoo_utils_css_demux_____js.gen.js");
@@ -32489,7 +32478,7 @@ function (_React$Component) {
 
     _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
     _this.state = {
-      current: "SimpleCatTest"
+      current: "SimpleHeaderTest"
     };
     return _this;
   }
@@ -34704,7 +34693,6 @@ function getProperty(property, expand) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./$all.js": "./src/utils/css/demux/$all.js",
 	"./backgroundColor.js": "./src/utils/css/demux/backgroundColor.js",
 	"./filter.js": "./src/utils/css/demux/filter.js",
 	"./transform.js": "./src/utils/css/demux/transform.js"
@@ -34729,145 +34717,6 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "./src/utils/css/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$";
-
-/***/ }),
-
-/***/ "./src/utils/css/demux/$all.js":
-/*!*************************************!*\
-  !*** ./src/utils/css/demux/$all.js ***!
-  \*************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
-/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
-(function () {
-  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
-  enterModule && enterModule(module);
-})();
-
-var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
-  return a;
-};
-
-/*
- *
- * Copyright (C) 2019 Nathanael Braun
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-
-var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
-    abs = Math.abs,
-    floatCut = function floatCut(v, l) {
-  var p = Math.pow(10, l);
-  return Math.round(v * p) / p;
-},
-    defaultUnits = {
-  left: 'px',
-  right: 'px',
-  top: 'px',
-  bottom: 'px',
-  width: 'px',
-  height: 'px'
-},
-    defaultValue = {
-  opacity: 1
-};
-
-function demux(key, tweenable, target, data, box) {
-  var value;
-  value = data[key + "_" + 0] || defaultUnits[key] ? floatCut(tweenable[key + "_" + 0], 2) + (data[key + "_" + 0] || defaultUnits[key]) : floatCut(tweenable[key + "_" + 0], 2);
-
-  if (data[key] && data[key].length > 1) {
-    for (var i = 1; i < data[key].length; i++) {
-      if (tweenable[key + "_" + i] < 0) value += " - " + abs(floatCut(tweenable[key + "_" + i], 2)) + (data[key + "_" + i] || defaultUnits[key]);else value += " + " + floatCut(tweenable[key + "_" + i], 2) + (data[key + "_" + i] || defaultUnits[key]);
-    }
-
-    value = "calc(" + value + ")";
-  }
-
-  target[key] = value;
-}
-
-var _default = function _default(key, value, target, data, initials, forceUnits) {
-  data[key] = data[key] || [];
-
-  if (is__WEBPACK_IMPORTED_MODULE_0___default.a.array(value)) {
-    for (var i = 0; i < value.length; i++) {
-      data[key][i] = true;
-      mux(key + "_" + i, key, value[i] || 0, target, data, initials, forceUnits);
-    }
-  } else {
-    data[key][0] = true;
-    mux(key + "_" + 0, key, value || 0, target, data, initials, forceUnits);
-  }
-
-  return demux;
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (_default);
-
-function mux(key, baseKey, value, target, data, initials, forceUnits) {
-  var match = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(value) ? value.match(unitsRe) : false;
-  initials[key] = is__WEBPACK_IMPORTED_MODULE_0___default.a.number(initials[key]) ? initials[key] : defaultValue[baseKey] || 0;
-
-  if (match) {
-    if (!forceUnits && data[key] && data[key] !== match[2]) {
-      console.warn("Have != units on prop ! Ignore ", key, "present:" + data[key], "new:" + match[2]);
-      target[key] = 0;
-    } else {
-      data[key] = match[2];
-      target[key] = parseFloat(match[1]);
-    }
-  } else {
-    target[key] = parseFloat(value); //if ( !data[key] && baseKey in defaultUnits )
-    //	data[key] = defaultUnits[baseKey];
-  }
-
-  return demux;
-}
-
-;
-
-(function () {
-  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).default;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\$all.js");
-  reactHotLoader.register(abs, "abs", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\$all.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\$all.js");
-  reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\$all.js");
-  reactHotLoader.register(defaultValue, "defaultValue", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\$all.js");
-  reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\$all.js");
-  reactHotLoader.register(mux, "mux", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\$all.js");
-  reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\$all.js");
-})();
-
-;
-
-(function () {
-  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).leaveModule;
-  leaveModule && leaveModule(module);
-})();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
@@ -35094,8 +34943,9 @@ var units = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 
   translateY: 'px',
   translateZ: 'px',
   scale: '',
-  //scaleX     : 'px',
-  //scaleY     : 'px',
+  scaleZ: '',
+  scaleX: '',
+  scaleY: '',
   rotate: 'deg',
   //skew       : 'deg',
   skewX: 'deg',
@@ -35103,7 +34953,6 @@ var units = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 
   //matrix3d   : true,
   //translate3d: true,
   //scale3d    : true,
-  scaleZ: 'px',
   //rotate3d   : true,
   rotateX: 'deg',
   rotateY: 'deg',
@@ -35123,6 +34972,15 @@ var units = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 
   bottom: 'y',
   width: 'x',
   height: 'y'
+},
+    defaultValue = {
+  //skew  : 1,
+  //skewX : 1,
+  //skewY : 1,
+  scale: 1,
+  scaleX: 1,
+  scaleY: 1,
+  scaleZ: 1
 };
 
 function demuxOne(key, dkey, twVal, baseKey, data, box) {
@@ -35184,12 +35042,13 @@ function demux(key, tweenable, target, data, box) {
   }
 }
 
-function muxOne(key, value, target, data, initials, forceUnits) {
+function muxOne(key, baseKey, value, target, data, initials, forceUnits) {
   var match = is__WEBPACK_IMPORTED_MODULE_1___default.a.string(value) ? value.match(unitsRe) : false,
       unit = match && match[2] || defaultUnits[key],
       unitKey = units.indexOf(unit),
       realKey = unitKey !== -1 && key + '_' + unitKey || key;
-  initials[realKey] = 0;
+  console.log(baseKey);
+  initials[realKey] = defaultValue[baseKey] || 0;
   data[key][realKey] = unit;
 
   if (match) {
@@ -35209,22 +35068,19 @@ var _default = function _default(key, value, target, data, initials, forceUnits,
   initials[key] = 0;
   if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(value)) value = [value];
   value.forEach(function (tmap, i) {
-    var baseData = {}; //data[key][i]       = forceUnits ? {} : data[key][i] || {};
-
+    var baseData = {};
     tmap && Object.keys(tmap).forEach(function (fkey) {
       var fValue = tmap[fkey],
-          dkey = key + '_' + fkey + '_' + i; //match  = is.string(fValue) ? fValue.match(unitsRe) : false;
-      //number(dkey, fValue, target, data, initials, forceUnits)
-
+          dkey = key + '_' + fkey + '_' + i;
       baseData[fkey] = true;
       data[dkey] = data[dkey] || {};
 
       if (is__WEBPACK_IMPORTED_MODULE_1___default.a.array(fValue)) {
         for (var u = 0; u < fValue.length; u++) {
-          muxOne(dkey, fValue[u] || 0, target, data, initials, forceUnits);
+          muxOne(dkey, fkey, fValue[u] || 0, target, data, initials, forceUnits);
         }
       } else {
-        muxOne(dkey, fValue || 0, target, data, initials, forceUnits);
+        muxOne(dkey, fkey, fValue || 0, target, data, initials, forceUnits);
       }
     });
     data[key][i] = forceUnits ? _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, baseData, {}, data[key][i] || {}) : _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, data[key][i] || {}, {}, baseData);
@@ -35247,6 +35103,7 @@ var _default = function _default(key, value, target, data, initials, forceUnits,
   reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\transform.js");
   reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\transform.js");
   reactHotLoader.register(defaultBox, "defaultBox", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\transform.js");
+  reactHotLoader.register(defaultValue, "defaultValue", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\transform.js");
   reactHotLoader.register(demuxOne, "demuxOne", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\transform.js");
   reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\transform.js");
   reactHotLoader.register(muxOne, "muxOne", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\transform.js");
@@ -35388,9 +35245,7 @@ var _default = function _default(key, value, target, data, initials) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "./node_modules/is/index.js");
-/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
-(function () {
+/* WEBPACK VAR INJECTION */(function(module) {(function () {
   var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js")).enterModule;
   enterModule && enterModule(module);
 })();
@@ -35416,51 +35271,16 @@ var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoader
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
-var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")"),
-    floatCut = function floatCut(v, l) {
-  var p = Math.pow(10, l);
-  return Math.round(v * p) / p;
-},
-    defaultUnits = {
-  left: 'px',
-  right: 'px',
-  top: 'px',
-  bottom: 'px',
-  width: 'px',
-  height: 'px'
-};
+var defaultUnits = {};
 
 function demux(key, tweenable, target, data, box) {
-  target[key] = ~~(data[key] ? tweenable[key] + data[key] : tweenable[key]);
+  target[key] = ~~tweenable[key];
 }
 
 var _default = function _default(key, value, target, data, initials, forceUnits) {
-  //if ( cssAnimProps.canAnimate(key) ) {
-  var match = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(value) ? value.match(unitsRe) : false; //let how = cssAnimProps.getProperty(key);
-  //console.log(how);
-
   initials[key] = 0;
-
-  if (match) {
-    if (!forceUnits && data[key] && data[key] !== match[2]) {
-      console.warn("Have != units on prop ! Ignore ", key, "present:" + data[key], "new:" + match[2]);
-      target[key] = 0;
-    } else {
-      data[key] = match[2];
-      target[key] = ~~match[1];
-    }
-  } else {
-    target[key] = ~~value;
-    if (!data[key] && key in defaultUnits) data[key] = defaultUnits[key];
-  } //}
-  //else {
-  //	// just do nothing
-  //	//data[key]=
-  //}
-
-
+  target[key] = ~~value;
+  if (!data[key] && key in defaultUnits) data[key] = defaultUnits[key];
   return demux;
 };
 
@@ -35474,8 +35294,6 @@ var _default = function _default(key, value, target, data, initials, forceUnits)
     return;
   }
 
-  reactHotLoader.register(unitsRe, "unitsRe", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\typed\\int.js");
-  reactHotLoader.register(floatCut, "floatCut", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\typed\\int.js");
   reactHotLoader.register(defaultUnits, "defaultUnits", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\typed\\int.js");
   reactHotLoader.register(demux, "demux", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\typed\\int.js");
   reactHotLoader.register(_default, "default", "G:\\n8tz\\libs\\react-voodoo\\src\\utils\\css\\demux\\typed\\int.js");
@@ -35657,33 +35475,9 @@ var units = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 
   bottom: 'px',
   width: 'px',
   height: 'px',
-  translateX: 'px',
-  translateY: 'px',
-  translateZ: 'px',
-  scale: '',
-  //scaleX     : 'px',
-  //scaleY     : 'px',
-  rotate: 'deg',
-  //skew       : 'deg',
-  skewX: 'deg',
-  skewY: 'deg',
-  //matrix3d   : true,
-  //translate3d: true,
-  //scale3d    : true,
-  scaleZ: 'px',
-  //rotate3d   : true,
-  rotateX: 'deg',
-  rotateY: 'deg',
-  rotateZ: 'deg',
   perspective: 'px'
 },
     defaultBox = {
-  translateX: 'x',
-  translateY: 'y',
-  translateZ: 'z',
-  rotateX: 'x',
-  rotateY: 'y',
-  rotateZ: 'z',
   left: 'x',
   right: 'x',
   top: 'y',
@@ -35717,8 +35511,7 @@ function demuxOne(key, twVal, baseKey, data, box) {
   if (unit === 'bz') {
     value = value * box.z;
     unit = 'px';
-  } //if ( Math.abs(value) < .0001 && value !== 0 )
-
+  }
 
   return unit ? floatCut(value) + unit : floatCut(value);
 }
@@ -35872,18 +35665,7 @@ var cssDemux = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___defau
   paddingRight: _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["number"],
   paddingBottom: _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["number"],
   transformOrigin: Object(_demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["multi"])(2),
-  zIndex: _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["int"] //rotate       : transforms,
-  //rotateX      : transforms,
-  //rotateY      : transforms,
-  //x            : transforms,
-  //y            : transforms,
-  //z            : transforms,
-  //_x           : transforms,
-  //_y           : transforms,
-  //_z           : transforms,
-  //blur         : transforms,
-  //perspective  : transforms
-
+  zIndex: _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["int"]
 });
 
 function muxToCss(tweenable, css, demuxers, data, box) {

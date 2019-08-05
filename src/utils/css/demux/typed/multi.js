@@ -21,7 +21,6 @@ import number from "./number";
 
 const
 	floatCut = ( v = 0 ) => v.toFixed(3),
-	
 	alias    = {
 		top   : '0%',
 		bottom: '100%',

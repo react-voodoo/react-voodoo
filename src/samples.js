@@ -24,7 +24,7 @@ import "./.samples/samples.scss";
 
 class App extends React.Component {
 	state = {
-		current: "SimpleCatTest"
+		current: "SimpleHeaderTest"
 	};
 	
 	render() {

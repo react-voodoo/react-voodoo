@@ -19,8 +19,8 @@
 import is from "is";
 
 const
-	units        = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
-	unitsRe      = new RegExp(
+	units           = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
+	unitsRe         = new RegExp(
 		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
 		['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
 		+ ")"
@@ -33,39 +33,15 @@ const
 		bottom     : 'px',
 		width      : 'px',
 		height     : 'px',
-		translateX : 'px',
-		translateY : 'px',
-		translateZ : 'px',
-		scale      : '',
-		//scaleX     : 'px',
-		//scaleY     : 'px',
-		rotate     : 'deg',
-		//skew       : 'deg',
-		skewX      : 'deg',
-		skewY      : 'deg',
-		//matrix3d   : true,
-		//translate3d: true,
-		//scale3d    : true,
-		scaleZ     : 'px',
-		//rotate3d   : true,
-		rotateX    : 'deg',
-		rotateY    : 'deg',
-		rotateZ    : 'deg',
 		perspective: 'px',
 	},
 	defaultBox      = {
-		translateX: 'x',
-		translateY: 'y',
-		translateZ: 'z',
-		rotateX   : 'x',
-		rotateY   : 'y',
-		rotateZ   : 'z',
-		left      : 'x',
-		right     : 'x',
-		top       : 'y',
-		bottom    : 'y',
-		width     : 'x',
-		height    : 'y',
+		left  : 'x',
+		right : 'x',
+		top   : 'y',
+		bottom: 'y',
+		width : 'x',
+		height: 'y',
 	}, defaultValue = {
 		opacity: 1
 	};
@@ -91,7 +67,6 @@ function demuxOne( key, twVal, baseKey, data, box ) {
 		value = value * box.z;
 		unit  = 'px';
 	}
-	//if ( Math.abs(value) < .0001 && value !== 0 )
 	return unit ? floatCut(value) + unit : floatCut(value);
 }
 
