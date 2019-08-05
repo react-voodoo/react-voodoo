@@ -24,7 +24,7 @@
     "tween-axis": "^1.2.4"
   },
   "devDependencies": {
-    "wi-layer-react-express": "^1.0.0",
-    "webpack-inherit": "^1.6.7"
+    "wi-layer-react-express": "^1.0.4",
+    "webpack-inherit": "^1.6.10"
   }
 }
