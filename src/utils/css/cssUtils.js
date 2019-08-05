@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var props = {
+const props = {
 	"margin"                     : { "properties": ["marginTop", "marginRight", "marginBottom", "marginLeft"] },
 	"marginBottom"               : { "types": ["length"] },
 	"marginLeft"                 : { "types": ["length"] },
@@ -206,6 +206,15 @@ var props = {
 //	},
 //};
 //
+
+export const units    = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'];
+export const unitsRe  = new RegExp(
+	"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
+	['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
+	+ ")"
+);
+export const floatCut = ( v = 0 ) => v.toFixed(3);
+
 export function expandShorthandProperty( property, value, target = {} ) {
 	let type       = props[property],
 	    childProps = type && type.properties,

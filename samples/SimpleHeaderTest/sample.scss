@@ -16,25 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@mixin use_hvCenteredContent() {
-
-  &:before {
-    content: ' ';
-    display: inline-block;
-    height: 100%;
-    width: 1px;
-    margin-right: -1px;
-    vertical-align: middle;
-    overflow: hidden;
-  }
-  text-align: center;
-  > * {
-    text-align: left;
-    vertical-align: middle;
-    display: inline-block;
-  }
-}
-
 
 .sample {
   perspective: 200px;
@@ -75,10 +56,16 @@
     }
 
     .headerBackgroundContainer {
-      transform: translateZ(0);// required for ios..
+      @include use_hvCenteredContent();
+      transform: translateZ(0); // required for ios..
       overflow: hidden;
+      position: relative;
+      height: 100%;
+      width: 100%;
 
       .headerBackground {
+        height: 100%;
+        width: 100%;
         transform-origin: center;
         background: url(https://source.unsplash.com/600x400/?sky);
         background-position: center;
@@ -88,12 +75,18 @@
   }
 
   footer {
-    background: red;
     position: fixed;
     width: calc(100% - 17px);
+    background: url(https://source.unsplash.com/600x400/?forest);
+    background-position: center;
     @media (hover: none) {
       /* ... */
       width: 100%;
+    }
+    @supports (-webkit-overflow-scrolling: touch) {
+      /* CSS specific to iOS devices */
+      width: calc(100% - 200px);
+      left: 200px;
     }
   }
 

@@ -16,18 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import is from "is";
+import is                  from "is";
+import {floatCut, unitsRe} from "../cssUtils";
 
 const
-	unitsRe      = new RegExp(
-		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
-		['em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
-		+ ")"
-	),
-	floatCut     = function ( v, l ) {
-		var p = Math.pow(10, l);
-		return Math.round(v * p) / p;
-	},
 	defaultUnits = {
 		blur      : 'px',
 		brightness: '%',

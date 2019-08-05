@@ -16,8 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const
-	defaultUnits = {};
+const defaultUnits = {};
 
 function demux( key, tweenable, target, data, box ) {
 	target[key] = ~~(tweenable[key]);

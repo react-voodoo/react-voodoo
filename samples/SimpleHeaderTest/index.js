@@ -22,7 +22,6 @@ import {asTweener, TweenAxis, TweenRef} from "react-voodoo";
 
 
 import {initialFooter, initialPage, pushIn, scrollY} from "./etc/anims";
-import "./sample.scss";
 
 
 class Header extends React.Component {

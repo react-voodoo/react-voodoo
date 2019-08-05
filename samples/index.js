@@ -17,9 +17,9 @@
  */
 import React    from "react";
 import ReactDom from "react-dom";
-import Samples  from "react-voodoo/.samples/(*)/index.js"
+import Samples  from "./(*)/index.js"
 
-import "./.samples/samples.scss";
+import "./samples.scss";
 
 
 class App extends React.Component {
@@ -29,32 +29,16 @@ class App extends React.Component {
 	
 	render() {
 		let Comp = Samples[this.state.current];
-		return <div className={"app"} style={{
-			width : "100%",
-			height: "100%"
-		}}>
+		return <div className={"app"}>
 			
-			<div className={"sampleLst"} style={{
-				position: "absolute",
-				top     : "0px",
-				left    : "0px",
-				width   : "200px",
-				height  : "100%"
-			}}>
+			<div className={"sampleLst"}>
 				{
 					Object.keys(Samples).map(
 						key => <div onClick={e => this.setState({ current: key })} key={key}>{key}</div>
 					)
 				}
 			</div>
-			<div className={"sample"} style={{
-				overflow: "hidden",
-				position: "absolute",
-				top     : "0px",
-				left    : "200px",
-				width   : "calc( 100% - 200px )",
-				height  : "100%"
-			}}>
+			<div className={"sample"}>
 				<Comp/>
 			</div>
 		</div>
@@ -62,8 +46,6 @@ class App extends React.Component {
 }
 
 function renderSamples() {
-	
-	
 	ReactDom.render(
 		<App/>
 		, document.getElementById('app'));

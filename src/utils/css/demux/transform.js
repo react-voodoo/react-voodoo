@@ -16,61 +16,54 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import is from "is";
+import is                         from "is";
+import {floatCut, units, unitsRe} from "../cssUtils";
 
-const
-	units           = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
-	unitsRe         = new RegExp(
-		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
-		['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
-		+ ")"
-	),
-	floatCut        = ( v = 0 ) => v.toFixed(3),
-	defaultUnits    = {
-		//matrix     : true,
-		//translate  : 'px',
-		translateX : 'px',
-		translateY : 'px',
-		translateZ : 'px',
-		scale      : '',
-		scaleZ     : '',
-		scaleX     : '',
-		scaleY     : '',
-		rotate     : 'deg',
-		//skew       : 'deg',
-		skewX      : 'deg',
-		skewY      : 'deg',
-		//matrix3d   : true,
-		//translate3d: true,
-		//scale3d    : true,
-		//rotate3d   : true,
-		rotateX    : 'deg',
-		rotateY    : 'deg',
-		rotateZ    : 'deg',
-		perspective: 'px',
-	},
-	defaultBox      = {
-		translateX: 'x',
-		translateY: 'y',
-		translateZ: 'z',
-		rotateX   : 'x',
-		rotateY   : 'y',
-		rotateZ   : 'z',
-		left      : 'x',
-		right     : 'x',
-		top       : 'y',
-		bottom    : 'y',
-		width     : 'x',
-		height    : 'y',
-	}, defaultValue = {
-		//skew  : 1,
-		//skewX : 1,
-		//skewY : 1,
-		scale : 1,
-		scaleX: 1,
-		scaleY: 1,
-		scaleZ: 1
-	};
+const defaultUnits    = {
+	      //matrix     : true,
+	      //translate  : 'px',
+	      translateX : 'px',
+	      translateY : 'px',
+	      translateZ : 'px',
+	      scale      : '',
+	      scaleZ     : '',
+	      scaleX     : '',
+	      scaleY     : '',
+	      rotate     : 'deg',
+	      //skew       : 'deg',
+	      skewX      : 'deg',
+	      skewY      : 'deg',
+	      //matrix3d   : true,
+	      //translate3d: true,
+	      //scale3d    : true,
+	      //rotate3d   : true,
+	      rotateX    : 'deg',
+	      rotateY    : 'deg',
+	      rotateZ    : 'deg',
+	      perspective: 'px',
+      },
+      defaultBox      = {
+	      translateX: 'x',
+	      translateY: 'y',
+	      translateZ: 'z',
+	      rotateX   : 'x',
+	      rotateY   : 'y',
+	      rotateZ   : 'z',
+	      left      : 'x',
+	      right     : 'x',
+	      top       : 'y',
+	      bottom    : 'y',
+	      width     : 'x',
+	      height    : 'y',
+      }, defaultValue = {
+	      //skew  : 1,
+	      //skewX : 1,
+	      //skewY : 1,
+	      scale : 1,
+	      scaleX: 1,
+	      scaleY: 1,
+	      scaleZ: 1
+      };
 
 function demuxOne( key, dkey, twVal, baseKey, data, box ) {
 	let value = twVal,

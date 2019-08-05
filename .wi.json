@@ -41,12 +41,17 @@
     ]
   },
   "samples": {
-    "rootFolder": "src",
-    "basedOn": "defaultSamples",
+    "rootFolder": "samples",
+    "basedOn": "static",
     "vars": {
-      "targetDir": "samples",
-      "rootAlias": "react-voodoo",
-      "indexTpl": "./src/.samples/index.html",
+      "rootAlias": "Samples",
+      "targetDir": "dist.samples",
+      "indexTpl": "./samples/index.html",
+      "externals": "react\\-voodoo",
+      "template": "samples/index.html",
+      "HtmlWebpackPlugin": {
+        "template": "samples/index.html"
+      },
       "babelPreset": {
         "targets": {
           "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"

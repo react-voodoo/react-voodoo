@@ -20,7 +20,6 @@ import debounce from "debounce";
 import React    from "react";
 import anims    from "./anims/(*)/anims.js";
 import Slider   from "./etc/Slider";
-import "./sample.scss";
 
 export default class ResponsiveSlidable extends React.Component {
 	state = {

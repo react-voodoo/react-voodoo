@@ -16,35 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import is from "is";
+import is                         from "is";
+import {floatCut, units, unitsRe} from "../../cssUtils";
 
-const
-	units           = ['box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'],
-	unitsRe         = new RegExp(
-		"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
-		['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
-		+ ")"
-	),
-	floatCut        = ( v = 0 ) => v.toFixed(3),
-	defaultUnits    = {
-		left       : 'px',
-		right      : 'px',
-		top        : 'px',
-		bottom     : 'px',
-		width      : 'px',
-		height     : 'px',
-		perspective: 'px',
-	},
-	defaultBox      = {
-		left  : 'x',
-		right : 'x',
-		top   : 'y',
-		bottom: 'y',
-		width : 'x',
-		height: 'y',
-	}, defaultValue = {
-		opacity: 1
-	};
+const defaultUnits    = {
+	      left       : 'px',
+	      right      : 'px',
+	      top        : 'px',
+	      bottom     : 'px',
+	      width      : 'px',
+	      height     : 'px',
+	      perspective: 'px',
+      },
+      defaultBox      = {
+	      left  : 'x',
+	      right : 'x',
+	      top   : 'y',
+	      bottom: 'y',
+	      width : 'x',
+	      height: 'y',
+      }, defaultValue = {
+	      opacity: 1
+      };
 
 function demuxOne( key, twVal, baseKey, data, box ) {
 	let value = twVal,

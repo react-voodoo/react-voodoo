@@ -18,7 +18,6 @@
 
 import React                 from "react";
 import {asTweener, TweenRef} from "react-voodoo";
-import "./sample.scss";
 
 
 const theCatStyle   = {

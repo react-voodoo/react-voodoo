@@ -19,26 +19,24 @@
 import React                                        from "react";
 import {asTweener, TweenAxis, TweenRef, tweenTools} from "react-voodoo";
 import {pushIn, tweenAxis}                          from "./anims";
-import "./sample.scss";
 
 
 const testItemStyle = {
 	position       : "absolute",
 	display        : "inline-block",
-	width          : "15em",
-	height         : "15em",
+	width          : "6vh",
+	height         : "6vh",
 	cursor         : "pointer",
 	backgroundColor: "red",
 	overflow       : "hidden",
-	margin         : "-7.5em 0 0 -7.5em",
 	top            : ".1box",
 	left           : ".1box",
 	transformOrigin: "50% 50%",
 	
 	transform: {
 		translateZ: "0box",
-		translateX: ".8box",
-		translateY: ".8box",
+		translateX: ["-50%", ".8box"],
+		translateY: ["-50%", ".8box"],
 	}
 };
 
