@@ -30550,7 +30550,7 @@ function (_React$Component) {
         width: "100%",
         height: "100%"
       }
-    }, "hello ! ", this.state.count, " concurent anims ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["TweenRef"], {
+    }, "hello ! ", this.state.count, " concurent anims ( click somewhere ) ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["TweenRef"], {
       id: "theMouse",
       initial: theMouseStyle
     }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -31348,10 +31348,7 @@ var testItemStyle = {
   transform: {
     translateZ: "0box",
     translateX: ".8box",
-    translateY: ".8box" //rotateX   : -30,
-    //rotateY   : 30,
-    //rotateY: 180,
-
+    translateY: ".8box"
   }
 };
 var Sample = (_dec = Object(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["asTweener"])({

@@ -39,10 +39,6 @@ const testItemStyle = {
 		translateZ: "0box",
 		translateX: ".8box",
 		translateY: ".8box",
-		//rotateX   : -30,
-		//rotateY   : 30,
-		
-		//rotateY: 180,
 	}
 };
 

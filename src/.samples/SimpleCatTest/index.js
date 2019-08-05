@@ -135,7 +135,7 @@ export default class Sample extends React.Component {
 			            width : "100%",
 			            height: "100%"
 		            }}>
-			hello ! {this.state.count} concurent anims <br/>
+			hello ! {this.state.count} concurent anims ( click somewhere ) <br/>
 			<TweenRef
 				id={"theMouse"}
 				initial={theMouseStyle}
