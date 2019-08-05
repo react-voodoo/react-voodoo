@@ -34,6 +34,7 @@
     display: inline-block;
   }
 }
+
 @mixin use_hvCenteredAbs() {
   position: absolute;
   top: 50%;
@@ -45,8 +46,9 @@ body, html, #app {
   width: 100%;
   height: 100%;
   margin: 0;
-  //user-select: none;
+  overflow: auto !important;
 }
+
 .sampleLst {
   overflow: auto;
 
