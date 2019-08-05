@@ -140,8 +140,6 @@ function muxOne( key, baseKey, value, target, data, initials, forceUnits ) {
 	    unitKey = units.indexOf(unit),
 	    realKey = unitKey !== -1 && (key + '_' + unitKey) || key;
 	
-	
-	console.log(baseKey);
 	initials[realKey] = defaultValue[baseKey] || 0;
 	
 	data[key][realKey] = unit;
