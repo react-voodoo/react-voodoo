@@ -122,11 +122,11 @@ export const tweenAxis = {
 			}
 		},
 		
-		...tweenTools.scale(goDown("rotateY", -4), 200, 0),
-		...tweenTools.scale(goDown("rotateY", -4), 50, 0),
-		...tweenTools.scale(goDown("rotateY", -4), 50, 50),
-		...tweenTools.scale(goDown("rotateY", -4), 50, 100),
-		...tweenTools.scale(goDown("rotateY", -4), 50, 150),
+		...tweenTools.scale(goDown("rotateY", -3), 200, 0),
+		//...tweenTools.scale(goDown("rotateY", -4), 50, 0),
+		//...tweenTools.scale(goDown("rotateY", -4), 50, 50),
+		//...tweenTools.scale(goDown("rotateY", -4), 50, 100),
+		//...tweenTools.scale(goDown("rotateY", -4), 50, 150),
 	],
 	scrollY: [
 		{
@@ -138,10 +138,10 @@ export const tweenAxis = {
 				},
 			}
 		},
-		...tweenTools.scale(goDown("rotateX", 4), 200, 0),
-		...tweenTools.scale(goDown("rotateX", 4), 50, 0),
-		...tweenTools.scale(goDown("rotateX", 4), 50, 50),
-		...tweenTools.scale(goDown("rotateX", 4), 50, 100),
-		...tweenTools.scale(goDown("rotateX", 4), 50, 150),
+		...tweenTools.scale(goDown("rotateX", 3), 200, 0),
+		//...tweenTools.scale(goDown("rotateX", 4), 50, 0),
+		//...tweenTools.scale(goDown("rotateX", 4), 50, 50),
+		//...tweenTools.scale(goDown("rotateX", 4), 50, 100),
+		//...tweenTools.scale(goDown("rotateX", 4), 50, 150),
 	]
 };

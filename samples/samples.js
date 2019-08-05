@@ -31238,7 +31238,7 @@ var tweenAxis = {
         translateX: "-.8box"
       }
     }
-  }].concat(react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateY", -4), 200, 0), react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateY", -4), 50, 0), react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateY", -4), 50, 50), react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateY", -4), 50, 100), react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateY", -4), 50, 150)),
+  }].concat(react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateY", -3), 200, 0)),
   scrollY: [{
     from: 0,
     duration: 200,
@@ -31247,7 +31247,7 @@ var tweenAxis = {
         translateY: "-.8box"
       }
     }
-  }].concat(react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateX", 4), 200, 0), react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateX", 4), 50, 0), react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateX", 4), 50, 50), react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateX", 4), 50, 100), react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateX", 4), 50, 150))
+  }].concat(react_voodoo__WEBPACK_IMPORTED_MODULE_0__["tweenTools"].scale(goDown("rotateX", 3), 200, 0))
 };
 ;
 
@@ -32478,7 +32478,7 @@ function (_React$Component) {
 
     _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
     _this.state = {
-      current: "SimpleHeaderTest"
+      current: "SimpleCatTest"
     };
     return _this;
   }
