@@ -52,18 +52,39 @@
   position: relative;
   width: 100%;
   height: 100%;
-  //touch-action: none;
   //tr
   header {
     background: green;
     position: fixed;
     width: calc(100% - 17px);
+    overflow: hidden;
+    z-index: 10;
     @media (hover: none) {
       /* ... */
       width: 100%;
     }
     top: 0px;
     left: 0px;
+
+    transform-origin: center;
+
+    @supports (-webkit-overflow-scrolling: touch) {
+      /* CSS specific to iOS devices */
+      width: calc(100% - 200px);
+      left: 200px;
+    }
+
+    .headerBackgroundContainer {
+      transform: translateZ(0);// required for ios..
+      overflow: hidden;
+
+      .headerBackground {
+        transform-origin: center;
+        background: url(https://source.unsplash.com/600x400/?sky);
+        background-position: center;
+      }
+
+    }
   }
 
   footer {
@@ -94,7 +115,7 @@
     vertical-align: middle;
     width: 200px;
     height: 100px;
-    margin-left: -100px;
+    //margin-left: -100px;
     background: url("https://source.unsplash.com/600x400/?logo") no-repeat center center;
     background-size: cover;
     border: 1px solid gray;

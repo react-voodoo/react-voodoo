@@ -101,6 +101,14 @@ export const scrollY = [
 		}
 	},
 	{
+		target  : "headerBackground",
+		from    : 0,
+		duration: 50,
+		apply   : {
+			transform: { translateZ: "100px" }
+		}
+	},
+	{
 		target  : "logo",
 		from    : 0,
 		duration: 50,

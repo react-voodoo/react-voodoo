@@ -10,6 +10,8 @@
     "build": "wpi && wpi :samples",
     "live": "wpi :staging -w",
     "dev": "wpi-dev-server :samples --hot",
+    "devSamples": "wpi :samples -w",
+    "startSamples": "ws -d ./samples -p 8080",
     "runBrowser": "start http://localhost:9501"
   },
   "peerDependencies": {
@@ -24,7 +26,8 @@
     "tween-axis": "^1.2.4"
   },
   "devDependencies": {
-    "wi-layer-react-express": "^1.0.4",
-    "webpack-inherit": "^1.6.10"
+    "local-web-server": "^3.0.7",
+    "webpack-inherit": "^1.6.10",
+    "wi-layer-react-express": "^1.0.4"
   }
 }

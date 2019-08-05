@@ -29,11 +29,21 @@ class Header extends React.Component {
 	render() {
 		return <TweenRef
 			id={"header"}
-			initial={{ height: "250px", transform: { translateZ: "0px" } }}
+			initial={{ height: "250px" }}
 		>
-			<header style={{
-				perspectiveOrigin: "50% 50%", zIndex: 10
-			}}>
+			<header>
+				<div className={"headerBackgroundContainer"}>
+					<TweenRef
+						id={"headerBackground"}
+						initial={{
+							left     : "0%",
+							bottom   : "0px",
+							height   : "250px",
+							transform: { perspective: "200px" }
+						}}>
+						<div className={"headerBackground"}></div>
+					</TweenRef>
+				</div>
 				<TweenRef
 					id={"logo"}
 					initial={{
@@ -74,7 +84,7 @@ export default class Sample extends React.Component {
 		currentHeaderMode: "top"
 	};
 	
-	hookScrollableTargets( ) {
+	hookScrollableTargets() {
 		return [this.props.tweener, ReactDom.findDOMNode(this)];
 	}
 	

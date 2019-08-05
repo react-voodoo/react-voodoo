@@ -954,7 +954,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.sample {\n  -webkit-perspective: 200px;\n          perspective: 200px; }\n\n.SimpleHeader {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  background: #3b55a0;\n  overflow-x: hidden;\n  overflow-y: auto;\n  position: relative;\n  width: 100%;\n  height: 100%; }\n  .SimpleHeader header {\n    background: green;\n    position: fixed;\n    width: calc(100% - 17px);\n    top: 0px;\n    left: 0px; }\n    @media (hover: none) {\n      .SimpleHeader header {\n        /* ... */\n        width: 100%; } }\n  .SimpleHeader footer {\n    background: red;\n    position: fixed;\n    width: calc(100% - 17px); }\n    @media (hover: none) {\n      .SimpleHeader footer {\n        /* ... */\n        width: 100%; } }\n  .SimpleHeader .content {\n    padding: 10px;\n    text-align: left;\n    width: 700px;\n    display: inline-block; }\n  .SimpleHeader .logo {\n    text-align: center;\n    -webkit-perspective: 200px;\n            perspective: 200px;\n    position: absolute;\n    bottom: 20px;\n    line-height: 1em;\n    vertical-align: middle;\n    width: 200px;\n    height: 100px;\n    margin-left: -100px;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover;\n    border: 1px solid gray;\n    border-radius: 5px;\n    display: inline-block;\n    cursor: pointer; }\n    .SimpleHeader .logo:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleHeader .logo > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n    .SimpleHeader .logo span {\n      background: white;\n      border-radius: 5px;\n      padding: 5px; }\n", ""]);
+exports.push([module.i, "/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.sample {\n  -webkit-perspective: 200px;\n          perspective: 200px; }\n\n.SimpleHeader {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  background: #3b55a0;\n  overflow-x: hidden;\n  overflow-y: auto;\n  position: relative;\n  width: 100%;\n  height: 100%; }\n  .SimpleHeader header {\n    background: green;\n    position: fixed;\n    width: calc(100% - 17px);\n    overflow: hidden;\n    z-index: 10;\n    top: 0px;\n    left: 0px;\n    -webkit-transform-origin: center;\n        -ms-transform-origin: center;\n            transform-origin: center; }\n    @media (hover: none) {\n      .SimpleHeader header {\n        /* ... */\n        width: 100%; } }\n    @supports (-webkit-overflow-scrolling: touch) {\n      .SimpleHeader header {\n        /* CSS specific to iOS devices */\n        width: calc(100% - 200px);\n        left: 200px; } }\n    .SimpleHeader header .headerBackgroundContainer {\n      -webkit-transform: translateZ(0);\n              transform: translateZ(0);\n      overflow: hidden; }\n      .SimpleHeader header .headerBackgroundContainer .headerBackground {\n        -webkit-transform-origin: center;\n            -ms-transform-origin: center;\n                transform-origin: center;\n        background: url(https://source.unsplash.com/600x400/?sky);\n        background-position: center; }\n  .SimpleHeader footer {\n    background: red;\n    position: fixed;\n    width: calc(100% - 17px); }\n    @media (hover: none) {\n      .SimpleHeader footer {\n        /* ... */\n        width: 100%; } }\n  .SimpleHeader .content {\n    padding: 10px;\n    text-align: left;\n    width: 700px;\n    display: inline-block; }\n  .SimpleHeader .logo {\n    text-align: center;\n    -webkit-perspective: 200px;\n            perspective: 200px;\n    position: absolute;\n    bottom: 20px;\n    line-height: 1em;\n    vertical-align: middle;\n    width: 200px;\n    height: 100px;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover;\n    border: 1px solid gray;\n    border-radius: 5px;\n    display: inline-block;\n    cursor: pointer; }\n    .SimpleHeader .logo:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleHeader .logo > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n    .SimpleHeader .logo span {\n      background: white;\n      border-radius: 5px;\n      padding: 5px; }\n", ""]);
 
 // exports
 
@@ -992,7 +992,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\nbody, html, #app {\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  position: fixed;\n  overflow: hidden;\n  background: rgba(31, 226, 123, 0.45); }\n\n.sampleLst {\n  overflow: auto; }\n  .sampleLst > div {\n    color: white;\n    background: #2e91d1;\n    display: inline-block;\n    text-align: center;\n    margin: 5px 10px;\n    line-height: 40px;\n    width: calc(100% - 20px);\n    height: 40px;\n    cursor: pointer; }\n    .sampleLst > div:hover {\n      background: #206491; }\n", ""]);
+exports.push([module.i, "/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\nbody, html, #app {\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  position: fixed;\n  overflow: hidden; }\n\n.sampleLst {\n  overflow: auto; }\n  .sampleLst > div {\n    color: white;\n    background: #2e91d1;\n    display: inline-block;\n    text-align: center;\n    margin: 5px 10px;\n    line-height: 40px;\n    width: calc(100% - 20px);\n    height: 40px;\n    cursor: pointer; }\n    .sampleLst > div:hover {\n      background: #206491; }\n", ""]);
 
 // exports
 
@@ -30744,6 +30744,15 @@ var scrollY = [{
     height: "-130px"
   }
 }, {
+  target: "headerBackground",
+  from: 0,
+  duration: 50,
+  apply: {
+    transform: {
+      translateZ: "100px"
+    }
+  }
+}, {
   target: "logo",
   from: 0,
   duration: 50,
@@ -30889,17 +30898,23 @@ function (_React$Component) {
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_3__["TweenRef"], {
       id: "header",
       initial: {
+        height: "250px"
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "headerBackgroundContainer"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_3__["TweenRef"], {
+      id: "headerBackground",
+      initial: {
+        left: "0%",
+        bottom: "0px",
         height: "250px",
         transform: {
-          translateZ: "0px"
+          perspective: "200px"
         }
       }
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("header", {
-      style: {
-        perspectiveOrigin: "50% 50%",
-        zIndex: 10
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_3__["TweenRef"], {
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "headerBackground"
+    }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_3__["TweenRef"], {
       id: "logo",
       initial: {
         left: "50%",
