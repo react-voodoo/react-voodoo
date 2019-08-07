@@ -22,7 +22,7 @@ It allow :
 - Predictive inertia
 - etc...
 
-## Draft & minimalist samples [here](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo/blob/master/samples/index.html) ( [sources](src/.samples) )
+## Draft & minimalist samples [here](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo/blob/master/dist.samples/index.html) ( [sources](samples) )
 
 ## Draft & minimalist doc [here](doc/readme.md)
 
