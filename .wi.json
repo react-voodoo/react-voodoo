@@ -1,9 +1,10 @@
 {
   "default": {
     "rootFolder": "src",
-    "basedOn": "defaultComponent",
+    "basedOn": "component",
     "vars": {
       "rootAlias": "react-voodoo",
+      "entryPoint": "./src",
       "production": true,
       "externals": true,
       "babelPreset": {
@@ -46,11 +47,9 @@
     "vars": {
       "rootAlias": "Samples",
       "targetDir": "dist.samples",
-      "indexTpl": "./samples/index.html",
-      "externals": "react\\-voodoo",
-      "template": "samples/index.html",
+      "entryPoint": "Samples/index.js",
       "HtmlWebpackPlugin": {
-        "template": "samples/index.html"
+        "template": "./samples/index.html.tpl"
       },
       "babelPreset": {
         "targets": {
@@ -59,6 +58,11 @@
         "loose": true
       },
       "webpackPatch": {
+        "resolve": {
+          "alias": {
+            "react-voodoo": "Samples/voodoo.js"
+          }
+        },
         "devServer": {
           "port": 9501
         }

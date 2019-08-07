@@ -21,6 +21,5 @@
 </head>
 <body>
 <div id="app"></div>
-<script type="text/javascript" src="./samples.js"></script>
 </body>
 </html>
