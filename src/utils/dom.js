@@ -18,6 +18,22 @@
 let
 	is        = require('is'),
 	isBrowser = typeof window !== 'undefined',
+	isTouch   = (function is_touch_device() {
+		var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+		var mq       = function ( query ) {
+			return window.matchMedia(query).matches;
+		}
+		
+		if ( ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch ) {
+			return true;
+		}
+		
+		// include the 'heartz' as a way to have a non matching MQ to help terminate the join
+		// https://git.io/vznFH
+		var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+		alert(":" + mq(query))
+		return mq(query);
+	}()),
 	_dom      = isBrowser ? {
 		prefix      : (/webkit/i).test(navigator.appVersion) ? 'webkit' :
 		              (/firefox/i).test(navigator.userAgent) ? 'Moz' :
@@ -285,9 +301,11 @@ let
 	},
 	Dom       = {
 		addEvent     : function ( node, type, fn, mouseDrag, bubble ) {
+			if ( isTouch )
+				mouseDrag = false;
 			if ( is.object(type) ) {
 				for ( let o in type )
-					if ( type.hasOwnProperty(o) )
+					if ( type.hasOwnProperty(o) && type[o] )
 						this.addEvent(node, o, type[o], mouseDrag, bubble);
 				return;
 			}
@@ -384,8 +402,8 @@ let
 			let PAGE_HEIGHT        = 800;
 			
 			function normalizeWheel( /*object*/ event ) /*object*/ {
-				let sX         = 0, sY = 0,       // spinX, spinY
-				    pX = 0, pY = 0;       // pixelX, pixelY
+				let sX = 0, sY = 0,       // spinX, spinY
+				    pX         = 0, pY = 0;       // pixelX, pixelY
 				
 				// Legacy
 				if ( 'detail' in event ) {

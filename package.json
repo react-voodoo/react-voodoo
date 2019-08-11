@@ -1,6 +1,6 @@
 {
   "name": "react-voodoo",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "AGPL-3.0",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -9,8 +9,8 @@
   "scripts": {
     "build": "wpi && wpi :samples",
     "devLib": "wpi :staging -w",
-    "devSamples": "wpi-dev-server :samples --hot",
-    "startSamples": "ws -d ./samples -p 8080",
+    "devSamples": "wpi-dev-server :samples --hot --host 0.0.0.0",
+    "startSamples": "ws -d ./dist.samples -p 8080",
     "runBrowser": "start http://localhost:8080"
   },
   "peerDependencies": {
