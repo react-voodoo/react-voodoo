@@ -95,7 +95,7 @@ export default function asTweener( ...argz ) {
 	opts = {
 		wheelRatio    : 5,
 		maxClickTm    : 200,
-		maxClickOffset: 50,
+		maxClickOffset: 100,
 		...opts,
 		
 	};
