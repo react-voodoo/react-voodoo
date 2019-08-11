@@ -8,11 +8,10 @@
   "description": "Fast, additive & swipeable animation engine for React",
   "scripts": {
     "build": "wpi && wpi :samples",
-    "live": "wpi :staging -w",
-    "dev": "wpi-dev-server :samples --hot",
-    "devSamples": "wpi :samples -w",
+    "devLib": "wpi :staging -w",
+    "devSamples": "wpi-dev-server :samples --hot",
     "startSamples": "ws -d ./samples -p 8080",
-    "runBrowser": "start http://localhost:9501"
+    "runBrowser": "start http://localhost:8080"
   },
   "peerDependencies": {
     "react": "^16.3.2",
@@ -27,7 +26,7 @@
   },
   "devDependencies": {
     "local-web-server": "^3.0.7",
-    "webpack-inherit": "^1.7.1",
-    "wi-layer-react-express": "^1.0.4"
+    "webpack-inherit": "^1.7.8",
+    "wi-layer-react-express": "^1.1.1"
   }
 }

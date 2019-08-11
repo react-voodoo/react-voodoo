@@ -25,17 +25,22 @@
   },
   "staging": {
     "rootFolder": "src",
-    "basedOn": "defaultComponent",
+    "basedOn": "component",
     "vars": {
       "rootAlias": "react-voodoo",
+      "entryPoint": "./src",
       "externals": true,
+      "production": false,
+
       "babelPreset": {
         "targets": {
           "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
         },
         "loose": true
       },
-      "webpackPatch": {}
+      "webpackPatch": {
+
+      }
     },
     "extend": [
       "wi-layer-react-express"
@@ -46,6 +51,7 @@
     "basedOn": "static",
     "vars": {
       "rootAlias": "Samples",
+//      "devServer": true,
       "targetDir": "dist.samples",
       "entryPoint": "Samples/index.js",
       "HtmlWebpackPlugin": {
@@ -62,9 +68,6 @@
           "alias": {
             "react-voodoo": "Samples/voodoo.js"
           }
-        },
-        "devServer": {
-          "port": 9501
         }
       }
     },
