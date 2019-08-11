@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "local-web-server": "^3.0.7",
-    "webpack-inherit": "^1.7.8",
+    "webpack-inherit": "^1.7.9",
     "wi-layer-react-express": "^1.1.1"
   }
 }
