@@ -28,8 +28,8 @@ It allow :
 
 ## Note
 
-If you're searching production ready additive animation engine see [react-spring](https://github.com/react-spring/react-spring)
-This is not really optimized beta with big garbage collects. 
+If you're searching production ready animation engine that can do some additive tween see [react-spring](https://github.com/react-spring/react-spring)<br>
+react-voodoo seems simpler & have cool features but is not really optimized, have big garbage collects & may have bugs. 
 
 ## Basics
 
