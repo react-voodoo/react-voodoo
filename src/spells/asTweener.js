@@ -95,7 +95,7 @@ export default function asTweener( ...argz ) {
 	opts = {
 		wheelRatio    : 5,
 		maxClickTm    : 200,
-		maxClickOffset: 100,
+		maxClickOffset: 50,
 		...opts,
 		
 	};
@@ -348,7 +348,7 @@ export default function asTweener( ...argz ) {
 		 * @returns {tweenAxis}
 		 */
 		pushAnim( anim, then, skipInit ) {
-			let sl, initial, muxed, initials = {};
+			let sl, initial, muxed, initials = {}, fail;
 			if ( isArray(anim) ) {
 				sl = anim;
 			}
@@ -364,13 +364,16 @@ export default function asTweener( ...argz ) {
 				Object.keys(initials)
 				      .forEach(
 					      id => (
+						      this._.tweenRefMaps[id] &&
 						      Object.assign(this._.tweenRefMaps[id], {
 							      ...initials[id],
 							      ...this._.tweenRefMaps[id]
-						      })
+						      }) || (fail = console.warn("react-voodoo : Can't find tween target ", id, " in ", TweenableComp.displayName) || true)
 					      )
 				      )
 			}
+			if ( fail )
+				return;
 			
 			this.makeTweenable();
 			

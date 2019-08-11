@@ -135,6 +135,8 @@ export default class TweenRef extends React.Component {
 	}
 }
 
-TweenRef.div = ( { children, className, ...props } ) => <TweenRef {...props}>
-	<div className={className}>{children}</div>
-</TweenRef>;
+TweenRef.div = ( { children, className, ...props } ) => {
+	return <TweenRef {...props}>
+		<div className={className}>{children}</div>
+	</TweenRef>;
+}

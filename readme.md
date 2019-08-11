@@ -29,7 +29,7 @@ It allow :
 ## Note
 
 If you're searching production ready animation engine that can do some additive tween see [react-spring](https://github.com/react-spring/react-spring)<br>
-react-voodoo seems simpler & have cool features but is not really optimized, have big garbage collects & may have bugs. 
+react-voodoo seems simpler & have cool features but its not really optimized, have big garbage collects & may have bugs. 
 
 ## Basics
 

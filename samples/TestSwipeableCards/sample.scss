@@ -35,7 +35,7 @@
   }
 }
 
-.GooSample {
+.SwipeableCards {
   @include use_hvCenteredAbs();
   position: relative;
   background: rgba(190, 190, 190, 0.21);
@@ -43,32 +43,30 @@
   user-select: none;
   height: 100%;
   width: 100%;
-  max-width: 900px;
-  max-height: 800px;
+  max-width: 800px;
+  max-height: 600px;
   border-radius: 20px;
-  .area {
-    .gooBall {
-      position: absolute;
-      will-change: transform;
-      border-radius: 50%;
-      background: lightcoral;
-      box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
-      opacity: 0.6;
 
-      &:nth-child(1) {
-        width: 80px;
-        height: 80px;
-      }
+  .SwipeableCard {
+    margin: 10px;
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    background: #1fe27b;
+    cursor: pointer;
 
-      &:nth-child(2) {
-        width: 120px;
-        height: 120px;
-      }
+    .frontCard {
+      height: 100%;
+      width: 100%;
+      background: url("https://source.unsplash.com/120x120/?city") no-repeat center center;
+      background-size: cover;
+    }
 
-      &:nth-child(3) {
-        width: 200px;
-        height: 200px;
-      }
+    .backCard {
+      height: 100%;
+      width: 100%;
+      background: url("https://source.unsplash.com/120x120/?forest") no-repeat center center;
+      background-size: cover;
     }
   }
 }

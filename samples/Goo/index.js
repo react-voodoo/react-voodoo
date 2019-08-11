@@ -112,17 +112,17 @@ export default class Sample extends React.Component {
 			[
 				{
 					target  : "goo1",
-					duration: 50,
+					duration: 100,
 					apply   : tween
 				},
 				{
 					target  : "goo3",
-					duration: 150,
+					duration: 200,
 					apply   : tween
 				},
 				{
 					target  : "goo2",
-					duration: 250,
+					duration: 300,
 					apply   : tween
 				}
 			]);
