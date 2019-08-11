@@ -66,17 +66,22 @@ export default class Sample extends React.Component {
 	};
 	
 	componentDidMount() {
-		this._bbox = this.root.current.getBoundingClientRect()
+		this._bbox = this.root.current.getBoundingClientRect();
+		window.addEventListener("mousemove", this.pushGoTo)
+	}
+	
+	componentWillUnmount() {
+		window.removeEventListener("mousemove", this.pushGoTo)
 	}
 	
 	windowDidResize() {
 		this._bbox = this.root.current.getBoundingClientRect()
 	}
 	
-	pushGoTo = ( e ) => {
+	pushGoTo = ( e, pendingTarget ) => {
 		let bbox       = this._bbox,
 		    tweener    = this.props.tweener,
-		    target     = {
+		    target     = pendingTarget || {
 			    y: e.clientY - bbox.top,
 			    x: e.clientX - bbox.left
 		    },
@@ -84,16 +89,16 @@ export default class Sample extends React.Component {
 		    now        = e.timeStamp,
 		    tween;
 		
+		
+		// mano debounce
 		if ( now - this.lastTm < 50 )
 			return;
-		
 		this.lastTm = now;
 		
 		target.y /= bbox.height;
 		target.x /= bbox.width;
-		target.y = target.y.toFixed(3);
-		target.x = target.x.toFixed(3);
-		
+		target.y           = Math.min(1, Math.max(0, target.y.toFixed(3)));
+		target.x           = Math.min(1, Math.max(0, target.x.toFixed(3)));
 		this.currentTarget = target;
 		
 		tween = {
@@ -125,7 +130,6 @@ export default class Sample extends React.Component {
 	
 	render() {
 		return <div className={"GooSample"}
-		            onMouseMove={this.pushGoTo}
 		            ref={this.root}>
 			<svg style={{ position: 'absolute', width: 0, height: 0 }}>
 				<filter id="goo">

@@ -33896,22 +33896,23 @@ function (_React$Component) {
       y: .5
     };
 
-    _this.pushGoTo = function (e) {
+    _this.pushGoTo = function (e, pendingTarget) {
       var bbox = _this._bbox,
           tweener = _this.props.tweener,
-          target = {
+          target = pendingTarget || {
         y: e.clientY - bbox.top,
         x: e.clientX - bbox.left
       },
           lastTarget = _this.currentTarget,
           now = e.timeStamp,
-          tween;
+          tween; // mano debounce
+
       if (now - _this.lastTm < 50) return;
       _this.lastTm = now;
       target.y /= bbox.height;
       target.x /= bbox.width;
-      target.y = target.y.toFixed(3);
-      target.x = target.x.toFixed(3);
+      target.y = Math.min(1, Math.max(0, target.y.toFixed(3)));
+      target.x = Math.min(1, Math.max(0, target.x.toFixed(3)));
       _this.currentTarget = target;
       tween = {
         transform: {
@@ -33941,6 +33942,11 @@ function (_React$Component) {
 
   _proto.componentDidMount = function componentDidMount() {
     this._bbox = this.root.current.getBoundingClientRect();
+    window.addEventListener("mousemove", this.pushGoTo);
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    window.removeEventListener("mousemove", this.pushGoTo);
   };
 
   _proto.windowDidResize = function windowDidResize() {
@@ -33949,8 +33955,8 @@ function (_React$Component) {
 
   _proto.render = function render() {
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      className: "GooSample",
-      onMouseMove: this.pushGoTo,
+      className: "GooSample" //onMouseMove={this.pushGoTo}
+      ,
       ref: this.root
     }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
       style: {
