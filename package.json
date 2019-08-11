@@ -22,11 +22,11 @@
     "color-rgba": "^2.1.0",
     "d3-ease": "^1.0.5",
     "is": "^3.2.1",
-    "tween-axis": "^1.2.4"
+    "tween-axis": "^1.2.6"
   },
   "devDependencies": {
     "local-web-server": "^3.0.7",
-    "webpack-inherit": "^1.7.9",
+    "webpack-inherit": "^1.7.12",
     "wi-layer-react-express": "^1.1.1"
   }
 }

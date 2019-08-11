@@ -387,6 +387,7 @@ export default function asTweener( ...argz ) {
 						if ( i != -1 )
 							this._.runningAnims.splice(i, 1);
 						
+						sl.destroy();
 						resolve(sl);
 					});
 					
@@ -616,9 +617,10 @@ export default function asTweener( ...argz ) {
 		 */
 		rmScrollableAnim( sl, axe = "scrollY" ) {
 			let _   = this._, found,
-			    dim = this._getAxis(axe);
+			    dim = this._getAxis(axe), twAxis;
 			let i   = dim.tweenAxis.indexOf(sl);
 			if ( i != -1 ) {
+				dim.tweenAxis[i].destroy();
 				dim.tweenAxis.splice(i, 1);
 				dim.scrollableArea = Math.max(...dim.tweenAxis.map(tl => tl.duration), 0);
 				if ( !dim.scrollableBounds )

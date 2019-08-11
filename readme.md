@@ -26,6 +26,11 @@ It allow :
 
 ## Draft & minimalist doc [here](doc/readme.md)
 
+## Note
+
+If you're searching production ready additive animation engine see [react-spring](https://github.com/react-spring/react-spring)
+This is not really optimized beta with big garbage collects. 
+
 ## Basics
 
 ```jsx harmony
@@ -119,7 +124,7 @@ export default class MyTweenerComp extends React.Component{
 - Better scroll support / fixs
 - Full css support ( full background transitions )
 - Doc, tests & code cleaning
-- various simple & smart optims
+- lot of various simple and/or smart optims / recycling
 - Allow tween-axis to css keyframe anims ? 
 - Allow SVG bindings ?
 
