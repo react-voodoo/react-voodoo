@@ -84,7 +84,7 @@ export default class Sample extends React.Component {
 		    now        = e.timeStamp,
 		    tween;
 		
-		if ( now - this.lastTm < 100 )
+		if ( now - this.lastTm < 50 )
 			return;
 		
 		this.lastTm = now;
@@ -107,17 +107,17 @@ export default class Sample extends React.Component {
 			[
 				{
 					target  : "goo1",
-					duration: 100,
+					duration: 50,
 					apply   : tween
 				},
 				{
 					target  : "goo3",
-					duration: 200,
+					duration: 150,
 					apply   : tween
 				},
 				{
 					target  : "goo2",
-					duration: 300,
+					duration: 250,
 					apply   : tween
 				}
 			]);

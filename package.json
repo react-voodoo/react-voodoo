@@ -1,11 +1,11 @@
 {
   "name": "react-voodoo",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "license": "AGPL-3.0",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
   "repository": "https://github.com/n8tz/react-voodoo",
-  "description": "Fast, additive & swipeable animation engine for React",
+  "description": "Additive & swipeable animation engine for React",
   "scripts": {
     "build": "wpi && wpi :samples",
     "devLib": "wpi :staging -w",

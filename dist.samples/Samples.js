@@ -33906,7 +33906,7 @@ function (_React$Component) {
           lastTarget = _this.currentTarget,
           now = e.timeStamp,
           tween;
-      if (now - _this.lastTm < 100) return;
+      if (now - _this.lastTm < 50) return;
       _this.lastTm = now;
       target.y /= bbox.height;
       target.x /= bbox.width;
@@ -33921,15 +33921,15 @@ function (_React$Component) {
       };
       tweener.pushAnim([{
         target: "goo1",
-        duration: 100,
+        duration: 50,
         apply: tween
       }, {
         target: "goo3",
-        duration: 200,
+        duration: 150,
         apply: tween
       }, {
         target: "goo2",
-        duration: 300,
+        duration: 250,
         apply: tween
       }]);
     };
