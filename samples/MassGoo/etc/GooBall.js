@@ -21,7 +21,7 @@ import {asTweener, TweenAxis, TweenRef} from "react-voodoo";
 
 
 /**
- * This is an experimental lib & a very beta demo
+ * This is an experimental lib & a very alpha demo
  *
  */
 
@@ -48,17 +48,13 @@ export default class GooBall extends React.Component {
 		color          : "black"
 	};
 	state               = {};
-	currentTarget       = {
-		x: .5,
-		y: .5
-	};
 	nextTarget          = {};
 	
 	constructor( props ) {
 		super(...arguments);
-		this.currentTarget = {
-			x: props.defaultPosition.x,
-			y: props.defaultPosition.y
+		this.nextTarget = {
+			scrollX: 200 - props.defaultPosition.x * 200,
+			scrollY: 200 - props.defaultPosition.y * 200
 		};
 	}
 	
@@ -73,8 +69,13 @@ export default class GooBall extends React.Component {
 		
 		target.y /= 200;
 		target.x /= 200;
-		target.y           = Math.min(1, Math.max(0, target.y.toFixed(3)));
-		target.x           = Math.min(1, Math.max(0, target.x.toFixed(3)));
+		target.y = Math.min(1, Math.max(0, target.y.toFixed(3)));
+		target.x = Math.min(1, Math.max(0, target.x.toFixed(3)));
+		
+		if ( !lastTarget ) {
+			return this.currentTarget = target;
+		}
+		
 		this.currentTarget = target;
 		
 		tween = {
@@ -83,8 +84,6 @@ export default class GooBall extends React.Component {
 				translateY: (target.y - lastTarget.y) + "box"
 			}
 		};
-		//
-		//console.log({ ...target })
 		tweener.pushAnim(
 			[
 				{
@@ -98,7 +97,8 @@ export default class GooBall extends React.Component {
 					apply   : tween
 				}
 			]);
-	};
+	}
+	;
 	
 	componentDidScroll( pos, axis ) {
 		let now               = Date.now();
@@ -130,7 +130,6 @@ export default class GooBall extends React.Component {
 			},
 			styleBall: {
 				...style,
-				
 				backgroundColor: color,
 				top            : "0%",
 				left           : "0%",
