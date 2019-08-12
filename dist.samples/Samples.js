@@ -970,7 +970,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, "/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\nbody, html, #app, .app {\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  position: fixed;\n  overflow: hidden; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.GooSample {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  position: relative;\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  width: 900px;\n  height: 800px;\n  border-radius: 20px; }\n  .GooSample .area .gooBall {\n    position: absolute;\n    will-change: transform;\n    border-radius: 50%;\n    background: #8698f0;\n    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);\n    opacity: 0.6; }\n    .GooSample .area .gooBall:nth-child(1) {\n      width: 80px;\n      height: 80px; }\n    .GooSample .area .gooBall:nth-child(2) {\n      width: 120px;\n      height: 120px; }\n    .GooSample .area .gooBall:nth-child(3) {\n      width: 200px;\n      height: 200px; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.ResponsiveSlidable {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  perspective: 200px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .ResponsiveSlidable .SlidableList {\n    position: absolute;\n    top: 10%;\n    width: 100%;\n    left: 0%;\n    height: 80%; }\n  .ResponsiveSlidable .slide .item {\n    background-color: green;\n    text-align: center;\n    margin: 5px;\n    height: calc(100% - 10px);\n    touch-action: none; }\n    .ResponsiveSlidable .slide .item:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .ResponsiveSlidable .slide .item > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.SimpleTest {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  perspective: 200px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .SimpleTest .cat {\n    border-radius: 5px;\n    background: url(\"http://www.pngall.com/wp-content/uploads/2016/06/Nyan-Cat.png\") no-repeat center center;\n    background-size: contain; }\n  .SimpleTest .mouse {\n    text-align: center;\n    background: url(\"https://www.pinclipart.com/picdir/big/174-1740432_clip-art-of-unicorns.png\") no-repeat center center;\n    background-size: contain;\n    border-radius: 5px;\n    padding: 5px;\n    font-weight: bold; }\n    .SimpleTest .mouse:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleTest .mouse > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.sample {\n  perspective: 200px; }\n\n.SimpleHeader {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  background: #3b55a0;\n  overflow-x: hidden;\n  overflow-y: auto;\n  position: relative;\n  width: 100%;\n  height: 100%; }\n  .SimpleHeader header {\n    background: green;\n    position: fixed;\n    width: calc(100% - 17px);\n    overflow: hidden;\n    z-index: 10;\n    top: 0px;\n    left: 0px;\n    transform-origin: center; }\n    @media (hover: none) {\n      .SimpleHeader header {\n        /* ... */\n        width: 100%; } }\n    @supports (-webkit-overflow-scrolling: touch) {\n      .SimpleHeader header {\n        /* CSS specific to iOS devices */\n        width: calc(100% - 200px);\n        left: 200px; } }\n    .SimpleHeader header .headerBackgroundContainer {\n      text-align: center;\n      transform: translateZ(0);\n      overflow: hidden;\n      position: relative;\n      height: 100%;\n      width: 100%; }\n      .SimpleHeader header .headerBackgroundContainer:before {\n        content: ' ';\n        display: inline-block;\n        height: 100%;\n        width: 1px;\n        margin-right: -1px;\n        vertical-align: middle;\n        overflow: hidden; }\n      .SimpleHeader header .headerBackgroundContainer > * {\n        text-align: left;\n        vertical-align: middle;\n        display: inline-block; }\n      .SimpleHeader header .headerBackgroundContainer .headerBackground {\n        height: 100%;\n        width: 100%;\n        transform-origin: center;\n        background: url(https://source.unsplash.com/600x400/?sky);\n        background-position: center; }\n  .SimpleHeader footer {\n    position: fixed;\n    width: calc(100% - 17px);\n    background: url(https://source.unsplash.com/600x400/?forest);\n    background-position: center; }\n    @media (hover: none) {\n      .SimpleHeader footer {\n        /* ... */\n        width: 100%; } }\n    @supports (-webkit-overflow-scrolling: touch) {\n      .SimpleHeader footer {\n        /* CSS specific to iOS devices */\n        width: calc(100% - 200px);\n        left: 200px; } }\n  .SimpleHeader .content {\n    padding: 10px;\n    text-align: left;\n    width: 700px;\n    display: inline-block; }\n  .SimpleHeader .logo {\n    text-align: center;\n    perspective: 200px;\n    position: absolute;\n    bottom: 20px;\n    line-height: 1em;\n    vertical-align: middle;\n    width: 200px;\n    height: 100px;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover;\n    border: 1px solid gray;\n    border-radius: 5px;\n    display: inline-block;\n    cursor: pointer; }\n    .SimpleHeader .logo:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleHeader .logo > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n    .SimpleHeader .logo span {\n      background: white;\n      border-radius: 5px;\n      padding: 5px; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.SimpleTest {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  perspective: 200px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .SimpleTest div {\n    text-align: center;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover; }\n    .SimpleTest div:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleTest div > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n    .SimpleTest div > span {\n      border-radius: 5px;\n      padding: 5px;\n      background-color: rgba(255, 255, 255, 0.57);\n      font-weight: bold; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.SwipeableCards {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  position: relative;\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  height: 100%;\n  width: 100%;\n  max-width: 800px;\n  max-height: 600px;\n  border-radius: 20px; }\n  .SwipeableCards .SwipeableCard {\n    margin: 10px;\n    display: inline-block;\n    width: 120px;\n    height: 120px;\n    background: #1fe27b;\n    cursor: pointer; }\n    .SwipeableCards .SwipeableCard .frontCard {\n      height: 100%;\n      width: 100%;\n      background: url(\"https://source.unsplash.com/120x120/?city\") no-repeat center center;\n      background-size: cover; }\n    .SwipeableCards .SwipeableCard .backCard {\n      height: 100%;\n      width: 100%;\n      background: url(\"https://source.unsplash.com/120x120/?forest\") no-repeat center center;\n      background-size: cover; }\n\n.sampleLst {\n  overflow: auto;\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 200px;\n  height: 100%; }\n  .sampleLst > div {\n    color: white;\n    background: #2e91d1;\n    display: inline-block;\n    text-align: center;\n    margin: 5px 10px;\n    line-height: 40px;\n    width: calc(100% - 20px);\n    height: 40px;\n    cursor: pointer; }\n    .sampleLst > div:hover {\n      background: #206491; }\n\n.sample {\n  overflow: auto;\n  position: absolute;\n  top: 0px;\n  left: 200px;\n  right: 0px;\n  height: 100%;\n  overflow: hidden; }\n", ""]);
+exports.push([module.i, "/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\nbody, html, #app, .app {\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  position: fixed;\n  overflow: hidden; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.GooSample {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  position: relative;\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  width: 900px;\n  height: 800px;\n  border-radius: 20px; }\n  .GooSample .area .gooBall {\n    position: absolute;\n    will-change: transform;\n    border-radius: 50%;\n    background: #8698f0;\n    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);\n    opacity: 0.6; }\n    .GooSample .area .gooBall:nth-child(1) {\n      width: 80px;\n      height: 80px; }\n    .GooSample .area .gooBall:nth-child(2) {\n      width: 120px;\n      height: 120px; }\n    .GooSample .area .gooBall:nth-child(3) {\n      width: 200px;\n      height: 200px; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.MassGoo {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  position: relative;\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  height: 100%;\n  width: 100%;\n  max-width: 900px;\n  max-height: 800px;\n  border-radius: 20px; }\n  .MassGoo .description {\n    position: absolute;\n    top: 10%;\n    left: 50%;\n    transform: translateX(-50%);\n    z-index: 1000;\n    pointer-events: none; }\n  .MassGoo .area .GooBall {\n    height: 100%;\n    width: 100%;\n    pointer-events: none; }\n    .MassGoo .area .GooBall .ball {\n      position: absolute;\n      will-change: transform;\n      border-radius: 50%;\n      background: lightcoral;\n      box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);\n      opacity: 0.6;\n      pointer-events: all; }\n      .MassGoo .area .GooBall .ball:nth-child(3) {\n        width: 80px;\n        height: 80px; }\n      .MassGoo .area .GooBall .ball:nth-child(2) {\n        width: 120px;\n        height: 120px; }\n      .MassGoo .area .GooBall .ball:nth-child(1) {\n        width: 200px;\n        height: 200px; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.ResponsiveSlidable {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  perspective: 200px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .ResponsiveSlidable .SlidableList {\n    position: absolute;\n    top: 10%;\n    width: 100%;\n    left: 0%;\n    height: 80%; }\n  .ResponsiveSlidable .slide .item {\n    background-color: green;\n    text-align: center;\n    margin: 5px;\n    height: calc(100% - 10px);\n    touch-action: none; }\n    .ResponsiveSlidable .slide .item:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .ResponsiveSlidable .slide .item > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.SimpleTest {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  perspective: 200px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .SimpleTest .cat {\n    border-radius: 5px;\n    background: url(\"http://www.pngall.com/wp-content/uploads/2016/06/Nyan-Cat.png\") no-repeat center center;\n    background-size: contain; }\n  .SimpleTest .mouse {\n    text-align: center;\n    background: url(\"https://www.pinclipart.com/picdir/big/174-1740432_clip-art-of-unicorns.png\") no-repeat center center;\n    background-size: contain;\n    border-radius: 5px;\n    padding: 5px;\n    font-weight: bold; }\n    .SimpleTest .mouse:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleTest .mouse > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.sample {\n  perspective: 200px; }\n\n.SimpleHeader {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  background: #3b55a0;\n  overflow-x: hidden;\n  overflow-y: auto;\n  position: relative;\n  width: 100%;\n  height: 100%; }\n  .SimpleHeader header {\n    background: green;\n    position: fixed;\n    width: calc(100% - 17px);\n    overflow: hidden;\n    z-index: 10;\n    top: 0px;\n    left: 0px;\n    transform-origin: center; }\n    @media (hover: none) {\n      .SimpleHeader header {\n        /* ... */\n        width: 100%; } }\n    @supports (-webkit-overflow-scrolling: touch) {\n      .SimpleHeader header {\n        /* CSS specific to iOS devices */\n        width: calc(100% - 200px);\n        left: 200px; } }\n    .SimpleHeader header .headerBackgroundContainer {\n      text-align: center;\n      transform: translateZ(0);\n      overflow: hidden;\n      position: relative;\n      height: 100%;\n      width: 100%; }\n      .SimpleHeader header .headerBackgroundContainer:before {\n        content: ' ';\n        display: inline-block;\n        height: 100%;\n        width: 1px;\n        margin-right: -1px;\n        vertical-align: middle;\n        overflow: hidden; }\n      .SimpleHeader header .headerBackgroundContainer > * {\n        text-align: left;\n        vertical-align: middle;\n        display: inline-block; }\n      .SimpleHeader header .headerBackgroundContainer .headerBackground {\n        height: 100%;\n        width: 100%;\n        transform-origin: center;\n        background: url(https://source.unsplash.com/600x400/?sky);\n        background-position: center; }\n  .SimpleHeader footer {\n    position: fixed;\n    width: calc(100% - 17px);\n    background: url(https://source.unsplash.com/600x400/?forest);\n    background-position: center; }\n    @media (hover: none) {\n      .SimpleHeader footer {\n        /* ... */\n        width: 100%; } }\n    @supports (-webkit-overflow-scrolling: touch) {\n      .SimpleHeader footer {\n        /* CSS specific to iOS devices */\n        width: calc(100% - 200px);\n        left: 200px; } }\n  .SimpleHeader .content {\n    padding: 10px;\n    text-align: left;\n    width: 700px;\n    display: inline-block; }\n  .SimpleHeader .logo {\n    text-align: center;\n    perspective: 200px;\n    position: absolute;\n    bottom: 20px;\n    line-height: 1em;\n    vertical-align: middle;\n    width: 200px;\n    height: 100px;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover;\n    border: 1px solid gray;\n    border-radius: 5px;\n    display: inline-block;\n    cursor: pointer; }\n    .SimpleHeader .logo:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleHeader .logo > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n    .SimpleHeader .logo span {\n      background: white;\n      border-radius: 5px;\n      padding: 5px; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.SimpleTest {\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  perspective: 200px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .SimpleTest div {\n    text-align: center;\n    background: url(\"https://source.unsplash.com/600x400/?logo\") no-repeat center center;\n    background-size: cover; }\n    .SimpleTest div:before {\n      content: ' ';\n      display: inline-block;\n      height: 100%;\n      width: 1px;\n      margin-right: -1px;\n      vertical-align: middle;\n      overflow: hidden; }\n    .SimpleTest div > * {\n      text-align: left;\n      vertical-align: middle;\n      display: inline-block; }\n    .SimpleTest div > span {\n      border-radius: 5px;\n      padding: 5px;\n      background-color: rgba(255, 255, 255, 0.57);\n      font-weight: bold; }\n\n/*!\n *\n * Copyright (C) 2019 Nathanael Braun\n *\n * This program is free software: you can redistribute it and/or modify\n * it under the terms of the GNU Affero General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Affero General Public License for more details.\n *\n * You should have received a copy of the GNU Affero General Public License\n * along with this program.  If not, see <http://www.gnu.org/licenses/>.\n */\n.SwipeableCards {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  position: relative;\n  background: rgba(190, 190, 190, 0.21);\n  text-align: center;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  height: 100%;\n  width: 100%;\n  max-width: 800px;\n  max-height: 600px;\n  border-radius: 20px; }\n  .SwipeableCards .SwipeableCard {\n    margin: 10px;\n    display: inline-block;\n    width: 120px;\n    height: 120px;\n    background: #1fe27b;\n    cursor: pointer; }\n    .SwipeableCards .SwipeableCard .frontCard {\n      height: 100%;\n      width: 100%;\n      background: url(\"https://source.unsplash.com/120x120/?city\") no-repeat center center;\n      background-size: cover; }\n    .SwipeableCards .SwipeableCard .backCard {\n      height: 100%;\n      width: 100%;\n      background: url(\"https://source.unsplash.com/120x120/?forest\") no-repeat center center;\n      background-size: cover; }\n\n.sampleLst {\n  overflow: auto;\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 200px;\n  height: 100%; }\n  .sampleLst > div {\n    color: white;\n    background: #2e91d1;\n    display: inline-block;\n    text-align: center;\n    margin: 5px 10px;\n    line-height: 40px;\n    width: calc(100% - 20px);\n    height: 40px;\n    cursor: pointer; }\n    .sampleLst > div:hover {\n      background: #206491; }\n\n.sample {\n  overflow: auto;\n  position: absolute;\n  top: 0px;\n  left: 200px;\n  right: 0px;\n  height: 100%;\n  overflow: hidden; }\n", ""]);
 
 // exports
 
@@ -33735,6 +33735,7 @@ webpackEmptyContext.id = "./node_modules/wi-layer-react-express/AppStatic sync r
 
 var map = {
 	"./Goo/index.js": "./samples/Goo/index.js",
+	"./MassGoo/index.js": "./samples/MassGoo/index.js",
 	"./ResponsiveSlidable/index.js": "./samples/ResponsiveSlidable/index.js",
 	"./SimpleCatTest/index.js": "./samples/SimpleCatTest/index.js",
 	"./SimpleHeaderTest/index.js": "./samples/SimpleHeaderTest/index.js",
@@ -34092,12 +34093,13 @@ var _default = _exports;
 /*!***************************************************!*\
   !*** ./samples/MapOf.Samples_____index_js.gen.js ***!
   \***************************************************/
-/*! exports provided: Goo, ResponsiveSlidable, SimpleCatTest, SimpleHeaderTest, SimpleInertiaTest, TestSwipeableCards, default */
+/*! exports provided: Goo, MassGoo, ResponsiveSlidable, SimpleCatTest, SimpleHeaderTest, SimpleInertiaTest, TestSwipeableCards, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Goo", function() { return Goo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MassGoo", function() { return MassGoo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResponsiveSlidable", function() { return ResponsiveSlidable; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleCatTest", function() { return SimpleCatTest; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleHeaderTest", function() { return SimpleHeaderTest; });
@@ -34148,6 +34150,20 @@ while (i < fPath.length - 1) {
 
 if (!cExport[fPath[i]]) {
   cExport[fPath[i]] = Object.keys(_Samples_Goo_index_js).length === 1 && _Samples_Goo_index_js.default || _Samples_Goo_index_js;
+}
+
+var _Samples_MassGoo_index_js = __webpack_require__(/*! Samples/MassGoo/index.js */ "./samples/MassGoo/index.js");
+
+cExport = _exports;
+fPath = "MassGoo".split('/');
+i = 0;
+
+while (i < fPath.length - 1) {
+  cExport = cExport[fPath[i]] = cExport[fPath[i]] || {}, i++;
+}
+
+if (!cExport[fPath[i]]) {
+  cExport[fPath[i]] = Object.keys(_Samples_MassGoo_index_js).length === 1 && _Samples_MassGoo_index_js.default || _Samples_MassGoo_index_js;
 }
 
 var _Samples_ResponsiveSlidable_index_js = __webpack_require__(/*! Samples/ResponsiveSlidable/index.js */ "./samples/ResponsiveSlidable/index.js");
@@ -34238,6 +34254,7 @@ req.keys().forEach(function (key) {
   }
 });
 var Goo = _exports.Goo;
+var MassGoo = _exports.MassGoo;
 var ResponsiveSlidable = _exports.ResponsiveSlidable;
 var SimpleCatTest = _exports.SimpleCatTest;
 var SimpleHeaderTest = _exports.SimpleHeaderTest;
@@ -34260,6 +34277,7 @@ var _default = _exports;
   reactHotLoader.register(fPath, "fPath", "G:\\n8tz\\libs\\react-voodoo\\samples\\MapOf.Samples_____index_js.gen.js");
   reactHotLoader.register(i, "i", "G:\\n8tz\\libs\\react-voodoo\\samples\\MapOf.Samples_____index_js.gen.js");
   reactHotLoader.register(Goo, "Goo", "G:\\n8tz\\libs\\react-voodoo\\samples\\MapOf.Samples_____index_js.gen.js");
+  reactHotLoader.register(MassGoo, "MassGoo", "G:\\n8tz\\libs\\react-voodoo\\samples\\MapOf.Samples_____index_js.gen.js");
   reactHotLoader.register(ResponsiveSlidable, "ResponsiveSlidable", "G:\\n8tz\\libs\\react-voodoo\\samples\\MapOf.Samples_____index_js.gen.js");
   reactHotLoader.register(SimpleCatTest, "SimpleCatTest", "G:\\n8tz\\libs\\react-voodoo\\samples\\MapOf.Samples_____index_js.gen.js");
   reactHotLoader.register(SimpleHeaderTest, "SimpleHeaderTest", "G:\\n8tz\\libs\\react-voodoo\\samples\\MapOf.Samples_____index_js.gen.js");
@@ -34275,6 +34293,413 @@ var _default = _exports;
   leaveModule && leaveModule(module);
 })();
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
+/***/ "./samples/MassGoo/etc/GooBall.js":
+/*!****************************************!*\
+  !*** ./samples/MassGoo/etc/GooBall.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GooBall; });
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "./node_modules/@babel/runtime/helpers/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_voodoo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-voodoo */ "./samples/voodoo.js");
+
+
+
+var _dec, _class, _class2, _temp;
+
+(function () {
+  var enterModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+/**
+ * This is an experimental lib
+ *
+ */
+
+var initialBallStyle = {
+  position: "absolute",
+  display: "inline-block",
+  cursor: "pointer",
+  overflow: "hidden",
+  top: "100%",
+  left: "100%"
+};
+var GooBall = (_dec = Object(react_voodoo__WEBPACK_IMPORTED_MODULE_3__["asTweener"])({
+  enableMouseDrag: true
+}), _dec(_class = (_temp = _class2 =
+/*#__PURE__*/
+function (_React$Component) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default()(GooBall, _React$Component);
+
+  function GooBall(props) {
+    var _this;
+
+    _this = _React$Component.apply(this, arguments) || this;
+    _this.root = react__WEBPACK_IMPORTED_MODULE_2___default.a.createRef();
+    _this.state = {};
+    _this.currentTarget = {
+      x: .5,
+      y: .5
+    };
+    _this.nextTarget = {};
+
+    _this.pushGoTo = function (nextTarget) {
+      var tweener = _this.props.tweener,
+          target = {
+        y: 200 - nextTarget.scrollY,
+        x: 200 - nextTarget.scrollX
+      },
+          lastTarget = _this.currentTarget,
+          tween;
+      target.y /= 200;
+      target.x /= 200;
+      target.y = Math.min(1, Math.max(0, target.y.toFixed(3)));
+      target.x = Math.min(1, Math.max(0, target.x.toFixed(3)));
+      _this.currentTarget = target;
+      tween = {
+        transform: {
+          translateX: target.x - lastTarget.x + "box",
+          translateY: target.y - lastTarget.y + "box"
+        }
+      }; //
+      //console.log({ ...target })
+
+      tweener.pushAnim([{
+        target: "goo3",
+        duration: 200,
+        apply: tween
+      }, {
+        target: "goo2",
+        duration: 300,
+        apply: tween
+      }]);
+    };
+
+    _this.currentTarget = {
+      x: props.defaultPosition.x,
+      y: props.defaultPosition.y
+    };
+    return _this;
+  }
+
+  var _proto = GooBall.prototype;
+
+  _proto.componentDidScroll = function componentDidScroll(pos, axis) {
+    var _this2 = this;
+
+    var now = Date.now();
+    this.nextTarget[axis] = pos;
+    this._pendingGotoTm && clearTimeout(this._pendingGotoTm); // mano debounce
+
+    if (now - this.lastTm < 50) return this._pendingGotoTm = setTimeout(function (tm) {
+      return _this2.componentDidScroll(pos, axis);
+    }, 50);
+    this.lastTm = now;
+    this.pushGoTo(this.nextTarget);
+  };
+
+  GooBall.getDerivedStateFromProps = function getDerivedStateFromProps(props, state) {
+    var color = props.color,
+        style = props.style,
+        defaultPosition = props.defaultPosition;
+    return {
+      style: _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, style, {
+        backgroundColor: color,
+        transform: [{
+          translateX: "0box",
+          translateY: "0box"
+        }, {
+          translateX: "-50%",
+          translateY: "-50%"
+        }]
+      }),
+      styleBall: _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, style, {
+        backgroundColor: color,
+        top: "0%",
+        left: "0%",
+        transform: [{
+          translateX: defaultPosition.x + "box",
+          translateY: defaultPosition.y + "box"
+        }, {
+          translateX: "-50%",
+          translateY: "-50%"
+        }]
+      }),
+      ballAxis: {
+        scrollX: [{
+          from: 0,
+          duration: 200,
+          apply: {
+            transform: {
+              translateX: "-1box"
+            }
+          }
+        }],
+        scrollY: [{
+          from: 0,
+          duration: 200,
+          apply: {
+            transform: {
+              translateY: "-1box"
+            }
+          }
+        }]
+      }
+    };
+  };
+
+  _proto.render = function render() {
+    var defaultPosition = this.props.defaultPosition;
+    return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      className: "GooBall",
+      ref: this.root
+    }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_3__["TweenAxis"], {
+      axe: "scrollY",
+      defaultPosition: 200 - defaultPosition.y * 200
+    }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_3__["TweenAxis"], {
+      axe: "scrollX",
+      defaultPosition: 200 - defaultPosition.x * 200
+    }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_3__["TweenRef"].div, {
+      id: "goo2",
+      initial: this.state.styleBall,
+      className: "ball"
+    }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_3__["TweenRef"].div, {
+      id: "goo3",
+      initial: this.state.styleBall,
+      className: "ball"
+    }), react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_3__["TweenRef"].div, {
+      id: "goo1",
+      tweenAxis: this.state.ballAxis,
+      initial: this.state.style,
+      className: "ball"
+    }));
+  };
+
+  // @ts-ignore
+  _proto.__reactstandin__regenerateByEval = function __reactstandin__regenerateByEval(key, code) {
+    // @ts-ignore
+    this[key] = eval(code);
+  };
+
+  return GooBall;
+}(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component), _class2.defaultProps = {
+  defaultPosition: {
+    x: .5,
+    y: .5
+  },
+  style: initialBallStyle,
+  color: "black"
+}, _temp)) || _class);
+
+;
+
+(function () {
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(initialBallStyle, "initialBallStyle", "G:\\n8tz\\libs\\react-voodoo\\samples\\MassGoo\\etc\\GooBall.js");
+  reactHotLoader.register(GooBall, "GooBall", "G:\\n8tz\\libs\\react-voodoo\\samples\\MassGoo\\etc\\GooBall.js");
+})();
+
+;
+
+(function () {
+  var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
+/***/ "./samples/MassGoo/index.js":
+/*!**********************************!*\
+  !*** ./samples/MassGoo/index.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sample; });
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "./node_modules/@babel/runtime/helpers/inheritsLoose.js");
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _etc_GooBall__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./etc/GooBall */ "./samples/MassGoo/etc/GooBall.js");
+
+
+(function () {
+  var enterModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.enterModule : undefined;
+  enterModule && enterModule(module);
+})();
+
+var __signature__ = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default.signature : function (a) {
+  return a;
+};
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+var areaStyle = {
+  position: "relative",
+  width: "100%",
+  height: "100%",
+  overflow: "hidden",
+  filter: "url(#goo)"
+};
+
+var Sample =
+/*#__PURE__*/
+function (_React$Component) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0___default()(Sample, _React$Component);
+
+  function Sample() {
+    return _React$Component.apply(this, arguments) || this;
+  }
+
+  var _proto = Sample.prototype;
+
+  _proto.render = function render() {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "MassGoo",
+      ref: this.root
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+      style: {
+        position: 'absolute',
+        width: 0,
+        height: 0
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("filter", {
+      id: "goo"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("feGaussianBlur", {
+      in: "SourceGraphic",
+      result: "blur",
+      stdDeviation: "30"
+    }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("feColorMatrix", {
+      in: "blur",
+      values: "1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 30 -7"
+    }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "description"
+    }, "Drag & throw the balls"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      style: areaStyle,
+      className: "area"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_etc_GooBall__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      color: "black",
+      defaultPosition: {
+        x: .5,
+        y: .5
+      }
+    }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_etc_GooBall__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      color: "green",
+      defaultPosition: {
+        x: .75,
+        y: .75
+      }
+    }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_etc_GooBall__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      color: "red",
+      defaultPosition: {
+        x: .25,
+        y: .25
+      }
+    }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_etc_GooBall__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      color: "darkblue",
+      defaultPosition: {
+        x: .25,
+        y: .75
+      }
+    }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_etc_GooBall__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      color: "lightgrey",
+      defaultPosition: {
+        x: .75,
+        y: .25
+      }
+    })));
+  };
+
+  // @ts-ignore
+  _proto.__reactstandin__regenerateByEval = function __reactstandin__regenerateByEval(key, code) {
+    // @ts-ignore
+    this[key] = eval(code);
+  };
+
+  return Sample;
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
+
+
+;
+
+(function () {
+  var reactHotLoader = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.default : undefined;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(areaStyle, "areaStyle", "G:\\n8tz\\libs\\react-voodoo\\samples\\MassGoo\\index.js");
+  reactHotLoader.register(Sample, "Sample", "G:\\n8tz\\libs\\react-voodoo\\samples\\MassGoo\\index.js");
+})();
+
+;
+
+(function () {
+  var leaveModule = typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal.leaveModule : undefined;
+  leaveModule && leaveModule(module);
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
@@ -36403,7 +36828,7 @@ function (_React$Component) {
 
     _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
     _this.state = {
-      current: "Goo"
+      current: "MassGoo"
     };
     return _this;
   }
