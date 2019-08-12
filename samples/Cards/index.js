@@ -73,11 +73,10 @@ const CardXAxis =
 class SwipeableCard extends React.Component {
 	static defaultProps = {
 		swipeAnim: CardXAxis,
-		style    : cardStyle
+		style    : cardStyle,
+		showBack : false
 	};
-	state               = {
-		showBack: false
-	};
+	state               = {};
 	
 	constructor() {
 		super(...arguments);
@@ -96,7 +95,8 @@ class SwipeableCard extends React.Component {
 		let { swipeAnim, style } = props;
 		return {
 			swipeAnim: { scrollX: swipeAnim },
-			style
+			style,
+			showBack : state.showBack === undefined ? props.showBack : state.showBack
 		}
 	}
 	
@@ -110,6 +110,7 @@ class SwipeableCard extends React.Component {
 				axe={"scrollX"}
 				scrollableWindow={50}
 				items={this._flipEvent}
+				defaultPosition={showBack ? 100 : 0}
 				inertia={{
 					wayPoints: [{ at: 0 }, { at: 100 }],
 				}}
@@ -132,9 +133,13 @@ export default class Sample extends React.Component {
 			{
 				Array(20).fill(null).map(
 					( e, i ) =>
-						<SwipeableCard key={i}>
-							<div className={"frontCard"}>front {i}</div>
-							<div className={"backCard"}>back {i}</div>
+						<SwipeableCard key={i} showBack={!!(i % 3)}>
+							<div className={"frontCard"}>
+								<div className={"description"}>front {i}</div>
+							</div>
+							<div className={"backCard"}>
+								<div className={"description"}>back {i}</div>
+							</div>
 						</SwipeableCard>
 				)
 			}
