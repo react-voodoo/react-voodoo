@@ -30,19 +30,14 @@ const initialBallStyle = {
 	display : "inline-block",
 	cursor  : "pointer",
 	overflow: "hidden",
-	top     : "50%",
-	left    : "50%",
+	top     : "0%",
+	left    : "0%",
 	
 	transform: [
-		{
-			translateX: "0",
-			translateY: "0",
-		},
-		
-		{
-			translateX: "-50%",
-			translateY: "-50%",
-		},
+		//{
+		//	translateX: "0",
+		//	translateY: "0",
+		//},
 	]
 };
 const areaStyle        = {
@@ -50,19 +45,15 @@ const areaStyle        = {
 	width   : "100%",
 	height  : "100%",
 	overflow: "hidden",
-	
-	filter: "url(#goo)"
+	filter  : "url(#goo)"
 };
 
 @asTweener({ enableMouseDrag: true })
 export default class Sample extends React.Component {
-	state         = {
-		count: 0
-	};
 	root          = React.createRef();
 	currentTarget = {
-		x: .5,
-		y: .5
+		x: 0,
+		y: 0
 	};
 	
 	componentDidMount() {
@@ -78,10 +69,10 @@ export default class Sample extends React.Component {
 		this._bbox = this.root.current.getBoundingClientRect()
 	}
 	
-	pushGoTo = ( e, pendingTarget ) => {
+	pushGoTo = ( e ) => {
 		let bbox       = this._bbox,
 		    tweener    = this.props.tweener,
-		    target     = pendingTarget || {
+		    target     = {
 			    y: e.clientY - bbox.top,
 			    x: e.clientX - bbox.left
 		    },

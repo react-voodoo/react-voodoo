@@ -1245,12 +1245,21 @@ export default function asTweener( ...argz ) {
 			}
 		}
 		
+		_swap = {};
+		
 		_updateTweenRef( target ) {
-			let node;
+			let node, swap = this._swap;
 			this._.tweenRefCSS[target] &&
-			muxToCss(this._.tweenRefMaps[target], this._.tweenRefCSS[target], this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
+			muxToCss(this._.tweenRefMaps[target], swap, this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
 			node = this.getTweenableRef(target);
-			node && Object.assign(node.style, this._.tweenRefCSS[target]);
+			if ( node )
+				for ( let o in swap )
+					if ( this._.tweenRefCSS[target].hasOwnProperty(o) ) {
+						if ( swap[o] !== this._.tweenRefCSS[target][o] ) {
+							node.style[o] = this._.tweenRefCSS[target][o] = swap[o];
+						}
+						delete swap[o];
+					}
 			return this._.tweenRefCSS[target];
 		}
 		

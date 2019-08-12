@@ -88,7 +88,7 @@ function demuxOne( key, dkey, twVal, baseKey, data, box ) {
 	
 	if ( unit === 'deg' )
 		value = value % 360;
-	//if ( Math.abs(value) < .0001 && value !== 0 )
+	
 	return unit ? floatCut(value) + unit : floatCut(value);
 }
 
@@ -101,22 +101,26 @@ function demux( key, tweenable, target, data, box ) {
 			( tmap = {}, i ) => Object.keys(tmap).forEach(
 				fkey => {
 					let dkey     = key + '_' + fkey + '_' + i;
-					let value, y = 0;
+					let value, y = 0, iValue;
 					
 					value = "";
 					
 					for ( let rKey in data[dkey] )
 						if ( data[dkey].hasOwnProperty(rKey) ) {
-							if ( tweenable[dkey] < 0 )
-								value += (y ? " - " : "-") + demuxOne(rKey, dkey, -tweenable[rKey], fkey, data, box);
-							else
-								value += (y ? " + " : "") + demuxOne(rKey, dkey, tweenable[rKey], fkey, data, box);
+							if ( !tweenable[rKey] )
+								continue;
+							iValue = demuxOne(rKey, dkey, tweenable[rKey], fkey, data, box);
+							if ( y && iValue[0] === '-' )
+								iValue = " - " + iValue.substr(2);
+							else if ( y )
+								iValue = " + " + iValue;
+							value += iValue;
 							y++;
 						}
 					if ( y > 1 )
 						value = "calc(" + value + ")";
-					transforms += fkey + "(" + value + ") ";
 					
+					transforms += fkey + "(" + (value || "0") + ") ";
 					
 				}
 			)
