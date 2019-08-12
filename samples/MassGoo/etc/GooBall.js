@@ -21,7 +21,7 @@ import {asTweener, TweenAxis, TweenRef} from "react-voodoo";
 
 
 /**
- * This is an experimental lib
+ * This is an experimental lib & a very beta demo
  *
  */
 
