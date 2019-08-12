@@ -33823,11 +33823,10 @@ var initialBallStyle = {
   overflow: "hidden",
   top: "0%",
   left: "0%",
-  transform: [//{
-    //	translateX: "0",
-    //	translateY: "0",
-    //},
-  ]
+  transform: [{
+    translateX: "-50%",
+    translateY: "-50%"
+  }]
 };
 var areaStyle = {
   position: "relative",
@@ -33876,10 +33875,10 @@ function (_React$Component) {
       target.x = Math.min(1, Math.max(0, target.x.toFixed(3)));
       _this.currentTarget = target;
       tween = {
-        transform: {
+        transform: [{}, {
           translateX: target.x - lastTarget.x + "box",
           translateY: target.y - lastTarget.y + "box"
-        }
+        }]
       };
       tweener.pushAnim([{
         target: "goo1",

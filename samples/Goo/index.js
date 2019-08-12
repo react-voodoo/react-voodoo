@@ -34,10 +34,10 @@ const initialBallStyle = {
 	left    : "0%",
 	
 	transform: [
-		//{
-		//	translateX: "0",
-		//	translateY: "0",
-		//},
+		{
+			translateX: "-50%",
+			translateY: "-50%",
+		},
 	]
 };
 const areaStyle        = {
@@ -93,10 +93,10 @@ export default class Sample extends React.Component {
 		this.currentTarget = target;
 		
 		tween = {
-			transform: {
+			transform: [{}, {
 				translateX: (target.x - lastTarget.x) + "box",
 				translateY: (target.y - lastTarget.y) + "box"
-			}
+			}]
 		};
 		
 		tweener.pushAnim(
