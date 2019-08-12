@@ -54,6 +54,10 @@
     transform: translateX(-50%);
     z-index: 1000;
     pointer-events: none;
+    background: rgba(255, 255, 255, 0.33);
+    padding: 5px;
+    border-radius: 10px;
+    border: solid 1px rgba(0, 0, 0, 0.2);
   }
 
   .area {

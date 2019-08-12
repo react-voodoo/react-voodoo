@@ -39,7 +39,7 @@ export default class Sample extends React.Component {
 				</filter>
 			</svg>
 			<div className={"description"}>
-				Drag & throw the balls
+				Drag & throw the balls ( alpha demo )
 			</div>
 			<div style={areaStyle} className={"area"}>
 				<GooBall color={"black"} defaultPosition={{ x: .5, y: .5 }}/>
