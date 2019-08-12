@@ -108,7 +108,7 @@ class SwipeableCard extends React.Component {
 		return <>
 			<TweenAxis
 				axe={"scrollX"}
-				scrollableWindow={50}
+				scrollableWindow={100}
 				items={this._flipEvent}
 				defaultPosition={showBack ? 100 : 0}
 				inertia={{

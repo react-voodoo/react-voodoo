@@ -33899,7 +33899,7 @@ function (_React$Component) {
         showBack = _this$state.showBack;
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["TweenAxis"], {
       axe: "scrollX",
-      scrollableWindow: 50,
+      scrollableWindow: 100,
       items: this._flipEvent,
       defaultPosition: showBack ? 100 : 0,
       inertia: {
