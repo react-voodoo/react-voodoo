@@ -30,8 +30,8 @@ const initialBallStyle = {
 	display : "inline-block",
 	cursor  : "pointer",
 	overflow: "hidden",
-	top     : "0%",
-	left    : "0%",
+	top     : "50%",
+	left    : "50%",
 	
 	transform: [
 		{
@@ -52,8 +52,8 @@ const areaStyle        = {
 export default class Sample extends React.Component {
 	root          = React.createRef();
 	currentTarget = {
-		x: 0,
-		y: 0
+		x: .5,
+		y: .5
 	};
 	
 	componentDidMount() {
