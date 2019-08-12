@@ -76,24 +76,24 @@
         pointer-events: all;
 
         &:nth-child(2) {
+          width: 15vh;
+          height: 15vh;
+          max-width: 200px;
+          max-height: 200px;
+        }
+
+        &:nth-child(3) {
           width: 5vh;
           height: 5vh;
           max-width: 80px;
           max-height: 80px;
         }
 
-        &:nth-child(3) {
+        &:nth-child(1) {
           width: 10vh;
           height: 10vh;
           max-width: 120px;
           max-height: 120px;
-        }
-
-        &:nth-child(1) {
-          width: 15vh;
-          height: 15vh;
-          max-width: 200px;
-          max-height: 200px;
         }
       }
     }
