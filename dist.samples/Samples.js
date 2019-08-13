@@ -36920,7 +36920,7 @@ function (_React$Component) {
 
     _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
     _this.state = {
-      current: "SimpleInertiaTest"
+      current: "MassGoo"
     };
     return _this;
   }
