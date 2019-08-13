@@ -300,8 +300,6 @@ let
 	},
 	Dom       = {
 		addEvent     : function ( node, type, fn, mouseDrag, bubble ) {
-			if ( isTouch )
-				mouseDrag = false;
 			if ( is.object(type) ) {
 				for ( let o in type )
 					if ( type.hasOwnProperty(o) && type[o] )

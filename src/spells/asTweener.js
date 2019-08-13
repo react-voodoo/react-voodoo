@@ -151,9 +151,10 @@ export default function asTweener( ...argz ) {
 				_.iMapOrigin[id] = iMap;
 				iStyle           = iStyle || {};
 				iMap             = iMap || {};
-				if ( mapReset ) {
+				if ( _.tweenRefCSS[id]&&mapReset ) {
 					_.muxByTarget[id]     = {};
 					_.muxDataByTarget[id] = {};
+					
 					Object.keys(_.tweenRefCSS[id])// unset
 					      .forEach(
 						      key => (iStyle[key] = iStyle[key] || '')
@@ -251,7 +252,7 @@ export default function asTweener( ...argz ) {
 				muxToCss(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
 				
 			}
-			//console.log('tweenRef::tweenRef:519: ', id, { ...tweenableMap });
+			//console.log('tweenRef::tweenRef:519: ', id, { ..._.tweenRefCSS[id]  });
 			if ( noref )
 				return {
 					style: { ..._.tweenRefCSS[id] }

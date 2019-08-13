@@ -1,6 +1,6 @@
 {
   "name": "react-voodoo",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "license": "AGPL-3.0",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -20,6 +20,7 @@
   "dependencies": {
     "@babel/runtime": "^7.3.1",
     "color-rgba": "^2.1.0",
+    "css-box-shadow": "^1.0.0-3",
     "d3-ease": "^1.0.5",
     "is": "^3.2.1",
     "tween-axis": "^1.2.6"

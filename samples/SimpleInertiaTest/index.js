@@ -24,20 +24,28 @@ import {pushIn, tweenAxis}                          from "./anims";
 const testItemStyle = {
 	position       : "absolute",
 	display        : "inline-block",
-	width          : "6vh",
-	height         : "6vh",
+	width          : "15vh",
+	height         : "15vh",
 	cursor         : "pointer",
 	backgroundColor: "red",
 	overflow       : "hidden",
 	top            : ".1box",
 	left           : ".1box",
 	transformOrigin: "50% 50%",
+	boxShadow      : {
+		blurRadius  : 30,
+		color       : "rgba(0, 0, 255, .2)",
+		inset       : false,
+		offsetX     : -20,
+		offsetY     : -20,
+		spreadRadius: 1
+	},
 	
-	transform: {
+	transform: [{
 		translateZ: "0box",
 		translateX: ["-50%", ".8box"],
 		translateY: ["-50%", ".8box"],
-	}
+	}, { perspective: "200px" }]
 };
 
 @asTweener({ enableMouseDrag: true })

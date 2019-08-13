@@ -60,6 +60,11 @@ let goDown             = ( rotateDir = "rotateY", angle = 5, deepness = 30 ) => 
 		from    : 0,
 		duration: 50,
 		apply   : {
+			boxShadow: {
+				[rotateDir === "rotateY" ? "offsetX" : "offsetY"]: 20,
+				
+			},
+			
 			transform: {
 				translateZ: -deepness
 			},
@@ -87,6 +92,9 @@ let goDown             = ( rotateDir = "rotateY", angle = 5, deepness = 30 ) => 
 		from    : 50,
 		duration: 50,
 		apply   : {
+			boxShadow: {
+				[rotateDir === "rotateY" ? "offsetX" : "offsetY"]: 20,
+			},
 			transform: {
 				translateZ: deepness
 			},

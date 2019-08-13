@@ -41,7 +41,7 @@ const defaultUnits    = {
 
 function demuxOne( key, twVal, baseKey, data, box ) {
 	let value = twVal,
-	    unit  = data[baseKey][key] || defaultUnits[baseKey];
+	    unit  = data[baseKey][key] || defaultUnits[baseKey] || "px";
 	
 	if ( unit === 'box' ) {
 		value = value * (box[defaultBox[baseKey]] || box.x);
@@ -79,7 +79,7 @@ function demux( key, tweenable, target, data, box, baseKey ) {
 	if ( i > 1 )
 		value = "calc(" + value + ")";
 	
-	target[key] = value;
+	return target ? target[key] = value : value;
 }
 
 function muxer( key, value, target, data, initials, forceUnits ) {

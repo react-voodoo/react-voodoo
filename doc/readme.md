@@ -46,7 +46,17 @@ let style = {
         ],
         filter   : {
             sepia: 100
-        }
+        },
+        
+        //boxShadow      : "12px 12cm 2px 1px rgba(0, 0, 255, .2), inset 5px 5px red"
+        boxShadow      : {
+            blurRadius  : 30,
+            color       : "rgba(0, 0, 255, .2)",// default is black
+            inset       : false,// only value not relative
+            offsetX     : "-20em",
+            offsetY     : -20,
+            spreadRadius: 1
+        },
     
 }
 ```
