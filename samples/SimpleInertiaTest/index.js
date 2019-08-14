@@ -34,7 +34,7 @@ const testItemStyle = {
 	transformOrigin: "50% 50%",
 	boxShadow      : {
 		blurRadius  : 30,
-		color       : "rgba(0, 0, 255, .2)",
+		color       : "rgba(0, 0, 255, .5)",
 		inset       : false,
 		offsetX     : -20,
 		offsetY     : -20,

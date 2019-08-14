@@ -74,8 +74,8 @@ export default ( key, value, target, data, initials, forceUnits ) => {
 				shadow = cssShadowParser.parse(shadow)[0];
 			if ( shadow ) {
 				//color: "rgba(0, 0, 255, .2)"
-				//initials[key + '_' + i + "_color"] = "black";
-				color(key + '_' + i + "_color", shadow.color || "black", target, data, initials, forceUnits);
+				initials[key + '_' + i + "_color"] = "rgba(0,0,0,0)";
+				color(key + '_' + i + "_color", shadow.color || "rgba(0,0,0,0)", target, data, initials, forceUnits);
 				//blurRadius: 2
 				number(key + '_' + i + "_blurRadius", shadow.blurRadius || 0, target, data, initials, forceUnits);
 				//inset: false
