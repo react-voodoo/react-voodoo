@@ -60,7 +60,6 @@ export default ( key, value, target, data, initials, forceUnits ) => {
 	data[key]        = data[key] || [];
 	initials[key]    = 0;
 	let parsedValues = value, i;
-	// inset? && <length>{2,4} && <color>?
 	if ( is.string(parsedValues) )
 		parsedValues = cssShadowParser.parse(parsedValues);
 	else if ( !is.array(parsedValues) )
