@@ -18,7 +18,7 @@
 let
 	is        = require('is'),
 	isBrowser = typeof window !== 'undefined',
-	isTouch   = (function is_touch_device() {
+	isTouch   = isBrowser && (function is_touch_device() {
 		var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
 		var mq       = function ( query ) {
 			return window.matchMedia(query).matches;

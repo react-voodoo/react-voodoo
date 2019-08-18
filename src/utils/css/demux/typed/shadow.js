@@ -34,7 +34,6 @@ const
 		sepia     : "%"
 	};
 const swap             = {};
-window.cssShadowParser = cssShadowParser;
 
 function demux( key, tweenable, target, data, box ) {
 	//if ( data["filter_head"] === key ) {
