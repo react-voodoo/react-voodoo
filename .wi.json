@@ -15,8 +15,9 @@
       },
       "webpackPatch": {
         "optimization": {
-          "usedExports": true
-        }
+//          "namedModules": true
+        },
+        "devtool": "source-map"
       }
     },
     "extend": [
@@ -31,7 +32,6 @@
       "entryPoint": "./src",
       "externals": true,
       "production": false,
-
       "babelPreset": {
         "targets": {
           "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
@@ -39,7 +39,6 @@
         "loose": true
       },
       "webpackPatch": {
-
       }
     },
     "extend": [
@@ -51,7 +50,7 @@
     "basedOn": "static",
     "vars": {
       "rootAlias": "Samples",
-//      "devServer": true,
+      //      "devServer": true,
       "targetDir": "dist.samples",
       "entryPoint": "Samples/index.js",
       "HtmlWebpackPlugin": {

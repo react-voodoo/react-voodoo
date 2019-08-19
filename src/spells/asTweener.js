@@ -495,7 +495,7 @@ export default function asTweener( ...argz ) {
 		/**
 		 * Return axis infos
 		 */
-		getAxisState() {
+		getAxisState(axe) {
 			let _ = this._, state = {};
 			_.axes && Object.keys(_.axes)
 			                .forEach(
@@ -1253,6 +1253,7 @@ export default function asTweener( ...argz ) {
 			this._.tweenRefCSS[target] &&
 			muxToCss(this._.tweenRefMaps[target], swap, this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
 			node = this.getTweenableRef(target);
+			//console.log('no changes', target, swap)
 			if ( node )
 				for ( let o in swap )
 					if ( this._.tweenRefCSS[target].hasOwnProperty(o) ) {
@@ -1263,7 +1264,6 @@ export default function asTweener( ...argz ) {
 						delete swap[o];
 					}
 			//if (!changes)
-			//	console.log('no changes', target)
 			return this._.tweenRefCSS[target];
 		}
 		

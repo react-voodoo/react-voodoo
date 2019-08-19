@@ -11,11 +11,12 @@
     "devLib": "wpi :staging -w",
     "devSamples": "wpi-dev-server :samples --hot --host 0.0.0.0",
     "startSamples": "ws -d ./dist.samples -p 8080",
-    "runBrowser": "start http://localhost:8080"
+    "runBrowser": "start http://localhost:8080",
+    "test": "mocha --require @babel/register ./etc/tests/*.test.jsx -b"
   },
   "peerDependencies": {
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",

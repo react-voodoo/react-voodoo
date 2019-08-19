@@ -19,9 +19,9 @@
 const path       = require('path'),
       packageCfg = JSON.parse(require('fs').readFileSync(__dirname + '/../../package.json'));
 
-import {expect} from 'chai';
-import {render} from 'enzyme';
-import React    from 'react';
+import {expect}        from 'chai';
+import {mount, render} from 'enzyme';
+import React           from 'react';
 
 
 describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
@@ -35,6 +35,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 	it('should import voodoo fine', function () {
 		VoodooTweener = require('../..');
 	});
+	
 	describe("Css styles : ", () => {
 		
 		it('should support multiple css units', function () {
@@ -55,9 +56,164 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 			}
 			
 			const wrapper = render(<MyComp/>);
-			//console.log(':::57: ', wrapper.find('.card')[0]);
-			//console.log(':::57: ', wrapper.html());
-			expect(wrapper.find('.card')[0].attribs.style).to.include('width:calc(50.000% + 50.000px)');
+			expect(wrapper.find('.card')[0].attribs.style).to.include('width:calc(50% + 50px)');
+		});
+	});
+	describe("Simple anims : ", ( done ) => {
+		
+		it('should play simple anim well', function ( done ) {
+			this.timeout(Infinity);
+			
+			@VoodooTweener.asTweener
+			class MyComp extends React.Component {
+				
+				render() {
+					setTimeout(
+						tm => this.props.tweener.pushAnim([{
+							apply   : { width: "50px" },
+							duration: 50,
+							from    : 0,
+							target  : "card"
+						}])
+					);
+					return <div className={"container"}>
+						<VoodooTweener.TweenRef id="card"
+						                        initial={{
+							                        width: "50px"
+						                        }}>
+							<div className={"card"}>
+								test
+							</div>
+						</VoodooTweener.TweenRef>
+					</div>;
+				}
+			}
+			
+			const wrapper = mount(<MyComp/>);
+			setTimeout(
+				tm => {
+					//console.log(':::57: ', wrapper.find('.card').getDOMNode(0).style.width);
+					expect(wrapper.find('.card').getDOMNode(0).style.width).to.include('100px');
+					done();
+				},
+				100
+			)
+			
+		});
+		it('should play simple anim well even if theres redraws', function ( done ) {
+			this.timeout(Infinity);
+			let redrawTm;
+			
+			@VoodooTweener.asTweener
+			class MyComp extends React.Component {
+				state = {};
+				
+				componentDidMount() {
+					
+					setTimeout(
+						tm => this.props.tweener.pushAnim([{
+							apply   : { width: "50px" },
+							duration: 500,
+							from    : 0,
+							target  : "card"
+						}])
+					);
+					redrawTm = setInterval(
+						tm => this.setState({ value: Math.random() }),
+						10
+					);
+				}
+				
+				render() {
+					return <div className={"container"}>
+						<VoodooTweener.TweenRef id="card"
+						                        initial={{
+							                        width: "50px"
+						                        }}>
+							<div className={"card"}>
+								{this.state.value}
+							</div>
+						</VoodooTweener.TweenRef>
+					</div>;
+				}
+			}
+			
+			const wrapper = mount(<MyComp/>);
+			setTimeout(
+				tm => {
+					clearInterval(redrawTm);
+					expect(wrapper.find('.card').getDOMNode(0).style.width).to.include('100px');
+					done();
+				},
+				600
+			)
+			
+		});
+		it('should play simple anim well even if theres redraws & scroll', function ( done ) {
+			this.timeout(Infinity);
+			let redrawTm,
+			    scrollLine = [{
+				    apply   : { width: "50px" },
+				    duration: 100,
+				    from    : 0,
+				    target  : "card"
+			    }];
+			
+			@VoodooTweener.asTweener
+			class MyComp extends React.Component {
+				state = {};
+				
+				componentDidMount() {
+					
+					setTimeout(
+						tm => this.props.tweener.pushAnim([{
+							apply   : { width: "50px" },
+							duration: 500,
+							from    : 0,
+							target  : "card"
+						}])
+					);
+					setTimeout(
+						tm => this.props.tweener.scrollTo(100, 300)
+					);
+					redrawTm = setInterval(
+						tm => {
+							//console.log(':::57: ', wrapper.find('.card').getDOMNode(0).style.width)
+							this.setState({ value: Math.random() })
+						},
+						10
+					);
+				}
+				
+				render() {
+					return <div className={"container"}>
+						<VoodooTweener.TweenAxis
+							axe={"scrollY"}
+							defaultPosition={0}
+						/>
+						<VoodooTweener.TweenRef id="card"
+						                        tweenAxis={scrollLine}
+						                        initial={{
+							                        width: "50px"
+						                        }}>
+							<div className={"card"}>
+								{this.state.value}
+							</div>
+						</VoodooTweener.TweenRef>
+					</div>;
+				}
+			}
+			
+			const wrapper = mount(<MyComp/>);
+			setTimeout(
+				tm => {
+					clearInterval(redrawTm);
+					expect(wrapper.find('.card').getDOMNode(0).style.width).to.equal('150px');
+					done();
+				},
+				600
+			)
+			
 		});
 	});
 	

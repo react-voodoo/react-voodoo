@@ -213,7 +213,7 @@ export const unitsRe  = new RegExp(
 	['\\w+', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
 	+ ")"
 );
-export const floatCut = ( v = 0 ) => v.toFixed(3);
+export const floatCut = ( v = 0 ) => Number(v.toFixed(3));
 
 export function expandShorthandProperty( property, value, target = {} ) {
 	let type       = props[property],

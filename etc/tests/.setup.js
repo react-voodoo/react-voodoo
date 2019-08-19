@@ -32,8 +32,8 @@ module.exports = function () {
 		              e => {
 			              Enzyme.configure({ adapter: new Adapter() });
 			              let window = browser.window;
-			              //window.requestAnimationFrame = setTimeout;
-			              //window.cancelAnimationFrame  = clearTimeout;
+			              window.requestAnimationFrame = setTimeout;
+			              window.cancelAnimationFrame  = clearTimeout;
 			              global.window    = window;
 			              global.document  = window.document;
 			              global.navigator = {
