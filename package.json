@@ -14,8 +14,8 @@
     "runBrowser": "start http://localhost:8080"
   },
   "peerDependencies": {
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
@@ -32,8 +32,8 @@
     "jsdom": "^15.1.1",
     "local-web-server": "^3.0.7",
     "mocha": "^6.2.0",
-    "webpack-inherit": "^1.7.12",
-    "wi-layer-react-express": "^1.1.1",
+    "webpack-inherit": "^1.8.2",
+    "wi-layer-react-express": "^1.1.4",
     "zombie": "^6.1.4"
   }
 }

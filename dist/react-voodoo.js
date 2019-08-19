@@ -168,28 +168,11 @@ var req,
     cExport,
     fPath,
     i;
-req = __webpack_require__("./src/utils/css/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$");
-req.keys().forEach(function (key) {
-  var mod,
-      name = key.match(/^\.\/([^\\\/]+)\.js$/),
-      i = 0,
-      modExport = _exports;
-  name = name && name[1] || key.substr(2);
-  name = name.split('/');
 
-  while (i < name.length - 1) {
-    modExport = modExport[name[i]] = modExport[name[i]] || {}, i++;
-  }
-
-  if (!modExport[name[i]]) {
-    mod = req(key); //modExport[name[i]] = Object.keys(mod).length === 1 && mod.default || mod;
-  }
-});
-
-var _react_voodoo_utils_css_demux_backgroundColor_js = __webpack_require__(/*! react-voodoo/utils/css/demux/backgroundColor.js */ "./src/utils/css/demux/backgroundColor.js");
+var _react_voodoo_utils_css_demux_filter_js = __webpack_require__(/*! react-voodoo/utils/css/demux/filter.js */ "./src/utils/css/demux/filter.js");
 
 cExport = _exports;
-fPath = "backgroundColor".split('/');
+fPath = "filter".split('/');
 i = 0;
 
 while (i < fPath.length - 1) {
@@ -197,7 +180,7 @@ while (i < fPath.length - 1) {
 }
 
 if (!cExport[fPath[i]]) {
-  cExport[fPath[i]] = Object.keys(_react_voodoo_utils_css_demux_backgroundColor_js).length === 1 && _react_voodoo_utils_css_demux_backgroundColor_js.default || _react_voodoo_utils_css_demux_backgroundColor_js;
+  cExport[fPath[i]] = Object.keys(_react_voodoo_utils_css_demux_filter_js).length === 1 && _react_voodoo_utils_css_demux_filter_js.default || _react_voodoo_utils_css_demux_filter_js;
 }
 
 var _react_voodoo_utils_css_demux_boxShadow_js = __webpack_require__(/*! react-voodoo/utils/css/demux/boxShadow.js */ "./src/utils/css/demux/boxShadow.js");
@@ -214,10 +197,10 @@ if (!cExport[fPath[i]]) {
   cExport[fPath[i]] = Object.keys(_react_voodoo_utils_css_demux_boxShadow_js).length === 1 && _react_voodoo_utils_css_demux_boxShadow_js.default || _react_voodoo_utils_css_demux_boxShadow_js;
 }
 
-var _react_voodoo_utils_css_demux_filter_js = __webpack_require__(/*! react-voodoo/utils/css/demux/filter.js */ "./src/utils/css/demux/filter.js");
+var _react_voodoo_utils_css_demux_transform_js = __webpack_require__(/*! react-voodoo/utils/css/demux/transform.js */ "./src/utils/css/demux/transform.js");
 
 cExport = _exports;
-fPath = "filter".split('/');
+fPath = "transform".split('/');
 i = 0;
 
 while (i < fPath.length - 1) {
@@ -225,7 +208,7 @@ while (i < fPath.length - 1) {
 }
 
 if (!cExport[fPath[i]]) {
-  cExport[fPath[i]] = Object.keys(_react_voodoo_utils_css_demux_filter_js).length === 1 && _react_voodoo_utils_css_demux_filter_js.default || _react_voodoo_utils_css_demux_filter_js;
+  cExport[fPath[i]] = Object.keys(_react_voodoo_utils_css_demux_transform_js).length === 1 && _react_voodoo_utils_css_demux_transform_js.default || _react_voodoo_utils_css_demux_transform_js;
 }
 
 var _react_voodoo_utils_css_demux_textShadow_js = __webpack_require__(/*! react-voodoo/utils/css/demux/textShadow.js */ "./src/utils/css/demux/textShadow.js");
@@ -242,10 +225,10 @@ if (!cExport[fPath[i]]) {
   cExport[fPath[i]] = Object.keys(_react_voodoo_utils_css_demux_textShadow_js).length === 1 && _react_voodoo_utils_css_demux_textShadow_js.default || _react_voodoo_utils_css_demux_textShadow_js;
 }
 
-var _react_voodoo_utils_css_demux_transform_js = __webpack_require__(/*! react-voodoo/utils/css/demux/transform.js */ "./src/utils/css/demux/transform.js");
+var _react_voodoo_utils_css_demux_backgroundColor_js = __webpack_require__(/*! react-voodoo/utils/css/demux/backgroundColor.js */ "./src/utils/css/demux/backgroundColor.js");
 
 cExport = _exports;
-fPath = "transform".split('/');
+fPath = "backgroundColor".split('/');
 i = 0;
 
 while (i < fPath.length - 1) {
@@ -253,7 +236,7 @@ while (i < fPath.length - 1) {
 }
 
 if (!cExport[fPath[i]]) {
-  cExport[fPath[i]] = Object.keys(_react_voodoo_utils_css_demux_transform_js).length === 1 && _react_voodoo_utils_css_demux_transform_js.default || _react_voodoo_utils_css_demux_transform_js;
+  cExport[fPath[i]] = Object.keys(_react_voodoo_utils_css_demux_backgroundColor_js).length === 1 && _react_voodoo_utils_css_demux_backgroundColor_js.default || _react_voodoo_utils_css_demux_backgroundColor_js;
 }
 
 var backgroundColor = _exports.backgroundColor;
@@ -324,37 +307,6 @@ var req,
     cExport,
     fPath,
     i;
-req = __webpack_require__("./src/utils/css/demux/typed sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$");
-req.keys().forEach(function (key) {
-  var mod,
-      name = key.match(/^\.\/([^\\\/]+)\.js$/),
-      i = 0,
-      modExport = _exports;
-  name = name && name[1] || key.substr(2);
-  name = name.split('/');
-
-  while (i < name.length - 1) {
-    modExport = modExport[name[i]] = modExport[name[i]] || {}, i++;
-  }
-
-  if (!modExport[name[i]]) {
-    mod = req(key); //modExport[name[i]] = Object.keys(mod).length === 1 && mod.default || mod;
-  }
-});
-
-var _react_voodoo_utils_css_demux_typed_color_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/color.js */ "./src/utils/css/demux/typed/color.js");
-
-cExport = _exports;
-fPath = "color".split('/');
-i = 0;
-
-while (i < fPath.length - 1) {
-  cExport = cExport[fPath[i]] = cExport[fPath[i]] || {}, i++;
-}
-
-if (!cExport[fPath[i]]) {
-  cExport[fPath[i]] = Object.keys(_react_voodoo_utils_css_demux_typed_color_js).length === 1 && _react_voodoo_utils_css_demux_typed_color_js.default || _react_voodoo_utils_css_demux_typed_color_js;
-}
 
 var _react_voodoo_utils_css_demux_typed_int_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/int.js */ "./src/utils/css/demux/typed/int.js");
 
@@ -368,6 +320,20 @@ while (i < fPath.length - 1) {
 
 if (!cExport[fPath[i]]) {
   cExport[fPath[i]] = Object.keys(_react_voodoo_utils_css_demux_typed_int_js).length === 1 && _react_voodoo_utils_css_demux_typed_int_js.default || _react_voodoo_utils_css_demux_typed_int_js;
+}
+
+var _react_voodoo_utils_css_demux_typed_color_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/color.js */ "./src/utils/css/demux/typed/color.js");
+
+cExport = _exports;
+fPath = "color".split('/');
+i = 0;
+
+while (i < fPath.length - 1) {
+  cExport = cExport[fPath[i]] = cExport[fPath[i]] || {}, i++;
+}
+
+if (!cExport[fPath[i]]) {
+  cExport[fPath[i]] = Object.keys(_react_voodoo_utils_css_demux_typed_color_js).length === 1 && _react_voodoo_utils_css_demux_typed_color_js.default || _react_voodoo_utils_css_demux_typed_color_js;
 }
 
 var _react_voodoo_utils_css_demux_typed_multi_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/multi.js */ "./src/utils/css/demux/typed/multi.js");
@@ -804,7 +770,8 @@ function (_React$Component) {
           scrollY: parentTweener.addScrollableAnim(setTarget(tweenAxis, id))
         };else _this3._tweenAxis = tweenAxis && Object.keys(tweenAxis).reduce(function (h, axe) {
           return h[axe] = parentTweener.addScrollableAnim(setTarget(tweenAxis[axe], id), axe), h;
-        }, {}); //twRef.style = { ...parentTweener._updateTweenRef(id) };
+        }, {});
+        twRef.style = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, parentTweener._updateTweenRef(id));
 
         if (_this3.props.hasOwnProperty("isRoot")) {
           _this3._currentTweener && _this3._currentTweener.setRootRef(undefined);
@@ -2352,8 +2319,9 @@ function asTweener() {
 
           delete swap[o];
         }
-      }
-      if (!changes) console.log('no changes', target);
+      } //if (!changes)
+      //	console.log('no changes', target)
+
       return this._.tweenRefCSS[target];
     } // ------------------------------------------------------------
     // --------------- React Hooks --------------------------------
@@ -3218,43 +3186,6 @@ function getProperty(property, expand) {
 
 /***/ }),
 
-/***/ "./src/utils/css/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$":
-/*!*******************************************************!*\
-  !*** ./src/utils/css/demux sync ^\.\/([^\\\/]+)\.js$ ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var map = {
-	"./backgroundColor.js": "./src/utils/css/demux/backgroundColor.js",
-	"./boxShadow.js": "./src/utils/css/demux/boxShadow.js",
-	"./filter.js": "./src/utils/css/demux/filter.js",
-	"./textShadow.js": "./src/utils/css/demux/textShadow.js",
-	"./transform.js": "./src/utils/css/demux/transform.js"
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = "./src/utils/css/demux sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$";
-
-/***/ }),
-
 /***/ "./src/utils/css/demux/backgroundColor.js":
 /*!************************************************!*\
   !*** ./src/utils/css/demux/backgroundColor.js ***!
@@ -3709,43 +3640,6 @@ var _default = function _default(key, value, target, data, initials, forceUnits,
   leaveModule && leaveModule(module);
 })();
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
-
-/***/ }),
-
-/***/ "./src/utils/css/demux/typed sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$":
-/*!*************************************************************!*\
-  !*** ./src/utils/css/demux/typed sync ^\.\/([^\\\/]+)\.js$ ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var map = {
-	"./color.js": "./src/utils/css/demux/typed/color.js",
-	"./int.js": "./src/utils/css/demux/typed/int.js",
-	"./multi.js": "./src/utils/css/demux/typed/multi.js",
-	"./number.js": "./src/utils/css/demux/typed/number.js",
-	"./shadow.js": "./src/utils/css/demux/typed/shadow.js"
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = "./src/utils/css/demux/typed sync recursive ^\\.\\/([^\\\\\\/]+)\\.js$";
 
 /***/ }),
 

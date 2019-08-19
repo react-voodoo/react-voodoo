@@ -20,7 +20,7 @@ const path       = require('path'),
       packageCfg = JSON.parse(require('fs').readFileSync(__dirname + '/../../package.json'));
 
 import {expect} from 'chai';
-import {mount, render}  from 'enzyme';
+import {render} from 'enzyme';
 import React    from 'react';
 
 
@@ -55,10 +55,9 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 			}
 			
 			const wrapper = render(<MyComp/>);
-			debugger;
-			console.log(':::57: ', wrapper.find('.card')[0]);
+			//console.log(':::57: ', wrapper.find('.card')[0]);
 			//console.log(':::57: ', wrapper.html());
-			expect(wrapper.find('.card').get(0).style).to.have.property('width', 'calc(50.000% + 50.000px)');
+			expect(wrapper.find('.card')[0].attribs.style).to.include('width:calc(50.000% + 50.000px)');
 		});
 	});
 	

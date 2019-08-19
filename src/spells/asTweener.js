@@ -1262,8 +1262,8 @@ export default function asTweener( ...argz ) {
 						}
 						delete swap[o];
 					}
-			if (!changes)
-				console.log('no changes', target)
+			//if (!changes)
+			//	console.log('no changes', target)
 			return this._.tweenRefCSS[target];
 		}
 		

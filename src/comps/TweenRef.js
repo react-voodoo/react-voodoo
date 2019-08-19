@@ -107,7 +107,7 @@ export default class TweenRef extends React.Component {
 								Object.keys(tweenAxis)
 								      .reduce(( h, axe ) => (h[axe] = parentTweener.addScrollableAnim(setTarget(tweenAxis[axe], id), axe), h), {});
 						
-						//twRef.style = { ...parentTweener._updateTweenRef(id) };
+						twRef.style = { ...parentTweener._updateTweenRef(id) };
 						
 						if ( this.props.hasOwnProperty("isRoot") ) {
 							this._currentTweener && this._currentTweener.setRootRef(undefined);
