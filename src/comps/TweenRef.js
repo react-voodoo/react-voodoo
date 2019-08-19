@@ -94,10 +94,11 @@ export default class TweenRef extends React.Component {
 							      .forEach(axe => this._currentTweener.rmScrollableAnim(this._tweenAxis[axe], axe));
 							
 						}
-						//if ( this._currentTweener !== parentTweener )
-						this._currentTweener && this._currentTweener.rmTweenRef(id)
-						twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial,
-						                               pos, noRef, this._previousScrollable !== tweenAxis)
+						if ( this._currentTweener !== parentTweener ) {
+							this._currentTweener && this._currentTweener.rmTweenRef(id)
+							twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial,
+							                               pos, noRef, this._previousScrollable !== tweenAxis)
+						}
 						
 						if ( tweenAxis && is.array(tweenAxis) )
 							this._tweenAxis = { scrollY: parentTweener.addScrollableAnim(setTarget(tweenAxis, id)) };
@@ -106,7 +107,7 @@ export default class TweenRef extends React.Component {
 								Object.keys(tweenAxis)
 								      .reduce(( h, axe ) => (h[axe] = parentTweener.addScrollableAnim(setTarget(tweenAxis[axe], id), axe), h), {});
 						
-						twRef.style = { ...parentTweener._updateTweenRef(id) };
+						//twRef.style = { ...parentTweener._updateTweenRef(id) };
 						
 						if ( this.props.hasOwnProperty("isRoot") ) {
 							this._currentTweener && this._currentTweener.setRootRef(undefined);
@@ -117,18 +118,24 @@ export default class TweenRef extends React.Component {
 						this._previousScrollable = tweenAxis;
 						
 					}
-					if ( React.isValidElement(children) ) {
-						children = React.cloneElement(
-							children,
+					
+					let refChild = React.Children.only(children);
+					
+					if ( refChild && React.isValidElement(refChild) ) {
+						refChild = React.cloneElement(
+							refChild,
 							{
 								...twRef,
 								onDoubleClick: onDoubleClick && (e => onDoubleClick(e, parentTweener)),
 								onClick      : onClick && (e => onClick(e, parentTweener))
 							}
 						);
-						
+						//console.log(twRef, refChild)
+						return refChild;
+					}else{
+						console.error("Invalid voodoo TweenRef child : ", id)
 					}
-					return children;
+					return <div>Invalid</div>;
 				}
 			}
 		</TweenerContext.Consumer>;

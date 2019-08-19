@@ -26,8 +26,14 @@
     "tween-axis": "^1.2.6"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jsdom": "^15.1.1",
     "local-web-server": "^3.0.7",
+    "mocha": "^6.2.0",
     "webpack-inherit": "^1.7.12",
-    "wi-layer-react-express": "^1.1.1"
+    "wi-layer-react-express": "^1.1.1",
+    "zombie": "^6.1.4"
   }
 }
