@@ -29,7 +29,7 @@ It allow :
 
 ## Draft & minimalist samples [here](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo/blob/master/dist.samples/index.html) ( [sources](samples) )
 
-## Draft & minimalist doc [here](doc/readme.md)
+## Draft & minimalist doc [here](etc/doc/readme.md)
 
 ## Note
 

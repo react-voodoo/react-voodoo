@@ -94,11 +94,11 @@ export default class TweenRef extends React.Component {
 							      .forEach(axe => this._currentTweener.rmScrollableAnim(this._tweenAxis[axe], axe));
 							
 						}
-						if ( this._currentTweener !== parentTweener ) {
+						if ( this._currentTweener !== parentTweener )
 							this._currentTweener && this._currentTweener.rmTweenRef(id)
-							twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial,
-							                               pos, noRef, this._previousScrollable !== tweenAxis)
-						}
+						twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial,
+						                               pos, noRef, this._previousScrollable !== tweenAxis)
+						//}
 						
 						if ( tweenAxis && is.array(tweenAxis) )
 							this._tweenAxis = { scrollY: parentTweener.addScrollableAnim(setTarget(tweenAxis, id)) };
@@ -130,12 +130,12 @@ export default class TweenRef extends React.Component {
 								onClick      : onClick && (e => onClick(e, parentTweener))
 							}
 						);
-						//console.log(twRef, refChild)
 						return refChild;
-					}else{
+					}
+					else {
 						console.error("Invalid voodoo TweenRef child : ", id)
 					}
-					return <div>Invalid</div>;
+					return children;
 				}
 			}
 		</TweenerContext.Consumer>;

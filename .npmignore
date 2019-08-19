@@ -29,9 +29,9 @@ $RECYCLE.BIN/
 
 .tmp
 .idea
-/doc/
+/etc/
 /src/
 /samples
 /dist.samples
 .wi.json
-react-voodoo.js.map
+#react-voodoo.js.map
