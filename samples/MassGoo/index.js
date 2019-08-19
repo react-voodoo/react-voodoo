@@ -42,11 +42,11 @@ export default class Sample extends React.Component {
 				Drag & throw the balls ( alpha demo )
 			</div>
 			<div style={areaStyle} className={"area"}>
-				<GooBall color={"black"} defaultPosition={{ x: .5, y: .5 }}/>
+				<GooBall color={"cyan"} defaultPosition={{ x: .5, y: .5 }}/>
 				<GooBall color={"green"} defaultPosition={{ x: .75, y: .75 }}/>
 				<GooBall color={"red"} defaultPosition={{ x: .25, y: .25 }}/>
 				<GooBall color={"darkblue"} defaultPosition={{ x: .25, y: .75 }}/>
-				<GooBall color={"lightgrey"} defaultPosition={{ x: .75, y: .25 }}/>
+				<GooBall color={"yellow"} defaultPosition={{ x: .75, y: .25 }}/>
 			</div>
 		</div>;
 	}
