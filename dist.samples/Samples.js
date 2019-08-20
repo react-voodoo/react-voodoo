@@ -34127,6 +34127,33 @@ function (_React$Component) {
 
     _this = _React$Component.apply(this, arguments) || this;
     _this.state = {};
+
+    _this.mouseEnter = function () {
+      var tweener = _this.props.tweener;
+      tweener.pushAnim([{
+        from: 0,
+        duration: 500,
+        apply: {
+          transform: {
+            translateZ: 200
+          }
+        }
+      }]);
+    };
+
+    _this.mouseLeave = function () {
+      var tweener = _this.props.tweener;
+      tweener.pushAnim([{
+        from: 0,
+        duration: 500,
+        apply: {
+          transform: {
+            translateZ: -200
+          }
+        }
+      }]);
+    };
+
     _this._flipEvent = [{
       type: "Event",
       from: 50,
@@ -34176,7 +34203,9 @@ function (_React$Component) {
       tweenAxis: swipeAnim,
       initial: style
     }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      className: "SwipeableCard"
+      className: "SwipeableCard",
+      onMouseEnter: this.mouseEnter,
+      onMouseLeave: this.mouseLeave
     }, this.props.children && this.props.children[showBack ? 1 : 0])));
   };
 

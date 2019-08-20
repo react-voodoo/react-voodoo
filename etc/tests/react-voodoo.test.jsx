@@ -149,7 +149,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 			)
 			
 		});
-		it('should play simple anim well even if theres redraws & scroll', function ( done ) {
+		it('should play simple anim well even if theres props change, redraws & scroll', function ( done ) {
 			this.timeout(Infinity);
 			let redrawTm,
 			    scrollLine = [{
@@ -176,13 +176,6 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 					setTimeout(
 						tm => this.props.tweener.scrollTo(100, 300)
 					);
-					redrawTm = setInterval(
-						tm => {
-							//console.log(':::57: ', wrapper.find('.card').getDOMNode(0).style.width)
-							this.setState({ value: Math.random() })
-						},
-						10
-					);
 				}
 				
 				render() {
@@ -197,14 +190,33 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 							                        width: "50px"
 						                        }}>
 							<div className={"card"}>
-								{this.state.value}
+								{this.props.value}
 							</div>
 						</VoodooTweener.TweenRef>
 					</div>;
 				}
 			}
 			
-			const wrapper = mount(<MyComp/>);
+			class MyApp extends React.Component {
+				state = {};
+				
+				componentDidMount() {
+					redrawTm = setInterval(
+						tm => {
+							this.setState({ value: Math.random() })
+						},
+						10
+					);
+				}
+				
+				render() {
+					return <div className={"container"}>
+						<MyComp value={this.state.value}/>
+					</div>;
+				}
+			}
+			
+			const wrapper = mount(<MyApp/>);
 			setTimeout(
 				tm => {
 					clearInterval(redrawTm);

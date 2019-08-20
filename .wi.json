@@ -15,7 +15,7 @@
       },
       "webpackPatch": {
         "optimization": {
-//          "namedModules": true
+          //          "namedModules": true
         },
         "devtool": "source-map"
       }
@@ -50,7 +50,37 @@
     "basedOn": "static",
     "vars": {
       "rootAlias": "Samples",
-      //      "devServer": true,
+      "production": false,
+      "targetDir": "dist.samples",
+      "entryPoint": "Samples/index.js",
+      "HtmlWebpackPlugin": {
+        "template": "./samples/index.html.tpl"
+      },
+      "babelPreset": {
+        "targets": {
+          "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
+        },
+        "loose": true
+      },
+      "webpackPatch": {
+        "resolve": {
+          "alias": {
+            "react-voodoo": "Samples/voodoo.js"
+          }
+        }
+      }
+    },
+    "extend": [
+      "wi-layer-react-express"
+    ]
+  },
+  "samplesDev": {
+    "rootFolder": "samples",
+    "basedOn": "static",
+    "vars": {
+      "rootAlias": "Samples",
+      "devServer": true,
+      "production": false,
       "targetDir": "dist.samples",
       "entryPoint": "Samples/index.js",
       "HtmlWebpackPlugin": {

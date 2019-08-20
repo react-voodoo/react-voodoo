@@ -9,7 +9,7 @@
   "scripts": {
     "build": "wpi && wpi :samples",
     "devLib": "wpi :staging -w",
-    "devSamples": "wpi-dev-server :samples --hot --host 0.0.0.0",
+    "devSamples": "wpi-dev-server :samplesDev --hot --host 0.0.0.0",
     "startSamples": "ws -d ./dist.samples -p 8080",
     "runBrowser": "start http://localhost:8080",
     "test": "mocha --require @babel/register ./etc/tests/*.test.jsx -b"

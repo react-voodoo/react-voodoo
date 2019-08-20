@@ -90,6 +90,38 @@ class SwipeableCard extends React.Component {
 		]
 	}
 	
+	mouseEnter = () => {
+		let { tweener } = this.props;
+		tweener.pushAnim(
+			[
+				{
+					from    : 0,
+					duration: 500,
+					apply   : {
+						transform: {
+							translateZ: 200
+						}
+					}
+				}
+			]
+		)
+	}
+	mouseLeave = () => {
+		let { tweener } = this.props;
+		tweener.pushAnim(
+			[
+				{
+					from    : 0,
+					duration: 500,
+					apply   : {
+						transform: {
+							translateZ: -200
+						}
+					}
+				}
+			]
+		)
+	}
 	
 	static getDerivedStateFromProps( props, state ) {
 		let { swipeAnim, style } = props;
@@ -118,7 +150,7 @@ class SwipeableCard extends React.Component {
 			<TweenRef id="card"
 			          tweenAxis={swipeAnim}
 			          initial={style}>
-				<div className={"SwipeableCard"}>
+				<div className={"SwipeableCard"} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}>
 					{this.props.children && this.props.children[showBack ? 1 : 0]}
 				</div>
 			</TweenRef>
