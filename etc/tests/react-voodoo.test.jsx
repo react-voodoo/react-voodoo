@@ -58,6 +58,51 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 			const wrapper = render(<MyComp/>);
 			expect(wrapper.find('.card')[0].attribs.style).to.include('width:calc(50% + 50px)');
 		});
+		it('should support switching styles', function ( done ) {
+			this.timeout(Infinity);
+			
+			@VoodooTweener.asTweener
+			class MyComp extends React.Component {
+				state = {
+					initial: {
+						width: "50px"
+					}
+				};
+				
+				componentDidMount() {
+					
+					setTimeout(
+						tm => this.setState({ initial: { height: "50px" } }), 200
+					);
+				}
+				
+				render() {
+					return <div className={"container"}>
+						<VoodooTweener.TweenRef id="card"
+						                        initial={this.state.initial}>
+							<div className={"card"}>
+								test
+							</div>
+						</VoodooTweener.TweenRef>
+					</div>;
+				}
+			}
+			
+			const wrapper = mount(<MyComp/>);
+			setTimeout(
+				tm => {
+					try {
+						console.log(wrapper.find('.card').html())
+						expect(wrapper.find('.card').getDOMNode(0).style.height).to.equal("50px");
+						expect(wrapper.find('.card').getDOMNode(0).style.width).to.equal(undefined);
+						done();
+					} catch ( e ) {
+						done()
+					}
+				},
+				600
+			)
+		});
 	});
 	describe("Simple anims : ", ( done ) => {
 		
