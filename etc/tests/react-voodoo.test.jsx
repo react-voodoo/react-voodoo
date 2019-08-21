@@ -97,7 +97,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 						expect(wrapper.find('.card').getDOMNode(0).style.width).to.equal(undefined);
 						done();
 					} catch ( e ) {
-						done()
+						done(e)
 					}
 				},
 				600
