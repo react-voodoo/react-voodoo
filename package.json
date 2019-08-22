@@ -12,7 +12,8 @@
     "devSamples": "wpi-dev-server :samplesDev --hot --host 0.0.0.0",
     "startSamples": "ws -d ./dist.samples -p 8080",
     "runBrowser": "start http://localhost:8080",
-    "test": "mocha --require @babel/register ./etc/tests/*.test.jsx -b"
+    "test": "mocha --require @babel/register ./etc/tests/*.test.jsx -b",
+    "testAuto": "nodemon --watch ./dist/react-voodoo.js --exec \"npm test\""
   },
   "peerDependencies": {
     "react": "^16.0.0",
@@ -23,6 +24,7 @@
     "color-rgba": "^2.1.0",
     "css-box-shadow": "^1.0.0-3",
     "d3-ease": "^1.0.5",
+    "fast-deep-equal": "^2.0.1",
     "is": "^3.2.1",
     "tween-axis": "^1.2.6"
   },
@@ -33,8 +35,9 @@
     "jsdom": "^15.1.1",
     "local-web-server": "^3.0.7",
     "mocha": "^6.2.0",
+    "nodemon": "^1.19.1",
     "webpack-inherit": "^1.8.2",
-    "wi-layer-react-express": "^1.1.4",
+    "wi-layer-react-express": "^1.1.8",
     "zombie": "^6.1.4"
   }
 }

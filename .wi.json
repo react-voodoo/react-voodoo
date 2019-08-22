@@ -81,7 +81,7 @@
       "rootAlias": "Samples",
       "devServer": true,
       "production": false,
-      "targetDir": "dist.samples",
+//      "targetDir": "dist.samples",
       "entryPoint": "Samples/index.js",
       "HtmlWebpackPlugin": {
         "template": "./samples/index.html.tpl"

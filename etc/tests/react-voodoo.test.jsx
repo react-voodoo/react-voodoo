@@ -92,9 +92,9 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 			setTimeout(
 				tm => {
 					try {
-						console.log(wrapper.find('.card').html())
+						//console.log(wrapper.find('.card').html())
 						expect(wrapper.find('.card').getDOMNode(0).style.height).to.equal("50px");
-						expect(wrapper.find('.card').getDOMNode(0).style.width).to.equal(undefined);
+						expect(wrapper.find('.card').getDOMNode(0).style).to.not.have.any.keys('width');
 						done();
 					} catch ( e ) {
 						done(e)

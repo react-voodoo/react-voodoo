@@ -18,7 +18,7 @@
 
 
 import {expandShorthandProperty, isShorthandProperty, isValidDeclaration} from "./cssUtils";
-import cssDemuxers                                                   from "./demux/(*).js";
+import cssDemuxers                                                        from "./demux/(*).js";
 
 import {int, multi, number} from "./demux/typed/(*).js";
 
@@ -78,7 +78,7 @@ export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, force
 			      else
 				      demuxers[key] = number(key, fTween[key], deMuxedTween, data, initials, forceUnits, reOrder)
 		      }
-	      )
+	      );
 	return excluded;
 }
 

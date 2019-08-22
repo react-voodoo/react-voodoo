@@ -92,35 +92,37 @@ class SwipeableCard extends React.Component {
 	
 	mouseEnter = () => {
 		let { tweener } = this.props;
-		tweener.pushAnim(
-			[
-				{
-					from    : 0,
-					duration: 500,
-					apply   : {
-						transform: {
-							translateZ: 200
-						}
-					}
-				}
-			]
-		)
+		console.warn("enter")
+		//tweener.pushAnim(
+		//	[
+		//		{
+		//			from    : 0,
+		//			duration: 500,
+		//			apply   : {
+		//				transform: {
+		//					translateZ: 200
+		//				}
+		//			}
+		//		}
+		//	]
+		//)
 	}
 	mouseLeave = () => {
 		let { tweener } = this.props;
-		tweener.pushAnim(
-			[
-				{
-					from    : 0,
-					duration: 500,
-					apply   : {
-						transform: {
-							translateZ: -200
-						}
-					}
-				}
-			]
-		)
+		console.warn("leave")
+		//tweener.pushAnim(
+		//	[
+		//		{
+		//			from    : 0,
+		//			duration: 500,
+		//			apply   : {
+		//				transform: {
+		//					translateZ: -200
+		//				}
+		//			}
+		//		}
+		//	]
+		//)
 	}
 	
 	static getDerivedStateFromProps( props, state ) {

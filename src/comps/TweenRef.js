@@ -85,8 +85,8 @@ export default class TweenRef extends React.Component {
 						return <React.Fragment/>;
 					}
 					
-					let twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial,
-					                                                    pos, noRef);
+					let twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
+					                                   pos, noRef);
 					
 					
 					if ( this._currentTweener !== parentTweener || this._previousScrollable !== tweenAxis ) {
@@ -100,7 +100,7 @@ export default class TweenRef extends React.Component {
 						if ( this._currentTweener !== parentTweener )
 							this._currentTweener && this._currentTweener.rmTweenRef(id);
 						if ( this._previousScrollable !== tweenAxis )
-							twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial,
+							twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
 							                               pos, noRef, true)
 						//}
 						
@@ -128,6 +128,7 @@ export default class TweenRef extends React.Component {
 					
 					let refChild = React.Children.only(children);
 					
+					//console.log(twRef, refChild)
 					if ( refChild && React.isValidElement(refChild) ) {
 						refChild      = React.cloneElement(
 							refChild,
@@ -138,7 +139,6 @@ export default class TweenRef extends React.Component {
 							}
 						);
 						this._lastRef = twRef;
-						//console.log(twRef, refChild)
 						return refChild;
 					}
 					else {

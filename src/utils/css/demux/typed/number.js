@@ -108,6 +108,7 @@ function muxOne( key, value, target, data, initials, forceUnits ) {
 	
 	initials[realKey]  = defaultValue[key] || 0;
 	data[key][realKey] = unit;
+	data[realKey]      = key;
 	
 	if ( match ) {
 		target[realKey] = parseFloat(match[1]);

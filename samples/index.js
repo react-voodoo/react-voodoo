@@ -23,13 +23,12 @@ import "./samples.scss";
 
 class App extends React.Component {
 	state = {
-		current: "MassGoo"
+		current: "Cards"
 	};
 	
 	render() {
 		let Comp = Samples[this.state.current];
 		return <div className={"app"}>
-			
 			<div className={"sampleLst"}>
 				{
 					Object.keys(Samples).map(
