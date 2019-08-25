@@ -19,22 +19,24 @@
 import rgba from "color-rgba";
 
 function demux( key, tweenable, target, data ) {
-	let value = "rgba(" + tweenable[key + '_r'] + ", " + tweenable[key + '_g'] + ", " + tweenable[key + '_b'] + ", " + tweenable[key + '_a'] + ")";
+	let value = "rgba(" + tweenable[key + '$r'] + ", " + tweenable[key + '$g'] + ", " + tweenable[key + '$b'] + ", " + tweenable[key + '$a'] + ")";
 	return target ?
 	       target[key] = value : value;
 }
 
-function muxer( key, value, target, data, initials ) {
-	let vect           = rgba(value);
-	target[key + '_r'] = vect[0];
-	target[key + '_g'] = vect[1];
-	target[key + '_b'] = vect[2];
-	target[key + '_a'] = vect[3];
+function muxer( key, value, target, data, initials, noSema ) {
+	let vect  = rgba(value);
+	data[key] = data[key] || 0;
+	!noSema && data[key]++;
+	target[key + '$r'] = vect[0];
+	target[key + '$g'] = vect[1];
+	target[key + '$b'] = vect[2];
+	target[key + '$a'] = vect[3];
 	
-	initials[key + '_r'] = 0;
-	initials[key + '_g'] = 0;
-	initials[key + '_b'] = 0;
-	initials[key + '_a'] = 1;
+	initials[key + '$r'] = 0;
+	initials[key + '$g'] = 0;
+	initials[key + '$b'] = 0;
+	initials[key + '$a'] = 1;
 	
 	return demux;
 }

@@ -56,6 +56,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 			}
 			
 			const wrapper = render(<MyComp/>);
+			console.log(wrapper.find('.card').html())
 			expect(wrapper.find('.card')[0].attribs.style).to.include('width:calc(50% + 50px)');
 		});
 		it('should support switching styles', function ( done ) {
@@ -70,7 +71,6 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 				};
 				
 				componentDidMount() {
-					
 					setTimeout(
 						tm => this.setState({ initial: { height: "50px" } }), 200
 					);
@@ -101,6 +101,72 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 					}
 				},
 				600
+			)
+		});
+		it('should support switching styles & anims ', function ( done ) {
+			this.timeout(Infinity);
+			
+			
+			@VoodooTweener.asTweener
+			class MyComp extends React.Component {
+				state = {
+					initial: {
+						width: "50px"
+					},
+					
+					scrollLine: [{
+						apply   : { transform: { translateY: "50px" } },
+						duration: 100,
+						from    : 0,
+						target  : "card"
+					}]
+				};
+				
+				componentDidMount() {
+					setTimeout(
+						tm => this.setState(
+							{
+								initial   : { height: "50px" },
+								scrollLine: [{
+									duration: 100,
+									from    : 0,
+									apply   : { width: "50px" },
+									target  : "card"
+								}]
+							}), 200
+					);
+				}
+				
+				render() {
+					return <div className={"container"}>
+						<VoodooTweener.TweenAxis
+							axe={"scrollY"}
+							items={this.state.scrollLine}
+							defaultPosition={100}
+						/>
+						<VoodooTweener.TweenRef id="card"
+						                        initial={this.state.initial}>
+							<div className={"card"}>
+								test
+							</div>
+						</VoodooTweener.TweenRef>
+					</div>;
+				}
+			}
+			
+			const wrapper = mount(<MyComp/>);
+			setTimeout(
+				tm => {
+					try {
+						console.log(wrapper.find('.container').html())
+						expect(wrapper.find('.card').getDOMNode(0).style.height).to.equal("50px");
+						expect(wrapper.find('.card').getDOMNode(0).style.width).to.equal("50px");
+						done();
+					} catch ( e ) {
+						done(e)
+					}
+				},
+				2000
 			)
 		});
 	});

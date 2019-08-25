@@ -39,9 +39,9 @@ const defaultUnits    = {
 	      opacity: 1
       };
 
-function demuxOne( key, twVal, baseKey, data, box ) {
+function demuxOne( unitKey, twVal, baseKey, data, box ) {
 	let value = twVal,
-	    unit  = data[baseKey][key] || defaultUnits[baseKey] || "px";
+	    unit  = units[unitKey] || defaultUnits[baseKey] || "px";
 	
 	if ( unit === 'box' ) {
 		value = value * (box[defaultBox[baseKey]] || box.x);
@@ -64,16 +64,19 @@ function demuxOne( key, twVal, baseKey, data, box ) {
 }
 
 function demux( key, tweenable, target, data, box, baseKey ) {
-	let value, i = 0;
+	let value, i = 0, y, rKey;
 	
 	value = "";
 	
-	for ( let rKey in data[key] )
-		if ( data[key].hasOwnProperty(rKey) ) {
+	for ( y = 0; y < data[key].length; y++ )
+		if ( data[key][y] ) {
+			rKey = key + "_" + y;
+			//if ( !tweenable[rKey] )
+			//	continue;
 			if ( tweenable[rKey] < 0 )
-				value += (i ? " - " : "-") + demuxOne(rKey, -tweenable[rKey], baseKey || key, data, box);
+				value += (i ? " - " : "-") + demuxOne(y, -tweenable[rKey], baseKey || key, data, box);
 			else
-				value += (i ? " + " : "") + demuxOne(rKey, tweenable[rKey], baseKey || key, data, box);
+				value += (i ? " + " : "") + demuxOne(y, tweenable[rKey], baseKey || key, data, box);
 			i++;
 		}
 	if ( i > 1 )
@@ -82,23 +85,23 @@ function demux( key, tweenable, target, data, box, baseKey ) {
 	return target ? target[key] = value : value;
 }
 
-function muxer( key, value, target, data, initials, forceUnits ) {
+function muxer( key, value, target, data, initials, noSema ) {
 	
-	data[key] = data[key] || {};
+	data[key] = data[key] || [];
 	if ( is.array(value) ) {
 		for ( let i = 0; i < value.length; i++ ) {
 			
-			muxOne(key, value[i] || 0, target, data, initials, forceUnits)
+			muxOne(key, value[i] || 0, target, data, initials, noSema)
 		}
 	}
 	else {
-		muxOne(key, value || 0, target, data, initials, forceUnits)
+		muxOne(key, value || 0, target, data, initials, noSema)
 	}
 	
 	return demux;
 }
 
-function muxOne( key, value, target, data, initials, forceUnits ) {
+function muxOne( key, value, target, data, initials, noSema ) {
 	
 	
 	let match   = is.string(value) ? value.match(unitsRe) : false,
@@ -107,8 +110,10 @@ function muxOne( key, value, target, data, initials, forceUnits ) {
 	    realKey = unitKey !== -1 && (key + '_' + unitKey) || key;
 	
 	initials[realKey]  = defaultValue[key] || 0;
-	data[key][realKey] = unit;
-	data[realKey]      = key;
+	data[key][unitKey] = data[key][unitKey] || 0;
+	!noSema && data[key][unitKey]++;
+	//console.log(key, ':', data[key][unitKey])
+	//data["_" + realKey] = key;
 	
 	if ( match ) {
 		target[realKey] = parseFloat(match[1]);

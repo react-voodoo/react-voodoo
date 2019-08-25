@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import is      from "is";
-import React   from 'react';
-import shortid from 'shortid';
+import deepEqual from "fast-deep-equal";
+import is        from "is";
+import React     from 'react';
+import shortid   from 'shortid';
 
 import TweenerContext from "./TweenerContext";
 
@@ -86,30 +87,33 @@ export default class TweenRef extends React.Component {
 					}
 					
 					let twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
-					                                   pos, noRef);
+					                                   pos, noRef),
+					    axisItemsChange;
 					
 					
 					if ( this._currentTweener !== parentTweener || this._previousScrollable !== tweenAxis ) {
-						if ( this._tweenAxis ) {
+						axisItemsChange = this._previousScrollable !== tweenAxis && (!this._previousScrollable || deepEqual(tweenAxis, this._previousScrollable));
+						if ( this._currentTweener && axisItemsChange ) {
 							Object.keys(this._tweenAxis)
 							      .forEach(axe => this._currentTweener.rmScrollableAnim(this._tweenAxis[axe], axe));
 							
 						}
 						//twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial,
 						// pos, noRef, reset);
-						if ( this._currentTweener !== parentTweener )
+						if ( this._currentTweener !== parentTweener ) {
 							this._currentTweener && this._currentTweener.rmTweenRef(id);
-						if ( this._previousScrollable !== tweenAxis )
+							//if ( axisItemsChange )
 							twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
-							                               pos, noRef, true)
-						//}
-						
-						if ( tweenAxis && is.array(tweenAxis) )
-							this._tweenAxis = { scrollY: parentTweener.addScrollableAnim(setTarget(tweenAxis, id)) };
-						else
-							this._tweenAxis = tweenAxis &&
-								Object.keys(tweenAxis)
-								      .reduce(( h, axe ) => (h[axe] = parentTweener.addScrollableAnim(setTarget(tweenAxis[axe], id), axe), h), {});
+							                               pos, noRef)
+						}
+						if ( axisItemsChange ) {
+							if ( tweenAxis && is.array(tweenAxis) )
+								this._tweenAxis = { scrollY: parentTweener.addScrollableAnim(setTarget(tweenAxis, id)) };
+							else
+								this._tweenAxis = tweenAxis &&
+									Object.keys(tweenAxis)
+									      .reduce(( h, axe ) => (h[axe] = parentTweener.addScrollableAnim(setTarget(tweenAxis[axe], id), axe), h), {});
+						}
 						
 						twRef.style = { ...parentTweener._updateTweenRef(id) };
 						
@@ -128,8 +132,8 @@ export default class TweenRef extends React.Component {
 					
 					let refChild = React.Children.only(children);
 					
-					//console.log(twRef, refChild)
 					if ( refChild && React.isValidElement(refChild) ) {
+						//console.log(twRef)
 						refChild      = React.cloneElement(
 							refChild,
 							{

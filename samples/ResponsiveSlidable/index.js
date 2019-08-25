@@ -23,7 +23,7 @@ import Slider   from "./etc/Slider";
 
 export default class ResponsiveSlidable extends React.Component {
 	state = {
-		responsiveMode: "landscape"
+		responsiveMode: "portrait"
 	};
 	
 	//

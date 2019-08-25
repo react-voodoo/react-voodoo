@@ -16,19 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const defaultUnits = {};
+let freePropStack = [];
 
-function demux( key, tweenable, target, data, box ) {
-	target[key] = ~~(tweenable[key]);
-}
-
-export default ( key, value, target, data, initials, noSema ) => {
-	
-	
-	initials[key] = 0;
-	target[key]   = ~~value;
-	data[key]     = data[key] || 0;
-	!noSema && data[key]++;
-	
-	return demux;
+export default function prop( key, value, targetId ) {
+	return freePropStack.length
+	       ? freePropStack.pop()
+	       :
+	       {
+		       key,
+		       value,
+		       targetId,
+		       locks: 1,
+		       release() {
+			       if ( --this.locks )
+				       freePropStack.push(this);
+		       }
+	       }
 }

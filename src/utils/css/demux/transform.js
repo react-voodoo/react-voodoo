@@ -65,9 +65,9 @@ const defaultUnits    = {
 	      scaleZ: 1
       };
 
-function demuxOne( key, dkey, twVal, baseKey, data, box ) {
+function demuxOne( unitIndex, dkey, twVal, baseKey, data, box ) {
 	let value = twVal,
-	    unit  = data[dkey][key] || defaultUnits[baseKey];
+	    unit  = units[unitIndex] || defaultUnits[baseKey];
 	
 	if ( unit === 'box' ) {
 		value = value * (box[defaultBox[baseKey]] || box.x);
@@ -93,44 +93,46 @@ function demuxOne( key, dkey, twVal, baseKey, data, box ) {
 }
 
 function demux( key, tweenable, target, data, box ) {
-	
-	if ( data["transform_head"] === key ) {
-		let transforms = "",
-		    tmpValue   = {};
-		data[key].forEach(
-			( tmap = {}, i ) => Object.keys(tmap).forEach(
-				fkey => {
-					let dkey     = key + '_' + fkey + '_' + i;
-					let value, y = 0, iValue;
-					
-					value = "";
-					
-					for ( let rKey in data[dkey] )
-						if ( data[dkey].hasOwnProperty(rKey) ) {
-							if ( !tweenable[rKey] )
-								continue;
-							iValue = demuxOne(rKey, dkey, tweenable[rKey], fkey, data, box);
-							if ( y && iValue[0] === '-' )
-								iValue = " - " + iValue.substr(2);
-							else if ( y )
-								iValue = " + " + iValue;
-							value += iValue;
-							y++;
-						}
-					if ( y > 1 )
-						value = "calc(" + value + ")";
-					
+	//console.log(key)
+	let transforms                                                 = "",
+	    tmpValue                                                   = {};
+	let ti = 0, tmap, fkey, unitKey, unitIndex, dkey, u, iValue, y = 0, value;
+	for ( ; ti < data[key].length; ti++ ) {
+		tmap = data[key][ti];
+		for ( fkey in tmap )
+			if ( tmap.hasOwnProperty(fkey) ) {
+				dkey  = key + '_' + ti + '_' + fkey;
+				value = "";
+				y     = 0;
+				for ( unitIndex = 0; unitIndex < data[dkey].length; unitIndex++ )
+					if ( data[dkey][unitIndex] ) {
+						unitKey = dkey + "_" + unitIndex;
+						//console.log("mux ", key, dkey, unitKey)
+						
+						if ( !tweenable[unitKey] )
+							continue;
+						iValue = demuxOne(unitIndex, dkey, tweenable[unitKey], fkey, data, box);
+						//console.log(unitKey, tweenable[unitKey], iValue)
+						if ( y && iValue[0] === '-' )
+							iValue = " - " + iValue.substr(1);
+						else if ( y )
+							iValue = " + " + iValue;
+						value += iValue;
+						y++;
+					}
+				
+				if ( y > 1 )
+					value = "calc(" + value + ")";
+				
+				if ( y > 0 )
 					transforms += fkey + "(" + (value || "0") + ") ";
-					
-				}
-			)
-		)
-		target.transform = transforms;
+			}
 	}
+	target.transform = transforms;
 	
 }
 
-function muxOne( key, baseKey, value, target, data, initials, forceUnits ) {
+function muxOne( key, baseKey, value, target, data, initials, noSema ) {
 	
 	let match   = is.string(value) ? value.match(unitsRe) : false,
 	    unit    = match && match[2] || defaultUnits[key],
@@ -139,8 +141,9 @@ function muxOne( key, baseKey, value, target, data, initials, forceUnits ) {
 	
 	initials[realKey] = defaultValue[baseKey] || 0;
 	
-	data[key][realKey] = unit;
-	
+	data[key][unitKey] = data[key][unitKey] || 0;
+	!noSema && data[key][unitKey]++;
+	//console.log("set ", key, baseKey, realKey)
 	if ( match ) {
 		target[realKey] = parseFloat(match[1]);
 	}
@@ -150,41 +153,38 @@ function muxOne( key, baseKey, value, target, data, initials, forceUnits ) {
 	
 	return demux;
 };
-export default ( key, value, target, data, initials, forceUnits, reset ) => {
+export default ( key, value, target, data, initials, noSema, reset ) => {
 	
-	data["transform_head"] = data["transform_head"] || key;
-	data[key]              = data[key] || [{}];
-	initials[key]          = 0;
+	data[key] = data[key] || [];
+	//initials[key] = 0;
 	
 	if ( !is.array(value) )
 		value = [value];
-	
-	value.forEach(
-		( tmap, i ) => {
-			let baseData = {};
-			tmap && Object.keys(tmap).forEach(
-				fkey => {
-					let fValue = tmap[fkey],
-					    dkey   = key + '_' + fkey + '_' + i;
-					
-					baseData[fkey] = true;
-					
-					data[dkey] = data[dkey] || {};
-					if ( is.array(fValue) ) {
-						for ( let u = 0; u < fValue.length; u++ ) {
-							muxOne(dkey, fkey, fValue[u] || 0, target, data, initials, forceUnits)
-						}
-					}
-					else {
-						muxOne(dkey, fkey, fValue || 0, target, data, initials, forceUnits)
+	let ti = 0, tmap, fkey, baseData, fValue, dkey, u;
+	for ( ; ti < value.length; ti++ ) {
+		tmap     = value[ti];
+		baseData = data[key][ti] = data[key][ti] || {};
+		for ( fkey in tmap )
+			if ( tmap.hasOwnProperty(fkey) ) {
+				fValue = tmap[fkey];
+				dkey   = key + '_' + ti + '_' + fkey;
+				
+				baseData[fkey] = baseData[fkey] || 0;
+				!noSema && baseData[fkey]++;
+				
+				
+				//console.log("set ", key, dkey)
+				
+				data[dkey] = data[dkey] || [];
+				if ( is.array(fValue) ) {
+					for ( u = 0; u < fValue.length; u++ ) {
+						muxOne(dkey, fkey, fValue[u] || 0, target, data, initials, noSema)
 					}
 				}
-			)
-			data[key][i] =
-				forceUnits
-				? { ...baseData, ...(data[key][i] || {}) }
-				: { ...(data[key][i] || {}), ...baseData };
-		}
-	)
+				else {
+					muxOne(dkey, fkey, fValue || 0, target, data, initials, noSema)
+				}
+			}
+	}
 	return demux;
 }

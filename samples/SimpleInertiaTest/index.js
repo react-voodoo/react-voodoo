@@ -41,11 +41,11 @@ const testItemStyle = {
 		spreadRadius: 1
 	},
 	
-	transform: [{
+	transform: [ {
 		translateZ: "0box",
 		translateX: ["-50%", ".8box"],
 		translateY: ["-50%", ".8box"],
-	}, { perspective: "200px" }]
+	},{ perspective: "200px" }]
 };
 
 @asTweener({ enableMouseDrag: true })

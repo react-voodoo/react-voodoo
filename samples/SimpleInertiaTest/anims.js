@@ -24,7 +24,7 @@ export const pushIn    = [
 		duration: 500,
 		easeFn  : "easeCircleIn",
 		apply   : {
-			transform: [{}, {
+			transform: [{}, {}, {
 				translateZ: "-.2box"
 			}],
 			filter   : {
@@ -37,7 +37,7 @@ export const pushIn    = [
 		duration: 500,
 		easeFn  : "easeCircleIn",
 		apply   : {
-			transform: [{}, {
+			transform: [{}, {}, {
 				translateZ: ".2box"
 			}],
 			filter   : {
@@ -49,7 +49,7 @@ export const pushIn    = [
 		from    : 250,
 		duration: 500,
 		apply   : {
-			transform: [{}, {
+			transform: [{}, {}, {
 				rotateY: "180deg",
 			}],
 		}
