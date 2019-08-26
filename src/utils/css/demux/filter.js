@@ -34,7 +34,7 @@ const
 	};
 const filters    = {};
 
-function demux( key, tweenable, target, data, box ) {
+export function demux( key, tweenable, target, data, box ) {
 	
 	if ( data["filter_head"] === key ) {
 		let filters = "";
@@ -50,7 +50,8 @@ function demux( key, tweenable, target, data, box ) {
 	
 }
 
-export default ( key, value, target, data, initials ) => {
+
+export const mux = ( key, value, target, data, initials ) => {
 	
 	data["filter_head"] = data["filter_head"] || key;
 	data[key]           = data[key] || {};

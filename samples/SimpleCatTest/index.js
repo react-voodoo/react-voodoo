@@ -50,8 +50,8 @@ const theMouseStyle = {
 	transformOrigin: "50% 50%",
 	
 	transform: {
-		//translateX: ".5box",
-		//translateY: ".5box",
+		translateX: ".5box",
+		translateY: ".5box",
 	}
 };
 

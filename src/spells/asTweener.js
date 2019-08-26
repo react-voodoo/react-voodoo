@@ -209,16 +209,16 @@ export default function asTweener( ...argz ) {
 				      );
 				
 				//console.log("update", { ..._.tweenRefOrigin[id] }, { ..._.tweenRefMaps[id] })
-				Object.keys(_.tweenRefMaps[id])// unset
+				Object.keys(_.tweenRefOrigin[id])// unset
 				      .forEach(
 					      key => {
 						      //key == "width" &&
 						      let rKey = _.muxDataByTarget[id]["_" + key] || key;
-						      if ( _.tweenRefOrigin[id].hasOwnProperty(key) && !tweenableMap.hasOwnProperty(key) ) {
-							      clearTweenableValue(rKey, key, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id])
-							      !_.tweenRefCSS[id] &&
-							      _.refs[id] && _.refs[id].style && _.refs[id].style[rKey] && (_.refs[id].style[rKey] = null);
-						      }
+						      //if ( _.tweenRefOrigin[id].hasOwnProperty(key) && !tweenableMap.hasOwnProperty(key) ) {
+							      clearTweenableValue(key, key, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id])
+							      //!_.tweenRefCSS[id] &&
+							      //_.refs[id] && _.refs[id].style && _.refs[id].style[rKey] && (_.refs[id].style[rKey] = null);
+						      //}
 					      }
 				      );
 				//console.log(id, _.tweenRefOrigin[id], { ...tweenableMap })
@@ -279,7 +279,7 @@ export default function asTweener( ...argz ) {
 				muxToCss(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
 				
 			}
-			//console.log('tweenRef::tweenRef:519: ', id, { ..._.muxDataByTarget[id] }, { ..._.tweenRefMaps[id] });
+			console.log('tweenRef::tweenRef:519: ', id, { ..._.muxDataByTarget[id] }, { ..._.tweenRefCSS[id] });
 			if ( noref )
 				return {
 					style: { ..._.tweenRefCSS[id] }
@@ -631,6 +631,7 @@ export default function asTweener( ...argz ) {
 				size = anim.length;
 			}
 			
+			console.warn("add scrollable")
 			if ( !(sl instanceof tweenAxis) ) {
 				sl          = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
 				sl          = new tweenAxis(sl, _.tweenRefMaps);
@@ -649,7 +650,6 @@ export default function asTweener( ...argz ) {
 			
 			this.makeTweenable();
 			this.makeScrollable();
-			//console.warn("add scrollable")
 			// init scroll
 			dim.tweenAxis.push(sl);
 			dim.scrollPos      = dim.scrollPos || 0;
@@ -678,7 +678,7 @@ export default function asTweener( ...argz ) {
 				dim.scrollableArea = Math.max(...dim.tweenAxis.map(tl => tl.duration), 0);
 				if ( !dim.scrollableBounds )
 					dim.inertia.setBounds(0, dim.scrollableArea || 0);
-				//console.warn("rm scrollable", { ...this._.tweenRefMaps["card"] })
+				console.warn("rm scrollable", { ...this._.tweenRefMaps })
 				sl.goTo(0, this._.tweenRefMaps);
 				//console.warn("rm scrollable", { ...this._.tweenRefMaps["card"] })
 				

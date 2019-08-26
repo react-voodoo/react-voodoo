@@ -20,7 +20,7 @@ import is     from "is";
 import number from "./number";
 
 const
-	alias    = {
+	alias = {
 		top   : '0%',
 		bottom: '100%',
 		center: '50%',
@@ -40,16 +40,19 @@ function demux( key, tweenable, target, data, box, offset ) {
 	target[key] = v;
 }
 
-export default ( count ) => ( key, value, target, data, initials ) => {
-	let values = value.split(' '), v;
-	
-	data[key] = count;
-	
-	for ( let i = 0; i < count; i++ ) {
-		v = values[i % values.length];
-		v = is.string(v) && alias[v] || v;
-		number(key + '_' + i, v, target, data, initials)
-	}
-	
-	return demux;
-}
+
+export default ( count ) => ({
+	mux: ( key, value, target, data, initials ) => {
+		let values = value.split(' '), v;
+		
+		data[key] = count;
+		
+		for ( let i = 0; i < count; i++ ) {
+			v = values[i % values.length];
+			v = is.string(v) && alias[v] || v;
+			number(key + '_' + i, v, target, data, initials)
+		}
+		
+		return demux;
+	}, demux
+})

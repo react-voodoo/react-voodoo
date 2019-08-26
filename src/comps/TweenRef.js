@@ -103,8 +103,8 @@ export default class TweenRef extends React.Component {
 						if ( this._currentTweener !== parentTweener ) {
 							this._currentTweener && this._currentTweener.rmTweenRef(id);
 							//if ( axisItemsChange )
-							twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
-							                               pos, noRef)
+							//twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
+							//                               pos, noRef)
 						}
 						if ( axisItemsChange ) {
 							if ( tweenAxis && is.array(tweenAxis) )

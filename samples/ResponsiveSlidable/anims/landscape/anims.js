@@ -17,7 +17,7 @@
  */
 import {tweenTools} from "react-voodoo";
 
-export const visibleItems = 5;
+export const visibleItems = 2;
 let area                  = ".8bw",
     itemWidth             = tweenTools.cssMult(area, 1 / (visibleItems)),
     step                  = tweenTools.cssMult(itemWidth, 1),
@@ -25,9 +25,9 @@ let area                  = ".8bw",
     angle                 = "20deg";
 
 
-export const enteringSteps = 3;
-export const leavingSteps  = 3;
-export const infinite      = true;
+export const enteringSteps = 1;
+export const leavingSteps  = 1;
+//export const infinite      = true;
 
 export const scrollDir = "scrollX";
 

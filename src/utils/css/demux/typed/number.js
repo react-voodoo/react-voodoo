@@ -39,7 +39,7 @@ const defaultUnits    = {
 	      opacity: 1
       };
 
-function demuxOne( unitKey, twVal, baseKey, data, box ) {
+export function demuxOne( unitKey, twVal, baseKey, data, box ) {
 	let value = twVal,
 	    unit  = units[unitKey] || defaultUnits[baseKey] || "px";
 	
@@ -63,7 +63,7 @@ function demuxOne( unitKey, twVal, baseKey, data, box ) {
 	return unit ? floatCut(value) + unit : floatCut(value);
 }
 
-function demux( key, tweenable, target, data, box, baseKey ) {
+export function demux( key, tweenable, target, data, box, baseKey ) {
 	let value, i = 0, y, rKey;
 	
 	value = "";
@@ -85,23 +85,23 @@ function demux( key, tweenable, target, data, box, baseKey ) {
 	return target ? target[key] = value : value;
 }
 
-function muxer( key, value, target, data, initials, noSema ) {
+export function muxer( key, value, target, data, initials, semaOnce ) {
 	
 	data[key] = data[key] || [];
 	if ( is.array(value) ) {
 		for ( let i = 0; i < value.length; i++ ) {
 			
-			muxOne(key, value[i] || 0, target, data, initials, noSema)
+			muxOne(key, value[i] || 0, target, data, initials, semaOnce)
 		}
 	}
 	else {
-		muxOne(key, value || 0, target, data, initials, noSema)
+		muxOne(key, value || 0, target, data, initials, semaOnce)
 	}
 	
 	return demux;
 }
 
-function muxOne( key, value, target, data, initials, noSema ) {
+export function muxOne( key, value, target, data, initials, semaOnce ) {
 	
 	
 	let match   = is.string(value) ? value.match(unitsRe) : false,
@@ -111,7 +111,7 @@ function muxOne( key, value, target, data, initials, noSema ) {
 	
 	initials[realKey]  = defaultValue[key] || 0;
 	data[key][unitKey] = data[key][unitKey] || 0;
-	!noSema && data[key][unitKey]++;
+	!semaOnce && data[key][unitKey]++;
 	//console.log(key, ':', data[key][unitKey])
 	//data["_" + realKey] = key;
 	
@@ -124,6 +124,7 @@ function muxOne( key, value, target, data, initials, noSema ) {
 	
 	return demux;
 };
-muxer.demux    = demux;
-muxer.demuxOne = demuxOne;
-export default muxer;
+
+
+
+export const mux = muxer;

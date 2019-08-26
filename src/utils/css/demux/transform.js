@@ -65,7 +65,7 @@ const defaultUnits    = {
 	      scaleZ: 1
       };
 
-function demuxOne( unitIndex, dkey, twVal, baseKey, data, box ) {
+export function demuxOne( unitIndex, dkey, twVal, baseKey, data, box ) {
 	let value = twVal,
 	    unit  = units[unitIndex] || defaultUnits[baseKey];
 	
@@ -92,7 +92,7 @@ function demuxOne( unitIndex, dkey, twVal, baseKey, data, box ) {
 	return unit ? floatCut(value) + unit : floatCut(value);
 }
 
-function demux( key, tweenable, target, data, box ) {
+export function demux( key, tweenable, target, data, box ) {
 	//console.log(key)
 	let transforms                                                 = "",
 	    tmpValue                                                   = {};
@@ -132,7 +132,7 @@ function demux( key, tweenable, target, data, box ) {
 	
 }
 
-function muxOne( key, baseKey, value, target, data, initials, noSema ) {
+export function muxOne( key, baseKey, value, target, data, initials, semaOnce ) {
 	
 	let match   = is.string(value) ? value.match(unitsRe) : false,
 	    unit    = match && match[2] || defaultUnits[key],
@@ -142,7 +142,7 @@ function muxOne( key, baseKey, value, target, data, initials, noSema ) {
 	initials[realKey] = defaultValue[baseKey] || 0;
 	
 	data[key][unitKey] = data[key][unitKey] || 0;
-	!noSema && data[key][unitKey]++;
+	!semaOnce && data[key][unitKey]++;
 	//console.log("set ", key, baseKey, realKey)
 	if ( match ) {
 		target[realKey] = parseFloat(match[1]);
@@ -153,7 +153,7 @@ function muxOne( key, baseKey, value, target, data, initials, noSema ) {
 	
 	return demux;
 };
-export default ( key, value, target, data, initials, noSema, reset ) => {
+export const mux = ( key, value, target, data, initials, semaOnce, reset ) => {
 	
 	data[key] = data[key] || [];
 	//initials[key] = 0;
@@ -170,19 +170,18 @@ export default ( key, value, target, data, initials, noSema, reset ) => {
 				dkey   = key + '_' + ti + '_' + fkey;
 				
 				baseData[fkey] = baseData[fkey] || 0;
-				!noSema && baseData[fkey]++;
+				!semaOnce && baseData[fkey]++;
 				
-				
-				//console.log("set ", key, dkey)
+				console.warn("set ", key, dkey)
 				
 				data[dkey] = data[dkey] || [];
 				if ( is.array(fValue) ) {
 					for ( u = 0; u < fValue.length; u++ ) {
-						muxOne(dkey, fkey, fValue[u] || 0, target, data, initials, noSema)
+						muxOne(dkey, fkey, fValue[u] || 0, target, data, initials, semaOnce)
 					}
 				}
 				else {
-					muxOne(dkey, fkey, fValue || 0, target, data, initials, noSema)
+					muxOne(dkey, fkey, fValue || 0, target, data, initials, semaOnce)
 				}
 			}
 	}

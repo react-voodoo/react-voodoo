@@ -18,16 +18,16 @@
 
 import rgba from "color-rgba";
 
-function demux( key, tweenable, target, data ) {
+export function demux( key, tweenable, target, data ) {
 	let value = "rgba(" + tweenable[key + '$r'] + ", " + tweenable[key + '$g'] + ", " + tweenable[key + '$b'] + ", " + tweenable[key + '$a'] + ")";
 	return target ?
 	       target[key] = value : value;
 }
 
-function muxer( key, value, target, data, initials, noSema ) {
+export function mux( key, value, target, data, initials, semaOnce ) {
 	let vect  = rgba(value);
 	data[key] = data[key] || 0;
-	!noSema && data[key]++;
+	!semaOnce && data[key]++;
 	target[key + '$r'] = vect[0];
 	target[key + '$g'] = vect[1];
 	target[key + '$b'] = vect[2];
@@ -40,6 +40,3 @@ function muxer( key, value, target, data, initials, noSema ) {
 	
 	return demux;
 }
-
-muxer.demux = demux;
-export default muxer;

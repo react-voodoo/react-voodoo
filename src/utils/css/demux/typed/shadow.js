@@ -35,7 +35,7 @@ const
 	};
 const swap       = {};
 
-function demux( key, tweenable, target, data, box ) {
+export function demux( key, tweenable, target, data, box ) {
 	//if ( data["filter_head"] === key ) {
 	let shadows = [];
 	data[key].forEach(
@@ -54,10 +54,11 @@ function demux( key, tweenable, target, data, box ) {
 	target[key] = cssShadowParser.stringify(shadows);
 }
 
-export default ( key, value, target, data, initials, noSema ) => {
+
+export const mux =  ( key, value, target, data, initials, semaOnce ) => {
 	
 	//data[key] = data[key] || 0;
-	//!noSema && data[key]++;
+	//!semaOnce && data[key]++;
 	data[key]        = data[key] || [];
 	initials[key]    = 0;
 	let parsedValues = value, i;
@@ -75,17 +76,17 @@ export default ( key, value, target, data, initials, noSema ) => {
 			if ( shadow ) {
 				//color: "rgba(0, 0, 255, .2)"
 				initials[key + '_' + i + "_color"] = "rgba(0,0,0,0)";
-				color(key + '_' + i + "_color", shadow.color || "rgba(0,0,0,0)", target, data, initials, noSema);
+				color(key + '_' + i + "_color", shadow.color || "rgba(0,0,0,0)", target, data, initials, semaOnce);
 				//blurRadius: 2
-				number(key + '_' + i + "_blurRadius", shadow.blurRadius || 0, target, data, initials, noSema);
+				number(key + '_' + i + "_blurRadius", shadow.blurRadius || 0, target, data, initials, semaOnce);
 				//inset: false
 				baseData.inset = shadow.inset;
 				//offsetX: 12
-				number(key + '_' + i + "_offsetX", shadow.offsetX || 0, target, data, initials, noSema);
+				number(key + '_' + i + "_offsetX", shadow.offsetX || 0, target, data, initials, semaOnce);
 				//offsetY: 12
-				number(key + '_' + i + "_offsetY", shadow.offsetY || 0, target, data, initials, noSema);
+				number(key + '_' + i + "_offsetY", shadow.offsetY || 0, target, data, initials, semaOnce);
 				//spreadRadius: 1
-				number(key + '_' + i + "_spreadRadius", shadow.spreadRadius || 0, target, data, initials, noSema);
+				number(key + '_' + i + "_spreadRadius", shadow.spreadRadius || 0, target, data, initials, semaOnce);
 			}
 			
 			data[key][i] = baseData;

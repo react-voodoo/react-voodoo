@@ -23,7 +23,7 @@ import Slider   from "./etc/Slider";
 
 export default class ResponsiveSlidable extends React.Component {
 	state = {
-		responsiveMode: "portrait"
+		responsiveMode: "landscape"
 	};
 	
 	//
@@ -73,15 +73,6 @@ export default class ResponsiveSlidable extends React.Component {
 				</div>
 				<div className={"item"} style={{ backgroundImage: "url(https://source.unsplash.com/600x400/?sky)" }}>
 					3
-				</div>
-				<div className={"item"} style={{ backgroundImage: "url(https://source.unsplash.com/600x400/?cat)" }}>
-					4
-				</div>
-				<div className={"item"} style={{ backgroundImage: "url(https://source.unsplash.com/600x400/?beer)" }}>
-					5
-				</div>
-				<div className={"item"} style={{ backgroundImage: "url(https://source.unsplash.com/600x400/?dog)" }}>
-					6
 				</div>
 			</Slider>
 		</div>;

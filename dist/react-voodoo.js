@@ -615,8 +615,8 @@ function (_React$Component) {
 
         if (_this3._currentTweener !== parentTweener) {
           _this3._currentTweener && _this3._currentTweener.rmTweenRef(id); //if ( axisItemsChange )
-
-          twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial, pos, noRef);
+          //twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
+          //                               pos, noRef)
         }
 
         if (axisItemsChange) {
@@ -1075,15 +1075,14 @@ function asTweener() {
           return _.tweenRefMaps[id][key] += tweenableMap[key];
         }); //console.log("update", { ..._.tweenRefOrigin[id] }, { ..._.tweenRefMaps[id] })
 
-        Object.keys(_.tweenRefMaps[id]) // unset
+        Object.keys(_.tweenRefOrigin[id]) // unset
         .forEach(function (key) {
           //key == "width" &&
-          var rKey = _.muxDataByTarget[id]["_" + key] || key;
+          var rKey = _.muxDataByTarget[id]["_" + key] || key; //if ( _.tweenRefOrigin[id].hasOwnProperty(key) && !tweenableMap.hasOwnProperty(key) ) {
 
-          if (_.tweenRefOrigin[id].hasOwnProperty(key) && !tweenableMap.hasOwnProperty(key)) {
-            Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["clearTweenableValue"])(rKey, key, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id]);
-            !_.tweenRefCSS[id] && _.refs[id] && _.refs[id].style && _.refs[id].style[rKey] && (_.refs[id].style[rKey] = null);
-          }
+          Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["clearTweenableValue"])(key, key, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id]); //!_.tweenRefCSS[id] &&
+          //_.refs[id] && _.refs[id].style && _.refs[id].style[rKey] && (_.refs[id].style[rKey] = null);
+          //}
         }); //console.log(id, _.tweenRefOrigin[id], { ...tweenableMap })
 
         _.tweenRefOrigin[id] = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, tweenableMap); //_.tweenRefOriginCss[id] = { ...iStyle };
@@ -1131,9 +1130,9 @@ function asTweener() {
         Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["muxToCss"])(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box); //console.log('tweenRef::tweenRef:newref: ', id, { ..._.tweenRefCSS[id] }, { ..._.tweenRefMaps[id] });
       } else {
         Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["muxToCss"])(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
-      } //console.log('tweenRef::tweenRef:519: ', id, { ..._.muxDataByTarget[id] }, { ..._.tweenRefMaps[id] });
+      }
 
-
+      console.log('tweenRef::tweenRef:519: ', id, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, _.muxDataByTarget[id]), _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, _.tweenRefCSS[id]));
       if (noref) return {
         style: _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, _.tweenRefCSS[id])
       };else return {
@@ -1500,6 +1499,8 @@ function asTweener() {
         size = anim.length;
       }
 
+      console.warn("add scrollable");
+
       if (!(sl instanceof _utils_CssTweenAxis__WEBPACK_IMPORTED_MODULE_10__["default"])) {
         sl = Object(_utils_css__WEBPACK_IMPORTED_MODULE_9__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
         sl = new _utils_CssTweenAxis__WEBPACK_IMPORTED_MODULE_10__["default"](sl, _.tweenRefMaps);
@@ -1511,8 +1512,7 @@ function asTweener() {
       }
 
       this.makeTweenable();
-      this.makeScrollable(); //console.warn("add scrollable")
-      // init scroll
+      this.makeScrollable(); // init scroll
 
       dim.tweenAxis.push(sl);
       dim.scrollPos = dim.scrollPos || 0;
@@ -1550,8 +1550,8 @@ function asTweener() {
         dim.scrollableArea = Math.max.apply(Math, dim.tweenAxis.map(function (tl) {
           return tl.duration;
         }).concat([0]));
-        if (!dim.scrollableBounds) dim.inertia.setBounds(0, dim.scrollableArea || 0); //console.warn("rm scrollable", { ...this._.tweenRefMaps["card"] })
-
+        if (!dim.scrollableBounds) dim.inertia.setBounds(0, dim.scrollableArea || 0);
+        console.warn("rm scrollable", _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_2___default()({}, this._.tweenRefMaps));
         sl.goTo(0, this._.tweenRefMaps); //console.warn("rm scrollable", { ...this._.tweenRefMaps["card"] })
 
         Object.keys(sl.initials) // unset
@@ -3001,13 +3001,15 @@ function getProperty(property, expand) {
 /*!************************************************!*\
   !*** ./src/utils/css/demux/backgroundColor.js ***!
   \************************************************/
-/*! exports provided: default */
+/*! exports provided: demux, mux */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _typed_color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typed/color */ "./src/utils/css/demux/typed/color.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _typed_color__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return _typed_color__WEBPACK_IMPORTED_MODULE_0__["demux"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return _typed_color__WEBPACK_IMPORTED_MODULE_0__["mux"]; });
 
 /*
  *
@@ -3034,13 +3036,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************!*\
   !*** ./src/utils/css/demux/boxShadow.js ***!
   \******************************************/
-/*! exports provided: default */
+/*! exports provided: demux, mux */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _typed_shadow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typed/shadow */ "./src/utils/css/demux/typed/shadow.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["demux"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["mux"]; });
 
 /*
  *
@@ -3067,11 +3071,13 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************************!*\
   !*** ./src/utils/css/demux/filter.js ***!
   \***************************************/
-/*! exports provided: default */
+/*! exports provided: demux, mux */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "undefined?63a5");
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../cssUtils */ "./src/utils/css/cssUtils.js");
@@ -3107,7 +3113,6 @@ var defaultUnits = {
   sepia: "%"
 };
 var filters = {};
-
 function demux(key, tweenable, target, data, box) {
   if (data["filter_head"] === key) {
     var _filters = "";
@@ -3119,8 +3124,7 @@ function demux(key, tweenable, target, data, box) {
     target.filter = _filters;
   }
 }
-
-/* harmony default export */ __webpack_exports__["default"] = (function (key, value, target, data, initials) {
+var mux = function mux(key, value, target, data, initials) {
   data["filter_head"] = data["filter_head"] || key;
   data[key] = data[key] || {};
   initials[key] = 0;
@@ -3145,7 +3149,7 @@ function demux(key, tweenable, target, data, box) {
     }
   });
   return demux;
-});
+};
 
 /***/ }),
 
@@ -3153,13 +3157,15 @@ function demux(key, tweenable, target, data, box) {
 /*!*******************************************!*\
   !*** ./src/utils/css/demux/textShadow.js ***!
   \*******************************************/
-/*! exports provided: default */
+/*! exports provided: demux, mux */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _typed_shadow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typed/shadow */ "./src/utils/css/demux/typed/shadow.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["demux"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["mux"]; });
 
 /*
  *
@@ -3186,11 +3192,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************!*\
   !*** ./src/utils/css/demux/transform.js ***!
   \******************************************/
-/*! exports provided: default */
+/*! exports provided: demuxOne, demux, muxOne, mux */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demuxOne", function() { return demuxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "muxOne", function() { return muxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "undefined?63a5");
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../cssUtils */ "./src/utils/css/cssUtils.js");
@@ -3259,7 +3269,6 @@ var defaultUnits = {
   scaleY: 1,
   scaleZ: 1
 };
-
 function demuxOne(unitIndex, dkey, twVal, baseKey, data, box) {
   var value = twVal,
       unit = _cssUtils__WEBPACK_IMPORTED_MODULE_1__["units"][unitIndex] || defaultUnits[baseKey];
@@ -3287,7 +3296,6 @@ function demuxOne(unitIndex, dkey, twVal, baseKey, data, box) {
   if (unit === 'deg') value = value % 360;
   return unit ? Object(_cssUtils__WEBPACK_IMPORTED_MODULE_1__["floatCut"])(value) + unit : Object(_cssUtils__WEBPACK_IMPORTED_MODULE_1__["floatCut"])(value);
 }
-
 function demux(key, tweenable, target, data, box) {
   //console.log(key)
   var transforms = "",
@@ -3333,15 +3341,14 @@ function demux(key, tweenable, target, data, box) {
 
   target.transform = transforms;
 }
-
-function muxOne(key, baseKey, value, target, data, initials, noSema) {
+function muxOne(key, baseKey, value, target, data, initials, semaOnce) {
   var match = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(value) ? value.match(_cssUtils__WEBPACK_IMPORTED_MODULE_1__["unitsRe"]) : false,
       unit = match && match[2] || defaultUnits[key],
       unitKey = _cssUtils__WEBPACK_IMPORTED_MODULE_1__["units"].indexOf(unit),
       realKey = unitKey !== -1 && key + '_' + unitKey || key;
   initials[realKey] = defaultValue[baseKey] || 0;
   data[key][unitKey] = data[key][unitKey] || 0;
-  !noSema && data[key][unitKey]++; //console.log("set ", key, baseKey, realKey)
+  !semaOnce && data[key][unitKey]++; //console.log("set ", key, baseKey, realKey)
 
   if (match) {
     target[realKey] = parseFloat(match[1]);
@@ -3351,9 +3358,8 @@ function muxOne(key, baseKey, value, target, data, initials, noSema) {
 
   return demux;
 }
-
 ;
-/* harmony default export */ __webpack_exports__["default"] = (function (key, value, target, data, initials, noSema, reset) {
+var mux = function mux(key, value, target, data, initials, semaOnce, reset) {
   data[key] = data[key] || []; //initials[key] = 0;
 
   if (!is__WEBPACK_IMPORTED_MODULE_0___default.a.array(value)) value = [value];
@@ -3374,23 +3380,23 @@ function muxOne(key, baseKey, value, target, data, initials, noSema) {
         fValue = tmap[fkey];
         dkey = key + '_' + ti + '_' + fkey;
         baseData[fkey] = baseData[fkey] || 0;
-        !noSema && baseData[fkey]++; //console.log("set ", key, dkey)
-
+        !semaOnce && baseData[fkey]++;
+        console.warn("set ", key, dkey);
         data[dkey] = data[dkey] || [];
 
         if (is__WEBPACK_IMPORTED_MODULE_0___default.a.array(fValue)) {
           for (u = 0; u < fValue.length; u++) {
-            muxOne(dkey, fkey, fValue[u] || 0, target, data, initials, noSema);
+            muxOne(dkey, fkey, fValue[u] || 0, target, data, initials, semaOnce);
           }
         } else {
-          muxOne(dkey, fkey, fValue || 0, target, data, initials, noSema);
+          muxOne(dkey, fkey, fValue || 0, target, data, initials, semaOnce);
         }
       }
     }
   }
 
   return demux;
-});
+};
 
 /***/ }),
 
@@ -3398,11 +3404,13 @@ function muxOne(key, baseKey, value, target, data, initials, noSema) {
 /*!********************************************!*\
   !*** ./src/utils/css/demux/typed/color.js ***!
   \********************************************/
-/*! exports provided: default */
+/*! exports provided: demux, mux */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
 /* harmony import */ var color_rgba__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! color-rgba */ "undefined?a742");
 /* harmony import */ var color_rgba__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(color_rgba__WEBPACK_IMPORTED_MODULE_0__);
 /*
@@ -3423,16 +3431,14 @@ __webpack_require__.r(__webpack_exports__);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 function demux(key, tweenable, target, data) {
   var value = "rgba(" + tweenable[key + '$r'] + ", " + tweenable[key + '$g'] + ", " + tweenable[key + '$b'] + ", " + tweenable[key + '$a'] + ")";
   return target ? target[key] = value : value;
 }
-
-function muxer(key, value, target, data, initials, noSema) {
+function mux(key, value, target, data, initials, semaOnce) {
   var vect = color_rgba__WEBPACK_IMPORTED_MODULE_0___default()(value);
   data[key] = data[key] || 0;
-  !noSema && data[key]++;
+  !semaOnce && data[key]++;
   target[key + '$r'] = vect[0];
   target[key + '$g'] = vect[1];
   target[key + '$b'] = vect[2];
@@ -3444,20 +3450,19 @@ function muxer(key, value, target, data, initials, noSema) {
   return demux;
 }
 
-muxer.demux = demux;
-/* harmony default export */ __webpack_exports__["default"] = (muxer);
-
 /***/ }),
 
 /***/ "./src/utils/css/demux/typed/int.js":
 /*!******************************************!*\
   !*** ./src/utils/css/demux/typed/int.js ***!
   \******************************************/
-/*! exports provided: default */
+/*! exports provided: demux, mux */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
 /*
  *
  * Copyright (C) 2019 Nathanael Braun
@@ -3476,18 +3481,16 @@ __webpack_require__.r(__webpack_exports__);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var defaultUnits = {};
-
 function demux(key, tweenable, target, data, box) {
   target[key] = ~~tweenable[key];
 }
-
-/* harmony default export */ __webpack_exports__["default"] = (function (key, value, target, data, initials, noSema) {
+var mux = function mux(key, value, target, data, initials, semaOnce) {
   initials[key] = 0;
   target[key] = ~~value;
   data[key] = data[key] || 0;
-  !noSema && data[key]++;
+  !semaOnce && data[key]++;
   return demux;
-});
+};
 
 /***/ }),
 
@@ -3544,18 +3547,21 @@ function demux(key, tweenable, target, data, box, offset) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (function (count) {
-  return function (key, value, target, data, initials) {
-    var values = value.split(' '),
-        v;
-    data[key] = count;
+  return {
+    mux: function mux(key, value, target, data, initials) {
+      var values = value.split(' '),
+          v;
+      data[key] = count;
 
-    for (var i = 0; i < count; i++) {
-      v = values[i % values.length];
-      v = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(v) && alias[v] || v;
-      Object(_number__WEBPACK_IMPORTED_MODULE_1__["default"])(key + '_' + i, v, target, data, initials);
-    }
+      for (var i = 0; i < count; i++) {
+        v = values[i % values.length];
+        v = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(v) && alias[v] || v;
+        Object(_number__WEBPACK_IMPORTED_MODULE_1__["default"])(key + '_' + i, v, target, data, initials);
+      }
 
-    return demux;
+      return demux;
+    },
+    demux: demux
   };
 });
 
@@ -3565,11 +3571,16 @@ function demux(key, tweenable, target, data, box, offset) {
 /*!*********************************************!*\
   !*** ./src/utils/css/demux/typed/number.js ***!
   \*********************************************/
-/*! exports provided: default */
+/*! exports provided: demuxOne, demux, muxer, muxOne, mux */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demuxOne", function() { return demuxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "muxer", function() { return muxer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "muxOne", function() { return muxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "undefined?63a5");
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../cssUtils */ "./src/utils/css/cssUtils.js");
@@ -3612,7 +3623,6 @@ var defaultUnits = {
     defaultValue = {
   opacity: 1
 };
-
 function demuxOne(unitKey, twVal, baseKey, data, box) {
   var value = twVal,
       unit = _cssUtils__WEBPACK_IMPORTED_MODULE_1__["units"][unitKey] || defaultUnits[baseKey] || "px";
@@ -3639,7 +3649,6 @@ function demuxOne(unitKey, twVal, baseKey, data, box) {
 
   return unit ? Object(_cssUtils__WEBPACK_IMPORTED_MODULE_1__["floatCut"])(value) + unit : Object(_cssUtils__WEBPACK_IMPORTED_MODULE_1__["floatCut"])(value);
 }
-
 function demux(key, tweenable, target, data, box, baseKey) {
   var value,
       i = 0,
@@ -3660,29 +3669,27 @@ function demux(key, tweenable, target, data, box, baseKey) {
   if (i > 1) value = "calc(" + value + ")";
   return target ? target[key] = value : value;
 }
-
-function muxer(key, value, target, data, initials, noSema) {
+function muxer(key, value, target, data, initials, semaOnce) {
   data[key] = data[key] || [];
 
   if (is__WEBPACK_IMPORTED_MODULE_0___default.a.array(value)) {
     for (var i = 0; i < value.length; i++) {
-      muxOne(key, value[i] || 0, target, data, initials, noSema);
+      muxOne(key, value[i] || 0, target, data, initials, semaOnce);
     }
   } else {
-    muxOne(key, value || 0, target, data, initials, noSema);
+    muxOne(key, value || 0, target, data, initials, semaOnce);
   }
 
   return demux;
 }
-
-function muxOne(key, value, target, data, initials, noSema) {
+function muxOne(key, value, target, data, initials, semaOnce) {
   var match = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(value) ? value.match(_cssUtils__WEBPACK_IMPORTED_MODULE_1__["unitsRe"]) : false,
       unit = match && match[2] || defaultUnits[key],
       unitKey = _cssUtils__WEBPACK_IMPORTED_MODULE_1__["units"].indexOf(unit),
       realKey = unitKey !== -1 && key + '_' + unitKey || key;
   initials[realKey] = defaultValue[key] || 0;
   data[key][unitKey] = data[key][unitKey] || 0;
-  !noSema && data[key][unitKey]++; //console.log(key, ':', data[key][unitKey])
+  !semaOnce && data[key][unitKey]++; //console.log(key, ':', data[key][unitKey])
   //data["_" + realKey] = key;
 
   if (match) {
@@ -3693,11 +3700,8 @@ function muxOne(key, value, target, data, initials, noSema) {
 
   return demux;
 }
-
 ;
-muxer.demux = demux;
-muxer.demuxOne = demuxOne;
-/* harmony default export */ __webpack_exports__["default"] = (muxer);
+var mux = muxer;
 
 /***/ }),
 
@@ -3705,11 +3709,13 @@ muxer.demuxOne = demuxOne;
 /*!*********************************************!*\
   !*** ./src/utils/css/demux/typed/shadow.js ***!
   \*********************************************/
-/*! exports provided: default */
+/*! exports provided: demux, mux */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
 /* harmony import */ var css_box_shadow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! css-box-shadow */ "undefined?c6dc");
 /* harmony import */ var css_box_shadow__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(css_box_shadow__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var is__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! is */ "undefined?63a5");
@@ -3748,7 +3754,6 @@ var defaultUnits = {
   sepia: "%"
 };
 var swap = {};
-
 function demux(key, tweenable, target, data, box) {
   //if ( data["filter_head"] === key ) {
   var shadows = [];
@@ -3766,10 +3771,9 @@ function demux(key, tweenable, target, data, box) {
   });
   target[key] = css_box_shadow__WEBPACK_IMPORTED_MODULE_0___default.a.stringify(shadows);
 }
-
-/* harmony default export */ __webpack_exports__["default"] = (function (key, value, target, data, initials, noSema) {
+var mux = function mux(key, value, target, data, initials, semaOnce) {
   //data[key] = data[key] || 0;
-  //!noSema && data[key]++;
+  //!semaOnce && data[key]++;
   data[key] = data[key] || [];
   initials[key] = 0;
   var parsedValues = value,
@@ -3783,23 +3787,23 @@ function demux(key, tweenable, target, data, box) {
     if (shadow) {
       //color: "rgba(0, 0, 255, .2)"
       initials[key + '_' + i + "_color"] = "rgba(0,0,0,0)";
-      Object(_js__WEBPACK_IMPORTED_MODULE_2__["color"])(key + '_' + i + "_color", shadow.color || "rgba(0,0,0,0)", target, data, initials, noSema); //blurRadius: 2
+      Object(_js__WEBPACK_IMPORTED_MODULE_2__["color"])(key + '_' + i + "_color", shadow.color || "rgba(0,0,0,0)", target, data, initials, semaOnce); //blurRadius: 2
 
-      Object(_js__WEBPACK_IMPORTED_MODULE_2__["number"])(key + '_' + i + "_blurRadius", shadow.blurRadius || 0, target, data, initials, noSema); //inset: false
+      Object(_js__WEBPACK_IMPORTED_MODULE_2__["number"])(key + '_' + i + "_blurRadius", shadow.blurRadius || 0, target, data, initials, semaOnce); //inset: false
 
       baseData.inset = shadow.inset; //offsetX: 12
 
-      Object(_js__WEBPACK_IMPORTED_MODULE_2__["number"])(key + '_' + i + "_offsetX", shadow.offsetX || 0, target, data, initials, noSema); //offsetY: 12
+      Object(_js__WEBPACK_IMPORTED_MODULE_2__["number"])(key + '_' + i + "_offsetX", shadow.offsetX || 0, target, data, initials, semaOnce); //offsetY: 12
 
-      Object(_js__WEBPACK_IMPORTED_MODULE_2__["number"])(key + '_' + i + "_offsetY", shadow.offsetY || 0, target, data, initials, noSema); //spreadRadius: 1
+      Object(_js__WEBPACK_IMPORTED_MODULE_2__["number"])(key + '_' + i + "_offsetY", shadow.offsetY || 0, target, data, initials, semaOnce); //spreadRadius: 1
 
-      Object(_js__WEBPACK_IMPORTED_MODULE_2__["number"])(key + '_' + i + "_spreadRadius", shadow.spreadRadius || 0, target, data, initials, noSema);
+      Object(_js__WEBPACK_IMPORTED_MODULE_2__["number"])(key + '_' + i + "_spreadRadius", shadow.spreadRadius || 0, target, data, initials, semaOnce);
     }
 
     data[key][i] = baseData;
   });
   return demux;
-});
+};
 
 /***/ }),
 
@@ -3868,49 +3872,48 @@ function clearTweenableValue(cssKey, twKey, tweenableMap, cssMap, dataMap, muxer
       tmpKey; // not optimal at all
 
   if (path.length === 2) {
-    //console.log("dec", cssKey, twKey, dataMap[path[0]][path[1]])
-    if (! --dataMap[path[0]][path[1]]) {
+    console.log("dec", cssKey, twKey, dataMap[path[0]][path[1]]);
+
+    if (! --dataMap[path[0]][path[1]] && !keepValues) {
       delete tweenableMap[twKey];
       delete dataMap[path[0]][path[1]];
     }
 
-    while (dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1]) {
+    if (!keepValues) while (dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1]) {
       dataMap[path[0]].pop();
     }
 
-    if (dataMap[path[0]].length === 0) {
+    if (dataMap[path[0]].length === 0 && !keepValues) {
       delete dataMap[path[0]];
       delete muxerMap[path[0]];
       delete cssMap[path[0]];
       console.log("delete", path[0]);
     }
   } else if (path.length === 4) {
-    //console.log("dec", cssKey, twKey, dataMap[path[0]][path[1]][path[2]])
-    if (! --dataMap[path[0]][path[1]][path[2]]) {
+    console.log("dec", cssKey, twKey, dataMap[path[0]][path[1]][path[2]]);
+
+    if (! --dataMap[path[0]][path[1]][path[2]] && !keepValues) {
       delete dataMap[path[0]][path[1]][path[2]];
     }
 
-    if (Object.keys(dataMap[path[0]][path[1]]).length === 0) delete dataMap[path[0]][path[1]];
-
-    while (dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1]) {
+    if (Object.keys(dataMap[path[0]][path[1]]).length === 0 && !keepValues) delete dataMap[path[0]][path[1]];
+    if (!keepValues) while (dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1]) {
       dataMap[path[0]].pop();
     }
-
     tmpKey = path[0] + "_" + path[1] + "_" + path[2]; //console.warn("free", dataMap, path, tweenableMap[twKey])
 
-    if (! --dataMap[tmpKey][path[3]]) {
+    if (! --dataMap[tmpKey][path[3]] && !keepValues) {
       delete dataMap[tmpKey][path[3]];
       delete tweenableMap[twKey];
       console.log("delete", twKey);
     }
 
-    while (dataMap[tmpKey].length && !dataMap[tmpKey][dataMap[tmpKey].length - 1]) {
+    if (!keepValues) while (dataMap[tmpKey].length && !dataMap[tmpKey][dataMap[tmpKey].length - 1]) {
       dataMap[tmpKey].pop();
     }
+    if (dataMap[path[0] + "_" + path[1] + "_" + path[2]].length === 0 && !keepValues) delete dataMap[path[0] + "_" + path[1] + "_" + path[2]];
 
-    if (dataMap[path[0] + "_" + path[1] + "_" + path[2]].length === 0) delete dataMap[path[0] + "_" + path[1] + "_" + path[2]];
-
-    if (dataMap[path[0]].length === 0) {
+    if (dataMap[path[0]].length === 0 && !keepValues) {
       delete dataMap[path[0]];
       delete muxerMap[path[0]];
       delete cssMap[path[0]];
@@ -3924,10 +3927,10 @@ function clearTweenableValue(cssKey, twKey, tweenableMap, cssMap, dataMap, muxer
 function muxToCss(tweenable, css, demuxers, data, box) {
   Object.keys(demuxers).forEach(function (key) {
     //if ( key === 'zIndex' ) debugger
-    demuxers[key](key, tweenable, css, data, box);
+    demuxers[key].demux(key, tweenable, css, data, box);
   });
 }
-function deMuxTween(tween, deMuxedTween, initials, data, demuxers, noSema, reOrder) {
+function deMuxTween(tween, deMuxedTween, initials, data, demuxers, semaOnce, reOrder) {
   var fTween = {},
       excluded = {};
   Object.keys(tween).forEach(function (key) {
@@ -3940,12 +3943,13 @@ function deMuxTween(tween, deMuxedTween, initials, data, demuxers, noSema, reOrd
   Object.keys(fTween).forEach(function (key) {
     if (cssDemux[key]) {
       //key, value, target, data, initials
-      demuxers[key] = cssDemux[key](key, fTween[key], deMuxedTween, data, initials, noSema, reOrder);
-    } else demuxers[key] = Object(_demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["number"])(key, fTween[key], deMuxedTween, data, initials, noSema, reOrder);
+      (demuxers[key] = cssDemux[key]).mux(key, fTween[key], deMuxedTween, data, initials, semaOnce, reOrder);
+    } else (demuxers[key] = _demux_typed_js__WEBPACK_IMPORTED_MODULE_3__["number"]).mux(key, fTween[key], deMuxedTween, data, initials, semaOnce, reOrder);
   });
   return excluded;
 }
-function deMuxLine(tweenLine, initials, data, demuxers, noSema) {
+function deMuxLine(tweenLine, initials, data, demuxers, semaOnce) {
+  semaOnce = semaOnce && {};
   return tweenLine.reduce(function (line, tween) {
     var demuxedTween = {};
     demuxers[tween.target] = demuxers[tween.target] || {};
@@ -3953,7 +3957,7 @@ function deMuxLine(tweenLine, initials, data, demuxers, noSema) {
     data[tween.target] = data[tween.target] || {};
 
     if (!tween.type || tween.type === "Tween") {
-      deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target], noSema);
+      deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target], semaOnce);
       line.push(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, tween, {
         apply: demuxedTween
       }));

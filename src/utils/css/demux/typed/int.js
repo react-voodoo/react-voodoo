@@ -18,17 +18,18 @@
 
 const defaultUnits = {};
 
-function demux( key, tweenable, target, data, box ) {
+export function demux( key, tweenable, target, data, box ) {
 	target[key] = ~~(tweenable[key]);
 }
 
-export default ( key, value, target, data, initials, noSema ) => {
+
+export const mux = ( key, value, target, data, initials, semaOnce ) => {
 	
 	
 	initials[key] = 0;
 	target[key]   = ~~value;
 	data[key]     = data[key] || 0;
-	!noSema && data[key]++;
+	!semaOnce && data[key]++;
 	
 	return demux;
 }
