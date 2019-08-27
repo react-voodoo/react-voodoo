@@ -17,11 +17,11 @@
  */
 
 
+import deepExtend                                                         from "deep-extend";
 import {expandShorthandProperty, isShorthandProperty, isValidDeclaration} from "./cssUtils";
 import cssDemuxers                                                        from "./demux/(*).js";
 
 import {int, multi, number} from "./demux/typed/(*).js";
-
 
 const cssDemux = {
 	...cssDemuxers,
@@ -45,68 +45,8 @@ const cssDemux = {
 
 export function clearTweenableValue( cssKey, twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
 	let path = twKey.split('_'), tmpKey;// not optimal at all
-	
-	if ( path.length === 2 ) {
-		console.log("dec", cssKey, twKey, dataMap[path[0]][path[1]])
-		if ( !--dataMap[path[0]][path[1]] && !keepValues ) {
-			delete tweenableMap[twKey];
-			delete dataMap[path[0]][path[1]];
-		}
-		
-		if ( !keepValues )
-			while ( dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1] )
-				dataMap[path[0]].pop();
-		
-		if ( dataMap[path[0]].length === 0 && !keepValues ) {
-			delete dataMap[path[0]];
-			delete muxerMap[path[0]];
-			delete cssMap[path[0]];
-			console.log("delete", path[0])
-		}
-	}
-	else if ( path.length === 4 ) {
-		console.log("dec", cssKey, twKey, dataMap[path[0]][path[1]][path[2]])
-		if ( !--dataMap[path[0]][path[1]][path[2]] && !keepValues ) {
-			delete dataMap[path[0]][path[1]][path[2]];
-		}
-		
-		if ( Object.keys(dataMap[path[0]][path[1]]).length === 0 && !keepValues )
-			delete dataMap[path[0]][path[1]];
-		
-		if ( !keepValues )
-			while ( dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1] )
-				dataMap[path[0]].pop();
-		
-		
-		tmpKey = path[0] + "_" + path[1] + "_" + path[2];
-		//console.warn("free", dataMap, path, tweenableMap[twKey])
-		if ( !--dataMap[tmpKey][path[3]] && !keepValues ) {
-			delete dataMap[tmpKey][path[3]];
-			delete tweenableMap[twKey];
-			console.log("delete", twKey)
-		}
-		
-		if ( !keepValues )
-			while ( dataMap[tmpKey].length && !dataMap[tmpKey][dataMap[tmpKey].length - 1] )
-				dataMap[tmpKey].pop();
-		
-		if ( dataMap[path[0] + "_" + path[1] + "_" + path[2]].length === 0 && !keepValues )
-			delete dataMap[path[0] + "_" + path[1] + "_" + path[2]];
-		
-		if ( dataMap[path[0]].length === 0 && !keepValues ) {
-			delete dataMap[path[0]];
-			delete muxerMap[path[0]];
-			delete cssMap[path[0]];
-		}
-	}
-	else if ( path.length === 1 ) {
-		console.log("wtf delete", cssKey, twKey)
-	}
-	else {
-		console.log("wtf delete", cssKey, twKey)
-		//delete tweenableMap[twKey];
-	}
-	
+	cssDemux[path[0]]
+	&& cssDemux[path[0]].release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues)
 }
 
 export function muxToCss( tweenable, css, demuxers, data, box ) {
@@ -119,7 +59,7 @@ export function muxToCss( tweenable, css, demuxers, data, box ) {
 	      )
 }
 
-export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, semaOnce, reOrder ) {
+export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, noPropLock, reOrder ) {
 	let fTween = {}, excluded = {};
 	Object.keys(tween)
 	      .forEach(
@@ -139,35 +79,43 @@ export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, semaO
 	      .forEach(
 		      ( key ) => {
 			      if ( cssDemux[key] ) {//key, value, target, data, initials
-				      (demuxers[key] = cssDemux[key]).mux(key, fTween[key], deMuxedTween, data, initials, semaOnce, reOrder)
+				      (demuxers[key] = cssDemux[key]).mux(key, fTween[key], deMuxedTween, data, initials, noPropLock, reOrder)
 			      }
 			      else
-				      (demuxers[key] = number).mux(key, fTween[key], deMuxedTween, data, initials, semaOnce, reOrder)
+				      (demuxers[key] = number).mux(key, fTween[key], deMuxedTween, data, initials, noPropLock, reOrder)
 		      }
 	      );
 	return excluded;
 }
 
-export function deMuxLine( tweenLine, initials, data, demuxers, semaOnce ) {
-	semaOnce = semaOnce && {};
-	return tweenLine.reduce(
-		( line, tween ) => {
-			let demuxedTween       = {};
-			demuxers[tween.target] = demuxers[tween.target] || {};
-			initials[tween.target] = initials[tween.target] || {};
-			data[tween.target]     = data[tween.target] || {};
+export function deMuxLine( tweenLine, initials, data, demuxers, noPropLock ) {
+	noPropLock       = noPropLock && {};
+	let allPropsById = {},
+	    twAxis       = tweenLine.reduce(
+		    ( line, tween ) => {
+			    let demuxedTween       = {};
+			    demuxers[tween.target] = demuxers[tween.target] || {};
+			    initials[tween.target] = initials[tween.target] || {};
+			    data[tween.target]     = data[tween.target] || {};
 			
-			if ( !tween.type || tween.type === "Tween" ) {
-				deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target], semaOnce);
-				line.push(
-					{
-						...tween,
-						apply: demuxedTween
-					});
-			}
-			else line.push({ ...tween });
-			return line
-		},
-		[]
-	)
+			    if ( !tween.type || tween.type === "Tween" ) {
+				    !noPropLock && deepExtend(allPropsById[tween.target] = allPropsById[tween.target] || {}, tween.apply);
+				    deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target], true);
+				    line.push(
+					    {
+						    ...tween,
+						    apply: demuxedTween
+					    });
+			    }
+			    else line.push({ ...tween });
+			    return line
+		    },
+		    []
+	    );
+	!noPropLock && Object.keys(allPropsById)
+	                     .forEach(
+		                     id => deMuxTween(allPropsById[id], {}, {}, data[id], demuxers[id])
+	                     )
+	;
+	return twAxis;
 }

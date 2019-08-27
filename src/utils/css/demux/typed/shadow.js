@@ -35,6 +35,31 @@ const
 	};
 const swap       = {};
 
+export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
+	let path = twKey.split('_'), tmpKey;// not optimal at all
+	
+	//if ( path.length === 2 ) {
+	//	console.log("dec", twKey, dataMap[path[0]][path[1]])
+	//	if ( !--dataMap[path[0]][path[1]] && !keepValues ) {
+	//		delete tweenableMap[twKey];
+	//		delete dataMap[path[0]][path[1]];
+	//	}
+	//
+	//	if ( !keepValues )
+	//		while ( dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1] )
+	//			dataMap[path[0]].pop();
+	//
+	//	if ( dataMap[path[0]].length === 0 && !keepValues ) {
+	//		delete dataMap[path[0]];
+	//		delete muxerMap[path[0]];
+	//		delete cssMap[path[0]];
+	//		console.log("delete", path[0])
+	//	}
+	//}
+	//else {
+		console.log("wtf", path)
+	//}
+}
 export function demux( key, tweenable, target, data, box ) {
 	//if ( data["filter_head"] === key ) {
 	let shadows = [];
@@ -55,10 +80,10 @@ export function demux( key, tweenable, target, data, box ) {
 }
 
 
-export const mux =  ( key, value, target, data, initials, semaOnce ) => {
+export const mux =  ( key, value, target, data, initials, noPropLock ) => {
 	
 	//data[key] = data[key] || 0;
-	//!semaOnce && data[key]++;
+	//!noPropLock && data[key]++;
 	data[key]        = data[key] || [];
 	initials[key]    = 0;
 	let parsedValues = value, i;
@@ -76,17 +101,17 @@ export const mux =  ( key, value, target, data, initials, semaOnce ) => {
 			if ( shadow ) {
 				//color: "rgba(0, 0, 255, .2)"
 				initials[key + '_' + i + "_color"] = "rgba(0,0,0,0)";
-				color(key + '_' + i + "_color", shadow.color || "rgba(0,0,0,0)", target, data, initials, semaOnce);
+				color.mux(key + '_' + i + "_color", shadow.color || "rgba(0,0,0,0)", target, data, initials, noPropLock);
 				//blurRadius: 2
-				number(key + '_' + i + "_blurRadius", shadow.blurRadius || 0, target, data, initials, semaOnce);
+				number.mux(key + '_' + i + "_blurRadius", shadow.blurRadius || 0, target, data, initials, noPropLock);
 				//inset: false
 				baseData.inset = shadow.inset;
 				//offsetX: 12
-				number(key + '_' + i + "_offsetX", shadow.offsetX || 0, target, data, initials, semaOnce);
+				number.mux(key + '_' + i + "_offsetX", shadow.offsetX || 0, target, data, initials, noPropLock);
 				//offsetY: 12
-				number(key + '_' + i + "_offsetY", shadow.offsetY || 0, target, data, initials, semaOnce);
+				number.mux(key + '_' + i + "_offsetY", shadow.offsetY || 0, target, data, initials, noPropLock);
 				//spreadRadius: 1
-				number(key + '_' + i + "_spreadRadius", shadow.spreadRadius || 0, target, data, initials, semaOnce);
+				number.mux(key + '_' + i + "_spreadRadius", shadow.spreadRadius || 0, target, data, initials, noPropLock);
 			}
 			
 			data[key][i] = baseData;

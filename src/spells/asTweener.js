@@ -154,8 +154,8 @@ export default function asTweener( ...argz ) {
 				|| (_.tweenRefOriginCss[id] !== iStyle && !deepEqual(iStyle, _.tweenRefOriginCss[id]))
 			) ) {
 				// hot switch initial values
-				console.warn('ref exist & style is !==', id, iStyle,
-				             _.tweenRefOriginCss[id], mapReset)
+				//console.warn('ref exist & style is !==', id, iStyle,
+				//             _.tweenRefOriginCss[id], mapReset)
 				_.iMapOrigin[id]        = iMap;
 				_.tweenRefOriginCss[id] = iStyle;
 				iStyle                  = iStyle || {};
@@ -215,10 +215,10 @@ export default function asTweener( ...argz ) {
 						      //key == "width" &&
 						      let rKey = _.muxDataByTarget[id]["_" + key] || key;
 						      //if ( _.tweenRefOrigin[id].hasOwnProperty(key) && !tweenableMap.hasOwnProperty(key) ) {
-							      clearTweenableValue(key, key, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id])
-							      //!_.tweenRefCSS[id] &&
-							      //_.refs[id] && _.refs[id].style && _.refs[id].style[rKey] && (_.refs[id].style[rKey] = null);
-						      //}
+						      clearTweenableValue(key, key, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id])
+						      //!_.tweenRefCSS[id] &&
+						      //_.refs[id] && _.refs[id].style && _.refs[id].style[rKey] && (_.refs[id].style[rKey] =
+						      // null); }
 					      }
 				      );
 				//console.log(id, _.tweenRefOrigin[id], { ...tweenableMap })
@@ -279,7 +279,7 @@ export default function asTweener( ...argz ) {
 				muxToCss(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
 				
 			}
-			console.log('tweenRef::tweenRef:519: ', id, { ..._.muxDataByTarget[id] }, { ..._.tweenRefCSS[id] });
+			//console.log('tweenRef::tweenRef:519: ', id, { ..._.muxDataByTarget[id] }, { ..._.tweenRefCSS[id] });
 			if ( noref )
 				return {
 					style: { ..._.tweenRefCSS[id] }
@@ -424,7 +424,7 @@ export default function asTweener( ...argz ) {
 								      Object.keys(initials[id])// unset
 								            .forEach(
 									            rkey => {
-									            	// todo
+										            // todo
 										            clearTweenableValue(rkey, rkey, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id], true)
 										            //!_.tweenRefCSS[id] &&
 										            //_.refs[id] && _.refs[id].style && _.refs[id].style[rkey] &&
@@ -631,7 +631,7 @@ export default function asTweener( ...argz ) {
 				size = anim.length;
 			}
 			
-			console.warn("add scrollable")
+			//console.warn("add scrollable")
 			if ( !(sl instanceof tweenAxis) ) {
 				sl          = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
 				sl          = new tweenAxis(sl, _.tweenRefMaps);
@@ -678,7 +678,7 @@ export default function asTweener( ...argz ) {
 				dim.scrollableArea = Math.max(...dim.tweenAxis.map(tl => tl.duration), 0);
 				if ( !dim.scrollableBounds )
 					dim.inertia.setBounds(0, dim.scrollableArea || 0);
-				console.warn("rm scrollable", { ...this._.tweenRefMaps })
+				//console.warn("rm scrollable", { ...this._.tweenRefMaps })
 				sl.goTo(0, this._.tweenRefMaps);
 				//console.warn("rm scrollable", { ...this._.tweenRefMaps["card"] })
 				
@@ -1323,7 +1323,7 @@ export default function asTweener( ...argz ) {
 			if ( node )
 				for ( let o in swap )
 					if ( this._.tweenRefCSS[target].hasOwnProperty(o) ) {
-						if ( force||swap[o] !== this._.tweenRefCSS[target][o] ) {
+						if ( force || swap[o] !== this._.tweenRefCSS[target][o] ) {
 							node.style[o] = this._.tweenRefCSS[target][o] = swap[o];
 							changes       = true;
 						}

@@ -17,7 +17,8 @@
  */
 
 const path       = require('path'),
-      packageCfg = JSON.parse(require('fs').readFileSync(__dirname + '/../../package.json'));
+      packageCfg = JSON.parse(require('fs').readFileSync(__dirname + '/../../package.json')),
+      TIMEOUT    = 5000;
 
 import {expect}        from 'chai';
 import {mount, render} from 'enzyme';
@@ -28,7 +29,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 	
 	let VoodooTweener;
 	before(function () {
-		this.timeout(Infinity);
+		this.timeout(TIMEOUT);
 		return require('./.setup.js')();
 	});
 	
@@ -54,31 +55,35 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 					</div>;
 				}
 			}
-
+			
 			const wrapper = render(<MyComp/>);
 			console.log(wrapper.find('.card').html())
 			expect(wrapper.find('.card')[0].attribs.style).to.include('width:calc(50% + 50px)');
 		});
 		it('should support switching styles', function ( done ) {
-			this.timeout(Infinity);
+			this.timeout(TIMEOUT);
 			
 			@VoodooTweener.asTweener
 			class MyComp extends React.Component {
 				state = {
 					initial: {
-						width: "50px",
-						transform:{
-							rotateX:20
+						width    : "50px",
+						transform: {
+							rotateX: 20
 						}
 					}
 				};
 				
 				componentDidMount() {
 					setTimeout(
-						tm => this.setState({ initial: { height: "50px",
-								transform:{
-									rotateX:20
-								} } }), 10
+						tm => this.setState({
+							                    initial: {
+								                    height   : "50px",
+								                    transform: {
+									                    rotateY: 20
+								                    }
+							                    }
+						                    }), 10
 					);
 				}
 				
@@ -110,16 +115,16 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 			)
 		});
 		it('should support switching styles & anims ', function ( done ) {
-			this.timeout(Infinity);
-
-
+			this.timeout(TIMEOUT);
+			
+			
 			@VoodooTweener.asTweener
 			class MyComp extends React.Component {
 				state = {
 					initial: {
 						width: "50px"
 					},
-
+					
 					scrollLine: [{
 						apply   : { transform: { translateY: "50px" } },
 						duration: 100,
@@ -127,7 +132,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 						target  : "card"
 					}]
 				};
-
+				
 				componentDidMount() {
 					setTimeout(
 						tm => this.setState(
@@ -142,7 +147,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 							}), 200
 					);
 				}
-
+				
 				render() {
 					return <div className={"container"}>
 						<VoodooTweener.TweenAxis
@@ -159,7 +164,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 					</div>;
 				}
 			}
-
+			
 			const wrapper = mount(<MyComp/>);
 			setTimeout(
 				tm => {
@@ -177,13 +182,13 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 		});
 	});
 	describe("Simple anims : ", ( done ) => {
-
+		
 		it('should play simple anim well', function ( done ) {
-			this.timeout(Infinity);
-
+			this.timeout(TIMEOUT);
+			
 			@VoodooTweener.asTweener
 			class MyComp extends React.Component {
-
+				
 				render() {
 					setTimeout(
 						tm => this.props.tweener.pushAnim([{
@@ -205,7 +210,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 					</div>;
 				}
 			}
-
+			
 			const wrapper = mount(<MyComp/>);
 			setTimeout(
 				tm => {
@@ -215,18 +220,18 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 				},
 				100
 			)
-
+			
 		});
 		it('should play simple anim well even if theres redraws', function ( done ) {
-			this.timeout(Infinity);
+			this.timeout(TIMEOUT);
 			let redrawTm;
-
+			
 			@VoodooTweener.asTweener
 			class MyComp extends React.Component {
 				state = {};
-
+				
 				componentDidMount() {
-
+					
 					setTimeout(
 						tm => this.props.tweener.pushAnim([{
 							apply   : { width: "50px" },
@@ -240,7 +245,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 						10
 					);
 				}
-
+				
 				render() {
 					return <div className={"container"}>
 						<VoodooTweener.TweenRef id="card"
@@ -254,7 +259,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 					</div>;
 				}
 			}
-
+			
 			const wrapper = mount(<MyComp/>);
 			setTimeout(
 				tm => {
@@ -264,10 +269,10 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 				},
 				600
 			)
-
+			
 		});
 		it('should play simple anim well even if theres props change, redraws & scroll', function ( done ) {
-			this.timeout(Infinity);
+			this.timeout(TIMEOUT);
 			let redrawTm,
 			    scrollLine = [{
 				    apply   : { width: "50px" },
@@ -275,13 +280,13 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 				    from    : 0,
 				    target  : "card"
 			    }];
-
+			
 			@VoodooTweener.asTweener
 			class MyComp extends React.Component {
 				state = {};
-
+				
 				componentDidMount() {
-
+					
 					setTimeout(
 						tm => this.props.tweener.pushAnim([{
 							apply   : { width: "50px" },
@@ -294,7 +299,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 						tm => this.props.tweener.scrollTo(100, 300)
 					);
 				}
-
+				
 				render() {
 					return <div className={"container"}>
 						<VoodooTweener.TweenAxis
@@ -313,10 +318,10 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 					</div>;
 				}
 			}
-
+			
 			class MyApp extends React.Component {
 				state = {};
-
+				
 				componentDidMount() {
 					redrawTm = setInterval(
 						tm => {
@@ -325,14 +330,14 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 						10
 					);
 				}
-
+				
 				render() {
 					return <div className={"container"}>
 						<MyComp value={this.state.value}/>
 					</div>;
 				}
 			}
-
+			
 			const wrapper = mount(<MyApp/>);
 			setTimeout(
 				tm => {
@@ -342,7 +347,7 @@ describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
 				},
 				600
 			)
-
+			
 		});
 	});
 	

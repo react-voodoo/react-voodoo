@@ -92,27 +92,23 @@ export default class TweenRef extends React.Component {
 					
 					
 					if ( this._currentTweener !== parentTweener || this._previousScrollable !== tweenAxis ) {
-						axisItemsChange = this._previousScrollable !== tweenAxis && (!this._previousScrollable || deepEqual(tweenAxis, this._previousScrollable));
+						axisItemsChange = this._tweenAxis !== tweenAxis || (this._tweenAxis && !deepEqual(tweenAxis, this._tweenAxis));
 						if ( this._currentTweener && axisItemsChange ) {
-							Object.keys(this._tweenAxis)
-							      .forEach(axe => this._currentTweener.rmScrollableAnim(this._tweenAxis[axe], axe));
+							Object.keys(this._tweenAxisObj)
+							      .forEach(axe => this._currentTweener.rmScrollableAnim(this._tweenAxisObj[axe], axe));
 							
 						}
-						//twRef = parentTweener.tweenRef(id, style || children.props && children.props.style, initial,
-						// pos, noRef, reset);
+						//console.log(twRef, axisItemsChange, this._tweenAxis, tweenAxis)
 						if ( this._currentTweener !== parentTweener ) {
 							this._currentTweener && this._currentTweener.rmTweenRef(id);
-							//if ( axisItemsChange )
-							//twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
-							//                               pos, noRef)
 						}
 						if ( axisItemsChange ) {
+							this._tweenAxis = tweenAxis;
 							if ( tweenAxis && is.array(tweenAxis) )
-								this._tweenAxis = { scrollY: parentTweener.addScrollableAnim(setTarget(tweenAxis, id)) };
+								this._tweenAxisObj = { scrollY: parentTweener.addScrollableAnim(setTarget(tweenAxis, id)) };
 							else
-								this._tweenAxis = tweenAxis &&
-									Object.keys(tweenAxis)
-									      .reduce(( h, axe ) => (h[axe] = parentTweener.addScrollableAnim(setTarget(tweenAxis[axe], id), axe), h), {});
+								this._tweenAxisObj = Object.keys(tweenAxis)
+								                           .reduce(( h, axe ) => (h[axe] = parentTweener.addScrollableAnim(setTarget(tweenAxis[axe], id), axe), h), {});
 						}
 						
 						twRef.style = { ...parentTweener._updateTweenRef(id) };
@@ -133,7 +129,6 @@ export default class TweenRef extends React.Component {
 					let refChild = React.Children.only(children);
 					
 					if ( refChild && React.isValidElement(refChild) ) {
-						//console.log(twRef)
 						refChild      = React.cloneElement(
 							refChild,
 							{

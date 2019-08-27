@@ -17,7 +17,7 @@
  */
 import {tweenTools} from "react-voodoo";
 
-export const visibleItems = 2;
+export const visibleItems = 4;
 let area                  = "60vh",
     itemHeight            = tweenTools.cssAdd(tweenTools.cssMult(area, 1 / (visibleItems))),
     step                  = tweenTools.cssMult(itemHeight, 1),
@@ -25,9 +25,9 @@ let area                  = "60vh",
     angle                 = "27.5deg";
 
 
-export const enteringSteps = 1;
-export const leavingSteps  = 1;
-//export const infinite      = true;
+export const enteringSteps = 4;
+export const leavingSteps  = 4;
+export const infinite      = true;
 
 export const scrollDir = "scrollY";
 

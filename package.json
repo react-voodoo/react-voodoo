@@ -24,6 +24,7 @@
     "color-rgba": "^2.1.0",
     "css-box-shadow": "^1.0.0-3",
     "d3-ease": "^1.0.5",
+    "deep-extend": "^0.6.0",
     "fast-deep-equal": "^2.0.1",
     "is": "^3.2.1",
     "tween-axis": "^1.2.7"

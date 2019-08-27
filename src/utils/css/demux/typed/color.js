@@ -18,16 +18,22 @@
 
 import rgba from "color-rgba";
 
+export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
+	let path = twKey.split('_'), tmpKey;// not optimal at all
+	
+	console.log("wtf", path)
+	//}
+}
 export function demux( key, tweenable, target, data ) {
 	let value = "rgba(" + tweenable[key + '$r'] + ", " + tweenable[key + '$g'] + ", " + tweenable[key + '$b'] + ", " + tweenable[key + '$a'] + ")";
 	return target ?
 	       target[key] = value : value;
 }
 
-export function mux( key, value, target, data, initials, semaOnce ) {
+export function mux( key, value, target, data, initials, noPropLock ) {
 	let vect  = rgba(value);
 	data[key] = data[key] || 0;
-	!semaOnce && data[key]++;
+	!noPropLock && data[key]++;
 	target[key + '$r'] = vect[0];
 	target[key + '$g'] = vect[1];
 	target[key + '$b'] = vect[2];

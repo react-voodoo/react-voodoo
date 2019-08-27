@@ -65,6 +65,48 @@ const defaultUnits    = {
 	      scaleZ: 1
       };
 
+export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
+	let path = twKey.split('_'), tmpKey;// not optimal at all
+	if ( path.length === 4 ) {
+		//console.log("dec", twKey, dataMap[path[0]][path[1]][path[2]])
+		if ( !--dataMap[path[0]][path[1]][path[2]] && !keepValues ) {
+			delete dataMap[path[0]][path[1]][path[2]];
+		}
+		
+		if ( Object.keys(dataMap[path[0]][path[1]]).length === 0 && !keepValues )
+			delete dataMap[path[0]][path[1]];
+		
+		if ( !keepValues )
+			while ( dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1] )
+				dataMap[path[0]].pop();
+		
+		
+		tmpKey = path[0] + "_" + path[1] + "_" + path[2];
+		//console.warn("free", dataMap, path, tweenableMap[twKey])
+		if ( !--dataMap[tmpKey][path[3]] && !keepValues ) {
+			delete dataMap[tmpKey][path[3]];
+			delete tweenableMap[twKey];
+			//console.log("delete", twKey)
+		}
+		
+		if ( !keepValues )
+			while ( dataMap[tmpKey].length && !dataMap[tmpKey][dataMap[tmpKey].length - 1] )
+				dataMap[tmpKey].pop();
+		
+		if ( dataMap[path[0] + "_" + path[1] + "_" + path[2]].length === 0 && !keepValues )
+			delete dataMap[path[0] + "_" + path[1] + "_" + path[2]];
+		
+		if ( dataMap[path[0]].length === 0 && !keepValues ) {
+			delete dataMap[path[0]];
+			delete muxerMap[path[0]];
+			delete cssMap[path[0]];
+		}
+	}
+	else {
+		console.log("wtf", path)
+	}
+}
+
 export function demuxOne( unitIndex, dkey, twVal, baseKey, data, box ) {
 	let value = twVal,
 	    unit  = units[unitIndex] || defaultUnits[baseKey];
@@ -132,17 +174,18 @@ export function demux( key, tweenable, target, data, box ) {
 	
 }
 
-export function muxOne( key, baseKey, value, target, data, initials, semaOnce ) {
+export function muxOne( key, baseKey, value, target, data, initials, noPropLock ) {
 	
 	let match   = is.string(value) ? value.match(unitsRe) : false,
-	    unit    = match && match[2] || defaultUnits[key],
+	    unit    = match && match[2] || defaultUnits[baseKey],
 	    unitKey = units.indexOf(unit),
 	    realKey = unitKey !== -1 && (key + '_' + unitKey) || key;
 	
 	initials[realKey] = defaultValue[baseKey] || 0;
-	
+	//if (unitKey===-1)
+	//	console.log("gfdgfdgdgfdgg", key, defaultUnits[key])
 	data[key][unitKey] = data[key][unitKey] || 0;
-	!semaOnce && data[key][unitKey]++;
+	!noPropLock && data[key][unitKey]++;
 	//console.log("set ", key, baseKey, realKey)
 	if ( match ) {
 		target[realKey] = parseFloat(match[1]);
@@ -153,7 +196,7 @@ export function muxOne( key, baseKey, value, target, data, initials, semaOnce ) 
 	
 	return demux;
 };
-export const mux = ( key, value, target, data, initials, semaOnce, reset ) => {
+export const mux = ( key, value, target, data, initials, noPropLock, reset ) => {
 	
 	data[key] = data[key] || [];
 	//initials[key] = 0;
@@ -170,18 +213,18 @@ export const mux = ( key, value, target, data, initials, semaOnce, reset ) => {
 				dkey   = key + '_' + ti + '_' + fkey;
 				
 				baseData[fkey] = baseData[fkey] || 0;
-				!semaOnce && baseData[fkey]++;
+				!noPropLock && baseData[fkey]++;
 				
-				console.warn("set ", key, dkey)
+				//console.warn("set ", key, dkey, noPropLock, baseData[fkey])
 				
 				data[dkey] = data[dkey] || [];
 				if ( is.array(fValue) ) {
 					for ( u = 0; u < fValue.length; u++ ) {
-						muxOne(dkey, fkey, fValue[u] || 0, target, data, initials, semaOnce)
+						muxOne(dkey, fkey, fValue[u] || 0, target, data, initials, noPropLock)
 					}
 				}
 				else {
-					muxOne(dkey, fkey, fValue || 0, target, data, initials, semaOnce)
+					muxOne(dkey, fkey, fValue || 0, target, data, initials, noPropLock)
 				}
 			}
 	}

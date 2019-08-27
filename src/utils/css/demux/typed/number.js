@@ -39,6 +39,32 @@ const defaultUnits    = {
 	      opacity: 1
       };
 
+export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
+	let path = twKey.split('_'), tmpKey;// not optimal at all
+	
+	if ( path.length === 2 ) {
+		//console.log("dec", twKey, dataMap[path[0]][path[1]])
+		if ( !--dataMap[path[0]][path[1]] && !keepValues ) {
+			delete tweenableMap[twKey];
+			delete dataMap[path[0]][path[1]];
+		}
+		
+		if ( !keepValues )
+			while ( dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1] )
+				dataMap[path[0]].pop();
+		
+		if ( dataMap[path[0]].length === 0 && !keepValues ) {
+			delete dataMap[path[0]];
+			delete muxerMap[path[0]];
+			delete cssMap[path[0]];
+			//console.log("delete", path[0])
+		}
+	}
+	else {
+		console.log("wtf", path)
+	}
+}
+
 export function demuxOne( unitKey, twVal, baseKey, data, box ) {
 	let value = twVal,
 	    unit  = units[unitKey] || defaultUnits[baseKey] || "px";
@@ -85,23 +111,23 @@ export function demux( key, tweenable, target, data, box, baseKey ) {
 	return target ? target[key] = value : value;
 }
 
-export function muxer( key, value, target, data, initials, semaOnce ) {
+export function muxer( key, value, target, data, initials, noPropLock ) {
 	
 	data[key] = data[key] || [];
 	if ( is.array(value) ) {
 		for ( let i = 0; i < value.length; i++ ) {
 			
-			muxOne(key, value[i] || 0, target, data, initials, semaOnce)
+			muxOne(key, value[i] || 0, target, data, initials, noPropLock)
 		}
 	}
 	else {
-		muxOne(key, value || 0, target, data, initials, semaOnce)
+		muxOne(key, value || 0, target, data, initials, noPropLock)
 	}
 	
 	return demux;
 }
 
-export function muxOne( key, value, target, data, initials, semaOnce ) {
+export function muxOne( key, value, target, data, initials, noPropLock ) {
 	
 	
 	let match   = is.string(value) ? value.match(unitsRe) : false,
@@ -111,7 +137,7 @@ export function muxOne( key, value, target, data, initials, semaOnce ) {
 	
 	initials[realKey]  = defaultValue[key] || 0;
 	data[key][unitKey] = data[key][unitKey] || 0;
-	!semaOnce && data[key][unitKey]++;
+	!noPropLock && data[key][unitKey]++;
 	//console.log(key, ':', data[key][unitKey])
 	//data["_" + realKey] = key;
 	
@@ -124,7 +150,5 @@ export function muxOne( key, value, target, data, initials, semaOnce ) {
 	
 	return demux;
 };
-
-
 
 export const mux = muxer;

@@ -34,6 +34,48 @@ const
 	};
 const filters    = {};
 
+export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
+	let path = twKey.split('_'), tmpKey;// not optimal at all
+	if ( path.length === 4 ) {
+		console.log("dec", twKey, dataMap[path[0]][path[1]][path[2]])
+		if ( !--dataMap[path[0]][path[1]][path[2]] && !keepValues ) {
+			delete dataMap[path[0]][path[1]][path[2]];
+		}
+		
+		if ( Object.keys(dataMap[path[0]][path[1]]).length === 0 && !keepValues )
+			delete dataMap[path[0]][path[1]];
+		
+		if ( !keepValues )
+			while ( dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1] )
+				dataMap[path[0]].pop();
+		
+		
+		tmpKey = path[0] + "_" + path[1] + "_" + path[2];
+		//console.warn("free", dataMap, path, tweenableMap[twKey])
+		if ( !--dataMap[tmpKey][path[3]] && !keepValues ) {
+			delete dataMap[tmpKey][path[3]];
+			delete tweenableMap[twKey];
+			console.log("delete", twKey)
+		}
+		
+		if ( !keepValues )
+			while ( dataMap[tmpKey].length && !dataMap[tmpKey][dataMap[tmpKey].length - 1] )
+				dataMap[tmpKey].pop();
+		
+		if ( dataMap[path[0] + "_" + path[1] + "_" + path[2]].length === 0 && !keepValues )
+			delete dataMap[path[0] + "_" + path[1] + "_" + path[2]];
+		
+		if ( dataMap[path[0]].length === 0 && !keepValues ) {
+			delete dataMap[path[0]];
+			delete muxerMap[path[0]];
+			delete cssMap[path[0]];
+		}
+	}
+	else {
+		console.log("wtf", path)
+	}
+}
+
 export function demux( key, tweenable, target, data, box ) {
 	
 	if ( data["filter_head"] === key ) {
