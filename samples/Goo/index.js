@@ -37,7 +37,10 @@ const initialBallStyle = {
 		{
 			translateX: "-50%",
 			translateY: "-50%",
-		},
+		}, {
+			translateX: "0box",
+			translateY: "0box"
+		}
 	]
 };
 const areaStyle        = {

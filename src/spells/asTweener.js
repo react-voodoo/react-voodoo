@@ -322,7 +322,7 @@ export default function asTweener( ...argz ) {
 		 * @param skipInit
 		 * @returns {tweenAxis}
 		 */
-		pushAnim( anim, then, skipInit ) {
+		pushAnim( anim, then, keepResults ) {
 			let sl, initial, _ = this._, initials = {}, fail;
 			if ( isArray(anim) ) {
 				sl = anim;
@@ -355,10 +355,6 @@ export default function asTweener( ...argz ) {
 			return new Promise(
 				resolve => {
 					
-					!skipInit && initial && Object.keys(initial).map(
-						( id ) => this.applyTweenState(id, initial[id], anim.reset)
-					);
-					
 					// start timer launch @todo
 					sl.run(this._.tweenRefMaps, () => {
 						let i = this._.runningAnims.indexOf(sl);
@@ -372,7 +368,7 @@ export default function asTweener( ...argz ) {
 								            .forEach(
 									            rkey => {
 										            // todo
-										            clearTweenableValue(rkey, rkey, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id])
+										            clearTweenableValue(rkey, rkey, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id], keepResults)
 									            })
 							      });
 						sl.destroy();
@@ -565,6 +561,7 @@ export default function asTweener( ...argz ) {
 			let sl,
 			    _        = this._,
 			    initials = {},
+			    muxed    = {},
 			    dim      = this._getAxis(axe);
 			
 			if ( isArray(anim) ) {
@@ -577,7 +574,10 @@ export default function asTweener( ...argz ) {
 			
 			//console.warn("add scrollable")
 			if ( !(sl instanceof tweenAxis) ) {
-				sl          = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
+				sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
+				//debugger
+				//deepExtend(this._.muxDataByTarget, muxed)
+				
 				sl          = new tweenAxis(sl, _.tweenRefMaps);
 				sl.initials = initials;
 				Object.keys(initials)
@@ -615,7 +615,7 @@ export default function asTweener( ...argz ) {
 			let _   = this._, found,
 			    dim = this._getAxis(axe), twAxis;
 			let i   = dim.tweenAxis.indexOf(sl);
-			if ( i != -1 ) {
+			if ( i !== -1 ) {
 				
 				//dim.tweenAxis[i].destroy();
 				dim.tweenAxis.splice(i, 1);
@@ -632,6 +632,7 @@ export default function asTweener( ...argz ) {
 						      Object.keys(sl.initials[id])// unset
 						            .forEach(
 							            rkey => {
+								            //debugger
 								            clearTweenableValue(rkey, rkey, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id])
 								            //!_.tweenRefCSS[id] &&
 								            //_.refs[id] && _.refs[id].style && _.refs[id].style[rkey] &&

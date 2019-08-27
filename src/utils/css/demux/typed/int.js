@@ -19,28 +19,12 @@
 const defaultUnits = {};
 
 export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
-	let path = twKey.split('_'), tmpKey;// not optimal at all
 	
-	if ( path.length === 2 ) {
-		console.log("dec", twKey, dataMap[path[0]][path[1]])
-		if ( !--dataMap[path[0]][path[1]] && !keepValues ) {
-			delete tweenableMap[twKey];
-			delete dataMap[path[0]][path[1]];
-		}
-		
-		if ( !keepValues )
-			while ( dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1] )
-				dataMap[path[0]].pop();
-		
-		if ( dataMap[path[0]].length === 0 && !keepValues ) {
-			delete dataMap[path[0]];
-			delete muxerMap[path[0]];
-			delete cssMap[path[0]];
-			console.log("delete", path[0])
-		}
-	}
-	else {
-		console.log("wtf", path)
+	if ( !--dataMap[twKey] && !keepValues ) {
+		delete tweenableMap[twKey];
+		delete dataMap[twKey];
+		delete muxerMap[twKey];
+		delete cssMap[twKey];
 	}
 }
 

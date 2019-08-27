@@ -36,8 +36,8 @@ const filters    = {};
 
 export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
 	let path = twKey.split('_'), tmpKey;// not optimal at all
+	console.log("dec", twKey, path)
 	if ( path.length === 4 ) {
-		console.log("dec", twKey, dataMap[path[0]][path[1]][path[2]])
 		if ( !--dataMap[path[0]][path[1]][path[2]] && !keepValues ) {
 			delete dataMap[path[0]][path[1]][path[2]];
 		}
@@ -97,7 +97,7 @@ export const mux = ( key, value, target, data, initials ) => {
 	
 	data["filter_head"] = data["filter_head"] || key;
 	data[key]           = data[key] || {};
-	initials[key]       = 0;
+	//initials[key]       = 0;
 	
 	Object.keys(value).forEach(
 		fkey => {

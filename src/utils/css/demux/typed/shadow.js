@@ -38,27 +38,27 @@ const swap       = {};
 export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
 	let path = twKey.split('_'), tmpKey;// not optimal at all
 	
-	//if ( path.length === 2 ) {
-	//	console.log("dec", twKey, dataMap[path[0]][path[1]])
-	//	if ( !--dataMap[path[0]][path[1]] && !keepValues ) {
-	//		delete tweenableMap[twKey];
-	//		delete dataMap[path[0]][path[1]];
-	//	}
-	//
-	//	if ( !keepValues )
-	//		while ( dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1] )
-	//			dataMap[path[0]].pop();
-	//
-	//	if ( dataMap[path[0]].length === 0 && !keepValues ) {
-	//		delete dataMap[path[0]];
-	//		delete muxerMap[path[0]];
-	//		delete cssMap[path[0]];
-	//		console.log("delete", path[0])
-	//	}
-	//}
-	//else {
-	console.log("wtf", path)
-	//}
+	if ( dataMap[path[0]] && path.length === 2 ) {
+		console.log("dec", twKey, dataMap[path[0]] && dataMap[path[0]][path[1]])
+		if ( !--dataMap[path[0]][path[1]] && !keepValues ) {
+			delete tweenableMap[twKey];
+			delete dataMap[path[0]][path[1]];
+		}
+		//
+		if ( !keepValues )
+			while ( dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1] )
+				dataMap[path[0]].pop();
+		
+		if ( dataMap[path[0]].length === 0 && !keepValues ) {
+			delete dataMap[path[0]];
+			delete muxerMap[path[0]];
+			delete cssMap[path[0]];
+			console.log("delete", path[0])
+		}
+	}
+	else {
+		console.log("ignore", path)
+	}
 }
 
 export function demux( key, tweenable, target, data, box ) {
@@ -78,7 +78,7 @@ export function demux( key, tweenable, target, data, box ) {
 		}
 	)
 	target[key] = cssShadowParser.stringify(shadows);
-	//console.log(target[key], tweenable)
+	//console.log(key, data[key])
 }
 
 
@@ -86,8 +86,7 @@ export const mux = ( key, value, target, data, initials, noPropLock ) => {
 	
 	let parsedValues = value, i;
 	
-	data[key]        = data[key] || [];
-	initials[key]    = 0;
+	data[key] = data[key] || [];
 	
 	if ( is.string(parsedValues) )
 		parsedValues = cssShadowParser.parse(parsedValues);
@@ -98,6 +97,7 @@ export const mux = ( key, value, target, data, initials, noPropLock ) => {
 	parsedValues.forEach(
 		( shadow, i ) => {
 			
+			initials[key + "_" + i] = 0;
 			if ( is.string(shadow) )
 				shadow = cssShadowParser.parse(shadow)[0];
 			if ( shadow ) {
