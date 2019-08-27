@@ -116,7 +116,6 @@ export function muxer( key, value, target, data, initials, noPropLock ) {
 	data[key] = data[key] || [];
 	if ( is.array(value) ) {
 		for ( let i = 0; i < value.length; i++ ) {
-			
 			muxOne(key, value[i] || 0, target, data, initials, noPropLock)
 		}
 	}
@@ -131,7 +130,7 @@ export function muxOne( key, value, target, data, initials, noPropLock ) {
 	
 	
 	let match   = is.string(value) ? value.match(unitsRe) : false,
-	    unit    = match && match[2] || defaultUnits[key],
+	    unit    = match && match[2] || defaultUnits[key] || "px",
 	    unitKey = units.indexOf(unit),
 	    realKey = unitKey !== -1 && (key + '_' + unitKey) || key;
 	

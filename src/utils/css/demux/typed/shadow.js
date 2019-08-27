@@ -57,16 +57,17 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 	//	}
 	//}
 	//else {
-		console.log("wtf", path)
+	console.log("wtf", path)
 	//}
 }
+
 export function demux( key, tweenable, target, data, box ) {
 	//if ( data["filter_head"] === key ) {
 	let shadows = [];
 	data[key].forEach(
 		( shadowData, i ) => {
 			let shadowObj = {
-				inset       : shadowData.inset,
+				inset       : data[key + '_' + i + "_inset"],
 				color       : color.demux(key + '_' + i + "_color", tweenable, undefined, data, box),
 				blurRadius  : number.demux(key + '_' + i + "_blurRadius", tweenable, undefined, data, box),
 				offsetX     : number.demux(key + '_' + i + "_offsetX", tweenable, undefined, data, box),
@@ -77,24 +78,25 @@ export function demux( key, tweenable, target, data, box ) {
 		}
 	)
 	target[key] = cssShadowParser.stringify(shadows);
+	//console.log(target[key], tweenable)
 }
 
 
-export const mux =  ( key, value, target, data, initials, noPropLock ) => {
+export const mux = ( key, value, target, data, initials, noPropLock ) => {
 	
-	//data[key] = data[key] || 0;
-	//!noPropLock && data[key]++;
+	let parsedValues = value, i;
+	
 	data[key]        = data[key] || [];
 	initials[key]    = 0;
-	let parsedValues = value, i;
+	
 	if ( is.string(parsedValues) )
 		parsedValues = cssShadowParser.parse(parsedValues);
 	else if ( !is.array(parsedValues) )
 		parsedValues = [parsedValues];
 	
+	//console.log(key)
 	parsedValues.forEach(
 		( shadow, i ) => {
-			let baseData = {}, fKey;
 			
 			if ( is.string(shadow) )
 				shadow = cssShadowParser.parse(shadow)[0];
@@ -105,7 +107,7 @@ export const mux =  ( key, value, target, data, initials, noPropLock ) => {
 				//blurRadius: 2
 				number.mux(key + '_' + i + "_blurRadius", shadow.blurRadius || 0, target, data, initials, noPropLock);
 				//inset: false
-				baseData.inset = shadow.inset;
+				data[key + '_' + i + "_inset"] = shadow.inset;
 				//offsetX: 12
 				number.mux(key + '_' + i + "_offsetX", shadow.offsetX || 0, target, data, initials, noPropLock);
 				//offsetY: 12
@@ -114,7 +116,8 @@ export const mux =  ( key, value, target, data, initials, noPropLock ) => {
 				number.mux(key + '_' + i + "_spreadRadius", shadow.spreadRadius || 0, target, data, initials, noPropLock);
 			}
 			
-			data[key][i] = baseData;
+			data[key][i] = data[key][i] || 0;
+			!noPropLock && data[key][i]++;
 		}
 	);
 	return demux;

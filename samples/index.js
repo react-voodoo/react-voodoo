@@ -23,7 +23,7 @@ import "./samples.scss";
 
 class App extends React.Component {
 	state = {
-		current: "ResponsiveSlidable"
+		current: "SimpleInertiaTest"
 	};
 	
 	render() {
