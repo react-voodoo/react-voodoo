@@ -27,7 +27,6 @@ const areaStyle = {
 	
 	filter: "url(#goo)"
 };
-
 export default class Sample extends React.Component {
 	render() {
 		return <div className={"MassGoo"}

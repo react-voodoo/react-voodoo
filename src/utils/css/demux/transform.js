@@ -83,6 +83,9 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 		
 		tmpKey = path[0] + "_" + path[1] + "_" + path[2];
 		//console.warn("free", dataMap, path, tweenableMap[twKey])
+		if (!dataMap[tmpKey])
+			return console.warn("overRelease", path)
+		
 		if ( !--dataMap[tmpKey][path[3]] && !keepValues ) {
 			delete dataMap[tmpKey][path[3]];
 			delete tweenableMap[twKey];

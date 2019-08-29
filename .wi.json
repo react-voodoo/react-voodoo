@@ -45,6 +45,28 @@
       "wi-layer-react-express"
     ]
   },
+  "stagingToMama": {
+    "rootFolder": "src",
+    "basedOn": "component",
+    "vars": {
+      "rootAlias": "react-voodoo",
+      "entryPoint": "./src",
+      "targetDir": "../../various/www.mamasound.fr/packages/react-voodoo/dist",
+      "externals": true,
+      "production": false,
+      "babelPreset": {
+        "targets": {
+          "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
+        },
+        "loose": true
+      },
+      "webpackPatch": {
+      }
+    },
+    "extend": [
+      "wi-layer-react-express"
+    ]
+  },
   "samples": {
     "rootFolder": "samples",
     "basedOn": "static",
@@ -81,7 +103,6 @@
       "rootAlias": "Samples",
       "devServer": true,
       "production": false,
-//      "targetDir": "dist.samples",
       "entryPoint": "Samples/index.js",
       "HtmlWebpackPlugin": {
         "template": "./samples/index.html.tpl"

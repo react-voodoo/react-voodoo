@@ -82,7 +82,7 @@ export default class TweenRef extends React.Component {
 					
 					
 					if ( this._currentTweener !== parentTweener || this._previousScrollable !== tweenAxis ) {
-						axisItemsChange = this._tweenAxis !== tweenAxis || (this._tweenAxis && !deepEqual(tweenAxis, this._tweenAxis));
+						axisItemsChange = this._tweenAxis !== tweenAxis && !(this._tweenAxis && deepEqual(tweenAxis, this._tweenAxis));
 						if ( this._currentTweener && axisItemsChange ) {
 							Object.keys(this._tweenAxisObj)
 							      .forEach(axe => this._currentTweener.rmScrollableAnim(this._tweenAxisObj[axe], axe));

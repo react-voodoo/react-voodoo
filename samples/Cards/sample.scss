@@ -37,6 +37,8 @@
 
 .SwipeableCards {
   @include use_hvCenteredAbs();
+  @include use_hvCenteredContent();
+
   position: relative;
   background: rgba(190, 190, 190, 0.21);
   text-align: center;
@@ -46,16 +48,19 @@
   max-width: 800px;
   max-height: 600px;
   border-radius: 20px;
-
+  >span{
+    display: inline-block;
+    text-align: center;
+  }
   .SwipeableCard {
     margin: 10px;
     display: inline-block;
-    width: 120px;
-    height: 120px;
-    background: #1fe27b;
+    width: 15vh;
+    height: 15vh;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 2vh;
     overflow: hidden;
+    border: solid 1px black;
     //box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 
     .description {
@@ -74,14 +79,15 @@
     .frontCard {
       height: 100%;
       width: 100%;
-      background: url("https://source.unsplash.com/120x120/?forest") no-repeat center center;
+      //background: #1fe27b;
+      background: url("https://source.unsplash.com/200x200/?forest") no-repeat center center;
       background-size: cover;
     }
 
     .backCard {
       height: 100%;
       width: 100%;
-      background: url("https://source.unsplash.com/120x120/?waterfall") no-repeat center center;
+      background: url("https://source.unsplash.com/200x200/?sky") no-repeat center center;
       background-size: cover;
     }
   }

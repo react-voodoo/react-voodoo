@@ -163,17 +163,24 @@ export function addCss( target, ...sources ) {
 	for ( const key in source ) {
 		if ( !source.hasOwnProperty(key) )
 			continue;
+		
 		if ( is.object(source[key]) ) {
 			if ( !target[key] ) {
 				target[key] = {};
 			}
-			
-			addCss(target[key], source[key]);
+			else if ( is.array(target[key]) ) {
+				addCss(target[key][0], source[key]);
+			}
+			else addCss(target[key], source[key]);
 		}
 		else if ( is.array(source[key]) ) {
 			if ( !target[key] ) {
 				target[key] = [];
 			}
+			else if ( !is.array(target[key]) ) {
+				target[key] = [target[key]];
+			}
+			
 			addCss(target[key], source[key]);
 		}
 		else {

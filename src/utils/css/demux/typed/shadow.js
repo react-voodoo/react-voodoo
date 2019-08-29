@@ -38,11 +38,23 @@ const swap       = {};
 export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
 	let path = twKey.split('_'), tmpKey;// not optimal at all
 	
+	console.log("dec", twKey, dataMap[path[0]] && dataMap[path[0]][path[1]])
 	if ( dataMap[path[0]] && path.length === 2 ) {
-		console.log("dec", twKey, dataMap[path[0]] && dataMap[path[0]][path[1]])
 		if ( !--dataMap[path[0]][path[1]] && !keepValues ) {
 			delete tweenableMap[twKey];
 			delete dataMap[path[0]][path[1]];
+			console.log("delete", path[0])
+			color.release(twKey + "_color", tweenableMap, cssMap, dataMap, muxerMap, keepValues);
+			//blurRadius: 2
+			number.release(twKey + "_blurRadius", tweenableMap, cssMap, dataMap, muxerMap, keepValues);
+			//inset: false
+			delete data[twKey + "_inset"];
+			//offsetX: 12
+			number.release(twKey + "_offsetX", tweenableMap, cssMap, dataMap, muxerMap, keepValues);
+			//offsetY: 12
+			number.release(twKey + "_offsetY", tweenableMap, cssMap, dataMap, muxerMap, keepValues);
+			//spreadRadius: 1
+			number.release(twKey + "_spreadRadius", tweenableMap, cssMap, dataMap, muxerMap, keepValues);
 		}
 		//
 		if ( !keepValues )
@@ -54,10 +66,11 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 			delete muxerMap[path[0]];
 			delete cssMap[path[0]];
 			console.log("delete", path[0])
+			
 		}
 	}
 	else {
-		console.log("ignore", path)
+		//console.log("ignore", path)
 	}
 }
 
@@ -97,13 +110,14 @@ export const mux = ( key, value, target, data, initials, noPropLock ) => {
 	parsedValues.forEach(
 		( shadow, i ) => {
 			
-			initials[key + "_" + i] = 0;
+			initials[key + "_" + i] = initials[key + "_" + i] || 0;
+			!noPropLock && initials[key + "_" + i]++;
 			if ( is.string(shadow) )
 				shadow = cssShadowParser.parse(shadow)[0];
 			if ( shadow ) {
 				//color: "rgba(0, 0, 255, .2)"
 				initials[key + '_' + i + "_color"] = "rgba(0,0,0,0)";
-				color.mux(key + '_' + i + "_color", shadow.color || "rgba(0,0,0,0)", target, data, initials, noPropLock);
+				color.mux(key + '_' + i + "_color", shadow.color, target, data, initials, noPropLock);
 				//blurRadius: 2
 				number.mux(key + '_' + i + "_blurRadius", shadow.blurRadius || 0, target, data, initials, noPropLock);
 				//inset: false

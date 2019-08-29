@@ -9,11 +9,12 @@
   "scripts": {
     "build": "wpi && wpi :samples",
     "devLib": "wpi :staging -w",
+    "devLibM": "wpi :stagingToMama -w",
     "devSamples": "wpi-dev-server :samplesDev --hot --host 0.0.0.0",
     "startSamples": "ws -d ./dist.samples -p 8080",
     "runBrowser": "start http://localhost:8080",
     "test": "mocha --require @babel/register ./etc/tests/*.test.js -b",
-    "testAuto": "nodemon --watch ./dist/react-voodoo.js --watch ./etc/tests/react-voodoo.test.js --exec \"npm test\""
+    "testAuto": "nodemon --watch ./dist/react-voodoo.js --watch ./etc/tests/**/*.js --exec \"npm test\""
   },
   "peerDependencies": {
     "react": "^16.0.0",

@@ -17,7 +17,7 @@
  */
 
 
-import deepExtend                                                         from "deep-extend";
+import {addCss}                                                           from "../tweenTools";
 import {expandShorthandProperty, isShorthandProperty, isValidDeclaration} from "./cssUtils";
 import cssDemuxers                                                        from "./demux/(*).js";
 
@@ -42,6 +42,7 @@ const cssDemux = {
 	transformOrigin: multi(2),
 	zIndex         : int,
 };
+
 
 export function clearTweenableValue( cssKey, twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
 	let path = twKey.split('_'), tmpKey;// not optimal at all
@@ -99,7 +100,8 @@ export function deMuxLine( tweenLine, initials, data, demuxers, noPropLock ) {
 			    data[tween.target]     = data[tween.target] || {};
 			
 			    if ( !tween.type || tween.type === "Tween" ) {
-				    !noPropLock && deepExtend(allPropsById[tween.target] = allPropsById[tween.target] || {}, tween.apply);
+				    !noPropLock && addCss(allPropsById[tween.target] = allPropsById[tween.target] || {}, tween.apply);
+				    //console.log("merged", tween.apply)
 				    deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target], true);
 				    line.push(
 					    {
@@ -112,6 +114,7 @@ export function deMuxLine( tweenLine, initials, data, demuxers, noPropLock ) {
 		    },
 		    []
 	    );
+	//console.log(allPropsById)
 	!noPropLock && Object.keys(allPropsById)
 	                     .forEach(
 		                     id => deMuxTween(allPropsById[id], {}, {}, data[id], demuxers[id])

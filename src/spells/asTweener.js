@@ -96,9 +96,8 @@ export default function asTweener( ...argz ) {
 	opts = {
 		wheelRatio    : 5,
 		maxClickTm    : 200,
-		maxClickOffset: 50,
+		maxClickOffset: 20,
 		...opts,
-		
 	};
 	
 	class TweenableComp extends React.Component {
@@ -164,7 +163,7 @@ export default function asTweener( ...argz ) {
 				
 				iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id]) };
 				
-				//console.log("update", tweenableMap)
+				//console.log("update ref", id)
 				
 				// minus initial values
 				Object.keys(_.tweenRefOrigin[id])
@@ -196,6 +195,8 @@ export default function asTweener( ...argz ) {
 				this._updateTweenRef(id, true);
 			}
 			else if ( !_.tweenRefs[id] ) {
+				//console.log("init ref", id)
+				
 				_.iMapOrigin[id] = iMap;
 				iStyle           = iStyle || {};
 				iMap             = iMap || {};
@@ -506,8 +507,8 @@ export default function asTweener( ...argz ) {
 					if ( _.axes && _.axes[axe] ) {
 						let oldPos = _.axes[axe].targetPos,
 						    setPos = pos => {
+							    //console.log('TweenableComp::setPos:514: ',  newPos,pos, ms, axe);
 							    pos                   = (~~(pos * 10000)) / 10000;
-							    //console.log('TweenableComp::setPos:514: ', this.constructor.displayName);
 							    _.axes[axe].targetPos = _.axes[axe].scrollPos = pos;
 							    if ( _.axes[axe].inertia ) {
 								    _.axes[axe].inertia.setPos(pos);

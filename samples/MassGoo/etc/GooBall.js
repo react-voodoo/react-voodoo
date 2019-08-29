@@ -22,7 +22,7 @@ import {asTweener, TweenAxis, TweenRef} from "react-voodoo";
 
 /**
  * This is an experimental lib & a very alpha demo
- *
+ * Probably not the simpler methods
  */
 
 const initialBallStyle = {
@@ -175,14 +175,9 @@ export default class GooBall extends React.Component {
 		let { defaultPosition } = this.props;
 		return <div className={"GooBall"}
 		            ref={this.root}>
-			<TweenAxis
-				axe={"scrollY"}
-				defaultPosition={200 - defaultPosition.y * 200}
-			/>
-			<TweenAxis
-				axe={"scrollX"}
-				defaultPosition={200 - defaultPosition.x * 200}
-			/>
+			<TweenAxis axe={"scrollY"} defaultPosition={200 - defaultPosition.y * 200}/>
+			<TweenAxis axe={"scrollX"} defaultPosition={200 - defaultPosition.x * 200}/>
+			
 			<TweenRef.div id={"goo2"}
 			              initial={this.state.styleBall}
 			              className={"ball"}/>

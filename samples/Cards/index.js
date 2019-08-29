@@ -24,21 +24,21 @@ import {asTweener, TweenAxis, TweenRef} from "react-voodoo";
  * This is an experimental lib
  *
  */
-const CardXAxis =
+const CardXAxis     =
 	      [
 		      {
 			      from    : 0,
 			      duration: 50,
 			      apply   : {
 				      transform: [
-					      { translateZ: 50 },
-					      { rotateY: "-90deg" }
+					      {},
+					      { translateZ: 50, rotateY: "-90deg" }
 				      ],
 			      }
 		      },
 		      {
 			      from    : 50,
-			      duration: .1,
+			      duration: .0001,
 			      apply   : {
 				      transform: [
 					      {},
@@ -51,23 +51,32 @@ const CardXAxis =
 			      duration: 50,
 			      apply   : {
 				      transform: [
-					      { translateZ: -50 },
-					      { rotateY: "-90deg" }
+					      {},
+					      { translateZ: -50, rotateY: "-90deg" }
 				      ],
 			      }
 		      },
 	      ],
-      cardStyle =
+      cardStyle     = {
+	      position : "relative",
+	      transform: [
+		      {
+			      perspective: 500,
+		      }
+	      ]
+      },
+      cardHoverAnim = [
 	      {
-		      position: "relative",
-		
-		      transform: [
-			      {
-				      perspective: 500,
-				      translateZ : 0
-			      }
-		      ]
-	      };
+		      target  : "card",
+		      from    : 0,
+		      duration: 100,
+		      apply   : {
+			      transform: [{}, {
+				      translateZ: 20
+			      }]
+		      }
+	      }
+      ];
 
 @asTweener({ enableMouseDrag: true })
 class SwipeableCard extends React.Component {
@@ -92,37 +101,11 @@ class SwipeableCard extends React.Component {
 	
 	mouseEnter = () => {
 		let { tweener } = this.props;
-		tweener.pushAnim(
-			[
-				{
-					target  : "card",
-					from    : 0,
-					duration: 500,
-					apply   : {
-						transform: {
-							translateZ: 50
-						}
-					}
-				}
-			]
-		)
+		tweener.scrollTo(100, 500, "hovering")
 	}
 	mouseLeave = () => {
 		let { tweener } = this.props;
-		tweener.pushAnim(
-			[
-				{
-					target  : "card",
-					from    : 0,
-					duration: 500,
-					apply   : {
-						transform: {
-							translateZ: -50
-						}
-					}
-				}
-			]
-		)
+		tweener.scrollTo(0, 500, "hovering")
 	}
 	
 	static getDerivedStateFromProps( props, state ) {
@@ -149,6 +132,11 @@ class SwipeableCard extends React.Component {
 					wayPoints: [{ at: 0 }, { at: 100 }],
 				}}
 			/>
+			<TweenAxis
+				axe={"hovering"}
+				items={cardHoverAnim}
+				defaultPosition={0}
+			/>
 			<TweenRef id="card"
 			          tweenAxis={swipeAnim}
 			          initial={style}>
@@ -164,19 +152,21 @@ class SwipeableCard extends React.Component {
 export default class Sample extends React.Component {
 	render() {
 		return <div className={"SwipeableCards"}>
-			{
-				Array(20).fill(null).map(
-					( e, i ) =>
-						<SwipeableCard key={i} showBack={!!(i % 3)}>
-							<div className={"frontCard"}>
-								<div className={"description"}>front {i}</div>
-							</div>
-							<div className={"backCard"}>
-								<div className={"description"}>back {i}</div>
-							</div>
-						</SwipeableCard>
-				)
-			}
+			<span>
+				{
+					Array(6).fill(null).map(
+						( e, i ) =>
+							<SwipeableCard key={i} showBack={!!(i % 2)}>
+								<div className={"frontCard"}>
+									<div className={"description"}>front {i}</div>
+								</div>
+								<div className={"backCard"}>
+									<div className={"description"}>back {i}</div>
+								</div>
+							</SwipeableCard>
+					)
+				}
+			</span>
 		</div>;
 	}
 }
