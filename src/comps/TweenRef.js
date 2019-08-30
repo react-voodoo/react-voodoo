@@ -75,10 +75,14 @@ export default class TweenRef extends React.Component {
 						console.error("No voodoo tweener found in the context, is there any parent with asTweener ?")
 						return <React.Fragment/>;
 					}
-					
+					//console.warn("render : ", this.__tweenableId, this._currentTweener, parentTweener,
+					// this._currentTweener !== parentTweener)
 					let twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
 					                                   pos, noRef),
 					    axisItemsChange;
+					
+					//console.warn("render2 : ", this.__tweenableId, this._currentTweener, parentTweener,
+					// this._currentTweener !== parentTweener)
 					
 					
 					if ( this._currentTweener !== parentTweener || this._previousScrollable !== tweenAxis ) {
@@ -89,8 +93,8 @@ export default class TweenRef extends React.Component {
 							
 						}
 						//console.log(twRef, axisItemsChange, this._tweenAxis, tweenAxis)
-						if ( this._currentTweener !== parentTweener ) {
-							this._currentTweener && this._currentTweener.rmTweenRef(id);
+						if ( this._currentTweener && this._currentTweener !== parentTweener ) {
+							this._currentTweener.rmTweenRef(id);
 						}
 						if ( axisItemsChange ) {
 							this._tweenAxis = tweenAxis;

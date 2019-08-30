@@ -104,9 +104,7 @@ export default class Sample extends React.Component {
 						}
 					}
 				}
-			],
-			() => {
-			});
+			]);
 		tweener.pushAnim(
 			[
 				{

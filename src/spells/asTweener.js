@@ -161,7 +161,7 @@ export default function asTweener( ...argz ) {
 				iMap                    = iMap || {};
 				
 				
-				iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id]) };
+				iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], false, true) };
 				
 				//console.log("update ref", id)
 				
@@ -228,6 +228,8 @@ export default function asTweener( ...argz ) {
 				
 			}
 			else {
+				//console.log("maj ref", id)
+				
 				muxToCss(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
 			}
 			//console.log('tweenRef::tweenRef:519: ', id, { ..._.muxDataByTarget[id] }, { ..._.tweenRefCSS[id] });
@@ -323,8 +325,13 @@ export default function asTweener( ...argz ) {
 		 * @param skipInit
 		 * @returns {tweenAxis}
 		 */
-		pushAnim( anim, then, keepResults ) {
-			let sl, initial, _ = this._, initials = {}, fail;
+		pushAnim( anim, then, keepResults = true ) {
+			let sl,
+			    initial,
+			    _        = this._,
+			    initials = {},
+			    fail;
+			
 			if ( isArray(anim) ) {
 				sl = anim;
 			}
@@ -361,7 +368,7 @@ export default function asTweener( ...argz ) {
 						let i = this._.runningAnims.indexOf(sl);
 						if ( i != -1 )
 							this._.runningAnims.splice(i, 1);
-						
+						//console.log( _.muxDataByTarget)
 						Object.keys(initials)// unset
 						      .forEach(
 							      id => {

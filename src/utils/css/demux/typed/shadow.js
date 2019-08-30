@@ -38,12 +38,12 @@ const swap       = {};
 export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
 	let path = twKey.split('_'), tmpKey;// not optimal at all
 	
-	console.log("dec", twKey, dataMap[path[0]] && dataMap[path[0]][path[1]])
+	//console.log("dec", twKey, dataMap[path[0]] && dataMap[path[0]][path[1]])
 	if ( dataMap[path[0]] && path.length === 2 ) {
 		if ( !--dataMap[path[0]][path[1]] && !keepValues ) {
 			delete tweenableMap[twKey];
 			delete dataMap[path[0]][path[1]];
-			console.log("delete", path[0])
+			//console.log("delete", path[0])
 			color.release(twKey + "_color", tweenableMap, cssMap, dataMap, muxerMap, keepValues);
 			//blurRadius: 2
 			number.release(twKey + "_blurRadius", tweenableMap, cssMap, dataMap, muxerMap, keepValues);
@@ -65,7 +65,7 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 			delete dataMap[path[0]];
 			delete muxerMap[path[0]];
 			delete cssMap[path[0]];
-			console.log("delete", path[0])
+			//console.log("delete", path[0])
 			
 		}
 	}

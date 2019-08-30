@@ -83,7 +83,7 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 		
 		tmpKey = path[0] + "_" + path[1] + "_" + path[2];
 		//console.warn("free", dataMap, path, tweenableMap[twKey])
-		if (!dataMap[tmpKey])
+		if ( !dataMap[tmpKey] )
 			return console.warn("overRelease", path)
 		
 		if ( !--dataMap[tmpKey][path[3]] && !keepValues ) {
@@ -199,7 +199,7 @@ export function muxOne( key, baseKey, value, target, data, initials, noPropLock 
 	
 	return demux;
 };
-export const mux = ( key, value, target, data, initials, noPropLock, reset ) => {
+export const mux = ( key, value, target, data, initials, noPropLock, reOrder ) => {
 	
 	data[key] = data[key] || [];
 	//initials[key] = 0;
@@ -209,13 +209,13 @@ export const mux = ( key, value, target, data, initials, noPropLock, reset ) => 
 	let ti = 0, tmap, fkey, baseData, fValue, dkey, u;
 	for ( ; ti < value.length; ti++ ) {
 		tmap     = value[ti];
-		baseData = data[key][ti] = data[key][ti] || {};
+		baseData = reOrder ? {} : { ...(data[key][ti] || {}) };
 		for ( fkey in tmap )
 			if ( tmap.hasOwnProperty(fkey) ) {
 				fValue = tmap[fkey];
 				dkey   = key + '_' + ti + '_' + fkey;
 				
-				baseData[fkey] = baseData[fkey] || 0;
+				baseData[fkey] = baseData[fkey] || data[key][ti] && data[key][ti][fkey] || 0;
 				!noPropLock && baseData[fkey]++;
 				
 				//console.warn("set ", key, dkey, noPropLock, baseData[fkey])
@@ -230,6 +230,12 @@ export const mux = ( key, value, target, data, initials, noPropLock, reset ) => 
 					muxOne(dkey, fkey, fValue || 0, target, data, initials, noPropLock)
 				}
 			}
+		data[key][ti] =
+			reOrder
+			? { ...baseData, ...(data[key][ti] || {}), ...baseData }
+			:
+			baseData;
+		//console.log(key, reOrder, data[key][ti], baseData)
 	}
 	return demux;
 }

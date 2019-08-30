@@ -160,6 +160,7 @@ export function reverse( items ) {
 
 export function addCss( target, ...sources ) {
 	let source = sources.shift();
+	
 	for ( const key in source ) {
 		if ( !source.hasOwnProperty(key) )
 			continue;
@@ -167,6 +168,7 @@ export function addCss( target, ...sources ) {
 		if ( is.object(source[key]) ) {
 			if ( !target[key] ) {
 				target[key] = {};
+				addCss(target[key], source[key]);
 			}
 			else if ( is.array(target[key]) ) {
 				addCss(target[key][0], source[key]);
