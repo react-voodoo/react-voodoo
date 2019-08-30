@@ -17,6 +17,7 @@
  */
 
 const defaultUnits = { opacity: 1 };
+import {floatCut} from "../../cssUtils";
 
 export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
 	
@@ -29,7 +30,7 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 }
 
 export function demux( key, tweenable, target, data, box ) {
-	target[key] = ~~(tweenable[key]);
+	target[key] = Math.min(1, Math.max(0, floatCut(tweenable[key])));
 }
 
 
@@ -37,7 +38,7 @@ export const mux = ( key, value, target, data, initials, noPropLock ) => {
 	
 	
 	initials[key] = defaultUnits[key] || 0;
-	target[key]   = ~~value;
+	target[key]   = value;
 	data[key]     = data[key] || 0;
 	!noPropLock && data[key]++;
 	

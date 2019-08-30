@@ -21,7 +21,7 @@ import {addCss}                                                           from "
 import {expandShorthandProperty, isShorthandProperty, isValidDeclaration} from "./cssUtils";
 import cssDemuxers                                                        from "./demux/(*).js";
 
-import {int, multi, number} from "./demux/typed/(*).js";
+import {int, multi, number, ratio} from "./demux/typed/(*).js";
 
 const cssDemux = {
 	...cssDemuxers,
@@ -41,6 +41,7 @@ const cssDemux = {
 	paddingBottom  : number,
 	transformOrigin: multi(2),
 	zIndex         : int,
+	opacity        : ratio,
 };
 
 
