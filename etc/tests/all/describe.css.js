@@ -225,6 +225,78 @@ module.exports = function ( VoodooTweener ) {
 				2000
 			)
 		});
+		it('should support switching scrollAxis', function ( done ) {
+			this.timeout(TIMEOUT);
+			let redrawTm;
+			
+			@VoodooTweener.asTweener
+			class MyComp extends React.Component {
+				state = {
+					initial   : {
+						height: ["100%", "0px", "-16vh"],
+					},
+					scrollLine: [{
+						apply   : {
+							height: ["-100%", "200px", "16vh"]
+						},
+						duration: 100,
+						from    : 0,
+						target  : "card"
+					}]
+				};
+				
+				componentDidMount() {
+					
+					setTimeout(
+						tm => this.setState({
+							                    initial   : {
+								                    height: ["100%", "0px", "0vh"],
+							                    },
+							                    scrollLine: [{
+								                    apply   : {
+									                    height: ["-100%", "100px", "16vh"]
+								                    },
+								                    duration: 100,
+								                    from    : 0,
+								                    target  : "card"
+							                    }]
+						                    }),
+						50
+					);
+					setTimeout(
+						tm => this.props.tweener.scrollTo(0, 100)
+					);
+				}
+				
+				render() {
+					return <div className={"container"}>
+						<VoodooTweener.TweenAxis
+							axe={"scrollY"}
+							items={this.state.scrollLine}
+							defaultPosition={100}
+						/>
+						<VoodooTweener.TweenRef id="card"
+						                        initial={this.state.initial}>
+							<div className={"card"}>
+								{this.props.value}
+							</div>
+						</VoodooTweener.TweenRef>
+					</div>;
+				}
+			}
+			
+			const wrapper = mount(<MyComp/>);
+			setTimeout(
+				tm => {
+					console.log(wrapper.find('.container').html())
+					//expect(wrapper.find('.card').getDOMNode(0).style.transform).to.equal('translateY(500px)');
+					done();
+				},
+				600
+			)
+			
+		});
+		
 	});
 	
 };

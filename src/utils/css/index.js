@@ -55,7 +55,6 @@ export function muxToCss( tweenable, css, demuxers, data, box ) {
 	Object.keys(demuxers)
 	      .forEach(
 		      ( key ) => {
-			      //if ( key === 'zIndex' ) debugger
 			      demuxers[key].demux(key, tweenable, css, data, box)
 		      }
 	      )

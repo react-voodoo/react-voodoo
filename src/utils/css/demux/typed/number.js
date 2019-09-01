@@ -43,10 +43,10 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 	let path = twKey.split('_'), tmpKey;// not optimal at all
 	
 	if ( path.length === 2 ) {
-		//console.log("dec", twKey, dataMap[path[0]][path[1]])
+		//console.log("dec", twKey, dataMap[path[0]][path[1]], keepValues)
 		if ( !--dataMap[path[0]][path[1]] && !keepValues ) {
 			delete tweenableMap[twKey];
-			delete dataMap[path[0]][path[1]];
+			//dataMap[path[0]][path[1]] = undefined;
 		}
 		
 		if ( !keepValues )
@@ -56,7 +56,7 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 		if ( dataMap[path[0]].length === 0 && !keepValues ) {
 			delete dataMap[path[0]];
 			delete muxerMap[path[0]];
-			delete cssMap[path[0]];
+			if ( cssMap ) delete cssMap[path[0]];
 			//console.log("delete", path[0])
 		}
 	}
@@ -94,11 +94,12 @@ export function demux( key, tweenable, target, data, box, baseKey ) {
 	
 	value = "";
 	
+	//if ( key=="height" )
+	//	debugger;
+	
 	for ( y = 0; y < data[key].length; y++ )
 		if ( data[key][y] ) {
 			rKey = key + "_" + y;
-			//if ( !tweenable[rKey] )
-			//	continue;
 			if ( tweenable[rKey] < 0 )
 				value += (i ? " - " : "-") + demuxOne(y, -tweenable[rKey], baseKey || key, data, box);
 			else
@@ -108,15 +109,17 @@ export function demux( key, tweenable, target, data, box, baseKey ) {
 	if ( i > 1 )
 		value = "calc(" + value + ")";
 	
+	//console.log(key, ':', value)
 	return target ? target[key] = value : value;
 }
 
 export function muxer( key, value, target, data, initials, noPropLock ) {
 	
-	data[key] = data[key] || [];
+	data[key]     = data[key] || [];
+	let seenUnits = [];
 	if ( is.array(value) ) {
 		for ( let i = 0; i < value.length; i++ ) {
-			muxOne(key, value[i] || 0, target, data, initials, noPropLock)
+			muxOne(key, value[i] || 0, target, data, initials, noPropLock, seenUnits)
 		}
 	}
 	else {
@@ -126,8 +129,7 @@ export function muxer( key, value, target, data, initials, noPropLock ) {
 	return demux;
 }
 
-export function muxOne( key, value, target, data, initials, noPropLock ) {
-	
+export function muxOne( key, value, target, data, initials, noPropLock, seenUnits ) {
 	
 	let match   = is.string(value) ? value.match(unitsRe) : false,
 	    unit    = match && match[2] || defaultUnits[key] || "px",
@@ -136,15 +138,27 @@ export function muxOne( key, value, target, data, initials, noPropLock ) {
 	
 	initials[realKey]  = defaultValue[key] || 0;
 	data[key][unitKey] = data[key][unitKey] || 0;
-	!noPropLock && data[key][unitKey]++;
-	//console.log(key, ':', data[key][unitKey])
+	//console.log(key, ':', data[key][unitKey], value, noPropLock)
 	
-	
-	if ( match ) {
-		target[realKey] = parseFloat(match[1]);
+	if ( seenUnits && seenUnits[unitKey] ) {
+		//console.warn(key, ':', data[key][unitKey], value, noPropLock)
+		if ( match ) {
+			target[realKey] += parseFloat(match[1]);
+		}
+		else {
+			target[realKey] += parseFloat(value);
+		}
 	}
 	else {
-		target[realKey] = parseFloat(value);
+		
+		!noPropLock && data[key][unitKey]++;
+		if ( match ) {
+			target[realKey] = parseFloat(match[1]);
+		}
+		else {
+			target[realKey] = parseFloat(value);
+		}
+		if ( seenUnits ) seenUnits[unitKey] = true;
 	}
 	
 	return demux;

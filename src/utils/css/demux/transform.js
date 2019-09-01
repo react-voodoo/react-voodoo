@@ -69,25 +69,24 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 	let path = twKey.split('_'), tmpKey;// not optimal at all
 	if ( path.length === 4 ) {
 		//console.log("dec", twKey, dataMap[path[0]][path[1]][path[2]])
+		// dec count on transform
 		if ( !--dataMap[path[0]][path[1]][path[2]] && !keepValues ) {
 			delete dataMap[path[0]][path[1]][path[2]];
 		}
+		//if ( Object.keys(dataMap[path[0]][path[1]]).length === 0 && !keepValues )
+		//	delete dataMap[path[0]][path[1]];
 		
-		if ( Object.keys(dataMap[path[0]][path[1]]).length === 0 && !keepValues )
-			delete dataMap[path[0]][path[1]];
-		
+		// free transform layers
 		if ( !keepValues )
 			while ( dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1] )
 				dataMap[path[0]].pop();
 		
 		
 		tmpKey = path[0] + "_" + path[1] + "_" + path[2];
-		//console.warn("free", dataMap, path, tweenableMap[twKey])
-		if ( !dataMap[tmpKey] )
-			return console.warn("overRelease", path)
 		
 		if ( !--dataMap[tmpKey][path[3]] && !keepValues ) {
 			delete dataMap[tmpKey][path[3]];
+			//dataMap[path[0]][path[3]] = undefined;
 			delete tweenableMap[twKey];
 			//console.log("delete", twKey)
 		}
@@ -96,8 +95,8 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 			while ( dataMap[tmpKey].length && !dataMap[tmpKey][dataMap[tmpKey].length - 1] )
 				dataMap[tmpKey].pop();
 		
-		if ( dataMap[path[0] + "_" + path[1] + "_" + path[2]].length === 0 && !keepValues )
-			delete dataMap[path[0] + "_" + path[1] + "_" + path[2]];
+		if ( dataMap[tmpKey].length === 0 && !keepValues )
+			delete dataMap[tmpKey];
 		
 		if ( dataMap[path[0]].length === 0 && !keepValues ) {
 			delete dataMap[path[0]];
@@ -154,8 +153,8 @@ export function demux( key, tweenable, target, data, box ) {
 						unitKey = dkey + "_" + unitIndex;
 						//console.log("mux ", key, dkey, unitKey)
 						
-						if ( !tweenable[unitKey] )
-							continue;
+						//if ( !tweenable[unitKey] )
+						//	continue;
 						iValue = demuxOne(unitIndex, dkey, tweenable[unitKey], fkey, data, box);
 						//console.log(unitKey, tweenable[unitKey], iValue)
 						if ( y && iValue[0] === '-' )
@@ -177,24 +176,36 @@ export function demux( key, tweenable, target, data, box ) {
 	
 }
 
-export function muxOne( key, baseKey, value, target, data, initials, noPropLock ) {
+export function muxOne( key, baseKey, value, target, data, initials, noPropLock, seenUnits ) {
 	
 	let match   = is.string(value) ? value.match(unitsRe) : false,
-	    unit    = match && match[2] || defaultUnits[baseKey],
+	    unit    = match && match[2] || defaultUnits[baseKey] || "px",
 	    unitKey = units.indexOf(unit),
 	    realKey = unitKey !== -1 && (key + '_' + unitKey) || key;
 	
-	initials[realKey] = defaultValue[baseKey] || 0;
-	//if (unitKey===-1)
-	//	console.log("gfdgfdgdgfdgg", key, defaultUnits[key])
+	initials[realKey]  = defaultValue[baseKey] || 0;
 	data[key][unitKey] = data[key][unitKey] || 0;
-	!noPropLock && data[key][unitKey]++;
-	//console.log("set ", key, baseKey, realKey)
-	if ( match ) {
-		target[realKey] = parseFloat(match[1]);
+	//console.log(key, ':', data[key][unitKey], value, noPropLock)
+	
+	if ( seenUnits && seenUnits[unitKey] ) {
+		//console.warn(key, ':', data[key][unitKey], value, noPropLock)
+		if ( match ) {
+			target[realKey] += parseFloat(match[1]);
+		}
+		else {
+			target[realKey] += parseFloat(value);
+		}
 	}
 	else {
-		target[realKey] = parseFloat(value);
+		
+		!noPropLock && data[key][unitKey]++;
+		if ( match ) {
+			target[realKey] = parseFloat(match[1]);
+		}
+		else {
+			target[realKey] = parseFloat(value);
+		}
+		if ( seenUnits ) seenUnits[unitKey] = true;
 	}
 	
 	return demux;
@@ -206,28 +217,29 @@ export const mux = ( key, value, target, data, initials, noPropLock, reOrder ) =
 	
 	if ( !is.array(value) )
 		value = [value];
-	let ti = 0, tmap, fkey, baseData, fValue, dkey, u;
+	let ti = 0, tmap, tFnKey, baseData, fValue, dkey, u, seenUnits;
 	for ( ; ti < value.length; ti++ ) {
 		tmap     = value[ti];
 		baseData = reOrder ? {} : { ...(data[key][ti] || {}) };
-		for ( fkey in tmap )
-			if ( tmap.hasOwnProperty(fkey) ) {
-				fValue = tmap[fkey];
-				dkey   = key + '_' + ti + '_' + fkey;
+		for ( tFnKey in tmap )
+			if ( tmap.hasOwnProperty(tFnKey) ) {
+				fValue    = tmap[tFnKey];
+				seenUnits = {};
+				dkey      = key + '_' + ti + '_' + tFnKey;
 				
-				baseData[fkey] = baseData[fkey] || data[key][ti] && data[key][ti][fkey] || 0;
-				!noPropLock && baseData[fkey]++;
+				baseData[tFnKey] = baseData[tFnKey] || data[key][ti] && data[key][ti][tFnKey] || 0;
+				!noPropLock && baseData[tFnKey]++;
 				
 				//console.warn("set ", key, dkey, noPropLock, baseData[fkey])
 				
 				data[dkey] = data[dkey] || [];
 				if ( is.array(fValue) ) {
 					for ( u = 0; u < fValue.length; u++ ) {
-						muxOne(dkey, fkey, fValue[u] || 0, target, data, initials, noPropLock)
+						muxOne(dkey, tFnKey, fValue[u] || 0, target, data, initials, noPropLock, seenUnits)
 					}
 				}
 				else {
-					muxOne(dkey, fkey, fValue || 0, target, data, initials, noPropLock)
+					muxOne(dkey, tFnKey, fValue || 0, target, data, initials, noPropLock)
 				}
 			}
 		data[key][ti] =

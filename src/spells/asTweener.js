@@ -206,8 +206,11 @@ export default function asTweener( ...argz ) {
 				_.muxDataByTarget[id] = _.muxDataByTarget[id] || {};
 				
 				_.tweenRefOriginCss[id] = iStyle;
-				
-				iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id]) };
+				try {
+					iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id]) };
+				} catch ( e ) {
+					debugger;
+				}
 				
 				_.tweenRefOrigin[id] = { ...tweenableMap };
 				_.tweenRefCSS[id]    = iStyle;
@@ -224,7 +227,6 @@ export default function asTweener( ...argz ) {
 				      );
 				tweenableMap = _.tweenRefMaps[id];
 				muxToCss(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
-				//console.log('tweenRef::tweenRef:newref: ', id, { ..._.tweenRefCSS[id] }, { ..._.tweenRefMaps[id] });
 				
 			}
 			else {
@@ -1273,17 +1275,25 @@ export default function asTweener( ...argz ) {
 			this._.tweenRefCSS[target] &&
 			muxToCss(this._.tweenRefMaps[target], swap, this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
 			node = this.getTweenableRef(target);
-			if ( node )
+			if ( node ) {
+				//for ( let o in this._.tweenRefCSS[target] )
+				//	if ( swap[o] === undefined ) {
+				//		node.style[o] = null;
+				//		delete this._.tweenRefCSS[target][o];
+				//	}
 				for ( let o in swap )
 					if ( this._.tweenRefCSS[target].hasOwnProperty(o) ) {
 						if ( force || swap[o] !== this._.tweenRefCSS[target][o] ) {
+							
 							node.style[o] = this._.tweenRefCSS[target][o] = swap[o];
-							changes       = true;
+							//if ( target == "card" ) console.log(target, o, node.style[o], swap[o]);
+							changes = true;
 						}
 						delete swap[o];
 					}
+			}
 			//if ( !changes )
-			//console.log('no changes', target, o,swap[o])
+			//console.log('no changes', target, this._.tweenRefCSS[target], !!node, force)
 			return this._.tweenRefCSS[target];
 		}
 		

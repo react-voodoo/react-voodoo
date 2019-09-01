@@ -158,6 +158,8 @@ export function reverse( items ) {
 	)
 }
 
+const MultiCssProps = { "transform": true, "filter": true }
+
 export function addCss( target, ...sources ) {
 	let source = sources.shift();
 	
@@ -165,29 +167,45 @@ export function addCss( target, ...sources ) {
 		if ( !source.hasOwnProperty(key) )
 			continue;
 		
-		if ( is.object(source[key]) ) {
-			if ( !target[key] ) {
-				target[key] = {};
-				addCss(target[key], source[key]);
-			}
-			else if ( is.array(target[key]) ) {
-				addCss(target[key][0], source[key]);
-			}
-			else addCss(target[key], source[key]);
-		}
-		else if ( is.array(source[key]) ) {
+		if ( MultiCssProps[key] ) {
 			if ( !target[key] ) {
 				target[key] = [];
 			}
-			else if ( !is.array(target[key]) ) {
-				target[key] = [target[key]];
+			if ( !is.array(source[key]) ) {
+				addCss(target[key], [source[key]]);
 			}
-			
-			addCss(target[key], source[key]);
+			else addCss(target[key], source[key]);
 		}
 		else {
-			target[key] = addAllType(target[key], source[key])
+			// adding units
+			if ( is.array(source[key]) ) {
+				if ( !target[key] ) {
+					target[key] = [];
+				}
+				if ( !is.array(target[key]) ) {
+					target[key] = [...source[key], target[key]];
+				}
+				else target[key].push(...source[key]);
+			}
+			else {
+				if ( !target[key] ) {
+					if ( !is.object(source[key]) ) {
+						target[key] = source[key];
+					}
+					else {
+						target[key] = { ...source[key] };
+					}
+				}
+				else if ( is.object(target[key]) && is.object(source[key]) ) {
+					addCss(target[key], source[key]);
+				}else{
+					//else target[key].push(...source[key]);
+					target[key] = addAllType(target[key], source[key])
+					//console.log(key, target[key])
+				}
+			}
 		}
+		
 	}
 	
 	return sources.length && addCss(target, ...sources) || target;
