@@ -158,7 +158,7 @@ export function reverse( items ) {
 	)
 }
 
-const MultiCssProps = { "transform": true, "filter": true }
+const MultiCssProps = { "transform": true, "filter": true, "textShadow": true, "boxShadow": true }
 
 export function addCss( target, ...sources ) {
 	let source = sources.shift();
@@ -198,7 +198,8 @@ export function addCss( target, ...sources ) {
 				}
 				else if ( is.object(target[key]) && is.object(source[key]) ) {
 					addCss(target[key], source[key]);
-				}else{
+				}
+				else {
 					//else target[key].push(...source[key]);
 					target[key] = addAllType(target[key], source[key])
 					//console.log(key, target[key])

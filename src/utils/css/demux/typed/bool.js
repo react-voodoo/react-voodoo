@@ -16,25 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const path       = require('path'),
-      packageCfg = JSON.parse(require('fs').readFileSync(__dirname + '/../../package.json')),
-      TIMEOUT    = 5000;
+const defaultUnits = { opacity: 1 };
 
-import React from 'react';
+export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
+	
+	if ( !--dataMap[twKey] && !keepValues ) {
+		delete tweenableMap[twKey];
+		delete dataMap[twKey];
+		delete muxerMap[twKey];
+		delete cssMap[twKey];
+	}
+}
+
+export function demux( key, tweenable, target, data, box ) {
+	let value = !!(tweenable[key]);
+	return target ? target[key] = value : value;
+}
 
 
-describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
+export const mux = ( key, value, target, data, initials, noPropLock ) => {
 	
-	let VoodooTweener;
-	before(function () {
-		this.timeout(TIMEOUT);
-		return require('./.setup.js')();
-	});
+	initials[key] = defaultUnits[key] || 0;
+	target[key]   = value === false ? 0 : 1;
+	data[key]     = data[key] || 0;
+	!noPropLock && data[key]++;
 	
-	it('should import voodoo fine', function () {
-		VoodooTweener = require('../..');
-		require('./all/describe.css')(VoodooTweener);
-		//require('./all/describe.anims')(VoodooTweener);
-	});
-	
-});
+	return demux;
+}

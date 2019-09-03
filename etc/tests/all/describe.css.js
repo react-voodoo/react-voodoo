@@ -147,7 +147,7 @@ module.exports = function ( VoodooTweener ) {
 			setTimeout(
 				tm => {
 					try {
-						console.log(wrapper.find('.card').getDOMNode(0).style['box-shadow'])
+						console.log(wrapper.find('.card').html())
 						expect(wrapper.find('.card').getDOMNode(0).style.height).to.equal("50px");
 						//expect(wrapper.find('.card').getDOMNode(0).style.transform).to.equal("rotateY(20deg)");
 						expect(wrapper.find('.card').getDOMNode(0).style).to.not.have.any.keys('box-shadow');
