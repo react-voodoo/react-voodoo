@@ -12,6 +12,7 @@ ___
 <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" />
 </p>
 <p align="center">/!\ This is beta /!\</p>
+<p align="center">/!\ Was NOT made to have perfect code / practices / perfs "one shot", but to make easy to use & powerful systems /!\</p>
 
 
 ## wtf is react-voodoo ?
