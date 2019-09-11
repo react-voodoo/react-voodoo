@@ -15,43 +15,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import React    from "react";
-import ReactDom from "react-dom";
 
-import Samples from "./(*)/index.js"
-import "./samples.scss";
+import React from "react";
+import Cube  from "./etc/Cube";
 
-class App extends React.Component {
-	state = {
-		current: "Cubes"
-	};
-	
+const areaStyle = {
+	position: "relative",
+	width   : "100%",
+	height  : "100%",
+	overflow: "hidden",
+};
+export default class Sample extends React.Component {
 	render() {
-		let Comp = Samples[this.state.current];
-		return <div className={"app"}>
-			<div className={"sampleLst"}>
-				{
-					Object.keys(Samples).map(
-						key => <div onClick={e => this.setState({ current: key })} key={key}>{key}</div>
-					)
-				}
+		return <div className={"Cubes"}
+		            ref={this.root}>
+			<div className={"description"}>
+				Drag cube ( alpha demo )
 			</div>
-			<div className={"sample"}>
-				<Comp/>
+			<div style={areaStyle} className={"area"}>
+				<Cube color={"cyan"} defaultPosition={{ x: .5, y: .5 }}/>
+				<Cube color={"green"} defaultPosition={{ x: .75, y: .75 }}/>
+				<Cube color={"red"} defaultPosition={{ x: .25, y: .25 }}/>
+				<Cube color={"darkblue"} defaultPosition={{ x: .25, y: .75 }}/>
+				<Cube color={"yellow"} defaultPosition={{ x: .75, y: .25 }}/>
 			</div>
-		</div>
+		</div>;
 	}
-}
-
-function renderSamples() {
-	ReactDom.render(
-		<App/>
-		, document.getElementById('app'));
-	
-}
-
-renderSamples()
-
-if ( process.env.NODE_ENV !== 'production' && module.hot ) {
-	module.hot.accept('.', renderSamples);
 }

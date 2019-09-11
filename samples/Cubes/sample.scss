@@ -1,0 +1,101 @@
+/*!
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+@mixin use_hvCenteredContent() {
+
+  &:before {
+    content: ' ';
+    display: inline-block;
+    height: 100%;
+    width: 1px;
+    margin-right: -1px;
+    vertical-align: middle;
+    overflow: hidden;
+  }
+  text-align: center;
+  > * {
+    text-align: left;
+    vertical-align: middle;
+    display: inline-block;
+  }
+}
+
+.Cubes {
+  @include use_hvCenteredAbs();
+  position: relative;
+  background: rgba(190, 190, 190, 0.21);
+  text-align: center;
+  user-select: none;
+  height: 100%;
+  width: 100%;
+  max-width: 900px;
+  max-height: 800px;
+  border-radius: 20px;
+
+  .description {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.33);
+    padding: 5px;
+    border-radius: 10px;
+    border: solid 1px rgba(0, 0, 0, 0.2);
+  }
+
+  .area {
+    .GooBall {
+      height: 100%;
+      width: 100%;
+      pointer-events: none;
+
+      .ball {
+        position: absolute;
+        will-change: transform;
+        border-radius: 50%;
+        background: lightcoral;
+        box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+        opacity: 0.6;
+        pointer-events: all;
+
+        &:nth-child(2) {
+          width: 15vh;
+          height: 15vh;
+          max-width: 200px;
+          max-height: 200px;
+        }
+
+        &:nth-child(3) {
+          width: 7vh;
+          height: 7vh;
+          max-width: 80px;
+          max-height: 80px;
+        }
+
+        &:nth-child(1) {
+          width: 10vh;
+          height: 10vh;
+          max-width: 120px;
+          max-height: 120px;
+        }
+      }
+    }
+  }
+}
