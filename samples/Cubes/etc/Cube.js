@@ -146,7 +146,6 @@ export default class Cube extends React.Component {
 							}
 						})
 					)
-				
 				]
 			}
 		}
