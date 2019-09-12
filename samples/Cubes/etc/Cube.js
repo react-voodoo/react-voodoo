@@ -55,7 +55,7 @@ export default class Cube extends React.Component {
 	static getDerivedStateFromProps( props, state ) {
 		let { color, style, defaultPosition } = props;
 		return {
-			facesStyle: {
+			facesStyle  : {
 				front : {
 					position       : "absolute",
 					width          : "100%",
@@ -105,7 +105,7 @@ export default class Cube extends React.Component {
 					transform      : { rotateX: -90, translateZ: "5vh" }
 				}
 			},
-			cubeStyle : {
+			cubeStyle   : {
 				position      : "absolute",
 				width         : "10vh",
 				height        : "10vh",
@@ -116,11 +116,26 @@ export default class Cube extends React.Component {
 					{
 						translateX: "-50%",
 						translateY: "-50%",
-						rotateX   : "20deg"
+						rotateX   : "-20deg"
 					},
 				]
 			},
-			axis      : {
+			contentStyle: {
+				position       : "absolute",
+				width          : "5vh",
+				height         : "5vh",
+				left           : "50%",
+				top            : "50%",
+				backgroundColor: "black",
+				transform      : [
+					{
+						translateX: "-50%",
+						translateY: "-50%",
+						rotateX   : "-20deg"
+					},
+				]
+			},
+			axis        : {
 				scrollX: [
 					{
 						from    : 0,
@@ -128,7 +143,7 @@ export default class Cube extends React.Component {
 						target  : "root",
 						apply   : {
 							transform: {
-								rotateY: "1080deg"
+								rotateY: "-1080deg"
 							},
 						}
 					}
@@ -141,18 +156,18 @@ export default class Cube extends React.Component {
 							target,
 							apply   : {
 								transform: [{}, {
-									translateZ: "5vh"
+									translateZ: "5vh",
 								}],
 							}
 						})
-					)
+					),
 				]
 			}
 		}
 	}
 	
 	render() {
-		let { facesStyle, cubeStyle, axis } = this.state;
+		let { facesStyle, cubeStyle, contentStyle, axis } = this.state;
 		return <TweenRef.div className={"Cube"}
 		                     initial={cubeStyle}
 		                     id={"root"}>
@@ -179,6 +194,7 @@ export default class Cube extends React.Component {
 			<TweenRef.div id={"left"} initial={facesStyle.left} className={"face"}/>
 			<TweenRef.div id={"top"} initial={facesStyle.top} className={"face"}/>
 			<TweenRef.div id={"bottom"} initial={facesStyle.bottom} className={"face"}/>
+			<TweenRef.div id={"content"} initial={contentStyle} className={"content"}/>
 		
 		</TweenRef.div>;
 	}

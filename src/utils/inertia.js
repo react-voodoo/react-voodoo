@@ -119,7 +119,7 @@ export default class Inertia {
 		if ( (at - _.inertiaStartTm) >= _.targetDuration ) {
 			_.inertia        = this.active = false;
 			_.lastInertiaPos = delta = 0;
-			
+			_.targetDist     = 0;
 			if ( _.targetWayPoint ) {
 				delta                  = _.targetWayPoint.at - _.pos;
 				//console.log("snap done ", _.targetWayPoint, _.pos + delta);
@@ -336,11 +336,11 @@ export default class Inertia {
 		//
 		//if ( _.conf.shouldLoop ) {
 		//	while ( (loop = _.conf.shouldLoop(nextValue)) ) {
-		//!(pos > _.min && pos < _.max) && console.warn("out", pos, delta);
+		//!(pos >= _.min && pos <= _.max) && console.warn("out", _.pos, pos, delta);
 		//		pos += loop;
 		//	}
 		//}
-		return pos > _.min && pos < _.max;
+		return pos >= _.min && pos <= _.max;
 	}
 	
 	hold( nextPos ) {
@@ -368,20 +368,21 @@ export default class Inertia {
 		//if (is.nan(pos))
 		//	debugger
 		//console.log("hold", pos, iVel);
-		_.lastIVelocity = iVel;
-		_.lastVelocity  = iVel;
-		_.baseTS        = now;
-		
+		_.lastIVelocity       = iVel;
+		_.lastVelocity        = iVel;
+		_.baseTS              = now;
+		_.targetDist          = 0;
+		_.lastInertiaPos      = 0;
 		// clear snap
 		_.targetWayPoint      = undefined;
 		_.targetWayPointIndex = undefined;
 		
 		if ( _.conf.bounds ) {
 			if ( pos > _.max ) {
-				pos = _.max + min((pos - _.max) / 10, 10);
+				pos = _.max// + min((pos - _.max) / 10, 10);
 			}
 			else if ( pos < _.min ) {
-				pos = _.min - min((_.min - pos) / 10, 10);
+				pos = _.min// - min((_.min - pos) / 10, 10);
 			}
 		}
 		

@@ -128,7 +128,7 @@ export default class MyTweenerComp extends React.Component{
 						{
 							// called when inertia is updated
 							// should return instantaneous move to do if wanted
-							shouldLoop: ( currentPos ) => ( currentPos > 500 ? -500 : null ),
+							shouldLoop: ( currentPos, delta ) => ( currentPos > 500 ? -500 : null ),
 							
 							// called when inertia know where it will snap ( when the user stop dragging )   
 							willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},
