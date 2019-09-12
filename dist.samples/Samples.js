@@ -34454,6 +34454,19 @@ function (_React$Component) {
           rotateX: "-20deg"
         }]
       },
+      contentStyle: {
+        position: "absolute",
+        width: "5vh",
+        height: "5vh",
+        left: "50%",
+        top: "50%",
+        backgroundColor: "black",
+        transform: [{
+          translateX: "-50%",
+          translateY: "-50%",
+          rotateX: "-20deg"
+        }]
+      },
       axis: {
         scrollX: [{
           from: 0,
@@ -34487,6 +34500,7 @@ function (_React$Component) {
     var _this$state = this.state,
         facesStyle = _this$state.facesStyle,
         cubeStyle = _this$state.cubeStyle,
+        contentStyle = _this$state.contentStyle,
         axis = _this$state.axis;
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["TweenRef"].div, {
       className: "Cube",
@@ -34536,6 +34550,10 @@ function (_React$Component) {
       id: "bottom",
       initial: facesStyle.bottom,
       className: "face"
+    }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_voodoo__WEBPACK_IMPORTED_MODULE_2__["TweenRef"].div, {
+      id: "content",
+      initial: contentStyle,
+      className: "content"
     }));
   };
 
@@ -36931,7 +36949,7 @@ function (_React$Component) {
 
     _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
     _this.state = {
-      current: "Cubes"
+      current: "MassGoo"
     };
     return _this;
   }

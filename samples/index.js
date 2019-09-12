@@ -23,7 +23,7 @@ import "./samples.scss";
 
 class App extends React.Component {
 	state = {
-		current: "Cubes"
+		current: "MassGoo"
 	};
 	
 	render() {
