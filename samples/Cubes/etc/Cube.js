@@ -131,7 +131,8 @@ export default class Cube extends React.Component {
 					{
 						translateX: "-50%",
 						translateY: "-50%",
-						rotateX   : "-20deg"
+					}, {
+						//rotateX: "20deg",
 					},
 				]
 			},
@@ -145,6 +146,16 @@ export default class Cube extends React.Component {
 							transform: {
 								rotateY: "-1080deg"
 							},
+						}
+					},
+					{
+						from    : 0,
+						duration: 300,
+						target  : "content",
+						apply   : {
+							transform: [, {
+								rotateY: "1080deg"
+							}],
 						}
 					}
 				],

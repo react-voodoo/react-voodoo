@@ -34463,8 +34463,8 @@ function (_React$Component) {
         backgroundColor: "black",
         transform: [{
           translateX: "-50%",
-          translateY: "-50%",
-          rotateX: "-20deg"
+          translateY: "-50%"
+        }, {//rotateX: "20deg",
         }]
       },
       axis: {
@@ -34476,6 +34476,15 @@ function (_React$Component) {
             transform: {
               rotateY: "-1080deg"
             }
+          }
+        }, {
+          from: 0,
+          duration: 300,
+          target: "content",
+          apply: {
+            transform: [, {
+              rotateY: "1080deg"
+            }]
           }
         }],
         scrollY: [].concat(['front', 'back', 'left', 'right', 'top', 'bottom'].map(function (target) {
