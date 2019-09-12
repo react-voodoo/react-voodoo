@@ -875,14 +875,14 @@ export default function asTweener( ...argz ) {
 												}
 												deltaX = dX && (dX / tweener._.box.x) * (x.scrollableWindow || x.scrollableArea) || 0;
 												deltaY = dY && (dY / tweener._.box.y) * (y.scrollableWindow || y.scrollableArea) || 0;
-												if ( !xDispatched && !tweener.isAxisOut("scrollX", parentsState[i].x + deltaX, true)
+												if ( !xDispatched && x.inertia.isInbound(parentsState[i].x + deltaX)
 													&& (tweener.componentShouldScroll("scrollX", deltaX)) ) {
 													x.inertia.hold(parentsState[i].x + deltaX);
 													xDispatched = true;
 												}
 												//console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y
 												// + deltaY, true));
-												if ( !yDispatched && !tweener.isAxisOut("scrollY", parentsState[i].y + deltaY, true)
+												if ( !yDispatched && y.inertia.isInbound(parentsState[i].y + deltaY)
 													&& (tweener.componentShouldScroll("scrollY", deltaY)) ) {
 													y.inertia.hold(parentsState[i].y + deltaY);
 													yDispatched = true;
@@ -1287,7 +1287,7 @@ export default function asTweener( ...argz ) {
 							
 							node.style[o] = this._.tweenRefCSS[target][o] = swap[o];
 							//if ( target == "card" ) console.log(target, o, node.style[o], swap[o]);
-							changes = true;
+							changes       = true;
 						}
 						delete swap[o];
 					}

@@ -62,7 +62,7 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateY: 0, translateZ: "75px" }
+					transform      : { rotateY: 0, translateZ: "5vh" }
 				},
 				right : {
 					position       : "absolute",
@@ -70,7 +70,7 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateY: 90, translateZ: "75px" }
+					transform      : { rotateY: 90, translateZ: "5vh" }
 				},
 				back  : {
 					position       : "absolute",
@@ -78,7 +78,7 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateY: 180, translateZ: "75px" }
+					transform      : { rotateY: 180, translateZ: "5vh" }
 				},
 				left  : {
 					position       : "absolute",
@@ -86,7 +86,7 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateY: -90, translateZ: "75px" }
+					transform      : { rotateY: -90, translateZ: "5vh" }
 				},
 				top   : {
 					position       : "absolute",
@@ -94,7 +94,7 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateX: 90, translateZ: "75px" }
+					transform      : { rotateX: 90, translateZ: "5vh" }
 				},
 				bottom: {
 					position       : "absolute",
@@ -102,13 +102,13 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateX: -90, translateZ: "75px" }
+					transform      : { rotateX: -90, translateZ: "5vh" }
 				}
 			},
 			cubeStyle : {
 				position      : "absolute",
-				width         : "150px",
-				height        : "150px",
+				width         : "10vh",
+				height        : "10vh",
 				left          : (defaultPosition.x * 100) + "%",
 				top           : (defaultPosition.y * 100) + "%",
 				transformStyle: "preserve-3d",
@@ -124,11 +124,11 @@ export default class Cube extends React.Component {
 				scrollX: [
 					{
 						from    : 0,
-						duration: 200,
+						duration: 300,
 						target  : "root",
 						apply   : {
 							transform: {
-								rotateY: "360deg"
+								rotateY: "1080deg"
 							},
 						}
 					}
@@ -137,11 +137,11 @@ export default class Cube extends React.Component {
 					...['front', 'back', 'left', 'right', 'top', 'bottom'].map(
 						target => ({
 							from    : 0,
-							duration: 200,
+							duration: 100,
 							target,
 							apply   : {
 								transform: [{}, {
-									translateZ: "50px"
+									translateZ: "5vh"
 								}],
 							}
 						})
@@ -157,7 +157,21 @@ export default class Cube extends React.Component {
 		                     initial={cubeStyle}
 		                     id={"root"}>
 			<TweenAxis axe={"scrollY"} defaultPosition={13} items={axis.scrollY}/>
-			<TweenAxis axe={"scrollX"} defaultPosition={20} items={axis.scrollX}/>
+			<TweenAxis axe={"scrollX"} defaultPosition={100 + 20}
+			           items={axis.scrollX}
+			           scrollableWindow={10}
+			           inertia={
+				           {
+					           shouldLoop: (( v, d ) => {
+						           if ( d < 0 && ~~(d + v) <= 100 ) {
+							           return 100;
+						           }
+						           if ( d > 0 && ~~(d + v) >= 200 ) {
+							           return -100;
+						           }
+					           }),
+				           }
+			           }/>
 			
 			<TweenRef.div id={"front"} initial={facesStyle.front} className={"face"}/>
 			<TweenRef.div id={"back"} initial={facesStyle.back} className={"face"}/>

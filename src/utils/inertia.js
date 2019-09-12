@@ -34,6 +34,13 @@ const
 		clickTm        : 250
 	};
 
+// this is a mess
+
+
+/**
+ * Predict the inertia
+ * @param _
+ */
 export function applyInertia( _ ) {
 	let velSign = signOf(_.lastVelocity);
 	// calc momentum distance...
@@ -65,7 +72,15 @@ export default class Inertia {
 		let _  = this._ = {};
 		_.conf = {
 			...this.constructor.config,
-			...opt
+			...opt,
+			//get lastInertiaPos() {
+			//	return this._lastInertiaPos
+			//},
+			//set lastInertiaPos( v ) {
+			//	if ( v === NaN )
+			//		debugger
+			//	this._lastInertiaPos = v;
+			//}
 		};
 		
 		this.active           = false;
@@ -85,19 +100,20 @@ export default class Inertia {
 	}
 	
 	update( at = Date.now() ) {
-		let _ = this._, nextValue, loop;
+		let _   = this._, nextValue, loop;
+		let
+			pos = _.inertiaFn((at - _.inertiaStartTm) / _.targetDuration) * _.targetDist;
+		
 		if ( !_.inertia ) {
-			if ( _.conf.shouldLoop ) {
-				while ( (loop = _.conf.shouldLoop(_.pos)) ) {
-					this.teleport(loop);
-				}
-			}
+			//if ( _.conf.shouldLoop ) {
+			//	while ( (loop = _.conf.shouldLoop(_.pos, 0)) ) {
+			//		this.teleport(loop);
+			//	}
+			//}
 			return _.pos;
 		}
 		let
-			pos   = _.inertiaFn((at - _.inertiaStartTm) / _.targetDuration) * _.targetDist,
-			delta = pos - _.lastInertiaPos;
-		
+			delta        = pos - _.lastInertiaPos;
 		_.lastInertiaPos = pos;
 		
 		if ( (at - _.inertiaStartTm) >= _.targetDuration ) {
@@ -105,7 +121,7 @@ export default class Inertia {
 			_.lastInertiaPos = delta = 0;
 			
 			if ( _.targetWayPoint ) {
-				delta = _.targetWayPoint.at - _.pos;
+				delta                  = _.targetWayPoint.at - _.pos;
 				//console.log("snap done ", _.targetWayPoint, _.pos + delta);
 				_.currentWayPoint      = _.targetWayPoint;
 				_.currentWayPointIndex = _.targetWayPointIndex;
@@ -123,12 +139,12 @@ export default class Inertia {
 		//console.log(_.pos + delta);
 		nextValue = _.pos + delta;
 		
-		if ( _.conf.shouldLoop ) {
+		if ( delta && _.conf.shouldLoop ) {
 			
-			while ( (loop = _.conf.shouldLoop(nextValue)) ) {
-				//console.warn("loop", loop);
+			while ( (loop = _.conf.shouldLoop(nextValue, delta)) ) {
+				//console.warn("loop update", loop);
 				nextValue += loop;
-				this.teleport(loop);
+				//this.teleport(loop);
 			}
 		}
 		
@@ -144,7 +160,6 @@ export default class Inertia {
 		_.lastInertiaPos = 0;
 		_.targetDist     = 0;
 		_.pos            = pos;
-		//console.log("setPos", pos);
 		if ( _.conf.bounds ) {
 			_.pos = max(_.pos, _.min);
 			_.pos = min(_.pos, _.max);
@@ -162,8 +177,9 @@ export default class Inertia {
 		if ( !_.inertia )
 			return _.pos += loopDist;
 		
-		_.lastInertiaPos += loopDist;
+		//_.lastInertiaPos += loopDist;
 		_.pos += loopDist
+		//console.log("setPos", _.lastInertiaPos);
 	}
 	
 	dispatch( delta, tm = 500 ) {
@@ -210,19 +226,6 @@ export default class Inertia {
 		this._doSnap(signOf(delta), 750)
 	}
 	
-	isOutbound( delta ) {
-		let _   = this._, loop,
-		    pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)) + delta;
-		//if ( _.conf.infinite ) return false;
-		
-		if ( _.conf.shouldLoop ) {
-			while ( (loop = _.conf.shouldLoop(nextValue)) ) {
-				//console.warn("loop", loop);
-				pos += loop;
-			}
-		}
-		return pos > _.min && pos < _.max;
-	}
 	
 	_detectCurrentSnap() {
 		let _   = this._,
@@ -325,26 +328,46 @@ export default class Inertia {
 		_.inertia      = false;
 	}
 	
-	hold( pos ) {
-		let _ = this._,
+	isInbound( nextPos ) {
+		let _     = this._, loop,
+		    delta = _.lastHoldPos !== undefined ? nextPos - _.lastHoldPos : 0,
+		    pos   = (_.targetDist || 0) + (_.pos - (_.lastInertiaPos || 0)) + delta;
+		//if ( _.conf.infinite ) return false;
+		//
+		//if ( _.conf.shouldLoop ) {
+		//	while ( (loop = _.conf.shouldLoop(nextValue)) ) {
+		//!(pos > _.min && pos < _.max) && console.warn("out", pos, delta);
+		//		pos += loop;
+		//	}
+		//}
+		return pos > _.min && pos < _.max;
+	}
+	
+	hold( nextPos ) {
+		let _     = this._,
+		    delta = _.lastHoldPos !== undefined ? nextPos - _.lastHoldPos : 0,
 		    loop;
-		if ( _.conf.shouldLoop ) {
-			while ( (loop = _.conf.shouldLoop(pos)) ) {
-				//console.warn("loop", loop);
-				pos += loop;
-			}
-			while ( (loop = _.conf.shouldLoop(_.pos)) ) {
+		
+		//_.holding     = true;
+		_.lastHoldPos = nextPos;
+		if ( delta && _.conf.shouldLoop ) {
+			//while ( (loop = _.conf.shouldLoop(pos, delta)) ) {
+			//	//console.warn("loop", loop);
+			//	pos += loop;
+			//}
+			while ( (loop = _.conf.shouldLoop(_.pos, delta)) ) {
 				//console.warn("loop", loop);
 				_.pos += loop;
 			}
 		}
 		let now          = Date.now() / 1000,//e.timeStamp,
 		    sinceLastPos = (now - _.baseTS),
-		    delta        = pos - _.pos,
+		    pos          = _.pos + delta,
 		    iVel         = delta / sinceLastPos;
+		
 		//if (is.nan(pos))
 		//	debugger
-		//console.log("hold", pos, _.pos);
+		//console.log("hold", pos, iVel);
 		_.lastIVelocity = iVel;
 		_.lastVelocity  = iVel;
 		_.baseTS        = now;
@@ -367,15 +390,20 @@ export default class Inertia {
 	}
 	
 	release() {
-		let _        = this._,
-		    velSign  = signOf(_.lastVelocity);
+		let _       = this._,
+		    velSign = signOf(_.lastVelocity);
+		
 		this.holding = false;
+		
 		// calc momentum distance...
 		applyInertia(_);
 		
+		_.lastHoldPos = undefined;
+		
+		_.holding = false;
+		
 		if ( _.conf.bounds ) {
 			if ( (_.pos + _.targetDist) > _.max ) {
-				
 				_.targetDist     = _.max - _.pos;
 				_.targetDuration = abs(_.targetDist * 10);
 			}
