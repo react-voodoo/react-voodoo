@@ -62,7 +62,7 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateY: 0, translateZ: "5vh" }
+					transform      : { rotateY: 0, translateZ: "6vh" }
 				},
 				right : {
 					position       : "absolute",
@@ -70,7 +70,7 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateY: 90, translateZ: "5vh" }
+					transform      : { rotateY: 90, translateZ: "6vh" }
 				},
 				back  : {
 					position       : "absolute",
@@ -78,7 +78,7 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateY: 180, translateZ: "5vh" }
+					transform      : { rotateY: 180, translateZ: "6vh" }
 				},
 				left  : {
 					position       : "absolute",
@@ -86,7 +86,7 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateY: -90, translateZ: "5vh" }
+					transform      : { rotateY: -90, translateZ: "6vh" }
 				},
 				top   : {
 					position       : "absolute",
@@ -94,7 +94,7 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateX: 90, translateZ: "5vh" }
+					transform      : { rotateX: 90, translateZ: "6vh" }
 				},
 				bottom: {
 					position       : "absolute",
@@ -102,7 +102,7 @@ export default class Cube extends React.Component {
 					height         : "100%",
 					backgroundColor: color,
 					opacity        : .5,
-					transform      : { rotateX: -90, translateZ: "5vh" }
+					transform      : { rotateX: -90, translateZ: "6vh" }
 				}
 			},
 			cubeStyle   : {
@@ -116,18 +116,17 @@ export default class Cube extends React.Component {
 					{
 						translateX: "-50%",
 						translateY: "-50%",
-						rotateX   : "-20deg"
+						rotateX   : "-20deg",
 					},
 				]
 			},
 			contentStyle: {
-				position       : "absolute",
-				width          : "5vh",
-				height         : "5vh",
-				left           : "50%",
-				top            : "50%",
-				backgroundColor: "black",
-				transform      : [
+				position : "absolute",
+				width    : "8vh",
+				height   : "8vh",
+				left     : "50%",
+				top      : "50%",
+				transform: [
 					{
 						translateX: "-50%",
 						translateY: "-50%",
@@ -143,9 +142,9 @@ export default class Cube extends React.Component {
 						duration: 300,
 						target  : "root",
 						apply   : {
-							transform: {
+							transform: [, {
 								rotateY: "-1080deg"
-							},
+							}],
 						}
 					},
 					{
@@ -167,11 +166,36 @@ export default class Cube extends React.Component {
 							target,
 							apply   : {
 								transform: [{}, {
-									translateZ: "5vh",
+									translateZ: "1vh",
 								}],
 							}
 						})
 					),
+					{
+						from    : 10,
+						duration: 90,
+						target  : "top",
+						apply   : {
+							opacity  : -.5,
+							transform: [, {
+								translateZ: "9vh",
+								scale     : -.5,
+							}],
+						}
+					},
+					{
+						from    : 10,
+						duration: 190,
+						target  : "content",
+						apply   : {
+							width    : "3vh",
+							height   : "3vh",
+							transform: [, , {
+								translateY: "-15vh",
+								
+							}],
+						}
+					}
 				]
 			}
 		}
@@ -182,10 +206,16 @@ export default class Cube extends React.Component {
 		return <TweenRef.div className={"Cube"}
 		                     initial={cubeStyle}
 		                     id={"root"}>
-			<TweenAxis axe={"scrollY"} defaultPosition={13} items={axis.scrollY}/>
+			
+			<TweenAxis axe={"scrollY"} defaultPosition={10} items={axis.scrollY}
+			           inertia={
+				           {
+					           wayPoints: [{ at: 10 }, { at: 200 }]
+				           }
+			           }/>
 			<TweenAxis axe={"scrollX"} defaultPosition={100 + 20}
 			           items={axis.scrollX}
-			           scrollableWindow={10}
+			           scrollableWindow={33}
 			           inertia={
 				           {
 					           shouldLoop: (( v, d ) => {
@@ -198,7 +228,6 @@ export default class Cube extends React.Component {
 					           }),
 				           }
 			           }/>
-			
 			<TweenRef.div id={"front"} initial={facesStyle.front} className={"face"}/>
 			<TweenRef.div id={"back"} initial={facesStyle.back} className={"face"}/>
 			<TweenRef.div id={"right"} initial={facesStyle.right} className={"face"}/>

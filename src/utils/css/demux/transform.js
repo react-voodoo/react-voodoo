@@ -68,7 +68,7 @@ const defaultUnits    = {
 export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
 	let path = twKey.split('_'), tmpKey;// not optimal at all
 	if ( path.length === 4 ) {
-		//console.log("dec", twKey, dataMap[path[0]][path[1]][path[2]])
+		//console.warn("dec", twKey, dataMap[path[0]][path[1]][path[2]])
 		// dec count on transform
 		if ( !--dataMap[path[0]][path[1]][path[2]] && !keepValues ) {
 			delete dataMap[path[0]][path[1]][path[2]];
@@ -179,16 +179,15 @@ export function demux( key, tweenable, target, data, box ) {
 export function muxOne( key, baseKey, value, target, data, initials, noPropLock, seenUnits ) {
 	
 	let match   = is.string(value) ? value.match(unitsRe) : false,
-	    unit    = match && match[2] || defaultUnits[baseKey] || "px",
+	    unit    = match && match[2] || defaultUnits[baseKey],
 	    unitKey = units.indexOf(unit),
 	    realKey = unitKey !== -1 && (key + '_' + unitKey) || key;
 	
 	initials[realKey]  = defaultValue[baseKey] || 0;
 	data[key][unitKey] = data[key][unitKey] || 0;
-	//console.log(key, ':', data[key][unitKey], value, noPropLock)
+	//console.log(key, ':', realKey, data[key][unitKey], initials[realKey], noPropLock)
 	
 	if ( seenUnits && seenUnits[unitKey] ) {
-		//console.warn(key, ':', data[key][unitKey], value, noPropLock)
 		if ( match ) {
 			target[realKey] += parseFloat(match[1]);
 		}
@@ -230,7 +229,7 @@ export const mux = ( key, value, target, data, initials, noPropLock, reOrder ) =
 				baseData[tFnKey] = baseData[tFnKey] || data[key][ti] && data[key][ti][tFnKey] || 0;
 				!noPropLock && baseData[tFnKey]++;
 				
-				//console.warn("set ", key, dkey, noPropLock, baseData[fkey])
+				//console.warn("set ", key, dkey, noPropLock, baseData[tFnKey])
 				
 				data[dkey] = data[dkey] || [];
 				if ( is.array(fValue) ) {

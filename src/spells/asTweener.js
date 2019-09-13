@@ -105,18 +105,43 @@ export default function asTweener( ...argz ) {
 		
 		constructor() {
 			super(...arguments);
-			this._           = {
+			let _            = this._ = {
 				refs       : {},
 				muxByTarget: {},
 			};
-			this._.box       = {
+			_.box            = {
 				x: 100,
 				y: 100,
 				z: 800
 			};
-			this._._rafLoop  = this._rafLoop.bind(this);
+			_._rafLoop       = this._rafLoop.bind(this);
+			_.rootRef        = this.props.forwardedRef || React.createRef();
 			this.__isTweener = true;
-			this._.rootRef   = this.props.forwardedRef || React.createRef();
+			
+			_.tweenRefCSS         = {};
+			_.tweenRefs           = {};
+			_.tweenRefMaps        = {};
+			_.iMapOrigin          = {};
+			_.tweenRefInitialData = {};
+			_.tweenEnabled        = true;
+			_.tweenRefOrigin      = {};
+			_.tweenRefOriginCss   = {};
+			_.axes                = {};
+			_.muxDataByTarget     = _.muxDataByTarget || {};
+			_.tweenRefDemuxed     = _.tweenRefDemuxed || {};
+			_.tweenRefTargets     = _.tweenRefTargets || [];
+			_.runningAnims        = _.runningAnims || [];
+			
+			isBrowserSide && window.addEventListener(
+				"resize",
+				this._.onResize = ( e ) => {//@todo
+					this._updateBox();
+					this._updateTweenRefs();
+					_.rootRef &&
+					_.rootRef.current &&
+					_.rootRef.current.windowDidResize &&
+					_.rootRef.current.windowDidResize(e)
+				});
 		}
 		
 		// ------------------------------------------------------------
@@ -135,7 +160,7 @@ export default function asTweener( ...argz ) {
 		 * @returns {style,ref}
 		 */
 		tweenRef( id, iStyle = {}, iMap = {}, pos, noref, mapReset ) {// ref initial style
-			this.makeTweenable();
+			
 			
 			let _            = this._,
 			    tweenableMap = {};
@@ -206,26 +231,47 @@ export default function asTweener( ...argz ) {
 				_.muxDataByTarget[id] = _.muxDataByTarget[id] || {};
 				
 				_.tweenRefOriginCss[id] = iStyle;
-				try {
-					iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id]) };
-				} catch ( e ) {
-					debugger;
-				}
 				
+				_.tweenRefMaps[id] = _.tweenRefMaps[id] || {};
+				if ( _.tweenRefOrigin[id] ) {
+					//debugger
+					// minus initial values from axis pre init
+					//Object.keys(_.tweenRefOrigin[id])
+					//      .forEach(
+					//	      key => (_.tweenRefMaps[id][key] -= _.tweenRefOrigin[id][key])
+					//      );
+					iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], false, true) };
+					
+					//// set defaults values in case of
+					Object.keys(initials)
+					      .forEach(
+						      key => (_.tweenRefMaps[id][key] = is.number(_.tweenRefMaps[id][key])
+						                                        ? _.tweenRefMaps[id][key] - initials[key]
+						                                        : 0)
+					      );
+					//// add new initial values
+					Object.keys(tweenableMap)
+					      .forEach(
+						      key => (_.tweenRefMaps[id][key] += tweenableMap[key])
+					      );
+				}
+				else {
+					iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id]) };
+					
+					
+					// init / reset or get the tweenable view
+					tweenableMap = Object.assign({}, initials, tweenableMap || {});
+					
+					// set defaults values in case of
+					// add new initial values
+					Object.keys(tweenableMap)
+					      .forEach(
+						      key => (_.tweenRefMaps[id][key] = (_.tweenRefMaps[id][key] || 0) + tweenableMap[key])
+					      );
+				}
 				_.tweenRefOrigin[id] = { ...tweenableMap };
 				_.tweenRefCSS[id]    = iStyle;
-				_.tweenRefMaps[id]   = _.tweenRefMaps[id] || {};
-				
-				// init / reset or get the tweenable view
-				tweenableMap = Object.assign({}, initials, tweenableMap || {});
-				
-				// set defaults values in case of
-				// add new initial values
-				Object.keys(tweenableMap)
-				      .forEach(
-					      key => (_.tweenRefMaps[id][key] = (_.tweenRefMaps[id][key] || 0) + tweenableMap[key])
-				      );
-				tweenableMap = _.tweenRefMaps[id];
+				tweenableMap         = _.tweenRefMaps[id];
 				muxToCss(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
 				
 			}
@@ -244,6 +290,10 @@ export default function asTweener( ...argz ) {
 					style: { ..._.tweenRefCSS[id] },
 					ref  : node => (_.refs[id] = node)
 				};
+		}
+		
+		preInitRef( id, initials ) {// ref initial style
+			
 		}
 		
 		/**
@@ -293,9 +343,9 @@ export default function asTweener( ...argz ) {
 				return target.map(( m ) => this.updateRefStyle(m, style, postPone));
 			
 			if ( !this._.tweenRefCSS )
-				this.makeTweenable();
-			
-			deMuxTween(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target], true);
+				
+				
+				deMuxTween(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target], true);
 			this._updateTweenRef(target);
 		}
 		
@@ -360,7 +410,6 @@ export default function asTweener( ...argz ) {
 			if ( fail )
 				return;
 			
-			this.makeTweenable();
 			
 			return new Promise(
 				resolve => {
@@ -434,7 +483,7 @@ export default function asTweener( ...argz ) {
 			defaultPosition,
 			scrollFirst
 		}, reset ) {
-			this.makeTweenable();
+			
 			this.makeScrollable();
 			let _                = this._,
 			    dim              = _.axes[axe],
@@ -590,10 +639,17 @@ export default function asTweener( ...argz ) {
 				
 				sl          = new tweenAxis(sl, _.tweenRefMaps);
 				sl.initials = initials;
+				//console.log(initials)
 				Object.keys(initials)
 				      .forEach(
 					      id => {
-						      this._.tweenRefMaps[id] = this._.tweenRefMaps[id] || {};
+						      _.tweenRefOrigin[id] = _.tweenRefOrigin[id] || {};
+						      //Object.assign(_.tweenRefOrigin[id], {
+						      //    ...initials[id],
+						      //    ..._.tweenRefOrigin[id]
+						      //})
+						
+						      _.tweenRefMaps[id] = _.tweenRefMaps[id] || {};
 						      Object.assign(this._.tweenRefMaps[id], {
 							      ...initials[id],
 							      ...this._.tweenRefMaps[id]
@@ -602,7 +658,7 @@ export default function asTweener( ...argz ) {
 				      )
 			}
 			
-			this.makeTweenable();
+			
 			this.makeScrollable();
 			// init scroll
 			dim.tweenAxis.push(sl);
@@ -1194,37 +1250,6 @@ export default function asTweener( ...argz ) {
 		// --------------- Initialization & drawers -------------------
 		// ------------------------------------------------------------
 		
-		makeTweenable() {
-			let _ = this._;
-			
-			if ( !_.tweenEnabled ) {
-				_.tweenRefCSS         = {};
-				_.tweenRefs           = {};
-				_.tweenRefMaps        = {};
-				_.iMapOrigin          = {};
-				_.tweenRefInitialData = {};
-				_.tweenEnabled        = true;
-				_.tweenRefOrigin      = {};
-				_.tweenRefOriginCss   = {};
-				_.axes                = {};
-				_.muxDataByTarget     = _.muxDataByTarget || {};
-				_.tweenRefDemuxed     = _.tweenRefDemuxed || {};
-				_.tweenRefTargets     = _.tweenRefTargets || [];
-				_.runningAnims        = _.runningAnims || [];
-				
-				isBrowserSide && window.addEventListener(
-					"resize",
-					this._.onResize = ( e ) => {//@todo
-						this._updateBox();
-						this._updateTweenRefs();
-						_.rootRef &&
-						_.rootRef.current &&
-						_.rootRef.current.windowDidResize &&
-						_.rootRef.current.windowDidResize(e)
-					});
-			}
-		}
-		
 		setRootRef( id ) {
 			this._.rootRef = id;
 		}
@@ -1308,6 +1333,13 @@ export default function asTweener( ...argz ) {
 			if ( this._.tweenEnabled ) {
 				this._.tweenEnabled = false;
 				window.removeEventListener("resize", this._.onResize);
+				
+				Object.keys(this._.axes).forEach(
+					axe => {
+						this._.axes[axe].inertiaFrame &&
+						clearTimeout(this._.axes[axe].inertiaFrame);
+					}
+				);
 			}
 			
 			if ( this._.scrollEnabled ) {

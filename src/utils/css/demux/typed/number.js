@@ -36,7 +36,7 @@ const defaultUnits    = {
 	      width : 'x',
 	      height: 'y',
       }, defaultValue = {
-	      opacity: 1
+	      opacity: 0
       };
 
 export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
