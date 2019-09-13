@@ -65,7 +65,8 @@ const inertiaByNode = {
  */
 export default class Inertia {
 	static config = {
-		bounds: true
+		bounds      : true,
+		snapToBounds: true
 	};
 	
 	constructor( opt ) {
@@ -403,7 +404,7 @@ export default class Inertia {
 		
 		_.holding = false;
 		
-		if ( _.conf.bounds ) {
+		if ( _.conf.bounds && _.conf.snapToBounds ) {
 			if ( (_.pos + _.targetDist) > _.max ) {
 				_.targetDist     = _.max - _.pos;
 				_.targetDuration = abs(_.targetDist * 10);

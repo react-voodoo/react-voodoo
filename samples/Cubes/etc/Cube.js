@@ -218,7 +218,8 @@ export default class Cube extends React.Component {
 			           scrollableWindow={33}
 			           inertia={
 				           {
-					           shouldLoop: (( v, d ) => {
+					           snapToBounds: false,
+					           shouldLoop  : (( v, d ) => {
 						           if ( d < 0 && ~~(d + v) <= 100 ) {
 							           return 100;
 						           }
