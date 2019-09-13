@@ -159,7 +159,7 @@ export default class Cube extends React.Component {
 					}
 				],
 				scrollY: [
-					...['front', 'back', 'left', 'right', 'top', 'bottom'].map(
+					...['front', 'back', 'left', 'right', 'top'].map(
 						target => ({
 							from    : 0,
 							duration: 100,
@@ -167,6 +167,20 @@ export default class Cube extends React.Component {
 							apply   : {
 								transform: [{}, {
 									translateZ: "1vh",
+								}],
+							}
+						})
+					),
+					...['front', 'back', 'left', 'right'].map(
+						target => ({
+							from    : 10,
+							duration: 100,
+							target,
+							apply   : {
+								transform: [{}, {
+									translateZ: "4vh",
+									translateY: "2vh",
+									rotateX   : "-45deg",
 								}],
 							}
 						})

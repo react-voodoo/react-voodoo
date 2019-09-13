@@ -34486,7 +34486,7 @@ function (_React$Component) {
             }]
           }
         }],
-        scrollY: [].concat(['front', 'back', 'left', 'right', 'top', 'bottom'].map(function (target) {
+        scrollY: [].concat(['front', 'back', 'left', 'right', 'top'].map(function (target) {
           return {
             from: 0,
             duration: 100,
@@ -34494,6 +34494,19 @@ function (_React$Component) {
             apply: {
               transform: [{}, {
                 translateZ: "1vh"
+              }]
+            }
+          };
+        }), ['front', 'back', 'left', 'right'].map(function (target) {
+          return {
+            from: 10,
+            duration: 100,
+            target: target,
+            apply: {
+              transform: [{}, {
+                translateZ: "4vh",
+                translateY: "2vh",
+                rotateX: "-45deg"
               }]
             }
           };
