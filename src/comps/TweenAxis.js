@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import deepEqual from "fast-deep-equal";
 import PropTypes from "prop-types";
 import React     from 'react';
 
@@ -53,17 +54,6 @@ export default class TweenAxis extends React.Component {
 		return <TweenerContext.Consumer>
 			{
 				tweener => {
-					//if ( React.isValidElement(children) ) {
-					//	children = React.cloneElement(
-					//		children,
-					//		{
-					//			...tweener.tweenRef(id, style || children.props.style, initial, pos, noRef, reset),
-					//			onDoubleClick: onDoubleClick && (e => onDoubleClick(e, tweener)),
-					//			onClick      : onClick && (e => onClick(e, tweener))
-					//		}
-					//	);
-					//
-					//}
 					if ( !this._previousAxis || this._previousAxis !== axe ) {//....
 						this._previousAxis    = axe;
 						this._previousInertia = inertia;
@@ -95,7 +85,7 @@ export default class TweenAxis extends React.Component {
 						this._previousTweener = tweener;
 						this._previousTweens  = items;
 					}
-					else if ( this._previousTweens !== items ) {
+					else if ( this._previousTweens !== items && !(this._previousTweens && deepEqual(items, this._previousTweens)) ) {
 						this._lastTL && this._previousTweener && this._previousTweener.rmScrollableAnim(this._lastTL, this._previousAxis);
 						this._lastTL = null;
 						if ( items.length )
