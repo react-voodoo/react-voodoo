@@ -33,7 +33,6 @@ It allow :
 
 ## Note
 
-
 If you're searching production ready animation engine that can do some additive tween see [react-spring](https://github.com/react-spring/react-spring) or [gsap](https://github.com/bitworking/react-gsap) 
 
 ## Basics
@@ -126,8 +125,11 @@ export default class MyTweenerComp extends React.Component{
 
 ## todo / roadmap ?
 
-- Better scroll support / fixs
-- Full css support ( full background transitions )
+- Make generic inputs components to seek tweenAxis (scroll, mouse move, etc ), 
+- Make tweenRefs of tweener comps additive with theirs parents
+- Allow exporting tweenAxis as tweenable css props for parents 
+- Make dynamic animation builder with some tweenRefs query language 
+- Finish css support ( background, borders, ... )
 - Doc, tests & code cleaning
 - lot of various simple and/or smart optims / recycling
 - Allow tween-axis to css keyframe anims ? 
