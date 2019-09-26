@@ -39,6 +39,7 @@ const cssDemux = {
 	paddingLeft    : number,
 	paddingRight   : number,
 	paddingBottom  : number,
+	borderRadius   : number,
 	transformOrigin: multi(2),
 	zIndex         : int,
 	opacity        : ratio,
