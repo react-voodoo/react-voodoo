@@ -336,17 +336,18 @@ export default function asTweener( ...argz ) {
 		 * @returns {*}
 		 */
 		updateRefStyle( target, style, postPone ) {
-			let _ = this._, initials = {};
+			let _ = this._, initials = {}, pureCss;
 			if ( isArray(target) && isArray(style) )
 				return target.map(( m, i ) => this.updateRefStyle(m, style[i], postPone));
 			if ( isArray(target) )
 				return target.map(( m ) => this.updateRefStyle(m, style, postPone));
 			
-			if ( !this._.tweenRefCSS )
-				
-				
-				deMuxTween(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target], true);
-			this._updateTweenRef(target);
+			//if ( !this._.tweenRefCSS )
+			pureCss = deMuxTween(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target]);
+			Object.assign(_.tweenRefCSS[target], pureCss);
+			Object.assign(_.tweenRefOriginCss[target], pureCss);
+			muxToCss(_.tweenRefMaps[target], _.tweenRefCSS[target], _.muxByTarget[target], _.muxDataByTarget[target], _.box);
+			this._updateTweenRef(target, true);
 		}
 		
 		/**
@@ -1300,11 +1301,12 @@ export default function asTweener( ...argz ) {
 			muxToCss(this._.tweenRefMaps[target], swap, this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
 			node = this.getTweenableRef(target);
 			if ( node ) {
-				//for ( let o in this._.tweenRefCSS[target] )
-				//	if ( swap[o] === undefined ) {
-				//		node.style[o] = null;
-				//		delete this._.tweenRefCSS[target][o];
-				//	}
+				for ( let o in this._.tweenRefCSS[target] )
+					if ( swap[o] === undefined ) {
+						node.style[o] = this._.tweenRefCSS[target][o];
+						//		node.style[o] = null;
+						//		delete this._.tweenRefCSS[target][o];
+					}
 				for ( let o in swap )
 					if ( this._.tweenRefCSS[target].hasOwnProperty(o) ) {
 						if ( force || swap[o] !== this._.tweenRefCSS[target][o] ) {
