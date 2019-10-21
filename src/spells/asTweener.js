@@ -994,8 +994,8 @@ export default function asTweener( ...argz ) {
 											
 										}
 										if ( yDispatched && xDispatched ) {
-											e.stopPropagation();
-											e.cancelable && e.preventDefault();
+											//e.stopPropagation();
+											//e.cancelable && e.preventDefault();
 											//return;
 										}
 										//dX = 0;
