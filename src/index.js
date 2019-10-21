@@ -22,6 +22,7 @@ import TweenerContext  from './comps/TweenerContext';
 import TweenRef        from './comps/TweenRef';
 import asTweener       from './spells/asTweener';
 import withTweener     from './spells/withTweener';
+import domTools        from './utils/dom.js';
 import * as tweenTools from './utils/tweenTools.js';
 
 @asTweener
@@ -32,5 +33,5 @@ class Tweenable extends Component {
 }
 
 
-export {asTweener, withTweener, tweenTools, Tweenable, TweenRef, TweenerContext, TweenAxis};
+export {asTweener, withTweener, tweenTools, Tweenable, TweenRef, TweenerContext, TweenAxis, domTools};
 export default Tweenable;
