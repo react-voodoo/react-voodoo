@@ -551,6 +551,11 @@ export default function asTweener( ...argz ) {
 			return state;
 		}
 		
+		getScrollPos( axis = "scrollY" ) {
+			let _ = this._, state = {};
+			return _.axes[axis] ? _.axes[axis].targetPos || _.axes[axis].scrollPos : 0
+		}
+		
 		/**
 		 * Do scroll an axis
 		 * @param newPos

@@ -201,11 +201,11 @@ export default class Inertia {
 			_.targetDuration = tm;
 		}
 		else {
-			_.inertiaStartTm =
-				_.inertiaLastTm = now;
-			_.lastInertiaPos = 0;
+			//_.inertiaStartTm =
+				//_.inertiaLastTm = now;
+			//_.lastInertiaPos = 0;
 			_.targetDist += delta;
-			_.targetDuration += tm;
+			_.targetDuration += tm/2;
 		}
 		//
 		//if ( _.conf.maxJump ) {
