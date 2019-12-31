@@ -21,7 +21,7 @@
       }
     },
     "extend": [
-      "wi-layer-react-express"
+      "lpack-react"
     ]
   },
   "staging": {
@@ -42,7 +42,7 @@
       }
     },
     "extend": [
-      "wi-layer-react-express"
+      "lpack-react"
     ]
   },
   "stagingToMama": {
@@ -64,7 +64,7 @@
       }
     },
     "extend": [
-      "wi-layer-react-express"
+      "lpack-react"
     ]
   },
   "samples": {
@@ -93,7 +93,7 @@
       }
     },
     "extend": [
-      "wi-layer-react-express"
+      "lpack-react"
     ]
   },
   "samplesDev": {
@@ -122,7 +122,7 @@
       }
     },
     "extend": [
-      "wi-layer-react-express"
+      "lpack-react"
     ]
   }
 }

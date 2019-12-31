@@ -7,10 +7,10 @@
   "repository": "https://github.com/n8tz/react-voodoo",
   "description": "Additive & swipeable animation engine for React",
   "scripts": {
-    "build": "wpi && wpi :samples",
-    "devLib": "wpi :staging -w",
-    "devLibM": "wpi :stagingToMama -w",
-    "devSamples": "wpi-dev-server :samplesDev --hot --host 0.0.0.0",
+    "build": "lpack && lpack :samples",
+    "devLib": "lpack :staging -w",
+    "devLibM": "lpack :stagingToMama -w",
+    "devSamples": "lpack-dev-server :samplesDev --hot --host 0.0.0.0",
     "startSamples": "ws -d ./dist.samples -p 8080",
     "runBrowser": "start http://localhost:8080",
     "test": "mocha --require @babel/register ./etc/tests/*.test.js -b",
@@ -39,8 +39,8 @@
     "local-web-server": "^3.0.7",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.1",
-    "webpack-inherit": "^1.8.2",
-    "wi-layer-react-express": "^1.1.8",
+    "layer-pack": "^1.0.1",
+    "lpack-react": "^1.0.0",
     "zombie": "^6.1.4"
   }
 }

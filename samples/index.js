@@ -23,7 +23,7 @@ import "./samples.scss";
 
 class App extends React.Component {
 	state = {
-		current: "StretchBoxes"
+		current: "Cubes"
 	};
 	
 	render() {
@@ -35,12 +35,15 @@ class App extends React.Component {
 						key => <div onClick={e => this.setState({ current: key })} key={key}>{key}</div>
 					)
 				}
+				<img
+					src={"https://www.google-analytics.com/collect?v=1&tid=UA-82058889-1&cid=555&t=event&ec=project&ea=view&dp=%2Fproject%2Freact-voodoo&dt=demo"}/>
 			</div>
 			<div className={"sample"}>
 				
 				
 				<Comp/>
 			</div>
+		
 		</div>
 	}
 }
