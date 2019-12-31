@@ -140,3 +140,4 @@ export default class MyTweenerComp extends React.Component{
 AGPL license
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
+[![*](https://www.google-analytics.com/collect?v=1&tid=UA-82058889-1&cid=555&aip=0&t=event&ec=project&ea=view&dp=%2Fproject%2Fvoodoo&dt=readme)](#)
