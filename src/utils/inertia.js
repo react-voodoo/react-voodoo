@@ -43,15 +43,29 @@ const
  */
 export function applyInertia( _ ) {
 	let velSign = signOf(_.lastVelocity);
-	// calc momentum distance...
-	// get nb loop needed to get vel < .05
-	_.loopsTarget = floor(Math.log(.05 / abs(_.lastVelocity)) / Math.log(.9));
 	
-	// get velocity sum basing on nb loops needed
-	_.loopsVelSum    = (Math.pow(.9, _.loopsTarget) - abs(_.lastVelocity)) / (.9 - 1);
-	// deduce real dist of momentum
-	_.targetDist     = (_.loopsVelSum * _.refFPS * velSign) / 1000 || 0;
-	_.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
+	if ( _.disabled ) {
+		// calc momentum distance...
+		// get nb loop needed to get vel < .05
+		_.loopsTarget = 0;
+		
+		// get velocity sum basing on nb loops needed
+		_.loopsVelSum    = 0;
+		// deduce real dist of momentum
+		_.targetDist     = 0;
+		_.targetDuration = 0;
+	}
+	else {
+		// get nb loop needed to get vel < .05
+		_.loopsTarget = floor(Math.log(.05 / abs(_.lastVelocity)) / Math.log(.9));
+		
+		// get velocity sum basing on nb loops needed
+		_.loopsVelSum    = (Math.pow(.9, _.loopsTarget) - abs(_.lastVelocity)) / (.9 - 1);
+		// deduce real dist of momentum
+		_.targetDist     = (_.loopsVelSum * _.refFPS * velSign) / 1000 || 0;
+		_.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
+	}
+	
 }
 
 const inertiaByNode = {
@@ -92,6 +106,7 @@ export default class Inertia {
 		_.currentStop         = 0;
 		_.lastInertiaPos      = 0;
 		_.stops               = _.conf.stops;
+		_.disabled            = _.conf.disabled;
 		_.wayPoints           = _.conf.wayPoints;
 		_.inertiaFn           = easingFn.easePolyOut;
 		_.targetWayPointIndex = 0;
@@ -202,10 +217,10 @@ export default class Inertia {
 		}
 		else {
 			//_.inertiaStartTm =
-				//_.inertiaLastTm = now;
+			//_.inertiaLastTm = now;
 			//_.lastInertiaPos = 0;
 			_.targetDist += delta;
-			_.targetDuration += tm/2;
+			_.targetDuration += tm / 2;
 		}
 		//
 		//if ( _.conf.maxJump ) {

@@ -2,6 +2,7 @@
   "default": {
     "rootFolder": "src",
     "basedOn": "component",
+    "libsPath": "./packages",
     "vars": {
       "rootAlias": "react-voodoo",
       "entryPoint": "./src",
@@ -27,31 +28,10 @@
   "staging": {
     "rootFolder": "src",
     "basedOn": "component",
+    "libsPath": "./packages",
     "vars": {
       "rootAlias": "react-voodoo",
       "entryPoint": "./src",
-      "externals": true,
-      "production": false,
-      "babelPreset": {
-        "targets": {
-          "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
-        },
-        "loose": true
-      },
-      "webpackPatch": {
-      }
-    },
-    "extend": [
-      "lpack-react"
-    ]
-  },
-  "stagingToMama": {
-    "rootFolder": "src",
-    "basedOn": "component",
-    "vars": {
-      "rootAlias": "react-voodoo",
-      "entryPoint": "./src",
-      "targetDir": "../../various/www.mamasound.fr/packages/react-voodoo/dist",
       "externals": true,
       "production": false,
       "babelPreset": {
@@ -70,6 +50,7 @@
   "samples": {
     "rootFolder": "samples",
     "basedOn": "static",
+    "libsPath": "./packages",
     "vars": {
       "rootAlias": "Samples",
       "production": false,
@@ -98,6 +79,7 @@
   },
   "samplesDev": {
     "rootFolder": "samples",
+    "libsPath": "./packages",
     "basedOn": "static",
     "vars": {
       "rootAlias": "Samples",
