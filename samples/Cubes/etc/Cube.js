@@ -180,7 +180,7 @@ export default class Cube extends React.Component {
 								transform: [{}, {
 									translateZ: "4vh",
 									translateY: "2vh",
-									rotateX: "-45deg",
+									rotateX   : "-45deg",
 								}],
 							}
 						})
@@ -215,6 +215,18 @@ export default class Cube extends React.Component {
 		}
 	}
 	
+	inertia = {
+		snapToBounds: false,
+		shouldLoop  : (( v, d ) => {
+			if ( d < 0 && ~~(d + v) <= 100 ) {
+				return 100;
+			}
+			if ( d > 0 && ~~(d + v) >= 200 ) {
+				return -100;
+			}
+		}),
+	};
+	
 	render() {
 		let { facesStyle, cubeStyle, contentStyle, axis } = this.state;
 		return <TweenRef.div className={"Cube"}
@@ -230,19 +242,7 @@ export default class Cube extends React.Component {
 			<TweenAxis axe={"scrollX"} defaultPosition={100 + 20}
 			           items={axis.scrollX}
 			           scrollableWindow={33}
-			           inertia={
-				           {
-					           snapToBounds: false,
-					           shouldLoop  : (( v, d ) => {
-						           if ( d < 0 && ~~(d + v) <= 100 ) {
-							           return 100;
-						           }
-						           if ( d > 0 && ~~(d + v) >= 200 ) {
-							           return -100;
-						           }
-					           }),
-				           }
-			           }/>
+			           inertia={this.inertia}/>
 			<TweenRef.div id={"front"} initial={facesStyle.front} className={"face"}/>
 			<TweenRef.div id={"back"} initial={facesStyle.back} className={"face"}/>
 			<TweenRef.div id={"right"} initial={facesStyle.right} className={"face"}/>

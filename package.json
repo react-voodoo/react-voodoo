@@ -1,6 +1,6 @@
 {
   "name": "react-voodoo",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "license": "AGPL-3.0",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -39,8 +39,8 @@
     "local-web-server": "^3.0.7",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.1",
-    "layer-pack": "^1.0.1",
-    "lpack-react": "^1.0.0",
+    "layer-pack": "^1.0.4",
+    "lpack-react": "^1.1.0",
     "zombie": "^6.1.4"
   }
 }
