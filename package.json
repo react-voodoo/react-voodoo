@@ -21,6 +21,7 @@
     "react-dom": "^16.0.0"
   },
   "dependencies": {
+    "@babel/register": "",
     "@babel/runtime": "^7.3.1",
     "color-rgba": "^2.1.0",
     "css-box-shadow": "^1.0.0-3",
@@ -32,7 +33,6 @@
     "tween-axis": "^1.2.7"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "jsdom": "^15.1.1",
