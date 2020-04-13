@@ -11,8 +11,6 @@ ___
 <img src="https://travis-ci.org/react-voodoo/react-voodoo.svg?branch=master" alt="Build Status" /></a>
 <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" />
 </p>
-<p align="center">/!\ This is beta /!\</p>
-
 
 ## wtf is react-voodoo ?
 

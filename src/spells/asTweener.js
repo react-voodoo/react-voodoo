@@ -92,7 +92,7 @@ class TweenableComp extends React.Component {
 		_._rafLoop            = this._rafLoop.bind(this);
 		_.rootRef             = this.props.forwardedRef || React.createRef();
 		this.__isTweener      = true;
-		_.opts                = props.tweenerOptions;
+		_.options             = { enableMouseScroll: true, ...(props.tweenerOptions || {}) };
 		_.tweenRefCSS         = {};
 		_.tweenRefs           = {};
 		_.tweenRefMaps        = {};
@@ -469,8 +469,8 @@ class TweenableComp extends React.Component {
 		    targetPos        = dim ? dim.targetPos : scrollPos,
 		    inertia          = (
 			    dim ? dim.inertia : new Inertia({// todo mk pure
-				                                    ...(_inertia || {}),
 				                                    disabled: !_inertia,
+				                                    ...(_inertia || {}),
 				                                    value   : scrollPos
 			                                    })),
 		    nextDescr        = {
@@ -486,7 +486,7 @@ class TweenableComp extends React.Component {
 		    };
 		
 		this._.axes[axe] = nextDescr;
-		(inertia._.disabled = !_inertia);
+		!_inertia && (inertia._.disabled = true);
 		(_inertia) && inertia && (inertia._.wayPoints = _inertia.wayPoints);
 		(_inertia) && inertia && !inertia.active && (inertia._.pos = scrollPos);
 		if ( inertia && scrollableBounds )
@@ -500,13 +500,13 @@ class TweenableComp extends React.Component {
 		
 		_.axes[axe] = _.axes[axe] || {
 			tweenAxis       : [],
-			scrollPos       : _.opts.initialScrollPos && _.opts.initialScrollPos[axe] || 0,
+			scrollPos       : _.options.initialScrollPos && _.options.initialScrollPos[axe] || 0,
 			targetPos       : 0,
 			scrollableWindow: 0,
 			scrollableArea  : 0,
 			inertia         : new Inertia({
-				                              value: _.opts.initialScrollPos && _.opts.initialScrollPos[axe] || 0,
-				                              ...(_.opts.axes && _.opts.axes[axe] && _.opts.axes[axe].inertia || {})
+				                              value: _.options.initialScrollPos && _.options.initialScrollPos[axe] || 0,
+				                              ...(_.options.axes && _.options.axes[axe] && _.options.axes[axe].inertia || {})
 			                              }),
 		};
 		
@@ -551,8 +551,8 @@ class TweenableComp extends React.Component {
 						
 						    _.axes?.[axe]?.inertia?.setPos(pos);
 						    //_.axes[axe].inertia._doSnap()
-						
-						    _.rootRef?.current?.componentDidScroll?.(~~pos, axe);
+						    if ( ~~pos !== oldPos )
+							    _.rootRef?.current?.componentDidScroll?.(~~pos, axe);
 						    this._updateTweenRefs()
 					    };
 					
@@ -776,28 +776,29 @@ class TweenableComp extends React.Component {
 			    scrollLoad = { x: 0, y: 0 },
 			    lastScrollEvt;
 			if ( !this._parentTweener && isBrowserSide ) {
-				
-				if ( !rootNode )
-					console.warn("fail registering scroll listener !! ")
-				else
-					domUtils.addWheelEvent(
-						rootNode,
-						this._.onScroll = ( e ) => {//@todo
-							let now       = Date.now(), prevent;
-							scrollLoad.y += e.deltaY;
-							scrollLoad.x += e.deltaX;
-							lastScrollEvt = e.originalEvent;
-							prevent       = this._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5)
-							scrollLoad.y  = 0;
-							scrollLoad.x  = 0;
-							debounceTm    = 0;
-							debounceTr    = lastScrollEvt = undefined;
-							if ( prevent ) {
-								e.originalEvent.stopPropagation();
-								e.originalEvent.preventDefault();
+				if ( _.options.enableMouseScroll ) {
+					if ( !rootNode )
+						console.warn("fail registering scroll listener !! ")
+					else
+						domUtils.addWheelEvent(
+							rootNode,
+							this._.onScroll = ( e ) => {//@todo
+								let now       = Date.now(), prevent;
+								scrollLoad.y += e.deltaY;
+								scrollLoad.x += e.deltaX;
+								lastScrollEvt = e.originalEvent;
+								prevent       = this._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5)
+								scrollLoad.y  = 0;
+								scrollLoad.x  = 0;
+								debounceTm    = 0;
+								debounceTr    = lastScrollEvt = undefined;
+								if ( prevent ) {
+									e.originalEvent.stopPropagation();
+									e.originalEvent.preventDefault();
+								}
 							}
-						}
-					);
+						);
+				}
 				
 				let lastStartTm,
 				    cLock, dX,
@@ -848,7 +849,7 @@ class TweenableComp extends React.Component {
 								//e.preventDefault();
 							},
 							'click'    : ( e, touch, descr ) => {//@todo
-								if ( lastStartTm && !((lastStartTm > Date.now() - _.opts.maxClickTm) && Math.abs(dY) < _.opts.maxClickOffset && Math.abs(dX) < _.opts.maxClickOffset) )// skip tap & click
+								if ( lastStartTm && !((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY) < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) )// skip tap & click
 								{
 									e.preventDefault();
 									e.stopPropagation();
@@ -867,7 +868,7 @@ class TweenableComp extends React.Component {
 								dX = -(descr._lastPos.x - descr._startPos.x);
 								dY = -(descr._lastPos.y - descr._startPos.y);
 								
-								if ( lastStartTm && ((lastStartTm > Date.now() - _.opts.maxClickTm) && Math.abs(dY) < _.opts.maxClickOffset && Math.abs(dX) < _.opts.maxClickOffset) )// skip tap & click
+								if ( lastStartTm && ((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY) < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) )// skip tap & click
 								{
 									//console.log(':u ' + (lastStartTm - Date.now()) + ' ' + dX + ' ' + dY)
 									return;
@@ -876,7 +877,7 @@ class TweenableComp extends React.Component {
 									
 									xDispatched = !dX;
 									yDispatched = !dY;
-									if ( _.opts.dragDirectionLock ) {
+									if ( _.options.dragDirectionLock ) {
 										if ( cLock === "Y" || !cLock && Math.abs(dY * .5) > Math.abs(dX) ) {
 											cLock = "Y";
 											dX    = 0;
@@ -888,7 +889,7 @@ class TweenableComp extends React.Component {
 											//yDispatched = true;
 										}
 									}
-									//console.log("drag", dX, dY, cLock, _.opts.dragDirectionLock);
+									//console.log("drag", dX, dY, cLock, _.options.dragDirectionLock);
 									for ( i = 0; i < parents.length; i++ ) {
 										tweener = parents[i];
 										// react comp with tweener support
@@ -938,9 +939,9 @@ class TweenableComp extends React.Component {
 													//tweener.dispatchEvent(e)
 													//cState.inertia.y.hold(cState.y + dY)
 													//tweener.scrollTop = cState.y + dY;
-													if ( _.opts.dragDirectionLock && cLock === "Y" )
+													if ( _.options.dragDirectionLock && cLock === "Y" )
 														return;
-													else if ( !_.opts.dragDirectionLock ) {
+													else if ( !_.options.dragDirectionLock ) {
 														return;
 													}
 													yDispatched = true;
@@ -1004,8 +1005,8 @@ class TweenableComp extends React.Component {
 									//}
 									
 								}
-								if ( lastStartTm && !((lastStartTm > Date.now() - _.opts.maxClickTm) && Math.abs(dY)
-									< _.opts.maxClickOffset && Math.abs(dX) < _.opts.maxClickOffset) )// skip tap
+								if ( lastStartTm && !((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY)
+									< _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) )// skip tap
 								// &
 								// click
 								{
@@ -1022,7 +1023,7 @@ class TweenableComp extends React.Component {
 							}
 						},
 						null,
-						_.opts.enableMouseDrag
+						_.options.enableMouseDrag
 					)
 			}
 			this._.doRegister = !!rootNode;
@@ -1386,24 +1387,25 @@ class TweenableComp extends React.Component {
 export default function asTweener( ...argz ) {
 	
 	let BaseComponent = (!argz[0] || argz[0].prototype instanceof React.Component || argz[0] === React.Component) && argz.shift(),
-	    opts          = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift() || {};
+	    options       = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift() || {};
 	
 	if ( !BaseComponent ) {
 		return function ( BaseComponent ) {
-			return asTweener(BaseComponent, opts)
+			return asTweener(BaseComponent, options)
 		}
 	}
 	
-	opts = {
+	options = {
 		wheelRatio    : 5,
 		maxClickTm    : 200,
 		maxClickOffset: 20,
-		...opts,
+		...options,
 	};
 	
 	
 	let withRef         = React.forwardRef(( props, ref ) => {
-		return <TweenableComp oProps={props} forwardedRef={ref} BaseComponent={BaseComponent} tweenerOptions={opts}/>;
+		return <TweenableComp oProps={props} forwardedRef={ref} BaseComponent={BaseComponent}
+		                      tweenerOptions={options}/>;
 	});
 	withRef.displayName = String.fromCharCode(0xD83E, 0xDDD9) + (BaseComponent.displayName || BaseComponent.name);
 	return withRef;
