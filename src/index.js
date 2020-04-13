@@ -20,6 +20,7 @@ import {Component}     from 'react';
 import TweenAxis       from './comps/TweenAxis';
 import TweenerContext  from './comps/TweenerContext';
 import TweenRef        from './comps/TweenRef';
+import Draggable       from './comps/Draggable';
 import asTweener       from './spells/asTweener';
 import withTweener     from './spells/withTweener';
 import domTools        from './utils/dom.js';
@@ -33,5 +34,5 @@ class Tweenable extends Component {
 }
 
 
-export {asTweener, withTweener, tweenTools, Tweenable, TweenRef, TweenerContext, TweenAxis, domTools};
+export {asTweener, withTweener, tweenTools, Draggable, Tweenable, TweenRef, TweenerContext, TweenAxis, domTools};
 export default Tweenable;
