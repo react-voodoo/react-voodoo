@@ -33,6 +33,7 @@
     "tween-axis": "^1.2.7"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "jsdom": "^15.1.1",
