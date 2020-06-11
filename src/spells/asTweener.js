@@ -89,9 +89,9 @@ class TweenableComp extends React.Component {
 			y: 100,
 			z: 800
 		};
+		this.__isTweener      = true;
 		_._rafLoop            = this._rafLoop.bind(this);
 		_.rootRef             = this.props.forwardedRef || React.createRef();
-		this.__isTweener      = true;
 		_.options             = { enableMouseScroll: true, ...(props.tweenerOptions || {}) };
 		_.tweenRefCSS         = {};
 		_.tweenRefs           = {};
@@ -101,12 +101,13 @@ class TweenableComp extends React.Component {
 		_.tweenEnabled        = true;
 		_.tweenRefOrigin      = {};
 		_.tweenRefOriginCss   = {};
-		_.axes                = {};
 		_.muxDataByTarget     = _.muxDataByTarget || {};
 		_.tweenRefDemuxed     = _.tweenRefDemuxed || {};
 		_.tweenRefTargets     = _.tweenRefTargets || [];
 		_.runningAnims        = _.runningAnims || [];
 		
+		_.scrollHook    = [];
+		_.activeInertia = [];
 		isBrowserSide && window.addEventListener(
 			"resize",
 			this._.onResize = ( e ) => {//@todo
@@ -115,6 +116,8 @@ class TweenableComp extends React.Component {
 				_.rootRef?.current?.windowDidResize?.(e);
 			});
 	}
+	
+	axes = {};
 	
 	// ------------------------------------------------------------
 	// -------------------- TweenRefs utils -----------------------
@@ -262,10 +265,6 @@ class TweenableComp extends React.Component {
 				style: { ..._.tweenRefCSS[id] },
 				ref  : node => (_.refs[id] = node)
 			};
-	}
-	
-	preInitRef( id, initials ) {// ref initial style
-	
 	}
 	
 	/**
@@ -457,9 +456,9 @@ class TweenableComp extends React.Component {
 		scrollFirst
 	}, reset ) {
 		
-		this.makeScrollable();
+		
 		let _                = this._,
-		    dim              = _.axes[axe],
+		    dim              = this.axes[axe],
 		    scrollableBounds = _scrollableBounds,
 		    scrollPos        = !reset && dim
 		                       ? dim.scrollPos
@@ -485,7 +484,7 @@ class TweenableComp extends React.Component {
 			    scrollableArea
 		    };
 		
-		this._.axes[axe] = nextDescr;
+		this.axes[axe] = nextDescr;
 		!_inertia && (inertia._.disabled = true);
 		(_inertia) && inertia && (inertia._.wayPoints = _inertia.wayPoints);
 		(_inertia) && inertia && !inertia.active && (inertia._.pos = scrollPos);
@@ -498,7 +497,7 @@ class TweenableComp extends React.Component {
 	_getAxis( axe = "scrollY" ) {
 		let _ = this._;
 		
-		_.axes[axe] = _.axes[axe] || {
+		this.axes[axe] = this.axes[axe] || {
 			tweenAxis       : [],
 			scrollPos       : _.options.initialScrollPos && _.options.initialScrollPos[axe] || 0,
 			targetPos       : 0,
@@ -510,7 +509,7 @@ class TweenableComp extends React.Component {
 			                              }),
 		};
 		
-		return _.axes[axe];
+		return this.axes[axe];
 	}
 	
 	/**
@@ -518,16 +517,16 @@ class TweenableComp extends React.Component {
 	 */
 	getAxisState( axe ) {
 		let _ = this._, state = {};
-		_.axes && Object.keys(_.axes)
-		                .forEach(
-			                axe => (state[axe] = _.axes[axe].targetPos || _.axes[axe].scrollPos)
-		                );
+		this.axes && Object.keys(this.axes)
+		                   .forEach(
+			                   axe => (state[axe] = this.axes[axe].targetPos || this.axes[axe].scrollPos)
+		                   );
 		return state;
 	}
 	
 	getScrollPos( axis = "scrollY" ) {
 		let _ = this._, state = {};
-		return _.axes[axis] ? _.axes[axis].targetPos || _.axes[axis].scrollPos : 0
+		return this.axes[axis] ? this.axes[axis].targetPos || this.axes[axis].scrollPos : 0
 	}
 	
 	/**
@@ -542,27 +541,27 @@ class TweenableComp extends React.Component {
 		let _ = this._;
 		return new Promise(
 			(( resolve, reject ) => {
-				if ( _.axes && _.axes[axe] ) {
-					let oldPos = _.axes[axe].targetPos,
+				if ( this.axes && this.axes[axe] ) {
+					let oldPos = this.axes[axe].targetPos,
 					    setPos = pos => {
 						    //console.log('TweenableComp::setPos:514: ',  newPos,pos, ms, axe);
-						    pos                   = (~~(pos * 10000)) / 10000;
-						    _.axes[axe].targetPos = _.axes[axe].scrollPos = pos;
+						    pos                      = (~~(pos * 10000)) / 10000;
+						    this.axes[axe].targetPos = this.axes[axe].scrollPos = pos;
 						
-						    _.axes?.[axe]?.inertia?.setPos(pos);
-						    //_.axes[axe].inertia._doSnap()
+						    this.axes?.[axe]?.inertia?.setPos(pos);
+						    //this.axes[axe].inertia._doSnap()
 						    if ( ~~pos !== oldPos )
 							    _.rootRef?.current?.componentDidScroll?.(~~pos, axe);
 						    this._updateTweenRefs()
 					    };
 					
 					newPos = Math.max(0, newPos);
-					newPos = Math.min(newPos, _.axes[axe].scrollableArea || 0);
+					newPos = Math.min(newPos, this.axes[axe].scrollableArea || 0);
 					
-					_.axes[axe].targetPos = newPos;
+					this.axes[axe].targetPos = newPos;
 					
 					if ( !ms ) {
-						_.axes[axe].tweenAxis.forEach(
+						this.axes[axe].tweenAxis.forEach(
 							sl => sl.goTo(newPos, _.tweenRefMaps)
 						);
 						setPos(newPos);
@@ -579,7 +578,7 @@ class TweenableComp extends React.Component {
 				}
 			})).then(
 			p => {
-				_.axes?.[axe]?.inertia?._detectCurrentSnap();
+				this.axes?.[axe]?.inertia?._detectCurrentSnap();
 			}
 		)
 	}
@@ -595,7 +594,6 @@ class TweenableComp extends React.Component {
 		let sl,
 		    _        = this._,
 		    initials = {},
-		    muxed    = {},
 		    dim      = this._getAxis(axe);
 		
 		if ( isArray(anim) ) {
@@ -609,20 +607,14 @@ class TweenableComp extends React.Component {
 		//console.warn("add scrollable")
 		if ( !(sl instanceof tweenAxis) ) {
 			sl = deMuxLine(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
-			//debugger
-			//deepExtend(this._.muxDataByTarget, muxed)
 			
 			sl          = new tweenAxis(sl, _.tweenRefMaps);
 			sl.initials = initials;
-			//console.log(initials)
+			
 			Object.keys(initials)
 			      .forEach(
 				      id => {
 					      _.tweenRefOrigin[id] = _.tweenRefOrigin[id] || {};
-					      //Object.assign(_.tweenRefOrigin[id], {
-					      //    ...initials[id],
-					      //    ..._.tweenRefOrigin[id]
-					      //})
 					
 					      _.tweenRefMaps[id] = _.tweenRefMaps[id] || {};
 					      Object.assign(this._.tweenRefMaps[id], {
@@ -634,14 +626,15 @@ class TweenableComp extends React.Component {
 		}
 		
 		
-		this.makeScrollable();
 		// init scroll
 		dim.tweenAxis.push(sl);
 		dim.scrollPos      = dim.scrollPos || 0;
 		dim.scrollableArea = dim.scrollableArea || 0;
 		dim.scrollableArea = Math.max(dim.scrollableArea, sl.duration);
+		
 		if ( !dim.scrollableBounds )
 			dim.inertia?.setBounds(0, dim.scrollableArea);
+		
 		sl.goTo(dim.scrollPos, this._.tweenRefMaps);
 		this._updateTweenRefs();
 		return sl;
@@ -700,7 +693,7 @@ class TweenableComp extends React.Component {
 	 * @private
 	 */
 	_runScrollGoTo( axe, to, tm, easing = x => x, tick, cb ) {
-		let from   = this._.axes[axe].scrollPos,
+		let from   = this.axes[axe].scrollPos,
 		    length = to - from;
 		
 		_running.push(
@@ -709,7 +702,7 @@ class TweenableComp extends React.Component {
 					let x = (from + (easing(pos / max)) * length);
 					if ( this._.tweenEnabled ) {
 						//console.log('TweenableComp::setPos:514: ', x);
-						this._.axes[axe].tweenAxis.forEach(
+						this.axes[axe].tweenAxis.forEach(
 							sl => sl.goTo(x, this._.tweenRefMaps)
 						);
 						tick && tick(x);
@@ -760,279 +753,6 @@ class TweenableComp extends React.Component {
 		       _.rootRef.current.componentShouldScroll(...arguments) : true
 	}
 	
-	/**
-	 * todo rewrite or use lib
-	 * Init touch & scroll listeners
-	 * Drive scroll & drag values updates
-	 * @private
-	 */
-	_registerScrollListeners() {
-		let _static = this.constructor,
-		    _       = this._;
-		if ( this._.rendered ) {
-			let rootNode   = this.getRootNode(),
-			    debounceTm = 0,
-			    debounceTr = 0,
-			    scrollLoad = { x: 0, y: 0 },
-			    lastScrollEvt;
-			if ( !this._parentTweener && isBrowserSide ) {
-				if ( _.options.enableMouseScroll ) {
-					if ( !rootNode )
-						console.warn("fail registering scroll listener !! ")
-					else
-						domUtils.addWheelEvent(
-							rootNode,
-							this._.onScroll = ( e ) => {//@todo
-								let now       = Date.now(), prevent;
-								scrollLoad.y += e.deltaY;
-								scrollLoad.x += e.deltaX;
-								lastScrollEvt = e.originalEvent;
-								prevent       = this._doDispatch(document.elementFromPoint(lastScrollEvt.clientX, lastScrollEvt.clientY), scrollLoad.x * 5, scrollLoad.y * 5)
-								scrollLoad.y  = 0;
-								scrollLoad.x  = 0;
-								debounceTm    = 0;
-								debounceTr    = lastScrollEvt = undefined;
-								if ( prevent ) {
-									e.originalEvent.stopPropagation();
-									e.originalEvent.preventDefault();
-								}
-							}
-						);
-				}
-				
-				let lastStartTm,
-				    cLock, dX,
-				    parents, dY,
-				    parentsState;
-				if ( !rootNode )
-					console.warn("fail registering drag listener !! ")
-				else
-					domUtils.addEvent(
-						rootNode, this._.dragList = {
-							'dragstart': ( e, touch, descr ) => {//@todo
-								let tweener,
-								    x,
-								    y, i, style;
-								
-								parents      = this.getScrollableNodes(e.target);
-								//console.log("start")
-								lastStartTm  = Date.now();
-								dX           = 0;
-								dY           = 0;
-								parentsState = [];
-								for ( i = 0; i < parents.length; i++ ) {
-									tweener = parents[i];
-									// react comp with tweener support
-									if ( tweener.__isTweener && tweener._.scrollEnabled ) {
-										x = tweener._getAxis("scrollX");
-										y = tweener._getAxis("scrollY");
-									}
-									else if ( is.element(tweener) ) {
-										style = getComputedStyle(tweener, null);
-										if ( /(auto|scroll)/.test(
-											style.getPropertyValue("overflow")
-											+ style.getPropertyValue("overflow-x")
-											+ style.getPropertyValue("overflow-y")) ) {
-											parentsState[i] = {
-												y      : tweener.scrollTop,
-												x      : tweener.scrollLeft,
-												scrollX: /(auto|scroll)/.test(style.getPropertyValue("overflow-x")),
-												scrollY: /(auto|scroll)/.test(style.getPropertyValue("overflow-y"))
-												//inertia: this._activateNodeInertia(tweener)
-											};
-										}
-									}
-									
-								}
-								this._updateNodeInertia()
-								//e.stopPropagation();
-								//e.preventDefault();
-							},
-							'click'    : ( e, touch, descr ) => {//@todo
-								if ( lastStartTm && !((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY) < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) )// skip tap & click
-								{
-									e.preventDefault();
-									e.stopPropagation();
-									//console.log("prevented click", Math.abs(dX), Math.abs(dY))
-									//console.log(':o ' + (lastStartTm - Date.now()) + ' ' + dX + ' ' + dY)
-								}
-								//else console.log("click", Math.abs(dX), Math.abs(dY))
-								
-							},
-							'drag'     : ( e, touch, descr ) => {//@todo
-								let tweener,
-								    x, deltaX, xDispatched, vX,
-								    y, deltaY, yDispatched, vY,
-								    cState, i;
-								
-								dX = -(descr._lastPos.x - descr._startPos.x);
-								dY = -(descr._lastPos.y - descr._startPos.y);
-								
-								if ( lastStartTm && ((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY) < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) )// skip tap & click
-								{
-									//console.log(':u ' + (lastStartTm - Date.now()) + ' ' + dX + ' ' + dY)
-									return;
-								}
-								else {
-									
-									xDispatched = !dX;
-									yDispatched = !dY;
-									if ( _.options.dragDirectionLock ) {
-										if ( cLock === "Y" || !cLock && Math.abs(dY * .5) > Math.abs(dX) ) {
-											cLock = "Y";
-											dX    = 0;
-											//xDispatched = true;
-										}
-										else if ( cLock === "X" || !cLock && Math.abs(dX * .5) > Math.abs(dY) ) {
-											cLock = "X";
-											dY    = 0;
-											//yDispatched = true;
-										}
-									}
-									//console.log("drag", dX, dY, cLock, _.options.dragDirectionLock);
-									for ( i = 0; i < parents.length; i++ ) {
-										tweener = parents[i];
-										// react comp with tweener support
-										if ( tweener.__isTweener && tweener._.scrollEnabled ) {
-											
-											x = tweener._getAxis("scrollX");
-											y = tweener._getAxis("scrollY");
-											
-											if ( !parentsState[i] ) {
-												parentsState[i] = { x: x.scrollPos, y: y.scrollPos };
-												x.inertia?.startMove();
-												y.inertia?.startMove();
-												!x.inertiaFrame && tweener.applyInertia(x, "scrollX");
-												!y.inertiaFrame && tweener.applyInertia(y, "scrollY");
-											}
-											deltaX = dX && (dX / tweener._.box.x) * (x.scrollableWindow || x.scrollableArea) || 0;
-											deltaY = dY && (dY / tweener._.box.y) * (y.scrollableWindow || y.scrollableArea) || 0;
-											if ( !xDispatched && deltaX && x.inertia?.isInbound(parentsState[i].x + deltaX)
-												&& (tweener.componentShouldScroll("scrollX", deltaX)) ) {
-												x.inertia.hold(parentsState[i].x + deltaX);
-												xDispatched = true;
-											}
-											//console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y
-											// + deltaY, true));
-											if ( !yDispatched && deltaY && y.inertia?.isInbound(parentsState[i].y + deltaY)
-												&& (tweener.componentShouldScroll("scrollY", deltaY)) ) {
-												y.inertia.hold(parentsState[i].y + deltaY);
-												yDispatched = true;
-											}
-										}
-										else if ( is.element(tweener) ) {
-											cState = parentsState[i];
-											if ( cState ) {
-												if ( !yDispatched &&
-													cState.scrollY &&
-													((dY < 0 && tweener.scrollTop !== 0)
-														||
-														(dY > 0 && tweener.scrollTop !== (tweener.scrollHeight - tweener.clientHeight)))
-												) {
-													//cState.lastY = cState.y + dY;
-													//
-													//tweener.scrollTo({
-													//	                 top: cState.y + dY,
-													//	                 //left    : undefined,
-													//	                 //behavior: 'smooth'
-													//                 })
-													//tweener.dispatchEvent(e)
-													//cState.inertia.y.hold(cState.y + dY)
-													//tweener.scrollTop = cState.y + dY;
-													if ( _.options.dragDirectionLock && cLock === "Y" )
-														return;
-													else if ( !_.options.dragDirectionLock ) {
-														return;
-													}
-													yDispatched = true;
-												} // let the node do this scroll
-												if ( !xDispatched &&
-													cState.scrollX &&
-													((dX < 0 && tweener.scrollLeft !== 0)
-														||
-														(dX > 0 && tweener.scrollLeft !== (tweener.scrollWidth - tweener.clientWidth)))
-												) {
-													//cState.lastX = cState.x + dX;
-													//tweener.scrollTo({
-													//	                 left: cState.x + dX,
-													//	                 //behavior: 'smooth'
-													//                 })
-													//tweener.dispatchEvent(e)
-													//tweener.scrollTo(style.x + dX)
-													//cState.inertia.x.hold(cState.x + dX)
-													//tweener.scrollLeft = cState.x + dX;
-													xDispatched = true;
-												} // let the node do this scroll
-											}
-											
-										}
-										
-									}
-									if ( yDispatched && xDispatched ) {
-										//e.stopPropagation();
-										//e.cancelable && e.preventDefault();
-										//return;
-									}
-									//dX = 0;
-									//dY = 0;
-								}
-							}
-							
-							,
-							'dropped': ( e, touch, descr ) => {
-								let tweener,
-								    x, deltaX, xDispatched, vX,
-								    y, deltaY, yDispatched, vY,
-								    cState, i;
-								
-								cLock = undefined;
-								//lastStartTm                     = undefined;
-								//document.body.style.userSelect  = '';
-								//document.body.style.touchAction = '';
-								for ( i = 0; i < parents.length; i++ ) {
-									tweener = parents[i];
-									// react comp with tweener support
-									if ( tweener.__isTweener && tweener._.scrollEnabled && parentsState[i] ) {
-										tweener._getAxis("scrollY").inertia?.release();
-										tweener._getAxis("scrollX").inertia?.release();
-									}
-									//else if ( is.element(tweener) ) {
-									//	cState = parentsState[i];
-									//	if ( cState ) {
-									//		cState.inertia.x.release();
-									//		cState.inertia.y.release();
-									//	}
-									//}
-									
-								}
-								if ( lastStartTm && !((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY)
-									< _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) )// skip tap
-								// &
-								// click
-								{
-									e.stopPropagation();
-									e.cancelable && e.preventDefault();
-									//console.log("prevented", Math.abs(dX), Math.abs(dY))
-									//return;
-								}
-								//else {
-								//console.log("not prevented", Math.abs(dX), Math.abs(dY))
-								//}
-								//lastStartTm = 0;
-								parents = parentsState = null;
-							}
-						},
-						null,
-						_.options.enableMouseDrag
-					)
-			}
-			this._.doRegister = !!rootNode;
-		}
-		else {
-			this._.doRegister = true;
-		}
-	}
-	
 	// ------------------------------------------------------------
 	// --------------- Inertia & scroll modifiers -----------------
 	// ------------------------------------------------------------
@@ -1045,9 +765,9 @@ class TweenableComp extends React.Component {
 	applyInertia( dim, axe ) {
 		let x = dim.inertia.update(), _ = this._;
 		
-		this._.axes[axe].tweenAxis.forEach(
+		this.axes[axe].tweenAxis.forEach(
 			sl => {
-				this._.axes[axe].targetPos = this._.axes[axe].scrollPos = x;
+				this.axes[axe].targetPos = this.axes[axe].scrollPos = x;
 				sl.goTo(x, this._.tweenRefMaps)
 			}
 		);
@@ -1070,17 +790,17 @@ class TweenableComp extends React.Component {
 	 */
 	isInertiaActive() {//todo
 		let _ = this._, active = false;
-		_.axes &&
-		Object.keys(_.axes)
+		this.axes &&
+		Object.keys(this.axes)
 		      .forEach(
-			      axe => (active = active || _.axes[axe] && _.axes[axe].inertia.active)
+			      axe => (active = active || this.axes[axe] && this.axes[axe].inertia.active)
 		      );
 		return active;
 	}
 	
 	dispatchScroll( delta, axe = "scrollY" ) {
 		let prevent,
-		    dim    = this._.axes[axe],
+		    dim    = this.axes[axe],
 		    oldPos = dim && dim.scrollPos,
 		    newPos = oldPos + delta;
 		
@@ -1096,7 +816,7 @@ class TweenableComp extends React.Component {
 	
 	isAxisOut( axis, v, abs ) {
 		let _   = this._,
-		    dim = _.axes && _.axes[axis],
+		    dim = this.axes && this.axes[axis],
 		    pos = abs ? v : dim && (dim.scrollPos + v);
 		
 		pos = pos && Math.round(pos);
@@ -1227,15 +947,6 @@ class TweenableComp extends React.Component {
 		this._.rootRef = id;
 	}
 	
-	makeScrollable() {
-		if ( !this._.scrollEnabled ) {
-			this._.scrollEnabled = true;
-			this._.scrollHook    = [];
-			this._.activeInertia = [];
-			this._registerScrollListeners();
-		}
-	}
-	
 	_updateBox() {
 		let node = this.getRootNode();
 		if ( node ) {
@@ -1307,25 +1018,13 @@ class TweenableComp extends React.Component {
 			this._.tweenEnabled = false;
 			window.removeEventListener("resize", this._.onResize);
 			
-			Object.keys(this._.axes).forEach(
+			Object.keys(this.axes).forEach(
 				axe => {
-					this._.axes[axe].inertiaFrame &&
-					clearTimeout(this._.axes[axe].inertiaFrame);
+					this.axes[axe].inertiaFrame &&
+					clearTimeout(this.axes[axe].inertiaFrame);
 				}
 			);
 		}
-		
-		if ( this._.scrollEnabled ) {
-			this._.scrollEnabled = false;
-			
-			//this._.axes          = undefined;
-			node && this._.onScroll && !this._parentTweener && domUtils.rmWheelEvent(
-				node,
-				this._.onScroll);
-			node && this._.dragList && domUtils.removeEvent(node
-				, this._.dragList)
-		}
-		
 		super.componentWillUnmount && super.componentWillUnmount(...arguments);
 	}
 	
@@ -1347,11 +1046,10 @@ class TweenableComp extends React.Component {
 					      axe => this.addScrollableAnim(_static.scrollableAnim[axe], axe)
 				      )
 		}
-		if ( this._.doRegister || this.__isFirst ) {
-			
-			this._registerScrollListeners();
-			this._.doRegister = false;
-		}
+		//if ( this._.doRegister || this.__isFirst ) {
+		//	
+		//	this._.doRegister = false;
+		//}
 		super.componentDidMount && super.componentDidMount(...arguments);
 	}
 	

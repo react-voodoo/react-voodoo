@@ -16,7 +16,6 @@
       },
       "webpackPatch": {
         "optimization": {
-          //          "namedModules": true
         },
         "devtool": "source-map"
       }
@@ -41,66 +40,6 @@
         "loose": true
       },
       "webpackPatch": {
-      }
-    },
-    "extend": [
-      "lpack-react"
-    ]
-  },
-  "samples": {
-    "rootFolder": "samples",
-    "basedOn": "static",
-    "libsPath": "./packages",
-    "vars": {
-      "rootAlias": "Samples",
-      "production": false,
-      "targetDir": "dist.samples",
-      "entryPoint": "Samples/index.js",
-      "HtmlWebpackPlugin": {
-        "template": "./samples/index.html.tpl"
-      },
-      "babelPreset": {
-        "targets": {
-          "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
-        },
-        "loose": true
-      },
-      "webpackPatch": {
-        "resolve": {
-          "alias": {
-            "react-voodoo": "Samples/voodoo.js"
-          }
-        }
-      }
-    },
-    "extend": [
-      "lpack-react"
-    ]
-  },
-  "samplesDev": {
-    "rootFolder": "samples",
-    "libsPath": "./packages",
-    "basedOn": "static",
-    "vars": {
-      "rootAlias": "Samples",
-      "devServer": true,
-      "production": false,
-      "entryPoint": "Samples/index.js",
-      "HtmlWebpackPlugin": {
-        "template": "./samples/index.html.tpl"
-      },
-      "babelPreset": {
-        "targets": {
-          "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
-        },
-        "loose": true
-      },
-      "webpackPatch": {
-        "resolve": {
-          "alias": {
-            "react-voodoo": "Samples/voodoo.js"
-          }
-        }
       }
     },
     "extend": [

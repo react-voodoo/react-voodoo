@@ -25,9 +25,9 @@ It allow :
 - Predictive inertia
 - etc...
 
-## Draft & minimalist samples [here](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo/blob/master/dist.samples/index.html) ( [sources](samples) )
+## Draft & minimalist samples [here](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo-samples/blob/master/index.html) ( [sources](samples) )
 
-## Draft & minimalist doc [here](etc/doc/readme.md)
+## Draft & minimalist doc [here](doc/readme.md)
 
 ## Note
 
@@ -38,15 +38,16 @@ If you're searching production ready animation engine that can do some additive 
 ```jsx harmony
 
 import React from "react";
-import {asTweener, TweenAxis, TweenRef, tweenTools} from "react-voodoo";
+import Voodoo from "react-voodoo";
 import {itemTweenAxis, pageTweenAxisWithTargets} from "./somewhere";
 
-@asTweener
+@Voodoo.tweener
 export default class MyTweenerComp extends React.Component{
 	
 	render() {
+		let {tweener} = this.props;
 		return <div>
-			<TweenAxis
+			<Voodoo.Axis
 				// Tween axis Id 
 				// * scrollY & scrollX automatically receive mouse & touch events
 				axe={"scrollY"}
@@ -82,39 +83,39 @@ export default class MyTweenerComp extends React.Component{
 					}
 			/>
 			
-		    <TweenRef
-			id={"testItem"} // optional id
-			initial={
-				{
-					// css syntax + voodoo tweener units & transform management 
-				}
-			}
-			// Scrollable tween with no id required ( it will be ignored )
-			// * will use scrollY axis as default                 
-			tweenAxis={
-				{
-					scrollY : itemTweenAxis
-				}
-			} 
-			// on(Dbl)Click is forwarder with the tweener component as 2nd arg
-			onClick={
-				(e, tweener)=>{
-					// start playing an anim
-				    tweener.pushAnim(
-					// make all tween target "testItem"
-					tweenTools.target(pushIn, "testItem")
-				    ).then(
-					(tweenAxis) => {
-					   // doSomething next
-					}
-				    );
-			    }
-			}
+		    <Voodoo.Node
+                id={"testItem"} // optional id
+                initial={
+                    {
+                        // css syntax + voodoo tweener units & transform management 
+                    }
+                }
+                // Scrollable tween with no id required ( it will be ignored )
+                // * will use scrollY axis as default                 
+                tweenAxis={
+                    {
+                        scrollY : itemTweenAxis
+                    }
+                } 
+                // on(Dbl)Click is forwarder with the tweener component as 2nd arg
+                onClick={
+                    (e)=>{
+                        // start playing an anim
+                        tweener.pushAnim(
+                        // make all tween target "testItem"
+                        Voodoo.tools.target(pushIn, "testItem")
+                        ).then(
+                        (tweenAxis) => {
+                           // doSomething next
+                        }
+                        );
+                    }
+                }
 		    >
                 <div>
                     Some content to tween
                 </div>
-            </TweenRef>
+            </Voodoo.Node>
 		</div>;
     }
 }
@@ -123,8 +124,6 @@ export default class MyTweenerComp extends React.Component{
 
 ## todo / roadmap ?
 
-- Make generic inputs components to seek tweenAxis (scroll, mouse move, etc ), 
-- Make tweenRefs of tweener comps additive with theirs parents
 - Allow exporting tweenAxis as tweenable css props for parents 
 - Make dynamic animation builder with some tweenRefs query language 
 - Finish css support ( background, borders, ... )

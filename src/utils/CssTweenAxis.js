@@ -31,8 +31,8 @@ export default class CssTweenAxis extends tweenAxis {
 				recyled.mount(cfg, scope);
 			}
 			else {
-				if ( cfg.TweenAxis )
-					recyled.mount(cfg.TweenAxis, scope);
+				if ( cfg.Axis )
+					recyled.mount(cfg.Axis, scope);
 			}
 			return recyled;
 		}

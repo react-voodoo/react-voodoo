@@ -15,8 +15,6217 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-module.exports=function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="/",r(r.s=21)}([function(e,t){e.exports=require("is")},function(e,t){e.exports=require("react")},function(e,t,r){"use strict";r.d(t,"e",(function(){return o})),r.d(t,"f",(function(){return i})),r.d(t,"b",(function(){return a})),r.d(t,"a",(function(){return s})),r.d(t,"c",(function(){return l})),r.d(t,"d",(function(){return c}));var n={margin:{properties:["marginTop","marginRight","marginBottom","marginLeft"]},marginBottom:{types:["length"]},marginLeft:{types:["length"]},marginRight:{types:["length"]},marginTop:{types:["length"]},padding:{properties:["paddingTop","paddingRight","paddingBottom","paddingLeft"]},paddingBottom:{types:["length"]},paddingLeft:{types:["length"]},paddingRight:{types:["length"]},paddingTop:{types:["length"]},bottom:{types:["length-percentage-calc"]},left:{types:["length-percentage-calc"]},right:{types:["length-percentage-calc"]},top:{types:["length-percentage-calc"]},zIndex:{types:["integer"]},width:{types:["length-percentage-calc"]},maxWidth:{types:["length-percentage-calc"]},minWidth:{types:["length-percentage-calc"]},height:{types:["length-percentage-calc"]},maxHeight:{types:["length-percentage-calc"]},minHeight:{types:["length-percentage-calc"]},lineHeight:{types:["number","length"]},verticalAlign:{types:["length"]},visibility:{types:["visibility"]},borderSpacing:{types:["length"],multiple:!0},color:{types:["color"]},opacity:{types:["number"]},background:{properties:["backgroundColor","backgroundPosition","backgroundSize"]},backgroundColor:{types:["color"]},backgroundPosition:{types:["length-percentage-calc"],multiple:!0,repeatable:!0},backgroundSize:{types:["length-percentage-calc"],multiple:!0,repeatable:!0},border:{properties:["borderColor","borderWidth"]},borderBottom:{properties:["borderBottomColor","borderBottomWidth"]},borderLeft:{properties:["borderLeftColor","borderLeftWidth"]},borderRight:{properties:["borderRightColor","borderRightWidth"]},borderTop:{properties:["borderTopColor","borderTopWidth"]},borderColor:{properties:["borderTopColor","borderRightColor","borderBottomColor","borderLeftColor"]},borderWidth:{properties:["borderTopWidth","borderRightWidth","borderBottomWidth","borderLeftWidth"]},borderBottomColor:{types:["color"]},borderLeftColor:{types:["color"]},borderRightColor:{types:["color"]},borderTopColor:{types:["color"]},borderBottomWidth:{types:["length"]},borderLeftWidth:{types:["length"]},borderRightWidth:{types:["length"]},borderTopWidth:{types:["length"]},borderRadius:{properties:["borderTopLeftRadius","borderTopRightRadius","borderBottomRightRadius","borderBottomLeftRadius"]},borderTopLeftRadius:{types:["length-percentage-calc"],multiple:!0},borderTopRightRadius:{types:["length-percentage-calc"],multiple:!0},borderBottomRightRadius:{types:["length-percentage-calc"],multiple:!0},borderBottomLeftRadius:{types:["length-percentage-calc"],multiple:!0},boxShadow:{types:["shadow-list"]},caretColor:{types:["color"]},outline:{properties:["outlineColor","outlineWidth"]},outlineColor:{types:["color"]},outlineWidth:{types:["length"]},outlineOffset:{types:["length"]},flex:{properties:["flexGrow","flexShrink","flexBasis"]},flexGrow:{types:["number"]},flexShrink:{types:["number"]},flexBasis:{types:["length-percentage-calc"]},order:{types:["integer"]},font:{properties:["fontWeight","fontStretch","fontSize","lineHeight"]},fontWeight:{types:["font-weight"]},fontStretch:{types:["font-stretch"]},fontSize:{types:["length"]},fontSizeAdjust:{types:["number"]},gridTemplateColumns:{types:["length-percentage-calc"],multiple:!0},gridTemplateRows:{types:["length-percentage-calc"],multiple:!0},gridTemplate:{properties:["gridTemplateRows","gridTemplateColumns"]},grid:{properties:["gridTemplateRows","gridTemplateColumns"]},gridRowGap:{types:["length-percentage-calc"]},gridColumnGap:{types:["length-percentage-calc"]},gridGap:{properties:["gridRowGap","gridColumnGap"]},clip:{types:["rectangle"]},clipPath:{types:["basic-shape"]},mask:{properties:["maskPosition","maskSize"]},maskPosition:{types:["length-percentage-calc"],multiple:!0,repeatable:!0},maskSize:{types:["length-percentage-calc"],multiple:!0,repeatable:!0},shapeOutside:{types:["basic-shape"]},shapeMargin:{types:["length-percentage-calc"]},shapeImageThreshold:{types:["number"]},scrollPadding:{properties:["scrollPaddingTop","scrollPaddingRight","scrollPaddingBottom","scrollPaddingLeft"]},scrollPaddingTop:{types:["length-percentage-calc"]},scrollPaddingRight:{types:["length-percentage-calc"]},scrollPaddingBottom:{types:["length-percentage-calc"]},scrollPaddingLeft:{types:["length-percentage-calc"]},scrollPaddingBlock:{properties:["scrollPaddingBlockStart","scrollPaddingBlockEnd"]},scrollPaddingBlockStart:{types:["length-percentage-calc"]},scrollPaddingBlockEnd:{types:["length-percentage-calc"]},scrollPaddingInline:{properties:["scrollPaddingInlineStart","scrollPaddingInlineEnd"]},scrollPaddingInlineStart:{types:["length-percentage-calc"]},scrollPaddingInlineEnd:{types:["length-percentage-calc"]},scrollSnapMargin:{properties:["scrollSnapMarginTop","scrollSnapMarginRight","scrollSnapMarginBottom","scrollSnapMarginLeft"]},scrollSnapMarginTop:{types:["length"]},scrollSnapMarginRight:{types:["length"]},scrollSnapMarginBottom:{types:["length"]},scrollSnapMarginLeft:{types:["length"]},scrollSnapMarginBlock:{properties:["scrollSnapMarginBlockStart","scrollSnapMarginBlockEnd"]},scrollSnapMarginBlockStart:{types:["length"]},scrollSnapMarginBlockEnd:{types:["length"]},scrollSnapMarginInline:{properties:["scrollSnapMarginInlineStart","scrollSnapMarginInlineEnd"]},scrollSnapMarginInlineStart:{types:["length"]},scrollSnapMarginInlineEnd:{types:["length"]},textDecoration:{properties:["textDecorationColor"]},textDecorationColor:{types:["color"]},textEmphasis:{properties:["textEmphasisColor"]},textEmphasisColor:{types:["color"]},textShadow:{types:["shadow-list"]},columns:{properties:["columnWidth","columnCount"]},columnWidth:{types:["length"]},columnCount:{types:["integer"]},columnGap:{types:["length-percentage-calc"]},columnRule:{properties:["columnRuleColor","columnRuleWidth"]},columnRuleColor:{types:["color"]},columnRuleWidth:{types:["length"]},letterSpacing:{types:["length"]},tabSize:{types:["length"]},textIndent:{types:["length-percentage-calc"]},wordSpacing:{types:["length-percentage-calc"]},transform:{types:["transform"]},transformOrigin:{types:["length-percentage-calc"],multiple:!0},perspective:{types:["length"]},perspectiveOrigin:{types:["length-percentage-calc"],multiple:!0}},o=["","deg","box","bz","bh","bw","deg","em","ex","%","px","cm","mm","in","pt","pc","ch","rem","vh","vw","vmin","vmax"],i=new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*("+["\\w+","deg","bz","bh","bw","cap","ch","deg","em","ic","ex","%","px","cm","mm","in","pt","pc","ch","rem","vh","vw","vmin","vmax"].join("|")+")"),a=function(e){return void 0===e&&(e=0),Number(e.toFixed(3))};function s(e,t,r){void 0===r&&(r={});var o=n[e],i=o&&o.properties,a=t.split(" ");return o.multiple?i&&i.forEach((function(e,t){r[e]=a[t%a.length]})):i&&i.forEach((function(e,t){a[t]&&(r[e]=a[t])})),r}function l(e){var t=n[e],r=t&&t.properties;return r&&!!r.length}function c(e,t){return!!n[e]}},function(e,t,r){"use strict";r.d(t,"a",(function(){return i})),r.d(t,"b",(function(){return a})),r.d(t,"c",(function(){return s})),r.d(t,"d",(function(){return l})),r.d(t,"e",(function(){return c})),r.d(t,"f",(function(){return u}));var n={},o=r(16).walknSetExport;o(n,"int",r(24)),o(n,"bool",r(25)),o(n,"color",r(14)),o(n,"multi",r(26)),o(n,"ratio",r(27)),o(n,"border",r(28)),o(n,"number",r(13)),o(n,"shadow",r(11));var i=n.bool,a=n.color,s=n.int,l=n.multi,c=n.number,u=n.ratio},function(e,t){e.exports=require("@babel/runtime/helpers/defineProperty")},function(e,t){e.exports=require("@babel/runtime/helpers/inheritsLoose")},function(e,t){e.exports=require("prop-types")},function(e,t){e.exports=require("fast-deep-equal")},function(e,t){e.exports=require("@babel/runtime/helpers/extends")},function(e,t){e.exports=require("react-dom")},function(e,t){e.exports=require("css-box-shadow")},function(e,t,r){"use strict";r.r(t),r.d(t,"release",(function(){return m})),r.d(t,"demuxOne",(function(){return v})),r.d(t,"demux",(function(){return y})),r.d(t,"muxOne",(function(){return b})),r.d(t,"mux",(function(){return w}));var n=r(4),o=r.n(n),i=r(10),a=r.n(i),s=r(0),l=r.n(s),c=r(2),u=r(3);function p(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function f(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?p(Object(r),!0).forEach((function(t){o()(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):p(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}var d={perspective:"px"},h={translateX:"x"},g={inset:u.a,color:u.b};function m(e,t,r,n,o,i){var a,s=e.split("_");if(s.length>2){if(a=s[0]+"_"+s[1]+"_"+s[2],g[s[2]])return g[s[2]].release(e,t,r,n,o,i),n[a]||--n[s[0]][s[1]][s[2]]||i||delete n[s[0]][s[1]][s[2]],void(0!==n[s[0]].length||i||(delete n[s[0]],delete o[s[0]],delete r[s[0]]));if(--n[s[0]][s[1]][s[2]]||i||delete n[s[0]][s[1]][s[2]],!i)for(;n[s[0]].length&&!n[s[0]][n[s[0]].length-1];)n[s[0]].pop();if(--n[a][s[3]]||i||(delete n[a][s[3]],delete t[e]),!i)for(;n[a].length&&!n[a][n[a].length-1];)n[a].pop();if(0!==n[a].length||i||delete n[a],!i)for(;n[s[0]].length&&!Object.keys(n[s[0]][n[s[0]].length-1]).length;)n[s[0]].pop();0!==n[s[0]].length||i||(delete n[s[0]],delete o[s[0]],delete r[s[0]])}else console.log("wtf",s)}function v(e,t,r,n,o,i){var a=r,s=c.e[e]||d[n];return"box"===s&&(a*=i[h[n]]||i.x,s="px"),"bw"===s&&(a*=i.x,s="px"),"wh"===s&&(a*=i.y,s="px"),"bz"===s&&(a*=i.z,s="px"),"deg"===s&&(a%=360),s?Object(c.b)(a)+s:Object(c.b)(a)}function y(e,t,r,n,o){for(var i,s,l,c,u,p,f=[],d={},h=0,m=0;h<n[e].length;h++){for(s in d={},i=n[e][h])if(i.hasOwnProperty(s)){if(c=e+"_"+h+"_"+s,g[s])p=g[s].demux(c,t,void 0,n,o);else{for(p="",m=0,l=0;l<n[c].length;l++)n[c][l]&&(u=v(l,0,t[c+"_"+l],s,0,o),m&&"-"===u[0]?u=" - "+u.substr(1):m&&(u=" + "+u),p+=u,m++);m>1&&(p="calc("+p+")")}d[s]=p||0}f.push(d)}r[e]=a.a.stringify(f)}function b(e,t,r,n,o,i,a,s){var u=!!l.a.string(r)&&r.match(c.f),p=u&&u[2]||d[t]||"px",f=c.e.indexOf(p),h=-1!==f&&e+"_"+f||e;return i[h]=0,o[e][f]=o[e][f]||0,s&&s[f]?n[h]+=u?parseFloat(u[1]):parseFloat(r):(!a&&o[e][f]++,n[h]=u?parseFloat(u[1]):parseFloat(r),s&&(s[f]=!0)),y}var w=function(e,t,r,n,o,i,s){n[e]=n[e]||[],l.a.array(t)||(t=[t]);for(var c,u,p,d,h,m,v,w=0;w<t.length;w++){for(u in c=t[w],l.a.string(c)&&(c=a.a.parse(c)[0]),p=s?{}:f({},n[e][w]||{}),c)if(c.hasOwnProperty(u))if(d=c[u],h=e+"_"+w+"_"+u,p[u]=p[u]||n[e][w]&&n[e][w][u]||0,!i&&p[u]++,g[u])g[u].mux(h,d,r,n,o,i,s);else if(v={},n[h]=n[h]||[],l.a.array(d))for(m=0;m<d.length;m++)b(h,u,d[m]||0,r,n,o,i,v);else b(h,u,d||0,r,n,o,i);n[e][w]=s?f({},p,{},n[e][w]||{},{},p):p}return y}},function(e,t){e.exports=require("@babel/runtime/helpers/assertThisInitialized")},function(e,t,r){"use strict";r.r(t),r.d(t,"release",(function(){return c})),r.d(t,"demuxOne",(function(){return u})),r.d(t,"demux",(function(){return p})),r.d(t,"muxer",(function(){return f})),r.d(t,"muxOne",(function(){return d})),r.d(t,"mux",(function(){return h}));var n=r(0),o=r.n(n),i=r(2),a={left:"px",right:"px",top:"px",bottom:"px",width:"px",height:"px",perspective:"px"},s={left:"x",right:"x",top:"y",bottom:"y",width:"x",height:"y"},l={opacity:0};function c(e,t,r,n,o,i){var a=e.split("_");if(2===a.length){if(--n[a[0]][a[1]]||i||delete t[e],!i)for(;n[a[0]].length&&!n[a[0]][n[a[0]].length-1];)n[a[0]].pop();0!==n[a[0]].length||i||(delete n[a[0]],delete o[a[0]],r&&delete r[a[0]])}else console.log("wtf",a)}function u(e,t,r,n,o){var l=t,c=i.e[e]||a[r]||"px";return"box"===c&&(l*=o[s[r]]||o.x,c="px"),"bw"===c&&(l*=o.x,c="px"),"bh"===c&&(l*=o.y,c="px"),"bz"===c&&(l*=o.z,c="px"),c?Object(i.b)(l)+c:Object(i.b)(l)}function p(e,t,r,n,o,i){var a,s,l,c=0;for(a="",s=0;s<n[e].length;s++)n[e][s]&&(t[l=e+"_"+s]<0?a+=(c?" - ":"-")+u(s,-t[l],i||e,0,o):a+=(c?" + ":"")+u(s,t[l],i||e,0,o),c++);return c>1&&(a="calc("+a+")"),r?r[e]=a:a}function f(e,t,r,n,i,a){n[e]=n[e]||[];var s=[];if(o.a.array(t))for(var l=0;l<t.length;l++)d(e,t[l]||0,r,n,i,a,s);else d(e,t||0,r,n,i,a);return p}function d(e,t,r,n,s,c,u){var f=!!o.a.string(t)&&t.match(i.f),d=f&&f[2]||a[e]||"px",h=i.e.indexOf(d),g=-1!==h&&e+"_"+h||e;return s[g]=l[e]||0,n[e][h]=n[e][h]||0,u&&u[h]?r[g]+=f?parseFloat(f[1]):parseFloat(t):(!c&&n[e][h]++,r[g]=f?parseFloat(f[1]):parseFloat(t),u&&(u[h]=!0)),p}var h=f},function(e,t,r){"use strict";r.r(t),r.d(t,"release",(function(){return i})),r.d(t,"demux",(function(){return a})),r.d(t,"mux",(function(){return s}));var n=r(19),o=r.n(n);function i(e,t,r,n,o,i){var a=e.split("_"),s=a.slice(0,a.length-1).join("_");--n[e]||i||(delete t[e],delete n[e]),--n[s]||i||(delete t[e],delete n[e])}function a(e,t,r,n){var o="rgba("+t[e+"_r"]+", "+t[e+"_g"]+", "+t[e+"_b"]+", "+t[e+"_a"]+")";return r?r[e]=o:o}function s(e,t,r,n,i,s){var l=o()(t);return n[e]=n[e]||0,n[e+"_r"]=n[e+"_r"]||0,n[e+"_g"]=n[e+"_g"]||0,n[e+"_b"]=n[e+"_b"]||0,n[e+"_a"]=n[e+"_a"]||0,s||(n[e]+=4,n[e+"_r"]++,n[e+"_g"]++,n[e+"_b"]++,n[e+"_a"]++),r[e+"_r"]=l[0],r[e+"_g"]=l[1],r[e+"_b"]=l[2],r[e+"_a"]=l[3],i[e]=0,i[e+"_r"]=0,i[e+"_g"]=0,i[e+"_b"]=0,i[e+"_a"]=1,a}},function(e,t){e.exports=require("d3-ease")},function(e,t){e.exports=require("layer-pack/etc/utils/indexUtils.js")},function(e,t){e.exports=require("@babel/runtime/helpers/objectWithoutPropertiesLoose")},function(e,t){e.exports=require("shortid")},function(e,t){e.exports=require("color-rgba")},function(e,t){e.exports=require("tween-axis")},function(e,t,r){e.exports=r(32)},function(e,t,r){"use strict";r.r(t),r.d(t,"release",(function(){return s})),r.d(t,"demux",(function(){return l})),r.d(t,"mux",(function(){return c}));var n=r(0),o=r.n(n),i=r(2),a={blur:"px",brightness:"%",contrast:"%",dropShadow:!0,grayscale:"%",hueRotate:"deg",invert:"%",opacity:"%",saturate:"%",sepia:"%"};function s(e,t,r,n,o,i){var a,s=e.split("_");if(console.log("dec",e,s),4===s.length){if(--n[s[0]][s[1]][s[2]]||i||delete n[s[0]][s[1]][s[2]],0!==Object.keys(n[s[0]][s[1]]).length||i||delete n[s[0]][s[1]],!i)for(;n[s[0]].length&&!n[s[0]][n[s[0]].length-1];)n[s[0]].pop();if(--n[a=s[0]+"_"+s[1]+"_"+s[2]][s[3]]||i||(delete n[a][s[3]],delete t[e],console.log("delete",e)),!i)for(;n[a].length&&!n[a][n[a].length-1];)n[a].pop();0!==n[s[0]+"_"+s[1]+"_"+s[2]].length||i||delete n[s[0]+"_"+s[1]+"_"+s[2]],0!==n[s[0]].length||i||(delete n[s[0]],delete o[s[0]],delete r[s[0]])}else console.log("wtf",s)}function l(e,t,r,n,o){if(n.filter_head===e){var a="";Object.keys(n[e]).forEach((function(r){var o=e+"_"+r;n[e][r]=!0,a+=r+"("+Object(i.b)(t[o],2)+n[o]+") "})),r.filter=a}}var c=function(e,t,r,n,s){return n.filter_head=n.filter_head||e,n[e]=n[e]||{},Object.keys(t).forEach((function(l){var c=t[l],u=e+"_"+l,p=!!o.a.string(c)&&c.match(i.f);n[e][l]=!0,s[u]=0,p?n[u]&&n[u]!==p[2]?(console.warn("Have != units on prop ! Ignore ",u,"present:"+n[u],"new:"+p[2]),r[u]=0):(n[u]=p[2],r[u]=parseFloat(p[1])):(r[u]=c,!n[u]&&l in a&&(n[u]=a[l]))})),l}},function(e,t,r){"use strict";r.r(t);var n=r(11);r.d(t,"release",(function(){return n.release})),r.d(t,"demuxOne",(function(){return n.demuxOne})),r.d(t,"demux",(function(){return n.demux})),r.d(t,"muxOne",(function(){return n.muxOne})),r.d(t,"mux",(function(){return n.mux}))},function(e,t,r){"use strict";r.r(t),r.d(t,"release",(function(){return n})),r.d(t,"demux",(function(){return o})),r.d(t,"mux",(function(){return i}));function n(e,t,r,n,o,i){--n[e]||i||(delete t[e],delete n[e],delete o[e],delete r[e])}function o(e,t,r,n,o){r[e]=~~t[e]}var i=function(e,t,r,n,i,a){return i[e]=0,r[e]=~~t,n[e]=n[e]||0,!a&&n[e]++,o}},function(e,t,r){"use strict";r.r(t),r.d(t,"release",(function(){return o})),r.d(t,"demux",(function(){return i})),r.d(t,"mux",(function(){return a}));var n={opacity:1};function o(e,t,r,n,o,i){--n[e]||i||(delete t[e],delete n[e],delete o[e],delete r[e])}function i(e,t,r,n,o){var i=!!t[e];return r?r[e]=i:i}var a=function(e,t,r,o,a,s){return a[e]=n[e]||0,r[e]=!1===t?0:1,o[e]=o[e]||0,!s&&o[e]++,i}},function(e,t,r){"use strict";r.r(t);var n=r(0),o=r.n(n),i=r(13),a={top:"0%",bottom:"100%",center:"50%",left:"0%",right:"100%"};function s(e,t,r,n,o,a){for(var s=n["_"+e],l="",c={},u=0;u<s;u++)i.demux(e+"_"+u,t,c,n,o,a),l+=c[e+"_"+u]+" ";r[e]=l}function l(e,t,r,n,o,i){e.split("_")}t.default=function(e){return{mux:function(t,r,n,l,c,u){var p,f=r.split(" ");l[t]=l[t]||0,u&&l[t]++,l["_"+t]=e;for(var d=0;d<e;d++)p=f[d%f.length],p=o.a.string(p)&&a[p]||p,i.mux(t+"_"+d,p,n,l,c,u);return s},demux:s,release:l}}},function(e,t,r){"use strict";r.r(t),r.d(t,"release",(function(){return i})),r.d(t,"demux",(function(){return a})),r.d(t,"mux",(function(){return s}));var n=r(2),o={opacity:1};function i(e,t,r,n,o,i){--n[e]||i||(delete t[e],delete n[e],delete o[e],delete r[e])}function a(e,t,r,o,i){r[e]=Math.min(1,Math.max(0,Object(n.b)(t[e])))}var s=function(e,t,r,n,i,s){return i[e]=o[e]||0,r[e]=t,n[e]=n[e]||0,!s&&n[e]++,a}},function(e,t,r){"use strict";r.r(t),r.d(t,"release",(function(){return m})),r.d(t,"demuxOne",(function(){return v})),r.d(t,"demux",(function(){return y})),r.d(t,"muxOne",(function(){return b})),r.d(t,"mux",(function(){return w}));var n=r(4),o=r.n(n),i=r(10),a=r.n(i),s=r(0),l=r.n(s),c=r(2),u=r(3);function p(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function f(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?p(Object(r),!0).forEach((function(t){o()(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):p(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}var d={perspective:"px"},h={translateX:"x"},g={inset:u.a,color:u.b};function m(e,t,r,n,o,i){var a,s=e.split("_");if(s.length>2){if(a=s[0]+"_"+s[1]+"_"+s[2],g[s[2]])return g[s[2]].release(e,t,r,n,o,i),n[a]||--n[s[0]][s[1]][s[2]]||i||delete n[s[0]][s[1]][s[2]],void(0!==n[s[0]].length||i||(delete n[s[0]],delete o[s[0]],delete r[s[0]]));if(--n[s[0]][s[1]][s[2]]||i||delete n[s[0]][s[1]][s[2]],!i)for(;n[s[0]].length&&!n[s[0]][n[s[0]].length-1];)n[s[0]].pop();if(--n[a][s[3]]||i||(delete n[a][s[3]],delete t[e]),!i)for(;n[a].length&&!n[a][n[a].length-1];)n[a].pop();if(0!==n[a].length||i||delete n[a],!i)for(;n[s[0]].length&&!Object.keys(n[s[0]][n[s[0]].length-1]).length;)n[s[0]].pop();0!==n[s[0]].length||i||(delete n[s[0]],delete o[s[0]],delete r[s[0]])}else console.log("wtf",s)}function v(e,t,r,n,o,i){var a=r,s=c.e[e]||d[n];return"box"===s&&(a*=i[h[n]]||i.x,s="px"),"bw"===s&&(a*=i.x,s="px"),"wh"===s&&(a*=i.y,s="px"),"bz"===s&&(a*=i.z,s="px"),"deg"===s&&(a%=360),s?Object(c.b)(a)+s:Object(c.b)(a)}function y(e,t,r,n,o){for(var i,s,l,c,u,p,f=[],d={},h=0,m=0;h<n[e].length;h++){for(s in d={},i=n[e][h])if(i.hasOwnProperty(s)){if(c=e+"_"+h+"_"+s,g[s])p=g[s].demux(c,t,void 0,n,o);else{for(p="",m=0,l=0;l<n[c].length;l++)n[c][l]&&(u=v(l,0,t[c+"_"+l],s,0,o),m&&"-"===u[0]?u=" - "+u.substr(1):m&&(u=" + "+u),p+=u,m++);m>1&&(p="calc("+p+")")}d[s]=p||0}f.push(d)}r[e]=a.a.stringify(f)}function b(e,t,r,n,o,i,a,s){var u=!!l.a.string(r)&&r.match(c.f),p=u&&u[2]||d[t]||"px",f=c.e.indexOf(p),h=-1!==f&&e+"_"+f||e;return i[h]=0,o[e][f]=o[e][f]||0,s&&s[f]?n[h]+=u?parseFloat(u[1]):parseFloat(r):(!a&&o[e][f]++,n[h]=u?parseFloat(u[1]):parseFloat(r),s&&(s[f]=!0)),y}var w=function(e,t,r,n,o,i,s){n[e]=n[e]||[],l.a.array(t)||(t=[t]);for(var c,u,p,d,h,m,v,w=0;w<t.length;w++){for(u in c=t[w],l.a.string(c)&&(c=a.a.parse(c)[0]),p=s?{}:f({},n[e][w]||{}),c)if(c.hasOwnProperty(u))if(d=c[u],h=e+"_"+w+"_"+u,p[u]=p[u]||n[e][w]&&n[e][w][u]||0,!i&&p[u]++,g[u])g[u].mux(h,d,r,n,o,i,s);else if(v={},n[h]=n[h]||[],l.a.array(d))for(m=0;m<d.length;m++)b(h,u,d[m]||0,r,n,o,i,v);else b(h,u,d||0,r,n,o,i);n[e][w]=s?f({},p,{},n[e][w]||{},{},p):p}return y}},function(e,t,r){"use strict";r.r(t),r.d(t,"release",(function(){return d})),r.d(t,"demuxOne",(function(){return h})),r.d(t,"demux",(function(){return g})),r.d(t,"muxOne",(function(){return m})),r.d(t,"mux",(function(){return v}));var n=r(4),o=r.n(n),i=r(0),a=r.n(i),s=r(2);function l(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function c(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?l(Object(r),!0).forEach((function(t){o()(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):l(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}var u={translateX:"px",translateY:"px",translateZ:"px",scale:"",scaleZ:"",scaleX:"",scaleY:"",rotate:"deg",skewX:"deg",skewY:"deg",rotateX:"deg",rotateY:"deg",rotateZ:"deg",perspective:"px"},p={translateX:"x",translateY:"y",translateZ:"z",rotateX:"x",rotateY:"y",rotateZ:"z",left:"x",right:"x",top:"y",bottom:"y",width:"x",height:"y"},f={scale:1,scaleX:1,scaleY:1,scaleZ:1};function d(e,t,r,n,o,i){var a,s=e.split("_");if(4===s.length){if(--n[s[0]][s[1]][s[2]]||i||delete n[s[0]][s[1]][s[2]],!i)for(;n[s[0]].length&&!n[s[0]][n[s[0]].length-1];)n[s[0]].pop();if(--n[a=s[0]+"_"+s[1]+"_"+s[2]][s[3]]||i||(delete n[a][s[3]],delete t[e]),!i)for(;n[a].length&&!n[a][n[a].length-1];)n[a].pop();0!==n[a].length||i||delete n[a],0!==n[s[0]].length||i||(delete n[s[0]],delete o[s[0]],delete r[s[0]])}else console.log("wtf",s)}function h(e,t,r,n,o,i){var a=r,l=s.e[e]||u[n];return"box"===l&&(a*=i[p[n]]||i.x,l="px"),"bw"===l&&(a*=i.x,l="px"),"wh"===l&&(a*=i.y,l="px"),"bz"===l&&(a*=i.z,l="px"),"deg"===l&&(a%=360),l?Object(s.b)(a)+l:Object(s.b)(a)}function g(e,t,r,n,o){for(var i,a,s,l,c,u,p="",f=0,d=0;f<n[e].length;f++)for(a in i=n[e][f])if(i.hasOwnProperty(a)){for(l=e+"_"+f+"_"+a,u="",d=0,s=0;s<n[l].length;s++)n[l][s]&&(c=h(s,0,t[l+"_"+s],a,0,o),d&&"-"===c[0]?c=" - "+c.substr(1):d&&(c=" + "+c),u+=c,d++);d>1&&(u="calc("+u+")"),d>0&&(p+=a+"("+(u||"0")+") ")}r.transform=p}function m(e,t,r,n,o,i,l,c){var p=!!a.a.string(r)&&r.match(s.f),d=p&&p[2]||u[t],h=s.e.indexOf(d),m=-1!==h&&e+"_"+h||e;return i[m]=f[t]||0,o[e][h]=o[e][h]||0,c&&c[h]?n[m]+=p?parseFloat(p[1]):parseFloat(r):(!l&&o[e][h]++,n[m]=p?parseFloat(p[1]):parseFloat(r),c&&(c[h]=!0)),g}var v=function(e,t,r,n,o,i,s){n[e]=n[e]||[],a.a.array(t)||(t=[t]);for(var l,u,p,f,d,h,v,y=0;y<t.length;y++){for(u in l=t[y],p=s?{}:c({},n[e][y]||{}),l)if(l.hasOwnProperty(u))if(f=l[u],v={},d=e+"_"+y+"_"+u,p[u]=p[u]||n[e][y]&&n[e][y][u]||0,!i&&p[u]++,n[d]=n[d]||[],a.a.array(f))for(h=0;h<f.length;h++)m(d,u,f[h]||0,r,n,o,i,v);else m(d,u,f||0,r,n,o,i);n[e][y]=s?c({},p,{},n[e][y]||{},{},p):p}return g}},function(e,t,r){"use strict";r.r(t);var n=r(11);r.d(t,"release",(function(){return n.release})),r.d(t,"demuxOne",(function(){return n.demuxOne})),r.d(t,"demux",(function(){return n.demux})),r.d(t,"muxOne",(function(){return n.muxOne})),r.d(t,"mux",(function(){return n.mux}))},function(e,t,r){"use strict";r.r(t);var n=r(14);r.d(t,"release",(function(){return n.release})),r.d(t,"demux",(function(){return n.demux})),r.d(t,"mux",(function(){return n.mux}))},function(e,t,r){"use strict";r.r(t),r.d(t,"asTweener",(function(){return qe})),r.d(t,"withTweener",(function(){return N})),r.d(t,"tweenTools",(function(){return n})),r.d(t,"Draggable",(function(){return V})),r.d(t,"Tweenable",(function(){return He})),r.d(t,"TweenRef",(function(){return S})),r.d(t,"TweenerContext",(function(){return f})),r.d(t,"TweenAxis",(function(){return d})),r.d(t,"domTools",(function(){return Y}));var n={};r.r(n),r.d(n,"re_cssValueWithUnit",(function(){return J})),r.d(n,"cssAdd",(function(){return K})),r.d(n,"cssMult",(function(){return $})),r.d(n,"offset",(function(){return Q})),r.d(n,"scale",(function(){return ee})),r.d(n,"reverse",(function(){return re})),r.d(n,"addCss",(function(){return oe})),r.d(n,"extractCss",(function(){return ae})),r.d(n,"target",(function(){return se})),r.d(n,"shiftTransforms",(function(){return le}));var o=r(5),i=r.n(o),a=r(1),s=r.n(a),l=r(7),c=r.n(l),u=r(6),p=r.n(u),f=s.a.createContext(null),d=function(e){function t(){for(var t,r=arguments.length,n=new Array(r),o=0;o<r;o++)n[o]=arguments[o];return(t=e.call.apply(e,[this].concat(n))||this).state={},t}i()(t,e);var r=t.prototype;return r.componentWillUnmount=function(){var e=this;this._tweenLines&&Object.keys(this._tweenLines).forEach((function(t){return e._previousTweener.rmScrollableAnim(e._tweenLines[t],t)})),delete this._previousTweener,delete this._previousScrollable},r.render=function(){var e=this,t=this.props,r=(t.children,t.axe),n=t.scrollFirst,o=t.bounds,i=t.scrollableWindow,a=t.inertia,l=t.size,u=t.defaultPosition,p=t.items,d=void 0===p?[]:p;return s.a.createElement(f.Consumer,null,(function(t){return e._previousAxis&&e._previousAxis===r?e._previousInertia&&e._previousInertia===a||(e._previousInertia=a,e._previousAxis=r,t.initAxis(r,{inertia:a,size:l,scrollableWindow:i,defaultPosition:u,scrollFirst:n,scrollableBounds:o})):(e._previousAxis=r,e._previousInertia=a,t.initAxis(r,{inertia:a,size:l,scrollableWindow:i,defaultPosition:u,scrollFirst:n,scrollableBounds:o},!0)),e._previousTweener&&e._previousTweener===t?e._previousTweens===d||e._previousTweens&&c()(d,e._previousTweens)||(e._lastTL&&e._previousTweener&&e._previousTweener.rmScrollableAnim(e._lastTL,e._previousAxis),e._lastTL=null,d.length&&(e._lastTL=t.addScrollableAnim(d,r,l)),e._previousTweens=d):(e._previousTweener&&e._lastTL&&e._previousTweener.rmScrollableAnim(e._lastTL,e._previousAxis),d.length&&(e._lastTL=t.addScrollableAnim(d,r,l)),e._previousTweener=t,e._previousTweens=d),s.a.createElement(s.a.Fragment,null)}))},t}(s.a.Component);d.propTypes={axe:p.a.string.isRequired,items:p.a.array,bounds:p.a.object,inertia:p.a.any,defaultPosition:p.a.number,size:p.a.any};var h=r(17),g=r.n(h),m=r(4),v=r.n(m),y=r(0),b=r.n(y),w=r(18),x=r.n(w);function _(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function O(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?_(Object(r),!0).forEach((function(t){v()(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):_(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}function P(e,t){return e.map((function(e){return O({},e,{target:t})}))}var S=function(e){function t(){for(var t,r=arguments.length,n=new Array(r),o=0;o<r;o++)n[o]=arguments[o];return(t=e.call.apply(e,[this].concat(n))||this).state={},t.__tweenableId=x.a.generate(),t}i()(t,e);var r=t.prototype;return r.componentWillUnmount=function(){var e=this;this._tweenAxisObj&&Object.keys(this._tweenAxisObj).forEach((function(t){return e._currentTweener.rmScrollableAnim(e._tweenAxisObj[t],t)})),this._currentTweener&&(this._currentTweener.rmTweenRef(this.__tweenableId),this._currentTweener.setRootRef(void 0)),delete this._currentTweener,delete this._tweenAxisObj,delete this._previousScrollable},r.render=function(){var e=this,t=this.props,r=t.children,n=t.id,o=void 0===n?this.__tweenableId:n,i=t.style,a=t.initial,l=t.pos,u=t.noRef,p=(t.reset,t.tweener),d=(t.isRoot,t.tweenLines),h=t.tweenAxis,g=void 0===h?d:h,m=t.onClick,v=void 0===m?r&&r.props&&r.props.onClick:m,y=t.onDoubleClick,w=void 0===y?r&&r.props&&r.props.onDoubleClick:y;return s.a.createElement(f.Consumer,null,(function(t){if(!(t=p||t))return console.error("No voodoo tweener found in the context, is there any parent with asTweener ?"),s.a.createElement(s.a.Fragment,null);var n,f=t.tweenRef(o,r.props&&r.props.style,i||a,l,u);e._currentTweener!==t||e._previousScrollable!==g?(n=e._tweenAxis!==g&&!(e._tweenAxis&&c()(g,e._tweenAxis)),e._currentTweener&&n&&e._tweenAxisObj&&Object.keys(e._tweenAxisObj).forEach((function(t){return e._currentTweener.rmScrollableAnim(e._tweenAxisObj[t],t)})),e._currentTweener&&e._currentTweener!==t&&e._currentTweener.rmTweenRef(o),n&&(e._tweenAxis=g,g&&b.a.array(g)?e._tweenAxisObj={scrollY:t.addScrollableAnim(P(g,o))}:e._tweenAxisObj=g&&Object.keys(g).reduce((function(e,r){return e[r]=t.addScrollableAnim(P(g[r],o),r),e}),{}),f=t.tweenRef(o,r.props&&r.props.style,i||a,l,u)),f.style=O({},t._updateTweenRef(o,!0)),e.props.hasOwnProperty("isRoot")&&(e._currentTweener&&e._currentTweener.setRootRef(void 0),p.setRootRef(o)),e._currentTweener=t,e._previousScrollable=g):f&&(f.style=O({},t._updateTweenRef(o,!0)));var d=s.a.Children.only(r);return d&&s.a.isValidElement(d)?(d=s.a.cloneElement(d,O({},f,{onDoubleClick:w&&function(e){return w(e,t)},onClick:v&&function(e){return v(e,t)}})),e._lastRef=f,d):(console.error("Invalid voodoo TweenRef child : ",o),s.a.createElement("div",null,"Invalid"))}))},t}(s.a.Component);S.propTypes={},S.div=function(e){var t=e.children,r=e.className,n=g()(e,["children","className"]);return s.a.createElement(S,n,s.a.createElement("div",{className:r},t))};var R,T,D,j,E,M=r(8),A=r.n(M),k=r(9),C=r.n(k),B=r(0),I="undefined"!=typeof window,L=(I&&(T=" -webkit- -moz- -o- -ms- ".split(" "),!!("ontouchstart"in window||window.DocumentTouch&&document instanceof DocumentTouch)||(R=["(",T.join("touch-enabled),("),"heartz",")"].join(""),window.matchMedia&&window.matchMedia(R).matches)),I?{prefix:/webkit/i.test(navigator.appVersion)?"webkit":/firefox/i.test(navigator.userAgent)?"Moz":/trident/i.test(navigator.userAgent)?"ms":"opera"in window?"O":"",dashedPrefix:/webkit/i.test(navigator.appVersion)?"-webkit-":/firefox/i.test(navigator.userAgent)?"-moz-":/trident/i.test(navigator.userAgent)?"-ms-":"opera"in window?"-o-":""}:{prefix:"",dashedPrefix:""}),W={onPageHided:[],onPageShown:[],dragging:[],dragEnabled:[],dragEnabledDesc:[],fingers:{},nbFingers:0,dragstartAnywhere:function(e){var t,r,n,o=W,i=o.dragEnabled.indexOf(this),a=[];if(-1!==i){o.nbFingers||(F.addEvent(document,{touchmove:o.dragAnywhere,mousemove:o.dragAnywhere,touchend:o.dropAnywhere,mouseup:o.dropAnywhere}),F.addEvent(this,{click:o.dropWithoutClick},null,null,!0)),e.changedTouches&&e.changedTouches.length?a=e.changedTouches:a.push(e);for(var s=0,l=a.length;s<l;s++)if(r=a[s],!(n=o.dragEnabledDesc[i]).nbFingers)for(o.nbFingers++,o.fingers[r.identifier]=o.fingers[r.identifier]||[],o.fingers[r.identifier].push(n),n.nbFingers++,n._startPos.x="MS"==L.prefix?r.x:r.pageX,n._startPos.y="MS"==L.prefix?r.y:r.pageY,n._startTs=e.timeStamp,n._lastPos.x="MS"==L.prefix?r.x:r.pageX,n._lastPos.y="MS"==L.prefix?r.y:r.pageY,t=0;t<n.dragstart.length;t++)n.dragstart[t][0].call(n.dragstart[t][1]||this,e,r,n)}},dragAnywhere:function(e){var t,r,n,o=this,i=W,a=[];W.dragging[0];e.changedTouches&&e.changedTouches.length?a=e.changedTouches:a.push(e);for(var s=0,l=a.length;s<l;s++)r=a[s],i.fingers[r.identifier],i.fingers[r.identifier]&&i.fingers[r.identifier].forEach((function(i){if(n)return i._lastPos.x=i._startPos.x="MS"==L.prefix?r.x:r.pageX,void(i._lastPos.y=i._startPos.y="MS"==L.prefix?r.y:r.pageY);for(i._lastPos.x="MS"==L.prefix?r.x:r.pageX,i._lastPos.y="MS"==L.prefix?r.y:r.pageY,t=0;t<i.drag.length;t++)n=!1===i.drag[t][0].call(i.drag[t][1]||o,e,r,i)}))},dropWithoutClick:function(e){W.preventNextClick&&(e.preventDefault(),e.stopPropagation(),e.stopImmediatePropagation(),W.preventNextClick=!1),F.removeEvent(this,{click:this.dropWithoutClick})},dropAnywhere:function(e){var t,r,n,o=this,i=W,a=[];e.changedTouches&&e.changedTouches.length?a=e.changedTouches:a.push(e);for(var s=0,l=a.length;s<l;s++)r=a[s],i.nbFingers--,i.fingers[r.identifier]&&i.fingers[r.identifier].forEach((function(i){for(i.nbFingers--,n=n||i.mouseDrag&&e.timeStamp-i._startTs>250,i._lastPos.x="MS"==L.prefix?r.x:r.pageX,i._lastPos.y="MS"==L.prefix?r.y:r.pageY,t=0;t<i.dropped.length;t++)i.dropped[t][0].call(i.dropped[t][1]||o,e,r,i)})),i.fingers[r.identifier]=null;n&&(i.preventNextClick=!0),i.nbFingers||F.removeEvent(document,{touchmove:i.dragAnywhere,mousemove:i.dragAnywhere,touchend:i.dropAnywhere,mouseup:i.dropAnywhere})},getDraggable:function(e,t){var r,n=this.dragEnabled.indexOf(e);return-1===n?(this.dragEnabled.push(e),this.dragEnabledDesc.push(r={mouseDrag:t,nbFingers:0,locks:0,_startPos:{x:0,y:0},_lastPos:{x:0,y:0},dragstart:[],drag:[],dragEnd:[],dropped:[]}),F.addEvent(e,{mousedown:t&&this.dragstartAnywhere,touchstart:this.dragstartAnywhere},null,null,!0)):r=this.dragEnabledDesc[n],r},freeDraggable:function(e){var t=this.dragEnabled.indexOf(e);-1!==t&&(this.dragEnabled.splice(t,1),this.dragEnabledDesc.splice(t,1),F.removeEvent(e,{mousedown:this.dragstartAnywhere,touchstart:this.dragstartAnywhere}))},addOverflowEvent:function(e,t){e.addEventListener("OverflowEvent"in window?"overflowchanged":"overflow",(function(e){if("overflow"==e.type||0==e.orient&&1==e.horizontalOverflow||1==e.orient&&1==e.verticalOverflow||2==e.orient&&1==e.horizontalOverflow&&1==e.verticalOverflow)return t.call(this,e)}),!1)},addEvent:function(e,t,r,n){e.addEventListener?e.addEventListener(t,r,n):e.attachEvent&&e.attachEvent("on"+t,r.related=function(t){return r.call(e,t)})},removeEvent:function(e,t,r,n){e.removeEventListener?e.removeEventListener(t,r,n):e.attachEvent&&e.detachEvent("on"+t,r.related)},rmDragFn:function(e,t,r){for(var n=0,o=e.length;n<o;n++)if(e[n][0]===t)return e.splice(n,1);console.warn("Rm event : Listener not found !!")}},F={addEvent:function(e,t,r,n,o){if(B.object(t))for(var i in t)t.hasOwnProperty(i)&&t[i]&&this.addEvent(e,i,t[i],n,o);else"dragstart"==t?W.getDraggable(e,n).dragstart.push([r,n]):"drag"==t?W.getDraggable(e,n).drag.push([r,n]):"dropped"==t?W.getDraggable(e,n).dropped.push([r,n]):e.addEventListener?e.addEventListener(t,r,{passive:!1}):e.attachEvent&&e.attachEvent("on"+t,r.related=function(t){return r.call(e,t)})},removeEvent:function(e,t,r,n,o){var i;if(B.object(t))for(var a in t)t.hasOwnProperty(a)&&this.removeEvent(e,a,t[a],n);else/^(drag|drop)/.test(t)?(i=W.getDraggable(e),W.rmDragFn(i[t],r,n),i.dragstart.length||i.drag.length||i.dragEnd.length||i.dropped.length||W.freeDraggable(e)):e.removeEventListener?e.removeEventListener(t,r,o):e.attachEvent&&e.detachEvent("on"+t,r.related)},offset:function(e){for(var t={top:0,left:0,width:e.offsetWidth,height:e.offsetHeight};e;)t.top=t.top+parseInt(e.offsetTop),t.left=t.left+parseInt(e.offsetLeft),e=e.offsetParent;return t},addWheelEvent:I&&function(e,t){var r,n,o="";e.addEventListener?r="addEventListener":(r="attachEvent","detachEvent",o="on"),n="onwheel"in t.createElement("div")?"wheel":void 0!==t.onmousewheel?"mousewheel":"DOMMouseScroll";function i(e){var t=0,r=0,n=0,o=0;return"detail"in e&&(r=e.detail),"wheelDelta"in e&&(r=-e.wheelDelta/120),"wheelDeltaY"in e&&(r=-e.wheelDeltaY/120),"wheelDeltaX"in e&&(t=-e.wheelDeltaX/120),"axis"in e&&e.axis===e.HORIZONTAL_AXIS&&(t=r,r=0),n=10*t,o=10*r,"deltaY"in e&&(o=e.deltaY),"deltaX"in e&&(n=e.deltaX),(n||o)&&e.deltaMode&&(1==e.deltaMode?(n*=40,o*=40):(n*=800,o*=800)),n&&!t&&(t=n<1?-1:1),o&&!r&&(r=o<1?-1:1),{spinX:t,spinY:r,pixelX:n,pixelY:o}}function a(t,a,s,l,c){t[r](o+a,s._wheelList=function(t){!t&&(t=e.event);var r={originalEvent:t,target:t.target||t.srcElement,type:"wheel",deltaMode:"MozMousePixelScroll"==t.type?0:1,deltaX:0,delatZ:0,preventDefault:function(){t.preventDefault?t.preventDefault():t.returnValue=!1},normalized:i(t)};return r.deltaY="mousewheel"==n?-1/40*t.wheelDelta:"wheel"==n&&"Moz"==L.prefix?t.deltaY/3:"wheel"==n?t.deltaY/100:t.deltaY,s.call(l||this,r)},c||!1)}return function(e,t,r,o){a(e,n,t,r,o),"DOMMouseScroll"==n&&a(e,"MozMousePixelScroll",t,r,o)}}(window,document),rmWheelEvent:I&&function(e,t){var r,n,o="";addEventListener?r="removeEventListener":(r="detachEvent",o="on"),n="onwheel"in t.createElement("div")?"wheel":void 0!==t.onmousewheel?"mousewheel":"DOMMouseScroll";function i(e,t,n,i,a){e[r](o+t,n._wheelList)}return function(e,t,r,o){i(e,n,t,r,o),"DOMMouseScroll"==n&&i(e,"MozMousePixelScroll",t,r,o)}}(window,document),findReactParents:function(e){var t,r=[e];for(var n in e)if(n.startsWith("__reactInternalInstance$")){for(t=e[n];t.return;)t.stateNode&&!r.includes(t.stateNode)&&r.push(t.stateNode),t=t.return;return r}return e.parentNode&&this.findReactParents(e.parentNode)}},Y=F,z={}.constructor;function N(){for(var e=arguments.length,t=new Array(e),r=0;r<e;r++)t[r]=arguments[r];var n=(!t[0]||t[0].prototype instanceof s.a.Component||t[0]===s.a.Component)&&t.shift(),o=(!t[0]||t[0]instanceof z)&&t.shift()||{};if(!n||!(n.prototype instanceof s.a.Component||n===s.a.Component))return function(e){return N(e,o)};var a=function(e){function t(){return e.apply(this,arguments)||this}return i()(t,e),t.prototype.render=function(){var e=this;return s.a.createElement(f.Consumer,null,(function(t){return s.a.createElement(n,A()({},e.props,{tweener:t,ref:e.props.forwardedRef}))}))},t}(s.a.Component);a.displayName=n.displayName||n.name;var l=s.a.forwardRef((function(e,t){return s.a.createElement(a,A()({},e,{forwardedRef:t}))}));return l.displayName=a.displayName,l}function X(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}var V=N((E=j=function(e){function t(){for(var t,r=arguments.length,n=new Array(r),o=0;o<r;o++)n[o]=arguments[o];return(t=e.call.apply(e,[this].concat(n))||this).state={},t._={},t.root=s.a.createRef(),t}i()(t,e);var r=t.prototype;return r.componentWillUnmount=function(){var e,t=null===(e=this.root)||void 0===e?void 0:e.current;this._.scrollEnabled&&(this._.scrollEnabled=!1,t&&this._.dragList&&Y.removeEvent(t,this._.dragList))},r.componentDidMount=function(){this._registerScrollListeners()},r.getScrollableNodes=function(e){var t=this,r=Y.findReactParents(e);this._;return r.map((function(e){return b.a.string(e)?t._.refs[e]&&C.a.findDOMNode(t._.refs[e])||t.refs[e]||document.getElementById(e):e}))},r._registerScrollListeners=function(){var e,t,r,n,o,i,a,s=this,l=null===(e=this.root)||void 0===e?void 0:e.current,c=this.props,u=c.xAxis,p=c.yAxis,f=c.tweener._;l?(Y.addEvent(l,this._.dragList={dragstart:function(e,r,l){var c,f;for(o=s.getScrollableNodes(e.target),t=Date.now(),n=0,i=0,a=[],f=0;f<o.length;f++)(c=o[f]).__isTweener&&c._.scrollEnabled&&(u&&c._getAxis(u),p&&c._getAxis(p))},click:function(e,r,o){!t||t>Date.now()-f.options.maxClickTm&&Math.abs(i)<f.options.maxClickOffset&&Math.abs(n)<f.options.maxClickOffset||(e.preventDefault(),e.stopPropagation())},drag:function(e,s,l){var c,d,h,g,m,v,y,b;if(n=-(l._lastPos.x-l._startPos.x),i=-(l._lastPos.y-l._startPos.y),!(t&&t>Date.now()-f.options.maxClickTm&&Math.abs(i)<f.options.maxClickOffset&&Math.abs(n)<f.options.maxClickOffset))for(g=!n,y=!i,f.options.dragDirectionLock&&("Y"===r||!r&&Math.abs(.5*i)>Math.abs(n)?(r="Y",n=0):("X"===r||!r&&Math.abs(.5*n)>Math.abs(i))&&(r="X",i=0)),b=0;b<o.length;b++)if((c=o[b]).__isTweener&&c._.scrollEnabled){var w,x,_,O,P,S,R,T,D,j;if(d=u&&c._getAxis(u),m=p&&c._getAxis(p),!a[b])a[b]={x:null===(P=d)||void 0===P?void 0:P.scrollPos,y:null===(S=m)||void 0===S?void 0:S.scrollPos},null===(R=d)||void 0===R||null===(T=R.inertia)||void 0===T||T.startMove(),null===(D=m)||void 0===D||null===(j=D.inertia)||void 0===j||j.startMove(),u&&!d.inertiaFrame&&c.applyInertia(d,u),p&&!m.inertiaFrame&&c.applyInertia(m,p);d&&(h=n&&n/c._.box.x*(d.scrollableWindow||d.scrollableArea)||0),m&&(v=i&&i/c._.box.y*(m.scrollableWindow||m.scrollableArea)||0),!g&&h&&(null===(w=d)||void 0===w||null===(x=w.inertia)||void 0===x?void 0:x.isInbound(a[b].x+h))&&c.componentShouldScroll(u,h)&&(d.inertia.hold(a[b].x+h),g=!0),!y&&v&&(null===(_=m)||void 0===_||null===(O=_.inertia)||void 0===O?void 0:O.isInbound(a[b].y+v))&&c.componentShouldScroll(p,v)&&(m.inertia.hold(a[b].y+v),y=!0)}},dropped:function(e,s,l){var c,d;for(r=void 0,d=0;d<o.length;d++){var h,g,m,v;if((c=o[d]).__isTweener&&c._.scrollEnabled&&a[d])null===(h=c._getAxis(u))||void 0===h||null===(g=h.inertia)||void 0===g||g.release(),null===(m=c._getAxis(p))||void 0===m||null===(v=m.inertia)||void 0===v||v.release()}!t||t>Date.now()-f.options.maxClickTm&&Math.abs(i)<f.options.maxClickOffset&&Math.abs(n)<f.options.maxClickOffset||(e.stopPropagation(),e.cancelable&&e.preventDefault()),o=a=null}},null,f.options.enableMouseDrag),this._.doRegister=!!l):this._.doRegister=!0},r.getProps=function(){var e=this.props;return delete(e=function(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?X(Object(r),!0).forEach((function(t){v()(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):X(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}({},e)).Comp,delete e.xAxis,delete e.yAxis,delete e.tweener,delete e.forwardedRef,e},r.render=function(){var e=this.props,t=e.children,r=e.Comp;e.forwardedRef,e.items;return s.a.createElement(r,A()({},this.getProps(),{ref:this.root}),t)},t}(s.a.Component),j.propTypes={xAxis:p.a.string,yAxis:p.a.string},j.defaultProps={Comp:"div"},D=E))||D;V.div=function(e){return s.a.createElement(V,e)};var q=r(12),H=r.n(q),U=r(15);function G(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function Z(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?G(Object(r),!0).forEach((function(t){v()(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):G(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}var J=new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*("+["box","bz","bh","bw","em","ex","%","px","cm","mm","in","pt","pc","ch","rem","vh","vw","vmin","vmax"].join("|")+")");function K(e,t){b.a.array(e)||(e=[e]),b.a.array(t)||(t=[t]);var r,n=e.map((function(e){return e&&e.match&&e.match(J)||[,e||0,"px"]})),o=t.map((function(e){return e&&e.match&&e.match(J)||[,e||0,"px"]})),i={},a=[];for(r=0;r<n.length;)i[n[r][2]]=i[n[r][2]]||0,i[n[r][2]]+=parseFloat(n[r][1]),r++;for(r=0;r<o.length;)i[o[r][2]]=i[o[r][2]]||0,i[o[r][2]]+=parseFloat(o[r][1]),r++;Object.keys(i).forEach((function(e){return a.push(i[e]+e)}));for(var s=arguments.length,l=new Array(s>2?s-2:0),c=2;c<s;c++)l[c-2]=arguments[c];return l.length?K.apply(void 0,[a].concat(l)):a}function $(e,t){b.a.array(e)||(e=[e]);var r,n=e.map((function(e){return e&&e.match&&e.match(J)||[,e||0,"px"]})),o={},i=[];for(r=0;r<n.length;)o[n[r][2]]=o[n[r][2]]||1,o[n[r][2]]=parseFloat(n[r][1])*t,r++;return Object.keys(o).forEach((function(e){return i.push(o[e]+e)})),i}function Q(e,t){return void 0===t&&(t=0),(e=b.a.array(e)?e:e&&[e]||e).map((function(e){return Z({},e,{from:e.from+t})}))}function ee(e,t,r){void 0===t&&(t=0),e=b.a.array(e)?e:e&&[e]||e;var n=0;return e.forEach((function(e){n=Math.max(n,e.from+e.duration)})),e=e.map((function(e){return Z({},e,{from:e.from/n*t,duration:e.duration/n*t})})),r?Q(e,r):e}function te(e){return b.a.number(e)?-e:b.a.object(e)?Object.keys(e).reduce((function(t,r){return t[r]=te(e[r]),t}),{}):b.a.array(e)?e.map((function(e){return te(e)})):e.split(/(\-?\d+(?:\.\d+)?|\-?\.\d+)/gi).map((function(e,t){return t%2?-parseFloat(e):e})).join("")}function re(e){e=b.a.array(e)?e:e&&[e]||e;var t=0;return e.forEach((function(e){t=Math.max(t,e.from+e.duration)})),e.map((function(e){return e=Z({},e,{from:t-(e.from+e.duration)},e.apply?{apply:te(e.apply)}:void 0)}))}var ne={transform:!0,filter:!0,textShadow:!0,boxShadow:!0};function oe(e){for(var t=arguments.length,r=new Array(t>1?t-1:0),n=1;n<t;n++)r[n-1]=arguments[n];var o=r.shift();for(var i in o){var a;if(o.hasOwnProperty(i))if(ne[i])e[i]||(e[i]=[]),b.a.array(o[i])?oe(e[i],o[i]):oe(e[i],[o[i]]);else if(b.a.array(o[i]))e[i]||(e[i]=[]),b.a.array(e[i])?(a=e[i]).push.apply(a,o[i]):e[i]=[].concat(o[i],[e[i]]);else e[i]?b.a.object(e[i])&&b.a.object(o[i])?oe(e[i],o[i]):e[i]=ie(e[i],o[i]):b.a.object(o[i])?e[i]=Z({},o[i]):e[i]=o[i]}return r.length&&oe.apply(void 0,[e].concat(r))||e}function ie(e,t){if(!e)return t;if(!t)return e;var r=(""+e).split(/(\-?\d+(?:\.\d+)?|\-?\.\d+)/gi),n=(""+t).split(/(\-?\d+(?:\.\d+)?|\-?\.\d+)/gi),o=r.map((function(e,t){return t%2?parseFloat(e)+parseFloat(n[t]||0):e})).filter((function(e){return""!==e}));return 1===o.length?parseInt(o[0]):o.join("")}function ae(e,t){var r={};return(e=b.a.array(e)?e:e&&[e]||e).forEach((function(e){oe(r,e.apply)})),t&&(r=te(r)),r}function se(e,t){return(e=b.a.array(e)?e:e&&[e]||e).map((function(e){return Z({},e,{target:t})}))}function le(e,t){return void 0===t&&(t=1),(e=b.a.array(e)?e:e&&[e]||e).map((function(e){var r=e.apply&&e.apply.transform;if(r){r=b.a.array(r)?r:[r];for(var n=0;n<t;n++)r.unshift({});e=Z({},e,{apply:Z({},e.apply,{transform:r})})}return e}))}var ce=r(2),ue={},pe=r(16).walknSetExport;pe(ue,"filter",r(22)),pe(ue,"boxShadow",r(23)),pe(ue,"transform",r(29)),pe(ue,"textShadow",r(30)),pe(ue,"backgroundColor",r(31));var fe=ue,de=r(3);function he(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function ge(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?he(Object(r),!0).forEach((function(t){v()(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):he(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}var me=ge({},fe,{height:de.e,width:de.e,top:de.e,left:de.e,right:de.e,bottom:de.e,marginTop:de.e,marginLeft:de.e,marginRight:de.e,marginBottom:de.e,paddingTop:de.e,paddingLeft:de.e,paddingRight:de.e,paddingBottom:de.e,borderRadius:de.e,transformOrigin:Object(de.d)(2),zIndex:de.c,opacity:de.f});function ve(e,t,r,n,o,i,a){var s=t.split("_");me[s[0]]&&me[s[0]].release(t,r,n,o,i,a)}function ye(e,t,r,n,o){Object.keys(r).forEach((function(i){r[i].demux(i,e,t,n,o)}))}function be(e,t,r,n,o,i,a){var s={},l={};return Object.keys(e).forEach((function(t){me[t]?s[t]=e[t]:Object(ce.d)(t,e[t])?Object(ce.c)(t)?Object(ce.a)(t,e[t],s):s[t]=e[t]:l[t]=e[t]})),Object.keys(s).forEach((function(e){me[e]?(o[e]=me[e]).mux(e,s[e],t,n,r,i,a):(o[e]=de.e).mux(e,s[e],t,n,r,i,a)})),l}function we(e,t,r,n,o){o=o&&{};var i={},a=e.reduce((function(e,a){var s={};return n[a.target]=n[a.target]||{},t[a.target]=t[a.target]||{},r[a.target]=r[a.target]||{},a.type&&"Tween"!==a.type?e.push(ge({},a)):(!o&&oe(i[a.target]=i[a.target]||{},a.apply),be(a.apply,s,t[a.target],r[a.target],n[a.target],!0),e.push(ge({},a,{apply:s}))),e}),[]);return!o&&Object.keys(i).forEach((function(e){return be(i[e],{},{},r[e],n[e])})),a}var xe=r(20),_e=[],Oe=function(e){function t(t,r){var n;if(_e.length){var o=_e.pop();return o.scope=r,b.a.array(t)?(o.localLength=1,o.mount(t,r)):t.TweenAxis&&o.mount(t.TweenAxis,r),o||H()(n)}return e.apply(this,arguments)||this}return i()(t,e),t.prototype.destroy=function(){this.scope=void 0,this.__marks.length=0,this.__marksLength.length=0,this.__marksKeys.length=0,this.__processors.length=0,this.__config.length=0,this.__activeForks.length=0,this.__activeProcess.length=0,this.__activeProcess.length=0,this.__outgoing.length=0,this.__incoming.length=0,this.__cPos=0,this.duration=0,this.__cIndex=0,this.__cMaxKey=1,_e.push(this)},t}(r.n(xe).a);function Pe(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}var Se=r(0),Re=r(15),Te=function(e){return"number"==typeof e?e?e<0?-1:1:e==e?e:NaN:NaN},De=Math.abs,je=Math.floor,Ee=(Math.round,Math.min),Me=Math.max,Ae=function(e){return void 0===e&&(e=0),e.toFixed(3)};var ke=function(){function e(e){var t=this._={};t.conf=function(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?Pe(Object(r),!0).forEach((function(t){v()(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):Pe(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}({},this.constructor.config,{},e),this.active=!1,t.pos=e.value||0,t.refFPS=16,t.min=e.min||0,t.max=e.max||0,t.currentStop=0,t.lastInertiaPos=0,t.stops=t.conf.stops,t.disabled=t.conf.disabled,t.wayPoints=t.conf.wayPoints,t.inertiaFn=Re.easePolyOut,t.targetWayPointIndex=0,this._detectCurrentSnap()}var t=e.prototype;return t.update=function(e){void 0===e&&(e=Date.now());var t,r,n=this._,o=n.inertiaFn((e-n.inertiaStartTm)/n.targetDuration)*n.targetDist;if(!n.inertia)return n.pos;var i=o-n.lastInertiaPos;if(n.lastInertiaPos=o,e-n.inertiaStartTm>=n.targetDuration&&(n.inertia=this.active=!1,n.lastInertiaPos=i=0,n.targetDist=0,n.targetWayPoint&&(i=n.targetWayPoint.at-n.pos,n.currentWayPoint=n.targetWayPoint,n.currentWayPointIndex=n.targetWayPointIndex,n.targetWayPoint=null,n.targetWayPointIndex=null),n.conf.onInertiaEnd&&n.conf.onInertiaEnd(n.pos,n.currentWayPoint)),i=i||0,t=n.pos+i,i&&n.conf.shouldLoop)for(;r=n.conf.shouldLoop(t,i);)t+=r;return n.pos=t,t},t.setPos=function(e){var t=this._;t.inertia=!1,this.active=!1,t.lastInertiaPos=0,t.targetDist=0,t.pos=e,t.conf.bounds&&(t.pos=Me(t.pos,t.min),t.pos=Ee(t.pos,t.max))},t.setWayPoints=function(e){this._.wayPoints=e,this._detectCurrentSnap()},t.teleport=function(e){var t=this._;if(!t.inertia)return t.pos+=e;t.pos+=e},t.dispatch=function(e,t){void 0===t&&(t=500);var r=this._,n=Date.now();this.active=!0,r.inertia&&Te(e)===Te(r.targetDist)?(r.targetDist+=e,r.targetDuration+=t/2):(r.inertia=!0,r.lastInertiaPos=0,r.inertiaStartTm=r.inertiaLastTm=n,r.targetDist=e,r.targetDuration=t),r.conf.bounds&&(r.pos+r.targetDist>r.max?(r.targetDist=r.max-r.pos,r.targetDuration=De(10*r.targetDist)):r.pos+r.targetDist<r.min&&(r.targetDist=r.min-r.pos,r.targetDuration=De(10*r.targetDist))),this._doSnap(Te(e),750)},t._detectCurrentSnap=function(){var e,t=this._,r=t.pos;if(t.wayPoints&&t.wayPoints.length)for(e=0;e<t.wayPoints.length;e++)if(Ae(t.wayPoints[e].at)===Ae(r))return t.currentWayPoint=t.wayPoints[e],t.currentWayPointIndex=e,e},t._doSnap=function(e,t){void 0===t&&(t=2e3);var r,n,o,i=this._,a=i.targetDist+(i.pos-(i.lastInertiaPos||0));if(i.wayPoints&&i.wayPoints.length){for(o=0;o<i.wayPoints.length&&!(i.wayPoints[o].at>a);o++);if(o===i.wayPoints.length?o--:0===o?o=0:(n=i.wayPoints[o-1].at+(i.wayPoints[o].at-i.wayPoints[o-1].at)/2,e?e<0&&o--:a<n&&o--),i.conf.maxJump&&Se.number(i.currentWayPointIndex)){var s=o-i.currentWayPointIndex;De(s)>i.conf.maxJump&&(o=i.currentWayPointIndex+Te(s)*i.conf.maxJump)}r=i.wayPoints[o].at,i.conf.willSnap&&i.conf.willSnap(o,i.wayPoints[o]),i.lastInertiaPos=i.lastInertiaPos||0,r-=i.pos-i.lastInertiaPos,i.targetDuration=Me(50,Ee(t,De(i.targetDuration/i.targetDist*r)))||0,i.targetDist=r,i.targetWayPoint=i.wayPoints[o],i.targetWayPointIndex=o}else r=~~(i.pos-i.lastInertiaPos),i.conf.infinite||(r>i.max?(r=i.max-r,i.targetDuration=Ee(t,De(i.targetDuration/i.targetDist*r)),i.targetDist=r):r<i.min&&(r=i.min-r,i.targetDuration=Ee(t,De(i.targetDuration/i.targetDist*r)),i.targetDist=r))},t.setBounds=function(e,t){var r=this._;r.min=e,r.max=t},t.startMove=function(){var e=this._;e.baseTS=e.startTS=Date.now()/1e3,e.lastVelocity=e.lastIVelocity=0,e.lastAccel=0,e.posDiff=0,this.active=!0,this.holding=!0,e.inertia=!1},t.isInbound=function(e){var t=this._,r=void 0!==t.lastHoldPos?e-t.lastHoldPos:0,n=(t.targetDist||0)+(t.pos-(t.lastInertiaPos||0))+r;
-//!(pos >= _.min && pos <= _.max) && console.warn("out", _.pos, pos, delta);
-return n>=t.min&&n<=t.max},t.hold=function(e){var t,r=this._,n=void 0!==r.lastHoldPos?e-r.lastHoldPos:0;if(r.lastHoldPos=e,n&&r.conf.shouldLoop)for(;t=r.conf.shouldLoop(r.pos,n);)r.pos+=t;var o=Date.now()/1e3,i=o-r.baseTS,a=r.pos+n,s=n/i;r.lastIVelocity=s,r.lastVelocity=s,r.baseTS=o,r.targetDist=0,r.lastInertiaPos=0,r.targetWayPoint=void 0,r.targetWayPointIndex=void 0,r.conf.bounds&&(a>r.max?a=r.max:a<r.min&&(a=r.min)),r.pos=a},t.release=function(){var e=this._;Te(e.lastVelocity);this.holding=!1,function(e){var t=Te(e.lastVelocity);e.disabled?(e.loopsTarget=0,e.loopsVelSum=0,e.targetDist=0,e.targetDuration=0):(e.loopsTarget=je(Math.log(.05/De(e.lastVelocity))/Math.log(.9)),e.loopsVelSum=(Math.pow(.9,e.loopsTarget)-De(e.lastVelocity))/(.9-1),e.targetDist=e.loopsVelSum*e.refFPS*t/1e3||0,e.targetDuration=De(e.loopsTarget*e.refFPS*t)||0)}(e),e.lastHoldPos=void 0,e.holding=!1,e.conf.bounds&&e.conf.snapToBounds&&(e.pos+e.targetDist>e.max?(e.targetDist=e.max-e.pos,e.targetDuration=De(10*e.targetDist)):e.pos+e.targetDist<e.min&&(e.targetDist=e.min-e.pos,e.targetDuration=De(10*e.targetDist))),e.targetDuration||(e.targetDuration=50),this.active=!0,e.inertia=!0,e.lastInertiaPos=0,e.inertiaStartTm=e.inertiaLastTm=Date.now(),this._doSnap(null,500)},e}();function Ce(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function Be(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?Ce(Object(r),!0).forEach((function(t){v()(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):Ce(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}ke.config={bounds:!0,snapToBounds:!0};var Ie,Le,We,Fe=new Function("try {return this===window;}catch(e){ return false;}")(),Ye=b.a.array,ze=[],Ne={}.constructor,Xe=function e(){var t=0,r=Date.now(),n=r-Le;for(Le=r;t<ze.length;t++)ze[t].cpos=Math.min(n+ze[t].cpos,ze[t].duration),ze[t].apply(ze[t].cpos,ze[t].duration),ze[t].cpos==ze[t].duration&&(ze[t].cb&&setTimeout(ze[t].cb),ze.splice(t,1),t--);ze.length?setTimeout(e,16):Ie=!1},Ve=function(e){function t(t){var r;(r=e.apply(this,arguments)||this)._updateNodeInertia=function(){var e,t=r._,n=t.activeInertia.length;r._inertiaRaf&&cancelAnimationFrame(r._inertiaRaf);for(var o=0;n>o;o++)((e=t.activeInertia[o]).inertia.x.active||e.inertia.x.holding)&&(e.target.scrollLeft=~~e.inertia.x.update()),(e.inertia.y.active||e.inertia.y.holding)&&(e.target.scrollTop=~~e.inertia.y.update()),e.inertia.x.active||e.inertia.y.active||e.inertia.x.holding||e.inertia.y.holding||(t.activeInertia.slice(o,1),o--,n--);r._inertiaRaf=0!==n?requestAnimationFrame(r._updateNodeInertia):null},r._swap={};var n=r._={refs:{},muxByTarget:{}};return n.box={x:100,y:100,z:800},n._rafLoop=r._rafLoop.bind(H()(r)),n.rootRef=r.props.forwardedRef||s.a.createRef(),r.__isTweener=!0,n.options=Be({enableMouseScroll:!0},t.tweenerOptions||{}),n.tweenRefCSS={},n.tweenRefs={},n.tweenRefMaps={},n.iMapOrigin={},n.tweenRefInitialData={},n.tweenEnabled=!0,n.tweenRefOrigin={},n.tweenRefOriginCss={},n.axes={},n.muxDataByTarget=n.muxDataByTarget||{},n.tweenRefDemuxed=n.tweenRefDemuxed||{},n.tweenRefTargets=n.tweenRefTargets||[],n.runningAnims=n.runningAnims||[],Fe&&window.addEventListener("resize",r._.onResize=function(e){var t,o,i;r._updateBox(),r._updateTweenRefs(),null===(t=n.rootRef)||void 0===t||null===(o=t.current)||void 0===o||null===(i=o.windowDidResize)||void 0===i||i.call(o,e)}),r}i()(t,e);var r=t.prototype;return r.tweenRef=function(e,t,r,n,o,i){void 0===t&&(t={}),void 0===r&&(r={});var a=this._,s={},l={};return a.tweenRefs[e]||a.tweenRefTargets.push(e),a.tweenRefs[e]&&(i||a.iMapOrigin[e]!==r&&!c()(r,a.iMapOrigin[e])||a.tweenRefOriginCss[e]!==t&&!c()(t,a.tweenRefOriginCss[e]))?(a.iMapOrigin[e]=r,a.tweenRefOriginCss[e]=t,t=Be({},t=t||{},{},be(r=r||{},s,l,a.muxDataByTarget[e],a.muxByTarget[e],!1,!0)),Object.keys(a.tweenRefOrigin[e]).forEach((function(t){return a.tweenRefMaps[e][t]-=a.tweenRefOrigin[e][t]})),Object.keys(l).forEach((function(t){return a.tweenRefMaps[e][t]=b.a.number(a.tweenRefMaps[e][t])?a.tweenRefMaps[e][t]:l[t]})),Object.keys(s).forEach((function(t){return a.tweenRefMaps[e][t]+=s[t]})),Object.keys(a.tweenRefOrigin[e]).forEach((function(t){ve(0,t,a.tweenRefMaps[e],a.tweenRefCSS[e],a.muxDataByTarget[e],a.muxByTarget[e])})),a.tweenRefOrigin[e]=Be({},s),ye(a.tweenRefMaps[e],a.tweenRefCSS[e],a.muxByTarget[e],a.muxDataByTarget[e],a.box),this._updateTweenRef(e,!0)):a.tweenRefs[e]?ye(a.tweenRefMaps[e],a.tweenRefCSS[e],a.muxByTarget[e],a.muxDataByTarget[e],a.box):(a.iMapOrigin[e]=r,t=t||{},r=r||{},a.tweenRefs[e]=!0,a.muxByTarget[e]=a.muxByTarget[e]||{},a.muxDataByTarget[e]=a.muxDataByTarget[e]||{},a.tweenRefOriginCss[e]=t,a.tweenRefMaps[e]=a.tweenRefMaps[e]||{},a.tweenRefOrigin[e]?(t=Be({},t,{},be(r,s,l,a.muxDataByTarget[e],a.muxByTarget[e],!1,!0)),Object.keys(l).forEach((function(t){return a.tweenRefMaps[e][t]=b.a.number(a.tweenRefMaps[e][t])?a.tweenRefMaps[e][t]-l[t]:0})),Object.keys(s).forEach((function(t){return a.tweenRefMaps[e][t]+=s[t]}))):(t=Be({},t,{},be(r,s,l,a.muxDataByTarget[e],a.muxByTarget[e])),s=Object.assign({},l,s||{}),Object.keys(s).forEach((function(t){return a.tweenRefMaps[e][t]=(a.tweenRefMaps[e][t]||0)+s[t]}))),a.tweenRefOrigin[e]=Be({},s),a.tweenRefCSS[e]=t,ye(s=a.tweenRefMaps[e],t,a.muxByTarget[e],a.muxDataByTarget[e],a.box)),o?{style:Be({},a.tweenRefCSS[e])}:{style:Be({},a.tweenRefCSS[e]),ref:function(t){return a.refs[e]=t}}},r.preInitRef=function(e,t){},r.rmTweenRef=function(e){this._.tweenRefs[e]&&(this._.tweenRefTargets.splice(this._.tweenRefTargets.indexOf(e),1),delete this._.tweenRefs[e],delete this._.muxByTarget[e],delete this._.muxDataByTarget[e],delete this._.iMapOrigin[e],delete this._.tweenRefOrigin[e],delete this._.tweenRefCSS[e],delete this._.tweenRefMaps[e],delete this._.refs[e])},r.resetTweenable=function(){for(var e=this,t=this._,r=arguments.length,n=new Array(r),o=0;o<r;o++)n[o]=arguments[o];n.forEach((function(r){e.tweenRef(r,t.tweenRefOriginCss[r],t.iMapOrigin[r],null,null,!0)})),this._updateTweenRefs()},r.updateRefStyle=function(e,t,r){var n,o=this,i=this._;return Ye(e)&&Ye(t)?e.map((function(e,n){return o.updateRefStyle(e,t[n],r)})):Ye(e)?e.map((function(e){return o.updateRefStyle(e,t,r)})):(n=be(t,i.tweenRefMaps[e],{},i.muxDataByTarget[e],i.muxByTarget[e]),Object.assign(i.tweenRefCSS[e],n),Object.assign(i.tweenRefOriginCss[e],n),ye(i.tweenRefMaps[e],i.tweenRefCSS[e],i.muxByTarget[e],i.muxDataByTarget[e],i.box),void this._updateTweenRef(e,!0))},r.getTweenableRef=function(e){return this._.refs[e]&&C.a.findDOMNode(this._.refs[e])},r.getRootNode=function(){return this._.rootRef&&this.getTweenableRef(this._.rootRef)||C.a.findDOMNode(this)},r.pushAnim=function(e,r,n){var o=this;void 0===n&&(n=!0);var i,a,s=this._,l={};if(Ye(e)?i=e:(i=e.anims,e.initial),i instanceof Oe||(i=we(i,l,this._.muxDataByTarget,this._.muxByTarget),i=new Oe(i,this._.tweenRefMaps),Object.keys(l).forEach((function(e){return o._.tweenRefMaps[e]&&Object.assign(o._.tweenRefMaps[e],Be({},l[e],{},o._.tweenRefMaps[e]))||(a=console.warn("react-voodoo : Can't find tween target ",e," in ",t.displayName)||!0)}))),!a)return new Promise((function(e){i.run(o._.tweenRefMaps,(function(){var t=o._.runningAnims.indexOf(i);-1!=t&&o._.runningAnims.splice(t,1),Object.keys(l).forEach((function(e){Object.keys(l[e]).forEach((function(t){ve(0,t,s.tweenRefMaps[e],s.tweenRefCSS[e],s.muxDataByTarget[e],s.muxByTarget[e],n)}))})),i.destroy(),e(i)})),o._.runningAnims.push(i),o._.live||(o._.live=!0,requestAnimationFrame(o._._rafLoop=o._._rafLoop||o._rafLoop.bind(o)))})).then((function(e){return r&&r(e)}))},r.applyTweenState=function(e,t,r){var n=this,o={},i={};be(t,o,i,this._.muxDataByTarget[e],this._.muxByTarget[e],!0),Object.keys(o).map((function(t){return n._.tweenRefMaps[e][t]=(!r&&n._.tweenRefMaps[e][t]||i[t])+o[t]}))},r.initAxis=function(e,t,r){var n,o,i=t.inertia,a=t.scrollableArea,s=void 0===a?0:a,l=t.scrollableBounds,c=t.scrollableWindow,u=t.defaultPosition,p=t.scrollFirst;this.makeScrollable();var f=this._.axes[e],d=l,h=!r&&f?f.scrollPos:u||d&&d.min||0,g=Math.max(f&&f.scrollableArea||0,s),m=Math.max(f&&f.scrollableWindow||0,c),v=f?f.targetPos:h,y=f?f.inertia:new ke(Be({disabled:!i},i||{},{value:h})),b={scrollFirst:p,tweenAxis:f&&f.tweenAxis||[],scrollPos:h,targetPos:v,inertia:y,scrollableWindow:m,scrollableBounds:d,scrollableArea:g};this._.axes[e]=b,!i&&(y._.disabled=!0),i&&y&&(y._.wayPoints=i.wayPoints),i&&y&&!y.active&&(y._.pos=h),y&&d?null===(n=y.setBounds)||void 0===n||n.call(y,d.min,d.max):y&&(null===(o=y.setBounds)||void 0===o||o.call(y,0,g))},r._getAxis=function(e){void 0===e&&(e="scrollY");var t=this._;return t.axes[e]=t.axes[e]||{tweenAxis:[],scrollPos:t.options.initialScrollPos&&t.options.initialScrollPos[e]||0,targetPos:0,scrollableWindow:0,scrollableArea:0,inertia:new ke(Be({value:t.options.initialScrollPos&&t.options.initialScrollPos[e]||0},t.options.axes&&t.options.axes[e]&&t.options.axes[e].inertia||{}))},t.axes[e]},r.getAxisState=function(e){var t=this._,r={};return t.axes&&Object.keys(t.axes).forEach((function(e){return r[e]=t.axes[e].targetPos||t.axes[e].scrollPos})),r},r.getScrollPos=function(e){void 0===e&&(e="scrollY");var t=this._;return t.axes[e]?t.axes[e].targetPos||t.axes[e].scrollPos:0},r.scrollTo=function(e,t,r,n){var o=this;void 0===t&&(t=0),void 0===r&&(r="scrollY");var i=this._;return new Promise((function(a,s){if(i.axes&&i.axes[r]){var l=i.axes[r].targetPos,c=function(e){var t,n,a,s,c,u;e=~~(1e4*e)/1e4,i.axes[r].targetPos=i.axes[r].scrollPos=e,null===(t=i.axes)||void 0===t||null===(n=t[r])||void 0===n||null===(a=n.inertia)||void 0===a||a.setPos(e),~~e!==l&&(null===(s=i.rootRef)||void 0===s||null===(c=s.current)||void 0===c||null===(u=c.componentDidScroll)||void 0===u||u.call(c,~~e,r)),o._updateTweenRefs()};e=Math.max(0,e),e=Math.min(e,i.axes[r].scrollableArea||0),i.axes[r].targetPos=e,t?o._runScrollGoTo(r,e,t,U[n],c,a):(i.axes[r].tweenAxis.forEach((function(t){return t.goTo(e,i.tweenRefMaps)})),c(e),a()),i.live||(i.live=!0,requestAnimationFrame(i._rafLoop))}})).then((function(e){var t,n,o;null===(t=i.axes)||void 0===t||null===(n=t[r])||void 0===n||null===(o=n.inertia)||void 0===o||o._detectCurrentSnap()}))},r.addScrollableAnim=function(e,t,r){var n,o=this;void 0===t&&(t="scrollY");var i,a=this._,s={},l=this._getAxis(t);return Ye(e)?i=e:(i=e.anims,e.length),i instanceof Oe||(i=we(i,s,this._.muxDataByTarget,this._.muxByTarget),(i=new Oe(i,a.tweenRefMaps)).initials=s,Object.keys(s).forEach((function(e){a.tweenRefOrigin[e]=a.tweenRefOrigin[e]||{},a.tweenRefMaps[e]=a.tweenRefMaps[e]||{},Object.assign(o._.tweenRefMaps[e],Be({},s[e],{},o._.tweenRefMaps[e]))}))),this.makeScrollable(),l.tweenAxis.push(i),l.scrollPos=l.scrollPos||0,l.scrollableArea=l.scrollableArea||0,l.scrollableArea=Math.max(l.scrollableArea,i.duration),l.scrollableBounds||null===(n=l.inertia)||void 0===n||n.setBounds(0,l.scrollableArea),i.goTo(l.scrollPos,this._.tweenRefMaps),this._updateTweenRefs(),i},r.rmScrollableAnim=function(e,t){void 0===t&&(t="scrollY");var r,n,o=this._,i=this._getAxis(t),a=i.tweenAxis.indexOf(e);-1!==a&&(i.tweenAxis.splice(a,1),i.scrollableArea=Math.max.apply(Math,i.tweenAxis.map((function(e){return e.duration})).concat([0])),i.scrollableBounds||null===(n=i.inertia)||void 0===n||n.setBounds(0,i.scrollableArea||0),e.goTo(0,this._.tweenRefMaps),Object.keys(e.initials).forEach((function(t){Object.keys(e.initials[t]).forEach((function(e){ve(0,e,o.tweenRefMaps[t],o.tweenRefCSS[t],o.muxDataByTarget[t],o.muxByTarget[t]);//!_.tweenRefCSS[id] &&
-}))})),delete e.initials,e.destroy(),r=!0,this._updateTweenRefs());!r&&console.warn("TweenAxis not found !")},r._runScrollGoTo=function(e,t,r,n,o,i){var a=this;void 0===n&&(n=function(e){return e});var s=this._.axes[e].scrollPos,l=t-s;ze.push({apply:function(t,r){var i=s+n(t/r)*l;a._.tweenEnabled&&(a._.axes[e].tweenAxis.forEach((function(e){return e.goTo(i,a._.tweenRefMaps)})),o&&o(i))},duration:r,cpos:0,cb:i}),Ie||(Ie=!0,Le=Date.now(),setTimeout(Xe,16))},r.getScrollableNodes=function(e){var t=this,r=Y.findReactParents(e),n=this._;return(r=n.rootRef&&n.rootRef.current&&n.rootRef.current.hookScrollableTargets&&n.rootRef.current.hookScrollableTargets(r)||r).map((function(e){return b.a.string(e)?t._.refs[e]&&C.a.findDOMNode(t._.refs[e])||t.refs[e]||document.getElementById(e):e}))},r.componentShouldScroll=function(){var e,t=this._;return!(t.rootRef&&t.rootRef.current&&t.rootRef.current.componentShouldScroll)||(e=t.rootRef.current).componentShouldScroll.apply(e,arguments)},r._registerScrollListeners=function(){var e=this,t=(this.constructor,this._);if(this._.rendered){var r,n,o,i,a,s,l,c=this.getRootNode(),u={x:0,y:0};if(!this._parentTweener&&Fe)t.options.enableMouseScroll&&(c?Y.addWheelEvent(c,this._.onScroll=function(t){var n;Date.now();u.y+=t.deltaY,u.x+=t.deltaX,r=t.originalEvent,n=e._doDispatch(document.elementFromPoint(r.clientX,r.clientY),5*u.x,5*u.y),u.y=0,u.x=0,0,r=void 0,n&&(t.originalEvent.stopPropagation(),t.originalEvent.preventDefault())}):console.warn("fail registering scroll listener !! ")),c?Y.addEvent(c,this._.dragList={dragstart:function(t,r,o){var c,u,p;for(a=e.getScrollableNodes(t.target),n=Date.now(),i=0,s=0,l=[],u=0;u<a.length;u++)(c=a[u]).__isTweener&&c._.scrollEnabled?(c._getAxis("scrollX"),c._getAxis("scrollY")):b.a.element(c)&&(p=getComputedStyle(c,null),/(auto|scroll)/.test(p.getPropertyValue("overflow")+p.getPropertyValue("overflow-x")+p.getPropertyValue("overflow-y"))&&(l[u]={y:c.scrollTop,x:c.scrollLeft,scrollX:/(auto|scroll)/.test(p.getPropertyValue("overflow-x")),scrollY:/(auto|scroll)/.test(p.getPropertyValue("overflow-y"))}));e._updateNodeInertia()},click:function(e,r,o){!n||n>Date.now()-t.options.maxClickTm&&Math.abs(s)<t.options.maxClickOffset&&Math.abs(i)<t.options.maxClickOffset||(e.preventDefault(),e.stopPropagation())},drag:function(e,r,c){var u,p,f,d,h,g,m,v,y;if(i=-(c._lastPos.x-c._startPos.x),s=-(c._lastPos.y-c._startPos.y),!(n&&n>Date.now()-t.options.maxClickTm&&Math.abs(s)<t.options.maxClickOffset&&Math.abs(i)<t.options.maxClickOffset))for(d=!i,m=!s,t.options.dragDirectionLock&&("Y"===o||!o&&Math.abs(.5*s)>Math.abs(i)?(o="Y",i=0):("X"===o||!o&&Math.abs(.5*i)>Math.abs(s))&&(o="X",s=0)),y=0;y<a.length;y++)if((u=a[y]).__isTweener&&u._.scrollEnabled){var w,x,_,O;if(p=u._getAxis("scrollX"),h=u._getAxis("scrollY"),!l[y])l[y]={x:p.scrollPos,y:h.scrollPos},null===(_=p.inertia)||void 0===_||_.startMove(),null===(O=h.inertia)||void 0===O||O.startMove(),!p.inertiaFrame&&u.applyInertia(p,"scrollX"),!h.inertiaFrame&&u.applyInertia(h,"scrollY");f=i&&i/u._.box.x*(p.scrollableWindow||p.scrollableArea)||0,g=s&&s/u._.box.y*(h.scrollableWindow||h.scrollableArea)||0,!d&&f&&(null===(w=p.inertia)||void 0===w?void 0:w.isInbound(l[y].x+f))&&u.componentShouldScroll("scrollX",f)&&(p.inertia.hold(l[y].x+f),d=!0),!m&&g&&(null===(x=h.inertia)||void 0===x?void 0:x.isInbound(l[y].y+g))&&u.componentShouldScroll("scrollY",g)&&(h.inertia.hold(l[y].y+g),m=!0)}else if(b.a.element(u)&&(v=l[y])){if(!m&&v.scrollY&&(s<0&&0!==u.scrollTop||s>0&&u.scrollTop!==u.scrollHeight-u.clientHeight)){if(t.options.dragDirectionLock&&"Y"===o)return;if(!t.options.dragDirectionLock)return;m=!0}!d&&v.scrollX&&(i<0&&0!==u.scrollLeft||i>0&&u.scrollLeft!==u.scrollWidth-u.clientWidth)&&(d=!0)}},dropped:function(e,r,c){var u,p;for(o=void 0,p=0;p<a.length;p++){var f,d;if((u=a[p]).__isTweener&&u._.scrollEnabled&&l[p])null===(f=u._getAxis("scrollY").inertia)||void 0===f||f.release(),null===(d=u._getAxis("scrollX").inertia)||void 0===d||d.release()}!n||n>Date.now()-t.options.maxClickTm&&Math.abs(s)<t.options.maxClickOffset&&Math.abs(i)<t.options.maxClickOffset||(e.stopPropagation(),e.cancelable&&e.preventDefault()),a=l=null}},null,t.options.enableMouseDrag):console.warn("fail registering drag listener !! ");this._.doRegister=!!c}else this._.doRegister=!0},r.applyInertia=function(e,t){var r,n,o,i=this,a=e.inertia.update(),s=this._;this._.axes[t].tweenAxis.forEach((function(e){i._.axes[t].targetPos=i._.axes[t].scrollPos=a,e.goTo(a,i._.tweenRefMaps)})),null===(r=s.rootRef)||void 0===r||null===(n=r.current)||void 0===n||null===(o=n.componentDidScroll)||void 0===o||o.call(n,a,t),this._updateTweenRefs(),e.inertia.active||e.inertia.holding?e.inertiaFrame=setTimeout(this.applyInertia.bind(this,e,t),33):e.inertiaFrame=null},r.isInertiaActive=function(){var e=this._,t=!1;return e.axes&&Object.keys(e.axes).forEach((function(r){return t=t||e.axes[r]&&e.axes[r].inertia.active})),t},r.dispatchScroll=function(e,t){void 0===t&&(t="scrollY");var r=this._.axes[t],n=r&&r.scrollPos;r&&n!==n+e&&(r.inertia.dispatch(e,100),!r.inertiaFrame&&this.applyInertia(r,t))},r.isAxisOut=function(e,t,r){var n=this._,o=n.axes&&n.axes[e],i=r?t:o&&o.scrollPos+t;return i=i&&Math.round(i),!o||(o.scrollableBounds?i<=o.scrollableBounds.min||i>=o.scrollableBounds.max:i<=0||i>=o.scrollableArea)},r._doDispatch=function(e,t,r,n){var o,i,a,s=e;for(i=this.getScrollableNodes(s),a=0;a<i.length;a++){if(i[a].__isTweener)i[a].isAxisOut("scrollX",t)||i[a].componentShouldScroll&&!i[a].componentShouldScroll("scrollX",t)||(i[a].dispatchScroll(t,"scrollX",n),t=0),i[a].isAxisOut("scrollY",r)||i[a].componentShouldScroll&&!i[a].componentShouldScroll("scrollY",r)||(i[a].dispatchScroll(r,"scrollY",n),r=0);else if(b.a.element(i[a])&&(o=getComputedStyle(i[a],null),/(auto|scroll)/.test(o.getPropertyValue("overflow")+o.getPropertyValue("overflow-x")+o.getPropertyValue("overflow-y"))&&(r<0&&0!==i[a].scrollTop||r>0&&i[a].scrollTop!==i[a].scrollHeight-i[a].clientHeight)))return;if(!t&&!r)break}if(this._updateNodeInertia(),!t&&!r)return!0},r._activateNodeInertia=function(e){var t=this._,r=t.activeInertia.findIndex((function(t){return t.target===e}));return-1===r&&(t.activeInertia.push({inertia:{x:new ke({max:e.scrollWidth-e.offsetLeft,value:e.scrollLeft}),y:new ke({max:e.scrollHeight-e.offsetHeight,value:e.scrollTop})},target:e}),r=t.activeInertia.length-1),t.activeInertia[r].inertia},r.setRootRef=function(e){this._.rootRef=e},r.makeScrollable=function(){this._.scrollEnabled||(this._.scrollEnabled=!0,this._.scrollHook=[],this._.activeInertia=[],this._registerScrollListeners())},r._updateBox=function(){var e=this.getRootNode();e&&(this._.box.inited=!0,this._.box.x=e.offsetWidth,this._.box.y=e.offsetHeight)},r._rafLoop=function(){this._updateTweenRefs(),this._.runningAnims.length?requestAnimationFrame(this._._rafLoop):this._.live=!1},r._updateTweenRefs=function(){if(this._.tweenEnabled)for(var e,t=0;t<this._.tweenRefTargets.length;t++)e=this._.tweenRefTargets[t],this._updateTweenRef(e)},r._updateTweenRef=function(e,t){var r,n=this._swap;if(this._.tweenRefCSS[e]&&ye(this._.tweenRefMaps[e],n,this._.muxByTarget[e],this._.muxDataByTarget[e],this._.box),r=this.getTweenableRef(e)){for(var o in this._.tweenRefCSS[e])void 0===n[o]&&(r.style[o]=this._.tweenRefCSS[e][o]);for(var i in n)this._.tweenRefCSS[e].hasOwnProperty(i)&&((t||n[i]!==this._.tweenRefCSS[e][i])&&(r.style[i]=this._.tweenRefCSS[e][i]=n[i],!0),delete n[i])}return this._.tweenRefCSS[e]},r.componentWillUnmount=function(){var t=this,r=this.getRootNode();this._.tweenEnabled&&(this._.tweenEnabled=!1,window.removeEventListener("resize",this._.onResize),Object.keys(this._.axes).forEach((function(e){t._.axes[e].inertiaFrame&&clearTimeout(t._.axes[e].inertiaFrame)}))),this._.scrollEnabled&&(this._.scrollEnabled=!1,r&&this._.onScroll&&!this._parentTweener&&Y.rmWheelEvent(r,this._.onScroll),r&&this._.dragList&&Y.removeEvent(r,this._.dragList)),e.prototype.componentWillUnmount&&e.prototype.componentWillUnmount.apply(this,arguments)},r.componentDidMount=function(){var t=this,r=this.constructor;this._.rendered=!0,this._.tweenEnabled&&(this._updateBox(),this._updateTweenRefs()),r.scrollableAnim&&(b.a.array(r.scrollableAnim)?this.addScrollableAnim(r.scrollableAnim):Object.keys(r.scrollableAnim).forEach((function(e){return t.addScrollableAnim(r.scrollableAnim[e],e)}))),(this._.doRegister||this.__isFirst)&&(this._registerScrollListeners(),this._.doRegister=!1),e.prototype.componentDidMount&&e.prototype.componentDidMount.apply(this,arguments)},r.componentDidUpdate=function(t,r){this._.tweenEnabled&&(this._updateBox(),this._updateTweenRefs()),e.prototype.componentDidUpdate&&e.prototype.componentDidUpdate.apply(this,arguments)},r.render=function(){var e=this,t=this.props,r=t.BaseComponent,n=t.oProps;return s.a.createElement(f.Consumer,null,(function(t){return e._parentTweener=t,s.a.createElement(f.Provider,{value:e},s.a.createElement(r,A()({},n,{ref:e._.rootRef,tweener:e})))}))},t}(s.a.Component);function qe(){for(var e=arguments.length,t=new Array(e),r=0;r<e;r++)t[r]=arguments[r];var n=(!t[0]||t[0].prototype instanceof s.a.Component||t[0]===s.a.Component)&&t.shift(),o=(!t[0]||t[0]instanceof Ne)&&t.shift()||{};if(!n)return function(e){return qe(e,o)};o=Be({wheelRatio:5,maxClickTm:200,maxClickOffset:20},o);var i=s.a.forwardRef((function(e,t){return s.a.createElement(Ve,{oProps:e,forwardedRef:t,BaseComponent:n,tweenerOptions:o})}));return i.displayName=String.fromCharCode(55358,56793)+(n.displayName||n.name),i}var He=qe(We=function(e){function t(){return e.apply(this,arguments)||this}return i()(t,e),t.prototype.render=function(){return this.props.children},t}(a.Component))||We;t.default=He}]);
+module.exports =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/MapOf.react_voodoo_utils_css_demux_____js.gen.js":
+/*!**************************************************************!*\
+  !*** ./src/MapOf.react_voodoo_utils_css_demux_____js.gen.js ***!
+  \**************************************************************/
+/*! exports provided: backgroundColor, boxShadow, filter, textShadow, transform, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "backgroundColor", function() { return backgroundColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "boxShadow", function() { return boxShadow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filter", function() { return filter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "textShadow", function() { return textShadow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transform", function() { return transform; });
+/* This is a virtual file generated by layer-pack */
+var req,
+    _exports = {},
+    walknSetExport = __webpack_require__(/*! layer-pack/etc/utils/indexUtils.js */ "undefined?7cef").walknSetExport;
+
+var _react_voodoo_utils_css_demux_filter_js = __webpack_require__(/*! react-voodoo/utils/css/demux/filter.js */ "./src/utils/css/demux/filter.js");
+
+walknSetExport(_exports, "filter", _react_voodoo_utils_css_demux_filter_js);
+
+var _react_voodoo_utils_css_demux_boxShadow_js = __webpack_require__(/*! react-voodoo/utils/css/demux/boxShadow.js */ "./src/utils/css/demux/boxShadow.js");
+
+walknSetExport(_exports, "boxShadow", _react_voodoo_utils_css_demux_boxShadow_js);
+
+var _react_voodoo_utils_css_demux_transform_js = __webpack_require__(/*! react-voodoo/utils/css/demux/transform.js */ "./src/utils/css/demux/transform.js");
+
+walknSetExport(_exports, "transform", _react_voodoo_utils_css_demux_transform_js);
+
+var _react_voodoo_utils_css_demux_textShadow_js = __webpack_require__(/*! react-voodoo/utils/css/demux/textShadow.js */ "./src/utils/css/demux/textShadow.js");
+
+walknSetExport(_exports, "textShadow", _react_voodoo_utils_css_demux_textShadow_js);
+
+var _react_voodoo_utils_css_demux_backgroundColor_js = __webpack_require__(/*! react-voodoo/utils/css/demux/backgroundColor.js */ "./src/utils/css/demux/backgroundColor.js");
+
+walknSetExport(_exports, "backgroundColor", _react_voodoo_utils_css_demux_backgroundColor_js);
+var backgroundColor = _exports.backgroundColor;
+var boxShadow = _exports.boxShadow;
+var filter = _exports.filter;
+var textShadow = _exports.textShadow;
+var transform = _exports.transform;
+/* harmony default export */ __webpack_exports__["default"] = (_exports);
+
+/***/ }),
+
+/***/ "./src/MapOf.react_voodoo_utils_css_demux_typed_____js.gen.js":
+/*!********************************************************************!*\
+  !*** ./src/MapOf.react_voodoo_utils_css_demux_typed_____js.gen.js ***!
+  \********************************************************************/
+/*! exports provided: bool, border, color, int, multi, number, ratio, shadow, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bool", function() { return bool; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "border", function() { return border; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "color", function() { return color; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "int", function() { return int; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multi", function() { return multi; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "number", function() { return number; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ratio", function() { return ratio; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shadow", function() { return shadow; });
+/* This is a virtual file generated by layer-pack */
+var req,
+    _exports = {},
+    walknSetExport = __webpack_require__(/*! layer-pack/etc/utils/indexUtils.js */ "undefined?7cef").walknSetExport;
+
+var _react_voodoo_utils_css_demux_typed_int_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/int.js */ "./src/utils/css/demux/typed/int.js");
+
+walknSetExport(_exports, "int", _react_voodoo_utils_css_demux_typed_int_js);
+
+var _react_voodoo_utils_css_demux_typed_bool_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/bool.js */ "./src/utils/css/demux/typed/bool.js");
+
+walknSetExport(_exports, "bool", _react_voodoo_utils_css_demux_typed_bool_js);
+
+var _react_voodoo_utils_css_demux_typed_color_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/color.js */ "./src/utils/css/demux/typed/color.js");
+
+walknSetExport(_exports, "color", _react_voodoo_utils_css_demux_typed_color_js);
+
+var _react_voodoo_utils_css_demux_typed_multi_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/multi.js */ "./src/utils/css/demux/typed/multi.js");
+
+walknSetExport(_exports, "multi", _react_voodoo_utils_css_demux_typed_multi_js);
+
+var _react_voodoo_utils_css_demux_typed_ratio_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/ratio.js */ "./src/utils/css/demux/typed/ratio.js");
+
+walknSetExport(_exports, "ratio", _react_voodoo_utils_css_demux_typed_ratio_js);
+
+var _react_voodoo_utils_css_demux_typed_border_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/border.js */ "./src/utils/css/demux/typed/border.js");
+
+walknSetExport(_exports, "border", _react_voodoo_utils_css_demux_typed_border_js);
+
+var _react_voodoo_utils_css_demux_typed_number_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/number.js */ "./src/utils/css/demux/typed/number.js");
+
+walknSetExport(_exports, "number", _react_voodoo_utils_css_demux_typed_number_js);
+
+var _react_voodoo_utils_css_demux_typed_shadow_js = __webpack_require__(/*! react-voodoo/utils/css/demux/typed/shadow.js */ "./src/utils/css/demux/typed/shadow.js");
+
+walknSetExport(_exports, "shadow", _react_voodoo_utils_css_demux_typed_shadow_js);
+var bool = _exports.bool;
+var border = _exports.border;
+var color = _exports.color;
+var int = _exports.int;
+var multi = _exports.multi;
+var number = _exports.number;
+var ratio = _exports.ratio;
+var shadow = _exports.shadow;
+/* harmony default export */ __webpack_exports__["default"] = (_exports);
+
+/***/ }),
+
+/***/ "./src/comps/Axis.js":
+/*!***************************!*\
+  !*** ./src/comps/Axis.js ***!
+  \***************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Axis; });
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "undefined?cdfe");
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var fast_deep_equal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fast-deep-equal */ "undefined?8c1d");
+/* harmony import */ var fast_deep_equal__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(fast_deep_equal__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "undefined?3832");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "undefined?588e");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _TweenerContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TweenerContext */ "./src/comps/TweenerContext.js");
+
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+
+
+var Axis = /*#__PURE__*/function (_React$Component) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0___default()(Axis, _React$Component);
+
+  function Axis() {
+    var _this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
+    _this.state = {};
+    return _this;
+  }
+
+  var _proto = Axis.prototype;
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    var _this2 = this;
+
+    if (this._tweenLines) {
+      Object.keys(this._tweenLines).forEach(function (axe) {
+        return _this2._previousTweener.rmScrollableAnim(_this2._tweenLines[axe], axe);
+      });
+    }
+
+    delete this._previousTweener;
+    delete this._previousScrollable;
+  };
+
+  _proto.render = function render() {
+    var _this3 = this;
+
+    var _this$props = this.props,
+        children = _this$props.children,
+        axe = _this$props.axe,
+        scrollFirst = _this$props.scrollFirst,
+        bounds = _this$props.bounds,
+        scrollableWindow = _this$props.scrollableWindow,
+        inertia = _this$props.inertia,
+        size = _this$props.size,
+        defaultPosition = _this$props.defaultPosition,
+        _this$props$items = _this$props.items,
+        items = _this$props$items === void 0 ? [] : _this$props$items;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_4__["default"].Consumer, null, function (tweener) {
+      if (!_this3._previousAxis || _this3._previousAxis !== axe) {
+        //....
+        _this3._previousAxis = axe;
+        _this3._previousInertia = inertia;
+        tweener.initAxis(axe, {
+          inertia: inertia,
+          size: size,
+          scrollableWindow: scrollableWindow,
+          defaultPosition: defaultPosition,
+          scrollFirst: scrollFirst,
+          scrollableBounds: bounds
+        }, true);
+      } else if (!_this3._previousInertia || _this3._previousInertia !== inertia) {
+        //....
+        _this3._previousInertia = inertia;
+        _this3._previousAxis = axe;
+        tweener.initAxis(axe, {
+          inertia: inertia,
+          size: size,
+          scrollableWindow: scrollableWindow,
+          defaultPosition: defaultPosition,
+          scrollFirst: scrollFirst,
+          scrollableBounds: bounds
+        });
+      }
+
+      if (!_this3._previousTweener || _this3._previousTweener !== tweener) {
+        // mk axe not modifiable
+        _this3._previousTweener && _this3._lastTL && _this3._previousTweener.rmScrollableAnim(_this3._lastTL, _this3._previousAxis);
+        if (items.length) _this3._lastTL = tweener.addScrollableAnim(items, axe, size);
+        _this3._previousTweener = tweener;
+        _this3._previousTweens = items;
+      } else if (_this3._previousTweens !== items && !(_this3._previousTweens && fast_deep_equal__WEBPACK_IMPORTED_MODULE_1___default()(items, _this3._previousTweens))) {
+        _this3._lastTL && _this3._previousTweener && _this3._previousTweener.rmScrollableAnim(_this3._lastTL, _this3._previousAxis);
+        _this3._lastTL = null;
+        if (items.length) _this3._lastTL = tweener.addScrollableAnim(items, axe, size);
+        _this3._previousTweens = items;
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_3___default.a.Fragment, null);
+    });
+  };
+
+  return Axis;
+}(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component);
+
+Axis.propTypes = {
+  axe: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired,
+  items: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.array,
+  bounds: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object,
+  inertia: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.any,
+  defaultPosition: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number,
+  size: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.any
+};
+
+
+/***/ }),
+
+/***/ "./src/comps/Draggable.js":
+/*!********************************!*\
+  !*** ./src/comps/Draggable.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Draggable; });
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "undefined?df9b");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "undefined?188d");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "undefined?cdfe");
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var fast_deep_equal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! fast-deep-equal */ "undefined?8c1d");
+/* harmony import */ var fast_deep_equal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(fast_deep_equal__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "undefined?3832");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "undefined?588e");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-dom */ "undefined?5e9a");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _utils_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/dom */ "./src/utils/dom.js");
+/* harmony import */ var _spells_withTweener__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../spells/withTweener */ "./src/spells/withTweener.js");
+
+
+
+
+var _class, _class2, _temp;
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/*
+ *   The MIT License (MIT)
+ *   Copyright (c) 2019. Wise Wild Web
+ *
+ *   Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   of this software and associated documentation files (the "Software"), to deal
+ *   in the Software without restriction, including without limitation the rights
+ *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   copies of the Software, and to permit persons to whom the Software is
+ *   furnished to do so, subject to the following conditions:
+ *
+ *   The above copyright notice and this permission notice shall be included in all
+ *   copies or substantial portions of the Software.
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   SOFTWARE.
+ *
+ *   @author : Nathanael Braun
+ *   @contact : n8tz.js@gmail.com
+ */
+
+
+
+
+
+
+
+
+var Draggable = Object(_spells_withTweener__WEBPACK_IMPORTED_MODULE_9__["default"])(_class = (_temp = _class2 = /*#__PURE__*/function (_React$Component) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_2___default()(Draggable, _React$Component);
+
+  function Draggable() {
+    var _this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
+    _this.state = {};
+    _this._ = {};
+    _this.root = react__WEBPACK_IMPORTED_MODULE_6___default.a.createRef();
+    return _this;
+  }
+
+  var _proto = Draggable.prototype;
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    var _this$root;
+
+    var node = (_this$root = this.root) === null || _this$root === void 0 ? void 0 : _this$root.current;
+
+    if (this._.scrollEnabled) {
+      this._.scrollEnabled = false; //this._.axes          = undefined;
+
+      node && this._.dragList && _utils_dom__WEBPACK_IMPORTED_MODULE_8__["default"].removeEvent(node, this._.dragList);
+    }
+  };
+
+  _proto.componentDidMount = function componentDidMount() {
+    this._registerScrollListeners();
+  }
+  /**
+   * Return scrollable parent node list basing a dom node
+   * @param node
+   * @returns {T[]}
+   */
+  ;
+
+  _proto.getScrollableNodes = function getScrollableNodes(node) {
+    var _this2 = this;
+
+    var scrollable = _utils_dom__WEBPACK_IMPORTED_MODULE_8__["default"].findReactParents(node),
+        _ = this._;
+    return scrollable.map(function (id) {
+      return is__WEBPACK_IMPORTED_MODULE_4___default.a.string(id) ? _this2._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_7___default.a.findDOMNode(_this2._.refs[id]) || _this2.refs[id] || document.getElementById(id) : id;
+    });
+  }
+  /**
+   * todo rewrite or use lib
+   * Init touch & scroll listeners
+   * Drive scroll & drag values updates
+   * @private
+   */
+  ;
+
+  _proto._registerScrollListeners = function _registerScrollListeners() {
+    var _this$root2,
+        _this3 = this;
+
+    var rootNode = (_this$root2 = this.root) === null || _this$root2 === void 0 ? void 0 : _this$root2.current,
+        _this$props = this.props,
+        xAxis = _this$props.xAxis,
+        yAxis = _this$props.yAxis,
+        tweener = _this$props.tweener,
+        lastStartTm,
+        cLock,
+        dX,
+        parents,
+        dY,
+        parentsState,
+        _ = tweener._;
+
+    if (rootNode) {
+      _utils_dom__WEBPACK_IMPORTED_MODULE_8__["default"].addEvent(rootNode, this._.dragList = {
+        'dragstart': function dragstart(e, touch, descr) {
+          //@todo
+          var pTweener, x, y, i, style;
+          parents = _this3.getScrollableNodes(e.target); //console.log("start")
+
+          lastStartTm = Date.now();
+          dX = 0;
+          dY = 0;
+          parentsState = [];
+
+          for (i = 0; i < parents.length; i++) {
+            pTweener = parents[i]; // react comp with tweener support
+
+            if (pTweener.__isTweener) {
+              var _pTweener$axes, _pTweener$axes2;
+
+              x = xAxis && ((_pTweener$axes = pTweener.axes) === null || _pTweener$axes === void 0 ? void 0 : _pTweener$axes[xAxis]);
+              y = yAxis && ((_pTweener$axes2 = pTweener.axes) === null || _pTweener$axes2 === void 0 ? void 0 : _pTweener$axes2[yAxis]);
+
+              pTweener._updateNodeInertia();
+            }
+          } //tweener._updateNodeInertia()
+          //e.stopPropagation();
+          //e.preventDefault();
+
+        },
+        'click': function click(e, touch, descr) {
+          //@todo
+          if (lastStartTm && !(lastStartTm > Date.now() - _.options.maxClickTm && Math.abs(dY) < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset)) {
+            e.preventDefault();
+            e.stopPropagation(); //console.log("prevented click", Math.abs(dX), Math.abs(dY))
+            //console.log(':o ' + (lastStartTm - Date.now()) + ' ' + dX + ' ' + dY)
+          } //else console.log("click", Math.abs(dX), Math.abs(dY))
+
+        },
+        'drag': function drag(e, touch, descr) {
+          //@todo
+          var pTweener, x, deltaX, xDispatched, vX, y, deltaY, yDispatched, vY, cState, i;
+          dX = -(descr._lastPos.x - descr._startPos.x);
+          dY = -(descr._lastPos.y - descr._startPos.y);
+
+          if (lastStartTm && lastStartTm > Date.now() - _.options.maxClickTm && Math.abs(dY) < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) // skip tap & click
+            {
+              //console.log(':u ' + (lastStartTm - Date.now()) + ' ' + dX + ' ' + dY)
+              return;
+            } else {
+            xDispatched = !dX;
+            yDispatched = !dY;
+
+            if (_.options.dragDirectionLock) {
+              if (cLock === "Y" || !cLock && Math.abs(dY * .5) > Math.abs(dX)) {
+                cLock = "Y";
+                dX = 0; //xDispatched = true;
+              } else if (cLock === "X" || !cLock && Math.abs(dX * .5) > Math.abs(dY)) {
+                cLock = "X";
+                dY = 0; //yDispatched = true;
+              }
+            }
+
+            for (i = 0; i < parents.length; i++) {
+              pTweener = parents[i]; // react comp with tweener support
+
+              if (pTweener.__isTweener) {
+                var _pTweener$axes3, _pTweener$axes4, _x3, _x3$inertia, _y3, _y3$inertia;
+
+                x = xAxis && ((_pTweener$axes3 = pTweener.axes) === null || _pTweener$axes3 === void 0 ? void 0 : _pTweener$axes3[xAxis]);
+                y = yAxis && ((_pTweener$axes4 = pTweener.axes) === null || _pTweener$axes4 === void 0 ? void 0 : _pTweener$axes4[yAxis]); //console.log("drag", dX, dY, x);
+
+                if (!parentsState[i]) {
+                  var _x, _y, _x2, _x2$inertia, _y2, _y2$inertia;
+
+                  parentsState[i] = {
+                    x: (_x = x) === null || _x === void 0 ? void 0 : _x.scrollPos,
+                    y: (_y = y) === null || _y === void 0 ? void 0 : _y.scrollPos
+                  };
+                  (_x2 = x) === null || _x2 === void 0 ? void 0 : (_x2$inertia = _x2.inertia) === null || _x2$inertia === void 0 ? void 0 : _x2$inertia.startMove();
+                  (_y2 = y) === null || _y2 === void 0 ? void 0 : (_y2$inertia = _y2.inertia) === null || _y2$inertia === void 0 ? void 0 : _y2$inertia.startMove();
+                  xAxis && !x.inertiaFrame && pTweener.applyInertia(x, xAxis);
+                  yAxis && !y.inertiaFrame && pTweener.applyInertia(y, yAxis); //console.warn('Draggable::drag:190: ');
+                }
+
+                if (x) deltaX = dX && dX / pTweener._.box.x * (x.scrollableWindow || x.scrollableArea) || 0;
+                if (y) deltaY = dY && dY / pTweener._.box.y * (y.scrollableWindow || y.scrollableArea) || 0; //console.log('Draggable::drag:178: ', parentsState[i].x + deltaX,
+                // x?.inertia?._.max, x?.inertia?.isInbound(parentsState[i].x + deltaX));
+
+                if (!xDispatched && deltaX && ((_x3 = x) === null || _x3 === void 0 ? void 0 : (_x3$inertia = _x3.inertia) === null || _x3$inertia === void 0 ? void 0 : _x3$inertia.isInbound(parentsState[i].x + deltaX)) && pTweener.componentShouldScroll(xAxis, deltaX)) {
+                  x.inertia.hold(parentsState[i].x + deltaX);
+                  xDispatched = true;
+                } //console.log("scrollY", yDispatched, y?.inertia?.isInbound(parentsState[i].y + deltaY), parentsState[i].y + deltaY);
+
+
+                if (!yDispatched && deltaY && ((_y3 = y) === null || _y3 === void 0 ? void 0 : (_y3$inertia = _y3.inertia) === null || _y3$inertia === void 0 ? void 0 : _y3$inertia.isInbound(parentsState[i].y + deltaY)) && pTweener.componentShouldScroll(yAxis, deltaY)) {
+                  y.inertia.hold(parentsState[i].y + deltaY);
+                  console.log('Draggable::drag:190: ', parentsState[i].y, deltaY);
+                  yDispatched = true;
+                }
+              }
+            }
+
+            if (yDispatched && xDispatched) {} //e.stopPropagation();
+            //e.cancelable && e.preventDefault();
+            //return;
+            //dX = 0;
+            //dY = 0;
+
+          }
+        },
+        'dropped': function dropped(e, touch, descr) {
+          var pTweener, x, deltaX, xDispatched, vX, y, deltaY, yDispatched, vY, cState, i;
+          cLock = undefined; //lastStartTm                     = undefined;
+          //document.body.style.userSelect  = '';
+          //document.body.style.touchAction = '';
+
+          for (i = 0; i < parents.length; i++) {
+            pTweener = parents[i]; // react comp with tweener support
+
+            if (pTweener.__isTweener && parentsState[i]) {
+              var _pTweener$axes5, _pTweener$axes5$xAxis, _pTweener$axes5$xAxis2, _pTweener$axes6, _pTweener$axes6$yAxis, _pTweener$axes6$yAxis2;
+
+              //console.log('Draggable::dropped:228: ', pTweener._getAxis(xAxis)?.inertia);
+              (_pTweener$axes5 = pTweener.axes) === null || _pTweener$axes5 === void 0 ? void 0 : (_pTweener$axes5$xAxis = _pTweener$axes5[xAxis]) === null || _pTweener$axes5$xAxis === void 0 ? void 0 : (_pTweener$axes5$xAxis2 = _pTweener$axes5$xAxis.inertia) === null || _pTweener$axes5$xAxis2 === void 0 ? void 0 : _pTweener$axes5$xAxis2.release();
+              (_pTweener$axes6 = pTweener.axes) === null || _pTweener$axes6 === void 0 ? void 0 : (_pTweener$axes6$yAxis = _pTweener$axes6[yAxis]) === null || _pTweener$axes6$yAxis === void 0 ? void 0 : (_pTweener$axes6$yAxis2 = _pTweener$axes6$yAxis.inertia) === null || _pTweener$axes6$yAxis2 === void 0 ? void 0 : _pTweener$axes6$yAxis2.release(); //pTweener._updateNodeInertia()
+            } //else if ( is.element(tweener) ) {
+            //	cState = parentsState[i];
+            //	if ( cState ) {
+            //		cState.inertia.x.release();
+            //		cState.inertia.y.release();
+            //	}
+            //}
+
+          }
+
+          if (lastStartTm && !(lastStartTm > Date.now() - _.options.maxClickTm && Math.abs(dY) < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset)) // skip tap
+            // &
+            // click
+            {
+              e.stopPropagation();
+              e.cancelable && e.preventDefault(); //console.log("prevented", Math.abs(dX), Math.abs(dY))
+              //return;
+            } //else {
+          //console.log("not prevented", Math.abs(dX), Math.abs(dY))
+          //}
+          //lastStartTm = 0;
+
+
+          parents = parentsState = null;
+        }
+      }, null, _.options.enableMouseDrag);
+      this._.doRegister = !!rootNode;
+    } else {
+      this._.doRegister = true;
+    }
+  };
+
+  _proto.getProps = function getProps() {
+    var props = this.props;
+    props = _objectSpread({}, props);
+    delete props.Comp;
+    delete props.xAxis;
+    delete props.yAxis;
+    delete props.tweener;
+    delete props.forwardedRef;
+    return props;
+  };
+
+  _proto.render = function render() {
+    var _this$props2 = this.props,
+        children = _this$props2.children,
+        Comp = _this$props2.Comp,
+        forwardedRef = _this$props2.forwardedRef,
+        _this$props2$items = _this$props2.items,
+        items = _this$props2$items === void 0 ? [] : _this$props2$items;
+
+    if (forwardedRef) {//this.root =  forwardedRef;
+    }
+
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(Comp, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, this.getProps(), {
+      ref: this.root
+    }), children);
+  };
+
+  return Draggable;
+}(react__WEBPACK_IMPORTED_MODULE_6___default.a.Component), _class2.propTypes = {
+  xAxis: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string,
+  yAxis: prop_types__WEBPACK_IMPORTED_MODULE_5___default.a.string
+}, _class2.defaultProps = {
+  Comp: 'div'
+}, _temp)) || _class;
+
+
+
+Draggable.div = function (props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(Draggable, props);
+};
+
+/***/ }),
+
+/***/ "./src/comps/Node.js":
+/*!***************************!*\
+  !*** ./src/comps/Node.js ***!
+  \***************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Node; });
+/* harmony import */ var _babel_runtime_helpers_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/objectWithoutPropertiesLoose */ "undefined?2618");
+/* harmony import */ var _babel_runtime_helpers_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "undefined?cdfe");
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "undefined?188d");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var fast_deep_equal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! fast-deep-equal */ "undefined?8c1d");
+/* harmony import */ var fast_deep_equal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(fast_deep_equal__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "undefined?588e");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var shortid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! shortid */ "undefined?beec");
+/* harmony import */ var shortid__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(shortid__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _TweenerContext__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TweenerContext */ "./src/comps/TweenerContext.js");
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+
+
+
+function setTarget(anims, target) {
+  return anims.map(function (tween) {
+    return _objectSpread({}, tween, {
+      target: target
+    });
+  });
+}
+
+var Node = /*#__PURE__*/function (_React$Component) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default()(Node, _React$Component);
+
+  function Node() {
+    var _this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
+    _this.state = {};
+    _this.__tweenableId = shortid__WEBPACK_IMPORTED_MODULE_6___default.a.generate();
+    return _this;
+  }
+
+  var _proto = Node.prototype;
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    var _this2 = this;
+
+    if (this._tweenAxisObj) {
+      Object.keys(this._tweenAxisObj).forEach(function (axe) {
+        return _this2._currentTweener.rmScrollableAnim(_this2._tweenAxisObj[axe], axe);
+      });
+    }
+
+    if (this._currentTweener) {
+      this._currentTweener.rmTweenRef(this.__tweenableId);
+
+      this._currentTweener.setRootRef(undefined);
+    }
+
+    delete this._currentTweener;
+    delete this._tweenAxisObj;
+    delete this._previousScrollable;
+  };
+
+  _proto.render = function render() {
+    var _this3 = this;
+
+    var _this$props = this.props,
+        children = _this$props.children,
+        _this$props$id = _this$props.id,
+        id = _this$props$id === void 0 ? this.__tweenableId : _this$props$id,
+        style = _this$props.style,
+        initial = _this$props.initial,
+        pos = _this$props.pos,
+        noRef = _this$props.noRef,
+        reset = _this$props.reset,
+        tweener = _this$props.tweener,
+        isRoot = _this$props.isRoot,
+        tweenLines = _this$props.tweenLines,
+        _this$props$tweenAxis = _this$props.tweenAxis,
+        tweenAxis = _this$props$tweenAxis === void 0 ? tweenLines : _this$props$tweenAxis,
+        _this$props$onClick = _this$props.onClick,
+        onClick = _this$props$onClick === void 0 ? children && children.props && children.props.onClick : _this$props$onClick,
+        _this$props$onDoubleC = _this$props.onDoubleClick,
+        onDoubleClick = _this$props$onDoubleC === void 0 ? children && children.props && children.props.onDoubleClick : _this$props$onDoubleC;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_TweenerContext__WEBPACK_IMPORTED_MODULE_7__["default"].Consumer, null, function (parentTweener) {
+      //@todo : must be better method
+      parentTweener = tweener || parentTweener;
+
+      if (!parentTweener) {
+        console.error("No voodoo tweener found in the context, is there any parent with asTweener ?");
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_5___default.a.Fragment, null);
+      } //console.warn("render : ", this.__tweenableId, this._currentTweener, parentTweener,
+      // this._currentTweener !== parentTweener)
+
+
+      var twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial, pos, noRef),
+          axisItemsChange; //console.warn("render2 : ", this.__tweenableId, this._currentTweener, parentTweener,
+      // this._currentTweener !== parentTweener)
+
+      if (_this3._currentTweener !== parentTweener || _this3._previousScrollable !== tweenAxis) {
+        axisItemsChange = _this3._tweenAxis !== tweenAxis && !(_this3._tweenAxis && fast_deep_equal__WEBPACK_IMPORTED_MODULE_3___default()(tweenAxis, _this3._tweenAxis));
+
+        if (_this3._currentTweener && axisItemsChange) {
+          _this3._tweenAxisObj && Object.keys(_this3._tweenAxisObj).forEach(function (axe) {
+            return _this3._currentTweener.rmScrollableAnim(_this3._tweenAxisObj[axe], axe);
+          });
+        } //console.log(twRef, axisItemsChange, this._tweenAxis, tweenAxis)
+
+
+        if (_this3._currentTweener && _this3._currentTweener !== parentTweener) {
+          _this3._currentTweener.rmTweenRef(id);
+        }
+
+        if (axisItemsChange) {
+          _this3._tweenAxis = tweenAxis;
+          if (tweenAxis && is__WEBPACK_IMPORTED_MODULE_4___default.a.array(tweenAxis)) _this3._tweenAxisObj = {
+            scrollY: parentTweener.addScrollableAnim(setTarget(tweenAxis, id))
+          };else _this3._tweenAxisObj = tweenAxis && Object.keys(tweenAxis).reduce(function (h, axe) {
+            return h[axe] = parentTweener.addScrollableAnim(setTarget(tweenAxis[axe], id), axe), h;
+          }, {});
+          twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial, pos, noRef);
+        }
+
+        twRef.style = _objectSpread({}, parentTweener._updateTweenRef(id, true));
+
+        if (_this3.props.hasOwnProperty("isRoot")) {
+          _this3._currentTweener && _this3._currentTweener.setRootRef(undefined);
+          tweener.setRootRef(id);
+        }
+
+        _this3._currentTweener = parentTweener;
+        _this3._previousScrollable = tweenAxis;
+      } else if (twRef) {
+        twRef.style = _objectSpread({}, parentTweener._updateTweenRef(id, true));
+      }
+
+      var refChild = react__WEBPACK_IMPORTED_MODULE_5___default.a.Children.only(children);
+
+      if (refChild && react__WEBPACK_IMPORTED_MODULE_5___default.a.isValidElement(refChild)) {
+        refChild = react__WEBPACK_IMPORTED_MODULE_5___default.a.cloneElement(refChild, _objectSpread({}, twRef, {
+          onDoubleClick: onDoubleClick && function (e) {
+            return onDoubleClick(e, parentTweener);
+          },
+          onClick: onClick && function (e) {
+            return onClick(e, parentTweener);
+          }
+        }));
+        _this3._lastRef = twRef;
+        return refChild;
+      } else {
+        console.error("Invalid voodoo Node child : ", id);
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", null, "Invalid");
+    });
+  };
+
+  return Node;
+}(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
+
+Node.propTypes = {};
+
+
+Node.div = function (_ref) {
+  var children = _ref.children,
+      className = _ref.className,
+      props = _babel_runtime_helpers_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0___default()(_ref, ["children", "className"]);
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(Node, props, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("div", {
+    className: className
+  }, children));
+};
+
+/***/ }),
+
+/***/ "./src/comps/TweenerContext.js":
+/*!*************************************!*\
+  !*** ./src/comps/TweenerContext.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "undefined?588e");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+var TweenerContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(null);
+/* harmony default export */ __webpack_exports__["default"] = (TweenerContext);
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "undefined?cdfe");
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "undefined?588e");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _comps_Axis__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./comps/Axis */ "./src/comps/Axis.js");
+/* harmony import */ var _comps_TweenerContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./comps/TweenerContext */ "./src/comps/TweenerContext.js");
+/* harmony import */ var _comps_Node__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./comps/Node */ "./src/comps/Node.js");
+/* harmony import */ var _comps_Draggable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./comps/Draggable */ "./src/comps/Draggable.js");
+/* harmony import */ var _spells_asTweener__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./spells/asTweener */ "./src/spells/asTweener.js");
+/* harmony import */ var _spells_withTweener__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./spells/withTweener */ "./src/spells/withTweener.js");
+/* harmony import */ var _utils_dom_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/dom.js */ "./src/utils/dom.js");
+/* harmony import */ var _utils_tweenTools_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utils/tweenTools.js */ "./src/utils/tweenTools.js");
+
+
+var _class;
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+
+
+
+
+
+
+
+var Component = Object(_spells_asTweener__WEBPACK_IMPORTED_MODULE_6__["default"])(_class = /*#__PURE__*/function (_React$Component) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_0___default()(Component, _React$Component);
+
+  function Component() {
+    return _React$Component.apply(this, arguments) || this;
+  }
+
+  var _proto = Component.prototype;
+
+  _proto.render = function render() {
+    return this.props.children;
+  };
+
+  return Component;
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component)) || _class;
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  tweener: _spells_asTweener__WEBPACK_IMPORTED_MODULE_6__["default"],
+  child: _spells_withTweener__WEBPACK_IMPORTED_MODULE_7__["default"],
+  tools: _utils_tweenTools_js__WEBPACK_IMPORTED_MODULE_9__,
+  Draggable: _comps_Draggable__WEBPACK_IMPORTED_MODULE_5__["default"],
+  Component: Component,
+  Node: _comps_Node__WEBPACK_IMPORTED_MODULE_4__["default"],
+  context: _comps_TweenerContext__WEBPACK_IMPORTED_MODULE_3__["default"],
+  Axis: _comps_Axis__WEBPACK_IMPORTED_MODULE_2__["default"],
+  dom: _utils_dom_js__WEBPACK_IMPORTED_MODULE_8__["default"]
+});
+
+/***/ }),
+
+/***/ "./src/spells/asTweener.js":
+/*!*********************************!*\
+  !*** ./src/spells/asTweener.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return asTweener; });
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "undefined?df9b");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "undefined?188d");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "undefined?e4e5");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "undefined?cdfe");
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var d3_ease__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! d3-ease */ "undefined?25b8");
+/* harmony import */ var d3_ease__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(d3_ease__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var fast_deep_equal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! fast-deep-equal */ "undefined?8c1d");
+/* harmony import */ var fast_deep_equal__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(fast_deep_equal__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "undefined?588e");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-dom */ "undefined?5e9a");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _comps_TweenerContext__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../comps/TweenerContext */ "./src/comps/TweenerContext.js");
+/* harmony import */ var _utils_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/css */ "./src/utils/css/index.js");
+/* harmony import */ var _utils_CssTweenAxis__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../utils/CssTweenAxis */ "./src/utils/CssTweenAxis.js");
+/* harmony import */ var _utils_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../utils/dom */ "./src/utils/dom.js");
+/* harmony import */ var _utils_inertia__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../utils/inertia */ "./src/utils/inertia.js");
+
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+
+
+
+
+
+
+
+/**
+ * @todo : clean & comments
+ */
+
+var isBrowserSide = new Function("try {return this===window;}catch(e){ return false;}")(),
+    isArray = is__WEBPACK_IMPORTED_MODULE_6___default.a.array,
+    _live,
+    lastTm,
+    _running = [];
+
+var SimpleObjectProto = {}.constructor;
+var Runner = {
+  run: function run(tl, ctx, duration, cb) {
+    var apply = function apply(pos, size) {
+      return tl.go(pos / size, ctx);
+    };
+
+    _running.push({
+      apply: apply,
+      duration: duration,
+      cpos: 0,
+      cb: cb
+    });
+
+    tl.go(0, ctx, true); //reset tl
+
+    if (!_live) {
+      _live = true;
+      lastTm = Date.now(); // console.log("TL runner On");
+
+      setTimeout(this._tick, 16);
+    }
+  },
+  _tick: function _tick() {
+    var i = 0,
+        o,
+        tm = Date.now(),
+        delta = tm - lastTm;
+    lastTm = tm;
+
+    for (; i < _running.length; i++) {
+      _running[i].cpos = Math.min(delta + _running[i].cpos, _running[i].duration); //cpos
+
+      _running[i].apply(_running[i].cpos, _running[i].duration); // console.log("TL runner ",_running[i][3]);
+
+
+      if (_running[i].cpos == _running[i].duration) {
+        _running[i].cb && setTimeout(_running[i].cb);
+        _running.splice(i, 1), i--;
+      }
+    }
+
+    if (_running.length) setTimeout(_tick, 16);else {
+      // console.log("TL runner Off");
+      _live = false;
+    }
+  }
+};
+
+var TweenableComp = /*#__PURE__*/function (_React$Component) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_3___default()(TweenableComp, _React$Component);
+
+  function TweenableComp(props) {
+    var _this;
+
+    _this = _React$Component.apply(this, arguments) || this;
+    _this.axes = {};
+
+    _this._updateNodeInertia = function () {
+      var _ = _this._,
+          current,
+          ln = _.activeInertia.length;
+      if (_this._inertiaRaf) cancelAnimationFrame(_this._inertiaRaf);
+
+      for (var i = 0; ln > i; i++) {
+        current = _.activeInertia[i];
+
+        if (current.inertia.x.active || current.inertia.x.holding) {
+          current.target.scrollLeft = ~~current.inertia.x.update();
+        }
+
+        if (current.inertia.y.active || current.inertia.y.holding) {
+          current.target.scrollTop = ~~current.inertia.y.update();
+        }
+
+        if (!current.inertia.x.active && !current.inertia.y.active && !current.inertia.x.holding && !current.inertia.y.holding) {
+          _.activeInertia.slice(i, 1);
+
+          i--;
+          ln--;
+        }
+      }
+
+      if (ln !== 0) _this._inertiaRaf = requestAnimationFrame(_this._updateNodeInertia);else _this._inertiaRaf = null;
+    };
+
+    _this._swap = {};
+
+    var _2 = _this._ = {
+      refs: {},
+      muxByTarget: {}
+    };
+
+    _2.box = {
+      x: 100,
+      y: 100,
+      z: 800
+    };
+    _this.__isTweener = true;
+    _2._rafLoop = _this._rafLoop.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
+    _2.rootRef = _this.props.forwardedRef || react__WEBPACK_IMPORTED_MODULE_7___default.a.createRef();
+    _2.options = _objectSpread({
+      enableMouseScroll: true
+    }, props.tweenerOptions || {});
+    _2.tweenRefCSS = {};
+    _2.tweenRefs = {};
+    _2.tweenRefMaps = {};
+    _2.iMapOrigin = {};
+    _2.tweenRefInitialData = {};
+    _2.tweenEnabled = true;
+    _2.tweenRefOrigin = {};
+    _2.tweenRefOriginCss = {};
+    _2.muxDataByTarget = _2.muxDataByTarget || {};
+    _2.tweenRefDemuxed = _2.tweenRefDemuxed || {};
+    _2.tweenRefTargets = _2.tweenRefTargets || [];
+    _2.runningAnims = _2.runningAnims || [];
+    _2.scrollHook = [];
+    _2.activeInertia = [];
+    isBrowserSide && window.addEventListener("resize", _this._.onResize = function (e) {
+      var _$rootRef, _$rootRef$current, _$rootRef$current$win;
+
+      //@todo
+      _this._updateBox();
+
+      _this._updateTweenRefs();
+
+      (_$rootRef = _2.rootRef) === null || _$rootRef === void 0 ? void 0 : (_$rootRef$current = _$rootRef.current) === null || _$rootRef$current === void 0 ? void 0 : (_$rootRef$current$win = _$rootRef$current.windowDidResize) === null || _$rootRef$current$win === void 0 ? void 0 : _$rootRef$current$win.call(_$rootRef$current, e);
+    });
+    return _this;
+  }
+
+  var _proto = TweenableComp.prototype;
+
+  // ------------------------------------------------------------
+  // -------------------- TweenRefs utils -----------------------
+  // ------------------------------------------------------------
+
+  /**
+   * Register tweenable element
+   * return its current style
+   * @param id
+   * @param iStyle
+   * @param iMap
+   * @param pos
+   * @param noref
+   * @param mapReset
+   * @returns {style,ref}
+   */
+  _proto.tweenRef = function tweenRef(id, iStyle, iMap, pos, noref, mapReset) {
+    if (iStyle === void 0) {
+      iStyle = {};
+    }
+
+    if (iMap === void 0) {
+      iMap = {};
+    }
+
+    // ref initial style
+    var _ = this._,
+        tweenableMap = {};
+    var initials = {};
+    if (!_.tweenRefs[id]) _.tweenRefTargets.push(id); //debugger
+    //console.warn('ref ', id, { ...iMap })
+
+    if (_.tweenRefs[id] && (mapReset || _.iMapOrigin[id] !== iMap && !fast_deep_equal__WEBPACK_IMPORTED_MODULE_5___default()(iMap, _.iMapOrigin[id]) || _.tweenRefOriginCss[id] !== iStyle && !fast_deep_equal__WEBPACK_IMPORTED_MODULE_5___default()(iStyle, _.tweenRefOriginCss[id]))) {
+      // hot switch initial values
+      //console.warn('ref exist & style is !==', id, iStyle,
+      //             _.tweenRefOriginCss[id], mapReset)
+      _.iMapOrigin[id] = iMap;
+      _.tweenRefOriginCss[id] = iStyle;
+      iStyle = iStyle || {};
+      iMap = iMap || {};
+      iStyle = _objectSpread({}, iStyle, {}, Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], false, true)); //console.log("update ref", id)
+      // minus initial values
+
+      Object.keys(_.tweenRefOrigin[id]).forEach(function (key) {
+        return _.tweenRefMaps[id][key] -= _.tweenRefOrigin[id][key];
+      }); // set defaults values in case of
+
+      Object.keys(initials).forEach(function (key) {
+        return _.tweenRefMaps[id][key] = is__WEBPACK_IMPORTED_MODULE_6___default.a.number(_.tweenRefMaps[id][key]) ? _.tweenRefMaps[id][key] : initials[key];
+      }); // add new initial values
+
+      Object.keys(tweenableMap).forEach(function (key) {
+        return _.tweenRefMaps[id][key] += tweenableMap[key];
+      });
+      Object.keys(_.tweenRefOrigin[id]) // unset
+      .forEach(function (key) {
+        Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["clearTweenableValue"])(key, key, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id]);
+      });
+      _.tweenRefOrigin[id] = _objectSpread({}, tweenableMap);
+      Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["muxToCss"])(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
+
+      this._updateTweenRef(id, true);
+    } else if (!_.tweenRefs[id]) {
+      //console.log("init ref", id)
+      _.iMapOrigin[id] = iMap;
+      iStyle = iStyle || {};
+      iMap = iMap || {};
+      _.tweenRefs[id] = true;
+      _.muxByTarget[id] = _.muxByTarget[id] || {};
+      _.muxDataByTarget[id] = _.muxDataByTarget[id] || {};
+      _.tweenRefOriginCss[id] = iStyle;
+      _.tweenRefMaps[id] = _.tweenRefMaps[id] || {};
+
+      if (_.tweenRefOrigin[id]) {
+        //debugger
+        // minus initial values from axis pre init
+        //Object.keys(_.tweenRefOrigin[id])
+        //      .forEach(
+        //	      key => (_.tweenRefMaps[id][key] -= _.tweenRefOrigin[id][key])
+        //      );
+        iStyle = _objectSpread({}, iStyle, {}, Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], false, true)); //// set defaults values in case of
+
+        Object.keys(initials).forEach(function (key) {
+          return _.tweenRefMaps[id][key] = is__WEBPACK_IMPORTED_MODULE_6___default.a.number(_.tweenRefMaps[id][key]) ? _.tweenRefMaps[id][key] - initials[key] : 0;
+        }); //// add new initial values
+
+        Object.keys(tweenableMap).forEach(function (key) {
+          return _.tweenRefMaps[id][key] += tweenableMap[key];
+        });
+      } else {
+        iStyle = _objectSpread({}, iStyle, {}, Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["deMuxTween"])(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id])); // init / reset or get the tweenable view
+
+        tweenableMap = Object.assign({}, initials, tweenableMap || {}); // set defaults values in case of
+        // add new initial values
+
+        Object.keys(tweenableMap).forEach(function (key) {
+          return _.tweenRefMaps[id][key] = (_.tweenRefMaps[id][key] || 0) + tweenableMap[key];
+        });
+      }
+
+      _.tweenRefOrigin[id] = _objectSpread({}, tweenableMap);
+      _.tweenRefCSS[id] = iStyle;
+      tweenableMap = _.tweenRefMaps[id];
+      Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["muxToCss"])(tweenableMap, iStyle, _.muxByTarget[id], _.muxDataByTarget[id], _.box);
+    } else {
+      //console.log("maj ref", id)
+      Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["muxToCss"])(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
+    } //console.log('tweenRef::tweenRef:519: ', id, { ..._.muxDataByTarget[id] }, { ..._.tweenRefCSS[id] });
+
+
+    if (noref) return {
+      style: _objectSpread({}, _.tweenRefCSS[id])
+    };else return {
+      style: _objectSpread({}, _.tweenRefCSS[id]),
+      ref: function ref(node) {
+        return _.refs[id] = node;
+      }
+    };
+  }
+  /**
+   * Delete tweenable element
+   * @param id
+   */
+  ;
+
+  _proto.rmTweenRef = function rmTweenRef(id) {
+    if (this._.tweenRefs[id]) {
+      this._.tweenRefTargets.splice(this._.tweenRefTargets.indexOf(id), 1);
+
+      delete this._.tweenRefs[id];
+      delete this._.muxByTarget[id];
+      delete this._.muxDataByTarget[id];
+      delete this._.iMapOrigin[id];
+      delete this._.tweenRefOrigin[id];
+      delete this._.tweenRefCSS[id];
+      delete this._.tweenRefMaps[id];
+      delete this._.refs[id];
+    }
+  }
+  /**
+   * Reset tweenRefs
+   * @param targets
+   */
+  ;
+
+  _proto.resetTweenable = function resetTweenable() {
+    var _this2 = this;
+
+    var _ = this._;
+
+    for (var _len = arguments.length, targets = new Array(_len), _key = 0; _key < _len; _key++) {
+      targets[_key] = arguments[_key];
+    }
+
+    targets.forEach(function (t) {
+      _this2.tweenRef(t, _.tweenRefOriginCss[t], _.iMapOrigin[t], null, null, true);
+    });
+
+    this._updateTweenRefs();
+  }
+  /**
+   * Update tweenRefs style ( anims & axis will still update the ref )
+   * @param target
+   * @param style
+   * @param postPone
+   * @returns {*}
+   */
+  ;
+
+  _proto.updateRefStyle = function updateRefStyle(target, style, postPone) {
+    var _this3 = this;
+
+    var _ = this._,
+        initials = {},
+        pureCss;
+    if (isArray(target) && isArray(style)) return target.map(function (m, i) {
+      return _this3.updateRefStyle(m, style[i], postPone);
+    });
+    if (isArray(target)) return target.map(function (m) {
+      return _this3.updateRefStyle(m, style, postPone);
+    }); //if ( !this._.tweenRefCSS )
+
+    pureCss = Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["deMuxTween"])(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target]);
+    Object.assign(_.tweenRefCSS[target], pureCss);
+    Object.assign(_.tweenRefOriginCss[target], pureCss);
+    Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["muxToCss"])(_.tweenRefMaps[target], _.tweenRefCSS[target], _.muxByTarget[target], _.muxDataByTarget[target], _.box);
+
+    this._updateTweenRef(target, true);
+  }
+  /**
+   * Retrieve the tween ref dom node
+   * @param id
+   * @returns {*}
+   */
+  ;
+
+  _proto.getTweenableRef = function getTweenableRef(id) {
+    return this._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_8___default.a.findDOMNode(this._.refs[id]);
+  }
+  /**
+   * Get the root dom node of the tweener element
+   * @returns {*}
+   */
+  ;
+
+  _proto.getRootNode = function getRootNode() {
+    return this._.rootRef && this.getTweenableRef(this._.rootRef) || react_dom__WEBPACK_IMPORTED_MODULE_8___default.a.findDOMNode(this);
+  } // ------------------------------------------------------------
+  // -------------------- Pushable anims ------------------------
+  // ------------------------------------------------------------
+
+  /**
+   * Push anims
+   * @param anim
+   * @param then
+   * @param skipInit
+   * @returns {tweenAxis}
+   */
+  ;
+
+  _proto.pushAnim = function pushAnim(anim, then, keepResults) {
+    var _this4 = this;
+
+    if (keepResults === void 0) {
+      keepResults = true;
+    }
+
+    var sl,
+        initial,
+        _ = this._,
+        initials = {},
+        fail;
+
+    if (isArray(anim)) {
+      sl = anim;
+    } else {
+      sl = anim.anims;
+      initial = anim.initial;
+    }
+
+    if (!(sl instanceof _utils_CssTweenAxis__WEBPACK_IMPORTED_MODULE_11__["default"])) {
+      // tweenLine, initials, data, demuxers
+      sl = Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
+      sl = new _utils_CssTweenAxis__WEBPACK_IMPORTED_MODULE_11__["default"](sl, this._.tweenRefMaps);
+      Object.keys(initials).forEach(function (id) {
+        return _this4._.tweenRefMaps[id] && Object.assign(_this4._.tweenRefMaps[id], _objectSpread({}, initials[id], {}, _this4._.tweenRefMaps[id])) || (fail = console.warn("react-voodoo : Can't find tween target ", id, " in ", TweenableComp.displayName) || true);
+      });
+    }
+
+    if (fail) return;
+    return new Promise(function (resolve) {
+      // start timer launch @todo
+      sl.run(_this4._.tweenRefMaps, function () {
+        var i = _this4._.runningAnims.indexOf(sl);
+
+        if (i != -1) _this4._.runningAnims.splice(i, 1); //console.log( _.muxDataByTarget)
+
+        Object.keys(initials) // unset
+        .forEach(function (id) {
+          Object.keys(initials[id]) // unset
+          .forEach(function (rkey) {
+            // todo
+            Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["clearTweenableValue"])(rkey, rkey, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id], keepResults);
+          });
+        });
+        sl.destroy();
+        resolve(sl);
+      });
+
+      _this4._.runningAnims.push(sl);
+
+      if (!_this4._.live) {
+        _this4._.live = true;
+        requestAnimationFrame(_this4._._rafLoop = _this4._._rafLoop || _this4._rafLoop.bind(_this4));
+      }
+    }).then(function (sl) {
+      return then && then(sl);
+    });
+  }
+  /**
+   * Update tweenRef raw tweened values
+   * @param id
+   * @param map
+   * @param reset
+   */
+  ;
+
+  _proto.applyTweenState = function applyTweenState(id, map, reset) {
+    var _this5 = this;
+
+    var tmap = {},
+        initials = {};
+    Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["deMuxTween"])(map, tmap, initials, this._.muxDataByTarget[id], this._.muxByTarget[id], true);
+    Object.keys(tmap).map(function (p) {
+      return _this5._.tweenRefMaps[id][p] = (!reset && _this5._.tweenRefMaps[id][p] || initials[p]) + tmap[p];
+    });
+  } // ------------------------------------------------------------
+  // ------------------ Scrollable axes -------------------------
+  // ------------------------------------------------------------
+
+  /**
+   * Will init / update a scrollable axis
+   * @param axe
+   * @param _inertia
+   * @param _scrollableArea
+   * @param _scrollableBounds
+   * @param _scrollableWindow
+   * @param defaultPosition
+   * @param scrollFirst
+   * @param reset
+   */
+  ;
+
+  _proto.initAxis = function initAxis(axe, _ref, reset) {
+    var _inertia$setBounds, _inertia$setBounds2;
+
+    var _inertia = _ref.inertia,
+        _ref$scrollableArea = _ref.scrollableArea,
+        _scrollableArea = _ref$scrollableArea === void 0 ? 0 : _ref$scrollableArea,
+        _scrollableBounds = _ref.scrollableBounds,
+        _scrollableWindow = _ref.scrollableWindow,
+        defaultPosition = _ref.defaultPosition,
+        scrollFirst = _ref.scrollFirst;
+
+    var _ = this._,
+        dim = this.axes[axe],
+        scrollableBounds = _scrollableBounds,
+        scrollPos = !reset && dim ? dim.scrollPos : defaultPosition || scrollableBounds && scrollableBounds.min || 0,
+        scrollableArea = Math.max(dim && dim.scrollableArea || 0, _scrollableArea),
+        scrollableWindow = Math.max(dim && dim.scrollableWindow || 0, _scrollableWindow),
+        targetPos = dim ? dim.targetPos : scrollPos,
+        inertia = dim ? dim.inertia : new _utils_inertia__WEBPACK_IMPORTED_MODULE_13__["default"](_objectSpread({
+      // todo mk pure
+      disabled: !_inertia
+    }, _inertia || {}, {
+      value: scrollPos
+    })),
+        nextDescr = {
+      //...(_inertia || {}),
+      scrollFirst: scrollFirst,
+      tweenAxis: dim && dim.tweenAxis || [],
+      scrollPos: scrollPos,
+      targetPos: targetPos,
+      inertia: inertia,
+      scrollableWindow: scrollableWindow,
+      scrollableBounds: scrollableBounds,
+      scrollableArea: scrollableArea
+    };
+    this.axes[axe] = nextDescr;
+    !_inertia && (inertia._.disabled = true);
+    _inertia && inertia && (inertia._.wayPoints = _inertia.wayPoints);
+    _inertia && inertia && !inertia.active && (inertia._.pos = scrollPos);
+    if (inertia && scrollableBounds) (_inertia$setBounds = inertia.setBounds) === null || _inertia$setBounds === void 0 ? void 0 : _inertia$setBounds.call(inertia, scrollableBounds.min, scrollableBounds.max);else inertia && ((_inertia$setBounds2 = inertia.setBounds) === null || _inertia$setBounds2 === void 0 ? void 0 : _inertia$setBounds2.call(inertia, 0, scrollableArea));
+  };
+
+  _proto._getAxis = function _getAxis(axe) {
+    if (axe === void 0) {
+      axe = "scrollY";
+    }
+
+    var _ = this._;
+    this.axes[axe] = this.axes[axe] || {
+      tweenAxis: [],
+      scrollPos: _.options.initialScrollPos && _.options.initialScrollPos[axe] || 0,
+      targetPos: 0,
+      scrollableWindow: 0,
+      scrollableArea: 0,
+      inertia: new _utils_inertia__WEBPACK_IMPORTED_MODULE_13__["default"](_objectSpread({
+        value: _.options.initialScrollPos && _.options.initialScrollPos[axe] || 0
+      }, _.options.axes && _.options.axes[axe] && _.options.axes[axe].inertia || {}))
+    };
+    return this.axes[axe];
+  }
+  /**
+   * Return axis infos
+   */
+  ;
+
+  _proto.getAxisState = function getAxisState(axe) {
+    var _this6 = this;
+
+    var _ = this._,
+        state = {};
+    this.axes && Object.keys(this.axes).forEach(function (axe) {
+      return state[axe] = _this6.axes[axe].targetPos || _this6.axes[axe].scrollPos;
+    });
+    return state;
+  };
+
+  _proto.getScrollPos = function getScrollPos(axis) {
+    if (axis === void 0) {
+      axis = "scrollY";
+    }
+
+    var _ = this._,
+        state = {};
+    return this.axes[axis] ? this.axes[axis].targetPos || this.axes[axis].scrollPos : 0;
+  }
+  /**
+   * Do scroll an axis
+   * @param newPos
+   * @param ms
+   * @param axe
+   * @param ease
+   * @returns {Promise<any | never>}
+   */
+  ;
+
+  _proto.scrollTo = function scrollTo(newPos, ms, axe, ease) {
+    var _this7 = this;
+
+    if (ms === void 0) {
+      ms = 0;
+    }
+
+    if (axe === void 0) {
+      axe = "scrollY";
+    }
+
+    var _ = this._;
+    return new Promise(function (resolve, reject) {
+      if (_this7.axes && _this7.axes[axe]) {
+        var oldPos = _this7.axes[axe].targetPos,
+            setPos = function setPos(pos) {
+          var _this7$axes, _this7$axes$axe, _this7$axes$axe$inert, _$rootRef2, _$rootRef2$current, _$rootRef2$current$co;
+
+          //console.log('TweenableComp::setPos:514: ',  newPos,pos, ms, axe);
+          pos = ~~(pos * 10000) / 10000;
+          _this7.axes[axe].targetPos = _this7.axes[axe].scrollPos = pos;
+          (_this7$axes = _this7.axes) === null || _this7$axes === void 0 ? void 0 : (_this7$axes$axe = _this7$axes[axe]) === null || _this7$axes$axe === void 0 ? void 0 : (_this7$axes$axe$inert = _this7$axes$axe.inertia) === null || _this7$axes$axe$inert === void 0 ? void 0 : _this7$axes$axe$inert.setPos(pos); //this.axes[axe].inertia._doSnap()
+
+          if (~~pos !== oldPos) (_$rootRef2 = _.rootRef) === null || _$rootRef2 === void 0 ? void 0 : (_$rootRef2$current = _$rootRef2.current) === null || _$rootRef2$current === void 0 ? void 0 : (_$rootRef2$current$co = _$rootRef2$current.componentDidScroll) === null || _$rootRef2$current$co === void 0 ? void 0 : _$rootRef2$current$co.call(_$rootRef2$current, ~~pos, axe);
+
+          _this7._updateTweenRefs();
+        };
+
+        newPos = Math.max(0, newPos);
+        newPos = Math.min(newPos, _this7.axes[axe].scrollableArea || 0);
+        _this7.axes[axe].targetPos = newPos;
+
+        if (!ms) {
+          _this7.axes[axe].tweenAxis.forEach(function (sl) {
+            return sl.goTo(newPos, _.tweenRefMaps);
+          });
+
+          setPos(newPos);
+          resolve();
+        } else {
+          _this7._runScrollGoTo(axe, newPos, ms, d3_ease__WEBPACK_IMPORTED_MODULE_4__[ease], setPos, resolve);
+        }
+
+        if (!_.live) {
+          _.live = true;
+          requestAnimationFrame(_._rafLoop);
+        }
+      }
+    }).then(function (p) {
+      var _this7$axes2, _this7$axes2$axe, _this7$axes2$axe$iner;
+
+      (_this7$axes2 = _this7.axes) === null || _this7$axes2 === void 0 ? void 0 : (_this7$axes2$axe = _this7$axes2[axe]) === null || _this7$axes2$axe === void 0 ? void 0 : (_this7$axes2$axe$iner = _this7$axes2$axe.inertia) === null || _this7$axes2$axe$iner === void 0 ? void 0 : _this7$axes2$axe$iner._detectCurrentSnap();
+    });
+  }
+  /**
+   * Add scrollable tween axis (scrollable anims) to a global axis
+   * @param anim
+   * @param axe
+   * @param size
+   * @returns {tweenAxis}
+   */
+  ;
+
+  _proto.addScrollableAnim = function addScrollableAnim(anim, axe, size) {
+    var _this8 = this,
+        _dim$inertia;
+
+    if (axe === void 0) {
+      axe = "scrollY";
+    }
+
+    var sl,
+        _ = this._,
+        initials = {},
+        dim = this._getAxis(axe);
+
+    if (isArray(anim)) {
+      sl = anim;
+    } else {
+      sl = anim.anims;
+      size = anim.length;
+    } //console.warn("add scrollable")
+
+
+    if (!(sl instanceof _utils_CssTweenAxis__WEBPACK_IMPORTED_MODULE_11__["default"])) {
+      sl = Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["deMuxLine"])(sl, initials, this._.muxDataByTarget, this._.muxByTarget);
+      sl = new _utils_CssTweenAxis__WEBPACK_IMPORTED_MODULE_11__["default"](sl, _.tweenRefMaps);
+      sl.initials = initials;
+      Object.keys(initials).forEach(function (id) {
+        _.tweenRefOrigin[id] = _.tweenRefOrigin[id] || {};
+        _.tweenRefMaps[id] = _.tweenRefMaps[id] || {};
+        Object.assign(_this8._.tweenRefMaps[id], _objectSpread({}, initials[id], {}, _this8._.tweenRefMaps[id]));
+      });
+    } // init scroll
+
+
+    dim.tweenAxis.push(sl);
+    dim.scrollPos = dim.scrollPos || 0;
+    dim.scrollableArea = dim.scrollableArea || 0;
+    dim.scrollableArea = Math.max(dim.scrollableArea, sl.duration);
+    if (!dim.scrollableBounds) (_dim$inertia = dim.inertia) === null || _dim$inertia === void 0 ? void 0 : _dim$inertia.setBounds(0, dim.scrollableArea);
+    sl.goTo(dim.scrollPos, this._.tweenRefMaps);
+
+    this._updateTweenRefs();
+
+    return sl;
+  }
+  /**
+   * Remove a tweenAxis object from a component scrollable axis
+   * @param sl
+   * @param axe
+   */
+  ;
+
+  _proto.rmScrollableAnim = function rmScrollableAnim(sl, axe) {
+    if (axe === void 0) {
+      axe = "scrollY";
+    }
+
+    var _ = this._,
+        found,
+        dim = this._getAxis(axe),
+        twAxis;
+
+    var i = dim.tweenAxis.indexOf(sl);
+
+    if (i !== -1) {
+      var _dim$inertia2;
+
+      //dim.tweenAxis[i].destroy();
+      dim.tweenAxis.splice(i, 1);
+      dim.scrollableArea = Math.max.apply(Math, dim.tweenAxis.map(function (tl) {
+        return tl.duration;
+      }).concat([0]));
+      if (!dim.scrollableBounds) (_dim$inertia2 = dim.inertia) === null || _dim$inertia2 === void 0 ? void 0 : _dim$inertia2.setBounds(0, dim.scrollableArea || 0); //console.warn("rm scrollable", { ...this._.tweenRefMaps })
+
+      sl.goTo(0, this._.tweenRefMaps); //console.warn("rm scrollable", { ...this._.tweenRefMaps["card"] })
+
+      Object.keys(sl.initials) // unset
+      .forEach(function (id) {
+        Object.keys(sl.initials[id]) // unset
+        .forEach(function (rkey) {
+          //debugger
+          Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["clearTweenableValue"])(rkey, rkey, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id]); //!_.tweenRefCSS[id] &&
+          //_.refs[id] && _.refs[id].style && _.refs[id].style[rkey] &&
+          // (_.refs[id].style[rkey] = null);
+        });
+      });
+      delete sl.initials;
+      sl.destroy();
+      found = true;
+
+      this._updateTweenRefs();
+    }
+
+    !found && console.warn("TweenAxis not found !");
+  }
+  /**
+   * @private fn to push scrollTo
+   * @param axe
+   * @param to
+   * @param tm
+   * @param easing
+   * @param tick
+   * @param cb
+   * @private
+   */
+  ;
+
+  _proto._runScrollGoTo = function _runScrollGoTo(axe, to, tm, easing, tick, cb) {
+    var _this9 = this;
+
+    if (easing === void 0) {
+      easing = function easing(x) {
+        return x;
+      };
+    }
+
+    var from = this.axes[axe].scrollPos,
+        length = to - from;
+
+    _running.push({
+      apply: function apply(pos, max) {
+        var x = from + easing(pos / max) * length;
+
+        if (_this9._.tweenEnabled) {
+          //console.log('TweenableComp::setPos:514: ', x);
+          _this9.axes[axe].tweenAxis.forEach(function (sl) {
+            return sl.goTo(x, _this9._.tweenRefMaps);
+          });
+
+          tick && tick(x);
+        }
+      },
+      duration: tm,
+      cpos: 0,
+      cb: cb
+    });
+
+    if (!_live) {
+      _live = true;
+      lastTm = Date.now(); // console.log("TL runner On");
+
+      setTimeout(Runner._tick, 16);
+    }
+  }
+  /**
+   * Return scrollable parent node list basing a dom node
+   * @param node
+   * @returns {T[]}
+   */
+  ;
+
+  _proto.getScrollableNodes = function getScrollableNodes(node) {
+    var _this10 = this;
+
+    var scrollable = _utils_dom__WEBPACK_IMPORTED_MODULE_12__["default"].findReactParents(node),
+        _ = this._;
+    scrollable = _.rootRef && _.rootRef.current && _.rootRef.current.hookScrollableTargets && _.rootRef.current.hookScrollableTargets(scrollable) || scrollable;
+    return scrollable.map(function (id) {
+      return is__WEBPACK_IMPORTED_MODULE_6___default.a.string(id) ? _this10._.refs[id] && react_dom__WEBPACK_IMPORTED_MODULE_8___default.a.findDOMNode(_this10._.refs[id]) || _this10.refs[id] || document.getElementById(id) : id;
+    });
+  }
+  /**
+   * Hook to know if the composed element allow scrolling
+   * @returns {boolean}
+   */
+  ;
+
+  _proto.componentShouldScroll = function componentShouldScroll() {
+    var _$rootRef$current2;
+
+    var _ = this._;
+    return _.rootRef && _.rootRef.current && _.rootRef.current.componentShouldScroll ? (_$rootRef$current2 = _.rootRef.current).componentShouldScroll.apply(_$rootRef$current2, arguments) : true;
+  } // ------------------------------------------------------------
+  // --------------- Inertia & scroll modifiers -----------------
+  // ------------------------------------------------------------
+
+  /**
+   * Retrieve updates from an axis inertia & apply them
+   * @param dim
+   * @param axe
+   */
+  ;
+
+  _proto.applyInertia = function applyInertia(dim, axe) {
+    var _this11 = this,
+        _$rootRef3,
+        _$rootRef3$current,
+        _$rootRef3$current$co;
+
+    var x = dim.inertia.update(),
+        _ = this._;
+    this.axes[axe].tweenAxis.forEach(function (sl) {
+      _this11.axes[axe].targetPos = _this11.axes[axe].scrollPos = x;
+      sl.goTo(x, _this11._.tweenRefMaps);
+    }); //console.log("scroll at " + x, axe, dim.inertia.active || dim.inertia.holding);
+    //this.scrollTo(x, 0, axe);
+
+    (_$rootRef3 = _.rootRef) === null || _$rootRef3 === void 0 ? void 0 : (_$rootRef3$current = _$rootRef3.current) === null || _$rootRef3$current === void 0 ? void 0 : (_$rootRef3$current$co = _$rootRef3$current.componentDidScroll) === null || _$rootRef3$current$co === void 0 ? void 0 : _$rootRef3$current$co.call(_$rootRef3$current, x, axe);
+
+    this._updateTweenRefs();
+
+    if (dim.inertia.active || dim.inertia.holding) {
+      dim.inertiaFrame = setTimeout(this.applyInertia.bind(this, dim, axe), 33);
+    } else {
+      dim.inertiaFrame = null; //console.log("complete");
+    }
+  }
+  /**
+   * Return true if at least 1 of this tweener axis have it's inertia active
+   * @returns {boolean}
+   */
+  ;
+
+  _proto.isInertiaActive = function isInertiaActive() {
+    var _this12 = this;
+
+    //todo
+    var _ = this._,
+        active = false;
+    this.axes && Object.keys(this.axes).forEach(function (axe) {
+      return active = active || _this12.axes[axe] && _this12.axes[axe].inertia.active;
+    });
+    return active;
+  };
+
+  _proto.dispatchScroll = function dispatchScroll(delta, axe) {
+    if (axe === void 0) {
+      axe = "scrollY";
+    }
+
+    var prevent,
+        dim = this.axes[axe],
+        oldPos = dim && dim.scrollPos,
+        newPos = oldPos + delta;
+
+    if (dim && oldPos !== newPos) {
+      dim.inertia.dispatch(delta, 100);
+      !dim.inertiaFrame && this.applyInertia(dim, axe);
+    }
+
+    return prevent;
+  };
+
+  _proto.isAxisOut = function isAxisOut(axis, v, abs) {
+    var _ = this._,
+        dim = this.axes && this.axes[axis],
+        pos = abs ? v : dim && dim.scrollPos + v;
+    pos = pos && Math.round(pos);
+    return !dim || (dim.scrollableBounds ? pos <= dim.scrollableBounds.min || pos >= dim.scrollableBounds.max : pos <= 0 || pos >= dim.scrollableArea);
+  };
+
+  _proto._doDispatch = function _doDispatch(target, dx, dy, holding) {
+    var style,
+        Comps,
+        headTarget = target,
+        nodeInertia,
+        i; // check if there scrollable stuff in dom targets
+    // get all the parents components & dom node of an dom element ( from fibers )
+
+    Comps = this.getScrollableNodes(headTarget); //console.log("dispatching ", dx, dy, Comps);
+
+    for (i = 0; i < Comps.length; i++) {
+      // react comp with tweener support
+      if (Comps[i].__isTweener) {
+        //debugger
+        //console.log(Comps[i], dx, dy, Comps[i].isAxisOut("scrollX", dx), Comps[i].isAxisOut("scrollY",
+        // dy));
+        if (!Comps[i].isAxisOut("scrollX", dx) && (!Comps[i].componentShouldScroll || Comps[i].componentShouldScroll("scrollX", dx))) {
+          Comps[i].dispatchScroll(dx, "scrollX", holding);
+          dx = 0;
+        }
+
+        if (!Comps[i].isAxisOut("scrollY", dy) && (!Comps[i].componentShouldScroll || Comps[i].componentShouldScroll("scrollY", dy))) {
+          Comps[i].dispatchScroll(dy, "scrollY", holding);
+          dy = 0;
+        }
+      } // dom element
+      else if (is__WEBPACK_IMPORTED_MODULE_6___default.a.element(Comps[i])) {
+          style = getComputedStyle(Comps[i], null);
+
+          if (/(auto|scroll)/.test(style.getPropertyValue("overflow") + style.getPropertyValue("overflow-x") + style.getPropertyValue("overflow-y"))) {
+            if (dy < 0 && Comps[i].scrollTop !== 0 || dy > 0 && Comps[i].scrollTop !== Comps[i].scrollHeight - Comps[i].clientHeight) {
+              return; //nodeInertia.y.dispatch(dy * 10)
+              //dy = 0;
+            } // let the node do this scroll
+            //if ( nodeInertia.x.isOutbound(dx) ) {
+            //	nodeInertia.x.dispatch(dx * 10)
+            //	dx = 0;
+            //} // let the node do this scroll
+
+          } //headTarget = headTarget.parentNode;
+          //if ( headTarget === document || headTarget === target )
+          //	break;
+
+        }
+
+      if (!dx && !dy) break;
+    }
+
+    this._updateNodeInertia();
+
+    if (!dx && !dy) return true;
+  };
+
+  _proto._activateNodeInertia = function _activateNodeInertia(node) {
+    var _ = this._,
+        i = _.activeInertia.findIndex(function (item) {
+      return item.target === node;
+    });
+
+    if (i === -1) {
+      _.activeInertia.push({
+        inertia: {
+          x: new _utils_inertia__WEBPACK_IMPORTED_MODULE_13__["default"]({
+            max: node.scrollWidth - node.offsetLeft,
+            value: node.scrollLeft
+          }),
+          y: new _utils_inertia__WEBPACK_IMPORTED_MODULE_13__["default"]({
+            max: node.scrollHeight - node.offsetHeight,
+            value: node.scrollTop
+          })
+        },
+        target: node
+      });
+
+      i = _.activeInertia.length - 1;
+    }
+
+    return _.activeInertia[i].inertia;
+  };
+
+  // ------------------------------------------------------------
+  // --------------- Initialization & drawers -------------------
+  // ------------------------------------------------------------
+  _proto.setRootRef = function setRootRef(id) {
+    this._.rootRef = id;
+  };
+
+  _proto._updateBox = function _updateBox() {
+    var node = this.getRootNode();
+
+    if (node) {
+      this._.box.inited = true;
+      this._.box.x = node.offsetWidth;
+      this._.box.y = node.offsetHeight;
+    }
+  };
+
+  _proto._rafLoop = function _rafLoop() {
+    this._updateTweenRefs();
+
+    if (this._.runningAnims.length) {
+      requestAnimationFrame(this._._rafLoop);
+    } else {
+      //this._.live && console.log("RAF off", this.constructor.displayName);
+      this._.live = false;
+    }
+  };
+
+  _proto._updateTweenRefs = function _updateTweenRefs() {
+    if (this._.tweenEnabled) {
+      for (var i = 0, target, node, style; i < this._.tweenRefTargets.length; i++) {
+        target = this._.tweenRefTargets[i];
+        style = this._updateTweenRef(target);
+      }
+    }
+  };
+
+  _proto._updateTweenRef = function _updateTweenRef(target, force) {
+    var node,
+        swap = this._swap,
+        changes;
+    this._.tweenRefCSS[target] && Object(_utils_css__WEBPACK_IMPORTED_MODULE_10__["muxToCss"])(this._.tweenRefMaps[target], swap, this._.muxByTarget[target], this._.muxDataByTarget[target], this._.box);
+    node = this.getTweenableRef(target);
+
+    if (node) {
+      for (var o in this._.tweenRefCSS[target]) {
+        if (swap[o] === undefined) {
+          node.style[o] = this._.tweenRefCSS[target][o]; //		node.style[o] = null;
+          //		delete this._.tweenRefCSS[target][o];
+        }
+      }
+
+      for (var _o in swap) {
+        if (this._.tweenRefCSS[target].hasOwnProperty(_o)) {
+          if (force || swap[_o] !== this._.tweenRefCSS[target][_o]) {
+            node.style[_o] = this._.tweenRefCSS[target][_o] = swap[_o]; //if ( target == "card" ) console.log(target, o, node.style[o], swap[o]);
+
+            changes = true;
+          }
+
+          delete swap[_o];
+        }
+      }
+    } //if ( !changes )
+    //console.log('no changes', target, this._.tweenRefCSS[target], !!node, force)
+
+
+    return this._.tweenRefCSS[target];
+  } // ------------------------------------------------------------
+  // --------------- React Hooks --------------------------------
+  // ------------------------------------------------------------
+  ;
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    var _this13 = this;
+
+    var node = this.getRootNode();
+
+    if (this._.tweenEnabled) {
+      this._.tweenEnabled = false;
+      window.removeEventListener("resize", this._.onResize);
+      Object.keys(this.axes).forEach(function (axe) {
+        _this13.axes[axe].inertiaFrame && clearTimeout(_this13.axes[axe].inertiaFrame);
+      });
+    }
+
+    _React$Component.prototype.componentWillUnmount && _React$Component.prototype.componentWillUnmount.apply(this, arguments);
+  };
+
+  _proto.componentDidMount = function componentDidMount() {
+    var _this14 = this;
+
+    var _static = this.constructor;
+    this._.rendered = true;
+
+    if (this._.tweenEnabled) {
+      // debugger;
+      this._updateBox();
+
+      this._updateTweenRefs();
+    }
+
+    if (_static.scrollableAnim) {
+      if (is__WEBPACK_IMPORTED_MODULE_6___default.a.array(_static.scrollableAnim)) this.addScrollableAnim(_static.scrollableAnim);else Object.keys(_static.scrollableAnim).forEach(function (axe) {
+        return _this14.addScrollableAnim(_static.scrollableAnim[axe], axe);
+      });
+    } //if ( this._.doRegister || this.__isFirst ) {
+    //	
+    //	this._.doRegister = false;
+    //}
+
+
+    _React$Component.prototype.componentDidMount && _React$Component.prototype.componentDidMount.apply(this, arguments);
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
+    if (this._.tweenEnabled) {
+      this._updateBox();
+
+      this._updateTweenRefs();
+    }
+
+    _React$Component.prototype.componentDidUpdate && _React$Component.prototype.componentDidUpdate.apply(this, arguments);
+  };
+
+  _proto.render = function render() {
+    var _this15 = this;
+
+    var _this$props = this.props,
+        BaseComponent = _this$props.BaseComponent,
+        oProps = _this$props.oProps;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_comps_TweenerContext__WEBPACK_IMPORTED_MODULE_9__["default"].Consumer, null, function (parentTweener) {
+      _this15._parentTweener = parentTweener;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_comps_TweenerContext__WEBPACK_IMPORTED_MODULE_9__["default"].Provider, {
+        value: _this15
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(BaseComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, oProps, {
+        ref: _this15._.rootRef,
+        tweener: _this15
+      })));
+    });
+  };
+
+  return TweenableComp;
+}(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
+/**
+ * asTweener decorator
+ * @param argz
+ * @returns {*}
+ */
+
+
+function asTweener() {
+  for (var _len2 = arguments.length, argz = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+    argz[_key2] = arguments[_key2];
+  }
+
+  var BaseComponent = (!argz[0] || argz[0].prototype instanceof react__WEBPACK_IMPORTED_MODULE_7___default.a.Component || argz[0] === react__WEBPACK_IMPORTED_MODULE_7___default.a.Component) && argz.shift(),
+      options = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift() || {};
+
+  if (!BaseComponent) {
+    return function (BaseComponent) {
+      return asTweener(BaseComponent, options);
+    };
+  }
+
+  options = _objectSpread({
+    wheelRatio: 5,
+    maxClickTm: 200,
+    maxClickOffset: 20
+  }, options);
+  var withRef = react__WEBPACK_IMPORTED_MODULE_7___default.a.forwardRef(function (props, ref) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(TweenableComp, {
+      oProps: props,
+      forwardedRef: ref,
+      BaseComponent: BaseComponent,
+      tweenerOptions: options
+    });
+  });
+  withRef.displayName = String.fromCharCode(0xD83E, 0xDDD9) + (BaseComponent.displayName || BaseComponent.name);
+  return withRef;
+}
+
+/***/ }),
+
+/***/ "./src/spells/withTweener.js":
+/*!***********************************!*\
+  !*** ./src/spells/withTweener.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return withTweener; });
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "undefined?df9b");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "undefined?cdfe");
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "undefined?588e");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _comps_TweenerContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../comps/TweenerContext */ "./src/comps/TweenerContext.js");
+
+
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+var SimpleObjectProto = {}.constructor;
+/**
+ * asTweener decorator
+ * @param argz
+ * @returns {*}
+ */
+
+function withTweener() {
+  for (var _len = arguments.length, argz = new Array(_len), _key = 0; _key < _len; _key++) {
+    argz[_key] = arguments[_key];
+  }
+
+  var BaseComponent = (!argz[0] || argz[0].prototype instanceof react__WEBPACK_IMPORTED_MODULE_2___default.a.Component || argz[0] === react__WEBPACK_IMPORTED_MODULE_2___default.a.Component) && argz.shift(),
+      opts = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift() || {};
+
+  if (!(BaseComponent && (BaseComponent.prototype instanceof react__WEBPACK_IMPORTED_MODULE_2___default.a.Component || BaseComponent === react__WEBPACK_IMPORTED_MODULE_2___default.a.Component))) {
+    return function (BaseComponent) {
+      return withTweener(BaseComponent, opts);
+    };
+  }
+
+  var TweenerToProps = /*#__PURE__*/function (_React$Component) {
+    _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default()(TweenerToProps, _React$Component);
+
+    function TweenerToProps() {
+      return _React$Component.apply(this, arguments) || this;
+    }
+
+    var _proto = TweenerToProps.prototype;
+
+    _proto.render = function render() {
+      var _this = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_comps_TweenerContext__WEBPACK_IMPORTED_MODULE_4__["default"].Consumer, null, function (tweener) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(BaseComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, _this.props, {
+          tweener: tweener,
+          ref: _this.props.forwardedRef
+        }));
+      });
+    };
+
+    return TweenerToProps;
+  }(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
+
+  TweenerToProps.displayName = BaseComponent.displayName || BaseComponent.name;
+  var withRef = react__WEBPACK_IMPORTED_MODULE_2___default.a.forwardRef(function (props, ref) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(TweenerToProps, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
+      forwardedRef: ref
+    }));
+  });
+  withRef.displayName = TweenerToProps.displayName;
+  return withRef;
+}
+
+/***/ }),
+
+/***/ "./src/utils/CssTweenAxis.js":
+/*!***********************************!*\
+  !*** ./src/utils/CssTweenAxis.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CssTweenAxis; });
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "undefined?e4e5");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "undefined?cdfe");
+/* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var tween_axis__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tween-axis */ "undefined?a9ee");
+/* harmony import */ var tween_axis__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(tween_axis__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+ //export default tweenAxis
+
+var recyclableTweenAxis = [];
+
+var CssTweenAxis = /*#__PURE__*/function (_tweenAxis) {
+  _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1___default()(CssTweenAxis, _tweenAxis);
+
+  function CssTweenAxis(cfg, scope) {
+    var _this;
+
+    if (recyclableTweenAxis.length) {
+      var recyled = recyclableTweenAxis.pop();
+      recyled.scope = scope;
+
+      if (is__WEBPACK_IMPORTED_MODULE_2___default.a.array(cfg)) {
+        recyled.localLength = 1;
+        recyled.mount(cfg, scope);
+      } else {
+        if (cfg.Axis) recyled.mount(cfg.Axis, scope);
+      }
+
+      return recyled || _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_0___default()(_this);
+    }
+
+    return _tweenAxis.apply(this, arguments) || this;
+  }
+
+  var _proto = CssTweenAxis.prototype;
+
+  _proto.destroy = function destroy() {
+    this.scope = undefined;
+    this.__marks.length = 0;
+    this.__marksLength.length = 0;
+    this.__marksKeys.length = 0;
+    this.__processors.length = 0;
+    this.__config.length = 0;
+    this.__activeForks.length = 0;
+    this.__activeProcess.length = 0;
+    this.__activeProcess.length = 0;
+    this.__outgoing.length = 0;
+    this.__incoming.length = 0;
+    this.__cPos = 0;
+    this.duration = 0;
+    this.__cIndex = 0;
+    this.__cMaxKey = 1;
+    recyclableTweenAxis.push(this);
+  };
+
+  return CssTweenAxis;
+}(tween_axis__WEBPACK_IMPORTED_MODULE_3___default.a);
+
+
+
+/***/ }),
+
+/***/ "./src/utils/css/cssUtils.js":
+/*!***********************************!*\
+  !*** ./src/utils/css/cssUtils.js ***!
+  \***********************************/
+/*! exports provided: units, unitsRe, floatCut, expandShorthandProperty, isShorthandProperty, isValidDeclaration, canAnimate, getProperty */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "units", function() { return units; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unitsRe", function() { return unitsRe; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "floatCut", function() { return floatCut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "expandShorthandProperty", function() { return expandShorthandProperty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isShorthandProperty", function() { return isShorthandProperty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidDeclaration", function() { return isValidDeclaration; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "canAnimate", function() { return canAnimate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProperty", function() { return getProperty; });
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+var props = {
+  "margin": {
+    "properties": ["marginTop", "marginRight", "marginBottom", "marginLeft"]
+  },
+  "marginBottom": {
+    "types": ["length"]
+  },
+  "marginLeft": {
+    "types": ["length"]
+  },
+  "marginRight": {
+    "types": ["length"]
+  },
+  "marginTop": {
+    "types": ["length"]
+  },
+  "padding": {
+    "properties": ["paddingTop", "paddingRight", "paddingBottom", "paddingLeft"]
+  },
+  "paddingBottom": {
+    "types": ["length"]
+  },
+  "paddingLeft": {
+    "types": ["length"]
+  },
+  "paddingRight": {
+    "types": ["length"]
+  },
+  "paddingTop": {
+    "types": ["length"]
+  },
+  "bottom": {
+    "types": ["length-percentage-calc"]
+  },
+  "left": {
+    "types": ["length-percentage-calc"]
+  },
+  "right": {
+    "types": ["length-percentage-calc"]
+  },
+  "top": {
+    "types": ["length-percentage-calc"]
+  },
+  "zIndex": {
+    "types": ["integer"]
+  },
+  "width": {
+    "types": ["length-percentage-calc"]
+  },
+  "maxWidth": {
+    "types": ["length-percentage-calc"]
+  },
+  "minWidth": {
+    "types": ["length-percentage-calc"]
+  },
+  "height": {
+    "types": ["length-percentage-calc"]
+  },
+  "maxHeight": {
+    "types": ["length-percentage-calc"]
+  },
+  "minHeight": {
+    "types": ["length-percentage-calc"]
+  },
+  "lineHeight": {
+    "types": ["number", "length"]
+  },
+  "verticalAlign": {
+    "types": ["length"]
+  },
+  "visibility": {
+    "types": ["visibility"]
+  },
+  "borderSpacing": {
+    "types": ["length"],
+    "multiple": true
+  },
+  "color": {
+    "types": ["color"]
+  },
+  "opacity": {
+    "types": ["number"]
+  },
+  "background": {
+    "properties": ["backgroundColor", "backgroundPosition", "backgroundSize"]
+  },
+  "backgroundColor": {
+    "types": ["color"]
+  },
+  "backgroundPosition": {
+    "types": ["length-percentage-calc"],
+    "multiple": true,
+    "repeatable": true
+  },
+  "backgroundSize": {
+    "types": ["length-percentage-calc"],
+    "multiple": true,
+    "repeatable": true
+  },
+  "border": {
+    "properties": ["borderColor", "borderWidth"]
+  },
+  "borderBottom": {
+    "properties": ["borderBottomColor", "borderBottomWidth"]
+  },
+  "borderLeft": {
+    "properties": ["borderLeftColor", "borderLeftWidth"]
+  },
+  "borderRight": {
+    "properties": ["borderRightColor", "borderRightWidth"]
+  },
+  "borderTop": {
+    "properties": ["borderTopColor", "borderTopWidth"]
+  },
+  "borderColor": {
+    "properties": ["borderTopColor", "borderRightColor", "borderBottomColor", "borderLeftColor"]
+  },
+  "borderWidth": {
+    "properties": ["borderTopWidth", "borderRightWidth", "borderBottomWidth", "borderLeftWidth"]
+  },
+  "borderBottomColor": {
+    "types": ["color"]
+  },
+  "borderLeftColor": {
+    "types": ["color"]
+  },
+  "borderRightColor": {
+    "types": ["color"]
+  },
+  "borderTopColor": {
+    "types": ["color"]
+  },
+  "borderBottomWidth": {
+    "types": ["length"]
+  },
+  "borderLeftWidth": {
+    "types": ["length"]
+  },
+  "borderRightWidth": {
+    "types": ["length"]
+  },
+  "borderTopWidth": {
+    "types": ["length"]
+  },
+  "borderRadius": {
+    "properties": ["borderTopLeftRadius", "borderTopRightRadius", "borderBottomRightRadius", "borderBottomLeftRadius"]
+  },
+  "borderTopLeftRadius": {
+    "types": ["length-percentage-calc"],
+    "multiple": true
+  },
+  "borderTopRightRadius": {
+    "types": ["length-percentage-calc"],
+    "multiple": true
+  },
+  "borderBottomRightRadius": {
+    "types": ["length-percentage-calc"],
+    "multiple": true
+  },
+  "borderBottomLeftRadius": {
+    "types": ["length-percentage-calc"],
+    "multiple": true
+  },
+  "boxShadow": {
+    "types": ["shadow-list"]
+  },
+  "caretColor": {
+    "types": ["color"]
+  },
+  "outline": {
+    "properties": ["outlineColor", "outlineWidth"]
+  },
+  "outlineColor": {
+    "types": ["color"]
+  },
+  "outlineWidth": {
+    "types": ["length"]
+  },
+  "outlineOffset": {
+    "types": ["length"]
+  },
+  "flex": {
+    "properties": ["flexGrow", "flexShrink", "flexBasis"]
+  },
+  "flexGrow": {
+    "types": ["number"]
+  },
+  "flexShrink": {
+    "types": ["number"]
+  },
+  "flexBasis": {
+    "types": ["length-percentage-calc"]
+  },
+  "order": {
+    "types": ["integer"]
+  },
+  "font": {
+    "properties": ["fontWeight", "fontStretch", "fontSize", "lineHeight"]
+  },
+  "fontWeight": {
+    "types": ["font-weight"]
+  },
+  "fontStretch": {
+    "types": ["font-stretch"]
+  },
+  "fontSize": {
+    "types": ["length"]
+  },
+  "fontSizeAdjust": {
+    "types": ["number"]
+  },
+  "gridTemplateColumns": {
+    "types": ["length-percentage-calc"],
+    "multiple": true
+  },
+  "gridTemplateRows": {
+    "types": ["length-percentage-calc"],
+    "multiple": true
+  },
+  "gridTemplate": {
+    "properties": ["gridTemplateRows", "gridTemplateColumns"]
+  },
+  "grid": {
+    "properties": ["gridTemplateRows", "gridTemplateColumns"]
+  },
+  "gridRowGap": {
+    "types": ["length-percentage-calc"]
+  },
+  "gridColumnGap": {
+    "types": ["length-percentage-calc"]
+  },
+  "gridGap": {
+    "properties": ["gridRowGap", "gridColumnGap"]
+  },
+  "clip": {
+    "types": ["rectangle"]
+  },
+  "clipPath": {
+    "types": ["basic-shape"]
+  },
+  "mask": {
+    "properties": ["maskPosition", "maskSize"]
+  },
+  "maskPosition": {
+    "types": ["length-percentage-calc"],
+    "multiple": true,
+    "repeatable": true
+  },
+  "maskSize": {
+    "types": ["length-percentage-calc"],
+    "multiple": true,
+    "repeatable": true
+  },
+  "shapeOutside": {
+    "types": ["basic-shape"]
+  },
+  "shapeMargin": {
+    "types": ["length-percentage-calc"]
+  },
+  "shapeImageThreshold": {
+    "types": ["number"]
+  },
+  "scrollPadding": {
+    "properties": ["scrollPaddingTop", "scrollPaddingRight", "scrollPaddingBottom", "scrollPaddingLeft"]
+  },
+  "scrollPaddingTop": {
+    "types": ["length-percentage-calc"]
+  },
+  "scrollPaddingRight": {
+    "types": ["length-percentage-calc"]
+  },
+  "scrollPaddingBottom": {
+    "types": ["length-percentage-calc"]
+  },
+  "scrollPaddingLeft": {
+    "types": ["length-percentage-calc"]
+  },
+  "scrollPaddingBlock": {
+    "properties": ["scrollPaddingBlockStart", "scrollPaddingBlockEnd"]
+  },
+  "scrollPaddingBlockStart": {
+    "types": ["length-percentage-calc"]
+  },
+  "scrollPaddingBlockEnd": {
+    "types": ["length-percentage-calc"]
+  },
+  "scrollPaddingInline": {
+    "properties": ["scrollPaddingInlineStart", "scrollPaddingInlineEnd"]
+  },
+  "scrollPaddingInlineStart": {
+    "types": ["length-percentage-calc"]
+  },
+  "scrollPaddingInlineEnd": {
+    "types": ["length-percentage-calc"]
+  },
+  "scrollSnapMargin": {
+    "properties": ["scrollSnapMarginTop", "scrollSnapMarginRight", "scrollSnapMarginBottom", "scrollSnapMarginLeft"]
+  },
+  "scrollSnapMarginTop": {
+    "types": ["length"]
+  },
+  "scrollSnapMarginRight": {
+    "types": ["length"]
+  },
+  "scrollSnapMarginBottom": {
+    "types": ["length"]
+  },
+  "scrollSnapMarginLeft": {
+    "types": ["length"]
+  },
+  "scrollSnapMarginBlock": {
+    "properties": ["scrollSnapMarginBlockStart", "scrollSnapMarginBlockEnd"]
+  },
+  "scrollSnapMarginBlockStart": {
+    "types": ["length"]
+  },
+  "scrollSnapMarginBlockEnd": {
+    "types": ["length"]
+  },
+  "scrollSnapMarginInline": {
+    "properties": ["scrollSnapMarginInlineStart", "scrollSnapMarginInlineEnd"]
+  },
+  "scrollSnapMarginInlineStart": {
+    "types": ["length"]
+  },
+  "scrollSnapMarginInlineEnd": {
+    "types": ["length"]
+  },
+  "textDecoration": {
+    "properties": ["textDecorationColor"]
+  },
+  "textDecorationColor": {
+    "types": ["color"]
+  },
+  "textEmphasis": {
+    "properties": ["textEmphasisColor"]
+  },
+  "textEmphasisColor": {
+    "types": ["color"]
+  },
+  "textShadow": {
+    "types": ["shadow-list"]
+  },
+  "columns": {
+    "properties": ["columnWidth", "columnCount"]
+  },
+  "columnWidth": {
+    "types": ["length"]
+  },
+  "columnCount": {
+    "types": ["integer"]
+  },
+  "columnGap": {
+    "types": ["length-percentage-calc"]
+  },
+  "columnRule": {
+    "properties": ["columnRuleColor", "columnRuleWidth"]
+  },
+  "columnRuleColor": {
+    "types": ["color"]
+  },
+  "columnRuleWidth": {
+    "types": ["length"]
+  },
+  "letterSpacing": {
+    "types": ["length"]
+  },
+  "tabSize": {
+    "types": ["length"]
+  },
+  "textIndent": {
+    "types": ["length-percentage-calc"]
+  },
+  "wordSpacing": {
+    "types": ["length-percentage-calc"]
+  },
+  "transform": {
+    "types": ["transform"]
+  },
+  "transformOrigin": {
+    "types": ["length-percentage-calc"],
+    "multiple": true
+  },
+  "perspective": {
+    "types": ["length"]
+  },
+  "perspectiveOrigin": {
+    "types": ["length-percentage-calc"],
+    "multiple": true
+  }
+}; //
+///**
+// * List of animatable types used by properties, with descriptions of how to interpolate each type.
+// * Data taken from https://www.w3.org/TR/css3-transitions/#animatable-types and some other W3C specs.
+// *
+// * @type {Object}
+// */
+//exports.types = {
+//	'color'                 : {
+//		name: 'color',
+//		href: 'https://www.w3.org/TR/css3-transitions/#animtype-color'
+//	},
+//	'length'                : {
+//		name: 'length',
+//		href: 'https://www.w3.org/TR/css3-transitions/#animtype-length'
+//	},
+//	'percentage'            : {
+//		name: 'percentage',
+//		href: 'https://www.w3.org/TR/css3-transitions/#animtype-percentage'
+//	},
+//	'length-percentage-calc': {
+//		name: 'length, percentage, or calc',
+//		href: 'https://www.w3.org/TR/css3-transitions/#animtype-lpcalc'
+//	},
+//	'integer'               : {
+//		name: 'integer',
+//		href: 'https://www.w3.org/TR/css3-transitions/#animtype-integer'
+//	},
+//	'font-weight'           : {
+//		name: 'font weight',
+//		href: 'https://www.w3.org/TR/css3-transitions/#animtype-font-weight'
+//	},
+//	'number'                : {
+//		name: 'number',
+//		href: 'https://www.w3.org/TR/css3-transitions/#animtype-number'
+//	},
+//	'rectangle'             : {
+//		name: 'rectangle',
+//		href: 'https://www.w3.org/TR/css3-transitions/#animtype-rect'
+//	},
+//	'visibility'            : {
+//		name: 'visibility',
+//		href: 'https://www.w3.org/TR/css3-transitions/#animtype-visibility'
+//	},
+//	'shadow-list'           : {
+//		name: 'shadow list',
+//		href: 'https://www.w3.org/TR/css3-transitions/#animtype-shadow-list'
+//	},
+//	// Other specs
+//	'transform'             : {
+//		name: 'transform',
+//		href: 'https://www.w3.org/TR/css3-transforms/#interpolation-of-transforms'
+//	},
+//	'font-stretch'          : {
+//		name: 'font stretch',
+//		href: 'https://www.w3.org/TR/css3-fonts/#font-stretch-animation'
+//	},
+//	'basic-shape'           : {
+//		name: 'basic shape',
+//		href: 'https://www.w3.org/TR/css-shapes-1/#basic-shape-interpolation'
+//	},
+//};
+//
+
+var units = ['', 'deg', 'box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'];
+var unitsRe = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['\\w+', 'deg', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")");
+var floatCut = function floatCut(v) {
+  if (v === void 0) {
+    v = 0;
+  }
+
+  return Number(v.toFixed(3));
+};
+function expandShorthandProperty(property, value, target) {
+  if (target === void 0) {
+    target = {};
+  }
+
+  var type = props[property],
+      childProps = type && type.properties,
+      values = value.split(' ');
+  if (type.multiple) childProps && childProps.forEach(function (k, i) {
+    target[k] = values[i % values.length];
+  });else childProps && childProps.forEach(function (k, i) {
+    if (values[i]) target[k] = values[i];
+  });
+  return target;
+}
+;
+function isShorthandProperty(property) {
+  var type = props[property],
+      childProps = type && type.properties;
+  return childProps && !!childProps.length;
+}
+;
+function isValidDeclaration(property, value) {
+  return !!props[property];
+}
+;
+/**
+ * Check if a CSS property can be animated
+ * @param  {string} property CSS property name
+ * @return {boolean}         True if the property can be animated
+ */
+
+function canAnimate(property) {
+  return props.hasOwnProperty(property);
+}
+;
+/**
+ * Get a definition of how a CSS property can be animated
+ * @param  {string} property CSS property name
+ * @param  {boolean} expand  Expand definitions for sub-properties, when available
+ * @return {object}          Property definition, or null if it can't be animated
+ */
+
+function getProperty(property, expand) {
+  if (!exports.canAnimate(property)) {
+    return null;
+  }
+
+  var prop = props[property];
+  var ret = {
+    name: property
+  };
+  Object.keys(prop).forEach(function (key) {
+    var value = prop[key];
+
+    if (Array.isArray(value)) {
+      if (key === 'properties' && expand) {
+        value = value.map(function (subProp) {
+          return exports.getProperty(subProp, expand);
+        });
+      } else {
+        value = value.slice(); // clone
+      }
+    }
+
+    ret[key] = value;
+  });
+  return ret;
+}
+;
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/backgroundColor.js":
+/*!************************************************!*\
+  !*** ./src/utils/css/demux/backgroundColor.js ***!
+  \************************************************/
+/*! exports provided: release, demux, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _typed_color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typed/color */ "./src/utils/css/demux/typed/color.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "release", function() { return _typed_color__WEBPACK_IMPORTED_MODULE_0__["release"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return _typed_color__WEBPACK_IMPORTED_MODULE_0__["demux"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return _typed_color__WEBPACK_IMPORTED_MODULE_0__["mux"]; });
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/boxShadow.js":
+/*!******************************************!*\
+  !*** ./src/utils/css/demux/boxShadow.js ***!
+  \******************************************/
+/*! exports provided: release, demuxOne, demux, muxOne, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _typed_shadow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typed/shadow */ "./src/utils/css/demux/typed/shadow.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "release", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["release"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "demuxOne", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["demuxOne"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["demux"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "muxOne", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["muxOne"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["mux"]; });
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/filter.js":
+/*!***************************************!*\
+  !*** ./src/utils/css/demux/filter.js ***!
+  \***************************************/
+/*! exports provided: release, demux, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "release", function() { return release; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../cssUtils */ "./src/utils/css/cssUtils.js");
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+var defaultUnits = {
+  blur: 'px',
+  brightness: '%',
+  contrast: '%',
+  dropShadow: true,
+  grayscale: '%',
+  hueRotate: 'deg',
+  invert: "%",
+  opacity: "%",
+  saturate: "%",
+  sepia: "%"
+};
+var filters = {};
+function release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues) {
+  var path = twKey.split('_'),
+      tmpKey; // not optimal at all
+
+  console.log("dec", twKey, path);
+
+  if (path.length === 4) {
+    if (! --dataMap[path[0]][path[1]][path[2]] && !keepValues) {
+      delete dataMap[path[0]][path[1]][path[2]];
+    }
+
+    if (Object.keys(dataMap[path[0]][path[1]]).length === 0 && !keepValues) delete dataMap[path[0]][path[1]];
+    if (!keepValues) while (dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1]) {
+      dataMap[path[0]].pop();
+    }
+    tmpKey = path[0] + "_" + path[1] + "_" + path[2]; //console.warn("free", dataMap, path, tweenableMap[twKey])
+
+    if (! --dataMap[tmpKey][path[3]] && !keepValues) {
+      delete dataMap[tmpKey][path[3]];
+      delete tweenableMap[twKey];
+      console.log("delete", twKey);
+    }
+
+    if (!keepValues) while (dataMap[tmpKey].length && !dataMap[tmpKey][dataMap[tmpKey].length - 1]) {
+      dataMap[tmpKey].pop();
+    }
+    if (dataMap[path[0] + "_" + path[1] + "_" + path[2]].length === 0 && !keepValues) delete dataMap[path[0] + "_" + path[1] + "_" + path[2]];
+
+    if (dataMap[path[0]].length === 0 && !keepValues) {
+      delete dataMap[path[0]];
+      delete muxerMap[path[0]];
+      delete cssMap[path[0]];
+    }
+  } else {
+    console.log("wtf", path);
+  }
+}
+function demux(key, tweenable, target, data, box) {
+  if (data["filter_head"] === key) {
+    var _filters = "";
+    Object.keys(data[key]).forEach(function (fkey) {
+      var dkey = key + '_' + fkey;
+      data[key][fkey] = true;
+      _filters += fkey + "(" + Object(_cssUtils__WEBPACK_IMPORTED_MODULE_1__["floatCut"])(tweenable[dkey], 2) + data[dkey] + ") ";
+    });
+    target.filter = _filters;
+  }
+}
+var mux = function mux(key, value, target, data, initials) {
+  data["filter_head"] = data["filter_head"] || key;
+  data[key] = data[key] || {}; //initials[key]       = 0;
+
+  Object.keys(value).forEach(function (fkey) {
+    var fValue = value[fkey],
+        dkey = key + '_' + fkey,
+        match = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(fValue) ? fValue.match(_cssUtils__WEBPACK_IMPORTED_MODULE_1__["unitsRe"]) : false;
+    data[key][fkey] = true;
+    initials[dkey] = 0;
+
+    if (match) {
+      if (data[dkey] && data[dkey] !== match[2]) {
+        console.warn("Have != units on prop ! Ignore ", dkey, "present:" + data[dkey], "new:" + match[2]);
+        target[dkey] = 0;
+      } else {
+        data[dkey] = match[2];
+        target[dkey] = parseFloat(match[1]);
+      }
+    } else {
+      target[dkey] = fValue;
+      if (!data[dkey] && fkey in defaultUnits) data[dkey] = defaultUnits[fkey];
+    }
+  });
+  return demux;
+};
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/textShadow.js":
+/*!*******************************************!*\
+  !*** ./src/utils/css/demux/textShadow.js ***!
+  \*******************************************/
+/*! exports provided: release, demuxOne, demux, muxOne, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _typed_shadow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typed/shadow */ "./src/utils/css/demux/typed/shadow.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "release", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["release"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "demuxOne", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["demuxOne"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["demux"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "muxOne", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["muxOne"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return _typed_shadow__WEBPACK_IMPORTED_MODULE_0__["mux"]; });
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/transform.js":
+/*!******************************************!*\
+  !*** ./src/utils/css/demux/transform.js ***!
+  \******************************************/
+/*! exports provided: release, demuxOne, demux, muxOne, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "release", function() { return release; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demuxOne", function() { return demuxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "muxOne", function() { return muxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "undefined?188d");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../cssUtils */ "./src/utils/css/cssUtils.js");
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+var defaultUnits = {
+  //matrix     : true,
+  //translate  : 'px',
+  translateX: 'px',
+  translateY: 'px',
+  translateZ: 'px',
+  scale: '',
+  scaleZ: '',
+  scaleX: '',
+  scaleY: '',
+  rotate: 'deg',
+  //skew       : 'deg',
+  skewX: 'deg',
+  skewY: 'deg',
+  //matrix3d   : true,
+  //translate3d: true,
+  //scale3d    : true,
+  //rotate3d   : true,
+  rotateX: 'deg',
+  rotateY: 'deg',
+  rotateZ: 'deg',
+  perspective: 'px'
+},
+    defaultBox = {
+  translateX: 'x',
+  translateY: 'y',
+  translateZ: 'z',
+  rotateX: 'x',
+  rotateY: 'y',
+  rotateZ: 'z',
+  left: 'x',
+  right: 'x',
+  top: 'y',
+  bottom: 'y',
+  width: 'x',
+  height: 'y'
+},
+    defaultValue = {
+  //skew  : 1,
+  //skewX : 1,
+  //skewY : 1,
+  scale: 1,
+  scaleX: 1,
+  scaleY: 1,
+  scaleZ: 1
+};
+function release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues) {
+  var path = twKey.split('_'),
+      tmpKey; // not optimal at all
+
+  if (path.length === 4) {
+    //console.warn("dec", twKey, dataMap[path[0]][path[1]][path[2]])
+    // dec count on transform
+    if (! --dataMap[path[0]][path[1]][path[2]] && !keepValues) {
+      delete dataMap[path[0]][path[1]][path[2]];
+    } //if ( Object.keys(dataMap[path[0]][path[1]]).length === 0 && !keepValues )
+    //	delete dataMap[path[0]][path[1]];
+    // free transform layers
+
+
+    if (!keepValues) while (dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1]) {
+      dataMap[path[0]].pop();
+    }
+    tmpKey = path[0] + "_" + path[1] + "_" + path[2];
+
+    if (! --dataMap[tmpKey][path[3]] && !keepValues) {
+      delete dataMap[tmpKey][path[3]]; //dataMap[path[0]][path[3]] = undefined;
+
+      delete tweenableMap[twKey]; //console.log("delete", twKey)
+    }
+
+    if (!keepValues) while (dataMap[tmpKey].length && !dataMap[tmpKey][dataMap[tmpKey].length - 1]) {
+      dataMap[tmpKey].pop();
+    }
+    if (dataMap[tmpKey].length === 0 && !keepValues) delete dataMap[tmpKey];
+
+    if (dataMap[path[0]].length === 0 && !keepValues) {
+      delete dataMap[path[0]];
+      delete muxerMap[path[0]];
+      delete cssMap[path[0]];
+    }
+  } else {
+    console.log("wtf", path);
+  }
+}
+function demuxOne(unitIndex, dkey, twVal, baseKey, data, box) {
+  var value = twVal,
+      unit = _cssUtils__WEBPACK_IMPORTED_MODULE_2__["units"][unitIndex] || defaultUnits[baseKey];
+
+  if (unit === 'box') {
+    value = value * (box[defaultBox[baseKey]] || box.x);
+    unit = 'px';
+  }
+
+  if (unit === 'bw') {
+    value = value * box.x;
+    unit = 'px';
+  }
+
+  if (unit === 'wh') {
+    value = value * box.y;
+    unit = 'px';
+  }
+
+  if (unit === 'bz') {
+    value = value * box.z;
+    unit = 'px';
+  }
+
+  if (unit === 'deg') value = value % 360;
+  return unit ? Object(_cssUtils__WEBPACK_IMPORTED_MODULE_2__["floatCut"])(value) + unit : Object(_cssUtils__WEBPACK_IMPORTED_MODULE_2__["floatCut"])(value);
+}
+function demux(key, tweenable, target, data, box) {
+  //console.log(key)
+  var transforms = "",
+      tmpValue = {};
+  var ti = 0,
+      tmap,
+      fkey,
+      unitKey,
+      unitIndex,
+      dkey,
+      u,
+      iValue,
+      y = 0,
+      value;
+
+  for (; ti < data[key].length; ti++) {
+    tmap = data[key][ti];
+
+    for (fkey in tmap) {
+      if (tmap.hasOwnProperty(fkey)) {
+        dkey = key + '_' + ti + '_' + fkey;
+        value = "";
+        y = 0;
+
+        for (unitIndex = 0; unitIndex < data[dkey].length; unitIndex++) {
+          if (data[dkey][unitIndex]) {
+            unitKey = dkey + "_" + unitIndex; //console.log("mux ", key, dkey, unitKey)
+            //if ( !tweenable[unitKey] )
+            //	continue;
+
+            iValue = demuxOne(unitIndex, dkey, tweenable[unitKey], fkey, data, box); //console.log(unitKey, tweenable[unitKey], iValue)
+
+            if (y && iValue[0] === '-') iValue = " - " + iValue.substr(1);else if (y) iValue = " + " + iValue;
+            value += iValue;
+            y++;
+          }
+        }
+
+        if (y > 1) value = "calc(" + value + ")";
+        if (y > 0) transforms += fkey + "(" + (value || "0") + ") ";
+      }
+    }
+  }
+
+  target.transform = transforms;
+}
+function muxOne(key, baseKey, value, target, data, initials, noPropLock, seenUnits) {
+  var match = is__WEBPACK_IMPORTED_MODULE_1___default.a.string(value) ? value.match(_cssUtils__WEBPACK_IMPORTED_MODULE_2__["unitsRe"]) : false,
+      unit = match && match[2] || defaultUnits[baseKey],
+      unitKey = _cssUtils__WEBPACK_IMPORTED_MODULE_2__["units"].indexOf(unit),
+      realKey = unitKey !== -1 && key + '_' + unitKey || key;
+  initials[realKey] = defaultValue[baseKey] || 0;
+  data[key][unitKey] = data[key][unitKey] || 0; //console.log(key, ':', realKey, data[key][unitKey], initials[realKey], noPropLock)
+
+  if (seenUnits && seenUnits[unitKey]) {
+    if (match) {
+      target[realKey] += parseFloat(match[1]);
+    } else {
+      target[realKey] += parseFloat(value);
+    }
+  } else {
+    !noPropLock && data[key][unitKey]++;
+
+    if (match) {
+      target[realKey] = parseFloat(match[1]);
+    } else {
+      target[realKey] = parseFloat(value);
+    }
+
+    if (seenUnits) seenUnits[unitKey] = true;
+  }
+
+  return demux;
+}
+;
+var mux = function mux(key, value, target, data, initials, noPropLock, reOrder) {
+  data[key] = data[key] || []; //initials[key] = 0;
+
+  if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(value)) value = [value];
+  var ti = 0,
+      tmap,
+      tFnKey,
+      baseData,
+      fValue,
+      dkey,
+      u,
+      seenUnits;
+
+  for (; ti < value.length; ti++) {
+    tmap = value[ti];
+    baseData = reOrder ? {} : _objectSpread({}, data[key][ti] || {});
+
+    for (tFnKey in tmap) {
+      if (tmap.hasOwnProperty(tFnKey)) {
+        fValue = tmap[tFnKey];
+        seenUnits = {};
+        dkey = key + '_' + ti + '_' + tFnKey;
+        baseData[tFnKey] = baseData[tFnKey] || data[key][ti] && data[key][ti][tFnKey] || 0;
+        !noPropLock && baseData[tFnKey]++; //console.warn("set ", key, dkey, noPropLock, baseData[tFnKey])
+
+        data[dkey] = data[dkey] || [];
+
+        if (is__WEBPACK_IMPORTED_MODULE_1___default.a.array(fValue)) {
+          for (u = 0; u < fValue.length; u++) {
+            muxOne(dkey, tFnKey, fValue[u] || 0, target, data, initials, noPropLock, seenUnits);
+          }
+        } else {
+          muxOne(dkey, tFnKey, fValue || 0, target, data, initials, noPropLock);
+        }
+      }
+    }
+
+    data[key][ti] = reOrder ? _objectSpread({}, baseData, {}, data[key][ti] || {}, {}, baseData) : baseData; //console.log(key, reOrder, data[key][ti], baseData)
+  }
+
+  return demux;
+};
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/typed/bool.js":
+/*!*******************************************!*\
+  !*** ./src/utils/css/demux/typed/bool.js ***!
+  \*******************************************/
+/*! exports provided: release, demux, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "release", function() { return release; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+var defaultUnits = {
+  opacity: 1
+};
+function release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues) {
+  if (! --dataMap[twKey] && !keepValues) {
+    delete tweenableMap[twKey];
+    delete dataMap[twKey];
+    delete muxerMap[twKey];
+    delete cssMap[twKey];
+  }
+}
+function demux(key, tweenable, target, data, box) {
+  var value = !!tweenable[key];
+  return target ? target[key] = value : value;
+}
+var mux = function mux(key, value, target, data, initials, noPropLock) {
+  initials[key] = defaultUnits[key] || 0;
+  target[key] = value === false ? 0 : 1;
+  data[key] = data[key] || 0;
+  !noPropLock && data[key]++;
+  return demux;
+};
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/typed/border.js":
+/*!*********************************************!*\
+  !*** ./src/utils/css/demux/typed/border.js ***!
+  \*********************************************/
+/*! exports provided: release, demuxOne, demux, muxOne, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "release", function() { return release; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demuxOne", function() { return demuxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "muxOne", function() { return muxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "undefined?188d");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var css_box_shadow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! css-box-shadow */ "undefined?c6dc");
+/* harmony import */ var css_box_shadow__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(css_box_shadow__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../cssUtils */ "./src/utils/css/cssUtils.js");
+/* harmony import */ var _js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./(*).js */ "./src/MapOf.react_voodoo_utils_css_demux_typed_____js.gen.js");
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+
+var defaultUnits = {
+  perspective: 'px'
+},
+    defaultBox = {
+  translateX: 'x'
+},
+    defaultMuxers = {
+  //blurRadius  : number,
+  inset: _js__WEBPACK_IMPORTED_MODULE_4__["bool"],
+  //offsetX     : number,
+  //offsetY     : number,
+  //spreadRadius: number,
+  color: _js__WEBPACK_IMPORTED_MODULE_4__["color"]
+};
+function release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues) {
+  var path = twKey.split('_'),
+      tmpKey; // not optimal at all
+
+  if (path.length > 2) {
+    // dec count on transform
+    tmpKey = path[0] + "_" + path[1] + "_" + path[2];
+
+    if (defaultMuxers[path[2]]) {
+      defaultMuxers[path[2]].release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues);
+
+      if (!dataMap[tmpKey]) {
+        //console.log("dec", tmpKey, dataMap[path[0]][path[1]][path[2]])
+        if (! --dataMap[path[0]][path[1]][path[2]] && !keepValues) {
+          delete dataMap[path[0]][path[1]][path[2]];
+        }
+      }
+
+      if (dataMap[path[0]].length === 0 && !keepValues) {
+        delete dataMap[path[0]];
+        delete muxerMap[path[0]];
+        delete cssMap[path[0]]; //console.log("delete color", twKey)
+      }
+
+      return;
+    } //console.log("dec", twKey, dataMap[path[0]])
+
+
+    if (! --dataMap[path[0]][path[1]][path[2]] && !keepValues) {
+      delete dataMap[path[0]][path[1]][path[2]];
+    } //if ( Object.keys(dataMap[path[0]][path[1]]).length === 0 && !keepValues )
+    //	delete dataMap[path[0]][path[1]];
+    // free transform layers
+
+
+    if (!keepValues) while (dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1]) {
+      dataMap[path[0]].pop();
+    } //tmpKey = path[0] + "_" + path[1] + "_" + path[2];
+    // units
+
+    if (! --dataMap[tmpKey][path[3]] && !keepValues) {
+      delete dataMap[tmpKey][path[3]]; //dataMap[path[0]][path[3]] = undefined;
+
+      delete tweenableMap[twKey]; //console.log("delete", tmpKey)
+    }
+
+    if (!keepValues) while (dataMap[tmpKey].length && !dataMap[tmpKey][dataMap[tmpKey].length - 1]) {
+      dataMap[tmpKey].pop();
+    }
+    if (dataMap[tmpKey].length === 0 && !keepValues) delete dataMap[tmpKey];
+    if (!keepValues) while (dataMap[path[0]].length && !Object.keys(dataMap[path[0]][dataMap[path[0]].length - 1]).length) {
+      dataMap[path[0]].pop();
+    }
+
+    if (dataMap[path[0]].length === 0 && !keepValues) {
+      delete dataMap[path[0]];
+      delete muxerMap[path[0]];
+      delete cssMap[path[0]]; //console.log("delete", path[0])
+    }
+  } else {
+    console.log("wtf", path);
+  }
+}
+function demuxOne(unitIndex, dkey, twVal, baseKey, data, box) {
+  var value = twVal,
+      unit = _cssUtils__WEBPACK_IMPORTED_MODULE_3__["units"][unitIndex] || defaultUnits[baseKey];
+
+  if (unit === 'box') {
+    value = value * (box[defaultBox[baseKey]] || box.x);
+    unit = 'px';
+  }
+
+  if (unit === 'bw') {
+    value = value * box.x;
+    unit = 'px';
+  }
+
+  if (unit === 'wh') {
+    value = value * box.y;
+    unit = 'px';
+  }
+
+  if (unit === 'bz') {
+    value = value * box.z;
+    unit = 'px';
+  }
+
+  if (unit === 'deg') value = value % 360;
+  return unit ? Object(_cssUtils__WEBPACK_IMPORTED_MODULE_3__["floatCut"])(value) + unit : Object(_cssUtils__WEBPACK_IMPORTED_MODULE_3__["floatCut"])(value);
+}
+function demux(key, tweenable, target, data, box) {
+  //console.log(key)
+  var shadows = [],
+      tmpValue = {};
+  var ti = 0,
+      shadowMap,
+      fkey,
+      unitKey,
+      unitIndex,
+      dkey,
+      u,
+      iValue,
+      y = 0,
+      value;
+
+  for (; ti < data[key].length; ti++) {
+    shadowMap = data[key][ti];
+    tmpValue = {};
+
+    for (fkey in shadowMap) {
+      if (shadowMap.hasOwnProperty(fkey)) {
+        dkey = key + '_' + ti + '_' + fkey;
+
+        if (defaultMuxers[fkey]) {
+          value = defaultMuxers[fkey].demux(dkey, tweenable, undefined, data, box); //continue;
+          //console.log(dkey, tweenable[dkey])
+        } else {
+          value = "";
+          y = 0;
+
+          for (unitIndex = 0; unitIndex < data[dkey].length; unitIndex++) {
+            if (data[dkey][unitIndex]) {
+              unitKey = dkey + "_" + unitIndex;
+              iValue = demuxOne(unitIndex, dkey, tweenable[unitKey], fkey, data, box);
+              if (y && iValue[0] === '-') iValue = " - " + iValue.substr(1);else if (y) iValue = " + " + iValue;
+              value += iValue;
+              y++;
+            }
+          }
+
+          if (y > 1) value = "calc(" + value + ")";
+        }
+
+        tmpValue[fkey] = value || 0;
+      }
+    }
+
+    shadows.push(tmpValue);
+  }
+
+  target[key] = css_box_shadow__WEBPACK_IMPORTED_MODULE_1___default.a.stringify(shadows); //console.log(key, shadows, target[key]);
+}
+function muxOne(key, baseKey, value, target, data, initials, noPropLock, seenUnits) {
+  var match = is__WEBPACK_IMPORTED_MODULE_2___default.a.string(value) ? value.match(_cssUtils__WEBPACK_IMPORTED_MODULE_3__["unitsRe"]) : false,
+      unit = match && match[2] || defaultUnits[baseKey] || "px",
+      unitKey = _cssUtils__WEBPACK_IMPORTED_MODULE_3__["units"].indexOf(unit),
+      realKey = unitKey !== -1 && key + '_' + unitKey || key;
+  initials[realKey] = 0;
+  data[key][unitKey] = data[key][unitKey] || 0; //console.log(key, ':', data[key][unitKey], value, noPropLock)
+
+  if (seenUnits && seenUnits[unitKey]) {
+    //console.warn(key, ':', data[key][unitKey], value, noPropLock)
+    if (match) {
+      target[realKey] += parseFloat(match[1]);
+    } else {
+      target[realKey] += parseFloat(value);
+    }
+  } else {
+    !noPropLock && data[key][unitKey]++;
+
+    if (match) {
+      target[realKey] = parseFloat(match[1]);
+    } else {
+      target[realKey] = parseFloat(value);
+    }
+
+    if (seenUnits) seenUnits[unitKey] = true;
+  }
+
+  return demux;
+}
+;
+var mux = function mux(key, value, target, data, initials, noPropLock, reOrder) {
+  data[key] = data[key] || []; //initials[key] = 0;
+
+  debugger;
+  if (!is__WEBPACK_IMPORTED_MODULE_2___default.a.array(value)) value = [value];
+  var ti = 0,
+      shadowMap,
+      tFnKey,
+      baseData,
+      fValue,
+      dkey,
+      u,
+      seenUnits;
+
+  for (; ti < value.length; ti++) {
+    shadowMap = value[ti];
+    if (is__WEBPACK_IMPORTED_MODULE_2___default.a.string(shadowMap)) shadowMap = css_box_shadow__WEBPACK_IMPORTED_MODULE_1___default.a.parse(shadowMap)[0];
+    baseData = reOrder ? {} : _objectSpread({}, data[key][ti] || {});
+
+    for (tFnKey in shadowMap) {
+      if (shadowMap.hasOwnProperty(tFnKey)) {
+        fValue = shadowMap[tFnKey];
+        dkey = key + '_' + ti + '_' + tFnKey;
+        baseData[tFnKey] = baseData[tFnKey] || data[key][ti] && data[key][ti][tFnKey] || 0;
+        !noPropLock && baseData[tFnKey]++;
+
+        if (defaultMuxers[tFnKey]) {
+          defaultMuxers[tFnKey].mux(dkey, fValue, target, data, initials, noPropLock, reOrder);
+        } else {
+          seenUnits = {};
+          data[dkey] = data[dkey] || [];
+
+          if (is__WEBPACK_IMPORTED_MODULE_2___default.a.array(fValue)) {
+            for (u = 0; u < fValue.length; u++) {
+              muxOne(dkey, tFnKey, fValue[u] || 0, target, data, initials, noPropLock, seenUnits);
+            }
+          } else {
+            muxOne(dkey, tFnKey, fValue || 0, target, data, initials, noPropLock);
+          }
+        }
+      }
+    }
+
+    data[key][ti] = reOrder ? _objectSpread({}, baseData, {}, data[key][ti] || {}, {}, baseData) : baseData; //console.log(key, reOrder, data[key][ti], baseData)
+  }
+
+  return demux;
+};
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/typed/color.js":
+/*!********************************************!*\
+  !*** ./src/utils/css/demux/typed/color.js ***!
+  \********************************************/
+/*! exports provided: release, demux, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "release", function() { return release; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
+/* harmony import */ var color_rgba__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! color-rgba */ "undefined?a742");
+/* harmony import */ var color_rgba__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(color_rgba__WEBPACK_IMPORTED_MODULE_0__);
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+function release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues) {
+  var path = twKey.split('_'),
+      tmpKey = path.slice(0, path.length - 1).join('_'); //console.log("dec", tmpKey, path, dataMap[twKey])
+
+  if (! --dataMap[twKey] && !keepValues) {
+    delete tweenableMap[twKey];
+    delete dataMap[twKey]; //delete muxerMap[twKey];
+    //delete cssMap[twKey];
+    //console.log("delete", twKey, path)
+  }
+
+  if (! --dataMap[tmpKey] && !keepValues) {
+    delete tweenableMap[twKey];
+    delete dataMap[twKey]; //delete muxerMap[twKey];
+    //delete cssMap[twKey];
+    //console.log("delete", tmpKey)
+  } //}
+
+}
+function demux(key, tweenable, target, data) {
+  var value = "rgba(" + tweenable[key + '_r'] + ", " + tweenable[key + '_g'] + ", " + tweenable[key + '_b'] + ", " + tweenable[key + '_a'] + ")";
+  return target ? target[key] = value : value;
+}
+function mux(key, value, target, data, initials, noPropLock) {
+  var vect = color_rgba__WEBPACK_IMPORTED_MODULE_0___default()(value);
+  data[key] = data[key] || 0;
+  data[key + '_r'] = data[key + '_r'] || 0;
+  data[key + '_g'] = data[key + '_g'] || 0;
+  data[key + '_b'] = data[key + '_b'] || 0;
+  data[key + '_a'] = data[key + '_a'] || 0;
+
+  if (!noPropLock) {
+    data[key] += 4;
+    data[key + '_r']++;
+    data[key + '_g']++;
+    data[key + '_b']++;
+    data[key + '_a']++;
+  }
+
+  target[key + '_r'] = vect[0];
+  target[key + '_g'] = vect[1];
+  target[key + '_b'] = vect[2];
+  target[key + '_a'] = vect[3];
+  initials[key] = 0;
+  initials[key + '_r'] = 0;
+  initials[key + '_g'] = 0;
+  initials[key + '_b'] = 0;
+  initials[key + '_a'] = 1;
+  return demux;
+}
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/typed/int.js":
+/*!******************************************!*\
+  !*** ./src/utils/css/demux/typed/int.js ***!
+  \******************************************/
+/*! exports provided: release, demux, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "release", function() { return release; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+var defaultUnits = {
+  opacity: 1
+};
+function release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues) {
+  if (! --dataMap[twKey] && !keepValues) {
+    delete tweenableMap[twKey];
+    delete dataMap[twKey];
+    delete muxerMap[twKey];
+    delete cssMap[twKey];
+  }
+}
+function demux(key, tweenable, target, data, box) {
+  target[key] = ~~tweenable[key]; // + defaultUnits[key];
+}
+var mux = function mux(key, value, target, data, initials, noPropLock) {
+  initials[key] = 0;
+  target[key] = ~~value;
+  data[key] = data[key] || 0;
+  !noPropLock && data[key]++;
+  return demux;
+};
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/typed/multi.js":
+/*!********************************************!*\
+  !*** ./src/utils/css/demux/typed/multi.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _number__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./number */ "./src/utils/css/demux/typed/number.js");
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+var alias = {
+  top: '0%',
+  bottom: '100%',
+  center: '50%',
+  left: '0%',
+  right: '100%'
+};
+
+function demux(key, tweenable, target, data, box, offset) {
+  var count = data["_" + key],
+      v = '',
+      nowhere = {};
+
+  for (var i = 0; i < count; i++) {
+    _number__WEBPACK_IMPORTED_MODULE_1__["demux"](key + '_' + i, tweenable, nowhere, data, box, offset);
+    v += nowhere[key + '_' + i] + ' ';
+  }
+
+  target[key] = v;
+}
+
+function release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues) {
+  var path = twKey.split('_'),
+      tmpKey; // not optimal at all
+  //if ( path.length === 2 ) {
+  //	console.log("dec", twKey, dataMap[path[0]][path[1]])
+  //	if ( !--dataMap[path[0]][path[1]] && !keepValues ) {
+  //		delete tweenableMap[twKey];
+  //		delete dataMap[path[0]][path[1]];
+  //	}
+  //
+  //	if ( !keepValues )
+  //		while ( dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1] )
+  //			dataMap[path[0]].pop();
+  //
+  //	if ( dataMap[path[0]].length === 0 && !keepValues ) {
+  //		delete dataMap[path[0]];
+  //		delete muxerMap[path[0]];
+  //		delete cssMap[path[0]];
+  //		console.log("delete", path[0])
+  //	}
+  //}
+  //else {
+  //console.log("wtf", path)
+  //}
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function (count) {
+  return {
+    mux: function mux(key, value, target, data, initials, noPropLock) {
+      var values = value.split(' '),
+          v;
+      data[key] = data[key] || 0;
+      noPropLock && data[key]++;
+      data["_" + key] = count;
+
+      for (var i = 0; i < count; i++) {
+        v = values[i % values.length];
+        v = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(v) && alias[v] || v;
+        _number__WEBPACK_IMPORTED_MODULE_1__["mux"](key + '_' + i, v, target, data, initials, noPropLock);
+      }
+
+      return demux;
+    },
+    demux: demux,
+    release: release
+  };
+});
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/typed/number.js":
+/*!*********************************************!*\
+  !*** ./src/utils/css/demux/typed/number.js ***!
+  \*********************************************/
+/*! exports provided: release, demuxOne, demux, muxer, muxOne, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "release", function() { return release; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demuxOne", function() { return demuxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "muxer", function() { return muxer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "muxOne", function() { return muxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../cssUtils */ "./src/utils/css/cssUtils.js");
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+var defaultUnits = {
+  left: 'px',
+  right: 'px',
+  top: 'px',
+  bottom: 'px',
+  width: 'px',
+  height: 'px',
+  perspective: 'px'
+},
+    defaultBox = {
+  left: 'x',
+  right: 'x',
+  top: 'y',
+  bottom: 'y',
+  width: 'x',
+  height: 'y'
+},
+    defaultValue = {
+  opacity: 0
+};
+function release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues) {
+  var path = twKey.split('_'),
+      tmpKey; // not optimal at all
+
+  if (path.length === 2) {
+    //console.log("dec", twKey, dataMap[path[0]][path[1]], keepValues)
+    if (! --dataMap[path[0]][path[1]] && !keepValues) {
+      delete tweenableMap[twKey]; //dataMap[path[0]][path[1]] = undefined;
+    }
+
+    if (!keepValues) while (dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1]) {
+      dataMap[path[0]].pop();
+    }
+
+    if (dataMap[path[0]].length === 0 && !keepValues) {
+      delete dataMap[path[0]];
+      delete muxerMap[path[0]];
+      if (cssMap) delete cssMap[path[0]]; //console.log("delete", path[0])
+    }
+  } else {
+    console.log("wtf", path);
+  }
+}
+function demuxOne(unitKey, twVal, baseKey, data, box) {
+  var value = twVal,
+      unit = _cssUtils__WEBPACK_IMPORTED_MODULE_1__["units"][unitKey] || defaultUnits[baseKey] || "px";
+
+  if (unit === 'box') {
+    value = value * (box[defaultBox[baseKey]] || box.x);
+    unit = 'px';
+  }
+
+  if (unit === 'bw') {
+    value = value * box.x;
+    unit = 'px';
+  }
+
+  if (unit === 'bh') {
+    value = value * box.y;
+    unit = 'px';
+  }
+
+  if (unit === 'bz') {
+    value = value * box.z;
+    unit = 'px';
+  }
+
+  return unit ? Object(_cssUtils__WEBPACK_IMPORTED_MODULE_1__["floatCut"])(value) + unit : Object(_cssUtils__WEBPACK_IMPORTED_MODULE_1__["floatCut"])(value);
+}
+function demux(key, tweenable, target, data, box, baseKey) {
+  var value,
+      i = 0,
+      y,
+      rKey;
+  value = ""; //if ( key=="height" )
+  //	debugger;
+
+  for (y = 0; y < data[key].length; y++) {
+    if (data[key][y]) {
+      rKey = key + "_" + y;
+      if (tweenable[rKey] < 0) value += (i ? " - " : "-") + demuxOne(y, -tweenable[rKey], baseKey || key, data, box);else value += (i ? " + " : "") + demuxOne(y, tweenable[rKey], baseKey || key, data, box);
+      i++;
+    }
+  }
+
+  if (i > 1) value = "calc(" + value + ")"; //console.log(key, ':', value)
+
+  return target ? target[key] = value : value;
+}
+function muxer(key, value, target, data, initials, noPropLock) {
+  data[key] = data[key] || [];
+  var seenUnits = [];
+
+  if (is__WEBPACK_IMPORTED_MODULE_0___default.a.array(value)) {
+    for (var i = 0; i < value.length; i++) {
+      muxOne(key, value[i] || 0, target, data, initials, noPropLock, seenUnits);
+    }
+  } else {
+    muxOne(key, value || 0, target, data, initials, noPropLock);
+  }
+
+  return demux;
+}
+function muxOne(key, value, target, data, initials, noPropLock, seenUnits) {
+  var match = is__WEBPACK_IMPORTED_MODULE_0___default.a.string(value) ? value.match(_cssUtils__WEBPACK_IMPORTED_MODULE_1__["unitsRe"]) : false,
+      unit = match && match[2] || defaultUnits[key] || "px",
+      unitKey = _cssUtils__WEBPACK_IMPORTED_MODULE_1__["units"].indexOf(unit),
+      realKey = unitKey !== -1 && key + '_' + unitKey || key;
+  initials[realKey] = defaultValue[key] || 0;
+  data[key][unitKey] = data[key][unitKey] || 0; //console.log(key, ':', data[key][unitKey], value, noPropLock)
+
+  if (seenUnits && seenUnits[unitKey]) {
+    //console.warn(key, ':', data[key][unitKey], value, noPropLock)
+    if (match) {
+      target[realKey] += parseFloat(match[1]);
+    } else {
+      target[realKey] += parseFloat(value);
+    }
+  } else {
+    !noPropLock && data[key][unitKey]++;
+
+    if (match) {
+      target[realKey] = parseFloat(match[1]);
+    } else {
+      target[realKey] = parseFloat(value);
+    }
+
+    if (seenUnits) seenUnits[unitKey] = true;
+  }
+
+  return demux;
+}
+;
+var mux = muxer;
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/typed/ratio.js":
+/*!********************************************!*\
+  !*** ./src/utils/css/demux/typed/ratio.js ***!
+  \********************************************/
+/*! exports provided: release, demux, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "release", function() { return release; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
+/* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../cssUtils */ "./src/utils/css/cssUtils.js");
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+var defaultUnits = {
+  opacity: 1
+};
+
+function release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues) {
+  if (! --dataMap[twKey] && !keepValues) {
+    delete tweenableMap[twKey];
+    delete dataMap[twKey];
+    delete muxerMap[twKey];
+    delete cssMap[twKey];
+  }
+}
+function demux(key, tweenable, target, data, box) {
+  target[key] = Math.min(1, Math.max(0, Object(_cssUtils__WEBPACK_IMPORTED_MODULE_0__["floatCut"])(tweenable[key])));
+}
+var mux = function mux(key, value, target, data, initials, noPropLock) {
+  initials[key] = defaultUnits[key] || 0;
+  target[key] = value;
+  data[key] = data[key] || 0;
+  !noPropLock && data[key]++;
+  return demux;
+};
+
+/***/ }),
+
+/***/ "./src/utils/css/demux/typed/shadow.js":
+/*!*********************************************!*\
+  !*** ./src/utils/css/demux/typed/shadow.js ***!
+  \*********************************************/
+/*! exports provided: release, demuxOne, demux, muxOne, mux */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "release", function() { return release; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demuxOne", function() { return demuxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demux", function() { return demux; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "muxOne", function() { return muxOne; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mux", function() { return mux; });
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "undefined?188d");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var css_box_shadow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! css-box-shadow */ "undefined?c6dc");
+/* harmony import */ var css_box_shadow__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(css_box_shadow__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../cssUtils */ "./src/utils/css/cssUtils.js");
+/* harmony import */ var _js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./(*).js */ "./src/MapOf.react_voodoo_utils_css_demux_typed_____js.gen.js");
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+
+var defaultUnits = {
+  perspective: 'px'
+},
+    defaultBox = {
+  translateX: 'x'
+},
+    defaultMuxers = {
+  //blurRadius  : number,
+  inset: _js__WEBPACK_IMPORTED_MODULE_4__["bool"],
+  //offsetX     : number,
+  //offsetY     : number,
+  //spreadRadius: number,
+  color: _js__WEBPACK_IMPORTED_MODULE_4__["color"]
+};
+function release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues) {
+  var path = twKey.split('_'),
+      tmpKey; // not optimal at all
+
+  if (path.length > 2) {
+    // dec count on transform
+    tmpKey = path[0] + "_" + path[1] + "_" + path[2];
+
+    if (defaultMuxers[path[2]]) {
+      defaultMuxers[path[2]].release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues);
+
+      if (!dataMap[tmpKey]) {
+        //console.log("dec", tmpKey, dataMap[path[0]][path[1]][path[2]])
+        if (! --dataMap[path[0]][path[1]][path[2]] && !keepValues) {
+          delete dataMap[path[0]][path[1]][path[2]];
+        }
+      }
+
+      if (dataMap[path[0]].length === 0 && !keepValues) {
+        delete dataMap[path[0]];
+        delete muxerMap[path[0]];
+        delete cssMap[path[0]]; //console.log("delete color", twKey)
+      }
+
+      return;
+    } //console.log("dec", twKey, dataMap[path[0]])
+
+
+    if (! --dataMap[path[0]][path[1]][path[2]] && !keepValues) {
+      delete dataMap[path[0]][path[1]][path[2]];
+    } //if ( Object.keys(dataMap[path[0]][path[1]]).length === 0 && !keepValues )
+    //	delete dataMap[path[0]][path[1]];
+    // free transform layers
+
+
+    if (!keepValues) while (dataMap[path[0]].length && !dataMap[path[0]][dataMap[path[0]].length - 1]) {
+      dataMap[path[0]].pop();
+    } //tmpKey = path[0] + "_" + path[1] + "_" + path[2];
+    // units
+
+    if (! --dataMap[tmpKey][path[3]] && !keepValues) {
+      delete dataMap[tmpKey][path[3]]; //dataMap[path[0]][path[3]] = undefined;
+
+      delete tweenableMap[twKey]; //console.log("delete", tmpKey)
+    }
+
+    if (!keepValues) while (dataMap[tmpKey].length && !dataMap[tmpKey][dataMap[tmpKey].length - 1]) {
+      dataMap[tmpKey].pop();
+    }
+    if (dataMap[tmpKey].length === 0 && !keepValues) delete dataMap[tmpKey];
+    if (!keepValues) while (dataMap[path[0]].length && !Object.keys(dataMap[path[0]][dataMap[path[0]].length - 1]).length) {
+      dataMap[path[0]].pop();
+    }
+
+    if (dataMap[path[0]].length === 0 && !keepValues) {
+      delete dataMap[path[0]];
+      delete muxerMap[path[0]];
+      delete cssMap[path[0]]; //console.log("delete", path[0])
+    }
+  } else {
+    console.log("wtf", path);
+  }
+}
+function demuxOne(unitIndex, dkey, twVal, baseKey, data, box) {
+  var value = twVal,
+      unit = _cssUtils__WEBPACK_IMPORTED_MODULE_3__["units"][unitIndex] || defaultUnits[baseKey];
+
+  if (unit === 'box') {
+    value = value * (box[defaultBox[baseKey]] || box.x);
+    unit = 'px';
+  }
+
+  if (unit === 'bw') {
+    value = value * box.x;
+    unit = 'px';
+  }
+
+  if (unit === 'wh') {
+    value = value * box.y;
+    unit = 'px';
+  }
+
+  if (unit === 'bz') {
+    value = value * box.z;
+    unit = 'px';
+  }
+
+  if (unit === 'deg') value = value % 360;
+  return unit ? Object(_cssUtils__WEBPACK_IMPORTED_MODULE_3__["floatCut"])(value) + unit : Object(_cssUtils__WEBPACK_IMPORTED_MODULE_3__["floatCut"])(value);
+}
+function demux(key, tweenable, target, data, box) {
+  //console.log(key)
+  var shadows = [],
+      tmpValue = {};
+  var ti = 0,
+      shadowMap,
+      fkey,
+      unitKey,
+      unitIndex,
+      dkey,
+      u,
+      iValue,
+      y = 0,
+      value;
+
+  for (; ti < data[key].length; ti++) {
+    shadowMap = data[key][ti];
+    tmpValue = {};
+
+    for (fkey in shadowMap) {
+      if (shadowMap.hasOwnProperty(fkey)) {
+        dkey = key + '_' + ti + '_' + fkey;
+
+        if (defaultMuxers[fkey]) {
+          value = defaultMuxers[fkey].demux(dkey, tweenable, undefined, data, box); //continue;
+          //console.log(dkey, tweenable[dkey])
+        } else {
+          value = "";
+          y = 0;
+
+          for (unitIndex = 0; unitIndex < data[dkey].length; unitIndex++) {
+            if (data[dkey][unitIndex]) {
+              unitKey = dkey + "_" + unitIndex;
+              iValue = demuxOne(unitIndex, dkey, tweenable[unitKey], fkey, data, box);
+              if (y && iValue[0] === '-') iValue = " - " + iValue.substr(1);else if (y) iValue = " + " + iValue;
+              value += iValue;
+              y++;
+            }
+          }
+
+          if (y > 1) value = "calc(" + value + ")";
+        }
+
+        tmpValue[fkey] = value || 0;
+      }
+    }
+
+    shadows.push(tmpValue);
+  }
+
+  target[key] = css_box_shadow__WEBPACK_IMPORTED_MODULE_1___default.a.stringify(shadows); //console.log(key, shadows, target[key]);
+}
+function muxOne(key, baseKey, value, target, data, initials, noPropLock, seenUnits) {
+  var match = is__WEBPACK_IMPORTED_MODULE_2___default.a.string(value) ? value.match(_cssUtils__WEBPACK_IMPORTED_MODULE_3__["unitsRe"]) : false,
+      unit = match && match[2] || defaultUnits[baseKey] || "px",
+      unitKey = _cssUtils__WEBPACK_IMPORTED_MODULE_3__["units"].indexOf(unit),
+      realKey = unitKey !== -1 && key + '_' + unitKey || key;
+  initials[realKey] = 0;
+  data[key][unitKey] = data[key][unitKey] || 0; //console.log(key, ':', data[key][unitKey], value, noPropLock)
+
+  if (seenUnits && seenUnits[unitKey]) {
+    //console.warn(key, ':', data[key][unitKey], value, noPropLock)
+    if (match) {
+      target[realKey] += parseFloat(match[1]);
+    } else {
+      target[realKey] += parseFloat(value);
+    }
+  } else {
+    !noPropLock && data[key][unitKey]++;
+
+    if (match) {
+      target[realKey] = parseFloat(match[1]);
+    } else {
+      target[realKey] = parseFloat(value);
+    }
+
+    if (seenUnits) seenUnits[unitKey] = true;
+  }
+
+  return demux;
+}
+;
+var mux = function mux(key, value, target, data, initials, noPropLock, reOrder) {
+  data[key] = data[key] || []; //initials[key] = 0;
+
+  if (!is__WEBPACK_IMPORTED_MODULE_2___default.a.array(value)) value = [value];
+  var ti = 0,
+      shadowMap,
+      tFnKey,
+      baseData,
+      fValue,
+      dkey,
+      u,
+      seenUnits;
+
+  for (; ti < value.length; ti++) {
+    shadowMap = value[ti];
+    if (is__WEBPACK_IMPORTED_MODULE_2___default.a.string(shadowMap)) shadowMap = css_box_shadow__WEBPACK_IMPORTED_MODULE_1___default.a.parse(shadowMap)[0];
+    baseData = reOrder ? {} : _objectSpread({}, data[key][ti] || {});
+
+    for (tFnKey in shadowMap) {
+      if (shadowMap.hasOwnProperty(tFnKey)) {
+        fValue = shadowMap[tFnKey];
+        dkey = key + '_' + ti + '_' + tFnKey;
+        baseData[tFnKey] = baseData[tFnKey] || data[key][ti] && data[key][ti][tFnKey] || 0;
+        !noPropLock && baseData[tFnKey]++;
+
+        if (defaultMuxers[tFnKey]) {
+          defaultMuxers[tFnKey].mux(dkey, fValue, target, data, initials, noPropLock, reOrder);
+        } else {
+          seenUnits = {};
+          data[dkey] = data[dkey] || [];
+
+          if (is__WEBPACK_IMPORTED_MODULE_2___default.a.array(fValue)) {
+            for (u = 0; u < fValue.length; u++) {
+              muxOne(dkey, tFnKey, fValue[u] || 0, target, data, initials, noPropLock, seenUnits);
+            }
+          } else {
+            muxOne(dkey, tFnKey, fValue || 0, target, data, initials, noPropLock);
+          }
+        }
+      }
+    }
+
+    data[key][ti] = reOrder ? _objectSpread({}, baseData, {}, data[key][ti] || {}, {}, baseData) : baseData; //console.log(key, reOrder, data[key][ti], baseData)
+  }
+
+  return demux;
+};
+
+/***/ }),
+
+/***/ "./src/utils/css/index.js":
+/*!********************************!*\
+  !*** ./src/utils/css/index.js ***!
+  \********************************/
+/*! exports provided: clearTweenableValue, muxToCss, deMuxTween, deMuxLine */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearTweenableValue", function() { return clearTweenableValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "muxToCss", function() { return muxToCss; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deMuxTween", function() { return deMuxTween; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deMuxLine", function() { return deMuxLine; });
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "undefined?188d");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _tweenTools__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../tweenTools */ "./src/utils/tweenTools.js");
+/* harmony import */ var _cssUtils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cssUtils */ "./src/utils/css/cssUtils.js");
+/* harmony import */ var _demux_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./demux/(*).js */ "./src/MapOf.react_voodoo_utils_css_demux_____js.gen.js");
+/* harmony import */ var _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./demux/typed/(*).js */ "./src/MapOf.react_voodoo_utils_css_demux_typed_____js.gen.js");
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+
+
+var cssDemux = _objectSpread({}, _demux_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  height: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  width: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  top: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  left: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  right: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  bottom: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  marginTop: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  marginLeft: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  marginRight: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  marginBottom: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  paddingTop: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  paddingLeft: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  paddingRight: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  paddingBottom: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  borderRadius: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"],
+  transformOrigin: Object(_demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["multi"])(2),
+  zIndex: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["int"],
+  opacity: _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["ratio"]
+});
+
+function clearTweenableValue(cssKey, twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues) {
+  var path = twKey.split('_'),
+      tmpKey; // not optimal at all
+
+  cssDemux[path[0]] && cssDemux[path[0]].release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues);
+}
+function muxToCss(tweenable, css, demuxers, data, box) {
+  Object.keys(demuxers).forEach(function (key) {
+    demuxers[key].demux(key, tweenable, css, data, box);
+  });
+}
+function deMuxTween(tween, deMuxedTween, initials, data, demuxers, noPropLock, reOrder) {
+  var fTween = {},
+      excluded = {};
+  Object.keys(tween).forEach(function (key) {
+    if (cssDemux[key]) fTween[key] = tween[key];else if (Object(_cssUtils__WEBPACK_IMPORTED_MODULE_2__["isValidDeclaration"])(key, tween[key])) {
+      if (Object(_cssUtils__WEBPACK_IMPORTED_MODULE_2__["isShorthandProperty"])(key)) {
+        Object(_cssUtils__WEBPACK_IMPORTED_MODULE_2__["expandShorthandProperty"])(key, tween[key], fTween);
+      } else fTween[key] = tween[key];
+    } else excluded[key] = tween[key];
+  });
+  Object.keys(fTween).forEach(function (key) {
+    if (cssDemux[key]) {
+      //key, value, target, data, initials
+      (demuxers[key] = cssDemux[key]).mux(key, fTween[key], deMuxedTween, data, initials, noPropLock, reOrder);
+    } else (demuxers[key] = _demux_typed_js__WEBPACK_IMPORTED_MODULE_4__["number"]).mux(key, fTween[key], deMuxedTween, data, initials, noPropLock, reOrder);
+  });
+  return excluded;
+}
+function deMuxLine(tweenLine, initials, data, demuxers, noPropLock) {
+  noPropLock = noPropLock && {};
+  var allPropsById = {},
+      twAxis = tweenLine.reduce(function (line, tween) {
+    var demuxedTween = {};
+    demuxers[tween.target] = demuxers[tween.target] || {};
+    initials[tween.target] = initials[tween.target] || {};
+    data[tween.target] = data[tween.target] || {};
+
+    if (!tween.type || tween.type === "Tween") {
+      !noPropLock && Object(_tweenTools__WEBPACK_IMPORTED_MODULE_1__["addCss"])(allPropsById[tween.target] = allPropsById[tween.target] || {}, tween.apply); //console.log("merged", tween.apply)
+
+      deMuxTween(tween.apply, demuxedTween, initials[tween.target], data[tween.target], demuxers[tween.target], true);
+      line.push(_objectSpread({}, tween, {
+        apply: demuxedTween
+      }));
+    } else line.push(_objectSpread({}, tween));
+
+    return line;
+  }, []); //console.log(allPropsById)
+
+  !noPropLock && Object.keys(allPropsById).forEach(function (id) {
+    return deMuxTween(allPropsById[id], {}, {}, data[id], demuxers[id]);
+  });
+  return twAxis;
+}
+
+/***/ }),
+
+/***/ "./src/utils/dom.js":
+/*!**************************!*\
+  !*** ./src/utils/dom.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+var is = __webpack_require__(/*! is */ "undefined?63a5"),
+    isBrowser = typeof window !== 'undefined',
+    isTouch = isBrowser && function is_touch_device() {
+  var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+
+  var mq = function mq(query) {
+    return window.matchMedia && window.matchMedia(query).matches;
+  };
+
+  if ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch) {
+    return true;
+  } // include the 'heartz' as a way to have a non matching MQ to help terminate the join
+  // https://git.io/vznFH
+
+
+  var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+  return mq(query);
+}(),
+    _dom = isBrowser ? {
+  prefix: /webkit/i.test(navigator.appVersion) ? 'webkit' : /firefox/i.test(navigator.userAgent) ? 'Moz' : /trident/i.test(navigator.userAgent) ? 'ms' : 'opera' in window ? 'O' : '',
+  dashedPrefix: /webkit/i.test(navigator.appVersion) ? '-webkit-' : /firefox/i.test(navigator.userAgent) ? '-moz-' : /trident/i.test(navigator.userAgent) ? '-ms-' : 'opera' in window ? '-o-' : ''
+} : {
+  prefix: '',
+  dashedPrefix: ''
+},
+    __ = {
+  onPageHided: [],
+  onPageShown: [],
+  dragging: [],
+  dragEnabled: [],
+  dragEnabledDesc: [],
+  fingers: {},
+  nbFingers: 0,
+  dragstartAnywhere: function dragstartAnywhere(e) {
+    var o,
+        me = __,
+        i = me.dragEnabled.indexOf(this),
+        finger,
+        desc,
+        fingers = [];
+
+    if (i === -1) {
+      return;
+    } //e.preventDefault();
+    //e.stopPropagation();
+
+
+    if (!me.nbFingers) {
+      Dom.addEvent(document, {
+        'touchmove': me.dragAnywhere,
+        'mousemove': me.dragAnywhere,
+        'touchend': me.dropAnywhere,
+        'mouseup': me.dropAnywhere
+      });
+      Dom.addEvent(this, {
+        'click': me.dropWithoutClick
+      }, null, null, true);
+    }
+
+    if (e.changedTouches && e.changedTouches.length) {
+      fingers = e.changedTouches;
+    } else fingers.push(e);
+
+    for (var t = 0, ln = fingers.length; t < ln; t++) {
+      finger = fingers[t];
+      desc = me.dragEnabledDesc[i];
+      if (desc.nbFingers) continue;
+      me.nbFingers++;
+      me.fingers[finger.identifier] = me.fingers[finger.identifier] || [];
+      me.fingers[finger.identifier].push(desc);
+      desc.nbFingers++;
+      desc._startPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+      desc._startPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
+      desc._startTs = e.timeStamp;
+      desc._lastPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+      desc._lastPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
+
+      for (o = 0; o < desc.dragstart.length; o++) {
+        desc.dragstart[o][0].call(desc.dragstart[o][1] || this, e, finger, desc);
+      }
+    }
+  },
+  dragAnywhere: function dragAnywhere(e) {
+    var _this = this;
+
+    var o,
+        me = __,
+        finger,
+        fingers = [],
+        stopped,
+        desc = __.dragging[0];
+
+    if (e.changedTouches && e.changedTouches.length) {
+      fingers = e.changedTouches;
+    } else fingers.push(e);
+
+    for (var i = 0, ln = fingers.length; i < ln; i++) {
+      finger = fingers[i];
+      desc = me.fingers[finger.identifier];
+      me.fingers[finger.identifier] && me.fingers[finger.identifier].forEach(function (desc) {
+        if (stopped) {
+          desc._lastPos.x = desc._startPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+          desc._lastPos.y = desc._startPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
+          return;
+        }
+
+        desc._lastPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+        desc._lastPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
+
+        for (o = 0; o < desc.drag.length; o++) {
+          stopped = desc.drag[o][0].call(desc.drag[o][1] || _this, e, finger, desc) === false;
+        }
+      });
+    }
+  },
+  dropWithoutClick: function dropWithoutClick(e) {
+    if (__.preventNextClick) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      __.preventNextClick = false;
+    }
+
+    Dom.removeEvent(this, {
+      'click': this.dropWithoutClick
+    });
+  },
+  dropAnywhere: function dropAnywhere(e) {
+    var _this2 = this;
+
+    var o,
+        me = __,
+        finger,
+        fingers = [],
+        prevent;
+
+    if (e.changedTouches && e.changedTouches.length) {
+      fingers = e.changedTouches;
+    } else fingers.push(e);
+
+    for (var i = 0, ln = fingers.length; i < ln; i++) {
+      finger = fingers[i];
+      me.nbFingers--;
+      me.fingers[finger.identifier] && me.fingers[finger.identifier].forEach(function (desc) {
+        desc.nbFingers--;
+        prevent = prevent || desc.mouseDrag && e.timeStamp - desc._startTs > 250;
+        desc._lastPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
+        desc._lastPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
+
+        for (o = 0; o < desc.dropped.length; o++) {
+          desc.dropped[o][0].call(desc.dropped[o][1] || _this2, e, finger, desc);
+        }
+      });
+      me.fingers[finger.identifier] = null;
+    }
+
+    if (prevent) {
+      me.preventNextClick = true;
+    }
+
+    if (!me.nbFingers) {
+      Dom.removeEvent(document, {
+        'touchmove': me.dragAnywhere,
+        'mousemove': me.dragAnywhere,
+        'touchend': me.dropAnywhere,
+        'mouseup': me.dropAnywhere
+      });
+    }
+  },
+  getDraggable: function getDraggable(node, mouseDrag) {
+    var i = this.dragEnabled.indexOf(node),
+        desc;
+
+    if (i === -1) {
+      this.dragEnabled.push(node);
+      this.dragEnabledDesc.push(desc = {
+        mouseDrag: mouseDrag,
+        nbFingers: 0,
+        locks: 0,
+        _startPos: {
+          x: 0,
+          y: 0
+        },
+        _lastPos: {
+          x: 0,
+          y: 0
+        },
+        dragstart: [],
+        drag: [],
+        dragEnd: [],
+        dropped: []
+      }); //debugger;
+
+      Dom.addEvent(node, {
+        'mousedown': mouseDrag && this.dragstartAnywhere,
+        'touchstart': this.dragstartAnywhere
+      }, null, null, true);
+    } else desc = this.dragEnabledDesc[i];
+
+    return desc;
+  },
+  freeDraggable: function freeDraggable(node) {
+    var i = this.dragEnabled.indexOf(node),
+        desc;
+
+    if (i !== -1) {
+      this.dragEnabled.splice(i, 1);
+      this.dragEnabledDesc.splice(i, 1);
+      Dom.removeEvent(node, {
+        'mousedown': this.dragstartAnywhere,
+        'touchstart': this.dragstartAnywhere
+      });
+    }
+  },
+  addOverflowEvent: function addFlowListener(element, fn) {
+    var type = 'over',
+        flow = type == 'over';
+    element.addEventListener('OverflowEvent' in window ? 'overflowchanged' : type + 'flow', function (e) {
+      if (e.type == type + 'flow' || e.orient == 0 && e.horizontalOverflow == flow || e.orient == 1 && e.verticalOverflow == flow || e.orient == 2 && e.horizontalOverflow == flow && e.verticalOverflow == flow) {
+        return fn.call(this, e);
+      }
+    }, false);
+  },
+  addEvent: function addEvent(node, type, fn, bubble) {
+    if (node.addEventListener) {
+      node.addEventListener(type, fn, bubble);
+    } else if (node.attachEvent) {
+      node.attachEvent('on' + type, fn.related = function (e) {
+        return fn.call(node, e);
+      });
+    }
+  },
+  removeEvent: function removeEvent(node, type, fn, bubble) {
+    if (node.removeEventListener) {
+      node.removeEventListener(type, fn, bubble);
+    } else if (node.attachEvent) {
+      node.detachEvent('on' + type, fn.related);
+    }
+  },
+  rmDragFn: function rmDragFn(arr, fn, scope) {
+    for (var i = 0, ln = arr.length; i < ln; i++) {
+      if (arr[i][0] === fn) return arr.splice(i, 1);
+    }
+
+    console.warn("Rm event : Listener not found !!");
+  }
+},
+    Dom = {
+  addEvent: function addEvent(node, type, fn, mouseDrag, bubble) {
+    if (is.object(type)) {
+      for (var o in type) {
+        if (type.hasOwnProperty(o) && type[o]) this.addEvent(node, o, type[o], mouseDrag, bubble);
+      }
+
+      return;
+    } else if (type == 'dragstart') {
+      __.getDraggable(node, mouseDrag).dragstart.push([fn, mouseDrag]);
+    } else if (type == 'drag') {
+      __.getDraggable(node, mouseDrag).drag.push([fn, mouseDrag]);
+    } else if (type == 'dropped') {
+      __.getDraggable(node, mouseDrag).dropped.push([fn, mouseDrag]);
+    } else {
+      if (node.addEventListener) {
+        node.addEventListener(type, fn, {
+          passive: false
+        });
+      } else if (node.attachEvent) {
+        node.attachEvent('on' + type, fn.related = function (e) {
+          return fn.call(node, e);
+        });
+      }
+    }
+  },
+  removeEvent: function removeEvent(node, type, fn, scope, bubble) {
+    var i, desc;
+
+    if (is.object(type)) {
+      for (var o in type) {
+        if (type.hasOwnProperty(o)) this.removeEvent(node, o, type[o], scope);
+      }
+    } else if (/^(drag|drop)/.test(type)) {
+      desc = __.getDraggable(node);
+
+      __.rmDragFn(desc[type], fn, scope);
+
+      if (!desc.dragstart.length && !desc.drag.length && !desc.dragEnd.length && !desc.dropped.length) __.freeDraggable(node);
+    } else {
+      if (node.removeEventListener) {
+        node.removeEventListener(type, fn, bubble);
+      } else if (node.attachEvent) {
+        node.detachEvent('on' + type, fn.related);
+      }
+    }
+  },
+  offset: function offset(elem) {
+    // @todo
+    var dims = {
+      top: 0,
+      left: 0,
+      width: elem.offsetWidth,
+      height: elem.offsetHeight
+    };
+
+    while (elem) {
+      dims.top = dims.top + parseInt(elem.offsetTop);
+      dims.left = dims.left + parseInt(elem.offsetLeft);
+      elem = elem.offsetParent;
+    }
+
+    return dims;
+  },
+  addWheelEvent: isBrowser && function (window, document) {
+    var prefix = "",
+        _addEventListener,
+        _rmEventListener,
+        onwheel,
+        support; // detect event model
+
+
+    if (window.addEventListener) {
+      _addEventListener = "addEventListener";
+      _rmEventListener = "removeEventListener";
+    } else {
+      _addEventListener = "attachEvent";
+      _rmEventListener = "detachEvent";
+      prefix = "on";
+    } // detect available wheel event
+
+
+    support = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
+    document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
+    "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
+
+    var addWheelListener = function addWheelListener(elem, callback, scope, useCapture) {
+      _addWheelListener(elem, support, callback, scope, useCapture); // handle MozMousePixelScroll in older Firefox
+
+
+      if (support == "DOMMouseScroll") {
+        _addWheelListener(elem, "MozMousePixelScroll", callback, scope, useCapture);
+      }
+    }; // Reasonable defaults
+
+
+    var PIXEL_STEP = 10;
+    var LINE_HEIGHT = 40;
+    var PAGE_HEIGHT = 800;
+
+    function normalizeWheel(
+    /*object*/
+    event)
+    /*object*/
+    {
+      var sX = 0,
+          sY = 0,
+          // spinX, spinY
+      pX = 0,
+          pY = 0; // pixelX, pixelY
+      // Legacy
+
+      if ('detail' in event) {
+        sY = event.detail;
+      }
+
+      if ('wheelDelta' in event) {
+        sY = -event.wheelDelta / 120;
+      }
+
+      if ('wheelDeltaY' in event) {
+        sY = -event.wheelDeltaY / 120;
+      }
+
+      if ('wheelDeltaX' in event) {
+        sX = -event.wheelDeltaX / 120;
+      } // side scrolling on FF with DOMMouseScroll
+
+
+      if ('axis' in event && event.axis === event.HORIZONTAL_AXIS) {
+        sX = sY;
+        sY = 0;
+      }
+
+      pX = sX * PIXEL_STEP;
+      pY = sY * PIXEL_STEP;
+
+      if ('deltaY' in event) {
+        pY = event.deltaY;
+      }
+
+      if ('deltaX' in event) {
+        pX = event.deltaX;
+      }
+
+      if ((pX || pY) && event.deltaMode) {
+        if (event.deltaMode == 1) {
+          // delta in LINE units
+          pX *= LINE_HEIGHT;
+          pY *= LINE_HEIGHT;
+        } else {
+          // delta in PAGE units
+          pX *= PAGE_HEIGHT;
+          pY *= PAGE_HEIGHT;
+        }
+      } // Fall-back if spin cannot be determined
+
+
+      if (pX && !sX) {
+        sX = pX < 1 ? -1 : 1;
+      }
+
+      if (pY && !sY) {
+        sY = pY < 1 ? -1 : 1;
+      }
+
+      return {
+        spinX: sX,
+        spinY: sY,
+        pixelX: pX,
+        pixelY: pY
+      };
+    }
+
+    function _addWheelListener(elem, eventName, callback, scope, useCapture) {
+      elem[_addEventListener](prefix + eventName, callback._wheelList = function (originalEvent) {
+        !originalEvent && (originalEvent = window.event); // create a normalized event object
+
+        var event = {
+          // keep a ref to the original event object
+          originalEvent: originalEvent,
+          target: originalEvent.target || originalEvent.srcElement,
+          type: "wheel",
+          deltaMode: originalEvent.type == "MozMousePixelScroll" ? 0 : 1,
+          deltaX: 0,
+          delatZ: 0,
+          preventDefault: function preventDefault() {
+            originalEvent.preventDefault ? originalEvent.preventDefault() : originalEvent.returnValue = false;
+          },
+          normalized: normalizeWheel(originalEvent)
+        }; // calculate deltaY (and deltaX) according to the event
+
+        if (support == "mousewheel") {
+          event.deltaY = -1 / 40 * originalEvent.wheelDelta; // Webkit also support wheelDeltaX
+          //                            originalEvent.wheelDeltaX && ( event.deltaX = - 1/40 *
+          // originalEvent.wheelDeltaX );
+        } else if (support == "wheel" && _dom.prefix == "Moz") {
+          event.deltaY = originalEvent.deltaY / 3;
+        } else if (support == "wheel") {
+          event.deltaY = originalEvent.deltaY / 100;
+        } else {
+          event.deltaY = originalEvent.deltaY;
+        } //                        if (typeof originalEvent.wheelDeltaY !== 'number')
+        //                            event.wheelDeltaY = originalEvent.deltaY/100;
+        //                        event.wheelDelta = deltaY*120;
+        // it's time to fire the callback
+
+
+        return callback.call(scope || this, event);
+      }, useCapture || false);
+    }
+
+    return addWheelListener;
+  }(window, document),
+  rmWheelEvent: isBrowser && function (window, document) {
+    var prefix = "",
+        _rmEventListener,
+        onwheel,
+        support; // detect event model
+
+
+    if (addEventListener) {
+      _rmEventListener = "removeEventListener";
+    } else {
+      _rmEventListener = "detachEvent";
+      prefix = "on";
+    } // detect available wheel event
+
+
+    support = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
+    document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
+    "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
+
+    var rmWheelListener = function rmWheelListener(elem, callback, scope, useCapture) {
+      _EventListener(elem, support, callback, scope, useCapture); // handle MozMousePixelScroll in older Firefox
+
+
+      if (support == "DOMMouseScroll") {
+        _EventListener(elem, "MozMousePixelScroll", callback, scope, useCapture);
+      }
+    };
+
+    function _EventListener(elem, eventName, callback, scope, useCapture) {
+      elem[_rmEventListener](prefix + eventName, callback._wheelList);
+    }
+
+    return rmWheelListener;
+  }(window, document),
+
+  /**
+   * Find the react component that generate element dom node
+   * @param element
+   * @returns {[React.Component]}
+   */
+  findReactParents: function findReactParents(element) {
+    var fiberNode,
+        comps = [element];
+
+    for (var key in element) {
+      if (key.startsWith('__reactInternalInstance$')) {
+        fiberNode = element[key];
+
+        while (fiberNode.return) {
+          if (fiberNode.stateNode && !comps.includes(fiberNode.stateNode)) comps.push(fiberNode.stateNode);
+          fiberNode = fiberNode.return;
+        }
+
+        return comps;
+      }
+    }
+
+    return element.parentNode && this.findReactParents(element.parentNode);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Dom);
+
+/***/ }),
+
+/***/ "./src/utils/inertia.js":
+/*!******************************!*\
+  !*** ./src/utils/inertia.js ***!
+  \******************************/
+/*! exports provided: applyInertia, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyInertia", function() { return applyInertia; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Inertia; });
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "undefined?188d");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+var is = __webpack_require__(/*! is */ "undefined?63a5"),
+    easingFn = __webpack_require__(/*! d3-ease */ "undefined?25b8"),
+    signOf = function sign(x) {
+  return typeof x === 'number' ? x ? x < 0 ? -1 : 1 : x === x ? x : NaN : NaN;
+},
+    abs = Math.abs,
+    floor = Math.floor,
+    round = Math.round,
+    min = Math.min,
+    max = Math.max,
+    floatCut = function floatCut(v) {
+  if (v === void 0) {
+    v = 0;
+  }
+
+  return v.toFixed(3);
+},
+    consts = {
+  velocityResetTm: 150,
+  clickTm: 250
+}; // this is a mess
+
+/**
+ * Predict the inertia
+ * @param _
+ */
+
+
+function applyInertia(_) {
+  var velSign = signOf(_.lastVelocity);
+
+  if (_.disabled) {
+    // calc momentum distance...
+    // get nb loop needed to get vel < .05
+    _.loopsTarget = 0; // get velocity sum basing on nb loops needed
+
+    _.loopsVelSum = 0; // deduce real dist of momentum
+
+    _.targetDist = 0;
+    _.targetDuration = 0;
+  } else {
+    // get nb loop needed to get vel < .05
+    _.loopsTarget = floor(Math.log(.05 / abs(_.lastVelocity)) / Math.log(.9)); // get velocity sum basing on nb loops needed
+
+    _.loopsVelSum = (Math.pow(.9, _.loopsTarget) - abs(_.lastVelocity)) / (.9 - 1); // deduce real dist of momentum
+
+    _.targetDist = _.loopsVelSum * _.refFPS * velSign || 0;
+    _.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
+    console.log('applyInertia::applyInertia:67: ', _.targetDist, _.loopsVelSum, _.lastVelocity);
+  }
+}
+var inertiaByNode = {
+  nodes: [],
+  inertia: []
+};
+/**
+ * Main inertia class
+ * @class Caipi slideshow
+ * @type {module.exports}
+ */
+
+var Inertia = /*#__PURE__*/function () {
+  function Inertia(opt) {
+    var _ = this._ = {};
+
+    _.conf = _objectSpread({}, this.constructor.config, {}, opt);
+    this.active = false;
+    _.pos = opt.value || 0;
+    _.refFPS = 16;
+    _.min = opt.min || 0;
+    _.max = opt.max || 0;
+    _.currentStop = 0;
+    _.lastInertiaPos = 0;
+    _.stops = _.conf.stops;
+    _.disabled = _.conf.disabled;
+    _.wayPoints = _.conf.wayPoints;
+    _.inertiaFn = easingFn.easePolyOut;
+    _.targetWayPointIndex = 0; //console.log('Inertia::constructor:113: ');
+
+    this._detectCurrentSnap();
+  }
+
+  var _proto = Inertia.prototype;
+
+  _proto.update = function update(at) {
+    if (at === void 0) {
+      at = Date.now();
+    }
+
+    var _ = this._,
+        nextValue,
+        loop;
+
+    var pos = _.inertiaFn((at - _.inertiaStartTm) / _.targetDuration) * _.targetDist;
+
+    if (!_.inertia) {
+      //if ( _.conf.shouldLoop ) {
+      //	while ( (loop = _.conf.shouldLoop(_.pos, 0)) ) {
+      //		this.teleport(loop);
+      //	}
+      //}
+      return _.pos;
+    }
+
+    var delta = pos - _.lastInertiaPos;
+    _.lastInertiaPos = pos;
+
+    if (at - _.inertiaStartTm >= _.targetDuration) {
+      _.inertia = this.active = false;
+      _.lastInertiaPos = delta = 0;
+      _.targetDist = 0;
+
+      if (_.targetWayPoint) {
+        delta = _.targetWayPoint.at - _.pos; //console.log("snap done ", _.targetWayPoint, _.pos + delta);
+
+        _.currentWayPoint = _.targetWayPoint;
+        _.currentWayPointIndex = _.targetWayPointIndex;
+        _.targetWayPoint = null;
+        _.targetWayPointIndex = null; //_.lastSnapTm           = Date.now();
+      }
+
+      if (_.conf.onInertiaEnd) {
+        _.conf.onInertiaEnd(_.pos, _.currentWayPoint);
+      }
+    }
+
+    delta = delta || 0; //console.log(_.pos + delta);
+
+    nextValue = _.pos + delta;
+
+    if (delta && _.conf.shouldLoop) {
+      while (loop = _.conf.shouldLoop(nextValue, delta)) {
+        //console.warn("loop update", loop);
+        nextValue += loop; //this.teleport(loop);
+      }
+    }
+
+    _.pos = nextValue;
+    return nextValue;
+  };
+
+  _proto.setPos = function setPos(pos) {
+    var _ = this._,
+        nextValue;
+    _.inertia = false;
+    this.active = false;
+    _.lastInertiaPos = 0;
+    _.targetDist = 0;
+    _.pos = pos;
+
+    if (_.conf.bounds) {
+      _.pos = max(_.pos, _.min);
+      _.pos = min(_.pos, _.max);
+    }
+  };
+
+  _proto.setWayPoints = function setWayPoints(wayPoints) {
+    var _ = this._,
+        nextValue;
+    _.wayPoints = wayPoints;
+
+    this._detectCurrentSnap();
+  };
+
+  _proto.teleport = function teleport(loopDist) {
+    var _ = this._,
+        nextValue;
+    if (!_.inertia) return _.pos += loopDist; //_.lastInertiaPos += loopDist;
+
+    _.pos += loopDist; //console.log("setPos", _.lastInertiaPos);
+  };
+
+  _proto.dispatch = function dispatch(delta, tm) {
+    if (tm === void 0) {
+      tm = 500;
+    }
+
+    var _ = this._,
+        now = Date.now(),
+        pos;
+    this.active = true; // if no inertia has started || if direction has change
+
+    if (!_.inertia || signOf(delta) !== signOf(_.targetDist)) {
+      _.inertia = true;
+      _.lastInertiaPos = 0;
+      _.inertiaStartTm = _.inertiaLastTm = now;
+      _.targetDist = delta;
+      _.targetDuration = tm;
+    } else {
+      //_.inertiaStartTm =
+      //_.inertiaLastTm = now;
+      //_.lastInertiaPos = 0;
+      _.targetDist += delta;
+      _.targetDuration += tm / 2;
+    } //
+    //if ( _.conf.maxJump ) {
+    //
+    //}
+
+
+    if (_.conf.bounds) {
+      if (_.pos + _.targetDist > _.max) {
+        _.targetDist = _.max - _.pos;
+        _.targetDuration = abs(_.targetDist * 10);
+      } else if (_.pos + _.targetDist < _.min) {
+        _.targetDist = _.min - _.pos;
+        _.targetDuration = abs(_.targetDist * 10);
+      }
+    }
+
+    this._doSnap(signOf(delta), 750);
+  };
+
+  _proto._detectCurrentSnap = function _detectCurrentSnap() {
+    var _ = this._,
+        pos = _.pos,
+        i;
+
+    if (_.wayPoints && _.wayPoints.length) {
+      for (i = 0; i < _.wayPoints.length; i++) {
+        if (floatCut(_.wayPoints[i].at) === floatCut(pos)) {
+          _.currentWayPoint = _.wayPoints[i];
+          _.currentWayPointIndex = i; //console.warn("snap set", i);
+
+          return i;
+        }
+      }
+    }
+  };
+
+  _proto._doSnap = function _doSnap(forceSnap, maxDuration) {
+    if (maxDuration === void 0) {
+      maxDuration = 2000;
+    }
+
+    var _ = this._,
+        pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)),
+        target,
+        mid,
+        i,
+        i2;
+
+    if (_.wayPoints && _.wayPoints.length) {
+      for (i = 0; i < _.wayPoints.length; i++) {
+        if (_.wayPoints[i].at > pos) break;
+      }
+
+      if (i === _.wayPoints.length) {
+        i--;
+      } else if (i === 0) {
+        i = 0;
+      } else {
+        mid = _.wayPoints[i - 1].at + (_.wayPoints[i].at - _.wayPoints[i - 1].at) / 2;
+        if (forceSnap) forceSnap < 0 && i--;else if (pos < mid) i--;
+      }
+
+      if (_.conf.maxJump && is.number(_.currentWayPointIndex)) {
+        var d = i - _.currentWayPointIndex; //console.log('Inertia::_doSnap:154: ', i, d);
+
+        if (abs(d) > _.conf.maxJump) {
+          //console.log('max: ', i, d);
+          i = _.currentWayPointIndex + signOf(d) * _.conf.maxJump;
+        }
+      }
+
+      target = _.wayPoints[i].at;
+
+      if (_.conf.willSnap) {
+        _.conf.willSnap(i, _.wayPoints[i]);
+      }
+
+      _.lastInertiaPos = _.lastInertiaPos || 0;
+      target = target - (_.pos - _.lastInertiaPos);
+      _.targetDuration = max(50, min(maxDuration, abs(_.targetDuration / _.targetDist * target))) || 0; //console.log("do snap", i, target, _.targetDist, _.targetDuration);
+
+      _.targetDist = target;
+      _.targetWayPoint = _.wayPoints[i];
+      _.targetWayPointIndex = i;
+    } else {
+      target = ~~(_.pos - _.lastInertiaPos);
+
+      if (!_.conf.infinite) {
+        if (target > _.max) {
+          target = _.max - target;
+          _.targetDuration = min(maxDuration, abs(_.targetDuration / _.targetDist * target));
+          _.targetDist = target;
+        } else if (target < _.min) {
+          target = _.min - target;
+          _.targetDuration = min(maxDuration, abs(_.targetDuration / _.targetDist * target));
+          _.targetDist = target;
+        }
+      }
+    }
+  };
+
+  _proto.setBounds = function setBounds(min, max) {
+    var _ = this._; //console.log('Inertia::setBounds:245: ', min, max);
+
+    _.min = min;
+    _.max = max;
+  };
+
+  _proto.startMove = function startMove() {
+    var _ = this._;
+    _.baseTS = _.startTS = Date.now();
+    _.lastVelocity = _.lastIVelocity = 0;
+    _.lastAccel = 0;
+    _.posDiff = 0;
+    this.active = true;
+    this.holding = true;
+    _.inertia = false;
+  };
+
+  _proto.isInbound = function isInbound(nextPos) {
+    var _ = this._,
+        loop,
+        delta = _.lastHoldPos !== undefined ? nextPos - _.lastHoldPos : 0,
+        pos = (_.targetDist || 0) + (_.pos - (_.lastInertiaPos || 0)) + delta; //if ( _.conf.infinite ) return false;
+    //
+    //if ( _.conf.shouldLoop ) {
+    //	while ( (loop = _.conf.shouldLoop(nextValue)) ) {
+    //!(pos >= _.min && pos <= _.max) && console.warn("out", _.pos, pos, delta);
+    //		pos += loop;
+    //	}
+    //}
+    //console.log('Inertia::isInbound:359: ', pos, _.max);
+
+    return pos >= _.min && pos <= _.max;
+  };
+
+  _proto.hold = function hold(nextPos) {
+    var _ = this._,
+        delta = _.lastHoldPos !== undefined ? nextPos - _.lastHoldPos : 0,
+        loop; //_.holding     = true;
+
+    _.lastHoldPos = nextPos;
+
+    if (delta && _.conf.shouldLoop) {
+      //while ( (loop = _.conf.shouldLoop(pos, delta)) ) {
+      console.warn("loop", loop); //	pos += loop;
+      //}
+
+      while (loop = _.conf.shouldLoop(_.pos, delta)) {
+        //console.warn("loop", loop);
+        _.pos += loop;
+      }
+    }
+
+    var now = Date.now(),
+        //e.timeStamp,
+    sinceLastPos = now - _.baseTS,
+        pos = _.pos + delta,
+        iVel = delta / sinceLastPos;
+    if (!sinceLastPos || !iVel) return; //	debugger
+
+    console.log("hold", sinceLastPos, iVel);
+    _.lastIVelocity = iVel;
+    _.lastVelocity = _.lastIVelocity * iVel / iVel;
+    _.baseTS = now;
+    _.targetDist = 0;
+    _.lastInertiaPos = 0; // clear snap
+
+    _.targetWayPoint = undefined;
+    _.targetWayPointIndex = undefined;
+
+    if (_.conf.bounds) {
+      if (pos > _.max) {
+        pos = _.max; // + min((pos - _.max) / 10, 10);
+      } else if (pos < _.min) {
+        pos = _.min; // - min((_.min - pos) / 10, 10);
+      }
+    }
+
+    _.pos = pos;
+  };
+
+  _proto.release = function release() {
+    var _ = this._,
+        velSign = signOf(_.lastVelocity);
+    this.holding = false; // calc momentum distance...
+
+    applyInertia(_);
+    _.lastHoldPos = undefined;
+    _.holding = false;
+
+    if (_.conf.bounds && _.conf.snapToBounds) {
+      if (_.pos + _.targetDist > _.max) {
+        _.targetDist = _.max - _.pos;
+        _.targetDuration = abs(_.targetDist * 10);
+      } else if (_.pos + _.targetDist < _.min) {
+        _.targetDist = _.min - _.pos;
+        _.targetDuration = abs(_.targetDist * 10);
+      }
+    } //else {
+
+
+    if (!_.targetDuration) _.targetDuration = 50; //console.log(_);
+
+    this.active = true;
+    _.inertia = true;
+    _.lastInertiaPos = 0;
+    _.inertiaStartTm = _.inertiaLastTm = Date.now(); //}
+
+    this._doSnap(null, 500);
+  };
+
+  return Inertia;
+}();
+
+Inertia.config = {
+  bounds: true,
+  snapToBounds: true
+};
+
+
+/***/ }),
+
+/***/ "./src/utils/tweenTools.js":
+/*!*********************************!*\
+  !*** ./src/utils/tweenTools.js ***!
+  \*********************************/
+/*! exports provided: re_cssValueWithUnit, cssAdd, cssMult, offset, scale, reverse, addCss, extractCss, target, shiftTransforms */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "re_cssValueWithUnit", function() { return re_cssValueWithUnit; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cssAdd", function() { return cssAdd; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cssMult", function() { return cssMult; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "offset", function() { return offset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reverse", function() { return reverse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addCss", function() { return addCss; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extractCss", function() { return extractCss; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "target", function() { return target; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shiftTransforms", function() { return shiftTransforms; });
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "undefined?188d");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! is */ "undefined?63a5");
+/* harmony import */ var is__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(is__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/*
+ *
+ * Copyright (C) 2019 Nathanael Braun
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+var re_cssValueWithUnit = new RegExp("([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" + ['box', 'bz', 'bh', 'bw', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|') + ")");
+/**
+ * add any css val with it unit ( todo: optims&use objects for multi unit
+ * @param val1
+ * @param val2
+ * @returns {Array}
+ */
+
+function cssAdd(val1, val2) {
+  if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(val1)) val1 = [val1];
+  if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(val2)) val2 = [val2];
+  var units1 = val1.map(function (v) {
+    return v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'];
+  }),
+      units2 = val2.map(function (v) {
+    return v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'];
+  }),
+      remap = {},
+      result = [],
+      i;
+  i = 0;
+
+  while (i < units1.length) {
+    remap[units1[i][2]] = remap[units1[i][2]] || 0;
+    remap[units1[i][2]] += parseFloat(units1[i][1]);
+    i++;
+  }
+
+  i = 0;
+
+  while (i < units2.length) {
+    remap[units2[i][2]] = remap[units2[i][2]] || 0;
+    remap[units2[i][2]] += parseFloat(units2[i][1]);
+    i++;
+  }
+
+  Object.keys(remap).forEach(function (unit) {
+    return result.push(remap[unit] + unit);
+  });
+
+  for (var _len = arguments.length, argz = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+    argz[_key - 2] = arguments[_key];
+  }
+
+  return argz.length ? cssAdd.apply(void 0, [result].concat(argz)) : result;
+}
+/**
+ * Multiply any css val with it unit ( todo: optims & use objects for multi unit
+ * @param val1
+ * @param val2
+ * @returns {Array}
+ */
+
+function cssMult(val1, val) {
+  if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(val1)) val1 = [val1];
+  var units1 = val1.map(function (v) {
+    return v && v.match && v.match(re_cssValueWithUnit) || [, v || 0, 'px'];
+  }),
+      remap = {},
+      result = [],
+      i;
+  i = 0;
+
+  while (i < units1.length) {
+    remap[units1[i][2]] = remap[units1[i][2]] || 1;
+    remap[units1[i][2]] = parseFloat(units1[i][1]) * val;
+    i++;
+  }
+
+  Object.keys(remap).forEach(function (unit) {
+    return result.push(remap[unit] + unit);
+  });
+  return result;
+}
+function offset(items, start) {
+  if (start === void 0) {
+    start = 0;
+  }
+
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items;
+  return items.map(function (item) {
+    return _objectSpread({}, item, {
+      from: item.from + start
+    });
+  });
+}
+function scale(items, duration, withOffset) {
+  if (duration === void 0) {
+    duration = 0;
+  }
+
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items; // get items current duration
+
+  var iDuration = 0;
+  items.forEach(function (item) {
+    iDuration = Math.max(iDuration, item.from + item.duration);
+  });
+  items = items.map(function (item) {
+    return _objectSpread({}, item, {
+      from: item.from / iDuration * duration,
+      duration: item.duration / iDuration * duration
+    });
+  });
+  return withOffset ? offset(items, withOffset) : items;
+}
+
+function inverseValues(v) {
+  if (is__WEBPACK_IMPORTED_MODULE_1___default.a.number(v)) return -v;
+  if (is__WEBPACK_IMPORTED_MODULE_1___default.a.object(v)) return Object.keys(v).reduce(function (h, key) {
+    return h[key] = inverseValues(v[key]), h;
+  }, {});
+  if (is__WEBPACK_IMPORTED_MODULE_1___default.a.array(v)) return v.map(function (item) {
+    return inverseValues(item);
+  });
+  var values = v.split(/(\-?\d+(?:\.\d+)?|\-?\.\d+)/ig);
+  return values.map(function (val, i) {
+    return i % 2 ? -parseFloat(val) : val;
+  }).join("");
+}
+
+function reverse(items) {
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items; // get items current duration
+
+  var iDuration = 0;
+  items.forEach(function (item) {
+    iDuration = Math.max(iDuration, item.from + item.duration);
+  });
+  return items.map(function (item) {
+    item = _objectSpread({}, item, {
+      from: iDuration - (item.from + item.duration)
+    }, item.apply ? {
+      apply: inverseValues(item.apply)
+    } : undefined);
+    return item;
+  });
+}
+var MultiCssProps = {
+  "transform": true,
+  "filter": true,
+  "textShadow": true,
+  "boxShadow": true
+};
+function addCss(target) {
+  for (var _len2 = arguments.length, sources = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    sources[_key2 - 1] = arguments[_key2];
+  }
+
+  var source = sources.shift();
+
+  for (var key in source) {
+    if (!source.hasOwnProperty(key)) continue;
+
+    if (MultiCssProps[key]) {
+      if (!target[key]) {
+        target[key] = [];
+      }
+
+      if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(source[key])) {
+        addCss(target[key], [source[key]]);
+      } else addCss(target[key], source[key]);
+    } else {
+      // adding units
+      if (is__WEBPACK_IMPORTED_MODULE_1___default.a.array(source[key])) {
+        var _target$key;
+
+        if (!target[key]) {
+          target[key] = [];
+        }
+
+        if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.array(target[key])) {
+          target[key] = [].concat(source[key], [target[key]]);
+        } else (_target$key = target[key]).push.apply(_target$key, source[key]);
+      } else {
+        if (!target[key]) {
+          if (!is__WEBPACK_IMPORTED_MODULE_1___default.a.object(source[key])) {
+            target[key] = source[key];
+          } else {
+            target[key] = _objectSpread({}, source[key]);
+          }
+        } else if (is__WEBPACK_IMPORTED_MODULE_1___default.a.object(target[key]) && is__WEBPACK_IMPORTED_MODULE_1___default.a.object(source[key])) {
+          addCss(target[key], source[key]);
+        } else {
+          //else target[key].push(...source[key]);
+          target[key] = addAllType(target[key], source[key]); //console.log(key, target[key])
+        }
+      }
+    }
+  }
+
+  return sources.length && addCss.apply(void 0, [target].concat(sources)) || target;
+}
+
+function addAllType(v1, v2) {
+  if (!v1) return v2;
+  if (!v2) return v1;
+  var values1 = ('' + v1).split(/(\-?\d+(?:\.\d+)?|\-?\.\d+)/ig),
+      values2 = ('' + v2).split(/(\-?\d+(?:\.\d+)?|\-?\.\d+)/ig),
+      r = values1.map(function (val, i) {
+    return i % 2 ? parseFloat(val) + parseFloat(values2[i] || 0) : val;
+  }).filter(function (i) {
+    return i !== '';
+  });
+  return r.length === 1 ? parseInt(r[0]) : r.join("");
+}
+
+function extractCss(items, inverse) {
+  var css = {};
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items;
+  items.forEach(function (item) {
+    addCss(css, item.apply);
+  });
+  if (inverse) css = inverseValues(css); //if ( inverse && css.hasOwnProperty('opacity') )
+  //	css.opacity -= 1;
+
+  return css;
+}
+function target(items, target) {
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items;
+  return items.map(function (item) {
+    return _objectSpread({}, item, {
+      target: target
+    });
+  });
+}
+function shiftTransforms(items, shift) {
+  if (shift === void 0) {
+    shift = 1;
+  }
+
+  items = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(items) ? items : items && [items] || items;
+  return items.map(function (item) {
+    var t = item.apply && item.apply.transform;
+
+    if (t) {
+      t = is__WEBPACK_IMPORTED_MODULE_1___default.a.array(t) ? t : [t];
+
+      for (var i = 0; i < shift; i++) {
+        t.unshift({});
+      }
+
+      item = _objectSpread({}, item, {
+        apply: _objectSpread({}, item.apply, {
+          transform: t
+        })
+      });
+    }
+
+    return item;
+  });
+}
+
+/***/ }),
+
+/***/ 0:
+/*!*******************!*\
+  !*** multi ./src ***!
+  \*******************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./src */"./src/index.js");
+
+
+/***/ }),
+
+/***/ "undefined?188d":
+/*!********************************************************!*\
+  !*** external "@babel/runtime/helpers/defineProperty" ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@babel/runtime/helpers/defineProperty");
+
+/***/ }),
+
+/***/ "undefined?25b8":
+/*!**************************!*\
+  !*** external "d3-ease" ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("d3-ease");
+
+/***/ }),
+
+/***/ "undefined?2618":
+/*!**********************************************************************!*\
+  !*** external "@babel/runtime/helpers/objectWithoutPropertiesLoose" ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@babel/runtime/helpers/objectWithoutPropertiesLoose");
+
+/***/ }),
+
+/***/ "undefined?3832":
+/*!*****************************!*\
+  !*** external "prop-types" ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("prop-types");
+
+/***/ }),
+
+/***/ "undefined?588e":
+/*!************************!*\
+  !*** external "react" ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("react");
+
+/***/ }),
+
+/***/ "undefined?5e9a":
+/*!****************************!*\
+  !*** external "react-dom" ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("react-dom");
+
+/***/ }),
+
+/***/ "undefined?63a5":
+/*!*********************!*\
+  !*** external "is" ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("is");
+
+/***/ }),
+
+/***/ "undefined?7cef":
+/*!*****************************************************!*\
+  !*** external "layer-pack/etc/utils/indexUtils.js" ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("layer-pack/etc/utils/indexUtils.js");
+
+/***/ }),
+
+/***/ "undefined?8c1d":
+/*!**********************************!*\
+  !*** external "fast-deep-equal" ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("fast-deep-equal");
+
+/***/ }),
+
+/***/ "undefined?a742":
+/*!*****************************!*\
+  !*** external "color-rgba" ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("color-rgba");
+
+/***/ }),
+
+/***/ "undefined?a9ee":
+/*!*****************************!*\
+  !*** external "tween-axis" ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("tween-axis");
+
+/***/ }),
+
+/***/ "undefined?beec":
+/*!**************************!*\
+  !*** external "shortid" ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("shortid");
+
+/***/ }),
+
+/***/ "undefined?c6dc":
+/*!*********************************!*\
+  !*** external "css-box-shadow" ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("css-box-shadow");
+
+/***/ }),
+
+/***/ "undefined?cdfe":
+/*!*******************************************************!*\
+  !*** external "@babel/runtime/helpers/inheritsLoose" ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@babel/runtime/helpers/inheritsLoose");
+
+/***/ }),
+
+/***/ "undefined?df9b":
+/*!*************************************************!*\
+  !*** external "@babel/runtime/helpers/extends" ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@babel/runtime/helpers/extends");
+
+/***/ }),
+
+/***/ "undefined?e4e5":
+/*!***************************************************************!*\
+  !*** external "@babel/runtime/helpers/assertThisInitialized" ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@babel/runtime/helpers/assertThisInitialized");
+
+/***/ })
+
+/******/ });
 //# sourceMappingURL=react-voodoo.js.map

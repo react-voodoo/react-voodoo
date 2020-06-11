@@ -1,18 +1,14 @@
 {
   "name": "react-voodoo",
-  "version": "1.1.0",
+  "version": "2.0.0-alpha",
   "license": "AGPL-3.0",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
-  "repository": "https://github.com/n8tz/react-voodoo",
+  "repository": "https://github.com/react-voodoo/react-voodoo",
   "description": "Additive & swipeable animation engine for React",
   "scripts": {
-    "build": "lpack && lpack :samples",
+    "build": "lpack",
     "devLib": "lpack :staging -w",
-    "devLibM": "lpack :stagingToMama -w",
-    "devSamples": "lpack-dev-server :samplesDev --hot --host 0.0.0.0",
-    "startSamples": "ws -d ./dist.samples -p 8080",
-    "runBrowser": "start http://localhost:8080",
     "test": "mocha --require @babel/register ./etc/tests/*.test.js -b",
     "testAuto": "nodemon --watch ./dist/react-voodoo.js --watch ./etc/tests/**/*.js --exec \"npm test\""
   },
@@ -21,8 +17,6 @@
     "react-dom": "^16.0.0"
   },
   "dependencies": {
-    "@babel/register": "^7.9.0",
-    "@babel/runtime": "^7.3.1",
     "color-rgba": "^2.1.0",
     "css-box-shadow": "^1.0.0-3",
     "css-property-parser": "^1.0.6",

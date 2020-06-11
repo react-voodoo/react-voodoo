@@ -32,7 +32,7 @@ function setTarget( anims, target ) {
 	)
 }
 
-export default class TweenRef extends React.Component {
+export default class Node extends React.Component {
 	
 	static propTypes = {};
 	state            = {};
@@ -137,7 +137,7 @@ export default class TweenRef extends React.Component {
 						return refChild;
 					}
 					else {
-						console.error("Invalid voodoo TweenRef child : ", id)
+						console.error("Invalid voodoo Node child : ", id)
 					}
 					return <div>Invalid</div>;
 				}
@@ -146,8 +146,8 @@ export default class TweenRef extends React.Component {
 	}
 }
 
-TweenRef.div = ( { children, className, ...props } ) => {
-	return <TweenRef {...props}>
+Node.div = ( { children, className, ...props } ) => {
+	return <Node {...props}>
 		<div className={className}>{children}</div>
-	</TweenRef>;
+	</Node>;
 }

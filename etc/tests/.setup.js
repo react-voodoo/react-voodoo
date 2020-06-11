@@ -16,9 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//const { JSDOM } = require('jsdom');
-//const jsdom = new JSDOM('<!doctype html><html><body></body></html>');
-//const { window } = jsdom;
 const Browser = require('zombie');
 const browser = new Browser();
 
