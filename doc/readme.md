@@ -2,18 +2,43 @@
 
 ___
 
+<!-- tweener, child, tools, Draggable, Component, Node, context, Axis, dom-->
+
+## Api
+
+## Voodoo.tweener
+
 
 ## Concepts & syntax
 
-### Tween Axis
+### Axis
 
 In react-voodoo Tween axis are scrollable / swipeable arrays of relatives tween. <br>
 All tween are dynamically composed by [tween-axis](https://github.com/n8tz/tween-axis), which make them additive & relative, so they can be applied simultaneously on same values.<br> 
-react-voodoo manage theirs application basing on the react bindings & the browser events.<br> 
+react-voodoo manage the multiples tween-axis & theirs application basing on the react bindings & the browser events.<br>
+
+The same way multiple animations can operate on the same node / properties, multiple Axis can update the same node / properties.   
 
 ### Units 
 
-Voodoo tweener add 3 (client side) units : 
+Voodoo tweener allow using multiples units simultaneously on the same properties. 
+
+Example : 
+
+```jsx harmony
+// ...
+    <Voodoo.Node style={
+    	{
+            // the tweener deal with multiple units 
+            // it will use css calc fn if there's more than 1 unit used 
+            width : ["50%", "10vw", "-50px", ".2box"],
+        }
+    }>
+    </Voodoo.Node>
+// ...
+```
+
+Voodoo tweener add 3 client side only units : 
  - (float)box : 1box = (width or height) of the 1st parent with [asTweener](readme.md#astweener);
  - (float)bh : 1bh = height of the 1st parent with [asTweener](readme.md#astweener);
  - (float)bw : 1bw = width of the 1st parent with [asTweener](readme.md#astweener);
@@ -95,15 +120,15 @@ let anim        = [
 ```jsx harmony
 
 import React from "react";
-import {asTweener, TweenAxis, TweenRef, tweenTools} from "react-voodoo";
+import Voodoo from "react-voodoo";
 import {itemTweenAxis, pageTweenAxisWithTargets} from "./somewhere";
 
-@asTweener
+@Voodoo.tweener
 export default class MyTweenerComp extends React.Component{
 	
 	render() {
 		return <div>
-			<TweenAxis
+			<Voodoo.Axis
 			    // Tween axis Id 
 			    // * scrollY & scrollX automatically receive mouse & touch events
 				axe={"scrollY"}
@@ -139,9 +164,9 @@ export default class MyTweenerComp extends React.Component{
 					}
 			/>
 			
-            <TweenRef
+            <Voodoo.Node
                 id={"testItem"} // optional id
-                initial={
+                style={
                 	{
                 		// css syntax + voodoo tweener units & transform management 
                 	}
@@ -171,7 +196,7 @@ export default class MyTweenerComp extends React.Component{
                 <div>
                     Some content to tween
                 </div>
-            </TweenRef>
+            </Voodoo.Node>
 		</div>;
     }
 }

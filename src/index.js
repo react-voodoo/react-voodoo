@@ -16,23 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Component}     from 'react';
-import TweenAxis       from './comps/TweenAxis';
-import TweenerContext  from './comps/TweenerContext';
-import TweenRef        from './comps/TweenRef';
-import Draggable       from './comps/Draggable';
-import asTweener       from './spells/asTweener';
-import withTweener     from './spells/withTweener';
-import domTools        from './utils/dom.js';
-import * as tweenTools from './utils/tweenTools.js';
+import React      from 'react';
+import Axis       from './comps/Axis';
+import context    from './comps/TweenerContext';
+import Node       from './comps/Node';
+import Draggable  from './comps/Draggable';
+import tweener    from './spells/asTweener';
+import child      from './spells/withTweener';
+import dom        from './utils/dom.js';
+import * as tools from './utils/tweenTools.js';
 
-@asTweener
-class Tweenable extends Component {
+@tweener
+class Component extends React.Component {
 	render() {
 		return this.props.children;
 	}
 }
 
-
-export {asTweener, withTweener, tweenTools, Draggable, Tweenable, TweenRef, TweenerContext, TweenAxis, domTools};
-export default Tweenable;
+export default {tweener, child, tools, Draggable, Component, Node, context, Axis, dom};

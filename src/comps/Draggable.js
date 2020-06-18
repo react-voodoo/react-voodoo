@@ -32,7 +32,6 @@ import ReactDom  from "react-dom";
 import domUtils  from "../utils/dom";
 
 import withTweener from "../spells/withTweener";
-import TweenRef    from "./TweenRef";
 
 @withTweener
 export default class Draggable extends React.Component {
@@ -107,13 +106,14 @@ export default class Draggable extends React.Component {
 						for ( i = 0; i < parents.length; i++ ) {
 							pTweener = parents[i];
 							// react comp with tweener support
-							if ( pTweener.__isTweener && pTweener._.scrollEnabled ) {
-								x = xAxis && pTweener._getAxis(xAxis);
-								y = yAxis && pTweener._getAxis(yAxis);
+							if ( pTweener.__isTweener ) {
+								x = xAxis && pTweener.axes?.[xAxis];
+								y = yAxis && pTweener.axes?.[yAxis];
+								pTweener._updateNodeInertia()
 							}
 							
 						}
-						//this._updateNodeInertia()
+						//tweener._updateNodeInertia()
 						//e.stopPropagation();
 						//e.preventDefault();
 					},
@@ -132,7 +132,7 @@ export default class Draggable extends React.Component {
 						
 					},
 					'drag'     : ( e, touch, descr ) => {//@todo
-						let tweener,
+						let pTweener,
 						    x, deltaX, xDispatched, vX,
 						    y, deltaY, yDispatched, vY,
 						    cState, i;
@@ -161,38 +161,41 @@ export default class Draggable extends React.Component {
 									//yDispatched = true;
 								}
 							}
-							//console.log("drag", dX, dY, cLock, _.options.dragDirectionLock);
 							for ( i = 0; i < parents.length; i++ ) {
-								tweener = parents[i];
+								pTweener = parents[i];
 								// react comp with tweener support
-								if ( tweener.__isTweener && tweener._.scrollEnabled ) {
+								if ( pTweener.__isTweener ) {
 									
-									x = xAxis && tweener._getAxis(xAxis);
-									y = yAxis && tweener._getAxis(yAxis);
+									x = xAxis && pTweener.axes?.[xAxis];
+									y = yAxis && pTweener.axes?.[yAxis];
+									//console.log("drag", dX, dY, x);
 									
 									if ( !parentsState[i] ) {
 										parentsState[i] = { x: x?.scrollPos, y: y?.scrollPos };
 										x?.inertia?.startMove();
 										y?.inertia?.startMove();
-										xAxis && !x.inertiaFrame && tweener.applyInertia(x, xAxis);
-										yAxis && !y.inertiaFrame && tweener.applyInertia(y, yAxis);
+										xAxis && !x.inertiaFrame && pTweener.applyInertia(x, xAxis);
+										yAxis && !y.inertiaFrame && pTweener.applyInertia(y, yAxis);
+										//console.warn('Draggable::drag:190: ');
 									}
 									
 									if ( x )
-										deltaX = dX && (dX / tweener._.box.x) * (x.scrollableWindow || x.scrollableArea) || 0;
+										deltaX = dX && (dX / pTweener._.box.x) * (x.scrollableWindow || x.scrollableArea) || 0;
 									if ( y )
-										deltaY = dY && (dY / tweener._.box.y) * (y.scrollableWindow || y.scrollableArea) || 0;
+										deltaY = dY && (dY / pTweener._.box.y) * (y.scrollableWindow || y.scrollableArea) || 0;
 									
+									//console.log('Draggable::drag:178: ', parentsState[i].x + deltaX,
+									// x?.inertia?._.max, x?.inertia?.isInbound(parentsState[i].x + deltaX));
 									if ( !xDispatched && deltaX && x?.inertia?.isInbound(parentsState[i].x + deltaX)
-										&& (tweener.componentShouldScroll(xAxis, deltaX)) ) {
+										&& (pTweener.componentShouldScroll(xAxis, deltaX)) ) {
 										x.inertia.hold(parentsState[i].x + deltaX);
 										xDispatched = true;
 									}
-									//console.log("scrollY", tweener.isAxisOut("scrollY", parentsState[i].y
-									// + deltaY, true));
+									//console.log("scrollY", yDispatched, y?.inertia?.isInbound(parentsState[i].y + deltaY), parentsState[i].y + deltaY);
 									if ( !yDispatched && deltaY && y?.inertia?.isInbound(parentsState[i].y + deltaY)
-										&& (tweener.componentShouldScroll(yAxis, deltaY)) ) {
+										&& (pTweener.componentShouldScroll(yAxis, deltaY)) ) {
 										y.inertia.hold(parentsState[i].y + deltaY);
+										console.log('Draggable::drag:190: ', parentsState[i].y,deltaY);
 										yDispatched = true;
 									}
 								}
@@ -222,9 +225,11 @@ export default class Draggable extends React.Component {
 						for ( i = 0; i < parents.length; i++ ) {
 							pTweener = parents[i];
 							// react comp with tweener support
-							if ( pTweener.__isTweener && pTweener._.scrollEnabled && parentsState[i] ) {
-								pTweener._getAxis(xAxis)?.inertia?.release();
-								pTweener._getAxis(yAxis)?.inertia?.release();
+							if ( pTweener.__isTweener && parentsState[i] ) {
+								//console.log('Draggable::dropped:228: ', pTweener._getAxis(xAxis)?.inertia);
+								pTweener.axes?.[xAxis]?.inertia?.release();
+								pTweener.axes?.[yAxis]?.inertia?.release();
+								//pTweener._updateNodeInertia()
 							}
 							//else if ( is.element(tweener) ) {
 							//	cState = parentsState[i];

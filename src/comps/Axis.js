@@ -22,7 +22,7 @@ import React     from 'react';
 
 import TweenerContext from "./TweenerContext";
 
-export default class TweenAxis extends React.Component {
+export default class Axis extends React.Component {
 	static propTypes = {
 		axe            : PropTypes.string.isRequired,
 		items          : PropTypes.array,
