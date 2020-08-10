@@ -14,7 +14,7 @@ ___
 ### Axis
 
 In react-voodoo Tween axis are scrollable / swipeable arrays of relatives tween. <br>
-All tween are dynamically composed by [tween-axis](https://github.com/n8tz/tween-axis), which make them additive & relative, so they can be applied simultaneously on same values.<br> 
+All tween are dynamically composed by [tween-axis](https://github.com/react-voodoo/tween-axis), which make them additive & relative, so they can be applied simultaneously on same values.<br>
 react-voodoo manage the multiples tween-axis & theirs application basing on the react bindings & the browser events.<br>
 
 The same way multiple animations can operate on the same node / properties, multiple Axis can update the same node / properties.   

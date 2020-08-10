@@ -16,21 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const is       = require('is'),
-      easingFn = require('d3-ease'),
-      signOf   = function sign( x ) {
-	      return typeof x === 'number' ? x ? x < 0 ? -1 : 1 : x === x ? x : NaN : NaN;
-      },
-      abs      = Math.abs,
-      floor    = Math.floor,
-      round    = Math.round,
-      min      = Math.min,
-      max      = Math.max,
-      floatCut = ( v = 0 ) => v.toFixed(3),
-      consts   = {
-	      velocityResetTm: 150,
-	      clickTm        : 250
-      };
+const
+	is       = require('is'),
+	easingFn = require('d3-ease'),
+	signOf   = function sign( x ) {
+		return typeof x === 'number' ? x ? x < 0 ? -1 : 1 : x === x ? x : NaN : NaN;
+	},
+	abs      = Math.abs,
+	floor    = Math.floor,
+	round    = Math.round,
+	min      = Math.min,
+	max      = Math.max,
+	floatCut = ( v = 0 ) => v.toFixed(3),
+	
+	consts   = {
+		velocityResetTm: 150,
+		clickTm        : 250
+	};
 
 // this is a mess
 
@@ -60,9 +62,8 @@ export function applyInertia( _ ) {
 		// get velocity sum basing on nb loops needed
 		_.loopsVelSum    = (Math.pow(.9, _.loopsTarget) - abs(_.lastVelocity)) / (.9 - 1);
 		// deduce real dist of momentum
-		_.targetDist     = (_.loopsVelSum * _.refFPS * velSign) || 0;
+		_.targetDist     = (_.loopsVelSum * _.refFPS * velSign) / 1000 || 0;
 		_.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
-		console.log('applyInertia::applyInertia:67: ', _.targetDist, _.loopsVelSum, _.lastVelocity);
 	}
 	
 }
@@ -109,7 +110,7 @@ export default class Inertia {
 		_.wayPoints           = _.conf.wayPoints;
 		_.inertiaFn           = easingFn.easePolyOut;
 		_.targetWayPointIndex = 0;
-		//console.log('Inertia::constructor:113: ');
+		
 		this._detectCurrentSnap()
 		
 	}
@@ -334,7 +335,7 @@ export default class Inertia {
 	
 	startMove() {
 		let _          = this._;
-		_.baseTS       = _.startTS = Date.now();
+		_.baseTS       = _.startTS = Date.now() / 1000;
 		_.lastVelocity = _.lastIVelocity = 0;
 		_.lastAccel    = 0;
 		_.posDiff      = 0;
@@ -355,7 +356,6 @@ export default class Inertia {
 		//		pos += loop;
 		//	}
 		//}
-		//console.log('Inertia::isInbound:359: ', pos, _.max);
 		return pos >= _.min && pos <= _.max;
 	}
 	
@@ -368,7 +368,7 @@ export default class Inertia {
 		_.lastHoldPos = nextPos;
 		if ( delta && _.conf.shouldLoop ) {
 			//while ( (loop = _.conf.shouldLoop(pos, delta)) ) {
-			console.warn("loop", loop);
+			//	//console.warn("loop", loop);
 			//	pos += loop;
 			//}
 			while ( (loop = _.conf.shouldLoop(_.pos, delta)) ) {
@@ -376,23 +376,66 @@ export default class Inertia {
 				_.pos += loop;
 			}
 		}
-		let now          = Date.now(),//e.timeStamp,
+		let now          = Date.now() / 1000,//e.timeStamp,
 		    sinceLastPos = (now - _.baseTS),
 		    pos          = _.pos + delta,
 		    iVel         = delta / sinceLastPos;
 		
-		if ( !sinceLastPos || !iVel )
-			return;
+		//if (is.nan(pos))
 		//	debugger
-		console.log("hold", sinceLastPos, iVel);
+		//console.log("hold", delta, sinceLastPos);
 		_.lastIVelocity       = iVel;
-		_.lastVelocity        = (_.lastIVelocity * iVel) / iVel;
+		_.lastVelocity        = iVel;
 		_.baseTS              = now;
 		_.targetDist          = 0;
 		_.lastInertiaPos      = 0;
 		// clear snap
 		_.targetWayPoint      = undefined;
 		_.targetWayPointIndex = undefined;
+		
+		
+		
+		//if ( tdiff < 3 ) {
+		//	// skip/ignore
+		//}
+		//else if (
+		//	(
+		//		(
+		//			iVel <= 0 && _.lastVelocity > 0) ||
+		//		(iVel >= 0 && _.lastVelocity < 0)
+		//		||
+		//		abs(iVel) < abs(_.lastVelocity * 0.2)
+		//	) &&
+		//	(now - _.lastDraggingTm) > consts.velocityResetTm
+		//) {
+		//	_.lastVelocity   = 0;
+		//	_.lastIVelocity  = 0;
+		//	_.lastDraggingTm = now;
+		//	_.baseTS         = _.startTS = now;
+		//	// console.log('reset');
+		//	_.refPos.x       = _.pos.x;
+		//	_.refPos.y       = _.pos.y;
+		//
+		//	_.lastPos.x = _.pos.x;
+		//	_.lastPos.y = _.pos.y;
+		//}
+		//else {
+		//	_.lastDraggingTm = now;
+		//
+		//	iVel = ((3 * _.lastIVelocity + 5 * iVel) / 8) || 0;
+		//
+		//	_.lastAccel = (_.lastAccel + (iVel - _.lastVelocity)) / 2;
+		//
+		//	_.lastVelocity  = (_.posDiff[_.posProperty] && stdiff) ? _.posDiff[_.posProperty] / (stdiff) : 0;
+		//	_.lastIVelocity = iVel;
+		//	_.baseTS        = now;
+		//
+		//	_.lastPos.x = _.pos.x;
+		//	_.lastPos.y = _.pos.y;
+		//}
+		//
+		
+		
 		
 		if ( _.conf.bounds ) {
 			if ( pos > _.max ) {
