@@ -18,9 +18,10 @@
 
 import React      from 'react';
 import Axis       from './comps/Axis';
-import context    from './comps/TweenerContext';
+import Context    from './comps/TweenerContext';
 import Node       from './comps/Node';
 import Draggable  from './comps/Draggable';
+import useTweener  from './hooks/useTweener';
 import tweener    from './spells/asTweener';
 import child      from './spells/withTweener';
 import dom        from './utils/dom.js';
@@ -33,4 +34,4 @@ class Component extends React.Component {
 	}
 }
 
-export default {tweener, child, tools, Draggable, Component, Node, context, Axis, dom};
+export default {tweener, child, useTweener, tools, Draggable, Component, Node, Context, Axis, dom};

@@ -195,7 +195,7 @@ export default class Draggable extends React.Component {
 									if ( !yDispatched && deltaY && y?.inertia?.isInbound(parentsState[i].y + deltaY)
 										&& (pTweener.componentShouldScroll(yAxis, deltaY)) ) {
 										y.inertia.hold(parentsState[i].y + deltaY);
-										console.log('Draggable::drag:190: ', parentsState[i].y,deltaY);
+										//console.log('Draggable::drag:190: ', parentsState[i].y,deltaY);
 										yDispatched = true;
 									}
 								}

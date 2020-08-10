@@ -7,8 +7,6 @@ ___
 <p align="center">
 <a href="https://www.npmjs.com/package/react-voodoo">
 <img src="https://img.shields.io/npm/v/react-voodoo.svg" alt="Npm version" /></a>
-<a href="https://travis-ci.org/react-voodoo/react-voodoo">
-<img src="https://travis-ci.org/react-voodoo/react-voodoo.svg?branch=master" alt="Build Status" /></a>
 <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" />
 </p>
 
@@ -18,20 +16,20 @@ react-voodoo is an additive tweener for react
 
 It allow :
 
-- Additive tween ( applying forward and backward multiples tween on same properties )
+- Additive tween ( applying simultaneously multiples tween on same properties )
 - Scrollable & swipeable animations
 - SSR rendering of =! scroll / swipe position
 - Hot switching scrollable anims ( responsive )
 - Predictive inertia
 - etc...
 
-## Draft & minimalist samples [here](http://htmlpreview.github.io/?https://github.com/n8tz/react-voodoo-samples/blob/master/index.html) ( [sources](samples) )
+## Draft & minimalist samples [here](https://github.com/react-voodoo/react-voodoo-samples)
 
 ## Draft & minimalist doc [here](doc/readme.md)
 
 ## Note
 
-If you're searching production ready animation engine that can do some additive tween see [react-spring](https://github.com/react-spring/react-spring) or [gsap](https://github.com/bitworking/react-gsap) 
+This is advanced beta, react-voodoo still have missing css interpolator
 
 ## Basics
 
