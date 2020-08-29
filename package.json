@@ -28,6 +28,8 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "enzyme": "^3.10.0",
+    "@babel/register": "^7.10.5",
+
     "enzyme-adapter-react-16": "^1.14.0",
     "jsdom": "^15.1.1",
     "local-web-server": "^3.0.7",

@@ -24,17 +24,17 @@ import React from 'react';
 
 
 describe(packageCfg.name + "@" + packageCfg.version + " : ", () => {
-	
-	let VoodooTweener;
-	before(function () {
-		this.timeout(TIMEOUT);
-		return require('./.setup.js')();
-	});
-	
-	it('should import voodoo fine', function () {
-		VoodooTweener = require('../..');
-		require('./all/describe.css')(VoodooTweener);
-		//require('./all/describe.anims')(VoodooTweener);
-	});
-	
+    
+    let VoodooTweener;
+    before(function () {
+        this.timeout(TIMEOUT);
+        return require('./.setup.js')();
+    });
+    
+    it('should import voodoo fine', function () {
+        VoodooTweener = require('../..').default;
+        require('./all/describe.css')(VoodooTweener);
+        //require('./all/describe.anims')(VoodooTweener);
+    });
+    
 });
