@@ -7,6 +7,8 @@ ___
 <p align="center">
 <a href="https://www.npmjs.com/package/react-voodoo">
 <img src="https://img.shields.io/npm/v/react-voodoo.svg" alt="Npm version" /></a>
+<a href="https://travis-ci.org/react-voodoo/react-voodoo">
+<img src="https://travis-ci.org/react-voodoo/react-voodoo.svg?branch=master" alt="Build Status" /></a>
 <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" />
 </p>
 
