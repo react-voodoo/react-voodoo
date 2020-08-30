@@ -23,13 +23,19 @@ import React          from "react";
 import TweenerContext from "../comps/TweenerContext";
 import Tweener        from "../comps/Tweener";
 
-export default ( RootNodeComp = 'div' ) => {
+export default ( tweenerOptions, RootNodeComp = 'div' ) => {
     const parentTweener = React.useContext(TweenerContext),
           nodeRef       = React.useRef(),
           lastTweener   = React.useRef(),
           tweener       = React.useMemo(
               () => {
-                  let tw               = new Tweener({ forwardedRef: nodeRef });
+                  if ( tweenerOptions === true )// keep tweener from context ( parent )
+                      return parentTweener;
+            
+                  let tw               = new Tweener({
+                                                         forwardedRef: nodeRef,
+                                                         tweenerOptions
+                                                     });
                   tw.isMountedFromHook = true;
                   return tw;
               },
@@ -52,6 +58,8 @@ export default ( RootNodeComp = 'div' ) => {
     
     React.useEffect(
         () => {
+            if ( tweenerOptions === true )
+                return;
             //console.warn("didmount", nodeRef.current, lastTweener.current === TweenerEl)
             tweener.componentDidMount();
             lastTweener.current = tweener;
@@ -64,6 +72,9 @@ export default ( RootNodeComp = 'div' ) => {
     )
     React.useEffect(
         () => {
+            
+            if ( tweenerOptions === true )
+                return;
             //console.warn("didupdate", nodeRef.current)
             lastTweener.current._updateBox();
             lastTweener.current._updateTweenRefs();
@@ -74,13 +85,14 @@ export default ( RootNodeComp = 'div' ) => {
     )
     React.useEffect(
         () => {
+            if ( tweenerOptions === true )
+                return;
             lastTweener.current._parentTweener = parentTweener;
-        }
-        ,
+        },
         [parentTweener]
     )
     return React.useMemo(
-        () => ( [ViewBox, tweener] ),
+        () => ( [tweener, ViewBox] ),
         [ViewBox, tweener]
     );
 }

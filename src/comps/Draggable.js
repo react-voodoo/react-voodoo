@@ -82,13 +82,13 @@ export default class Draggable extends React.Component {
      * @private
      */
     _registerScrollListeners() {
-        let rootNode                  = this.root?.current,
-            { xAxis, yAxis, tweener } = this.props,
+        let rootNode                                = this.root?.current,
+            { xAxis, yAxis, yHook, xHook, tweener } = this.props,
             lastStartTm,
             cLock, dX,
             parents,
             dY, parentsState,
-            _                         = tweener._;
+            _                                       = tweener._;
         if ( rootNode ) {
             domUtils.addEvent(
                 rootNode, this._.dragList = {
@@ -140,6 +140,7 @@ export default class Draggable extends React.Component {
                         dX = -( descr._lastPos.x - descr._startPos.x );
                         dY = -( descr._lastPos.y - descr._startPos.y );
                         
+                        
                         if ( lastStartTm && ( ( lastStartTm > Date.now() - _.options.maxClickTm ) && Math.abs(dY) < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset ) )// skip tap & click
                         {
                             //console.log(':u ' + (lastStartTm - Date.now()) + ' ' + dX +
@@ -190,20 +191,22 @@ export default class Draggable extends React.Component {
                                     if ( y )
                                         deltaY = dY && ( dY / pTweener._.box.y ) * ( y.scrollableWindow || y.scrollableArea ) || 0;
                                     
-                                    console.log('scrollX ',
-                                                xDispatched,
-                                                x?.inertia?.isInbound(parentsState[ i ].x +
-                                                                      deltaX),
-                                                parentsState[ i ].x + deltaX
-                                    );
+                                    if ( yHook )
+                                        deltaY = yHook(deltaY);
+                                    if ( xHook )
+                                        deltaX = xHook(deltaX);
+                                    //console.log('scrollX ',
+                                    //            xDispatched,
+                                    //            x?.inertia?.isInbound(parentsState[ i
+                                    // ].x + deltaX), parentsState[ i ].x + deltaX );
                                     if ( !xDispatched && deltaX && x?.inertia?.isInbound(parentsState[ i ].x + deltaX)
                                          && ( pTweener.componentShouldScroll(xAxis, deltaX) ) ) {
                                         x.inertia.hold(parentsState[ i ].x + deltaX);
                                         xDispatched = true;
                                     }
-                                    console.log("scrollY", yDispatched,
-                                                y?.inertia?.isInbound(parentsState[ i ].y + deltaY),
-                                                parentsState[ i ].y + deltaY);
+                                    //console.log("scrollY", yDispatched,
+                                    //            y?.inertia?.isInbound(parentsState[ i
+                                    // ].y + deltaY), parentsState[ i ].y + deltaY);
                                     if ( !yDispatched && deltaY && y?.inertia?.isInbound(parentsState[ i ].y + deltaY)
                                          && ( pTweener.componentShouldScroll(yAxis, deltaY) ) ) {
                                         y.inertia.hold(parentsState[ i ].y + deltaY);
@@ -298,13 +301,18 @@ export default class Draggable extends React.Component {
                 Comp,
                 forwardedRef,
                 items = [],
+                xAxis,
+                yAxis,
+                yHook,
+                xHook,
+                tweener,
+                ...props
             } = this.props;
         return <TweenerContext.Consumer>
             {
                 parentTweener => {
                     this._parentTweener = parentTweener;
-                    return <Comp { ...this.getProps() }
-                                 ref={ this.root }>{ children }</Comp>;
+                    return <Comp ref={ this.root } { ...props }>{ children }</Comp>;
                 }
             }
         </TweenerContext.Consumer>;

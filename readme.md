@@ -41,7 +41,7 @@ import React from "react";
 import Voodoo from "react-voodoo";
 import {itemTweenAxis, pageTweenAxisWithTargets} from "./somewhere";
 const Sample = ( {} ) => {
-    const [ViewBox, tweener]      = Voodoo.hook();
+    const [tweener, ViewBox]      = Voodoo.hook();
     return <ViewBox className={ "container" }>
         <Voodoo.Axis
             // Tween axis Id
