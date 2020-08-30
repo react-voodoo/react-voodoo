@@ -27,6 +27,28 @@ module.exports = function ( Voodoo ) {
     
     describe("Css styles : ", () => {
         
+        it('should support Hooks', function () {
+            //console.log(':::31: ', Voodoo);
+            
+            const MyComp = Voodoo.tweener(() => {
+                const tweener = Voodoo.useTweener();
+                return <div className={ "container" }>
+                    <Voodoo.Node id="card"
+                                 initial={ {
+                                     width: ["50%", "50px"]
+                                 } }>
+                        <div className={ "card" } style={ { height: '100px' } }>
+                            test
+                        </div>
+                    </Voodoo.Node>
+                </div>;
+            })
+            
+            
+            const wrapper = render(<MyComp/>);
+            expect(wrapper.find('.card')[ 0 ].attribs.style).to.include('width:calc(50% + 50px)');
+        });
+        
         it('should support multiple css units', function () {
             //console.log(':::31: ', Voodoo);
             @Voodoo.tweener

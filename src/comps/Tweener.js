@@ -345,7 +345,9 @@ export default class Tweener extends React.Component {
      * @returns {*}
      */
     getRootNode() {
-        return this._.rootRef && this.getTweenableRef(this._.rootRef) || ReactDom.findDOMNode(this);
+        return this.getTweenableRef(this._.rootRef)
+               || this.isMountedFromHook && this._.rootRef && this._.rootRef.current
+               || ReactDom.findDOMNode(this);
     }
     
     // ------------------------------------------------------------
@@ -915,10 +917,12 @@ export default class Tweener extends React.Component {
             _.activeInertia.push(
                 {
                     inertia: {
-                        x: new Inertia({ max: node.scrollWidth - node.offsetLeft,
+                        x: new Inertia({
+                                           max  : node.scrollWidth - node.offsetLeft,
                                            value: node.scrollLeft
                                        }),
-                        y: new Inertia({ max: node.scrollHeight - node.offsetHeight,
+                        y: new Inertia({
+                                           max  : node.scrollHeight - node.offsetHeight,
                                            value: node.scrollTop
                                        })
                     },
@@ -1015,7 +1019,7 @@ export default class Tweener extends React.Component {
                         node.style[ o ] = this._.tweenRefCSS[ target ][ o ] = swap[ o ];
                         //if ( target == "card" ) console.log(target, o, node.style[o],
                         // swap[o]);
-                        changes         = true;
+                        changes = true;
                     }
                     delete swap[ o ];
                 }

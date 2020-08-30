@@ -21,7 +21,8 @@ import Axis       from './comps/Axis';
 import Context    from './comps/TweenerContext';
 import Node       from './comps/Node';
 import Draggable  from './comps/Draggable';
-import useTweener  from './hooks/useTweener';
+import useVoodoo  from './hooks/useVoodoo';
+import useTweener from './hooks/useTweener';
 import tweener    from './spells/asTweener';
 import child      from './spells/withTweener';
 import dom        from './utils/dom.js';
@@ -29,9 +30,36 @@ import * as tools from './utils/tweenTools.js';
 
 @tweener
 class Component extends React.Component {
-	render() {
-		return this.props.children;
-	}
+    render() {
+        return this.props.children;
+    }
 }
 
-export default {tweener, child, useTweener, tools, Draggable, Component, Node, Context, Axis, dom};
+export {
+    tweener,
+    child,
+    useTweener,
+    useVoodoo,
+    useVoodoo as hook,
+    tools,
+    Draggable,
+    Component,
+    Node,
+    Context,
+    Axis,
+    dom
+};
+export default {
+    tweener,
+    child,
+    useTweener,
+    useVoodoo,
+    hook: useVoodoo,
+    tools,
+    Draggable,
+    Component,
+    Node,
+    Context,
+    Axis,
+    dom
+};
