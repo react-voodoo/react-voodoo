@@ -21,6 +21,28 @@ import Tweener from '../comps/Tweener';
 
 const SimpleObjectProto = ( {} ).constructor;
 
+function isClassComponent(component) {
+    return (
+        typeof component === 'function' &&
+        !!component.prototype.isReactComponent
+    )
+}
+function isFunctionalComponent(Component) {
+    return (
+        typeof Component === 'function' // can be various things
+        && !(
+        Component.prototype // native arrows don't have prototypes
+        && Component.prototype.isReactComponent // special property
+        )
+    );
+}
+
+function isReactComponent(component) {
+    return (
+        isClassComponent(component) ||
+        isFunctionalComponent(component)
+    )
+}
 /**
  * asTweener decorator
  * @param argz
@@ -28,9 +50,8 @@ const SimpleObjectProto = ( {} ).constructor;
  */
 export default function asTweener( ...argz ) {
     
-    let BaseComponent = ( !argz[ 0 ] || argz[ 0 ].prototype instanceof React.Component || argz[ 0 ] === React.Component ) && argz.shift(),
+    let BaseComponent = ( !argz[ 0 ] || isReactComponent(argz[0]) ) && argz.shift(),
         options       = ( !argz[ 0 ] || argz[ 0 ] instanceof SimpleObjectProto ) && argz.shift() || {};
-    
     if ( !BaseComponent ) {
         return function ( BaseComponent ) {
             return asTweener(BaseComponent, options)

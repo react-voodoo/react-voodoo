@@ -40,86 +40,83 @@ This is advanced beta, react-voodoo still have missing css interpolator
 import React from "react";
 import Voodoo from "react-voodoo";
 import {itemTweenAxis, pageTweenAxisWithTargets} from "./somewhere";
+const Sample = ( {} ) => {
+    const [ViewBox, tweener]      = Voodoo.hook();
+    return <ViewBox className={ "container" }>
+        <Voodoo.Axis
+            // Tween axis Id
+            axe={"scrollY"}
 
-@Voodoo.tweener
-export default class MyTweenerComp extends React.Component{
-	
-	render() {
-		let {tweener} = this.props;
-		return <div>
-			<Voodoo.Axis
-				// Tween axis Id 
-				// * scrollY & scrollX automatically receive mouse & touch events
-				axe={"scrollY"}
-				
-				// default start position
-				defaultPosition={100}
+            // default start position
+            defaultPosition={100}
 
-				// Global scrollable tween with theirs TweenRef target ids
-				items={pageTweenAxisWithTargets}
+            // Global scrollable tween with theirs TweenRef target ids
+            items={pageTweenAxisWithTargets}
 
-				// size of the scrollable window for drag synchronisation
-				scrollableWindow={ 200 }
-				
-				// default length of this scrollable axis
-				size={ 1000 }
-				 
-				// optional bounds ( inertia will target them if target pos is out )
-				bounds={ { min : 100, max : 900 } }
-				 
-				// inertia cfg ( false to disable it ) 
-				inertia={
-						{
-							// called when inertia is updated
-							// should return instantaneous move to do if wanted
-							shouldLoop: ( currentPos ) => ( currentPos > 500 ? -500 : null ),
-							
-							// called when inertia know where it will snap ( when the user stop dragging )   
-							willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},
-							
-							// list of waypoints object ( only support auto snap for now ) 
-							wayPoints : [{ at: 100 }, { at: 200 }]
-						}
-					}
-			/>
-			
-		    <Voodoo.Node
-                id={"testItem"} // optional id
-                initial={
+            // size of the scrollable window for drag synchronisation
+            scrollableWindow={ 200 }
+
+            // default length of this scrollable axis
+            size={ 1000 }
+
+            // optional bounds ( inertia will target them if target pos is out )
+            bounds={ { min : 100, max : 900 } }
+
+            // inertia cfg ( false to disable it )
+            inertia={
                     {
-                        // css syntax + voodoo tweener units & transform management 
+                        // called when inertia is updated
+                        // should return instantaneous move to do if wanted
+                        shouldLoop: ( currentPos ) => ( currentPos > 500 ? -500 : null ),
+
+                        // called when inertia know where it will snap ( when the user stop dragging )
+                        willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},
+
+                        // list of waypoints object ( only support auto snap for now )
+                        wayPoints : [{ at: 100 }, { at: 200 }]
                     }
                 }
-                // Scrollable tween with no id required ( it will be ignored )
-                // * will use scrollY axis as default                 
-                tweenAxis={
-                    {
-                        scrollY : itemTweenAxis
-                    }
-                } 
-                // on(Dbl)Click is forwarder with the tweener component as 2nd arg
-                onClick={
-                    (e)=>{
-                        // start playing an anim
-                        tweener.pushAnim(
-                        // make all tween target "testItem"
-                        Voodoo.tools.target(pushIn, "testItem")
-                        ).then(
-                        (tweenAxis) => {
-                           // doSomething next
-                        }
-                        );
-                    }
+        />
+
+        <Voodoo.Node
+            id={"testItem"} // optional id
+            initial={
+                {
+                    // css syntax + voodoo tweener units & transform management
                 }
-		    >
-                <div>
-                    Some content to tween
-                </div>
-            </Voodoo.Node>
-		</div>;
-    }
+            }
+            // Scrollable tween with no id required ( it will be ignored )
+            // * will use scrollY axis as default
+            tweenAxis={
+                {
+                    scrollY : itemTweenAxis
+                }
+            }
+            // on(Dbl)Click is forwarder with the tweener component as 2nd arg
+            onClick={
+                (e)=>{
+                    // start playing an anim
+                    tweener.pushAnim(
+                    // make all tween target "testItem"
+                    Voodoo.tools.target(pushIn, "testItem")
+                    ).then(
+                    (tweenAxis) => {
+                       // doSomething next
+                    }
+                    );
+                }
+            }
+        >
+
+            <Voodoo.Draggable // make drag y move the scrollY axis
+                yAxis={ "scrollY" }>
+                    <div>
+                        Some content to tween
+                    </div>
+            </Voodoo.Draggable>
+        </Voodoo.Node>
+    </ViewBox>;
 }
-
 ```
 
 ## todo / roadmap ?

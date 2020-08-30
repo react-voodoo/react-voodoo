@@ -1,6 +1,6 @@
 {
   "name": "react-voodoo",
-  "version": "2.0.2",
+  "version": "2.0.5",
   "license": "MIT",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -29,7 +29,6 @@
     "chai": "^4.2.0",
     "enzyme": "^3.10.0",
     "@babel/register": "^7.10.5",
-
     "enzyme-adapter-react-16": "^1.14.0",
     "jsdom": "^15.1.1",
     "local-web-server": "^3.0.7",
