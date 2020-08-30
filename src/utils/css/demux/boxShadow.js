@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (C) 2019 Nathanael Braun
+ * Copyright (C) 2020 Nathanael Braun
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -14,5 +14,9 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
+ *   @author : Nathanael Braun
+ *   @contact : n8tz.js@gmail.com
  */
 export * from "./typed/shadow";
