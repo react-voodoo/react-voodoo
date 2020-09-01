@@ -27,6 +27,8 @@ import shortid   from 'shortid';
 
 import TweenerContext from "./TweenerContext";
 
+import { isFunctionalComponent } from '../utils/react';
+
 function setTarget( anims, target ) {
     return anims.map(
         tween => ( {
@@ -35,6 +37,7 @@ function setTarget( anims, target ) {
         } )
     )
 }
+
 //@todo : rewrite with hooks
 export default class Node extends React.Component {
     
@@ -60,14 +63,14 @@ export default class Node extends React.Component {
     render() {
         let {
                 children,
-                id            = this.__tweenableId,
+                id         = this.__tweenableId,
                 style, initial, pos, noRef, reset, tweener,
                 isRoot,
                 axes,
-                tweenLines    = axes,
-                tweenAxis     = tweenLines,
-                onClick       = children && children.props && children.props.onClick,
-                onDoubleClick = children && children.props && children.props.onDoubleClick
+                refProp    = "nodeRef",
+                tweenLines = axes,
+                tweenAxis  = tweenLines,
+                ...props
             } = this.props;
         return <TweenerContext.Consumer>
             {
@@ -128,19 +131,29 @@ export default class Node extends React.Component {
                         twRef.style = { ...parentTweener._updateTweenRef(id, true) };
                     }
                     
-                    let refChild = React.Children.only(children);
+                    let RefChild = React.Children.only(children);
                     
-                    if ( refChild && React.isValidElement(refChild) ) {
-                        refChild      = React.cloneElement(
-                            refChild,
-                            {
-                                ...twRef,
-                                onDoubleClick: onDoubleClick && ( e => onDoubleClick(e, parentTweener) ),
-                                onClick      : onClick && ( e => onClick(e, parentTweener) )
-                            }
-                        );
+                    if ( RefChild && React.isValidElement(RefChild) ) {//todo
                         this._lastRef = twRef;
-                        return refChild;
+                        
+                        if ( isFunctionalComponent(RefChild.type) )
+                            return <RefChild.type
+                                { ...props }
+                                { ...RefChild.props }
+                                { ...twRef }
+                                ref={ undefined }
+                                {
+                                    ...{
+                                        [ refProp ]: twRef.ref
+                                    }
+                                }
+                            />;
+                        
+                        return <RefChild.type
+                            { ...props }
+                            { ...RefChild.props }
+                            { ...twRef }/>;
+                        
                     }
                     else {
                         console.error("Invalid voodoo Node child : ", id)

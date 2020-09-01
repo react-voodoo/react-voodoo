@@ -23,32 +23,11 @@
 import React from "react";
 import is    from "is";
 
-import TweenerContext from "../comps/TweenerContext";
+import { isReactComponent } from '../utils/react';
+import TweenerContext       from "../comps/TweenerContext";
 
 
-const SimpleObjectProto = ({}).constructor;
-function isClassComponent(component) {
-	return (
-		typeof component === 'function' &&
-		!!component.prototype.isReactComponent
-	)
-}
-function isFunctionalComponent(Component) {
-	return (
-		typeof Component === 'function' // can be various things
-		&& !(
-		Component.prototype // native arrows don't have prototypes
-		&& Component.prototype.isReactComponent // special property
-		)
-	);
-}
-
-function isReactComponent(component) {
-	return (
-		isClassComponent(component) ||
-		isFunctionalComponent(component)
-	)
-}
+const SimpleObjectProto = ( {} ).constructor;
 
 
 /**
@@ -57,34 +36,35 @@ function isReactComponent(component) {
  * @returns {*}
  */
 export default function withTweener( ...argz ) {
-	
-	let BaseComponent = (!argz[0] || isReactComponent(argz[0])) && argz.shift(),
-	    opts          = (!argz[0] || argz[0] instanceof SimpleObjectProto) && argz.shift() || {};
-	
-	if ( !(BaseComponent && (BaseComponent.prototype instanceof React.Component || BaseComponent === React.Component)) ) {
-		return function ( BaseComponent ) {
-			return withTweener(BaseComponent, opts)
-		}
-	}
-	
-	class TweenerToProps extends React.Component {
-		static displayName = (BaseComponent.displayName || BaseComponent.name);
-		
-		render() {
-			return <TweenerContext.Consumer>
-				{
-					tweener => {
-						return <BaseComponent { ...this.props } tweener={ tweener } ref={ this.props.forwardedRef }/>;
-					}
-				}
-			</TweenerContext.Consumer>;
-		}
-	}
-	
-	
-	let withRef         = React.forwardRef(( props, ref ) => {
-		return <TweenerToProps { ...props } forwardedRef={ ref }/>;
-	});
-	withRef.displayName = TweenerToProps.displayName;
-	return withRef;
+    
+    let BaseComponent = ( !argz[ 0 ] || isReactComponent(argz[ 0 ]) ) && argz.shift(),
+        opts          = ( !argz[ 0 ] || argz[ 0 ] instanceof SimpleObjectProto ) && argz.shift() || {};
+    
+    if ( !( BaseComponent && ( BaseComponent.prototype instanceof React.Component || BaseComponent === React.Component ) ) ) {
+        return function ( BaseComponent ) {
+            return withTweener(BaseComponent, opts)
+        }
+    }
+    
+    class TweenerToProps extends React.Component {
+        static displayName = ( BaseComponent.displayName || BaseComponent.name );
+        
+        render() {
+            return <TweenerContext.Consumer>
+                {
+                    tweener => {
+                        return <BaseComponent { ...this.props } tweener={ tweener }
+                                              ref={ this.props.forwardedRef }/>;
+                    }
+                }
+            </TweenerContext.Consumer>;
+        }
+    }
+    
+    
+    let withRef         = React.forwardRef(( props, ref ) => {
+        return <TweenerToProps { ...props } forwardedRef={ ref }/>;
+    });
+    withRef.displayName = TweenerToProps.displayName;
+    return withRef;
 }
