@@ -333,7 +333,16 @@ export default class Tweener extends React.Component {
      * @returns {*}
      */
     getTweenableRef( id ) {
-        return this._.refs[ id ] && ReactDom.findDOMNode(this._.refs[ id ]);
+        try {
+            return this._.refs[ id ] && ReactDom.findDOMNode(this._.refs[ id ]);
+        } catch ( e ) {
+            try {
+                return this._.refs[ id ]._.rootRef.current
+            } catch ( e ) {
+                console.error("C'ant find voodooNode ", id, e)
+                return;
+            }
+        }
     }
     
     /**
@@ -341,9 +350,13 @@ export default class Tweener extends React.Component {
      * @returns {*}
      */
     getRootNode() {
-        return this.getTweenableRef(this._.rootRef)
-               || this.isMountedFromHook && this._.rootRef && this._.rootRef.current
-               || ReactDom.findDOMNode(this);
+        try {
+            return this.getTweenableRef(this._.rootRef)
+                   || this.isMountedFromHook && this._.rootRef && this._.rootRef.current
+                   || ReactDom.findDOMNode(this);
+        } catch ( e ) {
+            return this._.rootRef && this._.rootRef.current;
+        }
     }
     
     // ------------------------------------------------------------
@@ -561,8 +574,10 @@ export default class Tweener extends React.Component {
                         
                             this.axes?.[ axe ]?.inertia?.setPos(pos);
                             //this.axes[axe].inertia._doSnap()
-                            if ( ~~pos !== oldPos )
+                            if ( ~~pos !== oldPos ) {
+                                this.axisDidScroll(~~pos, axe);
                                 _.rootRef?.current?.componentDidScroll?.(~~pos, axe);
+                            }
                             this._updateTweenRefs()
                         };
                     
@@ -765,6 +780,31 @@ export default class Tweener extends React.Component {
                _.rootRef.current.componentShouldScroll(...arguments) : true
     }
     
+    _scrollWatcherByAxis = {};
+    
+    /**
+     * Add scroll listener to {axisId} axis, return unwatch
+     * @param axisId
+     * @param listener
+     * @returns {function(...[*]=)}
+     */
+    watchAxis( axisId, listener ) {
+        let byId       = this._scrollWatcherByAxis;
+        byId[ axisId ] = byId[ axisId ] || [];
+        byId[ axisId ].push(listener);
+        return () => {
+            let index = byId[ axisId ].indexOf(listener);
+            byId[ axisId ].splice(index, 1);
+        }
+    }
+    
+    axisDidScroll( pos, axisId ) {
+        let watchers = this._scrollWatcherByAxis[ axisId ],
+            i        = watchers?.length;
+        if ( watchers )
+            while ( i ) watchers[ --i ](pos);
+    }
+    
     // ------------------------------------------------------------
     // --------------- Inertia & scroll modifiers -----------------
     // ------------------------------------------------------------
@@ -786,6 +826,7 @@ export default class Tweener extends React.Component {
         //console.log("scroll at " + x, axe, dim.inertia.active || dim.inertia.holding);
         //this.scrollTo(x, 0, axe);
         _.rootRef?.current?.componentDidScroll?.(x, axe);
+        this.axisDidScroll(x, axe);
         this._updateTweenRefs()
         if ( dim.inertia.active || dim.inertia.holding ) {
             dim.inertiaFrame = setTimeout(this.applyInertia.bind(this, dim, axe), 33);

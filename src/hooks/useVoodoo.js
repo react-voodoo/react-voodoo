@@ -64,6 +64,8 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
             tweener.componentDidMount();
             lastTweener.current = tweener;
             return () => {
+                if ( !lastTweener.current?._ )
+                    return;
                 //console.warn("unmount")
                 lastTweener.current.componentWillUnmount();
                 lastTweener.current = null;
@@ -73,7 +75,7 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
     React.useEffect(
         () => {
             
-            if ( tweenerOptions === true )
+            if ( tweenerOptions === true || !lastTweener.current?._ )
                 return;
             //console.warn("didupdate", nodeRef.current)
             lastTweener.current._updateBox();
@@ -90,6 +92,16 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
             lastTweener.current._parentTweener = parentTweener;
         },
         [parentTweener]
+    )
+    React.useEffect(
+        () => {
+            if ( tweenerOptions === true || !lastTweener.current?._ )
+                return;
+            lastTweener.current._.options = tweenerOptions;
+            lastTweener.current._updateBox();
+            lastTweener.current._updateTweenRefs();
+        },
+        [tweenerOptions]
     )
     return React.useMemo(
         () => ( [tweener, ViewBox] ),

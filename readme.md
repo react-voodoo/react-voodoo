@@ -41,11 +41,22 @@ import React from "react";
 import Voodoo from "react-voodoo";
 import {itemTweenAxis, pageTweenAxisWithTargets} from "./somewhere";
 const Sample = ( {} ) => {
-    const [tweener, ViewBox]      = Voodoo.hook();
+    const //[parentTweener]      = Voodoo.hook(true),
+          [tweener, ViewBox]   = Voodoo.hook();
+
+    React.useEffect(
+        e => tweener?.watchAxis("scrollY", (pos)=>doSomething()),
+        [tweener]
+    )
+
+    // once drawn :
+    // tweener.axes.scrollY.scrollPos
+    // tweener.scrollTo(targetPos, duration, axisId)
+
     return <ViewBox className={ "container" }>
         <Voodoo.Axis
             // Tween axis Id
-            axe={"scrollY"}
+            id={"scrollY"}
 
             // default start position
             defaultPosition={100}
@@ -85,8 +96,7 @@ const Sample = ( {} ) => {
                     // css syntax + voodoo tweener units & transform management
                 }
             }
-            // Scrollable tween with no id required ( it will be ignored )
-            // * will use scrollY axis as default
+            // Scrollable tween with no target node id required ( it will be ignored )
             tweenAxis={
                 {
                     scrollY : itemTweenAxis
@@ -107,9 +117,13 @@ const Sample = ( {} ) => {
                 }
             }
         >
-
             <Voodoo.Draggable // make drag y move the scrollY axis
-                yAxis={ "scrollY" }>
+                //xAxis={ "scrollAnAxis" }
+                // xHook={(delta)=>modify(delta)}
+
+                yAxis={ "scrollY" }// make drag y move the scrollY axis
+                // yHook={(delta)=>modify(delta)}
+                >
                     <div>
                         Some content to tween
                     </div>
