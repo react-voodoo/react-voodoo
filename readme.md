@@ -39,7 +39,7 @@ This is advanced beta, react-voodoo still have missing css interpolator
 
 import React from "react";
 import Voodoo from "react-voodoo";
-import {itemTweenAxis, pageTweenAxisWithTargets} from "./somewhere";
+import {itemTweenAxis, tweenArrayWithTargets} from "./somewhere";
 const Sample = ( {} ) => {
     const //[parentTweener]      = Voodoo.hook(true),
           [tweener, ViewBox]   = Voodoo.hook();
@@ -62,7 +62,7 @@ const Sample = ( {} ) => {
             defaultPosition={100}
 
             // Global scrollable tween with theirs TweenRef target ids
-            items={pageTweenAxisWithTargets}
+            items={tweenArrayWithTargets}
 
             // size of the scrollable window for drag synchronisation
             scrollableWindow={ 200 }
@@ -91,13 +91,13 @@ const Sample = ( {} ) => {
 
         <Voodoo.Node
             id={"testItem"} // optional id
-            initial={
+            style={
                 {
-                    // css syntax + voodoo tweener units & transform management
+                    // initial styles : css syntax + voodoo tweener units & transform management
                 }
             }
             // Scrollable tween with no target node id required ( it will be ignored )
-            tweenAxis={
+            axes={
                 {
                     scrollY : itemTweenAxis
                 }
@@ -107,18 +107,19 @@ const Sample = ( {} ) => {
                 (e)=>{
                     // start playing an anim
                     tweener.pushAnim(
-                    // make all tween target "testItem"
-                    Voodoo.tools.target(pushIn, "testItem")
-                    ).then(
-                    (tweenAxis) => {
-                       // doSomething next
-                    }
+                            // make all tween target "testItem"
+                            Voodoo.tools.target(pushIn, "testItem")
+                        ).then(
+                            (tweenAxis) => {
+                               // doSomething next
+                            }
                     );
                 }
             }
         >
-            <Voodoo.Draggable // make drag y move the scrollY axis
-                //xAxis={ "scrollAnAxis" }
+            <Voodoo.Draggable
+                // make drag y move the scrollAnAxis axis
+                // xAxis={ "scrollAnAxis" }
                 // xHook={(delta)=>modify(delta)}
 
                 yAxis={ "scrollY" }// make drag y move the scrollY axis
