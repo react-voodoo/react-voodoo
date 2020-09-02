@@ -46,7 +46,7 @@ This is advanced beta, react-voodoo still have missing css interpolator
 
 ## Basics
 
-Here an temporary "all in one" example :
+Here a temporary "all in one" example :
 
 ```jsx harmony
 
