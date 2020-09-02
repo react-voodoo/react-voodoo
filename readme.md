@@ -2,6 +2,7 @@
 <p align="center">Fast, SSR compatible, additive & swipeable, tween composition engine for React</p>
 
 ___
+<p align="center"><img  width="192" src ="https://github.com/react-voodoo/react-voodoo/raw/master/doc/assets/logo-v0.png?sanitize=true" /></p>
 
 
 <p align="center">
@@ -12,17 +13,21 @@ ___
 <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" />
 </p>
 
-## wtf is react-voodoo ?
+## Welcome to react-voodoo !
 
-react-voodoo is an additive tweener for react
+react-voodoo is a truly additive & intuitive tween engine for React
 
-It allow :
+Why another animation engine ?
 
-- Additive tween ( applying simultaneously multiples tween on same properties )
-- Scrollable & swipeable animations
-- SSR rendering of =! scroll / swipe position
+To have some advanced functionalities :
+
+- Additive tween ( simultaneous tween on same properties )
+- Swipeable animations ( like Android & iOS )
+- Server Side Rendering of any scroll / swipe position
 - Hot switching scrollable anims ( responsive )
-- Predictive inertia
+- Predictive inertia (knowing where inertia will stop after swipe)
+- Intuitive & flexible animation system
+- Automaticaly deal with multiple units using css "calc( ... )"
 - etc...
 
 ## Draft & minimalist samples [here](https://github.com/react-voodoo/react-voodoo-samples)
@@ -33,13 +38,22 @@ It allow :
 
 This is advanced beta, react-voodoo still have missing css interpolator
 
+## How can i help ?
+
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
+<a href="https://liberapay.com/Nathan/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
+[![*](https://www.google-analytics.com/collect?v=1&tid=UA-82058889-1&cid=555&t=event&ec=project&ea=view&dp=%2Fproject%2Freact-voodoo&dt=readme)](#)
+
 ## Basics
+
+Here an temporary "all in one" example :
 
 ```jsx harmony
 
 import React from "react";
 import Voodoo from "react-voodoo";
 import {itemTweenAxis, tweenArrayWithTargets} from "./somewhere";
+
 const Sample = ( {} ) => {
     const //[parentTweener]      = Voodoo.hook(true),
           [tweener, ViewBox]   = Voodoo.hook();
@@ -55,6 +69,7 @@ const Sample = ( {} ) => {
 
     return <ViewBox className={ "container" }>
         <Voodoo.Axis
+
             // Tween axis Id
             id={"scrollY"}
 
