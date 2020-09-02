@@ -26,6 +26,7 @@ To have some advanced functionalities :
 - Server Side Rendering of any scroll / swipe position
 - Hot switching scrollable anims ( responsive )
 - Predictive inertia (knowing where inertia will stop after swipe)
+- Multitouch dragging ( drag multiple things at once )
 - Intuitive & flexible animation system
 - Automaticaly deal with multiple units using css "calc( ... )"
 - etc...
