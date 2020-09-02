@@ -29,7 +29,7 @@ To have some advanced functionalities :
 - Multitouch dragging ( drag multiple things at once )
 - Intuitive & flexible animation system
 - Awesome ( & performant ) React integration
-- Automaticaly deal with multiple units using css "calc( ... )"
+- Automatically deal with multiple units using css "calc( ... )"
 - etc...
 
 ## Draft & minimalist samples [here](https://github.com/react-voodoo/react-voodoo-samples)
