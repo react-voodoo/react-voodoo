@@ -169,9 +169,8 @@ const Sample = ( {} ) => {
 
 Other licenses to come ( on demand ):
 
-- Commercial project ( 1 website/app ) 10$
-- Unlimited Commercial projects ( 1 company ) 500$
-- Unlimited Commercial projects with 25 tickets ( 1 company ) 2000$
+- Commercial project ( 1 website/app ) 10€
+- Other License types possible ( Ask )
 
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
