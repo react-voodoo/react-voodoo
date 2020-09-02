@@ -165,12 +165,7 @@ const Sample = ( {} ) => {
 
 ### Licensing ?
 
-- free/personal projects : AGPL license ( or ask )
-
-Other licenses to come ( on demand ):
-
-- Commercial project ( 1 website/app ) 10€
-- Other License types possible ( Ask )
+AGPL license
 
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
