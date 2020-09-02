@@ -28,6 +28,7 @@ To have some advanced functionalities :
 - Predictive inertia (knowing where inertia will stop after swipe)
 - Multitouch dragging ( drag multiple things at once )
 - Intuitive & flexible animation system
+- Awesome ( & performant ) React integration
 - Automaticaly deal with multiple units using css "calc( ... )"
 - etc...
 
