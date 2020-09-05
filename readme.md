@@ -163,10 +163,6 @@ const Sample = ( {} ) => {
 - Allow tween-axis to css keyframe anims ? 
 - Allow SVG bindings ?
 
-### Licensing ?
-
-AGPL license
-
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
 [![*](https://www.google-analytics.com/collect?v=1&tid=UA-82058889-1&cid=555&t=event&ec=project&ea=view&dp=%2Fproject%2Freact-voodoo&dt=readme)](#)
