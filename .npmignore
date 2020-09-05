@@ -31,7 +31,9 @@ $RECYCLE.BIN/
 .idea
 /etc/
 /src/
+/doc/
 /samples
 /dist.samples
-.wi.json
+.layers.json
 #react-voodoo.js.map
+react-voodoo.stats.html
