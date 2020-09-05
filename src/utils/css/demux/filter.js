@@ -63,7 +63,7 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 		if ( !--dataMap[tmpKey][path[3]] && !keepValues ) {
 			delete dataMap[tmpKey][path[3]];
 			delete tweenableMap[twKey];
-			console.log("delete", twKey)
+			//console.log("delete", twKey)
 		}
 		
 		if ( !keepValues )
