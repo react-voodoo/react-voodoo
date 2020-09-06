@@ -4,7 +4,7 @@ ___
 
 <!-- tweener, child, tools, Draggable, Component, Node, context, Axis, dom-->
 
-
+* Please check the sample for latest API ( https://github.com/react-voodoo/react-voodoo-samples )
 
 ## Api
 
