@@ -1,12 +1,12 @@
-<h1 align="center">react-voodoo tweener</h1>
+<h1 align="center">draft react-voodoo doc</h1>
 
 ___
 
 <!-- tweener, child, tools, Draggable, Component, Node, context, Axis, dom-->
 
-## Api
 
-## Voodoo.tweener
+
+## Api
 
 
 ## Concepts & syntax
@@ -115,7 +115,32 @@ let anim        = [
 ```
 
 
-## React syntax
+### tween events syntax
+
+```jsx harmony
+let anim        = [
+	{
+	    type:'Event',
+
+		// tween start position
+		from    : 0,
+
+		// watched duration
+		duration: 500,
+
+          entering: ( pos ) => {
+
+          }
+
+          leaving: ( pos ) => {
+
+          }
+	}
+];
+```
+
+
+## React syntax ( using Hooks )
 
 ```jsx harmony
 
@@ -123,20 +148,24 @@ import React from "react";
 import Voodoo from "react-voodoo";
 import {itemTweenAxis, pageTweenAxisWithTargets} from "./somewhere";
 
-@Voodoo.tweener
-export default class MyTweenerComp extends React.Component{
-	
-	render() {
+const Sample = ( {} ) => {
+    const //[parentTweener]      = Voodoo.hook(true),
+          [tweener, ViewBox]   = Voodoo.hook();
+
+    React.useEffect(
+        e => tweener?.watchAxis("scrollY", (pos)=>doSomething()),
+        [tweener]
+    )
+
 		return <div>
 			<Voodoo.Axis
-			    // Tween axis Id 
-			    // * scrollY & scrollX automatically receive mouse & touch events
-				axe={"scrollY"}
+			    // Tween axis Id
+				id={"scrollY"}
 				
 				// default start position
 				defaultPosition={100}
 				
-				// Global scrollable tween with theirs TweenRef target ids
+				// Global scrollable tween with theirs Node target ids
                 items={pageTweenAxisWithTargets}
                 
                 // size of the scrollable window for drag synchronisation
@@ -173,7 +202,7 @@ export default class MyTweenerComp extends React.Component{
                 }
                 // Scrollable tween with no id required ( it will be ignored )
                 // * will use scrollY axis as default                 
-                tweenAxis={
+                axes={
                 	{
                 		scrollY : itemTweenAxis
                 	}
@@ -203,6 +232,7 @@ export default class MyTweenerComp extends React.Component{
 
 ```
 
+## Syntax Using decorators
 ### asTweener
 
 Return a react-voodoo tweener component composing the target React component
