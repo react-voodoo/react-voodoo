@@ -183,7 +183,9 @@ const Sample = ( {} ) => {
 							// called when inertia is updated
 							// should return instantaneous move to do if wanted
 							shouldLoop: ( currentPos, delta ) => ( currentPos > 500 ? -500 : null ),
-							
+
+                        // called when inertia know where it will end ( when the user stop dragging )
+                        willEnd  : ( targetPos, targetDelta, duration ) => {},
 							// called when inertia know where it will snap ( when the user stop dragging )   
 							willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},
 							
@@ -207,7 +209,6 @@ const Sample = ( {} ) => {
                 		scrollY : itemTweenAxis
                 	}
                 } 
-                // on(Dbl)Click is forwarder with the tweener component as 2nd arg
                 onClick={
                 	(e, tweener)=>{
                 		// start playing an anim
