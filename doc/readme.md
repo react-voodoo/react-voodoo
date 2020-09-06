@@ -242,9 +242,9 @@ The resulting component will have the tweener hooks
 ```jsx harmony
 
 import React from "react";
-import {asTweener, TweenAxis, TweenRef, tweenTools} from "react-voodoo";
+import Voodoo from "react-voodoo";
 
-@asTweener(
+@Voodoo.tweener(
 	{
 	    // max click tm in ms before a click become a drag
 		maxClickTm        : 200,
@@ -300,16 +300,16 @@ export default class MyTweenerComp extends React.Component{
 }
 ```
 
-### withTweener
+### Voodoo.child
 
 Hoc to use a specified tweener in a component childs ( by default tweenRefs are manager by theirs first tweener parent )
 
 ```jsx harmony
 
 import React from "react";
-import {withTweener} from "react-voodoo";
+import Voodoo from "react-voodoo";
 
-@withTweener
+@Voodoo.child
 export default class MyTweenerComp extends React.Component{
 	render(){}
 }
