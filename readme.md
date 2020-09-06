@@ -38,7 +38,9 @@ To have some advanced functionalities :
 
 ## Note
 
-This is advanced beta, react-voodoo still have missing css interpolator
+This is advanced beta, but react-voodoo still have missing css interpolator & possibly some bugs.<br/>
+You shouldn't be too ambitious if you aren't ready to get your hands dirty :)
+
 
 ## How can i help ?
 
