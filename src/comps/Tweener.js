@@ -24,21 +24,26 @@
  *   @contact : n8tz.js@gmail.com
  */
 
-import * as easingFn                                            from "d3-ease";
-import deepEqual                                                from "fast-deep-equal";
-import is                                                       from "is";
-import React                                                    from "react";
-import ReactDom                                                 from "react-dom";
+import * as easingFn from "d3-ease";
+import deepEqual     from "fast-deep-equal";
+import is            from "is";
+import React         from "react";
+import ReactDom      from "react-dom";
 import TweenerContext
-                                                                from "../comps/TweenerContext";
-import { clearTweenableValue, deMuxLine, deMuxTween, muxToCss } from "../utils/css";
+                     from "../comps/TweenerContext";
+import {
+    clearTweenableValue,
+    deMuxLine,
+    deMuxTween,
+    muxToCss
+}                    from "../utils/css";
 import tweenAxis
-                                                                from "../utils/CssTweenAxis";
-import domUtils                                                 from "../utils/dom";
-import Inertia                                                  from '../utils/inertia';
+                     from "../utils/CssTweenAxis";
+import domUtils      from "../utils/dom";
+import Inertia       from '../utils/inertia';
 
 /**
- * @todo : clean & comments
+ * @todo : clean / hooks updates
  */
 
 
@@ -46,7 +51,10 @@ let isBrowserSide           = ( new Function("try {return this===window;}catch(e
     isArray                 = is.array,
     _live, lastTm, _running = [];
 
-
+/**
+ * Runner for scroll / goto tween axis
+ * @type {{run: Runner.run, _tick: Runner._tick}}
+ */
 const Runner = {
     run  : function ( tl, ctx, duration, cb ) {
         let apply = ( pos, size ) => tl.go(pos / size, ctx);
@@ -264,8 +272,6 @@ export default class Tweener extends React.Component {
             
             muxToCss(_.tweenRefMaps[ id ], _.tweenRefCSS[ id ], _.muxByTarget[ id ], _.muxDataByTarget[ id ], _.box);
         }
-        //console.log('tweenRef::tweenRef:519: ', id, { ..._.muxDataByTarget[id] }, {
-        // ..._.tweenRefCSS[id] });
         if ( noref )
             return {
                 style: { ..._.tweenRefCSS[ id ] }
@@ -855,22 +861,13 @@ export default class Tweener extends React.Component {
         return active;
     }
     
-    dispatchScroll( delta, axe = "scrollY" ) {
-        let prevent,
-            dim    = this.axes[ axe ],
-            oldPos = dim && dim.scrollPos,
-            newPos = oldPos + delta;
-        
-        if ( dim && oldPos !== newPos ) {
-            
-            dim.inertia.dispatch(delta, 100);
-            !dim.inertiaFrame && this.applyInertia(dim, axe);
-            
-        }
-        
-        return prevent;
-    }
-    
+    /**
+     * Check if delta / pos is out of axis bounds
+     * @param axis
+     * @param v
+     * @param abs
+     * @returns {boolean}
+     */
     isAxisOut( axis, v, abs ) {
         let _   = this._,
             dim = this.axes && this.axes[ axis ],
@@ -886,69 +883,6 @@ export default class Tweener extends React.Component {
                    :
                    ( pos <= 0 || pos >= dim.scrollableArea )
                );
-    }
-    
-    _doDispatch( target, dx, dy, holding ) {
-        let style,
-            Comps,
-            headTarget = target,
-            nodeInertia,
-            i;
-        
-        // check if there scrollable stuff in dom targets
-        // get all the parents components & dom node of an dom element ( from fibers )
-        
-        Comps = this.getScrollableNodes(headTarget);
-        //console.log("dispatching ", dx, dy, Comps);
-        for ( i = 0; i < Comps.length; i++ ) {
-            // react comp with tweener support
-            if ( Comps[ i ].__isTweener ) {
-                //debugger
-                //console.log(Comps[i], dx, dy, Comps[i].isAxisOut("scrollX", dx),
-                // Comps[i].isAxisOut("scrollY", dy));
-                if ( !Comps[ i ].isAxisOut("scrollX", dx) && ( !Comps[ i ].componentShouldScroll || Comps[ i ].componentShouldScroll("scrollX", dx) ) ) {
-                    Comps[ i ].dispatchScroll(dx, "scrollX", holding);
-                    dx = 0;
-                }
-                if ( !Comps[ i ].isAxisOut("scrollY", dy) && ( !Comps[ i ].componentShouldScroll || Comps[ i ].componentShouldScroll("scrollY", dy) ) ) {
-                    Comps[ i ].dispatchScroll(dy, "scrollY", holding);
-                    dy = 0;
-                }
-            }
-            // dom element
-            else if ( is.element(Comps[ i ]) ) {
-                style = getComputedStyle(Comps[ i ], null)
-                if ( /(auto|scroll)/.test(
-                    style.getPropertyValue("overflow")
-                    + style.getPropertyValue("overflow-x")
-                    + style.getPropertyValue("overflow-y")
-                )
-                ) {
-                    if (
-                        ( dy < 0 && Comps[ i ].scrollTop !== 0 )
-                        ||
-                        ( dy > 0 && Comps[ i ].scrollTop !== ( Comps[ i ].scrollHeight - Comps[ i ].clientHeight ) )
-                    ) {
-                        return;
-                        //nodeInertia.y.dispatch(dy * 10)
-                        //dy = 0;
-                    } // let the node do this scroll
-                    //if ( nodeInertia.x.isOutbound(dx) ) {
-                    //	nodeInertia.x.dispatch(dx * 10)
-                    //	dx = 0;
-                    //} // let the node do this scroll
-                }
-                
-                //headTarget = headTarget.parentNode;
-                //if ( headTarget === document || headTarget === target )
-                //	break;
-            }
-            if ( !dx && !dy )
-                break;
-        }
-        this._updateNodeInertia();
-        if ( !dx && !dy )
-            return true;
     }
     
     _activateNodeInertia( node ) {
@@ -1010,6 +944,11 @@ export default class Tweener extends React.Component {
         this._.rootRef = id;
     }
     
+    
+    /**
+     * Update the tweener viewbox dims ( todo default to body ? )
+     * @private
+     */
     _updateBox() {
         let node = this.getRootNode();
         if ( node ) {
@@ -1019,6 +958,10 @@ export default class Tweener extends React.Component {
         }
     }
     
+    /**
+     * RequestAnimationFrame main loop
+     * @private
+     */
     _rafLoop() {
         this._updateTweenRefs();
         if ( this._.runningAnims.length ) {
@@ -1030,6 +973,10 @@ export default class Tweener extends React.Component {
         }
     }
     
+    /**
+     * Order apply all refs value to their dom node
+     * @private
+     */
     _updateTweenRefs() {
         if ( this._.tweenEnabled ) {
             for ( let i = 0, target, node, style; i < this._.tweenRefTargets.length; i++ ) {
@@ -1039,8 +986,16 @@ export default class Tweener extends React.Component {
         }
     }
     
+    // last applied css values to skip them if possible
     _swap = {};
     
+    /**
+     * Apply tween ref node value to its dom node css if changes
+     * @param target
+     * @param force
+     * @returns {*}
+     * @private
+     */
     _updateTweenRef( target, force ) {
         let node, swap = this._swap, changes;
         this._.tweenRefCSS[ target ] &&
@@ -1058,9 +1013,7 @@ export default class Tweener extends React.Component {
                     if ( force || swap[ o ] !== this._.tweenRefCSS[ target ][ o ] ) {
                         
                         node.style[ o ] = this._.tweenRefCSS[ target ][ o ] = swap[ o ];
-                        //if ( target == "card" ) console.log(target, o, node.style[o],
-                        // swap[o]);
-                        changes = true;
+                        changes         = true;
                     }
                     delete swap[ o ];
                 }
@@ -1077,7 +1030,6 @@ export default class Tweener extends React.Component {
     
     
     componentWillUnmount() {
-        let node = this.getRootNode();
         if ( this._.tweenEnabled ) {
             this._.tweenEnabled = false;
             window.removeEventListener("resize", this._.onResize);
