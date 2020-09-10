@@ -176,7 +176,8 @@ export default class Draggable extends React.Component {
                                     y = yAxis && pTweener.axes?.[ yAxis ];
                                     //console.log("drag", dX, dY, xAxis, yAxis,
                                     // pTweener.axes);
-                                    
+                                    if ( !x && !y )
+                                        continue;
                                     //console.log('Draggable:::306: ', parents);
                                     if ( !parentsState[ i ] ) {
                                         parentsState[ i ] = {
@@ -185,25 +186,27 @@ export default class Draggable extends React.Component {
                                         };
                                         x?.inertia?.startMove();
                                         y?.inertia?.startMove();
-                                        xAxis && !x.inertiaFrame && pTweener.applyInertia(x, xAxis);
-                                        yAxis && !y.inertiaFrame && pTweener.applyInertia(y, yAxis);
+                                        xAxis && x && !x?.inertiaFrame && pTweener.applyInertia(x, xAxis);
+                                        yAxis && y && !y?.inertiaFrame && pTweener.applyInertia(y, yAxis);
                                         //console.warn('Draggable::drag:190: ');
                                     }
                                     
-                                    if ( x )
+                                    if ( x ) {
                                         deltaX = dX && ( dX / pTweener._.box.x ) * ( x.scrollableWindow || x.scrollableArea ) || 0;
-                                    if ( y )
+                                        if ( xHook )
+                                            deltaX = xHook(deltaX);
+                                    }
+                                    if ( y ) {
                                         deltaY = dY && ( dY / pTweener._.box.y ) * ( y.scrollableWindow || y.scrollableArea ) || 0;
+                                        if ( yHook )
+                                            deltaY = yHook(deltaY);
+                                    }
                                     
-                                    if ( yHook )
-                                        deltaY = yHook(deltaY);
-                                    if ( xHook )
-                                        deltaX = xHook(deltaX);
                                     //console.log('scrollX ',
                                     //            xDispatched,
                                     //            x?.inertia?.isInbound(parentsState[ i
                                     // ].x + deltaX), parentsState[ i ].x + deltaX );
-                                    if ( !xDispatched && deltaX && x?.inertia?.isInbound(parentsState[ i ].x + deltaX)
+                                    if ( x && !xDispatched && deltaX && x?.inertia?.isInbound(parentsState[ i ].x + deltaX)
                                          && ( pTweener.componentShouldScroll(xAxis, deltaX) ) ) {
                                         x.inertia.hold(parentsState[ i ].x + deltaX);
                                         xDispatched = true;
@@ -211,7 +214,7 @@ export default class Draggable extends React.Component {
                                     //console.log("scrollY", yDispatched,
                                     //            y?.inertia?.isInbound(parentsState[ i
                                     // ].y + deltaY), parentsState[ i ].y + deltaY);
-                                    if ( !yDispatched && deltaY && y?.inertia?.isInbound(parentsState[ i ].y + deltaY)
+                                    if ( y && !yDispatched && deltaY && y?.inertia?.isInbound(parentsState[ i ].y + deltaY)
                                          && ( pTweener.componentShouldScroll(yAxis, deltaY) ) ) {
                                         y.inertia.hold(parentsState[ i ].y + deltaY);
                                         //console.log('Draggable::drag:190: ',
@@ -315,6 +318,8 @@ export default class Draggable extends React.Component {
         return <TweenerContext.Consumer>
             {
                 parentTweener => {
+                    //console.log('got ', parentTweener._.options.id, xAxis,
+                    //            yAxis);
                     this._parentTweener = parentTweener;
                     return <Comp ref={ this.root } { ...props }>{ children }</Comp>;
                 }

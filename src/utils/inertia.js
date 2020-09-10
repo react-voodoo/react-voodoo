@@ -53,8 +53,13 @@ export function applyInertia( _ ) {
     let velSign = signOf(_.lastVelocity);
     
     if ( _.disabled ) {
-        _.loopsTarget    = 0;
+        // calc momentum distance...
+        // get nb loop needed to get vel < .05
+        _.loopsTarget = 0;
+        
+        // get velocity sum basing on nb loops needed
         _.loopsVelSum    = 0;
+        // deduce real dist of momentum
         _.targetDist     = 0;
         _.targetDuration = 0;
     }
@@ -71,8 +76,13 @@ export function applyInertia( _ ) {
     
 }
 
+const inertiaByNode = {
+    nodes  : [],
+    inertia: []
+};
 /**
  * Main inertia class
+ * @class Caipi slideshow
  * @type {module.exports}
  */
 export default class Inertia {
@@ -86,6 +96,14 @@ export default class Inertia {
         _.conf = {
             ...this.constructor.config,
             ...opt,
+            //get lastInertiaPos() {
+            //	return this._lastInertiaPos
+            //},
+            //set lastInertiaPos( v ) {
+            //	if ( v === NaN )
+            //		debugger
+            //	this._lastInertiaPos = v;
+            //}
         };
         
         this.active           = false;
@@ -105,16 +123,33 @@ export default class Inertia {
         
     }
     
+    updateConf( opt ) {
+        
+        let _       = this._;
+        _.min       = opt.min || 0;
+        _.max       = opt.max || 0;
+        _.stops     = opt.stops;
+        _.disabled  = opt.disabled;
+        _.wayPoints = opt.wayPoints;
+        _.conf.willStop = opt.willStop;
+        _.conf.willSnap = opt.willSnap;
+    }
+    
     update( at = Date.now() ) {
         let _   = this._, nextValue, loop;
         let
             pos = _.inertiaFn(( at - _.inertiaStartTm ) / _.targetDuration) * _.targetDist;
         
         if ( !_.inertia ) {
+            //if ( _.conf.shouldLoop ) {
+            //	while ( (loop = _.conf.shouldLoop(_.pos, 0)) ) {
+            //		this.teleport(loop);
+            //	}
+            //}
             return _.pos;
         }
-        let delta = pos - _.lastInertiaPos;
-        
+        let
+            delta        = pos - _.lastInertiaPos;
         _.lastInertiaPos = pos;
         
         if ( ( at - _.inertiaStartTm ) >= _.targetDuration ) {
@@ -201,9 +236,16 @@ export default class Inertia {
             _.targetDuration = tm;
         }
         else {
+            //_.inertiaStartTm =
+            //_.inertiaLastTm = now;
+            //_.lastInertiaPos = 0;
             _.targetDist += delta;
             _.targetDuration += tm / 2;
         }
+        //
+        //if ( _.conf.maxJump ) {
+        //
+        //}
         
         if ( _.conf.bounds ) {
             if ( ( _.pos + _.targetDist ) > _.max ) {
@@ -243,7 +285,8 @@ export default class Inertia {
             pos = _.targetDist + ( _.pos - ( _.lastInertiaPos || 0 ) ),
             target,
             mid,
-            i;
+            i,
+            i2;
         
         if ( _.wayPoints && _.wayPoints.length ) {
             for ( i = 0; i < _.wayPoints.length; i++ )
