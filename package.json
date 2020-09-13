@@ -1,6 +1,6 @@
 {
   "name": "react-voodoo",
-  "version": "2.1.12",
+  "version": "2.1.15",
   "license": "MIT",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -21,10 +21,12 @@
     "d3-ease": "^1.0.5",
     "deep-extend": "^0.6.0",
     "fast-deep-equal": "^2.0.1",
+    "shortid": "^2.2.15",
     "is": "^3.2.1",
-    "tween-axis": "^1.2.7"
+    "tween-axis": "^1.2.11"
   },
   "devDependencies": {
+    "layer-pack": "^1.0.10",
     "chai": "^4.2.0",
     "enzyme": "^3.10.0",
     "@babel/register": "^7.10.5",
@@ -33,7 +35,6 @@
     "local-web-server": "^3.0.7",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.1",
-    "layer-pack": "^1.0.4",
     "lpack-react": "^1.1.0",
     "zombie": "^6.1.4"
   }
