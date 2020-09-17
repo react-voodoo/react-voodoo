@@ -101,7 +101,7 @@ export default class Tweener extends React.Component {
         this.__isTweener      = true;
         _._rafLoop            = this._rafLoop.bind(this);
         _.rootRef             = this.props.forwardedRef || React.createRef();
-        _.options             = { enableMouseScroll: true, ...( props.tweenerOptions || {} ) };
+        _.options             = { ...( props.tweenerOptions || {} ) };
         _.tweenRefCSS         = {};
         _.tweenRefs           = {};
         _.tweenRefMaps        = {};
@@ -343,7 +343,7 @@ export default class Tweener extends React.Component {
             try {
                 return this._.refs[ id ]._.rootRef.current
             } catch ( e ) {
-                console.error("C'ant find voodooNode ", id, e)
+                console.warn("react-voodoo: Can't find voodooNode ", id, e)
                 return;
             }
         }
@@ -710,7 +710,7 @@ export default class Tweener extends React.Component {
             found = true;
             this._updateTweenRefs();
         }
-        !found && console.warn("TweenAxis not found !")
+        !found && console.warn("react-voodoo: Axis not found : ", axe)
     }
     
     

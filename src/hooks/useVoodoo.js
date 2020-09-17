@@ -24,28 +24,48 @@
  *   @contact : n8tz.js@gmail.com
  */
 import React          from "react";
+import is             from "is";
 import TweenerContext from "../comps/TweenerContext";
 import Tweener        from "../comps/Tweener";
 
 export default ( tweenerOptions, RootNodeComp = 'div' ) => {
-    const parentTweener = React.useContext(TweenerContext),
-          nodeRef       = React.useRef(),
-          lastTweener   = React.useRef(),
-          tweener       = React.useMemo(
+    const parentTweener      = React.useContext(TweenerContext),
+          nodeRef            = React.useRef(),
+          lastTweener        = React.useRef(),
+          doUseParentTweener = React.useMemo(
+              () => ( tweenerOptions === true || is.string(tweenerOptions) ),
+              []
+          ),
+          tweener            = React.useMemo(
               () => {
                   if ( tweenerOptions === true )// keep tweener from context ( parent )
                       return parentTweener;
+            
+                  if ( is.string(tweenerOptions) ) {// return named tweener or most root tweener
+                      let pTweener = parentTweener;
+                
+                      while ( pTweener?._ && pTweener._.options.name !== tweenerOptions )
+                          if ( pTweener._parentTweener )
+                              pTweener = pTweener._parentTweener;
+                          else {
+                              console.warn('react-voodoo: No parent tweener found with option.key === "' + tweenerOptions + '"');
+                              break;
+                          }
+                
+                      return pTweener;
+                  }
             
                   let tw               = new Tweener({
                                                          forwardedRef: nodeRef,
                                                          tweenerOptions
                                                      });
                   tw.isMountedFromHook = true;
+                  tw._parentTweener    = parentTweener;
                   return tw;
               },
               []
           ),
-          ViewBox       = React.useMemo(
+          ViewBox            = React.useMemo(
               () => (
                   ( { children, ...props } ) => {
                       return <TweenerContext.Provider value={ tweener }>
@@ -62,7 +82,7 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
     
     React.useEffect(
         () => {
-            if ( tweenerOptions === true )
+            if ( doUseParentTweener || !lastTweener.current?._ )
                 return;
             //console.warn("didmount", nodeRef.current, lastTweener.current === TweenerEl)
             tweener.componentDidMount();
@@ -79,7 +99,7 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
     React.useEffect(
         () => {
             
-            if ( tweenerOptions === true || !lastTweener.current?._ )
+            if ( doUseParentTweener || !lastTweener.current?._ )
                 return;
             //console.warn("didupdate", nodeRef.current)
             lastTweener.current._updateBox();
@@ -91,7 +111,7 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
     )
     React.useEffect(
         () => {
-            if ( tweenerOptions === true )
+            if ( doUseParentTweener || !lastTweener.current?._ )
                 return;
             lastTweener.current._parentTweener = parentTweener;
         },
@@ -99,7 +119,7 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
     )
     React.useEffect(
         () => {
-            if ( tweenerOptions === true || !lastTweener.current?._ )
+            if ( doUseParentTweener || !lastTweener.current?._ )
                 return;
             lastTweener.current._.options = tweenerOptions;
             lastTweener.current._updateBox();

@@ -37,11 +37,17 @@ import TweenerContext from "./TweenerContext";
 @withTweener
 export default class Draggable extends React.Component {
     static propTypes    = {
-        xAxis: PropTypes.string,
-        yAxis: PropTypes.string,
+        xAxis    : PropTypes.string,
+        yAxis    : PropTypes.string,
+        xHook    : PropTypes.func,
+        yHook    : PropTypes.func,
+        mouseDrag: PropTypes.bool,
+        touchDrag: PropTypes.bool
     };
     static defaultProps = {
-        Comp: 'div',
+        Comp     : 'div',
+        mouseDrag: false,
+        touchDrag: true
     };
     state               = {};
     _                   = {};
@@ -86,13 +92,13 @@ export default class Draggable extends React.Component {
      * @private
      */
     _registerScrollListeners() {
-        let rootNode                                = this.root?.current,
-            { xAxis, yAxis, yHook, xHook, tweener } = this.props,
+        let rootNode                                                      = this.root?.current,
+            { xAxis, yAxis, yHook, xHook, mouseDrag, touchDrag, tweener } = this.props,
             lastStartTm,
             cLock, dX,
             parents,
             dY, parentsState,
-            _                                       = tweener._;
+            _                                                             = tweener._;
         if ( rootNode ) {
             domUtils.addEvent(
                 rootNode, this._.dragList = {
@@ -282,7 +288,8 @@ export default class Draggable extends React.Component {
                     }
                 },
                 null,
-                _.options.enableMouseDrag
+                _.options.enableMouseDrag || mouseDrag,
+                touchDrag
             )
             this._.doRegister = !!rootNode;
         }
