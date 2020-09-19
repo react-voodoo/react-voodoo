@@ -96,7 +96,8 @@ const Sample = ( {} ) => {
     const //[parentTweener]      = Voodoo.hook(true),
           [tweener, ViewBox]   = Voodoo.hook();
     
-    // Voodoo.hook()
+    // Voodoo.hook({name:"root"}) // tweener instance can be nammed like this
+    // Voodoo.hook("root")        // we can then get theirs ref like this 
 
     React.useEffect(
         e => tweener?.watchAxis("scrollY", (pos)=>doSomething()),
