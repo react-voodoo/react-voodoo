@@ -67,15 +67,20 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
           ),
           ViewBox            = React.useMemo(
               () => (
-                  ( { children, ...props } ) => {
-                      return <TweenerContext.Provider value={ tweener }>
-                          <RootNodeComp ref={ nodeRef } { ...props }>
-                              {
-                                  children
-                              }
-                          </RootNodeComp>
-                      </TweenerContext.Provider>
-                  }
+                  React.forwardRef(
+                      ( { children, ...props }, ref ) => {
+                          return <TweenerContext.Provider value={ tweener }>
+                              <RootNodeComp
+                                  ref={ !ref
+                                        ? nodeRef
+                                        : ( node ) => ( ref.current = nodeRef.current = node ) } { ...props }>
+                                  {
+                                      children
+                                  }
+                              </RootNodeComp>
+                          </TweenerContext.Provider>
+                      }
+                  )
               ),
               []
           )

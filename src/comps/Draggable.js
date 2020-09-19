@@ -39,6 +39,8 @@ export default class Draggable extends React.Component {
     static propTypes    = {
         xAxis    : PropTypes.string,
         yAxis    : PropTypes.string,
+        xBoxRef  : PropTypes.object,
+        yRef     : PropTypes.object,
         xHook    : PropTypes.func,
         yHook    : PropTypes.func,
         mouseDrag: PropTypes.bool,
@@ -92,13 +94,15 @@ export default class Draggable extends React.Component {
      * @private
      */
     _registerScrollListeners() {
-        let rootNode                                                      = this.root?.current,
-            { xAxis, yAxis, yHook, xHook, mouseDrag, touchDrag, tweener } = this.props,
+        let rootNode = this.root?.current,
+            {
+                xAxis, yAxis, yHook, xHook, mouseDrag, touchDrag, tweener, xBoxRef, yBoxRef
+            }        = this.props,
             lastStartTm,
             cLock, dX,
             parents,
-            dY, parentsState,
-            _                                                             = tweener._;
+            dY, parentsState, refWidth, refHeight,
+            _        = tweener._;
         if ( rootNode ) {
             domUtils.addEvent(
                 rootNode, this._.dragList = {
@@ -112,8 +116,11 @@ export default class Draggable extends React.Component {
                         dX           = 0;
                         dY           = 0;
                         parentsState = [];
+                        refWidth     = ( xBoxRef?.current || rootNode )?.offsetWidth;
+                        refHeight    = ( yBoxRef?.current || rootNode )?.offsetHeight;
                         for ( i = 0; i < parents.length; i++ ) {
                             pTweener = parents[ i ];
+                            pTweener._updateBox();
                             // react comp with tweener support
                             if ( pTweener.__isTweener ) {
                                 x = xAxis && pTweener.axes?.[ xAxis ];
@@ -143,8 +150,8 @@ export default class Draggable extends React.Component {
                     },
                     'drag'     : ( e, touch, descr ) => {//@todo
                         let pTweener,
-                            x, deltaX, xDispatched, vX,
-                            y, deltaY, yDispatched, vY,
+                            x, deltaX, xDispatched, xBox,
+                            y, deltaY, yDispatched, yBox,
                             cState, i;
                         
                         dX = -( descr._lastPos.x - descr._startPos.x );
@@ -198,12 +205,22 @@ export default class Draggable extends React.Component {
                                     }
                                     
                                     if ( x ) {
-                                        deltaX = dX && ( dX / pTweener._.box.x ) * ( x.scrollableWindow || x.scrollableArea ) || 0;
+                                        xBox   = xBoxRef?.current
+                                                 ? refWidth
+                                                 : pTweener._.box.x
+                                        deltaX = dX && ( dX / xBox ) * (
+                                                 x.scrollableWindow ||
+                                                 x.scrollableArea ) || 0;
                                         if ( xHook )
                                             deltaX = xHook(deltaX);
                                     }
                                     if ( y ) {
-                                        deltaY = dY && ( dY / pTweener._.box.y ) * ( y.scrollableWindow || y.scrollableArea ) || 0;
+                                        yBox   = yBoxRef?.current
+                                                 ? refHeight
+                                                 : pTweener._.box.y
+                                        deltaY = dY && ( dY / yBox ) * (
+                                                 y.scrollableWindow ||
+                                                 y.scrollableArea ) || 0;
                                         if ( yHook )
                                             deltaY = yHook(deltaY);
                                     }
@@ -315,10 +332,9 @@ export default class Draggable extends React.Component {
                 Comp,
                 forwardedRef,
                 items = [],
-                xAxis,
-                yAxis,
-                yHook,
-                xHook,
+                xAxis, yAxis,
+                xBoxRef, yRef,
+                yHook, xHook,
                 tweener,
                 mouseDrag,
                 touchDrag,

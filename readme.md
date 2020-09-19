@@ -170,10 +170,17 @@ const Sample = ( {} ) => {
             <Voodoo.Draggable
                 // make drag y move the scrollAnAxis axis
                 // xAxis={ "scrollAnAxis" }
-                // xHook={(delta)=>modify(delta)}
+
+                // scale / inverse dispatched delta
+                // xHook={(delta)=>modify(delta)} 
+
+                // React ref to the box, default to the parent ViewBox 
+                // scale is as follow : (delta / ((xBoxRef||ViewBox).offsetWidth)) * ( axis.scrollableWindow || axis.duration )  
+                // xBoxRef={ref} 
 
                 yAxis={ "scrollY" }// make drag y move the scrollY axis
                 // yHook={(delta)=>modify(delta)}
+                // yBoxRef={ref} 
 
                 // mouseDrag={true} // listen for mouse drag ( default to false )
                 // touchDrag={false} // listen for touch drag ( default to true )
