@@ -1,6 +1,6 @@
 {
   "name": "react-voodoo",
-  "version": "2.1.16",
+  "version": "2.1.17",
   "license": "MIT",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -17,6 +17,7 @@
     "react-dom": "^16.0.0"
   },
   "dependencies": {
+    "@babel/register": "^7.10.5",
     "color-rgba": "^2.1.0",
     "d3-ease": "^1.0.5",
     "deep-extend": "^0.6.0",
@@ -29,7 +30,6 @@
     "layer-pack": "^1.0.10",
     "chai": "^4.2.0",
     "enzyme": "^3.10.0",
-    "@babel/register": "^7.10.5",
     "enzyme-adapter-react-16": "^1.14.0",
     "jsdom": "^15.1.1",
     "local-web-server": "^3.0.7",

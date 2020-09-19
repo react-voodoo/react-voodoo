@@ -59,9 +59,44 @@ import React from "react";
 import Voodoo from "react-voodoo";
 import {itemTweenAxis, tweenArrayWithTargets} from "./somewhere";
 
+const styleSample = {
+        height : "50%",
+        
+        // the tweener deal with multiple units 
+        // it will use css calc fn if there's more than 1 unit used 
+        width : ["50%", "10vw", "-50px", ".2box"],
+
+        // transform can use multiple "layers"
+        transform: [
+            {
+                // use rotate(X|Y|Z) & translate(X|Y|Z)
+                rotateX:"25deg"
+            }, 
+            {
+                translateZ: "-.2box"
+            }
+        ]
+};
+const axisSample = [{
+                   		target: "someTweenRefId",   // target tween ref id ( optional if used as tweenAxis on a TweenRef )
+                   		from    : 0,                // tween start position
+                   		duration: 100,              // tween duration
+                   		easeFn  : "easeCircleIn",   // function or easing fn id from [d3-ease](https://github.com/d3/d3-ease)
+                   		
+                   		apply   : {// relative css values to be applied  
+                   			// Same syntax as the styles
+                   			transform: [{}, {
+                   				translateZ: "-.2box"
+                   			}]
+                   		}
+                   	}
+                   ];
+
 const Sample = ( {} ) => {
     const //[parentTweener]      = Voodoo.hook(true),
           [tweener, ViewBox]   = Voodoo.hook();
+    
+    // Voodoo.hook()
 
     React.useEffect(
         e => tweener?.watchAxis("scrollY", (pos)=>doSomething()),
@@ -75,11 +110,8 @@ const Sample = ( {} ) => {
     return <ViewBox className={ "container" }>
         <Voodoo.Axis
 
-            // Tween axis Id
-            id={"scrollY"}
-
-            // default start position
-            defaultPosition={100}
+            id={"scrollY"}          // Tween axis Id
+            defaultPosition={100}   // default start position
 
             // Global scrollable tween with theirs TweenRef target ids
             items={tweenArrayWithTargets}
@@ -114,18 +146,13 @@ const Sample = ( {} ) => {
 
         <Voodoo.Node
             id={"testItem"} // optional id
-            style={
-                {
-                    // initial styles : css syntax + voodoo tweener units & transform management
-                }
-            }
+
+            style={styleSample}// initial styles : css syntax + voodoo tweener units & transform management
+
             // Scrollable tween with no target node id required ( it will be ignored )
-            axes={
-                {
-                    scrollY : itemTweenAxis
-                }
-            }
-            onClick={
+            axes={{ scrollY : sampleAxis }}
+
+            onClick={// all unknow props are passed to the child node
                 (e)=>{
                     // start playing an anim
                     tweener.pushAnim(
@@ -146,6 +173,10 @@ const Sample = ( {} ) => {
 
                 yAxis={ "scrollY" }// make drag y move the scrollY axis
                 // yHook={(delta)=>modify(delta)}
+
+                // mouseDrag={true} // listen for mouse drag ( default to false )
+                // touchDrag={false} // listen for touch drag ( default to true )
+                // * actually Draggable create it's own div node
                 >
                     <div>
                         Some content to tween

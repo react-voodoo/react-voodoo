@@ -320,6 +320,8 @@ export default class Draggable extends React.Component {
                 yHook,
                 xHook,
                 tweener,
+                mouseDrag,
+                touchDrag,
                 ...props
             } = this.props;
         return <TweenerContext.Consumer>
