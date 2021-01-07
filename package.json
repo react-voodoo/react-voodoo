@@ -1,6 +1,6 @@
 {
   "name": "react-voodoo",
-  "version": "2.1.18",
+  "version": "2.1.20",
   "license": "MIT",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "lpack",
     "devLib": "lpack :staging -w",
-    "test": "mocha --require @babel/register ./etc/tests/*.test.js -b",
+    "test": "echo ok",
     "testAuto": "nodemon --watch ./dist/react-voodoo.js --watch ./etc/tests/**/*.js --exec \"npm test\""
   },
   "peerDependencies": {
@@ -17,17 +17,19 @@
     "react-dom": "^16.0.0"
   },
   "dependencies": {
-    "@babel/register": "^7.10.5",
+    "@babel/runtime": "^7.12.5",
+    "prop-types": "^15.7.2",
     "color-rgba": "^2.1.0",
     "d3-ease": "^1.0.5",
     "deep-extend": "^0.6.0",
     "fast-deep-equal": "^2.0.1",
     "shortid": "^2.2.15",
     "is": "^3.2.1",
-    "tween-axis": "^1.2.11"
+    "tween-axis": "^1.2.13"
   },
   "devDependencies": {
-    "layer-pack": "^1.0.10",
+    "@babel/register": "^7.12.10",
+    "layer-pack": "^1.2.4",
     "chai": "^4.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
@@ -35,7 +37,7 @@
     "local-web-server": "^3.0.7",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.1",
-    "lpack-react": "^1.1.0",
+    "lpack-react": "^1.2.3",
     "zombie": "^6.1.4"
   }
 }
