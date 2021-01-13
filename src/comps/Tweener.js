@@ -506,7 +506,10 @@ export default class Tweener extends React.Component {
 			    inertia,
 			    scrollableWindow,
 			    scrollableBounds,
-			    scrollableArea
+			    scrollableArea,
+			    scrollTo        : ( pos, tm, ease, noEvents ) => {
+				    return this.scrollTo(pos, tm, axe, ease, noEvents)
+			    }
 		    };
 		
 		this.axes[axe] = nextDescr;
@@ -533,7 +536,7 @@ export default class Tweener extends React.Component {
 				                              ...(_.options.axes && _.options.axes[axe] && _.options.axes[axe].inertia || {})
 			                              }),
 			scrollTo        : ( pos, tm, ease, noEvents ) => {
-				return this.scrollTo(pos, tm, ease, axe, noEvents)
+				return this.scrollTo(pos, tm, axe, ease, noEvents)
 			}
 		};
 		

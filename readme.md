@@ -75,22 +75,46 @@ const styleSample = {
             {
                 translateZ: "-.2box"
             }
-        ]
+        ],
+    
+        filter: 
+            {
+                blur:"5px"
+            }
 };
-const axisSample = [{
-                   		target: "someTweenRefId",   // target tween ref id ( optional if used as tweenAxis on a TweenRef )
-                   		from    : 0,                // tween start position
-                   		duration: 100,              // tween duration
-                   		easeFn  : "easeCircleIn",   // function or easing fn id from [d3-ease](https://github.com/d3/d3-ease)
-                   		
-                   		apply   : {// relative css values to be applied  
-                   			// Same syntax as the styles
-                   			transform: [{}, {
-                   				translateZ: "-.2box"
-                   			}]
-                   		}
-                   	}
-                   ];
+const axisSample = [
+	{
+        target: "someTweenRefId",   // target tween ref id ( optional if used as tweenAxis on a TweenRef )
+        from    : 0,                // tween start position
+        duration: 100,              // tween duration
+        easeFn  : "easeCircleIn",   // function or easing fn id from [d3-ease](https://github.com/d3/d3-ease)
+        
+        apply   : {// relative css values to be applied  
+            // Same syntax as the styles
+            transform: [{}, {
+                translateZ: "-.2box"
+            }]
+        }
+    },
+    {
+    	type     : "Event",
+        from     : 40,
+        duration : 20,
+        
+	    // triggered when axis has scrolled in the Event period 
+	    // delta : [-1,1] is the update inside the Event period
+	    entering:(delta)=>false,
+        
+	    // triggered when axis has scrolled in the Event period
+	    // newPos, precPos : [0,1] position inside the Event period
+	    // delta : [-1,1] is the update inside the Event period
+	    moveTo:(newPos, precPos, delta)=>false,
+        
+	    // triggered when axis has scrolled out the Event period
+	    // delta : [-1,1] is the update inside the Event period
+	    leaving:(delta)=>false
+    }
+];
 
 const Sample = ( {} ) => {
     const //[parentTweener]      = Voodoo.hook(true),
@@ -105,8 +129,9 @@ const Sample = ( {} ) => {
     )
 
     // once drawn :
-    // tweener.axes.scrollY.scrollPos
-    // tweener.scrollTo(targetPos, duration, axisId)
+    // tweener.axes.(axisId).scrollPos
+    // tweener.axes.(axisId).scrollTo(targetPos, duration, easeFn)
+    // tweener.scrollTo(targetPos, duration, axisId, easeFn)
 
     return <ViewBox className={ "container" }>
         <Voodoo.Axis
@@ -139,7 +164,7 @@ const Sample = ( {} ) => {
                         // called when inertia know where it will snap ( when the user stop dragging )
                         willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},
 
-                        // list of waypoints object ( only support auto snap for now )
+                        // list of waypoints object ( only support auto snap 50/50 for now )
                         wayPoints : [{ at: 100 }, { at: 200 }]
                     }
                 }
@@ -197,14 +222,10 @@ const Sample = ( {} ) => {
 
 ## todo / roadmap ?
 
-- Allow exporting tweenAxis as tweenable css props for parents 
-- Make dynamic animation builder with some tweenRefs query language 
 - Finish css support ( background, borders, ... )
 - Doc, tests & code cleaning
 - lot of various simple and/or smart optims / recycling
-- Allow tween-axis to css keyframe anims ? 
-- Allow SVG bindings ?
-
+- SVG support
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
 [![*](https://www.google-analytics.com/collect?v=1&tid=UA-82058889-1&cid=555&t=event&ec=project&ea=view&dp=%2Fproject%2Freact-voodoo&dt=readme)](#)

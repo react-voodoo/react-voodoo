@@ -41,11 +41,9 @@ const
 		clickTm        : 250
 	};
 
-// this is a mess
-
 
 /**
- * Predict the inertia
+ * Predict inertia dist & target basin velocity
  * @param _
  */
 export function applyInertia( _ ) {
@@ -69,12 +67,10 @@ export function applyInertia( _ ) {
 		_.targetDist     = (_.loopsVelSum * _.refFPS * velSign) / 1000 || 0;
 		_.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
 	}
-	
 }
 
 /**
  * Main inertia class
- * @class Caipi slideshow
  * @type {module.exports}
  */
 export default class Inertia {
