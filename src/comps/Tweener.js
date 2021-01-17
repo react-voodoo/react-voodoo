@@ -101,7 +101,11 @@ export default class Tweener extends React.Component {
 		this.__isTweener      = true;
 		_._rafLoop            = this._rafLoop.bind(this);
 		_.rootRef             = this.props.forwardedRef || React.createRef();
-		_.options             = { ...(props.tweenerOptions || {}) };
+		_.options             = {
+			maxClickTm    : 200,
+			maxClickOffset: 10,
+			...(props.tweenerOptions || {})
+		};
 		_.tweenRefCSS         = {};
 		_.tweenRefs           = {};
 		_.tweenRefMaps        = {};
@@ -507,7 +511,7 @@ export default class Tweener extends React.Component {
 			    scrollableWindow,
 			    scrollableBounds,
 			    scrollableArea,
-			    scrollTo        : ( pos, tm, ease, noEvents ) => {
+			    scrollTo : ( pos, tm, ease, noEvents ) => {
 				    return this.scrollTo(pos, tm, axe, ease, noEvents)
 			    }
 		    };
@@ -582,7 +586,6 @@ export default class Tweener extends React.Component {
 						    pos                      = (~~(pos * 10000)) / 10000;
 						    this.axes[axe].targetPos = this.axes[axe].scrollPos = pos;
 						
-						    this.axes?.[axe]?.inertia?.setPos(pos);
 						    //this.axes[axe].inertia._doSnap()
 						    if ( ~~pos !== oldPos ) {
 							    this.axisDidScroll(~~pos, axe);
@@ -597,6 +600,10 @@ export default class Tweener extends React.Component {
 					this.axes[axe].targetPos = newPos;
 					
 					if ( !ms ) {
+						this.axes?.[axe]?.inertia?.setPos(newPos);
+						if ( this.axes?.[axe]?.inertia?._ ) {
+							newPos = this.axes?.[axe]?.inertia?._.pos;
+						}
 						this.axes[axe].tweenAxis.forEach(
 							sl => sl.goTo(newPos, _.tweenRefMaps, false, noEvents)
 						);
@@ -739,7 +746,11 @@ export default class Tweener extends React.Component {
 				apply   : ( pos, max ) => {
 					let x = (from + (easing(pos / max)) * length);
 					if ( this._.tweenEnabled ) {
-						//console.log('TweenableComp::setPos:514: ', x);
+						// allow shouldLoop on scrollTo
+						this.axes?.[axe]?.inertia?.setPos(x);
+						if ( this.axes?.[axe]?.inertia?._ ) {
+							x = this.axes?.[axe]?.inertia?._.pos;
+						}
 						this.axes[axe].tweenAxis.forEach(
 							sl => sl.goTo(x, this._.tweenRefMaps, false, noEvents)
 						);

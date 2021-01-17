@@ -313,7 +313,20 @@ export default class Inertia {
 		this.active      = false;
 		_.lastInertiaPos = 0;
 		_.targetDist     = 0;
-		_.pos            = pos;
+		_.inertiaStartTm = 0;
+		_.inertiaLastTm  = 0;
+		_.targetDuration = 0;
+		
+		if ( _.conf.shouldLoop ) {
+			let loop, nextValue = pos;
+			while ( (loop = _.conf.shouldLoop(nextValue, _.pos - pos)) ) {
+				nextValue += loop;
+				//this.teleport(loop);
+				//console.warn("loop update", nextValue, pos);
+			}
+			pos = nextValue;
+		}
+		_.pos = pos;
 		if ( _.conf.bounds ) {
 			_.pos = max(_.pos, _.min);
 			_.pos = min(_.pos, _.max);
