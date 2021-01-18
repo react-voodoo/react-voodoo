@@ -234,7 +234,8 @@ export default class Draggable extends React.Component {
 									if ( x && !xDispatched && deltaX && x?.inertia?.isInbound(parentsState[i].x + deltaX)
 										&& (pTweener.componentShouldScroll(xAxis, deltaX)) ) {
 										x.inertia.hold(parentsState[i].x + deltaX);
-										xDispatched = true;
+										//parentsState[i].x = x.inertia._.pos;
+										xDispatched       = true;
 									}
 									//console.log("scrollY", yDispatched,
 									//            y?.inertia?.isInbound(parentsState[ i
@@ -242,6 +243,7 @@ export default class Draggable extends React.Component {
 									if ( y && !yDispatched && deltaY && y?.inertia?.isInbound(parentsState[i].y + deltaY)
 										&& (pTweener.componentShouldScroll(yAxis, deltaY)) ) {
 										y.inertia.hold(parentsState[i].y + deltaY);
+										//parentsState[i].y = y.inertia._.pos;
 										//console.log('Draggable::drag:190: ',
 										// parentsState[i].y,deltaY);
 										yDispatched = true;

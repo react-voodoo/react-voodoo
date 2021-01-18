@@ -66,6 +66,7 @@ export function applyInertia( _ ) {
 		// deduce real dist of momentum
 		_.targetDist     = (_.loopsVelSum * _.refFPS * velSign) / 1000 || 0;
 		_.targetDuration = abs(_.loopsTarget * _.refFPS * velSign) || 0;
+		//console.warn(" _.targetDist", _.targetDist, _.lastVelocity);
 	}
 }
 
@@ -119,40 +120,30 @@ export default class Inertia {
 		_.lastVelocity = _.lastIVelocity = 0;
 		_.lastAccel    = 0;
 		_.posDiff      = 0;
+		_.loopsDiff    = 0;
 		this.active    = true;
 		this.holding   = true;
 		_.inertia      = false;
 	}
 	
 	hold( nextPos ) {
-		let _     = this._,
-		    delta = _.lastHoldPos !== undefined ? nextPos - _.lastHoldPos : 0,
-		    loop;
-		
-		//_.holding     = true;
-		_.lastHoldPos = nextPos;
-		if ( delta && _.conf.shouldLoop ) {
-			//while ( (loop = _.conf.shouldLoop(pos, delta)) ) {
-			//	//console.warn("loop", loop);
-			//	pos += loop;
-			//}
-			while ( (loop = _.conf.shouldLoop(_.pos, delta)) ) {
-				//console.warn("loop", loop);
-				_.pos += loop;
-			}
-		}
-		let now          = Date.now() / 1000,//e.timeStamp,
+		let _            = this._,
+		    delta        = _.lastHoldPos !== undefined ? nextPos - _.lastHoldPos : 0,
+		    loop,
+		    now          = Date.now() / 1000,//e.timeStamp,
 		    sinceLastPos = (now - _.baseTS),
-		    pos          = _.pos + delta,
+		    pos          = nextPos,//_.lastHoldPos + delta,
 		    iVel         = delta / sinceLastPos;
 		
+		_.lastHoldPos = nextPos;
 		//if (is.nan(pos))
 		//	debugger
 		
 		if ( !_.lastBaseTs ) {// create base pts
-			_.lastBasePos = _.pos;
+			_.lastBasePos = nextPos;
 			_.lastBaseTs  = _.baseTS;
 		}
+		
 		if ( sinceLastPos < .003 ) {
 			//console.log("hold fast", delta, _.baseTS, sinceLastPos);
 			// skip/ignore
@@ -168,7 +159,7 @@ export default class Inertia {
 			(now - _.lastBaseTs) > consts.velocityResetTm
 		) {
 			//console.log("reset", _.lastBaseTs, _.lastVelocity);
-			_.lastBasePos    = pos;
+			_.lastBasePos    = nextPos;
 			_.lastBaseTs     = now;
 			_.lastVelocity   = 0;
 			_.lastIVelocity  = 0;
@@ -186,9 +177,10 @@ export default class Inertia {
 			//ignore
 		}
 		else {
-			_.lastIVelocity       = iVel;
-			_.lastVelocity        = (pos - _.lastBasePos) / (now - _.lastBaseTs);
-			//console.log("hold", iVel, _.lastVelocity);
+			_.lastIVelocity = iVel;
+			_.lastVelocity  = ((pos) - (_.lastBasePos)) / (now - _.lastBaseTs);
+			//if ( _.lastVelocity < -50 )
+			//	debugger
 			_.baseTS              = now;
 			_.targetDist          = 0;
 			_.lastInertiaPos      = 0;
@@ -206,6 +198,11 @@ export default class Inertia {
 			}
 		}
 		
+		if ( _.conf.shouldLoop ) {
+			while ( (loop = _.conf.shouldLoop(pos, delta)) ) {
+				pos += loop;
+			}
+		}
 		_.pos = pos;
 		
 	}
@@ -225,6 +222,18 @@ export default class Inertia {
 		_.lastBaseTs  = undefined;
 		_.holding     = false;
 		
+		//if ( _.conf.shouldLoop ) {
+		//	let loop, nPos=_.pos + _.targetDist;
+		//	while ( (loop = _.conf.shouldLoop(nPos, 0)) ) {
+		//		nPos += loop;
+		//		if ( _.inertia ) {
+		//			//_.targetDist+=loop;
+		//			//_.lastInertiaPos+=loop;
+		//		}
+		//		//this.teleport(loop);
+		//	}
+		//	if (nPos!==_.pos + _.targetDist)
+		//}
 		if ( _.conf.bounds && _.conf.snapToBounds ) {
 			if ( (_.pos + _.targetDist) > _.max ) {
 				_.targetDist     = _.max - _.pos;
@@ -293,11 +302,15 @@ export default class Inertia {
 		//console.log(_.pos + delta);
 		nextValue = _.pos + delta;
 		
-		if ( delta && _.conf.shouldLoop ) {
-			
+		if ( _.conf.shouldLoop ) {
+			let t = nextValue;
 			while ( (loop = _.conf.shouldLoop(nextValue, delta)) ) {
-				//console.warn("loop update", loop);
+				//console.warn("loop update", loop, nextValue);
 				nextValue += loop;
+				if ( _.inertia ) {
+					//_.targetDist+=loop;
+					//_.lastInertiaPos+=loop;
+				}
 				//this.teleport(loop);
 			}
 		}
@@ -417,8 +430,20 @@ export default class Inertia {
 		    target,
 		    mid,
 		    i,
-		    i2;
+		    loop;
 		
+		//if ( _.conf.shouldLoop ) {
+		//
+		//	while ( (loop = _.conf.shouldLoop(pos, 0)) ) {
+		//		console.warn("loop snap", loop, pos);
+		//		pos += loop;
+		//		if ( _.inertia ) {
+		//			//_.targetDist+=loop;
+		//			//_.lastInertiaPos+=loop;
+		//		}
+		//		//this.teleport(loop);
+		//	}
+		//}
 		if ( _.wayPoints && _.wayPoints.length ) {
 			for ( i = 0; i < _.wayPoints.length; i++ )
 				if ( _.wayPoints[i].at > pos )

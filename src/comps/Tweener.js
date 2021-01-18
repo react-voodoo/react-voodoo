@@ -749,12 +749,14 @@ export default class Tweener extends React.Component {
 						// allow shouldLoop on scrollTo
 						this.axes?.[axe]?.inertia?.setPos(x);
 						if ( this.axes?.[axe]?.inertia?._ ) {
+							tick && tick(x)
 							x = this.axes?.[axe]?.inertia?._.pos;
 						}
+						else tick && tick(x);
 						this.axes[axe].tweenAxis.forEach(
 							sl => sl.goTo(x, this._.tweenRefMaps, false, noEvents)
 						);
-						tick && tick(x);
+						
 					}
 				},
 				duration: tm,
