@@ -15,7 +15,7 @@ ___
 
 ## Welcome to react-voodoo !
 
-react-voodoo is a truly additive & intuitive tween engine for React
+react-voodoo is an additive & intuitive tween engine for React
 
 Why another animation engine ?
 
@@ -31,6 +31,8 @@ To have some advanced functionalities :
 - Cool ( & performant ) React integration
 - Automatically deal with multiple units using css "calc( ... )"
 - etc...
+
+## Some live demo & codesandbox [here](https://react-voodoo.github.io/react-voodoo-samples/)
 
 ## Draft & minimalist samples [here](https://github.com/react-voodoo/react-voodoo-samples)
 

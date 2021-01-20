@@ -103,7 +103,7 @@ export default class Tweener extends React.Component {
 		_.rootRef             = this.props.forwardedRef || React.createRef();
 		_.options             = {
 			maxClickTm    : 200,
-			maxClickOffset: 10,
+			maxClickOffset: 5,
 			...(props.tweenerOptions || {})
 		};
 		_.tweenRefCSS         = {};
