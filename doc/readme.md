@@ -127,14 +127,19 @@ let anim        = [
 
 		// watched duration
 		duration: 500,
-
-          entering: ( pos ) => {
-
-          }
-
-          leaving: ( pos ) => {
-
-          }
+		
+		// triggered when axis has scrolled in the Event period 
+		// delta : [-1,1] is the update inside the Event period
+		entering:(delta)=>false,
+		
+		// triggered when axis has scrolled in the Event period
+		// newPos, precPos : [0,1] position inside the Event period
+		// delta : [-1,1] is the update inside the Event period
+		moveTo:(newPos, precPos, delta)=>false,
+		
+		// triggered when axis has scrolled out the Event period
+		// delta : [-1,1] is the update inside the Event period
+		leaving:(delta)=>false
 	}
 ];
 ```

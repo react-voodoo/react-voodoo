@@ -211,6 +211,9 @@ const Sample = ( {} ) => {
 
                 // mouseDrag={true} // listen for mouse drag ( default to false )
                 // touchDrag={false} // listen for touch drag ( default to true )
+                
+                // button={1-3} // limit mouse drag to the specified event.button === ( default to 1; the left btn )
+                
                 // * actually Draggable create it's own div node
                 >
                     <div>

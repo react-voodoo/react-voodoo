@@ -499,7 +499,7 @@ export default class Tweener extends React.Component {
 			    dim ? dim.inertia : new Inertia({// todo mk pure
 				                                    disabled: !_inertia,
 				                                    ...(_inertia || {}),
-				                                    value   : scrollPos
+				                                    value: scrollPos
 			                                    })),
 		    nextDescr        = {
 			    //...(_inertia || {}),
@@ -576,6 +576,10 @@ export default class Tweener extends React.Component {
 	 */
 	scrollTo( newPos, ms = 0, axe = "scrollY", ease, noEvents ) {
 		let _ = this._;
+		if ( !isBrowserSide ) {
+			console.warn("React-voodoo : scrollTo can't be used serverside, use Axis defaultPosition prop to set initial axes position");
+			return Promise.resolve();
+		}
 		return new Promise(
 			(( resolve, reject ) => {
 				if ( this.axes && this.axes[axe] ) {

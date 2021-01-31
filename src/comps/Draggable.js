@@ -44,12 +44,14 @@ export default class Draggable extends React.Component {
 		xHook    : PropTypes.func,
 		yHook    : PropTypes.func,
 		mouseDrag: PropTypes.bool,
-		touchDrag: PropTypes.bool
+		touchDrag: PropTypes.bool,
+		button   : PropTypes.number
 	};
 	static defaultProps = {
 		Comp     : 'div',
 		mouseDrag: false,
-		touchDrag: true
+		touchDrag: true,
+		button   : 0
 	};
 	state               = {};
 	_                   = {};
@@ -96,13 +98,14 @@ export default class Draggable extends React.Component {
 	_registerScrollListeners() {
 		let rootNode = this.root?.current,
 		    {
-			    xAxis, yAxis, yHook, xHook, mouseDrag, touchDrag, tweener, xBoxRef, yBoxRef
+			    xAxis, yAxis, yHook, xHook, mouseDrag, touchDrag, tweener, xBoxRef, yBoxRef, button
 		    }        = this.props,
 		    lastStartTm,
 		    cLock, dX,
 		    parents,
 		    dY, parentsState, refWidth, refHeight,
 		    _        = tweener._;
+		
 		if ( rootNode ) {
 			domUtils.addEvent(
 				rootNode, this._.dragList = {
@@ -110,6 +113,9 @@ export default class Draggable extends React.Component {
 						let pTweener,
 						    x,
 						    y, i, style;
+						if ( (e) instanceof MouseEvent && e.button !== button ) {// allow undefined so this work for touch events
+							return;
+						}
 						
 						parents      = this.getScrollableNodes(e.target);
 						lastStartTm  = Date.now();
@@ -134,6 +140,11 @@ export default class Draggable extends React.Component {
 						//e.preventDefault();
 					},
 					'click'    : ( e, touch, descr ) => {//@todo
+						
+						if ( (e) instanceof MouseEvent && e.button !== button ) {// allow undefined so this work for touch events
+							return;
+						}
+						
 						if ( lastStartTm &&
 							(
 								(lastStartTm - Date.now() > _.options.maxClickTm) ||
@@ -151,6 +162,10 @@ export default class Draggable extends React.Component {
 						
 					},
 					'drag'     : ( e, touch, descr ) => {//@todo
+						if ( (e) instanceof MouseEvent && e.button !== button ) {// allow undefined so this work for touch events
+							return;
+						}
+						
 						let pTweener,
 						    x, deltaX, xDispatched, xBox,
 						    y, deltaY, yDispatched, yBox,
@@ -235,7 +250,7 @@ export default class Draggable extends React.Component {
 										&& (pTweener.componentShouldScroll(xAxis, deltaX)) ) {
 										x.inertia.hold(parentsState[i].x + deltaX);
 										//parentsState[i].x = x.inertia._.pos;
-										xDispatched       = true;
+										xDispatched = true;
 									}
 									//console.log("scrollY", yDispatched,
 									//            y?.inertia?.isInbound(parentsState[ i
@@ -267,6 +282,10 @@ export default class Draggable extends React.Component {
 						    x, deltaX, xDispatched, vX,
 						    y, deltaY, yDispatched, vY,
 						    cState, i;
+						
+						if ( (e) instanceof MouseEvent && e.button !== button ) {// allow undefined so this work for touch events
+							return;
+						}
 						
 						cLock = undefined;
 						//lastStartTm                     = undefined;
@@ -336,12 +355,12 @@ export default class Draggable extends React.Component {
 			    Comp,
 			    forwardedRef,
 			    items = [],
-			    xAxis, yAxis,
+			    xAxis, yAxis, yBoxRef,
 			    xBoxRef, yRef,
 			    yHook, xHook,
 			    tweener,
 			    mouseDrag,
-			    touchDrag,
+			    touchDrag, button,
 			    ...props
 		    } = this.props;
 		return <TweenerContext.Consumer>
