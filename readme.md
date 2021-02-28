@@ -1,4 +1,4 @@
-<h1 align="center">react-voodoo tweener</h1>
+<h1 align="center">react-voodoo</h1>
 <p align="center">Fast, SSR compatible, additive & swipeable, tween composition engine for React</p>
 
 ___
@@ -13,19 +13,18 @@ ___
 <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" />
 </p>
 
-## Welcome to react-voodoo !
-
 react-voodoo is an additive & intuitive tween engine for React
 
-Why another animation engine ?
+## Why another animation engine ?
 
 To have some advanced functionalities :
 
 - Additive tween ( simultaneous tween on same properties )
 - Swipeable animations ( like Android & iOS )
+- Direct DOM updates ( not bound to the React rendering loop )
 - Server Side Rendering of any scroll / swipe position
 - Hot switching scrollable anims ( responsive )
-- Predictive inertia (knowing where inertia will stop after swipe)
+- Predictive inertia ( knowing where inertia will stop while animating )
 - Multitouch dragging ( drag multiple things at once )
 - Intuitive & flexible animation system
 - Cool ( & performant ) React integration
@@ -40,7 +39,7 @@ To have some advanced functionalities :
 
 ## Note
 
-This is advanced beta, but react-voodoo still have missing css interpolator & possibly some bugs.<br/>
+This is advanced beta; react-voodoo still miss some css interpolator ( like background ).<br/>
 
 
 ## How can i help ?
@@ -53,7 +52,7 @@ This is advanced beta, but react-voodoo still have missing css interpolator & po
 
 ## Basics
 
-Here a temporary "all in one" example :
+"all in one" example :
 
 ```jsx harmony
 
