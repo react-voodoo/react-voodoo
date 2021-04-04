@@ -322,12 +322,16 @@ export default class Tweener extends React.Component {
 	 */
 	updateRefStyle( target, style, postPone ) {
 		let _ = this._, initials = {}, pureCss;
+		
+		// allow batched stykes updates
 		if ( isArray(target) && isArray(style) )
 			return target.map(( m, i ) => this.updateRefStyle(m, style[i], postPone));
 		if ( isArray(target) )
 			return target.map(( m ) => this.updateRefStyle(m, style, postPone));
 		
-		//if ( !this._.tweenRefCSS )
+		if ( !_.tweenRefMaps[target] )
+			return console.warn("React-Voodoo : Can't update styles of an unknown Node id '", target, "'");
+		
 		pureCss = deMuxTween(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target]);
 		Object.assign(_.tweenRefCSS[target], pureCss);
 		Object.assign(_.tweenRefOriginCss[target], pureCss);
