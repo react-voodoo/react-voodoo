@@ -104,14 +104,15 @@ export default class Inertia {
 	}
 	
 	updateConf( opt ) {
-		let _           = this._;
-		_.min           = opt.min || 0;
-		_.max           = opt.max || 0;
-		_.stops         = opt.stops;
-		_.disabled      = opt.disabled;
-		_.wayPoints     = opt.wayPoints;
-		_.conf.willStop = opt.willStop;
-		_.conf.willSnap = opt.willSnap;
+		let _             = this._;
+		_.min             = opt.min || 0;
+		_.max             = opt.max || 0;
+		_.stops           = opt.stops;
+		_.disabled        = opt.disabled;
+		_.wayPoints       = opt.wayPoints;
+		_.conf.willStop   = opt.willStop;
+		_.conf.willSnap   = opt.willSnap;
+		_.conf.shouldLoop = opt.shouldLoop;
 	}
 	
 	startMove() {
@@ -425,28 +426,27 @@ export default class Inertia {
 	}
 	
 	_doSnap( forceSnap, maxDuration = 2000 ) {
-		let _   = this._,
-		    pos = _.targetDist + (_.pos - (_.lastInertiaPos || 0)),
+		let _       = this._,
+		    pos     = _.targetDist + (_.pos - (_.lastInertiaPos || 0)),
+		    lPos    = pos,
+		    loopDec = 0,
 		    target,
 		    mid,
 		    i,
 		    loop;
 		
-		//if ( _.conf.shouldLoop ) {
-		//
-		//	while ( (loop = _.conf.shouldLoop(pos, 0)) ) {
-		//		console.warn("loop snap", loop, pos);
-		//		pos += loop;
-		//		if ( _.inertia ) {
-		//			//_.targetDist+=loop;
-		//			//_.lastInertiaPos+=loop;
-		//		}
-		//		//this.teleport(loop);
-		//	}
-		//}
 		if ( _.wayPoints && _.wayPoints.length ) {
+			
+			// apply loops to do to find the final wayPoint
+			if ( _.conf.shouldLoop ) {
+				while ( (loop = _.conf.shouldLoop(lPos, 0)) ) {
+					lPos += loop;
+					loopDec += loop;
+				}
+			}
+			
 			for ( i = 0; i < _.wayPoints.length; i++ )
-				if ( _.wayPoints[i].at > pos )
+				if ( _.wayPoints[i].at > lPos )
 					break;
 			
 			if ( i === _.wayPoints.length ) {
@@ -456,9 +456,11 @@ export default class Inertia {
 				i = 0;
 			}
 			else {
-				mid = _.wayPoints[i - 1].at + (_.wayPoints[i].at - _.wayPoints[i - 1].at) / 2;
+				mid = (_.wayPoints[i].at - _.wayPoints[i - 1].at) / 2;
+				mid = _.wayPoints[i - 1].at + (mid * ((_.wayPoints[i].gravity || 1) / (_.wayPoints[i - 1].gravity || 1)));
+				
 				if ( forceSnap ) forceSnap < 0 && i--;
-				else if ( pos < mid ) i--;
+				else if ( lPos < mid ) i--;
 			}
 			
 			if ( _.conf.maxJump && is.number(_.currentWayPointIndex) ) {
@@ -476,9 +478,9 @@ export default class Inertia {
 			}
 			
 			_.lastInertiaPos      = _.lastInertiaPos || 0;
-			target                = target - (_.pos - _.lastInertiaPos);
+			target                = target - (_.pos - _.lastInertiaPos) - loopDec;
 			_.targetDuration      = max(50, min(maxDuration, abs((_.targetDuration / _.targetDist) * target))) || 0;
-			//console.log("do snap", i, target, _.targetDist, _.targetDuration);
+			//console.log("do snap", i, target, loopDec);
 			_.targetDist          = target;
 			_.targetWayPoint      = _.wayPoints[i];
 			_.targetWayPointIndex = i;

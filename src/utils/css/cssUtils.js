@@ -52,7 +52,7 @@ const props = {
     "borderSpacing"              : { "types": ["length"], "multiple": true },
     "color"                      : { "types": ["color"] },
     "opacity"                    : { "types": ["number"] },
-    "background"                 : { "properties": ["backgroundColor", "backgroundPosition", "backgroundSize"] },
+    //"background"                 : { "properties": ["backgroundColor", "backgroundPosition", "backgroundSize"] },
     "backgroundColor"            : { "types": ["color"] },
     "backgroundPosition"         : {
         "types"     : ["length-percentage-calc"],
