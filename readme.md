@@ -39,7 +39,7 @@ To have some advanced functionalities :
 
 ## Note
 
-This is advanced beta; react-voodoo still miss some css interpolator ( like background ).<br/>
+react-voodoo still miss some interpolator ( like background or borders ).<br/>
 
 
 ## How can i help ?
@@ -223,9 +223,9 @@ const Sample = ( {} ) => {
 }
 ```
 
-## todo / roadmap ?
+## todo  ?
 
-- Finish css support ( background, borders, ... )
+- add missing interpolator / strategy ( background, borders, ... )
 - Doc, tests & code cleaning
 - lot of various simple and/or smart optims / recycling
 - SVG support
