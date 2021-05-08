@@ -13,17 +13,18 @@ ___
 <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" />
 </p>
 
-<p align="center"><img src ="https://github.com/react-voodoo/react-voodoo/raw/master/doc/assets/demo.gif?sanitize=true" /></p>
 
-react-voodoo is an additive & intuitive tween engine for React
+## react-voodoo is an advanced, performant, additive & intuitive tween engine for React
+
+<p align="center"><img src ="https://github.com/react-voodoo/react-voodoo/raw/master/doc/assets/demo.gif?sanitize=true" /></p>
 
 ## Why another animation engine ?
 
 To have some advanced functionalities :
 
-- Additive tween ( simultaneous tween on same properties )
+- Additive tween ( simultaneous tween on same properties like web animation APIs)
 - Swipeable animations ( like Android & iOS )
-- Direct DOM updates ( not bound to the React rendering loop )
+- Fast & direct DOM updates ( not bound to the React rendering loop )
 - Server Side Rendering of any scroll / swipe position
 - Hot switching scrollable anims ( responsive )
 - Predictive inertia ( knowing where inertia will stop while animating )
@@ -42,7 +43,6 @@ To have some advanced functionalities :
 ## Note
 
 react-voodoo still miss some interpolator ( like background or borders ).<br/>
-
 
 ## How can i help ?
 
