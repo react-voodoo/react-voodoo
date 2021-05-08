@@ -13,6 +13,8 @@ ___
 <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" />
 </p>
 
+<p align="center"><img src ="https://github.com/react-voodoo/react-voodoo/raw/master/doc/assets/demo.gif?sanitize=true" /></p>
+
 react-voodoo is an additive & intuitive tween engine for React
 
 ## Why another animation engine ?
