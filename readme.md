@@ -14,8 +14,6 @@ ___
 </p>
 
 
-## react-voodoo is an advanced, performant, additive & intuitive tween engine for React
-
 <p align="center"><img src ="https://github.com/react-voodoo/react-voodoo/raw/master/doc/assets/demo.gif?sanitize=true" /></p>
 
 ## Why another animation engine ?
