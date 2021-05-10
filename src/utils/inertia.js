@@ -43,7 +43,7 @@ const
 
 
 /**
- * Predict inertia dist & target basin velocity
+ * Predict inertia dist & target basing velocity
  * @param _
  */
 export function applyInertia( _ ) {

@@ -26,8 +26,13 @@
 
 import is        from "is";
 import tweenAxis from "tween-axis";
-//export default tweenAxis
+
+
 const recyclableTweenAxis = [];
+
+/**
+ * Override the TweenAxis Objects to automatically deal with recycling
+ */
 export default class CssTweenAxis extends tweenAxis {
 	
 	constructor( cfg, scope ) {

@@ -23,6 +23,12 @@
  *   @author : Nathanael Braun
  *   @contact : n8tz.js@gmail.com
  */
+
+
+/**
+ * Old school dom utils & events managers
+ */
+
 let
     is        = require('is'),
     isBrowser = typeof window !== 'undefined',
@@ -378,8 +384,8 @@ let
         findReactParents( element ) {
             let fiberNode, comps = [element];
             for ( const key in element ) {
-                
-                if ( key.startsWith('__reactInternalInstance$') ) {
+    
+                if ( key.startsWith('__reactInternalInstance$') || key.startsWith('__reactFiber$') ) {
                     fiberNode = element[ key ];
                     while ( fiberNode.return ) {
                         if ( fiberNode.stateNode && !comps.includes(fiberNode.stateNode) )

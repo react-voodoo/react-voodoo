@@ -66,10 +66,17 @@ const cssDemux = {
 
 export function clearTweenableValue( cssKey, twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
 	let path = twKey.split('_'), tmpKey;// not optimal at all
-	cssDemux[path[0]]
-	&& cssDemux[path[0]].release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues)
+	cssDemux[path[0]]?.release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues)
 }
 
+/**
+ * Interpolate float/int values to css basing the css prop type
+ * @param tweenable {Object} map of tweenable values
+ * @param css {Object} map of css value to be push in DOM
+ * @param demuxers {Object} map of numeric to css converter
+ * @param data {Object} map of converters contexts
+ * @param box {Object} xyz of the parent viewbox
+ */
 export function muxToCss( tweenable, css, demuxers, data, box ) {
 	Object.keys(demuxers)
 	      .forEach(
@@ -79,6 +86,17 @@ export function muxToCss( tweenable, css, demuxers, data, box ) {
 	      )
 }
 
+/**
+ * Instanciate interpolators & init css/tweenable values basing the tween
+ * @param tween
+ * @param deMuxedTween
+ * @param initials
+ * @param data
+ * @param demuxers
+ * @param noPropLock
+ * @param reOrder
+ * @returns {{}}
+ */
 export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, noPropLock, reOrder ) {
 	let fTween = {}, excluded = {};
 	tween && Object.keys(tween)
@@ -109,6 +127,15 @@ export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, noPro
 	return excluded;
 }
 
+/**
+ * Init/update muxers & initial css values of targets in a tween line / axis
+ * @param tweenLine
+ * @param initials
+ * @param data
+ * @param demuxers
+ * @param noPropLock
+ * @returns {*}
+ */
 export function deMuxLine( tweenLine, initials, data, demuxers, noPropLock ) {
 	noPropLock       = noPropLock && {};
 	let allPropsById = {},

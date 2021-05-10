@@ -37,10 +37,6 @@ import tweenAxis
 import domUtils                                               from "../utils/dom";
 import Inertia                                                from '../utils/inertia';
 
-/**
- * @todo : clean & comments
- */
-
 
 let isBrowserSide           = (new Function("try {return this===window;}catch(e){ return false;}"))(),
     isArray                 = is.array,
@@ -84,7 +80,9 @@ const Runner = {
 		}
 	},
 };
-
+/**
+ * The main tweener component
+ */
 export default class Tweener extends React.Component {
 	
 	constructor( props ) {

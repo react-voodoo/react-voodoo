@@ -3,13 +3,13 @@
  *   Copyright (c) 2020. Nathanael Braun
  *
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
- *   of this software and associated documentation files (the "Software"), to deal
+ *   of context software and associated documentation files (the "Software"), to deal
  *   in the Software without restriction, including without limitation the rights
  *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  *   copies of the Software, and to permit persons to whom the Software is
  *   furnished to do so, subject to the following conditions:
  *
- *   The above copyright notice and this permission notice shall be included in all
+ *   The above copyright notice and context permission notice shall be included in all
  *   copies or substantial portions of the Software.
  *
  *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -30,83 +30,92 @@ import React     from 'react';
 
 import TweenerContext from "./TweenerContext";
 
-//@todo : rewrite with hooks
-export default class Axis extends React.Component {
-    static propTypes = {
-        id             : PropTypes.string,
-        axe            : PropTypes.string,
-        items          : PropTypes.array,
-        bounds         : PropTypes.object,
-        inertia        : PropTypes.any,
-        defaultPosition: PropTypes.number,
-        size           : PropTypes.any
-    };
-    state            = {};
-    
-    componentWillUnmount() {
-        
-        if ( this._tweenLines ) {
-            Object.keys(this._tweenLines)
-                  .forEach(axe => this._previousTweener.rmScrollableAnim(this._tweenLines[ axe ], axe));
-            
-        }
-        delete this._previousTweener;
-        delete this._previousScrollable;
-    }
-    
-    render() {
-        let {
-                children,
-                id,
-                axe   = id,
-                scrollFirst, bounds,
-                scrollableWindow, inertia, size, defaultPosition,
-                items = [],
-            } = this.props;
-        return <TweenerContext.Consumer>
-            {
-                tweener => {
-                    if ( !this._previousAxis || this._previousAxis !== axe ) {//....
-                        this._previousAxis    = axe;
-                        this._previousInertia = inertia;
-                        tweener.initAxis(axe, {
-                            inertia,
-                            size,
-                            scrollableWindow,
-                            defaultPosition,
-                            scrollFirst,
-                            scrollableBounds: bounds
-                        }, true);
-                    }
-                    else if ( !this._previousInertia || this._previousInertia !== inertia ) {//....
-                        this._previousInertia = inertia;
-                        this._previousAxis    = axe;
-                        tweener.initAxis(axe, {
-                            inertia,
-                            size,
-                            scrollableWindow,
-                            defaultPosition,
-                            scrollFirst,
-                            scrollableBounds: bounds
-                        });
-                    }
-                    if ( !this._previousTweener || this._previousTweener !== tweener ) {// mk axe not modifiable
-                        this._previousTweener && this._lastTL && this._previousTweener.rmScrollableAnim(this._lastTL, this._previousAxis);
-                        if ( items.length )
-                            this._lastTL = tweener.addScrollableAnim(items, axe, size);
-                        this._previousTweener = tweener;
-                        this._previousTweens  = items;
-                    }
-                    else if ( this._previousTweens !== items && !( this._previousTweens && deepEqual(items, this._previousTweens) ) ) {
-                        this._lastTL && this._previousTweener && this._previousTweener.rmScrollableAnim(this._lastTL, this._previousAxis);
-                        this._lastTL = null;
-                        if ( items.length )
-                            this._lastTL = tweener.addScrollableAnim(items, axe, size);
-                        this._previousTweens = items;
-                    }
-                    return <React.Fragment/>;
-                }
-            }
-        </TweenerContext.Consumer>;
-    }
+export default ( {
+	                 children,
+	                 id,
+	                 axe = id,
+	                 scrollFirst, bounds,
+	                 scrollableWindow, inertia, size, defaultPosition,
+	                 items = [],
+                 } ) => {
+	const µ = React.useRef({}).current;
+	React.useEffect(
+		() => {
+			return () => {
+				if ( µ.tweenLines ) {
+					Object.keys(µ.tweenLines)
+					      .forEach(axe => µ.previousTweener.rmScrollableAnim(µ.tweenLines[axe], axe));
+					
+				}
+				delete µ.previousTweener;
+				delete µ.previousScrollable;
+			}
+		}
+	)
+	return <TweenerContext.Consumer>
+		{
+			tweener => {
+				if ( !µ.previousAxis || µ.previousAxis !== axe ) {//....
+					µ.previousAxis    = axe;
+					µ.previousInertia = inertia;
+					tweener.initAxis(axe, {
+						inertia,
+						size,
+						scrollableWindow,
+						defaultPosition,
+						scrollFirst,
+						scrollableBounds: bounds
+					}, true);
+				}
+				else if ( !µ.previousInertia || µ.previousInertia !== inertia ) {//....
+					µ.previousInertia = inertia;
+					µ.previousAxis    = axe;
+					tweener.initAxis(axe, {
+						inertia,
+						size,
+						scrollableWindow,
+						defaultPosition,
+						scrollFirst,
+						scrollableBounds: bounds
+					});
+				}
+				if ( !µ.previousTweener || µ.previousTweener !== tweener ) {// mk axe not modifiable
+					µ.previousTweener && µ.lastTL && µ.previousTweener.rmScrollableAnim(µ.lastTL, µ.previousAxis);
+					if ( items.length )
+						µ.lastTL = tweener.addScrollableAnim(items, axe, size);
+					µ.previousTweener = tweener;
+					µ.previousTweens  = items;
+				}
+				else if ( µ.previousTweens !== items && !(µ.previousTweens && deepEqual(items, µ.previousTweens)) ) {
+					µ.lastTL && µ.previousTweener && µ.previousTweener.rmScrollableAnim(µ.lastTL, µ.previousAxis);
+					µ.lastTL = null;
+					if ( items.length )
+						µ.lastTL = tweener.addScrollableAnim(items, axe, size);
+					µ.previousTweens = items;
+				}
+				return <React.Fragment/>;
+			}
+		}
+	</TweenerContext.Consumer>;
 }
+//@todo : rewrite with hooks
+//export default class Axis extends React.Component {
+//	static propTypes = {
+//		id             : PropTypes.string,
+//		axe            : PropTypes.string,
+//		items          : PropTypes.array,
+//		bounds         : PropTypes.object,
+//		inertia        : PropTypes.any,
+//		defaultPosition: PropTypes.number,
+//		size           : PropTypes.any
+//	};
+//	state            = {};
+//	
+//	componentWillUnmount() {
+//		
+//	}
+//	
+//	render() {
+//		let {} = context.props;
+//	}
+//}

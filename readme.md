@@ -14,13 +14,12 @@ ___
 </p>
 
 
-<p align="center"><img src ="https://github.com/react-voodoo/react-voodoo/raw/master/doc/assets/demo.gif?sanitize=true" /></p>
 
 ## Why another animation engine ?
 
 To have some advanced functionalities :
 
-- Additive tween ( simultaneous tween on same properties like web animation APIs)
+- Additive tween ( simultaneous tween on same properties like web animation APIs )
 - Swipeable animations ( like Android & iOS )
 - Fast & direct DOM updates ( not bound to the React rendering loop )
 - Server Side Rendering of any scroll / swipe position
@@ -33,6 +32,7 @@ To have some advanced functionalities :
 - etc...
 
 ## Some live demo & codesandbox [here](https://react-voodoo.github.io/react-voodoo-samples/)
+<p align="center"><img src ="https://github.com/react-voodoo/react-voodoo/raw/master/doc/assets/demo.gif?sanitize=true" /></p>
 
 ## Draft & minimalist samples [here](https://github.com/react-voodoo/react-voodoo-samples)
 
