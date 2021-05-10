@@ -98,24 +98,3 @@ export default ( {
 		}
 	</TweenerContext.Consumer>;
 }
-//@todo : rewrite with hooks
-//export default class Axis extends React.Component {
-//	static propTypes = {
-//		id             : PropTypes.string,
-//		axe            : PropTypes.string,
-//		items          : PropTypes.array,
-//		bounds         : PropTypes.object,
-//		inertia        : PropTypes.any,
-//		defaultPosition: PropTypes.number,
-//		size           : PropTypes.any
-//	};
-//	state            = {};
-//	
-//	componentWillUnmount() {
-//		
-//	}
-//	
-//	render() {
-//		let {} = context.props;
-//	}
-//}
