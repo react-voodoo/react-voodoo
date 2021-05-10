@@ -42,7 +42,7 @@ let isBrowserSide           = (new Function("try {return this===window;}catch(e)
     isArray                 = is.array,
     _live, lastTm, _running = [];
 
-
+// Axis Interpolation timer ( not the rendering loop ! )
 const Runner = {
 	run  : function ( tl, ctx, duration, cb ) {
 		let apply = ( pos, size ) => tl.go(pos / size, ctx);
