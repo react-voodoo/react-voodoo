@@ -27,6 +27,7 @@
 import deepEqual from "fast-deep-equal";
 import PropTypes from "prop-types";
 import React     from 'react';
+import useVoodoo from "../hooks/useVoodoo";
 
 import TweenerContext from "./TweenerContext";
 
@@ -38,63 +39,57 @@ export default ( {
 	                 scrollableWindow, inertia, size, defaultPosition,
 	                 items = [],
                  } ) => {
-	const µ = React.useRef({}).current;
+	const µ         = React.useRef({}).current,
+	      [tweener] = useVoodoo(true);
+	
+	if ( !µ.previousAxis || µ.previousAxis !== axe ) {//....
+		µ.previousAxis    = axe;
+		µ.previousInertia = inertia;
+		tweener.initAxis(axe, {
+			inertia,
+			size,
+			scrollableWindow,
+			defaultPosition,
+			scrollFirst,
+			scrollableBounds: bounds
+		}, true);
+	}
+	else if ( !µ.previousInertia || µ.previousInertia !== inertia ) {//....
+		µ.previousInertia = inertia;
+		µ.previousAxis    = axe;
+		tweener.initAxis(axe, {
+			inertia,
+			size,
+			scrollableWindow,
+			defaultPosition,
+			scrollFirst,
+			scrollableBounds: bounds
+		});
+	}
+	if ( !µ.previousTweener || µ.previousTweener !== tweener ) {// mk axe not modifiable
+		µ.previousTweener && µ.lastTL && µ.previousTweener.rmScrollableAnim(µ.lastTL, µ.previousAxis);
+		if ( items.length )
+			µ.lastTL = tweener.addScrollableAnim(items, axe, size);
+		µ.previousTweener = tweener;
+		µ.previousTweens  = items;
+	}
+	else if ( µ.previousTweens !== items && !(µ.previousTweens && deepEqual(items, µ.previousTweens)) ) {
+		µ.lastTL && µ.previousTweener && µ.previousTweener.rmScrollableAnim(µ.lastTL, µ.previousAxis);
+		µ.lastTL = null;
+		if ( items.length )
+			µ.lastTL = tweener.addScrollableAnim(items, axe, size);
+		µ.previousTweens = items;
+	}
+	
 	React.useEffect(
 		() => {
+			
 			return () => {
-				if ( µ.tweenLines ) {
-					Object.keys(µ.tweenLines)
-					      .forEach(axe => µ.previousTweener.rmScrollableAnim(µ.tweenLines[axe], axe));
-					
-				}
+				µ.lastTL && µ.previousTweener && µ.previousTweener.rmScrollableAnim(µ.lastTL, µ.previousAxis);
+				
 				delete µ.previousTweener;
 				delete µ.previousScrollable;
 			}
-		}
-	)
-	return <TweenerContext.Consumer>
-		{
-			tweener => {
-				if ( !µ.previousAxis || µ.previousAxis !== axe ) {//....
-					µ.previousAxis    = axe;
-					µ.previousInertia = inertia;
-					tweener.initAxis(axe, {
-						inertia,
-						size,
-						scrollableWindow,
-						defaultPosition,
-						scrollFirst,
-						scrollableBounds: bounds
-					}, true);
-				}
-				else if ( !µ.previousInertia || µ.previousInertia !== inertia ) {//....
-					µ.previousInertia = inertia;
-					µ.previousAxis    = axe;
-					tweener.initAxis(axe, {
-						inertia,
-						size,
-						scrollableWindow,
-						defaultPosition,
-						scrollFirst,
-						scrollableBounds: bounds
-					});
-				}
-				if ( !µ.previousTweener || µ.previousTweener !== tweener ) {// mk axe not modifiable
-					µ.previousTweener && µ.lastTL && µ.previousTweener.rmScrollableAnim(µ.lastTL, µ.previousAxis);
-					if ( items.length )
-						µ.lastTL = tweener.addScrollableAnim(items, axe, size);
-					µ.previousTweener = tweener;
-					µ.previousTweens  = items;
-				}
-				else if ( µ.previousTweens !== items && !(µ.previousTweens && deepEqual(items, µ.previousTweens)) ) {
-					µ.lastTL && µ.previousTweener && µ.previousTweener.rmScrollableAnim(µ.lastTL, µ.previousAxis);
-					µ.lastTL = null;
-					if ( items.length )
-						µ.lastTL = tweener.addScrollableAnim(items, axe, size);
-					µ.previousTweens = items;
-				}
-				return <React.Fragment/>;
-			}
-		}
-	</TweenerContext.Consumer>;
+		}, [])
+	return <React.Fragment/>;
 }

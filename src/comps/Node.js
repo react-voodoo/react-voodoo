@@ -42,7 +42,7 @@ function setTarget( anims, target ) {
 	)
 }
 
-//@todo : rewrite with hooks & fix bug ( why does it work like that ? :D )
+//@todo : rewrite with hooks & fix bug
 export default class Node extends React.Component {
 	
 	static propTypes = {};
