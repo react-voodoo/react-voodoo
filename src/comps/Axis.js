@@ -25,11 +25,9 @@
  */
 
 import deepEqual from "fast-deep-equal";
-import PropTypes from "prop-types";
 import React     from 'react';
 import useVoodoo from "../hooks/useVoodoo";
 
-import TweenerContext from "./TweenerContext";
 
 export default ( {
 	                 children,
@@ -54,9 +52,11 @@ export default ( {
 			scrollableBounds: bounds
 		}, true);
 	}
-	else if ( !µ.previousInertia || µ.previousInertia !== inertia ) {//....
-		µ.previousInertia = inertia;
-		µ.previousAxis    = axe;
+	else if ( !µ.previousInertia || µ.previousInertia !== inertia || µ.previousBounds !== bounds || µ.previousScrollableWindow !== scrollableWindow ) {//....
+		µ.previousInertia          = inertia;
+		µ.previousAxis             = axe;
+		µ.previousBounds           = bounds;
+		µ.previousScrollableWindow = scrollableWindow;
 		tweener.initAxis(axe, {
 			inertia,
 			size,
@@ -73,7 +73,7 @@ export default ( {
 		µ.previousTweener = tweener;
 		µ.previousTweens  = items;
 	}
-	else if ( µ.previousTweens !== items && !(µ.previousTweens && deepEqual(items, µ.previousTweens)) ) {
+	else if ( µ.previousTweens !== items && !(µ.previousTweens && deepEqual(items, µ.previousTweens)) ) {// is deepEq really required ?
 		µ.lastTL && µ.previousTweener && µ.previousTweener.rmScrollableAnim(µ.lastTL, µ.previousAxis);
 		µ.lastTL = null;
 		if ( items.length )
