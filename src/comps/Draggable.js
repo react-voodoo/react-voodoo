@@ -33,7 +33,7 @@ import domUtils  from "../utils/dom";
 const Draggable = ( {
 	                    children,
 	                    Comp = 'div',
-	                    forwardedRef,
+	                    nodeRef,
 	                    items = [],
 	                    xAxis, yAxis, yBoxRef,
 	                    xBoxRef, yRef,
@@ -335,6 +335,12 @@ const Draggable = ( {
 			}
 		},
 		[]
+	)
+	React.useEffect(
+		() => {
+			if ( is.function(nodeRef) )
+				nodeRef(root.current)
+		}
 	)
 	µ.props          = {
 		xAxis, yAxis, yHook, xHook, mouseDrag, touchDrag, tweener: tweener || parentTweener, xBoxRef, yBoxRef, button
