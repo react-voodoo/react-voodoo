@@ -1,6 +1,6 @@
 {
   "name": "react-voodoo",
-  "version": "2.2.1",
+  "version": "2.2.3",
   "license": "MIT",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -13,8 +13,8 @@
     "testAuto": "nodemon --watch ./dist/react-voodoo.js --watch ./etc/tests/**/*.js --exec \"npm test\""
   },
   "peerDependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react": "^16.0.0 || ^17.0.1",
+    "react-dom": "^16.0.0 || ^17.0.1"
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",
