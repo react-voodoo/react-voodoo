@@ -164,6 +164,12 @@ const Sample = ( {} ) => {
                         // called when inertia know where it will snap ( when the user stop dragging )
                         willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},
 
+                        // called when inertia end
+	                    onStop  : ( pos, targetWayPointObj ) => {},
+                        
+                        // called when inertia end on a snap
+	                    onSnap  : ( snapIndex, targetWayPointObj ) => {},
+
                         // list of waypoints object ( only support auto snap 50/50 for now )
                         wayPoints : [{ at: 100 }, { at: 200 }]
                     }

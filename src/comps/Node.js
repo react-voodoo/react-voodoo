@@ -67,9 +67,8 @@ const Node = ( {
 	                                   pos, noRef),
 	    axisItemsChange;
 	
-	//console.warn("render2 : ", this.__tweenableId,
-	// this._currentTweener, parentTweener, this._currentTweener !==
-	// parentTweener)
+	
+	// remove refs when unmount
 	React.useEffect(
 		() => () => {
 			if ( µ._tweenAxisObj ) {
@@ -86,29 +85,43 @@ const Node = ( {
 		},
 		[]
 	)
-	
-	if ( µ._currentTweener !== parentTweener || µ._previousScrollable !== tweenAxis ) {
-		axisItemsChange = µ._tweenAxis !== tweenAxis && !(µ._tweenAxis && deepEqual(tweenAxis, µ._tweenAxis));
+	// register axes if tweener or node axis items change
+	axisItemsChange = µ._tweenAxis !== tweenAxis && !(µ._tweenAxis && deepEqual(tweenAxis, µ._tweenAxis))
+		|| (tweenAxis && !µ._tweenAxis);
+	if ( axisItemsChange || µ._currentTweener !== parentTweener || µ._previousScrollable !== tweenAxis ) {
+		
+		// if items changes rm the old items
 		if ( µ._currentTweener && axisItemsChange ) {
 			µ._tweenAxisObj && Object.keys(µ._tweenAxisObj)
 			                         .forEach(axe => µ._currentTweener.rmScrollableAnim(µ._tweenAxisObj[axe], axe));
 			
 		}
 		//console.log(twRef, axisItemsChange, µ._tweenAxis, tweenAxis)
+		
+		// if tweener changes rm the node ref
 		if ( µ._currentTweener && µ._currentTweener !== parentTweener ) {
 			µ._currentTweener.rmTweenRef(id);
 		}
+		
+		// if items changes reg the items on the tweener
 		if ( axisItemsChange ) {
 			µ._tweenAxis = tweenAxis;
 			if ( tweenAxis && is.array(tweenAxis) )
 				µ._tweenAxisObj = { scrollY: parentTweener.addScrollableAnim(setTarget(tweenAxis, id)) };
 			else
-				µ._tweenAxisObj = tweenAxis && Object.keys(tweenAxis)
-				                                     .reduce(( h, axe ) => (h[axe] = parentTweener.addScrollableAnim(setTarget(tweenAxis[axe], id), axe), h), {});
+				µ._tweenAxisObj = tweenAxis &&
+					Object.keys(tweenAxis)
+					      .reduce(
+						      ( h, axe ) =>
+							      (
+								      h[axe] = parentTweener.addScrollableAnim(setTarget(tweenAxis[axe], id), axe),
+									      h
+							      ), {});
 			twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
 			                               pos, noRef)
 		}
 		
+		// anyway, if there change set the last css values
 		twRef.style = { ...parentTweener._updateTweenRef(id, true) };
 		
 		if ( props.hasOwnProperty("isRoot") ) {

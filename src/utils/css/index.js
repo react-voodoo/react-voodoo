@@ -27,11 +27,11 @@
 
 import {addCss}    from "../tweenTools";
 import {
-	expandShorthandProperty, isShorthandProperty, isValidDeclaration
+	expandShorthandProperty, isShorthandProperty, isValidDeclaration, props
 }                  from "./cssUtils";
 import cssDemuxers from "./demux/(*).js";
 
-import {int, multi, number, ratio, color, any} from "./demux/typed/(*).js";
+import primitiveTypes, {int, multi, number, ratio, color, any} from "./demux/typed/(*).js";
 
 const cssDemux = {
 	...cssDemuxers,
@@ -64,9 +64,30 @@ const cssDemux = {
 };
 
 
+export function getMuxerTypeOfProperty( property ) {
+	let type  = props[property],
+	    types = type && type.types;
+	if ( !types ) {
+		return any;
+	}
+	for ( let i = 0; i < types.length; i++ ) {
+		switch ( types[i] ) {
+			case "length":
+			case "number":
+			case "length-percentage-calc":
+				return number;
+			case "integer":
+				return int;
+			case "color":
+				return color;
+		}
+	}
+	return any;
+};
+
 export function clearTweenableValue( cssKey, twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
 	let path = twKey.split('_'), tmpKey;// not optimal at all
-	cssDemux[path[0]]?.release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues)
+	muxerMap[path[0]]?.release(twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues)
 }
 
 /**
@@ -121,7 +142,7 @@ export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, noPro
 				                (demuxers[key] = cssDemux[key]).mux(key, fTween[key], deMuxedTween, data, initials, noPropLock, reOrder)
 			                }
 			                else
-				                (demuxers[key] = any).mux(key, fTween[key], deMuxedTween, data, initials, noPropLock, reOrder)
+				                (demuxers[key] = getMuxerTypeOfProperty(key)).mux(key, fTween[key], deMuxedTween, data, initials, noPropLock, reOrder)
 		                }
 	                );
 	return excluded;
@@ -161,7 +182,6 @@ export function deMuxLine( tweenLine, initials, data, demuxers, noPropLock ) {
 		    },
 		    []
 	    );
-	//console.log(allPropsById)
 	!noPropLock && Object.keys(allPropsById)
 	                     .forEach(
 		                     id => deMuxTween(allPropsById[id], {}, {}, data[id], demuxers[id])

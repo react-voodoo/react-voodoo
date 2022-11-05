@@ -189,11 +189,18 @@ const Sample = ( {} ) => {
 							// should return instantaneous move to do if wanted
 							shouldLoop: ( currentPos, delta ) => ( currentPos > 500 ? -500 : null ),
 
-                        // called when inertia know where it will end ( when the user stop dragging )
-                        willEnd  : ( targetPos, targetDelta, duration ) => {},
+                            // called when inertia know where it will end ( when the user stop dragging )
+                            willEnd  : ( targetPos, targetDelta, duration ) => {},
+                            
 							// called when inertia know where it will snap ( when the user stop dragging )   
-							willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},
+							willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},							
 							
+							// called when inertia end
+							onStop  : ( pos, targetWayPointObj ) => {},
+							
+							// called when inertia end on a snap
+							onSnap  : ( snapIndex, targetWayPointObj ) => {},
+                            
 							// list of waypoints object ( only support auto snap for now ) 
 							wayPoints : [{ at: 100 }, { at: 200 }]
 						}

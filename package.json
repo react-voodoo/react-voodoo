@@ -1,6 +1,6 @@
 {
   "name": "react-voodoo",
-  "version": "2.2.3",
+  "version": "2.3.0",
   "license": "MIT",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",

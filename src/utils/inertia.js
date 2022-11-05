@@ -112,6 +112,8 @@ export default class Inertia {
 		_.wayPoints       = opt.wayPoints;
 		_.conf.willStop   = opt.willStop;
 		_.conf.willSnap   = opt.willSnap;
+		_.conf.onStop     = opt.onStop;
+		_.conf.onSnap     = opt.onSnap;
 		_.conf.shouldLoop = opt.shouldLoop;
 	}
 	
@@ -294,8 +296,11 @@ export default class Inertia {
 				//_.lastSnapTm           = Date.now();
 			}
 			
-			if ( _.conf.onInertiaEnd ) {
-				_.conf.onInertiaEnd(_.pos, _.currentWayPoint)
+			if ( _.conf.onStop ) {
+				_.conf.onStop(_.pos, _.currentWayPoint)
+			}
+			if ( _.conf.onSnap ) {
+				_.conf.onSnap(_.currentWayPointIndex, _.currentWayPoint)
 			}
 		}
 		

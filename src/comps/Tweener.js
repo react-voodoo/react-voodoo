@@ -778,25 +778,6 @@ export default class Tweener extends React.Component {
 	}
 	
 	/**
-	 * Return scrollable parent node list basing a dom node
-	 * @param node
-	 * @returns {T[]}
-	 */
-	getScrollableNodes( node ) {
-		let scrollable = domUtils.findReactParents(node), _ = this._;
-		scrollable     = _.rootRef &&
-			_.rootRef.current &&
-			_.rootRef.current.hookScrollableTargets &&
-			_.rootRef.current.hookScrollableTargets(scrollable)
-			|| scrollable;
-		
-		return scrollable.map(
-			id => (is.string(id)
-			       ? this._.refs[id] && ReactDom.findDOMNode(this._.refs[id]) || this.refs[id] || document.getElementById(id)
-			       : id));
-	}
-	
-	/**
 	 * Hook to know if the composed element allow scrolling
 	 * @returns {boolean}
 	 */
@@ -879,22 +860,6 @@ export default class Tweener extends React.Component {
 		return active;
 	}
 	
-	dispatchScroll( delta, axe = "scrollY" ) {
-		let prevent,
-		    dim    = this.axes[axe],
-		    oldPos = dim && dim.scrollPos,
-		    newPos = oldPos + delta;
-		
-		if ( dim && oldPos !== newPos ) {
-			
-			dim.inertia.dispatch(delta, 100);
-			!dim.inertiaFrame && this.applyInertia(dim, axe);
-			
-		}
-		
-		return prevent;
-	}
-	
 	isAxisOut( axis, v, abs ) {
 		let _   = this._,
 		    dim = this.axes && this.axes[axis],
@@ -910,69 +875,6 @@ export default class Tweener extends React.Component {
 				:
 				(pos <= 0 || pos >= dim.scrollableArea)
 			);
-	}
-	
-	_doDispatch( target, dx, dy, holding ) {
-		let style,
-		    Comps,
-		    headTarget = target,
-		    nodeInertia,
-		    i;
-		
-		// check if there scrollable stuff in dom targets
-		// get all the parents components & dom node of an dom element ( from fibers )
-		
-		Comps = this.getScrollableNodes(headTarget);
-		//console.log("dispatching ", dx, dy, Comps);
-		for ( i = 0; i < Comps.length; i++ ) {
-			// react comp with tweener support
-			if ( Comps[i].__isTweener ) {
-				//debugger
-				//console.log(Comps[i], dx, dy, Comps[i].isAxisOut("scrollX", dx),
-				// Comps[i].isAxisOut("scrollY", dy));
-				if ( !Comps[i].isAxisOut("scrollX", dx) && (!Comps[i].componentShouldScroll || Comps[i].componentShouldScroll("scrollX", dx)) ) {
-					Comps[i].dispatchScroll(dx, "scrollX", holding);
-					dx = 0;
-				}
-				if ( !Comps[i].isAxisOut("scrollY", dy) && (!Comps[i].componentShouldScroll || Comps[i].componentShouldScroll("scrollY", dy)) ) {
-					Comps[i].dispatchScroll(dy, "scrollY", holding);
-					dy = 0;
-				}
-			}
-			// dom element
-			else if ( is.element(Comps[i]) ) {
-				style = getComputedStyle(Comps[i], null)
-				if ( /(auto|scroll)/.test(
-					style.getPropertyValue("overflow")
-					+ style.getPropertyValue("overflow-x")
-					+ style.getPropertyValue("overflow-y")
-				)
-				) {
-					if (
-						(dy < 0 && Comps[i].scrollTop !== 0)
-						||
-						(dy > 0 && Comps[i].scrollTop !== (Comps[i].scrollHeight - Comps[i].clientHeight))
-					) {
-						return;
-						//nodeInertia.y.dispatch(dy * 10)
-						//dy = 0;
-					} // let the node do this scroll
-					//if ( nodeInertia.x.isOutbound(dx) ) {
-					//	nodeInertia.x.dispatch(dx * 10)
-					//	dx = 0;
-					//} // let the node do this scroll
-				}
-				
-				//headTarget = headTarget.parentNode;
-				//if ( headTarget === document || headTarget === target )
-				//	break;
-			}
-			if ( !dx && !dy )
-				break;
-		}
-		this._updateNodeInertia();
-		if ( !dx && !dy )
-			return true;
 	}
 	
 	_activateNodeInertia( node ) {
@@ -1024,7 +926,6 @@ export default class Tweener extends React.Component {
 			this._inertiaRaf = requestAnimationFrame(this._updateNodeInertia)
 		else this._inertiaRaf = null;
 	}
-	
 	
 	// ------------------------------------------------------------
 	// --------------- Initialization & drawers -------------------
@@ -1098,7 +999,6 @@ export default class Tweener extends React.Component {
 	// ------------------------------------------------------------
 	// --------------- React Hooks --------------------------------
 	// ------------------------------------------------------------
-	
 	
 	componentWillUnmount() {
 		let node = this.getRootNode();

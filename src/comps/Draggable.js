@@ -68,7 +68,6 @@ const Draggable = ( {
 			    },
 			
 			    /**
-			     * todo rewrite or use lib
 			     * Init touch & scroll listeners
 			     * Drive scroll & drag values updates
 			     * @private
@@ -328,7 +327,6 @@ const Draggable = ( {
 				if ( µ._.scrollEnabled ) {
 					µ._.scrollEnabled = false;
 					
-					//µ._.axes          = undefined;
 					node && µ._.dragList && domUtils.removeEvent(node
 						, µ._.dragList)
 				}
