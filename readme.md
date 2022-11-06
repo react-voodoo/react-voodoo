@@ -11,6 +11,11 @@ ___
 <a href="https://travis-ci.org/react-voodoo/react-voodoo">
 <img src="https://travis-ci.org/react-voodoo/react-voodoo.svg?branch=master" alt="Build Status" /></a>
 <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" />
+<br/>
+<a href="http://creativecommons.org/licenses/by-nd/4.0">
+<img src="https://img.shields.io/badge/License-CC%20BY--ND%204.0-lightgrey.svg" alt="License: CC BY-ND 4.0" /></a>
+<a href="http://www.gnu.org/licenses/agpl-3.0">
+<img src="https://img.shields.io/badge/License-AGPL%20v3-blue.svg" alt="License: AGPL v3" /></a>
 </p>
 
 
@@ -229,12 +234,10 @@ const Sample = ( {} ) => {
 }
 ```
 
-## todo  ?
+## License  ?
 
-- add missing interpolator / strategy ( background, borders, ... )
-- Doc, tests & code cleaning
-- lot of various simple and/or smart optims / recycling
-- SVG support
+Using CC BY-NC, you can use it in commercial apps, but you can't distribute modified versions.<br/>
+Using AGPL, you can distribute modified versions but theses versions must be AGPL too.
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
 [![*](https://www.google-analytics.com/collect?v=1&tid=UA-82058889-1&cid=555&t=event&ec=project&ea=view&dp=%2Fproject%2Freact-voodoo&dt=readme)](#)

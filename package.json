@@ -1,7 +1,7 @@
 {
   "name": "react-voodoo",
-  "version": "2.3.0",
-  "license": "MIT",
+  "version": "2.4.0",
+  "license": "(CC-BY-ND-4.0 OR AGPL-3.0-only)",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
   "repository": "https://github.com/react-voodoo/react-voodoo",
@@ -10,7 +10,8 @@
     "build": "lpack",
     "devLib": "lpack :staging -w",
     "test": "echo ok",
-    "testAuto": "nodemon --watch ./dist/react-voodoo.js --watch ./etc/tests/**/*.js --exec \"npm test\""
+    "testAuto": "nodemon --watch ./dist/react-voodoo.js --watch ./etc/tests/**/*.js --exec \"npm test\"",
+    "setupLayers": "lpack-setup"
   },
   "peerDependencies": {
     "react": "^16.0.0 || ^17.0.1",
