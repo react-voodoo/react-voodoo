@@ -236,7 +236,7 @@ const Sample = ( {} ) => {
 
 ## License  ?
 
-Using CC BY-NC, you can use it in commercial apps, but you can't distribute modified versions.<br/>
+Using CC BY-ND, you can use it in commercial apps, but you can't distribute modified versions.<br/>
 Using AGPL, you can distribute modified versions but theses versions must be AGPL too.
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
