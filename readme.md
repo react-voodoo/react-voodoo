@@ -60,177 +60,186 @@ react-voodoo still miss some interpolator ( like background or borders ).<br/>
 "all in one" example :
 
 ```jsx harmony
-
 import React from "react";
 import Voodoo from "react-voodoo";
 import {itemTweenAxis, tweenArrayWithTargets} from "./somewhere";
 
 const styleSample = {
-        height : "50%",
-        
-        // the tweener deal with multiple units 
-        // it will use css calc fn if there's more than 1 unit used 
-        width : ["50%", "10vw", "-50px", ".2box"],
-
-        // transform can use multiple "layers"
-        transform: [
-            {
-                // use rotate(X|Y|Z) & translate(X|Y|Z)
-                rotateX:"25deg"
-            }, 
-            {
-                translateZ: "-.2box"
-            }
-        ],
-    
-        filter: 
-            {
-                blur:"5px"
-            }
+	height : "50%",
+	
+	// the tweener deal with multiple units 
+	// it will use css calc fn if there's more than 1 unit used 
+	width : ["50%", "10vw", "-50px", ".2box"],
+	
+	// transform can use multiple "layers"
+	transform: [
+		{
+			// use rotate(X|Y|Z) & translate(X|Y|Z)
+			rotateX:"25deg"
+		},
+		{
+			translateZ: "-.2box"
+		}
+	],
+	
+	filter:
+		{
+			blur:"5px"
+		}
 };
-const axisSample = [
+const axisSample = [// Examples of tween descriptors
 	{
-        target: "someTweenRefId",   // target tween ref id ( optional if used as tweenAxis on a TweenRef )
-        from    : 0,                // tween start position
-        duration: 100,              // tween duration
-        easeFn  : "easeCircleIn",   // function or easing fn id from [d3-ease](https://github.com/d3/d3-ease)
-        
-        apply   : {// relative css values to be applied  
-            // Same syntax as the styles
-            transform: [{}, {
-                translateZ: "-.2box"
-            }]
-        }
-    },
-    {
-        from     : 40,
-        duration : 20,
-        
-	    // triggered when axis has scrolled in the Event period 
-	    // delta : [-1,1] is the update inside the Event period
-	    entering:(delta)=>false,
-        
-	    // triggered when axis has scrolled in the Event period
-	    // newPos, precPos : [0,1] position inside the Event period
-	    // delta : [-1,1] is the update inside the Event period
-	    moving:(newPos, precPos, delta)=>false,
-        
-	    // triggered when axis has scrolled out the Event period
-	    // delta : [-1,1] is the update inside the Event period
-	    leaving:(delta)=>false
-    }
+		target: "someTweenRefId",   // target Voodoo.Node id ( optional if used as parameter on a Voodoo.Node as it will target it )
+		from    : 0,                // tween start position
+		duration: 100,              // tween duration
+		easeFn  : "easeCircleIn",   // function or easing fn id from [d3-ease](https://github.com/d3/d3-ease)
+		
+		apply   : {// relative css values to be applied  
+			// Same syntax as the styles
+			transform: [{}, {
+				translateZ: "-.2box"
+			}]
+		}
+	},
+	{
+		from     : 40,
+		duration : 20,
+		
+		// triggered when axis has scrolled in the Event period 
+		// delta : a float value between [-1,1] is the update inside the Event period
+		entering:(delta)=>false,
+		
+		// triggered when axis has scrolled in the Event period
+		// newPos, precPos : float values between [0,1] position inside the Event period
+		// delta :a float value between  [-1,1] is the update inside the Event period
+		moving:(newPos, precPos, delta)=>false,
+		
+		// triggered when axis has scrolled out the Event period
+		// delta :a float value between  [-1,1] is the update inside the Event period
+		leaving:(delta)=>false
+	}
 ];
 
 const Sample = ( {} ) => {
-    const //[parentTweener]      = Voodoo.hook(true),
-          [tweener, ViewBox]   = Voodoo.hook();
-    
-    // Voodoo.hook({name:"root"}) // tweener instance can be nammed like this
-    // Voodoo.hook("root")        // we can then get theirs ref like this 
-
-    React.useEffect(
-        e => tweener?.watchAxis("scrollY", (pos)=>doSomething()),
-        [tweener]
-    )
-
-    // once drawn :
-    // tweener.axes.(axisId).scrollPos
-    // tweener.axes.(axisId).scrollTo(targetPos, duration, easeFn)
-    // tweener.scrollTo(targetPos, duration, axisId, easeFn)
-
-    return <ViewBox className={ "container" }>
-        <Voodoo.Axis
-
-            id={"scrollY"}          // Tween axis Id
-            defaultPosition={100}   // default start position
-
-            // Global scrollable tween with theirs TweenRef target ids
-            items={tweenArrayWithTargets}
-
-            // size of the scrollable window for drag synchronisation
-            scrollableWindow={ 200 }
-
-            // default length of this scrollable axis
-            size={ 1000 }
-
-            // optional bounds ( inertia will target them if target pos is out )
-            bounds={ { min : 100, max : 900 } }
-
-            // inertia cfg ( false to disable it )
-            inertia={
-                    {
-                        // called when inertia is updated
-                        // should return instantaneous move to do if wanted
-                        shouldLoop: ( currentPos ) => ( currentPos > 500 ? -500 : null ),
-
-                        // called when inertia know where it will end ( when the user stop dragging )
-                        willEnd  : ( targetPos, targetDelta, duration ) => {},
-
-                        // called when inertia know where it will snap ( when the user stop dragging )
-                        willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},
-
-                        // called when inertia end
-	                    onStop  : ( pos, targetWayPointObj ) => {},
-                        
-                        // called when inertia end on a snap
-	                    onSnap  : ( snapIndex, targetWayPointObj ) => {},
-
-                        // list of waypoints object ( only support auto snap 50/50 for now )
-                        wayPoints : [{ at: 100 }, { at: 200 }]
-                    }
-                }
-        />
-
-        <Voodoo.Node
-            id={"testItem"} // optional id
-
-            style={styleSample}// initial styles : css syntax + voodoo tweener units & transform management
-
-            // Scrollable tween with no target node id required ( it will be ignored )
-            axes={{ scrollY : sampleAxis }}
-
-            onClick={// all unknow props are passed to the child node
-                (e)=>{
-                    // start playing an anim
-                    tweener.pushAnim(
-                            // make all tween target "testItem"
-                            Voodoo.tools.target(pushIn, "testItem")
-                        ).then(
-                            (tweenAxis) => {
-                               // doSomething next
-                            }
-                    );
-                }
-            }
-        >
-            <Voodoo.Draggable
-                // make drag y move the scrollAnAxis axis
-                // xAxis={ "scrollAnAxis" }
-
-                // scale / inverse dispatched delta
-                // xHook={(delta)=>modify(delta)} 
-
-                // React ref to the box, default to the parent ViewBox 
-                // scale is as follow : (delta / ((xBoxRef||ViewBox).offsetWidth)) * ( axis.scrollableWindow || axis.duration )  
-                // xBoxRef={ref} 
-
-                yAxis={ "scrollY" }// make drag y move the scrollY axis
-                // yHook={(delta)=>modify(delta)}
-                // yBoxRef={ref} 
-
-                // mouseDrag={true} // listen for mouse drag ( default to false )
-                // touchDrag={false} // listen for touch drag ( default to true )
-                
-                // button={1-3} // limit mouse drag to the specified event.button === ( default to 1; the left btn )
-                
-                // * actually Draggable create it's own div node
-                >
-                    <div>
-                        Some content to tween
-                    </div>
-            </Voodoo.Draggable>
-        </Voodoo.Node>
-    </ViewBox>;
+	const //[parentTweener]      = Voodoo.hook(true),
+		[tweener, ViewBox]   = Voodoo.hook();
+	
+	// Voodoo.hook({name:"root"}) // tweener instance can be named like this
+	// Voodoo.hook("root")        // chiild components we can then get theirs ref like this 
+	// Voodoo.hook({	
+	//	    // max click tm in ms before a click become a drag
+	//	    maxClickTm        : 200, 
+	//		// max drag offset in px before a click become a drag
+	//		maxClickOffset    : 100,
+	//		// only apply 1 drag direction  
+	//		dragDirectionLock : false,
+	//		// allow dragging with mouse
+	//		enableMouseDrag   : false
+	//  }
+	//)     
+	
+	React.useEffect(
+		e => tweener?.watchAxis("scrollY", (pos)=>doSomething()),
+		[tweener]
+	)
+	
+	// once drawn :
+	// tweener.axes.(axisId).scrollPos
+	// tweener.axes.(axisId).scrollTo(targetPos, duration, easeFn)
+	// tweener.scrollTo(targetPos, duration, axisId, easeFn)
+	
+	return <ViewBox className={ "container" }>
+		<Voodoo.Axis
+			
+			id={"scrollY"}          // Tween axis Id
+			defaultPosition={100}   // default start position
+			
+			// Array of tween descriptors with theirs Voodoo.Node target ids ( like in axisSample )
+			items={tweenArrayWithTargets}
+			
+			// size of the scrollable window for drag synchronisation
+			scrollableWindow={ 200 }
+			
+			// default length of this scrollable axis
+			size={ 1000 }
+			
+			// optional bounds ( inertia will target them if target pos is out )
+			bounds={ { min : 100, max : 900 } }
+			
+			// inertia cfg ( false to disable it )
+			inertia={
+				{
+					// called when inertia is updated
+					// should return instantaneous move to do if wanted
+					shouldLoop: ( currentPos ) => ( currentPos > 500 ? -500 : null ),
+					
+					// called when inertia know where it will end ( when the user stop dragging )
+					willEnd  : ( targetPos, targetDelta, duration ) => {},
+					
+					// called when inertia know where it will snap ( when the user stop dragging )
+					willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},
+					
+					// called when inertia end
+					onStop  : ( pos, targetWayPointObj ) => {},
+					
+					// called when inertia end on a snap
+					onSnap  : ( snapIndex, targetWayPointObj ) => {},
+					
+					// list of waypoints object ( only support auto snap 50/50 for now )
+					wayPoints : [{ at: 100 }, { at: 200 }]
+				}
+			}
+		/>
+		
+		<Voodoo.Node
+			id={"testItem"} // optional id
+			
+			style={styleSample}// styles applied before any style coming from axes : css syntax + voodoo tweener units & transform management
+			
+			axes={{ scrollY : axisSample }} // Scrollable tweens by axis with no target node id required ( it will be ignored )
+			
+			onClick={// all unknow props are passed to the child node
+				(e)=>{
+					// start playing an anim
+					tweener.pushAnim(
+						// make all tween target "testItem"
+						Voodoo.tools.target(pushIn, "testItem")
+					).then(
+						(tweenAxis) => {
+							// doSomething next
+						}
+					);
+				}
+			}
+		>
+			<Voodoo.Draggable
+				// make drag y move the scrollAnAxis axis
+				// xAxis={ "scrollAnAxis" }
+				
+				// scale / inverse dispatched delta
+				// xHook={(delta)=>modify(delta)} 
+				
+				// React ref to the box, default to the parent ViewBox 
+				// scale is as follow : (delta / ((xBoxRef||ViewBox).offsetWidth)) * ( axis.scrollableWindow || axis.duration )  
+				// xBoxRef={ref} 
+				
+				yAxis={ "scrollY" }// make drag y move the scrollY axis
+				// yHook={(delta)=>modify(delta)}
+				// yBoxRef={ref} 
+				
+				// mouseDrag={true} // listen for mouse drag ( default to false )
+				// touchDrag={false} // listen for touch drag ( default to true )
+				
+				// button={1-3} // limit mouse drag to the specified event.button === ( default to 1; the left btn )
+				
+				// * actually Draggable create it's own div node
+			>
+				<div>
+					Some content to tween
+				</div>
+			</Voodoo.Draggable>
+		</Voodoo.Node>
+	</ViewBox>;
 }
 ```
 
