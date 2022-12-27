@@ -6,244 +6,222 @@ ___
 
 * Please check the sample for latest API ( https://github.com/react-voodoo/react-voodoo-samples )
 
-## Api
+# APIs Voodoo
 
+## Hook & decorators
 
-## Concepts & syntax
+### Voodoo.hook / Voodoo.useVoodoo
 
-### Axis
+```js
 
-In react-voodoo Tween axis are scrollable / swipeable arrays of relatives tween. <br>
-All tween are dynamically composed by [tween-axis](https://github.com/react-voodoo/tween-axis), which make them additive & relative, so they can be applied simultaneously on same values.<br>
-react-voodoo manage the multiples tween-axis & theirs application basing on the react bindings & the browser events.<br>
-
-The same way multiple animations can operate on the same node / properties, multiple Axis can update the same node / properties.   
-
-### Units 
-
-Voodoo tweener allow using multiples units simultaneously on the same properties. 
-
-Example : 
-
-```jsx harmony
+const Sample = ( {} ) => {
+     /**
+      * Voodoo tweener instanciation 
+      */
+	// Classic minimal method
+	const [tweener, ViewBox]                   = Voodoo.hook();
+	// get the first tweener in parents
+	const [parentTweener]                      = Voodoo.hook(true);
+	// Create a tweener with options
+	const [twenerWithNameAndOptions, ViewBox2] = Voodoo.hook(
+		{
+			// Give an id ti this tweener so we can access it's axes in the childs components
+			name: "root",
+			// max click tm in ms before a click become a drag
+			maxClickTm: 200,
+			// max drag offset in px before a click become a drag
+			maxClickOffset: 100,
+			// lock to only 1 drag direction  
+			dragDirectionLock: false,
+			// allow dragging with mouse
+			enableMouseDrag: false
+		}
+	);
+	// get a named parent tweener 
+	const [nammedParentTweener]                = Voodoo.hook("root")
+	
+	/**
+	 * once first render done, axes mainly expose the following :
+	 */
+	// Theirs actual position in :
+	// tweener.axes.(axisId).scrollPos
+	
+	// The "scrollTo" function allowing to manually move the axes positions :
+	// tweener.axes.(axisId).scrollTo(targetPos, duration, easeFn)
+	// tweener.scrollTo(targetPos, duration, axisId, easeFn)
+	
+    // They can also be watched using the "watchAxis" function;
+    // When called, the returned function will disable the listener if executed :
+	React.useEffect(
+		e => tweener?.watchAxis("scrollY", ( pos ) => doSomething()),
+		[tweener]
+	)
+	
+	return <ViewBox className={"container"}/>
 // ...
-    <Voodoo.Node style={
-    	{
-            // the tweener deal with multiple units 
-            // it will use css calc fn if there's more than 1 unit used 
-            width : ["50%", "10vw", "-50px", ".2box"],
-        }
-    }>
-    </Voodoo.Node>
-// ...
+}
 ```
 
-Voodoo tweener add 3 client side only units : 
- - (float)box : 1box = (width or height) of the 1st parent with [asTweener](readme.md#astweener);
- - (float)bh : 1bh = height of the 1st parent with [asTweener](readme.md#astweener);
- - (float)bw : 1bw = width of the 1st parent with [asTweener](readme.md#astweener);
+## Styles descriptors
+
+Voodoo tweener add 3 client side only units :
+- (float)box : 1box = (width or height) of the 1st parent with [asTweener](readme.md#astweener);
+- (float)bh : 1bh = height of the 1st parent with [asTweener](readme.md#astweener);
+- (float)bw : 1bw = width of the 1st parent with [asTweener](readme.md#astweener);
 <!-- - (float)bz : 1bz = perspective of the 1st parent with [asTweener]();-->
 
 * These units are calculated dynamically & updated when the windows trigger resize events
 
-### Styles syntax
+```js
 
-All styles use camelcase css in js syntax except for transform & filter.
+/**
+ * Voodoo.Node style property and the tween descriptors use classic CSS-in-JS declaration 
+ * exept we can specify values using the "box" unit which is a [0-1] ratio of the ViewBox  
+ */
 
-```jsx harmony
-let style = {
-        
-        height : "50%",
-        
-        // the tweener deal with multiple units 
-        // it will use css calc fn if there's more than 1 unit used 
-        width : ["50%", "10vw", "-50px", ".2box"],
+const styleSample = {
+	height: "50%",
+	
+	// the tweener deal with multiple units 
+	// it will use css calc fn if there's more than 1 unit used 
+	width: ["50%", "10vw", "-50px", ".2box"],
+	
+	// transform can use multiple "layers"
+	transform: [
+		{
+			// use rotate(X|Y|Z) & translate(X|Y|Z)
+			rotateX: "25deg"
+		},
+		{
+			translateZ: "-.2box"
+		}
+	],
+	
+	filter:
+		{
+			blur: "5px"
+		}
+};
 
-        // transform can use multiple "layers"
-        transform: [
-            {
-                // use rotate(X|Y|Z) & translate(X|Y|Z)
-                rotateX:"25deg"
-            }, 
-            {
-                translateZ: "-.2box"
-            }
-        ],
-        filter   : {
-            sepia: 100
-        },
-        
-        //boxShadow      : "12px 12cm 2px 1px rgba(0, 0, 255, .2), inset 5px 5px red"
-        boxShadow      : {
-            blurRadius  : 30,
-            color       : "rgba(0, 0, 255, .2)",// default is black
-            inset       : false,// only value not relative
-            offsetX     : "-20em",
-            offsetY     : -20,
-            spreadRadius: 1
-        },
-    
-}
 ```
 
-### tween syntax
+## Tween descriptors
 
-```jsx harmony
-let anim        = [
+```js
+
+const axisSample = [// Examples of tween descriptors
 	{
-		// target tween ref id ( optional if used as tweenAxis on a TweenRef ) 
-		target: "someTweenRefId",
+		target  : "someTweenRefId", // target Voodoo.Node id ( optional if used as parameter on a Voodoo.Node as it will target it )
+		from    : 0,                // tween start position
+		duration: 100,              // tween duration
+		easeFn  : "easeCircleIn",   // function or easing fn id from [d3-ease](https://github.com/d3/d3-ease)
 		
-		// tween start position
-		from    : 0,
-		
-		// tween duration 
-		duration: 500,
-		
-		// function or easing fn id from [d3-ease](https://github.com/d3/d3-ease)
-		easeFn  : "easeCircleIn",
-		
-		// relative css values to be applied  
-		apply   : {
+		apply: {// relative css values to be applied  
 			// Same syntax as the styles
 			transform: [{}, {
 				translateZ: "-.2box"
 			}]
 		}
-	}
-];
-```
-
-
-### tween events syntax
-
-```jsx harmony
-let anim        = [
+	},
 	{
-	    type:'Event',
-
-		// tween start position
-		from    : 0,
-
-		// watched duration
-		duration: 500,
+		from    : 40,
+		duration: 20,
 		
 		// triggered when axis has scrolled in the Event period 
-		// delta : [-1,1] is the update inside the Event period
-		entering:(delta)=>false,
+		// delta : a float value between [-1,1] is the update inside the Event period
+		entering: ( delta ) => false,
 		
 		// triggered when axis has scrolled in the Event period
-		// newPos, precPos : [0,1] position inside the Event period
-		// delta : [-1,1] is the update inside the Event period
-		moveTo:(newPos, precPos, delta)=>false,
+		// newPos, precPos : float values between [0,1] position inside the Event period
+		// delta : a float value between  [-1,1] is the update inside the Event period
+		moving: ( newPos, precPos, delta ) => false,
 		
 		// triggered when axis has scrolled out the Event period
-		// delta : [-1,1] is the update inside the Event period
-		leaving:(delta)=>false
+		// delta : a float value between  [-1,1] is the update inside the Event period
+		leaving: ( delta ) => false
 	}
 ];
 ```
 
+- target (string, optional):
 
-## React syntax ( using Hooks )
+The id of the target Voodoo.Node component to be affected by this animation. If this property is not provided, the
+animation or interaction will be applied to the parent Voodoo.Node component.
 
-```jsx harmony
+- from (number, required):
 
-import React from "react";
-import Voodoo from "react-voodoo";
-import {itemTweenAxis, pageTweenAxisWithTargets} from "./somewhere";
+The starting position of the animation.
 
-const Sample = ( {} ) => {
-    const //[parentTweener]      = Voodoo.hook(true),
-          [tweener, ViewBox]   = Voodoo.hook();
+- duration (number, required):
 
-    React.useEffect(
-        e => tweener?.watchAxis("scrollY", (pos)=>doSomething()),
-        [tweener]
-    )
+The duration of the animation.
 
-		return <div>
-			<Voodoo.Axis
-			    // Tween axis Id
-				id={"scrollY"}
-				
-				// default start position
-				defaultPosition={100}
-				
-				// Global scrollable tween with theirs Node target ids
-                items={pageTweenAxisWithTargets}
-                
-                // size of the scrollable window for drag synchronisation
-				scrollableWindow={ 200 }
-				
-				// optional bounds ( inertia will target them if target pos is out )
-				bounds={ { min : 100, max : 900 } }
-				 
-				// default length of this scrollable axis
-				size={ 1000 }
-				 
-				// inertia cfg ( false to disable it ) 
-				inertia={
-						{
-							// called when inertia is updated
-							// should return instantaneous move to do if wanted
-							shouldLoop: ( currentPos, delta ) => ( currentPos > 500 ? -500 : null ),
+- easeFn (string or function, optional):
 
-                            // called when inertia know where it will end ( when the user stop dragging )
-                            willEnd  : ( targetPos, targetDelta, duration ) => {},
-                            
-							// called when inertia know where it will snap ( when the user stop dragging )   
-							willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},							
-							
-							// called when inertia end
-							onStop  : ( pos, targetWayPointObj ) => {},
-							
-							// called when inertia end on a snap
-							onSnap  : ( snapIndex, targetWayPointObj ) => {},
-                            
-							// list of waypoints object ( only support auto snap for now ) 
-							wayPoints : [{ at: 100 }, { at: 200 }]
-						}
-					}
-			/>
-			
-            <Voodoo.Node
-                id={"testItem"} // optional id
-                style={
-                	{
-                		// css syntax + voodoo tweener units & transform management 
-                	}
-                }
-                // Scrollable tween with no id required ( it will be ignored )
-                // * will use scrollY axis as default                 
-                axes={
-                	{
-                		scrollY : itemTweenAxis
-                	}
-                } 
-                onClick={
-                	(e, tweener)=>{
-                		// start playing an anim
-                	    tweener.pushAnim(
-                                // make all tween target "testItem"
-                                tweenTools.target(pushIn, "testItem")
-                            ).then(
-                            	(tweenAxis) => {
-                                   // doSomething next
-                                }
-                            );
-                    }
-                }
-            >
-                <div>
-                    Some content to tween
-                </div>
-            </Voodoo.Node>
-		</div>;
-    }
-}
+The easing function to be used when applying the animation CSS values.
+This can either be the id of a function from the d3-ease library, or a custom easing function.
 
-```
+- apply (object, optional):
+
+An object containing the CSS properties and values to be applied to the target element during the animation or
+interaction. The syntax for this object is the same as the style prop in a Voodoo.Node component.
+
+- entering (function, optional):
+
+A callback function to be triggered when the scrolling axis enters the period of the animation or interaction. The
+function will be passed a single argument delta, which is a float value between -1 and 1 representing the change in
+position within the period.
+
+- moving (function, optional):
+
+A callback function to be triggered while the scrolling axis is within the period of the animation. The function will be
+passed three arguments: newPos, precPos, and delta, which represent the current position within the period, the previous
+position within the period, and the change in position within the period, respectively. All three arguments are float
+values between 0 and 1.
+
+- leaving (function, optional):
+
+A callback function to be triggered when the scrolling axis leave the period of the animation. The function will be
+passed a single argument delta, which is a float value between -1 and 1 representing the change in position within the
+period.
+
+## Components
+
+### Voodoo.Axis
+
+In react-voodoo Tween axis are scrollable / swipeable arrays of relatives tween. <br>
+All tween are dynamically composed by [tween-axis](https://github.com/react-voodoo/tween-axis), which make them additive & relative, so they can be applied simultaneously on same values.<br>
+react-voodoo manage the multiples tween-axis & theirs application basing on the react bindings & the browser events.<br>
+
+So Voodoo.Axis is a component that creates a "virtual movable" axis. When moving its position, it will tween Voodoo.Node
+component styles targeted by it's tween descriptors.
+
+Note that multiple axes orchestrating multiple tween can update the sames CSS properties on the same Voodoo.Node simultaneously ( that's the whole point of using Voodoo :) ).
+
+Parameters
+
+- id (string, required):
+
+A unique identifier for the scrolling axis. This is used to reference the axis in other Voodoo components and functions.
+
+- defaultPosition (number, optional):
+
+The default starting position for the scrolling axis. This is a value representing the initial position of the axis. The
+default value is 0.
+
+- items (array, optional):
+
+An array of objects describing the transition to be applied while moving this axis position. Each object should have the
+properties described in [Tween descriptors](#Tween descriptors).
+
+- scrollableWindow (number, optional):
+
+The size of the axis window; this value and the axis size define the drag force. We can use it to synchronize the drag
+amplitude. If this prop is not provided, default is drag synchronization will not be enabled.
+(delta / ((xBoxRef||ViewBox).offsetWidth)) * ( axis.scrollableWindow || axis.duration )
+
+### Voodoo.Node
+
 
 ## Syntax Using decorators
 ### asTweener
