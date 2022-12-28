@@ -167,8 +167,6 @@ export default class Inertia {
 		else {
 			_.lastIVelocity = iVel;
 			_.lastVelocity  = ((pos) - (_.lastBasePos)) / (now - _.lastBaseTs);
-			//if ( _.lastVelocity < -50 )
-			//	debugger
 			_.baseTS              = now;
 			_.targetDist          = 0;
 			_.lastInertiaPos      = 0;

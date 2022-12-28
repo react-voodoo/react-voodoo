@@ -121,32 +121,48 @@ const axisSample = [// Examples of tween descriptors
 ];
 
 const Sample = ( {} ) => {
-	const //[parentTweener]      = Voodoo.hook(true),
-		[tweener, ViewBox]   = Voodoo.hook();
 	
-	// Voodoo.hook({name:"root"}) // tweener instance can be named like this
-	// Voodoo.hook("root")        // chiild components we can then get theirs ref like this 
-	// Voodoo.hook({	
-	//	    // max click tm in ms before a click become a drag
-	//	    maxClickTm        : 200, 
-	//		// max drag offset in px before a click become a drag
-	//		maxClickOffset    : 100,
-	//		// only apply 1 drag direction  
-	//		dragDirectionLock : false,
-	//		// allow dragging with mouse
-	//		enableMouseDrag   : false
-	//  }
-	//)     
+	/**
+	 * Voodoo tweener instanciation
+	 */
+	// Classic minimal method
+	const [tweener, ViewBox]                   = Voodoo.hook();
+	// get the first tweener in parents
+	const [parentTweener]                      = Voodoo.hook(true);
+	// Create a tweener with options
+	const [twenerWithNameAndOptions, ViewBox2] = Voodoo.hook(
+		{
+			// Give an id to this tweener so we can access it's axes in the childs components
+			name: "root",
+			// max click tm in ms before a click become a drag
+			maxClickTm: 200,
+			// max drag offset in px before a click become a drag
+			maxClickOffset: 100,
+			// lock to only 1 drag direction  
+			dragDirectionLock: false,
+			// allow dragging with mouse
+			enableMouseDrag: false
+		}
+	);
+	// get a named parent tweener 
+	const [nammedParentTweener]                = Voodoo.hook("root")
 	
-	React.useEffect(
-		e => tweener?.watchAxis("scrollY", (pos)=>doSomething()),
-		[tweener]
-	)
-	
-	// once drawn :
+	/**
+	 * once first render done, axes expose the following values & functions :
+	 */
+	// Theirs actual position in :
 	// tweener.axes.(axisId).scrollPos
+	
+	// The "scrollTo" function allowing to manually move the axes positions :
 	// tweener.axes.(axisId).scrollTo(targetPos, duration, easeFn)
 	// tweener.scrollTo(targetPos, duration, axisId, easeFn)
+	
+	// They can also be watched using the "watchAxis" function;
+	// When called, the returned function will disable the listener if executed :
+	React.useEffect(
+		e => tweener?.watchAxis("scrollY", ( pos ) => doSomething()),
+		[tweener]
+	)
 	
 	return <ViewBox className={ "container" }>
 		<Voodoo.Axis
