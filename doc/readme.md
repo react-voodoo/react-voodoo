@@ -1,11 +1,10 @@
 <h1 align="center">Drafty react-voodoo doc</h1>
 
 ___
-
 - [React Voodoo](#react-voodoo)
     * [How to instantiate](#how-to-instantiate)
-        + [Using Hooks ( Voodoo.hook / Voodoo.useVoodoo )](#using-hooks---voodoohook---voodoousevoodoo--)
-        + [Using decorators ( asTweener )](#using-decorators---astweener--)
+        + [Using Hooks : Voodoo.hook & Voodoo.useVoodoo](#using-hooks---voodoohook---voodoousevoodoo)
+        + [Using decorators : Voodoo.asTweener](#using-decorators---voodooastweener)
     * [Voodoo data structure formats](#voodoo-data-structure-formats)
         + [CSS-in-JS Style descriptors](#css-in-js-style-descriptors)
         + [Tween / transitions descriptors](#tween---transitions-descriptors)
@@ -14,7 +13,6 @@ ___
         + [Voodoo.Node](#voodoonode)
         + [Voodoo.Draggable](#voodoodraggable)
     * [tweenTools](#tweentools)
-
 ---
 
 * Please check the sample for latest API ( https://github.com/react-voodoo/react-voodoo-samples )
@@ -23,7 +21,7 @@ ___
 
 ## How to instantiate 
 
-### Using Hooks ( Voodoo.hook / Voodoo.useVoodoo )
+### Using Hooks : Voodoo.hook & Voodoo.useVoodoo
 
 React Voodoo can be used via React Hooks style via the "Voodoo.hook" function.
 
@@ -79,7 +77,7 @@ const Sample = ( {} ) => {
 // ...
 }
 ```
-### Using decorators ( asTweener )
+### Using decorators : Voodoo.asTweener 
 
 Return a react-voodoo tweener component composing the target React component
 
@@ -279,18 +277,14 @@ period.
 ### Voodoo.Axis
 
 In react-voodoo Tween axis are scrollable / swipeable arrays of relatives tween. <br>
-All tween are dynamically composed by [tween-axis](https://github.com/react-voodoo/tween-axis), which make them additive & relative, so they can be applied simultaneously on same values.<br>
-react-voodoo manage the multiples tween-axis & theirs application basing on the react bindings & the browser events.<br>
-
 Voodoo.Axis creates a "virtual" axis that, when moving its position will tween Voodoo.Node styles according its tween descriptors.
 
-Note that multiple axes orchestrating multiple tween can update the sames CSS properties on the same Voodoo.Node simultaneously ( that's the whole point of using Voodoo :) ).
+Note that multiple axes orchestrating multiple tween can update the sames CSS properties on the same Voodoo.Node simultaneously.
 
 ```js
 
 const Sample = ( {} ) => {
-	const //[parentTweener]      = Voodoo.hook(true),
-		[tweener, ViewBox]   = Voodoo.hook();
+	const [tweener, ViewBox]   = Voodoo.hook();
 	
 	return <ViewBox className={ "container" }>
 		<Voodoo.Axis
@@ -456,8 +450,7 @@ const Sample = ( {} ) => {
 
 ### Voodoo.Draggable
 
-Component to move Voodoo Axes basing user touch & drag interactions
-
+Component to scroll the Voodoo.Axis positions basing user dragging interactions
 
 ## tweenTools
 
