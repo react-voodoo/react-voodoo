@@ -3,24 +3,17 @@
 ___
 
 - [React Voodoo](#react-voodoo)
-
-* [How to instantiate](#how-to-instantiate)
-
-+ [Using Hooks : Voodoo.hook & Voodoo.useVoodoo](#using-hooks---voodoohook---voodoousevoodoo)
-+ [Using decorators : Voodoo.asTweener](#using-decorators---voodooastweener)
-
-* [Voodoo data structure formats](#voodoo-data-structure-formats)
-
-+ [CSS-in-JS Style descriptors](#css-in-js-style-descriptors)
-+ [Tween / transitions descriptors](#tween---transitions-descriptors)
-
-* [Components](#components)
-
-+ [Voodoo.Axis](#voodooaxis)
-+ [Voodoo.Node](#voodoonode)
-+ [Voodoo.Draggable](#voodoodraggable)
-
-* [tweenTools](#tweentools)
+  * [How to instantiate](#how-to-instantiate)
+    + [Using Hooks : Voodoo.hook & Voodoo.useVoodoo](#using-hooks---voodoohook---voodoousevoodoo)
+    + [Using decorators : Voodoo.asTweener](#using-decorators---voodooastweener)
+  * [Voodoo data structure & formats](#voodoo-data-structure-formats)
+    + [CSS-in-JS Style descriptors](#css-in-js-style-descriptors)
+    + [Tween / transitions descriptors](#tween---transitions-descriptors)
+  * [Components](#components)
+    + [Voodoo.Axis](#voodooaxis)
+    + [Voodoo.Node](#voodoonode)
+    + [Voodoo.Draggable](#voodoodraggable)
+  * [tweenTools](#tweentools)
 
 ---
 
