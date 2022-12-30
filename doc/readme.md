@@ -13,7 +13,7 @@ ___
     + [Voodoo.Axis](#voodooaxis)
     + [Voodoo.Node](#voodoonode)
     + [Voodoo.Draggable](#voodoodraggable)
-  * [tweenTools](#tweentools)
+  * [Voodoo.tools](#voodootools)
 
 ---
 
@@ -159,9 +159,9 @@ We can use most of the CSS properties using the classic camel-cased CSS in JS sy
 
 Additionally, Voodoo tweener add 3 optional client side only units ( will not work if used server-side ):
 
-- (float)box : 1box = (width or height) of the 1st parent with [asTweener](readme.md#astweener);
-- (float)bh : 1bh = height of the 1st parent with [asTweener](readme.md#astweener);
-- (float)bw : 1bw = width of the 1st parent with [asTweener](readme.md#astweener);
+- (float)box : 1box = (width or height) of the 1st parent ViewBox or with the asTweener decorator;
+- (float)bh : 1bh = height of the 1st parent  ViewBox or with the asTweener decorator;
+- (float)bw : 1bw = width of the 1st parent  ViewBox or with the asTweener decorator;
 
 * These units are calculated dynamically & updated when the windows trigger resize events
 
@@ -239,16 +239,16 @@ const axisSample = [// Examples of tween descriptors
 ];
 ```
 
-| Property | Type | Infos |
-|----------|:-------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| target | string, optional | The id of the target Voodoo.Node component to be affected by this animation. If this property is not provided, the animation or interaction will be applied to the parent Voodoo.Node component. |
-| from | number, required | The starting position of the animation. |
-| duration | number, required | The duration of the animation.|
-| easeFn | string or function, optional | The easing function to be used when applying the animation CSS values. This can either be the id of a function from the d3-ease library, or a custom easing function. |
-| apply | object, optional | An object containing the CSS properties and values to be applied to the target element during the animation or interaction. The syntax for this object is the same as the style prop in a Voodoo.Node component. |
-| entering | function, optional | A callback function to be triggered when the scrolling axis enters the period of the animation or interaction. The function will be passed a single argument delta, which is a float value between -1 and 1 representing the change in position within the period. |
-| moving | function, optional | A callback function to be triggered while the scrolling axis is within the period of the animation. The function will be passed three arguments: newPos, precPos, and delta, which represent the current position within the period, the previous position within the period, and the change in position within the period, respectively. All three arguments are float values between 0 and 1. |
-| leaving | function, optional | A callback function to be triggered when the scrolling axis leave the period of the animation. The function will be passed a single argument delta, which is a float value between -1 and 1 representing the change in position within the period. |
+| Property |             Type             | Infos |
+|----------|:----------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| target   |      string, optional        | The id of the target Voodoo.Node component to be affected by this animation. If this property is not provided, the animation or interaction will be applied to the parent Voodoo.Node component. |
+| from     |       number, required       | The starting position of the animation. |
+| duration |       number, required       | The duration of the animation.|
+| easeFn   | string or function, optional | The easing function to be used when applying the animation CSS values. This can either be the id of a function from the d3-ease library, or a custom easing function. |
+| apply    |       object, optional       | An object containing the CSS properties and values to be applied to the target element during the animation or interaction. The syntax for this object is the same as the style prop in a Voodoo.Node component. |
+| entering |      function, optional      | A callback function to be triggered when the scrolling axis enters the period of the animation or interaction. The function will be passed a single argument delta, which is a float value between -1 and 1 representing the change in position within the period. |
+| moving   |      function, optional      | A callback function to be triggered while the scrolling axis is within the period of the animation. The function will be passed three arguments: newPos, precPos, and delta, which represent the current position within the period, the previous position within the period, and the change in position within the period, respectively. All three arguments are float values between 0 and 1. |
+| leaving  |      function, optional      | A callback function to be triggered when the scrolling axis leave the period of the animation. The function will be passed a single argument delta, which is a float value between -1 and 1 representing the change in position within the period. |
 
 ## Components
 
@@ -318,25 +318,25 @@ const Sample = ( {} ) => {
 
 Properties :
 
-| Property | Type |   Infos   |
+| Property         |                        Type                        |                                                                                                                                                                              Infos                                                                                                                                                                              |
 |------------------|:--------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| id | string, required |  A unique identifier for the scrolling axis. This is used to reference the axis in other Voodoo components and functions.  |
-| defaultPosition | number, optional |  The default starting position for the scrolling axis. This is a value representing the initial position of the axis. The default value is 0.  |
-| items | array, optional |  An array of objects describing the transition to be applied while moving this axis position. Each object should have the properties described in [Tween descriptors](#tween---transitions-descriptors).  |
-| scrollableWindow | number, optional | The size of the axis window; this value and the axis size define the drag force. We can use it to synchronize the drag amplitude. If this prop is not provided, default is drag synchronization will not be enabled. The scroll "force" is determined as follow : (delta / ((xBoxRef (OR) ViewBox).offsetWidth)) * ( axis.scrollableWindow (OR) axis.duration ) |
-| bounds | ```{ min : (number), max : (number) }```, optional |  An optional object with the minimal and maximal positions of this axis when moved by Voodoo.Draggable components  |
-| inertia | object, optional |   The inertia options & hooks to use when moved by Voodoo.Draggable components.   |
+| id               |                 string, required                   |                                                                                                                    A unique identifier for the scrolling axis. This is used to reference the axis in other Voodoo components and functions.                                                                                                                     |
+| defaultPosition  |                  number, optional                  |                                                                                                          The default starting position for the scrolling axis. This is a value representing the initial position of the axis. The default value is 0.                                                                                                           |
+| items            |                  array, optional                   |                                                                             An array of objects describing the transition to be applied while moving this axis position. Each object should have the properties described in [Tween descriptors](#tween---transitions-descriptors).                                                                             |
+| scrollableWindow |                  number, optional                  | The size of the axis window; this value and the axis size define the drag force. We can use it to synchronize the drag amplitude. If this prop is not provided, default is drag synchronization will not be enabled. The scroll "force" is determined as follow : (delta / ((xBoxRef (OR) ViewBox).offsetWidth)) * ( axis.scrollableWindow (OR) axis.duration ) |
+| bounds           | ```{ min : (number), max : (number) }```, optional |                                                                                                                        An optional object with the minimal and maximal positions of this axis when moved by Voodoo.Draggable components                                                                                                                         |
+| inertia          |                  object, optional                  |                                                                                                                                          The inertia options & hooks to use when moved by Voodoo.Draggable components.                                                                                                                                          |
 
 Inertia descriptor provide the following options & hooks :
 
-| Property | Type | Parameters / format                                          |   Infos   |
-|----------|:--------------------------------------------------:|--------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|     shouldLoop     | function, optional | ```pos (float) : The next position before its application``` |      Should return an instantaneous move to do or null.<br/>Use this function to create illusion of infinite scrolling.      |
-|    wayPoints      | array, optional | ```[{ at: (number) }, { at: (number) }, ...] ```             |     List of waypoints object where inertia should snap ( only support auto snap 50/50 for now )       |
-|    willEnd( targetPos, targetDelta, duration )      | function, optional | - targetPos (float) : The position where inertia will end if no further interactions happen<br/>- targetDelta (float) : The distance of the position where inertia will end if no further interactions happen<br/>- duration (number) : The duration of the inertia if no further interactions happen<br/>   |   Called when inertia know where it will end ( when the user stop dragging )                                               |
-|   willSnap( snapIndex, targetWayPointObj )       | function, optional |  - snapIndex (number) : The WayPoint index where inertia will end if no further interactions happen<br>- targetWayPointObj (object) : The WayPoint object where inertia will end if no further interactions happen<br>                                                     |      Called when inertia know where it will snap ( when the user stop dragging )      |
-|   onStop( pos, targetWayPointObj )       | function, optional |     - pos (float) : The axis position<br>- targetWayPointObj (object) : The WayPoint object where inertia ended if there<br>                                                  |     Called when inertia end       |
-|    onSnap( snapIndex, targetWayPointObj )      |  |        - snapIndex (number) : The WayPoint index where inertia ended<br>- targetWayPointObj (object) : The WayPoint object where inertia ended<br>                                               |    Called when inertia end on a snap        |
+| Property                                    |         Type         | Parameters / format                                                                                                                                                                                                                                                                                        | Infos |
+|---------------------------------------------|:--------------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| shouldLoop                                  | function, optional   | ```pos (float) : The next position before its application```                                                                                                                                                                                                                                               |  Should return an instantaneous move to do or null.<br/>Use this function to create illusion of infinite scrolling.  |
+| wayPoints                                   |   array, optional    | ```[{ at: (number) }, { at: (number) }, ...] ```                                                                                                                                                                                                                                                           |  List of waypoints object where inertia should snap ( only support auto snap 50/50 for now )  |
+| willEnd( targetPos, targetDelta, duration ) |  function, optional  | - targetPos (float) : The position where inertia will end if no further interactions happen<br/>- targetDelta (float) : The distance of the position where inertia will end if no further interactions happen<br/>- duration (number) : The duration of the inertia if no further interactions happen<br/> | Called when inertia know where it will end ( when the user stop dragging )  |
+| willSnap( snapIndex, targetWayPointObj )    |  function, optional  | - snapIndex (number) : The WayPoint index where inertia will end if no further interactions happen<br>- targetWayPointObj (object) : The WayPoint object where inertia will end if no further interactions happen<br>                                                                                      |  Called when inertia know where it will snap ( when the user stop dragging )  |
+| onStop( pos, targetWayPointObj )            |  function, optional  | - pos (float) : The axis position<br>- targetWayPointObj (object) : The WayPoint object where inertia ended if there<br>                                                                                                                                                                                   |  Called when inertia end  |
+| onSnap( snapIndex, targetWayPointObj )      |                      | - snapIndex (number) : The WayPoint index where inertia ended<br>- targetWayPointObj (object) : The WayPoint object where inertia ended<br>                                                                                                                                                                | Called when inertia end on a snap  |
 
 ### Voodoo.Node
 
@@ -377,6 +377,14 @@ const Sample = ( {} ) => {
 	</ViewBox>;
 }
 ```
+
+| Property |          Type           |                                                                                 Infos                                                                                 |
+|----------|:-----------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| id       |    string, required     |                                                                A unique identifier for the Node.                                                                      |
+| style    |    object, optional     |                              Styles applied before any style coming from axes : css syntax + voodoo tweener units & transform management                              |
+| axes     |    object, optional     |                                             An object of Axis Id to Arrays of tween.<br/>Ex : ```{"axisId":[...],...}```                                              |
+| tweener  | VoodooTweener, optional | The tweener instance where the Node will be registered on<br/> All tween & axes Id passed to the "axes" property will react to the given Voodoo Tweener instance axes |
+| refProp  |    string, optional     |  The property name that will be passed too the child function component with the React Ref that will target the dom node on which the css animations will be applied  |
 
 ### Voodoo.Draggable
 
@@ -429,7 +437,19 @@ const Sample = ( {} ) => {
 }
 ```
 
-## tweenTools
+| Property  |        Type         | Default        |                                                         Infos                                                          |
+|-----------|:-------------------:|----------------|:----------------------------------------------------------------------------------------------------------------------:|
+| xAxis     |  string, optional   |                |                        The Axis to be scrolled when user drag in the 'x' / horizontal direction                        |
+| xHook     | function, optional  |                | A function receiving the delta from the drag gesture and that should return the delta to use to update the target Axis |
+| xBoxRef   | React Ref, optional | Parent ViewBox | A React Ref tthat will target the Dom Node used to determine the "amplitude" of the scrolling basing its Node "width"  |
+| yAxis     |  string, optional   |                |                         The Axis to be scrolled when user drag in the 'y' / vertical direction                         |
+| yHook     | function, optional  |                | A function receiving the delta from the drag gesture and that should return the delta to use to update the target Axis |
+| yBoxRef   | React Ref, optional | Parent ViewBox | A React Ref tthat will target the Dom Node used to determine the "amplitude" of the scrolling basing its Node "height" |
+| mouseDrag |  boolean, optional  | false          |                                              "true" to listen Mouse drags                                              |
+| touchDrag | boolean, optional   | true           |                                              "true" to listen Touch drags                                              |
+| button    |  number, optional   | 1              |                                          The mouse button listened for drags                                           |
+
+## Voodoo.tools
 
 The package expose some tween & css utils
 
