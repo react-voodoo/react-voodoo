@@ -1,5 +1,5 @@
 <h1 align="center">react-voodoo</h1>
-<p align="center">Fast, SSR compatible, additive & swipeable, tween composition engine for React</p>
+<p align="center">Fast, SSR ready, additive & swipeable, tween composition engine for React</p>
 
 ___
 <p align="center"><img  width="192" src ="https://github.com/react-voodoo/react-voodoo/raw/master/doc/assets/logo-v0.png?sanitize=true" /></p>
@@ -18,8 +18,6 @@ ___
 <img src="https://img.shields.io/badge/License-AGPL%20v3-blue.svg" alt="License: AGPL v3" /></a>
 </p>
 
-
-
 ## Why another animation engine ?
 
 To have some advanced functionalities :
@@ -36,12 +34,13 @@ To have some advanced functionalities :
 - Automatically deal with multiple units using css "calc( ... )"
 - etc...
 
-## Some live demo & codesandbox [here](https://react-voodoo.github.io/react-voodoo-samples/)
+## Basic documentation [here](doc/readme.md)
+
+## Live demo & codesandbox [here](https://react-voodoo.github.io/react-voodoo-samples/)
+
 <p align="center"><img src ="https://github.com/react-voodoo/react-voodoo/raw/master/doc/assets/demo.gif?sanitize=true" /></p>
 
-## Draft & minimalist samples [here](https://github.com/react-voodoo/react-voodoo-samples)
-
-## Draft & minimalist doc [here](doc/readme.md)
+## Samples sources [here](https://github.com/react-voodoo/react-voodoo-samples)
 
 ## Note
 
@@ -60,22 +59,27 @@ react-voodoo still miss some interpolator ( like background or borders ).<br/>
 "all in one" example :
 
 ```jsx harmony
-import React from "react";
-import Voodoo from "react-voodoo";
+import React                                  from "react";
+import Voodoo                                 from "react-voodoo";
 import {itemTweenAxis, tweenArrayWithTargets} from "./somewhere";
 
 const styleSample = {
-	height : "50%",
+	/**
+	 * Voodoo.Node style property and the tween descriptors use classic CSS-in-JS declaration
+	 * exept we can specify values using the "box" unit which is a [0-1] ratio of the parent ViewBox height / width
+	 */
+	
+	height: "50%",
 	
 	// the tweener deal with multiple units 
-	// it will use css calc fn if there's more than 1 unit used 
-	width : ["50%", "10vw", "-50px", ".2box"],
+	// it will use css calc fn to add them if there's more than 1 unit used 
+	width: ["50%", "10vw", "-50px", ".2box"],
 	
 	// transform can use multiple "layers"
 	transform: [
 		{
 			// use rotate(X|Y|Z) & translate(X|Y|Z)
-			rotateX:"25deg"
+			rotateX: "25deg"
 		},
 		{
 			translateZ: "-.2box"
@@ -84,17 +88,17 @@ const styleSample = {
 	
 	filter:
 		{
-			blur:"5px"
+			blur: "5px"
 		}
 };
-const axisSample = [// Examples of tween descriptors
+const axisSample  = [// Examples of tween descriptors
 	{
-		target: "someTweenRefId",   // target Voodoo.Node id ( optional if used as parameter on a Voodoo.Node as it will target it )
+		target  : "someTweenRefId",   // target Voodoo.Node id ( optional if used as parameter on a Voodoo.Node as it will target it )
 		from    : 0,                // tween start position
 		duration: 100,              // tween duration
 		easeFn  : "easeCircleIn",   // function or easing fn id from [d3-ease](https://github.com/d3/d3-ease)
 		
-		apply   : {// relative css values to be applied  
+		apply: {// relative css values to be applied  
 			// Same syntax as the styles
 			transform: [{}, {
 				translateZ: "-.2box"
@@ -102,21 +106,21 @@ const axisSample = [// Examples of tween descriptors
 		}
 	},
 	{
-		from     : 40,
-		duration : 20,
+		from    : 40,
+		duration: 20,
 		
 		// triggered when axis has scrolled in the Event period 
 		// delta : a float value between [-1,1] is the update inside the Event period
-		entering:(delta)=>false,
+		entering: ( delta ) => false,
 		
 		// triggered when axis has scrolled in the Event period
 		// newPos, precPos : float values between [0,1] position inside the Event period
-		// delta :a float value between  [-1,1] is the update inside the Event period
-		moving:(newPos, precPos, delta)=>false,
+		// delta : a float value between  [-1,1] is the update inside the Event period
+		moving: ( newPos, precPos, delta ) => false,
 		
 		// triggered when axis has scrolled out the Event period
-		// delta :a float value between  [-1,1] is the update inside the Event period
-		leaving:(delta)=>false
+		// delta : a float value between  [-1,1] is the update inside the Event period
+		leaving: ( delta ) => false
 	}
 ];
 
@@ -125,7 +129,7 @@ const Sample = ( {} ) => {
 	/**
 	 * Voodoo tweener instanciation
 	 */
-	// Classic minimal method
+		// Classic minimal method
 	const [tweener, ViewBox]                   = Voodoo.hook();
 	// get the first tweener in parents
 	const [parentTweener]                      = Voodoo.hook(true);
@@ -164,45 +168,49 @@ const Sample = ( {} ) => {
 		[tweener]
 	)
 	
-	return <ViewBox className={ "container" }>
+	return <ViewBox className={"container"}>
 		<Voodoo.Axis
 			
 			id={"scrollY"}          // Tween axis Id
-			defaultPosition={100}   // default start position
+			defaultPosition={100}   // optional initial position ( default : 0 )
 			
-			// Array of tween descriptors with theirs Voodoo.Node target ids ( like in axisSample )
+			// optional Array of tween descriptors with theirs Voodoo.Node target ids ( see axisSample )
 			items={tweenArrayWithTargets}
 			
-			// size of the scrollable window for drag synchronisation
-			scrollableWindow={ 200 }
+			// optional size of the scrollable window for drag synchronisation
+			scrollableWindow={200}
 			
-			// default length of this scrollable axis
-			size={ 1000 }
+			// optional length of this scrollable axis (default to last tween desciptor position+duration) 
+			size={1000}
 			
 			// optional bounds ( inertia will target them if target pos is out )
-			bounds={ { min : 100, max : 900 } }
+			bounds={{ min: 100, max: 900 }}
 			
-			// inertia cfg ( false to disable it )
+			// optional inertia cfg ( false to disable it )
 			inertia={
 				{
 					// called when inertia is updated
 					// should return instantaneous move to do if wanted
-					shouldLoop: ( currentPos ) => ( currentPos > 500 ? -500 : null ),
+					shouldLoop: ( currentPos ) => (currentPos > 500 ? -500 : null),
 					
 					// called when inertia know where it will end ( when the user stop dragging )
-					willEnd  : ( targetPos, targetDelta, duration ) => {},
+					willEnd: ( targetPos, targetDelta, duration ) => {
+					},
 					
 					// called when inertia know where it will snap ( when the user stop dragging )
-					willSnap  : ( currentSnapIndex, targetWayPointObj ) => {},
+					willSnap: ( currentSnapIndex, targetWayPointObj ) => {
+					},
 					
 					// called when inertia end
-					onStop  : ( pos, targetWayPointObj ) => {},
+					onStop: ( pos, targetWayPointObj ) => {
+					},
 					
 					// called when inertia end on a snap
-					onSnap  : ( snapIndex, targetWayPointObj ) => {},
+					onSnap: ( snapIndex, targetWayPointObj ) => {
+					},
 					
 					// list of waypoints object ( only support auto snap 50/50 for now )
-					wayPoints : [{ at: 100 }, { at: 200 }]
+					wayPoints: [{ at: 100 }, { at: 200 }]
 				}
 			}
 		/>
@@ -210,18 +218,18 @@ const Sample = ( {} ) => {
 		<Voodoo.Node
 			id={"testItem"} // optional id
 			
-			style={styleSample}// styles applied before any style coming from axes : css syntax + voodoo tweener units & transform management
+			style={styleSample}// optional styles applied before any style coming from axes : css syntax + voodoo tweener units & transform management
 			
-			axes={{ scrollY : axisSample }} // Scrollable tweens by axis with no target node id required ( it will be ignored )
+			axes={{ scrollY: axisSample }} // optional Array of tween by axis Id with no target node id required ( it will be ignored )
 			
 			onClick={// all unknow props are passed to the child node
-				(e)=>{
-					// start playing an anim
+				( e ) => {
+					// start playing an anim ( prefer scrolling Axes )
 					tweener.pushAnim(
 						// make all tween target "testItem"
 						Voodoo.tools.target(pushIn, "testItem")
 					).then(
-						(tweenAxis) => {
+						( tweenAxis ) => {
 							// doSomething next
 						}
 					);
@@ -239,7 +247,7 @@ const Sample = ( {} ) => {
 				// scale is as follow : (delta / ((xBoxRef||ViewBox).offsetWidth)) * ( axis.scrollableWindow || axis.duration )  
 				// xBoxRef={ref} 
 				
-				yAxis={ "scrollY" }// make drag y move the scrollY axis
+				yAxis={"scrollY"}// make drag y move the scrollY axis
 				// yHook={(delta)=>modify(delta)}
 				// yBoxRef={ref} 
 				
@@ -259,7 +267,7 @@ const Sample = ( {} ) => {
 }
 ```
 
-## License  ?
+## License ?
 
 Using CC BY-ND, you can use it in commercial apps, but you can't distribute modified versions.<br/>
 Using AGPL, you can distribute modified versions but theses versions must be AGPL too.

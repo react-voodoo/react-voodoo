@@ -1,50 +1,50 @@
-<h1 align="center">Drafty react-voodoo doc</h1>
+<h1 align="center">Basic react-voodoo doc</h1>
 
 ___
 
 - [React Voodoo](#react-voodoo)
-  * [How to instantiate](#how-to-instantiate)
-    + [Using Hooks : Voodoo.hook & Voodoo.useVoodoo](#using-hooks---voodoohook---voodoousevoodoo)
-    + [Using decorators : Voodoo.asTweener](#using-decorators---voodooastweener)
-  * [Voodoo data structure & formats](#voodoo-data-structure-formats)
-    + [CSS-in-JS Style descriptors](#css-in-js-style-descriptors)
-    + [Tween / transitions descriptors](#tween---transitions-descriptors)
-  * [Components](#components)
-    + [Voodoo.Axis](#voodooaxis)
-    + [Voodoo.Node](#voodoonode)
-    + [Voodoo.Draggable](#voodoodraggable)
-  * [Voodoo.tools](#voodootools)
+    - [The Main Voodoo Tweener object](#the-main-voodoo-tweener-object)
+        - [The React Hook "Voodoo.hook()"](#the-react-hook-voodoohook)
+        - [Get / name a parent Voodoo instance](#get--name-a-parent-voodoo-instance)
+        - [Voodoo Tweener APIs](#voodoo-tweener-apis)
+    - [Voodoo data structure formats](#voodoo-data-structure-formats)
+        - [CSS-in-JS Style descriptors](#css-in-js-style-descriptors)
+        - [Tween / transitions descriptors](#tween--transitions-descriptors)
+    - [Components](#components)
+        - [Voodoo.Axis](#voodooaxis)
+        - [Voodoo.Node](#voodoonode)
+        - [Voodoo.Draggable](#voodoodraggable)
+    - [Tween descriptors helpers ( Voodoo.tools )](#tween-descriptors-helpers--voodootools-)
+    - [Instantiate using decorators : Voodoo.asTweener ( depreciated )](#instantiate-using-decorators--voodooastweener--depreciated-)
 
 ---
 
-* Please check the sample for latest API ( https://github.com/react-voodoo/react-voodoo-samples )
-
 # React Voodoo
 
-## How to instantiate
+React Voodoo mainly animate Dom Node via the "Voodoo.Axis" components. Theses Axis are scrollable / swipeable arrays of
+relatives tween. <br>
+It's also possible to push tween animation like in others libraries, but using Axes to manage animation allow way
+simpler maintainability & code.<br>
 
-### Using Hooks : Voodoo.hook & Voodoo.useVoodoo
+## The Main Voodoo Tweener object
+
+### The React Hook "Voodoo.hook()"
 
 React Voodoo can be used via React Hooks style via the "Voodoo.hook" function.
 
-In this case, the hook function will return an array containing 2 objects :
+When called, the hook function will return an array containing 2 objects :
 
 - The tweener instance in the first index
 - And a ViewBox component to be instantiated at the root of the animated Voodoo.Node(s)
 
 ```js
 const Sample = ( {} ) => {
-	/**
-	 * Voodoo tweener instanciation
-	 */
-		// Classic minimal method
+	// Classic minimal method
 	const [tweener, ViewBox]                   = Voodoo.hook();
-	// get the first tweener in parents
-	const [parentTweener]                      = Voodoo.hook(true);
 	// Create a tweener with options
 	const [twenerWithNameAndOptions, ViewBox2] = Voodoo.hook(
 		{
-			// Give an id ti this tweener so we can access it's axes in the childs components
+			// Give an id to this tweener so we can access it from the childs components
 			name: "root",
 			// max click tm in ms before a click become a drag
 			maxClickTm: 200,
@@ -56,13 +56,50 @@ const Sample = ( {} ) => {
 			enableMouseDrag: false
 		}
 	);
+	
+	return <ViewBox className={"container"}/>
+// ...
+}
+```
+
+### Get / name a parent Voodoo instance
+
+Function components can also access & connect to the parent Tweener instances
+
+```js
+const Sample = ( {} ) => {
+	
+	// get the first tweener in parents
+	const [parentTweener]                     = Voodoo.hook(true);
+	// Create a tweener with options
+	const [twenerWithNameAndOptions, ViewBox] = Voodoo.hook(
+		{
+			// Give an id to this tweener so we can access it from the childs components
+			name: "root"
+		}
+	);
 	// get a named parent tweener 
-	const [nammedParentTweener]                = Voodoo.hook("root")
+	const [nammedParentTweener]               = Voodoo.hook("root")
+	
+	return <ViewBox className={"container"}/>
+// ...
+}
+```
+
+### Voodoo Tweener APIs
+
+The Voodoo Tweener expose simples API to react & manage Axes positions :
+
+```js
+const Sample = ( {} ) => {
+	const [tweener, ViewBox]    = Voodoo.hook();
+	// get a named parent tweener 
+	const [nammedParentTweener] = Voodoo.hook("root");
 	
 	/**
-	 * once first render done, axes mainly expose the following :
+	 * once first render done, the tweener expose the following APIs / values :
 	 */
-	// Theirs actual position in :
+	// The Axis actual position in :
 	// tweener.axes.(axisId).scrollPos
 	
 	// The "scrollTo" function allowing to manually move the axes positions :
@@ -74,80 +111,18 @@ const Sample = ( {} ) => {
 	React.useEffect(
 		e => tweener?.watchAxis("scrollY", ( pos ) => doSomething()),
 		[tweener]
+	);
+	// By listening Axes from parent tweener we can orchestrate local animations / axes
+	React.useEffect(
+		e => nammedParentTweener?.watchAxis(
+			"mySharedAxisFromParent",
+			( pos ) => tweener.axes.myLocalAxis.scrollTo(pos, 0)
+		),
+		[tweener]
 	)
 	
 	return <ViewBox className={"container"}/>
 // ...
-}
-```
-
-### Using decorators : Voodoo.asTweener
-
-Return a react-voodoo tweener component composing the target React component
-
-The resulting component will have the tweener hooks
-
-```jsx harmony
-
-import React  from "react";
-import Voodoo from "react-voodoo";
-
-@Voodoo.tweener(
-	{
-		// max click tm in ms before a click become a drag
-		maxClickTm: 200,
-		// max drag offset in px before a click become a drag
-		maxClickOffset: 100,
-		
-		// mouse scroll force
-		wheelRatio: 5,
-		
-		// only apply 1 drag direction 
-		dragDirectionLock: false,
-		
-		// allow dragging with mouse
-		enableMouseDrag: false
-	}
-)
-export default class MyTweenerComp extends React.Component {
-	/**
-	 * Hook to determine if this component should apply a scroll event
-	 * ( if not, the parent tweener / scrollable node will apply it )
-	 * @param axisId
-	 * @param delta
-	 * return {boolean|undefined}
-	 */
-	componentShouldScroll( axisId, delta ) {
-	
-	}
-	
-	/**
-	 * Hook to change the targets order of scroll & drag events
-	 *
-	 * The returning array could also contain tween refs id & dom node id
-	 *
-	 * @param targets {array} array of node & react elements (default is all parents of the touch/mouse event)
-	 * return {array}
-	 */
-	hookScrollableTargets( targets ) {
-		return ["myTweenRefId", ...targets];
-	}
-	
-	/**
-	 * did scroll event
-	 * @param pos
-	 * @param axisId
-	 */
-	componentDidScroll( pos, axisId ) {
-	}
-	
-	/**
-	 * did resize event
-	 * @param pos
-	 * @param axisId
-	 */
-	windowDidResize( event ) {
-	}
 }
 ```
 
@@ -160,16 +135,16 @@ We can use most of the CSS properties using the classic camel-cased CSS in JS sy
 Additionally, Voodoo tweener add 3 optional client side only units ( will not work if used server-side ):
 
 - (float)box : 1box = (width or height) of the 1st parent ViewBox or with the asTweener decorator;
-- (float)bh : 1bh = height of the 1st parent  ViewBox or with the asTweener decorator;
-- (float)bw : 1bw = width of the 1st parent  ViewBox or with the asTweener decorator;
+- (float)bh : 1bh = height of the 1st parent ViewBox or with the asTweener decorator;
+- (float)bw : 1bw = width of the 1st parent ViewBox or with the asTweener decorator;
 
-* These units are calculated dynamically & updated when the windows trigger resize events
+These units are calculated dynamically & updated when the windows trigger resize events
 
 ```js
 
 /**
  * Voodoo.Node style property and the tween descriptors use classic CSS-in-JS declaration
- * exept we can specify values using the "box" unit which is a [0-1] ratio of the ViewBox
+ * exept we can specify values using the "box" unit which is a [0-1] ratio of the parent ViewBox height / width
  */
 
 const styleSample = {
@@ -340,7 +315,7 @@ Inertia descriptor provide the following options & hooks :
 
 ### Voodoo.Node
 
-Component to connect Html node to the Voodoo Axes / animations
+Component to connect the first child Html node to the Voodoo Axes / animations.
 
 ```jsx harmony
 
@@ -449,7 +424,7 @@ const Sample = ( {} ) => {
 | touchDrag | boolean, optional   | true           |                                              "true" to listen Touch drags                                              |
 | button    |  number, optional   | 1              |                                          The mouse button listened for drags                                           |
 
-## Voodoo.tools
+## Tween descriptors helpers ( Voodoo.tools )
 
 The package expose some tween & css utils
 
@@ -518,4 +493,72 @@ export function shiftTransforms( items, shift = 1 ) {
 
 ```
 
-[![*](https://www.google-analytics.com/collect?v=1&tid=UA-82058889-1&cid=555&t=event&ec=project&ea=view&dp=%2Fproject%2Freact-voodoo&dt=doc)](#)
+## Instantiate using decorators : Voodoo.asTweener ( depreciated )
+
+Return a react-voodoo tweener component composing the target React component
+
+The resulting component will have the tweener hooks
+
+```jsx harmony
+
+import React  from "react";
+import Voodoo from "react-voodoo";
+
+@Voodoo.tweener(
+	{
+		// max click tm in ms before a click become a drag
+		maxClickTm: 200,
+		// max drag offset in px before a click become a drag
+		maxClickOffset: 100,
+		
+		// mouse scroll force
+		wheelRatio: 5,
+		
+		// only apply 1 drag direction 
+		dragDirectionLock: false,
+		
+		// allow dragging with mouse
+		enableMouseDrag: false
+	}
+)
+export default class MyTweenerComp extends React.Component {
+	/**
+	 * Hook to determine if this component should apply a scroll event
+	 * ( if not, the parent tweener / scrollable node will apply it )
+	 * @param axisId
+	 * @param delta
+	 * return {boolean|undefined}
+	 */
+	componentShouldScroll( axisId, delta ) {
+	
+	}
+	
+	/**
+	 * Hook to change the targets order of scroll & drag events
+	 *
+	 * The returning array could also contain tween refs id & dom node id
+	 *
+	 * @param targets {array} array of node & react elements (default is all parents of the touch/mouse event)
+	 * return {array}
+	 */
+	hookScrollableTargets( targets ) {
+		return ["myTweenRefId", ...targets];
+	}
+	
+	/**
+	 * did scroll event
+	 * @param pos
+	 * @param axisId
+	 */
+	componentDidScroll( pos, axisId ) {
+	}
+	
+	/**
+	 * did resize event
+	 * @param pos
+	 * @param axisId
+	 */
+	windowDidResize( event ) {
+	}
+}
+```

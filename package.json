@@ -5,7 +5,7 @@
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
   "repository": "https://github.com/react-voodoo/react-voodoo",
-  "description": "Additive & swipeable animation engine for React",
+  "description": "Faster, simplier, additive, swipeable & multidimentional animation engine for React",
   "scripts": {
     "build": "lpack",
     "devLib": "lpack :staging -w",
