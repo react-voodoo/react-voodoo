@@ -21,38 +21,43 @@ import child      from './spells/withTweener';
 import dom        from './utils/dom.js';
 import * as tools from './utils/tweenTools.js';
 
+import TweenAxis   from "tween-axis";
+import * as D3Ease from "d3-ease";
+
+TweenAxis.EasingFunctions = D3Ease;
+
 @tweener
 class Component extends React.Component {
-    render() {
-        return this.props.children;
-    }
+	render() {
+		return this.props.children;
+	}
 }
 
 export {
-    tweener,
-    child,
-    useTweener,
-    useVoodoo,
-    useVoodoo as hook,
-    tools,
-    Draggable,
-    Component,
-    Node,
-    Context,
-    Axis,
-    dom
+	tweener,
+	child,
+	useTweener,
+	useVoodoo,
+	useVoodoo as hook,
+	tools,
+	Draggable,
+	Component,
+	Node,
+	Context,
+	Axis,
+	dom
 };
 export default {
-    tweener,
-    child,
-    useTweener,
-    useVoodoo,
-    hook: useVoodoo,
-    tools,
-    Draggable,
-    Component,
-    Node,
-    Context,
-    Axis,
-    dom
+	tweener,
+	child,
+	useTweener,
+	useVoodoo,
+	hook: useVoodoo,
+	tools,
+	Draggable,
+	Component,
+	Node,
+	Context,
+	Axis,
+	dom
 };

@@ -45,7 +45,6 @@ export default class CssTweenAxis extends tweenAxis {
 		this.__marksKeys.length     = 0;
 		this.__processors.length    = 0;
 		this.__config.length        = 0;
-		this.__activeForks.length   = 0;
 		this.__activeProcess.length = 0;
 		
 		this.__activeProcess.length = 0;
