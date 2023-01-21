@@ -130,7 +130,7 @@ export default class Tweener extends React.Component {
 	 * @param mapReset
 	 * @returns {style,ref}
 	 */
-	tweenRef( id, iStyle = {}, iMap = {}, pos, noref, mapReset ) {// ref initial style
+	tweenRef( id, iStyle = {}, iMap = {}, pos, ref, noref, mapReset ) {// ref initial style
 		
 		
 		let _            = this._,
@@ -139,14 +139,15 @@ export default class Tweener extends React.Component {
 		let initials = {};
 		if ( !_.tweenRefs[id] )
 			_.tweenRefTargets.push(id);
-		
-		//debugger
-		//console.warn('ref ', id, { ...iMap })
+		//if ( id === "items" ) {
+		//	debugger
+		//}
+		//ref && console.warn('ref ', id, ref)
 		
 		if ( _.tweenRefs[id] && (
 			mapReset
-			|| (_.iMapOrigin[id] !== iMap && !deepEqual(iMap, _.iMapOrigin[id]))
-			|| (_.tweenRefOriginCss[id] !== iStyle && !deepEqual(iStyle, _.tweenRefOriginCss[id]))
+			|| (_.iMapOrigin[id] !== iMap || !deepEqual(iMap, _.iMapOrigin[id]))
+			|| (_.tweenRefOriginCss[id] !== iStyle || !deepEqual(iStyle, _.tweenRefOriginCss[id]))
 		) ) {
 			// hot switch initial values
 			//console.warn('ref exist & style is !==', id, iStyle,
@@ -183,6 +184,20 @@ export default class Tweener extends React.Component {
 			      .forEach(
 				      key => {
 					      clearTweenableValue(key, key, _.tweenRefMaps[id], _.tweenRefCSS[id], _.muxDataByTarget[id], _.muxByTarget[id])
+				      }
+			      );
+			Object.keys(_.tweenRefCSS[id])// unset not tweened
+			      .forEach(
+				      key => {
+					      if ( _.tweenRefCSS[id][key] && !_.muxByTarget[id][key] && !iStyle[key] )
+						      delete _.tweenRefCSS[id][key];
+				      }
+			      );
+			Object.keys(iStyle)// reset not tweened
+			      .forEach(
+				      key => {
+					      if ( _.tweenRefCSS[id][key] !== iStyle[key] && !_.muxByTarget[id][key] )
+						      _.tweenRefCSS[id][key] = iStyle[key];
 				      }
 			      );
 			_.tweenRefOrigin[id] = { ...tweenableMap };
@@ -247,7 +262,7 @@ export default class Tweener extends React.Component {
 			
 		}
 		else {
-			//console.log("maj ref", id)
+			console.log("maj ref", id)
 			
 			muxToCss(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
 		}
@@ -260,7 +275,11 @@ export default class Tweener extends React.Component {
 		else
 			return {
 				style: { ..._.tweenRefCSS[id] },
-				ref  : node => (_.refs[id] = node)
+				ref  : is.function(ref)
+				       ? node => (_.refs[id] = ref(node))
+				       : ref
+				         ? node => (_.refs[id] = ref.current = node)
+				         : node => (_.refs[id] = node)
 			};
 	}
 	
@@ -290,7 +309,7 @@ export default class Tweener extends React.Component {
 		let _ = this._;
 		targets.forEach(
 			( t ) => {
-				this.tweenRef(t, _.tweenRefOriginCss[t], _.iMapOrigin[t], null, null, true)
+				this.tweenRef(t, _.tweenRefOriginCss[t], _.iMapOrigin[t], null, null, null, true)
 			}
 		);
 		this._updateTweenRefs();

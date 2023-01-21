@@ -15,17 +15,17 @@ import {floatCut, units, unitsRe} from "../cssUtils";
 const defaultUnits    = {
 	      //matrix     : true,
 	      //translate  : 'px',
-	      translateX : 'px',
-	      translateY : 'px',
-	      translateZ : 'px',
-	      scale      : '',
-	      scaleZ     : '',
-	      scaleX     : '',
-	      scaleY     : '',
-	      rotate     : 'deg',
+	      translateX: 'px',
+	      translateY: 'px',
+	      translateZ: 'px',
+	      scale     : '',
+	      scaleZ    : '',
+	      scaleX    : '',
+	      scaleY    : '',
+	      rotate    : 'deg',
 	      //skew       : 'deg',
-	      skewX      : 'deg',
-	      skewY      : 'deg',
+	      skewX: 'deg',
+	      skewY: 'deg',
 	      //matrix3d   : true,
 	      //translate3d: true,
 	      //scale3d    : true,
@@ -207,6 +207,10 @@ export const mux = ( key, value, target, data, initials, noPropLock, reOrder ) =
 	data[key] = data[key] || [];
 	//initials[key] = 0;
 	
+	if ( !is.array(value) && !is.object(value) ) {
+		console.warn("React-Voodoo: Ignore unexpected value ", key, ":", value, " on ", target);
+		return demux;
+	}
 	if ( !is.array(value) )
 		value = [value];
 	let ti = 0, tmap, tFnKey, baseData, fValue, dkey, u, seenUnits;

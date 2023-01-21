@@ -16,35 +16,35 @@ import {
 }                  from "./cssUtils";
 import cssDemuxers from "./demux/(*).js";
 
-import primitiveTypes, {int, multi, number, ratio, color, any} from "./demux/typed/(*).js";
+import primitiveTypes, {length, multi, number, ratio, color, any} from "./demux/typed/(*).js";
 
 const cssDemux = {
 	...cssDemuxers,
-	height           : number,
-	width            : number,
-	top              : number,
-	left             : number,
-	right            : number,
-	bottom           : number,
-	marginTop        : number,
-	marginLeft       : number,
-	marginRight      : number,
-	marginBottom     : number,
-	paddingTop       : number,
-	paddingLeft      : number,
-	paddingRight     : number,
-	paddingBottom    : number,
-	borderRadius     : number,
+	height           : length,
+	width            : length,
+	top              : length,
+	left             : length,
+	right            : length,
+	bottom           : length,
+	marginTop        : length,
+	marginLeft       : length,
+	marginRight      : length,
+	marginBottom     : length,
+	paddingTop       : length,
+	paddingLeft      : length,
+	paddingRight     : length,
+	paddingBottom    : length,
+	borderRadius     : length,
 	borderTopColor   : color,
 	borderLeftColor  : color,
 	borderRightColor : color,
 	borderBottomColor: color,
-	borderTopWidth   : number,
-	borderLeftWidth  : number,
-	borderRightWidth : number,
-	borderBottomWidth: number,
+	borderTopWidth   : length,
+	borderLeftWidth  : length,
+	borderRightWidth : length,
+	borderBottomWidth: length,
 	transformOrigin  : multi(2),
-	zIndex           : int,
+	zIndex           : number,
 	opacity          : ratio,
 };
 
@@ -58,11 +58,11 @@ export function getMuxerTypeOfProperty( property ) {
 	for ( let i = 0; i < types.length; i++ ) {
 		switch ( types[i] ) {
 			case "length":
-			case "number":
 			case "length-percentage-calc":
-				return number;
+				return length;
+			case "number":
 			case "integer":
-				return int;
+				return number;
 			case "color":
 				return color;
 		}

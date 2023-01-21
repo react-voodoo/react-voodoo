@@ -10,12 +10,12 @@
  */
 
 export const props = {
-	"margin"       : { "properties": ["marginTop", "marginRight", "marginBottom", "marginLeft"] },
+	"margin"       : { "properties": ["marginTop", "marginRight", "marginBottom", "marginLeft"], "multiple": true },
 	"marginBottom" : { "types": ["length"] },
 	"marginLeft"   : { "types": ["length"] },
 	"marginRight"  : { "types": ["length"] },
 	"marginTop"    : { "types": ["length"] },
-	"padding"      : { "properties": ["paddingTop", "paddingRight", "paddingBottom", "paddingLeft"] },
+	"padding"      : { "properties": ["paddingTop", "paddingRight", "paddingBottom", "paddingLeft"], "multiple": true },
 	"paddingBottom": { "types": ["length"] },
 	"paddingLeft"  : { "types": ["length"] },
 	"paddingRight" : { "types": ["length"] },
@@ -31,7 +31,7 @@ export const props = {
 	"height"       : { "types": ["length-percentage-calc"] },
 	"maxHeight"    : { "types": ["length-percentage-calc"] },
 	"minHeight"    : { "types": ["length-percentage-calc"] },
-	"lineHeight"   : { "types": ["number", "length"] },
+	"lineHeight"   : { "types": ["length"] },
 	"verticalAlign": { "types": ["length"] },
 	"visibility"   : { "types": ["visibility"] },
 	"borderSpacing": { "types": ["length"], "multiple": true },

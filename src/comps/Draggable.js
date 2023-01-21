@@ -15,20 +15,20 @@ import ReactDom  from "react-dom";
 import useVoodoo from "../hooks/useVoodoo";
 import domUtils  from "../utils/dom";
 
-const Draggable = ( {
-	                    children,
-	                    Comp = 'div',
-	                    nodeRef,
-	                    items = [],
-	                    xAxis, yAxis, yBoxRef,
-	                    xBoxRef, yRef,
-	                    yHook, xHook,
-	                    tweener,
-	                    mouseDrag = false,
-	                    touchDrag = true,
-	                    button = 0,
-	                    ...props
-                    } ) => {
+const Draggable = React.forwardRef(( {
+	                                     children,
+	                                     Comp = 'div',
+	                                     nodeRef,
+	                                     items = [],
+	                                     xAxis, yAxis, yBoxRef,
+	                                     xBoxRef, yRef,
+	                                     yHook, xHook,
+	                                     tweener,
+	                                     mouseDrag = false,
+	                                     touchDrag = true,
+	                                     button = 0,
+	                                     ...props
+                                     }, ref ) => {
 	let root            = React.useRef(),
 	    µ               = React.useRef({ root, _: {} }).current,
 	    [parentTweener] = useVoodoo(true),
@@ -323,6 +323,10 @@ const Draggable = ( {
 		() => {
 			if ( is.function(nodeRef) )
 				nodeRef(root.current)
+			if ( is.function(ref) )
+				ref(root.current)
+			else if ( ref )
+				ref.current = root.current;
 		}
 	)
 	µ.props          = {
@@ -330,7 +334,7 @@ const Draggable = ( {
 	}
 	µ._parentTweener = parentTweener;
 	return <Comp ref={root} {...props}>{children}</Comp>;
-}
+})
 export default Draggable;
 
 Draggable.div = ( props ) => {

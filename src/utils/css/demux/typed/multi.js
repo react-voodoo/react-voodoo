@@ -10,7 +10,7 @@
  */
 
 import is          from "is";
-import * as number from "./number";
+import * as length from "./number";
 
 const
     alias = {
@@ -26,7 +26,7 @@ function demux( key, tweenable, target, data, box, offset ) {
     let count = data[ "_" + key ], v = '', nowhere = {};
     
     for ( let i = 0; i < count; i++ ) {
-        number.demux(key + '_' + i, tweenable, nowhere, data, box, offset);
+        length.demux(key + '_' + i, tweenable, nowhere, data, box, offset);
         v += nowhere[ key + '_' + i ] + ' ';
     }
     
@@ -63,7 +63,7 @@ export default ( count ) => ( {
         for ( let i = 0; i < count; i++ ) {
             v = values[ i % values.length ];
             v = is.string(v) && alias[ v ] || v;
-            number.mux(key + '_' + i, v, target, data, initials, noPropLock)
+            length.mux(key + '_' + i, v, target, data, initials, noPropLock)
         }
         
         return demux;

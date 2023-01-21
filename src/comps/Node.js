@@ -26,30 +26,29 @@ function setTarget( anims, target ) {
 	)
 }
 
-const Node = ( {
-	               children,
-	               id = React.useMemo(() => shortid.generate(), []),
-	               style, initial, pos, noRef, reset, tweener,
-	               isRoot,
-	               axes,
-	               refProp = "nodeRef",
-	               tweenLines = axes,
-	               tweenAxis = tweenLines,
-	               ...props
-               } ) => {
+const Node = React.forwardRef(( {
+	                                children,
+	                                id = React.useMemo(() => shortid.generate(), []),
+	                                style, initial, pos, noRef, reset, tweener,
+	                                isRoot,
+	                                axes,
+	                                refProp = "nodeRef",
+	                                tweenLines = axes,
+	                                tweenAxis = tweenLines,
+	                                ...props
+                                }, ref ) => {
 	let µ               = React.useRef({}).current,
 	    [parentTweener] = useVoodoo(true);
-	
-	parentTweener = tweener || parentTweener;
+	parentTweener       = tweener || parentTweener;
 	
 	if ( !parentTweener ) {
-		console.error("No Voodoo tweener found in the context, is there any parent with asTweener ?")
+		console.error("No Voodoo tweener found in the context, is there any parent ViewBox ?")
 		return <React.Fragment/>;
 	}
 	//console.warn("render : ", this.__tweenableId, this._currentTweener,
 	// parentTweener, this._currentTweener !== parentTweener)
 	let twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
-	                                   pos, noRef),
+	                                   pos, ref, noRef),
 	    axisItemsChange;
 	
 	
@@ -103,7 +102,7 @@ const Node = ( {
 									      h
 							      ), {});
 			twRef = parentTweener.tweenRef(id, children.props && children.props.style, style || initial,
-			                               pos, noRef)
+			                               pos, ref, noRef)
 		}
 		
 		// anyway, if there change set the last css values
@@ -150,11 +149,11 @@ const Node = ( {
 		console.error("Invalid voodoo Node child : ", id)
 	}
 	return <div>Invalid</div>;
-}
+})
 export default Node;
 
-Node.div = ( { children, className, ...props } ) => {
-	return <Node {...props}>
+Node.div = React.forwardRef(( { children, className, ...props }, ref ) => {
+	return <Node {...props} ref={ref}>
 		<div className={className}>{children}</div>
 	</Node>;
-}
+})
