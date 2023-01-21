@@ -20,12 +20,17 @@ ___
 
 ## Why another animation engine ?
 
-To have some advanced functionalities :
+Classic Tween engines can only output absolute values, which quickly results in very complex code when we have to
+gradually compose values from multiple sources (e.g. when merging multiple animations based on user drag interactions )
+.<br/>
 
-- Additive tween ( simultaneous tween on same properties like web animation APIs )
-- Swipeable animations ( like Android & iOS )
+React-Voodoo use a delta-based interpolation engine that solves this problem, it allows:
+
+- Additive tween 
+- Swipeable complex animations ( like Android & iOS )
 - Fast & direct DOM updates ( not bound to the React rendering loop )
 - Server Side Rendering of any scroll / swipe position
+- Easily connect sensors to complex animations
 - Hot switching scrollable anims ( responsive )
 - Predictive inertia ( knowing where inertia will stop while animating )
 - Multitouch dragging ( drag multiple things at once )
@@ -49,10 +54,11 @@ react-voodoo still miss some interpolator ( like background or borders ).<br/>
 ## How can i help ?
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
-[![collaborators welcome](https://img.shields.io/badge/collaborators-welcome-brightgreen.svg?style=flat)](#)
-<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=THPSUB2U58AYQ&item_name=Dev+react-voodoo&currency_code=EUR&source=url" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
-<a href="https://liberapay.com/Nathan/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
-[![*](https://www.google-analytics.com/collect?v=1&tid=UA-82058889-1&cid=555&t=event&ec=project&ea=view&dp=%2Fproject%2Freact-voodoo&dt=readme)](#)
+
+Want new functionalities or just support React-Voodoo ?
+
+BTC     : bc1qh43j8jh6dr8v3f675jwqq3nqymtsj8pyq0kh5a<br/>
+Paypal  : <span class="badge-paypal"><a href="https://www.paypal.com/donate/?hosted_button_id=ECHYGKY3GR7CN" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
 
 ## Basics
 
@@ -271,6 +277,7 @@ const Sample = ( {} ) => {
 
 Using CC BY-ND, you can use it in commercial apps, but you can't distribute modified versions.<br/>
 Using AGPL, you can distribute modified versions but theses versions must be AGPL too.
+
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
 [![*](https://www.google-analytics.com/collect?v=1&tid=UA-82058889-1&cid=555&t=event&ec=project&ea=view&dp=%2Fproject%2Freact-voodoo&dt=readme)](#)
