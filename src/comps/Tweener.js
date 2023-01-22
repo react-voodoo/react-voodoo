@@ -262,7 +262,6 @@ export default class Tweener extends React.Component {
 			
 		}
 		else {
-			console.log("maj ref", id)
 			
 			muxToCss(_.tweenRefMaps[id], _.tweenRefCSS[id], _.muxByTarget[id], _.muxDataByTarget[id], _.box);
 		}

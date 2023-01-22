@@ -30,7 +30,7 @@ React-Voodoo use a delta-based interpolation engine that solves this problem, it
 - Swipeable complex animations ( like Android & iOS )
 - Fast & direct DOM updates ( not bound to the React rendering loop )
 - Server Side Rendering of any scroll / swipe position
-- Easily connect sensors to complex animations
+- Easily connect sensors / gestures to complex animations
 - Hot switching scrollable anims ( responsive )
 - Predictive inertia ( knowing where inertia will stop while animating )
 - Multitouch dragging ( drag multiple things at once )
