@@ -1,6 +1,6 @@
 {
   "name": "react-voodoo",
-  "version": "2.5.5",
+  "version": "2.5.8",
   "license": "(CC-BY-ND-4.0 OR AGPL-3.0-only)",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "color-rgba": "^2.1.0",
-    "d3-ease": "^3.0.1",
+    "d3-ease": "^2.0.0",
     "deep-extend": "^0.6.0",
     "fast-deep-equal": "^2.0.1",
     "shortid": "^2.2.15",

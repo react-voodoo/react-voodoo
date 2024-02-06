@@ -51,11 +51,9 @@ React-Voodoo use a delta-based interpolation engine that solves this problem, it
 
 react-voodoo still miss some interpolator ( like background or borders ).<br/>
 
-## How can i help ?
+## You... like it / it saved your day / you stole all the code / you want more?
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
-
-Want new functionalities or just support React-Voodoo ?
 
 BTC     : bc1qh43j8jh6dr8v3f675jwqq3nqymtsj8pyq0kh5a<br/>
 Paypal  : <span class="badge-paypal"><a href="https://www.paypal.com/donate/?hosted_button_id=ECHYGKY3GR7CN" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>

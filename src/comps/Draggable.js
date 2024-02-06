@@ -34,7 +34,7 @@ const Draggable = React.forwardRef(( {
 	    [parentTweener] = useVoodoo(true),
 	    api             = React.useMemo(
 		    () => ({
-			
+			    
 			    /**
 			     * Return scrollable parent node list basing a dom node
 			     * @param node
@@ -43,15 +43,15 @@ const Draggable = React.forwardRef(( {
 			    getScrollableNodes( node ) {
 				    let scrollable = [], parent = µ._parentTweener;//domUtils.findReactParents(node),
 				    // _ = µ._;
-				
+				    
 				    while ( parent ) {
 					    scrollable.push(parent);
 					    parent = parent._parentTweener;
 				    }
-				
+				    
 				    return scrollable
 			    },
-			
+			    
 			    /**
 			     * Init touch & scroll listeners
 			     * Drive scroll & drag values updates
@@ -67,7 +67,7 @@ const Draggable = React.forwardRef(( {
 				        parents,
 				        dY, parentsState, refWidth, refHeight,
 				        _        = tweener._;
-				
+				    
 				    if ( rootNode ) {
 					    domUtils.addEvent(
 						    rootNode, µ._.dragList = {
@@ -78,7 +78,7 @@ const Draggable = React.forwardRef(( {
 								    if ( (e) instanceof MouseEvent && e.button !== button ) {// allow undefined so µ work for touch events
 									    return;
 								    }
-								
+								    
 								    parents      = api.getScrollableNodes(e.target);
 								    lastStartTm  = Date.now();
 								    dX           = 0;
@@ -95,18 +95,18 @@ const Draggable = React.forwardRef(( {
 										    y = yAxis && pTweener.axes?.[yAxis];
 										    pTweener._updateNodeInertia()
 									    }
-									
+									    
 								    }
 								    //tweener._updateNodeInertia()
 								    //e.stopPropagation();
 								    //e.preventDefault();
 							    },
 							    'click'    : ( e, touch, descr ) => {//@todo
-								
+								    
 								    if ( (e) instanceof MouseEvent && e.button !== button ) {// allow undefined so µ work for touch events
 									    return;
 								    }
-								
+								    
 								    if ( lastStartTm &&
 									    (
 										    (lastStartTm - Date.now() > _.options.maxClickTm) ||
@@ -121,22 +121,22 @@ const Draggable = React.forwardRef(( {
 									    //	            ' ' + dY, _.options.maxClickTm)
 								    }
 								    //else console.log("click", Math.abs(dX), Math.abs(dY))
-								
+								    
 							    },
 							    'drag'     : ( e, touch, descr ) => {//@todo
 								    if ( (e) instanceof MouseEvent && e.button !== button ) {// allow undefined so µ work for touch events
 									    return;
 								    }
-								
+								    
 								    let pTweener,
 								        x, deltaX, xDispatched, xBox,
 								        y, deltaY, yDispatched, yBox,
 								        cState, i;
-								
+								    
 								    dX = -(descr._lastPos.x - descr._startPos.x);
 								    dY = -(descr._lastPos.y - descr._startPos.y);
-								
-								
+								    
+								    
 								    if ( lastStartTm && ((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY) < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) )// skip tap & click
 								    {
 									    //console.log(':u ' + (lastStartTm - Date.now()) + ' ' + dX +
@@ -144,7 +144,7 @@ const Draggable = React.forwardRef(( {
 									    return;
 								    }
 								    else {
-									
+									    
 									    xDispatched = !dX;
 									    yDispatched = !dY;
 									    if ( _.options.dragDirectionLock ) {
@@ -163,7 +163,7 @@ const Draggable = React.forwardRef(( {
 										    pTweener = parents[i];
 										    // react comp with tweener support
 										    if ( pTweener.__isTweener ) {
-											
+											    
 											    x = xAxis && pTweener.axes?.[xAxis];
 											    y = yAxis && pTweener.axes?.[yAxis];
 											    //console.log("drag", dX, dY, xAxis, yAxis,
@@ -182,7 +182,7 @@ const Draggable = React.forwardRef(( {
 												    yAxis && y && !y?.inertiaFrame && pTweener.applyInertia(y, yAxis);
 												    //console.warn('Draggable::drag:190: ');
 											    }
-											
+											    
 											    if ( x ) {
 												    xBox   = xBoxRef?.current
 												             ? refWidth
@@ -203,7 +203,7 @@ const Draggable = React.forwardRef(( {
 												    if ( yHook )
 													    deltaY = yHook(deltaY);
 											    }
-											
+											    
 											    //console.log('scrollX ',
 											    //            xDispatched,
 											    //            x?.inertia?.isInbound(parentsState[ i
@@ -226,7 +226,7 @@ const Draggable = React.forwardRef(( {
 												    yDispatched = true;
 											    }
 										    }
-										
+										    
 									    }
 									    if ( yDispatched && xDispatched ) {
 										    //e.stopPropagation();
@@ -237,18 +237,18 @@ const Draggable = React.forwardRef(( {
 									    //dY = 0;
 								    }
 							    }
-							
+							    
 							    ,
 							    'dropped': ( e, touch, descr ) => {
 								    let pTweener,
 								        x, deltaX, xDispatched, vX,
 								        y, deltaY, yDispatched, vY,
 								        cState, i;
-								
+								    
 								    if ( (e) instanceof MouseEvent && e.button !== button ) {// allow undefined so µ work for touch events
 									    return;
 								    }
-								
+								    
 								    cLock = undefined;
 								    //lastStartTm                     = undefined;
 								    //document.body.style.userSelect  = '';
@@ -270,7 +270,7 @@ const Draggable = React.forwardRef(( {
 									    //		cState.inertia.y.release();
 									    //	}
 									    //}
-									
+									    
 								    }
 								    if ( lastStartTm && !((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY)
 									    < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) )// skip
@@ -300,7 +300,7 @@ const Draggable = React.forwardRef(( {
 					    µ._.doRegister = true;
 				    }
 			    }
-			
+			    
 		    }),
 		    []
 	    );
@@ -327,7 +327,8 @@ const Draggable = React.forwardRef(( {
 				ref(root.current)
 			else if ( ref )
 				ref.current = root.current;
-		}
+		},
+		[nodeRef, ref]
 	)
 	µ.props          = {
 		xAxis, yAxis, yHook, xHook, mouseDrag, touchDrag, tweener: tweener || parentTweener, xBoxRef, yBoxRef, button
