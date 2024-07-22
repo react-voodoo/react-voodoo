@@ -70,6 +70,14 @@ const Runner = {
  */
 export default class Tweener extends React.Component {
 	
+	axes                 = {};
+	_scrollWatcherByAxis = {};
+	
+	// ------------------------------------------------------------
+	// -------------------- TweenRefs utils -----------------------
+	// ------------------------------------------------------------
+	_swap = {};
+	
 	constructor( props ) {
 		super(...arguments);
 		let _                 = this._ = {
@@ -112,12 +120,6 @@ export default class Tweener extends React.Component {
 				_.rootRef?.current?.windowDidResize?.(e);
 			});
 	}
-	
-	axes = {};
-	
-	// ------------------------------------------------------------
-	// -------------------- TweenRefs utils -----------------------
-	// ------------------------------------------------------------
 	
 	/**
 	 * Register tweenable element
@@ -340,22 +342,22 @@ export default class Tweener extends React.Component {
 		this._updateTweenRef(target, true);
 	}
 	
+	// ------------------------------------------------------------
+	// -------------------- Pushable anims ------------------------
+	// ------------------------------------------------------------
+	
 	/**
 	 * Retrieve the tween ref dom node
 	 * @param id
 	 * @returns {*}
 	 */
 	getTweenableRef( id ) {
-		try {
-			return this._.refs[id] && ReactDom.findDOMNode(this._.refs[id]);
-		} catch ( e ) {
-			try {
-				return this._.refs[id]._.rootRef.current
-			} catch ( e ) {
-				console.warn("react-voodoo: Can't find voodooNode ", id, e)
-				return;
-			}
-		}
+		if ( is.element(this._.refs[id]) )
+			return this._.refs[id];
+		else if ( this._.refs[id]?._?.rootRef?.current && is.element(this._.refs[id]._.rootRef.current) )
+			return this._.refs[id]._.rootRef.current
+		else if ( !this._.tweenRefs[id] )
+			console.warn("react-voodoo: Can't find voodooNode ", id)
 	}
 	
 	/**
@@ -364,16 +366,14 @@ export default class Tweener extends React.Component {
 	 */
 	getRootNode() {
 		try {
-			return this.getTweenableRef(this._.rootRef)
-				|| this.isMountedFromHook && this._.rootRef && this._.rootRef.current
-				|| ReactDom.findDOMNode(this);
+			return this._.rootRef && this._.rootRef.current;
 		} catch ( e ) {
 			return this._.rootRef && this._.rootRef.current;
 		}
 	}
 	
 	// ------------------------------------------------------------
-	// -------------------- Pushable anims ------------------------
+	// ------------------ Scrollable axes -------------------------
 	// ------------------------------------------------------------
 	
 	/**
@@ -451,7 +451,6 @@ export default class Tweener extends React.Component {
 		
 	}
 	
-	
 	/**
 	 * Update tweenRef raw tweened values
 	 * @param id
@@ -465,10 +464,6 @@ export default class Tweener extends React.Component {
 			( p ) => this._.tweenRefMaps[id][p] = (!reset && this._.tweenRefMaps[id][p] || initials[p]) + tmap[p]
 		);
 	}
-	
-	// ------------------------------------------------------------
-	// ------------------ Scrollable axes -------------------------
-	// ------------------------------------------------------------
 	
 	/**
 	 * Will init / update a scrollable axis
@@ -594,7 +589,7 @@ export default class Tweener extends React.Component {
 						    // axe);
 						    pos                      = (~~(pos * 10000)) / 10000;
 						    this.axes[axe].targetPos = this.axes[axe].scrollPos = pos;
-						
+						    
 						    //this.axes[axe].inertia._doSnap()
 						    if ( ~~pos !== oldPos ) {
 							    this.axisDidScroll(~~pos, axe);
@@ -667,7 +662,7 @@ export default class Tweener extends React.Component {
 			      .forEach(
 				      id => {
 					      _.tweenRefOrigin[id] = _.tweenRefOrigin[id] || {};
-					
+					      
 					      _.tweenRefMaps[id] = _.tweenRefMaps[id] || {};
 					      Object.assign(this._.tweenRefMaps[id], {
 						      ...initials[id],
@@ -735,7 +730,6 @@ export default class Tweener extends React.Component {
 		!found && console.warn("react-voodoo: Axis not found : ", axe)
 	}
 	
-	
 	/**
 	 * @private fn to push scrollTo
 	 * @param axe
@@ -792,8 +786,6 @@ export default class Tweener extends React.Component {
 		       _.rootRef.current.componentShouldScroll(...arguments) : true
 	}
 	
-	_scrollWatcherByAxis = {};
-	
 	/**
 	 * Add scroll listener to {axisId} axis, return unwatch
 	 * @param axisId
@@ -810,16 +802,16 @@ export default class Tweener extends React.Component {
 		}
 	}
 	
+	// ------------------------------------------------------------
+	// --------------- Inertia & scroll modifiers -----------------
+	// ------------------------------------------------------------
+	
 	axisDidScroll( pos, axisId ) {
 		let watchers = this._scrollWatcherByAxis[axisId],
 		    i        = watchers?.length;
 		if ( watchers )
 			while ( i ) watchers[--i](pos);
 	}
-	
-	// ------------------------------------------------------------
-	// --------------- Inertia & scroll modifiers -----------------
-	// ------------------------------------------------------------
 	
 	/**
 	 * Retrieve updates from an axis inertia & apply them
@@ -904,6 +896,10 @@ export default class Tweener extends React.Component {
 		
 	}
 	
+	// ------------------------------------------------------------
+	// --------------- Initialization & drawers -------------------
+	// ------------------------------------------------------------
+	
 	_updateNodeInertia = () => {
 		let _ = this._, current, ln = _.activeInertia.length;
 		
@@ -929,10 +925,6 @@ export default class Tweener extends React.Component {
 			this._inertiaRaf = requestAnimationFrame(this._updateNodeInertia)
 		else this._inertiaRaf = null;
 	}
-	
-	// ------------------------------------------------------------
-	// --------------- Initialization & drawers -------------------
-	// ------------------------------------------------------------
 	
 	setRootRef( id ) {
 		this._.rootRef = id;
@@ -966,8 +958,6 @@ export default class Tweener extends React.Component {
 			}
 		}
 	}
-	
-	_swap = {};
 	
 	_updateTweenRef( target, force ) {
 		let node, swap = this._swap, changes;

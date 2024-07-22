@@ -2,7 +2,6 @@
   "default": {
     "rootFolder": "src",
     "basedOn": "component",
-    "libsPath": "./packages",
     "vars": {
       "rootAlias": "react-voodoo",
       "entryPoint": "./src",
@@ -11,8 +10,7 @@
       "babelPreset": {
         "targets": {
           "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
-        },
-        "loose": true
+        }
       },
       "webpackPatch": {
         "optimization": {
@@ -27,7 +25,6 @@
   "staging": {
     "rootFolder": "src",
     "basedOn": "component",
-    "libsPath": "./packages",
     "vars": {
       "rootAlias": "react-voodoo",
       "entryPoint": "./src",
@@ -36,8 +33,7 @@
       "babelPreset": {
         "targets": {
           "browsers": "> 0.25%, not dead, safari >= 7, ios_saf >= 7, chrome >= 52"
-        },
-        "loose": true
+        }
       },
       "webpackPatch": {
       }
