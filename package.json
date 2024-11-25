@@ -1,6 +1,6 @@
 {
   "name": "react-voodoo",
-  "version": "2.5.11",
+  "version": "2.5.12",
   "license": "(CC-BY-ND-4.0 OR AGPL-3.0-only)",
   "main": "./dist/react-voodoo.js",
   "author": "Nathan Braun <n8tz.js@gmail.com>",
@@ -31,8 +31,10 @@
     "@babel/register": "^7.24.6",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
-    "layer-pack": "^2.3.9",
-    "lpack-react": "^2.1.1",
+    "docdash": "^2.0.2",
+    "jsdoc": "^4.0.3",
+    "layer-pack": "^3.0.7",
+    "lpack-react": "^2.2.0",
     "nodemon": "^3.1.4"
   }
 }

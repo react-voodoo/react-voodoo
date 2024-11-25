@@ -117,7 +117,11 @@ export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, noPro
 				               }
 				               else fTween[key] = tween[key];
 			               }
-			               else excluded[key] = tween[key];
+			               else {
+							   //console.log('deMuxTween:::121: ', key);
+							   //excluded[key] = tween[key];
+							   fTween[key] = tween[key];
+			               }
 		               });
 	
 	fTween && Object.keys(fTween)
@@ -126,8 +130,10 @@ export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, noPro
 			                if ( cssDemux[key] ) {//key, value, target, data, initials
 				                (demuxers[key] = cssDemux[key]).mux(key, fTween[key], deMuxedTween, data, initials, noPropLock, reOrder)
 			                }
-			                else
+			                else if ( isValidDeclaration(key, tween[key]) )
 				                (demuxers[key] = getMuxerTypeOfProperty(key)).mux(key, fTween[key], deMuxedTween, data, initials, noPropLock, reOrder)
+			                else
+				                (demuxers[key] = any).mux(key, fTween[key], deMuxedTween, data, initials, noPropLock, reOrder)
 		                }
 	                );
 	return excluded;
