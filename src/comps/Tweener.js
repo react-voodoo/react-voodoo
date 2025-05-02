@@ -110,8 +110,11 @@ export default class Tweener extends React.Component {
 		_.tweenRefTargets     = _.tweenRefTargets || [];
 		_.runningAnims        = _.runningAnims || [];
 		
-		_.scrollHook    = [];
-		_.activeInertia = [];
+		_.scrollHook          = [];
+		_.activeInertia       = [];
+		_.defaultAxesPosition = props.tweenerOptions?.defaultAxesPosition;
+		props.tweenerOptions?.ref?.(this);
+		
 		isBrowserSide && window.addEventListener(
 			"resize",
 			this._.onResize = ( e ) => {//@todo
@@ -491,7 +494,7 @@ export default class Tweener extends React.Component {
 		    scrollableBounds = _scrollableBounds,
 		    scrollPos        = !reset && dim
 		                       ? dim.scrollPos
-		                       : defaultPosition || scrollableBounds && scrollableBounds.min || 0,
+		                       : _.defaultAxesPosition?.[axe] || defaultPosition || scrollableBounds && scrollableBounds.min || 0,
 		    scrollableArea   = Math.max(dim && dim.scrollableArea || 0, _scrollableArea),
 		    scrollableWindow = Math.max(dim && dim.scrollableWindow || 0, _scrollableWindow),
 		    targetPos        = dim ? dim.targetPos : scrollPos,

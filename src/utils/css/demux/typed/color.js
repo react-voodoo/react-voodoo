@@ -10,6 +10,7 @@
  */
 
 import rgba from "color-rgba";
+import is   from "is";
 
 export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
 	let path   = twKey.split('_'),
@@ -23,7 +24,7 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 		//delete cssMap[twKey];
 		//console.log("delete", twKey, path)
 	}
-	if ( !--dataMap[tmpKey] && !keepValues ) {
+	if ( tmpKey && !--dataMap[tmpKey] && !keepValues ) {
 		delete tweenableMap[twKey];
 		delete dataMap[twKey];
 		//delete muxerMap[twKey];
@@ -34,14 +35,21 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 }
 
 export function demux( key, tweenable, target, data ) {
-	let value = "rgba(" + tweenable[key + '_r'] + ", " + tweenable[key + '_g'] + ", " + tweenable[key + '_b'] + ", " + tweenable[key + '_a'] + ")";
+	let value = "rgba(" +
+		Math.min(255, tweenable[key + '_r']) + ", " +
+		Math.min(255, tweenable[key + '_g']) + ", " +
+		Math.min(255, tweenable[key + '_b']) + ", " +
+		Math.min(1, tweenable[key + '_a']) + ")";
+	//console.log('demux::demux:38: ', value);
 	return target ?
 	       target[key] = value : value;
 }
 
 export function mux( key, value, target, data, initials, noPropLock ) {
-	let vect = rgba(value);
-	
+	let vect         = is.string(value)
+	                   ? rgba(value)
+	                   : value && [value.r || 0, value.g || 0, value.b || 0, value.a || 0];
+	//console.log('mux::mux:44: ', value, vect);
 	data[key]        = data[key] || 0;
 	data[key + '_r'] = data[key + '_r'] || 0;
 	data[key + '_g'] = data[key + '_g'] || 0;
