@@ -47,10 +47,6 @@ React-Voodoo use a delta-based interpolation engine that solves this problem, it
 
 ## Samples sources [here](https://github.com/react-voodoo/react-voodoo-samples)
 
-## Note
-
-react-voodoo still miss some interpolator ( like background or borders ).<br/>
-
 ## You... like it / it saved your day / you stole all the code / you want more?
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)

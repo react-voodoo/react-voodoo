@@ -144,17 +144,13 @@ export default class Tweener extends React.Component {
 		let initials = {};
 		if ( !_.tweenRefs[id] )
 			_.tweenRefTargets.push(id);
-		//if ( id === "items" ) {
-		//	debugger
-		//}
-		//ref && console.warn('ref ', id, ref)
 		
-		if ( _.tweenRefs[id] && (
+		if ( _.tweenRefs[id] && (// if node exist hot switch initial values
 			mapReset
 			|| (_.iMapOrigin[id] !== iMap || !deepEqual(iMap, _.iMapOrigin[id]))
 			|| (_.tweenRefOriginCss[id] !== iStyle || !deepEqual(iStyle, _.tweenRefOriginCss[id]))
 		) ) {
-			// hot switch initial values
+			
 			//console.warn('ref exist & style is !==', id, iStyle,
 			//             _.tweenRefOriginCss[id], mapReset)
 			_.iMapOrigin[id]        = iMap;
@@ -225,12 +221,6 @@ export default class Tweener extends React.Component {
 			
 			_.tweenRefMaps[id] = _.tweenRefMaps[id] || {};
 			if ( _.tweenRefOrigin[id] ) {
-				//debugger
-				// minus initial values from axis pre init
-				//Object.keys(_.tweenRefOrigin[id])
-				//      .forEach(
-				//	      key => (_.tweenRefMaps[id][key] -= _.tweenRefOrigin[id][key])
-				//      );
 				iStyle = { ...iStyle, ...deMuxTween(iMap, tweenableMap, initials, _.muxDataByTarget[id], _.muxByTarget[id], false, true) };
 				
 				//// set defaults values in case of
@@ -836,7 +826,7 @@ export default class Tweener extends React.Component {
 		this.axisDidScroll(x, axe);
 		this._updateTweenRefs()
 		if ( dim.inertia.active || dim.inertia.holding ) {
-			dim.inertiaFrame = setTimeout(this.applyInertia.bind(this, dim, axe), 33);
+			dim.inertiaFrame = setTimeout(this.applyInertia.bind(this, dim, axe), 16);
 		}
 		else {
 			dim.inertiaFrame = null;

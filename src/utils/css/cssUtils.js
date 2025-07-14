@@ -178,9 +178,9 @@ export const props = {
 
 export const units    = ['', 'deg', 'box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'];
 export const unitsRe  = new RegExp(
-	"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
+	"^\s*([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
 	['\\w+', 'deg', 'bz', 'bh', 'bw', 'cap', 'ch', 'deg', 'em', 'ic', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
-	+ ")"
+	+ ")\s*$"
 );
 export const floatCut = ( v = 0 ) => Number(v.toFixed(3));
 

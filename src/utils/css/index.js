@@ -118,7 +118,6 @@ export function deMuxTween( tween, deMuxedTween, initials, data, demuxers, noPro
 				               else fTween[key] = tween[key];
 			               }
 			               else {
-							   //console.log('deMuxTween:::121: ', key);
 							   //excluded[key] = tween[key];
 							   fTween[key] = tween[key];
 			               }
