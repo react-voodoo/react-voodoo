@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 510" width="960" height="510">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0D1117"/>
+      <stop offset="100%" stop-color="#161B22"/>
+    </linearGradient>
+    <!-- voodoo/wasm bar: bottom dark → top vivid violet -->
+    <linearGradient id="wasmBar" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#5B21B6"/>
+      <stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+    <!-- voodoo/js bar -->
+    <linearGradient id="jsBar" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#3B1F7A"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <!-- glow for wasm bars only -->
+    <filter id="glow" x="-30%" y="-10%" width="160%" height="130%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- subtle separator line pattern -->
+    <pattern id="sep" x="0" y="0" width="1" height="1">
+      <line x1="0" y1="0" x2="0" y2="1" stroke="#21262D" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- ── Background ───────────────────────────────────────────────────────── -->
+  <rect width="960" height="510" fill="url(#bg)" rx="10"/>
+  <!-- top accent line -->
+  <rect x="0" y="0" width="960" height="2" fill="#8B5CF6" rx="2" opacity="0.6"/>
+
+  <!-- ── Title ────────────────────────────────────────────────────────────── -->
+  <text x="480" y="26" text-anchor="middle" fill="#E6EDF3"
+        font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+        font-size="13" font-weight="600" letter-spacing="0.3">
+    Animation Engine · M seeks / second  (higher = better)
+  </text>
+  <text x="480" y="42" text-anchor="middle" fill="#484F58"
+        font-family="-apple-system,sans-serif" font-size="10">
+    Node.js v20 · 5× median · no DOM/RAF overhead · delta-based additive model vs absolute-seek
+  </text>
+
+  <!-- ── Y-axis grid ──────────────────────────────────────────────────────── -->
+  <!-- scale: 15 px / M  ·  chart bottom y=400 -->
+  <!-- 5M  → y=325 -->
+  <!-- 10M → y=250 -->
+  <!-- 15M → y=175 -->
+  <!-- 20M → y=100 -->
+  <line x1="60" y1="325" x2="940" y2="325" stroke="#1C2128" stroke-width="1"/>
+  <line x1="60" y1="250" x2="940" y2="250" stroke="#1C2128" stroke-width="1"/>
+  <line x1="60" y1="175" x2="940" y2="175" stroke="#1C2128" stroke-width="1"/>
+  <line x1="60" y1="100" x2="940" y2="100" stroke="#1C2128" stroke-width="1"/>
+  <!-- baseline -->
+  <line x1="60" y1="400" x2="940" y2="400" stroke="#30363D" stroke-width="1"/>
+
+  <!-- Y labels -->
+  <text x="52" y="329" text-anchor="end" fill="#6E7681" font-family="monospace" font-size="10">5M</text>
+  <text x="52" y="254" text-anchor="end" fill="#6E7681" font-family="monospace" font-size="10">10M</text>
+  <text x="52" y="179" text-anchor="end" fill="#6E7681" font-family="monospace" font-size="10">15M</text>
+  <text x="52" y="104" text-anchor="end" fill="#6E7681" font-family="monospace" font-size="10">20M</text>
+
+  <!--
+    5 scenario groups evenly across x=60..940 → group width = 176px
+    Within each group:  outer pad = 8px each side
+                        5 bars × 28px + 4 gaps × 5px = 160px
+    Bar offsets from group_x:  8 / 41 / 74 / 107 / 140
+    Library order per group:   wasm · js · gsap · popmotion/FM · anime
+
+    Group x_starts: 60  236  412  588  764
+    Group centers:  148  324  500  676  852
+
+    Bar heights (value × 15), bar top = 400 − height:
+    ─────────────────────────────────────────────────
+    S1 seq    wasm=302/98  js=131/269  gsap=137/263  pm=321/79   anime=85/315
+    S3 20p    wasm=116/284 js=81/319   gsap=44/356   pm=44/356   anime=25/375
+    S5 add    wasm=144/256 js=66/334   gsap=38/362   pm=106/294  anime=27/373
+    S6 spr    wasm=151/249 js=69/331   gsap=38/362   pm=111/289  anime=28/372
+    S7 lng    wasm=313/87  js=107/293  gsap=46/354   pm=288/112  anime=18/382
+  -->
+
+  <!-- ════ GROUP 0 · S1 sequential 5 props · x_start=60 ════ -->
+  <rect x="68"  y="98"  width="28" height="302" fill="url(#wasmBar)" rx="2" filter="url(#glow)"/>
+  <rect x="101" y="269" width="28" height="131" fill="url(#jsBar)"   rx="2"/>
+  <rect x="134" y="263" width="28" height="137" fill="#10B981"       rx="2" opacity="0.8"/>
+  <rect x="167" y="79"  width="28" height="321" fill="#3B82F6"       rx="2" opacity="0.8"/>
+  <rect x="200" y="315" width="28" height="85"  fill="#F59E0B"       rx="2" opacity="0.8"/>
+  <!-- value labels -->
+  <text x="82"  y="93"  text-anchor="middle" fill="#C4B5FD" font-family="monospace" font-size="9" font-weight="bold">20M</text>
+  <text x="181" y="74"  text-anchor="middle" fill="#93C5FD" font-family="monospace" font-size="9">21M</text>
+  <!-- group label -->
+  <text x="148" y="418" text-anchor="middle" fill="#8B949E" font-family="-apple-system,sans-serif" font-size="10">sequential</text>
+  <text x="148" y="430" text-anchor="middle" fill="#484F58" font-family="-apple-system,sans-serif" font-size="9">5 props</text>
+
+  <!-- ════ GROUP 1 · S3 property scaling 20 props · x_start=236 ════ -->
+  <rect x="244" y="284" width="28" height="116" fill="url(#wasmBar)" rx="2" filter="url(#glow)"/>
+  <rect x="277" y="319" width="28" height="81"  fill="url(#jsBar)"   rx="2"/>
+  <rect x="310" y="356" width="28" height="44"  fill="#10B981"       rx="2" opacity="0.8"/>
+  <rect x="343" y="356" width="28" height="44"  fill="#3B82F6"       rx="2" opacity="0.8"/>
+  <rect x="376" y="375" width="28" height="25"  fill="#F59E0B"       rx="2" opacity="0.8"/>
+  <!-- value labels -->
+  <text x="258" y="279" text-anchor="middle" fill="#C4B5FD" font-family="monospace" font-size="9" font-weight="bold">7.7M</text>
+  <text x="291" y="314" text-anchor="middle" fill="#A78BFA" font-family="monospace" font-size="9">5.4M</text>
+  <!-- group label -->
+  <text x="324" y="418" text-anchor="middle" fill="#8B949E" font-family="-apple-system,sans-serif" font-size="10">property scale</text>
+  <text x="324" y="430" text-anchor="middle" fill="#484F58" font-family="-apple-system,sans-serif" font-size="9">20 props</text>
+
+  <!-- ════ GROUP 2 · S5 additive ×3 · x_start=412 ════ -->
+  <rect x="420" y="256" width="28" height="144" fill="url(#wasmBar)" rx="2" filter="url(#glow)"/>
+  <rect x="453" y="334" width="28" height="66"  fill="url(#jsBar)"   rx="2"/>
+  <rect x="486" y="362" width="28" height="38"  fill="#10B981"       rx="2" opacity="0.8"/>
+  <rect x="519" y="294" width="28" height="106" fill="#3B82F6"       rx="2" opacity="0.8"/>
+  <rect x="552" y="373" width="28" height="27"  fill="#F59E0B"       rx="2" opacity="0.8"/>
+  <!-- value labels -->
+  <text x="434" y="251" text-anchor="middle" fill="#C4B5FD" font-family="monospace" font-size="9" font-weight="bold">9.6M</text>
+  <!-- badge: ×3.8 vs GSAP -->
+  <rect x="408" y="227" width="52" height="16" fill="#3B0764" rx="8" opacity="0.9"/>
+  <text x="434" y="238" text-anchor="middle" fill="#E9D5FF" font-family="monospace" font-size="9" font-weight="bold">×3.8 vs GSAP</text>
+  <!-- group label (highlighted) -->
+  <text x="500" y="418" text-anchor="middle" fill="#DDD6FE" font-family="-apple-system,sans-serif" font-size="10" font-weight="600">additive ×3</text>
+  <text x="500" y="430" text-anchor="middle" fill="#7C3AED" font-family="-apple-system,sans-serif" font-size="9">voodoo native</text>
+
+  <!-- ════ GROUP 3 · S6 spring layers · x_start=588 ════ -->
+  <rect x="596" y="249" width="28" height="151" fill="url(#wasmBar)" rx="2" filter="url(#glow)"/>
+  <rect x="629" y="331" width="28" height="69"  fill="url(#jsBar)"   rx="2"/>
+  <rect x="662" y="362" width="28" height="38"  fill="#10B981"       rx="2" opacity="0.8"/>
+  <rect x="695" y="289" width="28" height="111" fill="#3B82F6"       rx="2" opacity="0.8"/>
+  <rect x="728" y="372" width="28" height="28"  fill="#F59E0B"       rx="2" opacity="0.8"/>
+  <!-- value labels -->
+  <text x="610" y="244" text-anchor="middle" fill="#C4B5FD" font-family="monospace" font-size="9" font-weight="bold">10M</text>
+  <!-- badge -->
+  <rect x="584" y="220" width="52" height="16" fill="#3B0764" rx="8" opacity="0.9"/>
+  <text x="610" y="231" text-anchor="middle" fill="#E9D5FF" font-family="monospace" font-size="9" font-weight="bold">×3.9 vs GSAP</text>
+  <!-- group label (highlighted) -->
+  <text x="676" y="418" text-anchor="middle" fill="#DDD6FE" font-family="-apple-system,sans-serif" font-size="10" font-weight="600">spring layers</text>
+  <text x="676" y="430" text-anchor="middle" fill="#7C3AED" font-family="-apple-system,sans-serif" font-size="9">scroll+drag+push</text>
+
+  <!-- ════ GROUP 4 · S7 long timeline 20 segments · x_start=764 ════ -->
+  <rect x="772" y="87"  width="28" height="313" fill="url(#wasmBar)" rx="2" filter="url(#glow)"/>
+  <rect x="805" y="293" width="28" height="107" fill="url(#jsBar)"   rx="2"/>
+  <rect x="838" y="354" width="28" height="46"  fill="#10B981"       rx="2" opacity="0.8"/>
+  <rect x="871" y="112" width="28" height="288" fill="#3B82F6"       rx="2" opacity="0.8"/>
+  <rect x="904" y="382" width="28" height="18"  fill="#F59E0B"       rx="2" opacity="0.8"/>
+  <!-- value labels -->
+  <text x="786" y="82"  text-anchor="middle" fill="#C4B5FD" font-family="monospace" font-size="9" font-weight="bold">20.9M</text>
+  <text x="885" y="107" text-anchor="middle" fill="#93C5FD" font-family="monospace" font-size="9">19M</text>
+  <!-- badge: ×6.8 vs GSAP -->
+  <rect x="760" y="58"  width="52" height="16" fill="#3B0764" rx="8" opacity="0.9"/>
+  <text x="786" y="69"  text-anchor="middle" fill="#E9D5FF" font-family="monospace" font-size="9" font-weight="bold">×6.8 vs GSAP</text>
+  <!-- group label -->
+  <text x="852" y="418" text-anchor="middle" fill="#8B949E" font-family="-apple-system,sans-serif" font-size="10">long timeline</text>
+  <text x="852" y="430" text-anchor="middle" fill="#484F58" font-family="-apple-system,sans-serif" font-size="9">20 segments</text>
+
+  <!-- ── Legend ────────────────────────────────────────────────────────────── -->
+  <!-- centered row at y=455 -->
+  <rect x="168" y="451" width="11" height="11" fill="url(#wasmBar)" rx="2"/>
+  <text x="183" y="461" fill="#C9D1D9" font-family="-apple-system,sans-serif" font-size="10">voodoo / wasm</text>
+
+  <rect x="295" y="451" width="11" height="11" fill="url(#jsBar)" rx="2"/>
+  <text x="310" y="461" fill="#C9D1D9" font-family="-apple-system,sans-serif" font-size="10">voodoo / js</text>
+
+  <rect x="405" y="451" width="11" height="11" fill="#10B981" rx="2" opacity="0.8"/>
+  <text x="420" y="461" fill="#C9D1D9" font-family="-apple-system,sans-serif" font-size="10">GSAP</text>
+
+  <rect x="475" y="451" width="11" height="11" fill="#3B82F6" rx="2" opacity="0.8"/>
+  <text x="490" y="461" fill="#C9D1D9" font-family="-apple-system,sans-serif" font-size="10">Framer Motion</text>
+
+  <rect x="610" y="451" width="11" height="11" fill="#F59E0B" rx="2" opacity="0.8"/>
+  <text x="625" y="461" fill="#C9D1D9" font-family="-apple-system,sans-serif" font-size="10">Anime.js</text>
+
+  <!-- ── Footnote ───────────────────────────────────────────────────────────── -->
+  <text x="480" y="490" text-anchor="middle" fill="#3D444D"
+        font-family="-apple-system,sans-serif" font-size="9">
+    perf-compare/bench.js · tween-axis v2.6.1 · GSAP v3.14 · Popmotion v11 · Anime.js v3
+  </text>
+</svg>

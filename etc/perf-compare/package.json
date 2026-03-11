@@ -1,0 +1,14 @@
+{
+  "name": "react-voodoo-perf-compare",
+  "version": "1.0.0",
+  "description": "Performance comparison: react-voodoo (tween-axis) vs GSAP vs Anime.js vs Popmotion",
+  "scripts": {
+    "bench": "node bench.js",
+    "install-deps": "npm install"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "animejs": "^3.2.2",
+    "popmotion": "^11.0.5"
+  }
+}

@@ -78,6 +78,49 @@ This unlocks a set of features that are unique to the delta model:
 
 ---
 
+## Performance
+
+The delta model isn't just an architectural choice — the numbers back it up.
+In the scenarios that define react-voodoo's use-case — **compositing multiple animation
+sources on the same element** — the engine runs **3–7× faster than GSAP** and handles
+far more properties per frame without degrading.
+
+<p align="center">
+  <img src="./doc/assets/perf-chart.svg" alt="Performance comparison chart" width="960"/>
+</p>
+
+<details>
+<summary><b>What each scenario measures</b></summary>
+
+| Scenario | Description |
+|---|---|
+| **sequential · 5 props** | Frame-by-frame advance, 5 CSS properties — the baseline everyone tests |
+| **property scale · 20 props** | Same advance with 20 properties — reveals engine scaling cost per property |
+| **additive ×3** | Three independent animation axes all writing to the same 5 properties simultaneously. This is react-voodoo's **native model**. Competitors must run 3 separate timelines and manually sum results. |
+| **spring layers** | Same 3 axes at different speeds (×1, ×0.7, ×0.3) — the signature scroll + drag + push composition pattern react-voodoo is built for |
+| **long timeline · 20 segs** | A timeline with 20 sequential animation segments — models a full-page scroll sequence or complex keyframe chain |
+
+</details>
+
+<details>
+<summary><b>Why voodoo wins at scale</b></summary>
+
+- **Compiled-per-property processors** — at mount time each tween compiles a dedicated function (via `new Function`) that contains only the branches it needs. There is no per-property dispatch loop at runtime; property count scales at near O(1).
+- **WASM state machine** — the marker-scan loop (the part that decides which tweens are active as the cursor moves) runs entirely in WebAssembly. Zero JS-boundary crossings per frame in the hot path.
+- **Additive is free** — `goTo(pos, scope)` accumulates deltas into the same plain object regardless of how many axes call it. Competitors must maintain N separate target objects and merge them manually.
+
+The one scenario where a stateless interpolator (Framer Motion / Popmotion) wins is
+a **single small axis with easing**: pure math functions with no timeline state beat even
+WASM for trivially short timelines. That overhead is the fair cost of additive composability —
+and it disappears entirely once you have more than one axis compositing on the same element.
+
+</details>
+
+> Full benchmark source: [`perf-compare/bench.js`](../perf-compare/bench.js)
+> Detailed analysis: [`doc/Alternatives libs perf comparaison.md`](doc/Alternatives%20libs%20perf%20comparaison.md)
+
+---
+
 ## Installation
 
 ```bash
@@ -337,4 +380,5 @@ If react-voodoo saved you a day of work, consider supporting it:
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#)
 
 **BTC** — `bc1qh43j8jh6dr8v3f675jwqq3nqymtsj8pyq0kh5a`
+
 **PayPal** — <a href="https://www.paypal.com/donate/?hosted_button_id=ECHYGKY3GR7CN"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate" /></a>
