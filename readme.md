@@ -28,6 +28,8 @@ Most animation libraries output **absolute values** — they own a CSS property 
 
 React-voodoo takes a different approach: its engine computes **deltas** — the *change* from the previous frame — and accumulates them additively across any number of axes. Multiple animations on the same property simply add together. No ownership, no conflicts.
 
+The engine is built on [tween-axis](../tween-axis/README.md) and uses its WebAssembly backend for hot-path property accumulation with zero JS-boundary crossings per frame.
+
 This unlocks a set of features that are unique to the delta model:
 
 | Feature | How |
