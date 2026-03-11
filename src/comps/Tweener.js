@@ -22,25 +22,72 @@ import tweenAxis
 import domUtils                                               from "../utils/dom";
 import Inertia                                                from '../utils/inertia';
 
+/**
+ * Tweener — the central animation engine for react-voodoo.
+ *
+ * Responsibilities:
+ *  - Owns all registered node state: numeric interpolatable values (`tweenRefMaps`),
+ *    CSS string cache (`tweenRefCSS`), demuxer registries (`muxByTarget`, `muxDataByTarget`).
+ *  - Drives scroll axes: each Axis registers a CssTweenAxis timeline here; on each
+ *    scroll event `goTo(pos, tweenRefMaps)` emits deltas directly into tweenRefMaps.
+ *  - Writes CSS to the DOM directly, bypassing React's render loop entirely, via
+ *    `_updateTweenRefs()` → `node.style[prop] = value` (or setAttribute for SVG attrs).
+ *  - Is distributed to all descendants via TweenerContext so that Node, Axis, and
+ *    Draggable can find the nearest engine without prop-drilling.
+ *
+ * The class extends React.Component only to participate in the component lifecycle
+ * (componentDidMount, componentWillUnmount). All mutable animation state lives in
+ * `this._` (see constructor) to avoid interference with React's diffing.
+ */
 
 let isBrowserSide           = (new Function("try {return this===window;}catch(e){ return false;}"))(),
     isArray                 = is.array,
     _live, lastTm, _running = [];
 
-// Axis Interpolation timer ( not the rendering loop ! )
+/**
+ * Build a plain style object from a tweenRefCSS map, filtering out SVG geometry
+ * attribute entries (keys prefixed with "attr_") that are applied via setAttribute
+ * and must not appear in a React style prop.
+ */
+function toStyleProp( css ) {
+	const s = {};
+	for ( const k in css )
+		if ( k.length < 5 || k[0] !== 'a' || k[1] !== 't' || k[2] !== 't' || k[3] !== 'r' || k[4] !== '_' )
+			s[k] = css[k];
+	return s;
+}
+
+/**
+ * Runner — a module-level setTimeout-based timer shared across all Tweener instances.
+ *
+ * This is NOT the per-frame RAF loop. Its job is to drive time-based animations:
+ *  - `pushAnim()` one-shot timelines
+ *  - `scrollTo(pos, ms)` eased scroll transitions via `_runScrollGoTo`
+ *
+ * RAF (`requestAnimationFrame`) is used separately in `_rafLoop` only for the
+ * per-frame DOM write pass that flushes accumulated deltas to node.style.
+ */
 const Runner = {
+	/**
+	 * Enqueue a new animation. Resets the timeline to position 0, then starts
+	 * ticking at ~16ms intervals until all queued animations complete.
+	 */
 	run  : function ( tl, ctx, duration, cb ) {
 		let apply = ( pos, size ) => tl.go(pos / size, ctx);
 		_running.push({ apply, duration, cpos: 0, cb });
 		tl.go(0, ctx, true);//reset tl
-		
+
 		if ( !_live ) {
 			_live  = true;
 			lastTm = Date.now();
-			// console.log("TL runner On");
 			setTimeout(this._tick, 16);
 		}
 	},
+	/**
+	 * Advance each running animation by elapsed ms. Animations that reach their
+	 * full duration are completed (callback fired) and removed from the queue.
+	 * The loop stops itself when the queue is empty.
+	 */
 	_tick: function _tick() {
 		let i  = 0, o, tm = Date.now(), delta = tm - lastTm;
 		lastTm = tm;
@@ -49,35 +96,47 @@ const Runner = {
 			_running[i].apply(
 				_running[i].cpos, _running[i].duration
 			);
-			// console.log("TL runner ",_running[i][3]);
 			if ( _running[i].cpos == _running[i].duration ) {
-				
+
 				_running[i].cb && setTimeout(_running[i].cb);
 				_running.splice(i, 1), i--;
 			}
-			
+
 		}
 		if ( _running.length )
 			setTimeout(_tick, 16);
 		else {
-			// console.log("TL runner Off");
 			_live = false;
 		}
 	},
 };
-/**
- * The main tweener component
- */
 export default class Tweener extends React.Component {
-	
+
 	axes                 = {};
 	_scrollWatcherByAxis = {};
-	
+
 	// ------------------------------------------------------------
 	// -------------------- TweenRefs utils -----------------------
 	// ------------------------------------------------------------
+
+	// Scratch buffer reused every RAF frame by _updateTweenRef to avoid allocations
 	_swap = {};
-	
+
+	/**
+	 * All mutable animation state is stored in `this._` rather than directly on
+	 * the instance or in React state. This prevents React's reconciler from
+	 * touching it during re-renders, and avoids the overhead of setState for
+	 * changes that are written straight to the DOM anyway.
+	 *
+	 * Key sub-objects:
+	 *  - `_.tweenRefMaps[id]`    — numeric additive values per node (the hot path)
+	 *  - `_.tweenRefCSS[id]`     — last-written CSS string values per node
+	 *  - `_.muxByTarget[id]`     — active demuxer instances per CSS property per node
+	 *  - `_.muxDataByTarget[id]` — per-target mux metadata (ref counts, unit info)
+	 *  - `_.tweenRefOrigin[id]`  — snapshot of initial numeric values at registration time
+	 *  - `_.runningAnims`        — pushAnim timelines currently being ticked
+	 *  - `_.refs[id]`            — DOM node references set by the ref callback on each Node
+	 */
 	constructor( props ) {
 		super(...arguments);
 		let _                 = this._ = {
@@ -125,15 +184,22 @@ export default class Tweener extends React.Component {
 	}
 	
 	/**
-	 * Register tweenable element
-	 * return its current style
-	 * @param id
-	 * @param iStyle
-	 * @param iMap
-	 * @param pos
-	 * @param noref
-	 * @param mapReset
-	 * @returns {style,ref}
+	 * Register (or re-register) an animatable node.
+	 *
+	 * First call: allocates `tweenRefMaps[id]` with numeric initial values derived
+	 * from `iMap` via deMuxTween. The resulting demuxer instances are stored in
+	 * `muxByTarget[id]` so the same parsers are reused on every subsequent frame.
+	 *
+	 * Subsequent calls with a changed `iMap` or `iStyle`: hot-swaps the initial
+	 * offset so any running animation deltas are preserved. The algorithm:
+	 *   1. Subtracts the old origin from tweenRefMaps (undoes previous baseline).
+	 *   2. Re-demuxes the new iMap to get a fresh tweenableMap.
+	 *   3. Adds the new tweenableMap to tweenRefMaps (applies new baseline).
+	 * This keeps in-flight animations (whose deltas are already accumulated in
+	 * tweenRefMaps) intact through style prop changes.
+	 *
+	 * Returns `{ style, ref }` — style is the initial CSS for React's first render;
+	 * ref is a callback that stores the DOM node into `_.refs[id]` for direct writes.
 	 */
 	tweenRef( id, iStyle = {}, iMap = {}, pos, ref, noref, mapReset ) {// ref initial style
 		
@@ -264,11 +330,11 @@ export default class Tweener extends React.Component {
 		// ..._.tweenRefCSS[id] });
 		if ( noref )
 			return {
-				style: { ..._.tweenRefCSS[id] }
+				style: toStyleProp(_.tweenRefCSS[id])
 			};
 		else
 			return {
-				style: { ..._.tweenRefCSS[id] },
+				style: toStyleProp(_.tweenRefCSS[id]),
 				ref  : is.function(ref)
 				       ? node => (_.refs[id] = ref(node))
 				       : ref
@@ -326,7 +392,7 @@ export default class Tweener extends React.Component {
 			return target.map(( m ) => this.updateRefStyle(m, style, postPone));
 		
 		if ( !_.tweenRefMaps[target] )
-			return console.warn("React-Voodoo : Can't update styles of an unknown Node id '", target, "'");
+			return console.warn("[react-voodoo] Cannot update styles: unknown Node id '", target, "'");
 		
 		pureCss = deMuxTween(style, _.tweenRefMaps[target], initials, _.muxDataByTarget[target], _.muxByTarget[target]);
 		Object.assign(_.tweenRefCSS[target], pureCss);
@@ -345,12 +411,12 @@ export default class Tweener extends React.Component {
 	 * @returns {*}
 	 */
 	getTweenableRef( id ) {
-		if ( is.element(this._.refs[id]) )
+		if ( this._.refs[id]?.nodeType === 1 )
 			return this._.refs[id];
 		else if ( this._.refs[id]?._?.rootRef?.current && is.element(this._.refs[id]._.rootRef.current) )
 			return this._.refs[id]._.rootRef.current
 		else if ( !this._.tweenRefs[id] )
-			console.warn("react-voodoo: Can't find voodooNode ", id)
+			console.warn("[react-voodoo] getTweenableRef: no registered node found for id '", id, "'")
 	}
 	
 	/**
@@ -370,11 +436,15 @@ export default class Tweener extends React.Component {
 	// ------------------------------------------------------------
 	
 	/**
-	 * Push anims
-	 * @param anim
-	 * @param then
-	 * @param skipInit
-	 * @returns {tweenAxis}
+	 * Run a one-shot animation timeline and return a Promise that resolves when it completes.
+	 *
+	 * If `anim` is a plain descriptor array, it is demuxed into a CssTweenAxis here.
+	 * The axis is handed to `tweenAxis.run()` which drives it via the module-level
+	 * Runner (setTimeout loop). While the animation runs, the RAF loop is also kept
+	 * alive so DOM writes happen every frame.
+	 *
+	 * On completion the axis is destroyed (returned to the pool) and the demuxed
+	 * property locks are released via `clearTweenableValue`.
 	 */
 	pushAnim( anim, then, keepResults = true ) {
 		let sl,
@@ -402,7 +472,7 @@ export default class Tweener extends React.Component {
 					      Object.assign(this._.tweenRefMaps[id], {
 						      ...initials[id],
 						      ...this._.tweenRefMaps[id]
-					      }) || (fail = console.warn("react-voodoo : Can't find tween target ", id, " in ", Tweener.displayName) || true)
+					      }) || (fail = console.warn("[react-voodoo] pushAnim: cannot find tween target '", id, "' in", Tweener.displayName) || true)
 				      )
 			      )
 		}
@@ -560,17 +630,19 @@ export default class Tweener extends React.Component {
 	}
 	
 	/**
-	 * Do scroll an axis
-	 * @param newPos
-	 * @param ms
-	 * @param axe
-	 * @param ease
-	 * @returns {Promise<any | never>}
+	 * Scroll an axis to `newPos`.
+	 *
+	 * Fast path (ms === 0): directly calls `axis.tweenAxis[].goTo(newPos)` and
+	 * triggers a single `_updateTweenRefs()` pass — no timer is started.
+	 *
+	 * Eased path (ms > 0): delegates to `_runScrollGoTo()` which enqueues an entry
+	 * in the module-level Runner, interpolating between the current position and the
+	 * target over the given duration using the supplied d3-ease function.
 	 */
 	scrollTo( newPos, ms = 0, axe = "scrollY", ease, noEvents ) {
 		let _ = this._;
 		if ( !isBrowserSide ) {
-			console.warn("React-voodoo : scrollTo can't be used serverside, use Axis defaultPosition prop to set initial axes position");
+			console.warn("[react-voodoo] scrollTo() cannot be used server-side — use the Axis defaultPosition prop to set the initial axis position");
 			return Promise.resolve();
 		}
 		return new Promise(
@@ -624,11 +696,13 @@ export default class Tweener extends React.Component {
 	}
 	
 	/**
-	 * Add scrollable tween axis (scrollable anims) to a global axis
-	 * @param anim
-	 * @param axe
-	 * @param size
-	 * @returns {tweenAxis}
+	 * Parse a tween descriptor array into a CssTweenAxis, register it on the named
+	 * axis, and immediately advance it to the current scroll position so there is no
+	 * visual jump when an axis is added mid-session.
+	 *
+	 * The resulting CssTweenAxis is pushed into `dim.tweenAxis[]` so that every
+	 * future `goTo()` call (from scrolling or inertia) hits all registered timelines
+	 * for that axis in one pass.
 	 */
 	addScrollableAnim( anim, axe = "scrollY", size ) {
 		let sl,
@@ -720,7 +794,7 @@ export default class Tweener extends React.Component {
 			found = true;
 			this._updateTweenRefs();
 		}
-		!found && console.warn("react-voodoo: Axis not found : ", axe)
+		!found && console.warn("[react-voodoo] rmScrollableAnim: axis not found:", axe)
 	}
 	
 	/**
@@ -762,11 +836,10 @@ export default class Tweener extends React.Component {
 		if ( !_live ) {
 			_live  = true;
 			lastTm = Date.now();
-			// console.log("TL runner On");
 			setTimeout(Runner._tick, 16);
 		}
 	}
-	
+
 	/**
 	 * Hook to know if the composed element allow scrolling
 	 * @returns {boolean}
@@ -807,9 +880,11 @@ export default class Tweener extends React.Component {
 	}
 	
 	/**
-	 * Retrieve updates from an axis inertia & apply them
-	 * @param dim
-	 * @param axe
+	 * Called from a recurring 16ms setTimeout while inertia is active (set up by
+	 * the drag handlers in Draggable). Each call reads the next position from
+	 * `Inertia.update()`, calls `goTo()` on all registered timelines for the axis,
+	 * and triggers a DOM write via `_updateTweenRefs()`. Re-schedules itself as long
+	 * as `dim.inertia.active` or `dim.inertia.holding` remains true.
 	 */
 	applyInertia( dim, axe ) {
 		let x = dim.inertia.update(), _ = this._;
@@ -820,8 +895,6 @@ export default class Tweener extends React.Component {
 				sl.goTo(x, this._.tweenRefMaps)
 			}
 		);
-		//console.log("scroll at " + x, axe, dim.inertia.active || dim.inertia.holding);
-		//this.scrollTo(x, 0, axe);
 		_.rootRef?.current?.componentDidScroll?.(x, axe);
 		this.axisDidScroll(x, axe);
 		this._updateTweenRefs()
@@ -830,7 +903,6 @@ export default class Tweener extends React.Component {
 		}
 		else {
 			dim.inertiaFrame = null;
-			//console.log("complete");
 		}
 	}
 	
@@ -938,11 +1010,16 @@ export default class Tweener extends React.Component {
 			requestAnimationFrame(this._._rafLoop);
 		}
 		else {
-			//this._.live && console.log("RAF off", this.constructor.displayName);
 			this._.live = false;
 		}
 	}
 	
+	/**
+	 * Hot path — called every RAF frame and after any scroll/inertia event.
+	 * Iterates every registered node id and delegates to `_updateTweenRef` which
+	 * reconstructs CSS strings from the accumulated numeric state and writes any
+	 * changed values to the DOM node directly.
+	 */
 	_updateTweenRefs() {
 		if ( this._.tweenEnabled ) {
 			for ( let i = 0, target, node, style; i < this._.tweenRefTargets.length; i++ ) {
@@ -951,7 +1028,18 @@ export default class Tweener extends React.Component {
 			}
 		}
 	}
-	
+
+	/**
+	 * Swap-buffer DOM write for a single registered target.
+	 *
+	 * Writes new CSS values into the shared `this._swap` scratch object, then diffs
+	 * against `tweenRefCSS[id]` (the last-written values). Only changed properties
+	 * are applied to the DOM, avoiding unnecessary style recalculations.
+	 *
+	 * Keys prefixed with `attr_` are SVG geometry attributes (e.g. `attr_cx`) that
+	 * must be applied via `element.setAttribute(name, value)` rather than
+	 * `element.style[name]` because they are not CSS properties.
+	 */
 	_updateTweenRef( target, force ) {
 		let node, swap = this._swap, changes;
 		this._.tweenRefCSS[target] &&
@@ -960,25 +1048,25 @@ export default class Tweener extends React.Component {
 		if ( node ) {
 			for ( let o in this._.tweenRefCSS[target] )
 				if ( swap[o] === undefined ) {
-					node.style[o] = this._.tweenRefCSS[target][o];
-					//		node.style[o] = null;
-					//		delete this._.tweenRefCSS[target][o];
+					if ( o.length > 5 && o[0] === 'a' && o[1] === 't' && o[2] === 't' && o[3] === 'r' && o[4] === '_' )
+						node.setAttribute(o.slice(5), this._.tweenRefCSS[target][o]);
+					else
+						node.style[o] = this._.tweenRefCSS[target][o];
 				}
 			for ( let o in swap )
 				if ( this._.tweenRefCSS[target].hasOwnProperty(o) ) {
 					if ( force || swap[o] !== this._.tweenRefCSS[target][o] ) {
-						
-						node.style[o] = this._.tweenRefCSS[target][o] = swap[o];
-						//if ( target == "card" ) console.log(target, o, node.style[o],
-						// swap[o]);
+						this._.tweenRefCSS[target][o] = swap[o];
+						if ( o.length > 5 && o[0] === 'a' && o[1] === 't' && o[2] === 't' && o[3] === 'r' && o[4] === '_' )
+							node.setAttribute(o.slice(5), swap[o]);
+						else
+							node.style[o] = swap[o];
 						changes = true;
 					}
 					delete swap[o];
 				}
 		}
-		//if ( !changes )
-		//console.log('no changes', target, this._.tweenRefCSS[target], !!node, force)
-		return this._.tweenRefCSS[target];
+		return toStyleProp(this._.tweenRefCSS[target]);
 	}
 	
 	
@@ -1002,14 +1090,37 @@ export default class Tweener extends React.Component {
 		super.componentWillUnmount && super.componentWillUnmount(...arguments);
 	}
 	
+	/**
+	 * Apply SVG geometry attribute values (attr_* keys in tweenRefCSS) to the DOM
+	 * via setAttribute. Called once on mount because these are filtered from the
+	 * React style prop and cannot be applied via node.style.
+	 */
+	_applyInitialSvgAttrs() {
+		for ( const id of this._.tweenRefTargets ) {
+			const node = this.getTweenableRef(id);
+			const css  = this._.tweenRefCSS[id];
+			if ( !node || !css ) continue;
+			for ( const k in css )
+				if ( k.length > 5 && k[0] === 'a' && k[1] === 't' && k[2] === 't' && k[3] === 'r' && k[4] === '_' )
+					node.setAttribute(k.slice(5), css[k]);
+		}
+	}
+
+	/**
+	 * Called once after the root DOM node is available. Measures the viewport box,
+	 * force-writes all initial CSS/attr values to the DOM, and processes the static
+	 * `scrollableAnim` property — the hook used by the `asTweener` HOC pattern to
+	 * declare axis animations directly on a class component.
+	 */
 	componentDidMount() {
 		let _static = this.constructor;
-		
+
 		this._.rendered = true;
 		if ( this._.tweenEnabled ) {
-			// debugger;
 			this._updateBox();
-			this._updateTweenRefs();
+			// Force-push all values (CSS and attr_*) to the DOM on initial mount.
+			for ( let i = 0; i < this._.tweenRefTargets.length; i++ )
+				this._updateTweenRef(this._.tweenRefTargets[i], true);
 		}
 		if ( _static.scrollableAnim ) {
 			if ( is.array(_static.scrollableAnim) )

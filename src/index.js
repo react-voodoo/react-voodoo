@@ -9,19 +9,20 @@
  * If not, see <http://creativecommons.org/licenses/by-nd/4.0/> or <http://www.gnu.org/licenses/agpl-3.0.txt>.
  */
 
-import React      from 'react';
-import Axis       from './comps/Axis';
-import Context    from './comps/TweenerContext';
-import Node       from './comps/Node';
-import Draggable  from './comps/Draggable';
-import useVoodoo  from './hooks/useVoodoo';
-import useTweener from './hooks/useTweener';
-import tweener    from './spells/asTweener';
-import child      from './spells/withTweener';
-import dom        from './utils/dom.js';
-import * as tools from './utils/tweenTools.js';
+import React                  from 'react';
+import Axis                   from './comps/Axis';
+import Context                from './comps/TweenerContext';
+import Node                   from './comps/Node';
+import Draggable              from './comps/Draggable';
+import useVoodoo              from './hooks/useVoodoo';
+import useTweener             from './hooks/useTweener';
+import tweener                from './spells/asTweener';
+import child                  from './spells/withTweener';
+import dom                    from './utils/dom.js';
+import * as tools             from './utils/tweenTools.js';
+import * as _internalCssUtils from './utils/css/index.js';
 
-import TweenAxis   from "tween-axis";
+import TweenAxis   from "tween-axis/dist/TweenAxisWasm";
 import * as D3Ease from "d3-ease";
 
 TweenAxis.EasingFunctions = D3Ease;
@@ -45,7 +46,8 @@ export {
 	Node,
 	Context,
 	Axis,
-	dom
+	dom,
+	_internalCssUtils
 };
 export default {
 	tweener,
@@ -59,5 +61,6 @@ export default {
 	Node,
 	Context,
 	Axis,
-	dom
+	dom,
+	_internalCssUtils
 };

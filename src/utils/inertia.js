@@ -9,6 +9,24 @@
  * If not, see <http://creativecommons.org/licenses/by-nd/4.0/> or <http://www.gnu.org/licenses/agpl-3.0.txt>.
  */
 
+/**
+ * Inertia — physics-based momentum engine for scrollable axes.
+ *
+ * Tracks drag velocity during a hold gesture, then on release computes a deceleration
+ * arc using an easing function (default: easePolyOut). If waypoints are configured,
+ * `_doSnap()` selects the nearest one and adjusts the target position and duration
+ * so the animation lands exactly on a waypoint.
+ *
+ * The engine is poll-based: callers invoke `update()` on each timer tick (every 16ms
+ * via `applyInertia()` in Tweener) to retrieve the current position. The engine does
+ * not schedule its own timers.
+ *
+ * Three-phase drag lifecycle:
+ *   startMove() — begins a new gesture; resets velocity state
+ *   hold(pos)   — called on each pointer-move event; accumulates velocity
+ *   release()   — called on pointer-up; commits momentum and triggers snap
+ */
+
 const
 	is       = require('is'),
 	easingFn = require('d3-ease'),
@@ -28,8 +46,14 @@ const
 
 
 /**
- * Predict inertia dist & target basing velocity
- * @param _
+ * Compute the momentum distance and duration from the current drag velocity.
+ *
+ * Uses a geometric series with decay factor 0.9 per frame:
+ *   loopsTarget = log(0.05 / |v|) / log(0.9)
+ * This gives the number of 16ms steps until velocity decays below 5% of its current
+ * value. The sum of the geometric series (loopsVelSum) gives total distance travelled.
+ *
+ * When disabled (inertia.disabled), all targets are zeroed so the axis stops immediately.
  */
 export function applyInertia( _ ) {
 	let velSign = signOf(_.lastVelocity);
@@ -102,6 +126,11 @@ export default class Inertia {
 		_.conf.shouldLoop = opt.shouldLoop;
 	}
 	
+	/**
+	 * Begin a new drag gesture. Resets all velocity and momentum state so the
+	 * release() calculation starts from a clean baseline. Sets `holding = true`
+	 * to keep the inertia loop running while the pointer is held down.
+	 */
 	startMove() {
 		let _          = this._;
 		_.baseTS       = _.startTS = Date.now() / 1000;
@@ -114,13 +143,24 @@ export default class Inertia {
 		_.inertia      = false;
 	}
 	
+	/**
+	 * Called on each pointer-move event with the new axis position. Updates the
+	 * running velocity estimate used by release() to compute momentum distance.
+	 *
+	 * Velocity direction change detection: if the pointer reverses direction and
+	 * more than `velocityResetTm` (150ms) has elapsed since the last base-point,
+	 * the velocity base is reset to the current position/time. This prevents a
+	 * brief reversal near the end of a fast swipe from zeroing out accumulated
+	 * momentum. The `velocityResetTm` guard makes the direction check "sticky"
+	 * enough to ignore micro-jitter from touch digitizers.
+	 */
 	hold( nextPos ) {
 		let _            = this._,
 		    delta        = _.lastHoldPos !== undefined ? nextPos - _.lastHoldPos : 0,
 		    loop,
-		    now          = Date.now() / 1000,//e.timeStamp,
+		    now          = Date.now() / 1000,
 		    sinceLastPos = (now - _.baseTS),
-		    pos          = nextPos,//_.lastHoldPos + delta,
+		    pos          = nextPos,
 		    iVel         = delta / sinceLastPos;
 		
 		_.lastHoldPos = nextPos;
@@ -193,13 +233,19 @@ export default class Inertia {
 		
 	}
 	
+	/**
+	 * Called when the pointer is released. Commits the accumulated velocity into a
+	 * momentum arc via `applyInertia()`, then applies snapToBounds correction if the
+	 * projected landing position is outside [min, max]. Finally calls `_doSnap()` to
+	 * find the nearest waypoint and adjust the target accordingly.
+	 */
 	release() {
 		let _       = this._,
 		    velSign = signOf(_.lastVelocity);
-		
+
 		this.holding = false;
-		
-		// calc momentum distance...
+
+		// Compute momentum distance/duration from the last measured velocity.
 		applyInertia(_);
 		
 		_.lastHoldPos = undefined;
@@ -248,6 +294,15 @@ export default class Inertia {
 		_.conf.willEnd?.(_.targetDist + _.pos, _.targetDist, _.targetDuration);
 	}
 	
+	/**
+	 * Poll-based position update — called every 16ms by Tweener.applyInertia().
+	 *
+	 * Applies the easing function to the elapsed time ratio to get a smoothed
+	 * position delta, then accumulates it into `_.pos`. When the animation
+	 * duration has elapsed, snaps exactly to the target waypoint position (if any)
+	 * to eliminate floating-point drift, fires onStop/onSnap callbacks, and sets
+	 * `active = false` to stop the 16ms loop.
+	 */
 	update( at = Date.now() ) {
 		let _   = this._, nextValue, loop;
 		let
@@ -351,6 +406,12 @@ export default class Inertia {
 		//console.log("setPos", _.lastInertiaPos);
 	}
 	
+	/**
+	 * Programmatic momentum injection — e.g. for button-triggered scroll or swipe
+	 * animations without a preceding drag gesture. If an inertia animation is already
+	 * running in the same direction, the delta is accumulated; if the direction
+	 * changes the animation is restarted from the current position.
+	 */
 	dispatch( delta, tm = 500 ) {
 		let _   = this._,
 		    now = Date.now(),
@@ -413,6 +474,18 @@ export default class Inertia {
 		}
 	}
 	
+	/**
+	 * Select the waypoint that best matches the projected landing position and
+	 * adjust `_.targetDist` and `_.targetDuration` to land precisely on it.
+	 *
+	 * Waypoint selection:
+	 *   Binary-search the sorted wayPoints array for the first waypoint beyond `pos`.
+	 *   The midpoint between adjacent waypoints `i-1` and `i` (weighted by their
+	 *   `gravity` fields, default 1) determines which waypoint "wins". If `forceSnap`
+	 *   is set (from dispatch()), the direction overrides the midpoint check.
+	 *   `maxJump` caps the maximum index distance from the current waypoint to
+	 *   prevent the animation from skipping multiple slides in one gesture.
+	 */
 	_doSnap( forceSnap, maxDuration = 2000 ) {
 		let _       = this._,
 		    pos     = _.targetDist + (_.pos - (_.lastInertiaPos || 0)),

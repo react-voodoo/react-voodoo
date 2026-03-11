@@ -11,6 +11,13 @@
 
 import is from "is";
 
+/**
+ * Utility functions for manipulating tween descriptor arrays before passing them
+ * to `addScrollableAnim()` or `pushAnim()`. All functions are pure — they return
+ * new arrays and never mutate the input. This makes them safe to compose:
+ *   e.g. `offset(scale(reverse(items), 1000), 200)`
+ */
+
 export const re_cssValueWithUnit = new RegExp(
 	"([+-]?(?:[0-9]*[.])?[0-9]+)\\s*(" +
 	['box', 'bz', 'bh', 'bw', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'].join('|')
@@ -78,6 +85,10 @@ export function cssMult( val1, val ) {
 	return result;
 }
 
+/**
+ * Shift all tween `from` positions by `start` ms. Used to concatenate multiple
+ * tween arrays end-to-end when composing complex timelines.
+ */
 export function offset( items, start = 0 ) {
 	items = is.array(items) ? items : items && [items] || items;
 	return items.map(
@@ -90,9 +101,14 @@ export function offset( items, start = 0 ) {
 	)
 }
 
+/**
+ * Proportionally rescale all tween `from` and `duration` values so the entire
+ * timeline fits exactly within `duration` ms. Useful for normalising imported
+ * animations to a specific scroll range.
+ */
 export function scale( items, duration = 0, withOffset ) {
 	items = is.array(items) ? items : items && [items] || items;
-	
+
 	// get items current duration
 	let iDuration = 0;
 	items.forEach(
@@ -128,6 +144,12 @@ function inverseValues( v ) {
 	).join("");
 }
 
+/**
+ * Mirror a timeline so it plays backward. Each descriptor's `from` is remapped to
+ * `totalDuration - (from + duration)` and all numeric values in `apply` are negated
+ * via `inverseValues`, so the end state of the forward animation becomes the start
+ * state of the reversed one.
+ */
 export function reverse( items ) {
 	items         = is.array(items) ? items : items && [items] || items;
 	// get items current duration
@@ -153,6 +175,16 @@ export function reverse( items ) {
 
 const MultiCssProps = { "transform": true, "filter": true, "textShadow": true, "boxShadow": true }
 
+/**
+ * Merge CSS descriptor objects by accumulating values rather than overwriting.
+ * Used internally by `deMuxLine` to build the `allPropsById` aggregate.
+ *
+ * Special cases:
+ *  - Multi-value CSS properties (transform, filter, boxShadow, textShadow) are
+ *    treated as arrays and concatenated — preserving separate layer objects.
+ *  - Array values (multi-unit CSS like `["50%", "10vw"]`) are merged by unit.
+ *  - Nested objects (e.g. individual transform layer objects) are merged recursively.
+ */
 export function addCss( target, ...sources ) {
 	let source = sources.shift();
 	
@@ -248,13 +280,22 @@ export function target( items, target ) {
 	)
 }
 
+/**
+ * Prepend `shift` empty transform layer objects `{}` to the beginning of each
+ * descriptor's transform array. This reserves layer slots so that an additive
+ * animation can target a specific layer index without colliding with existing
+ * transforms defined by other animations on the same node.
+ *
+ * Example: a base animation uses layer 0 (translateX); a hover overlay uses
+ * `shiftTransforms(hoverItems, 1)` so it targets layer 1 instead.
+ */
 export function shiftTransforms( items, shift = 1 ) {
 	items = is.array(items) ? items : items && [items] || items;
 	return items.map(
 		item => {
 			let t = item.apply && item.apply.transform;
 			if ( t ) {
-				t = is.array(t) ? t : [t];
+				t = is.array(t) ? [...t] : [t];
 				for ( let i = 0; i < shift; i++ )
 					t.unshift({});
 				

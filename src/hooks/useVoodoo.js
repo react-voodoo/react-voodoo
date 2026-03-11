@@ -14,9 +14,23 @@ import TweenerContext from "../comps/TweenerContext";
 import Tweener        from "../comps/Tweener";
 
 /**
- * Wrap & instanciate the Tweener Comp "virtual"
- * @param tweenerOptions
- * @param RootNodeComp
+ * useVoodoo — the primary hook for creating or inheriting a Tweener animation engine.
+ *
+ * Three usage modes:
+ *
+ *   useVoodoo(options)
+ *     Creates a new Tweener instance. Returns [tweener, ViewBox] where ViewBox is a
+ *     memoized component that provides TweenerContext and attaches the root DOM ref
+ *     used by the Tweener to measure the viewport box (box.x/y/z).
+ *
+ *   useVoodoo(true)
+ *     Inherits the nearest parent Tweener from context. Used internally by Node,
+ *     Axis, and Draggable to access the engine without creating a new one.
+ *
+ *   useVoodoo("name")
+ *     Traverses up the tweener tree (via _parentTweener links) to find an ancestor
+ *     whose options.name matches the given string. Useful for reaching a specific
+ *     engine in deeply nested or portal-based layouts.
  */
 export default ( tweenerOptions, RootNodeComp = 'div' ) => {
 	const parentTweener      = React.useContext(TweenerContext),
@@ -38,7 +52,7 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
 					      if ( pTweener._parentTweener )
 						      pTweener = pTweener._parentTweener;
 					      else {
-						      console.warn('react-voodoo: No parent tweener found with option.key === "' + tweenerOptions + '"');
+						      console.warn('[react-voodoo] useVoodoo: no parent tweener found with options.name === "' + tweenerOptions + '"');
 						      break;
 					      }
 				
@@ -75,28 +89,30 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
 		      []
 	      )
 	
+	// Mount/unmount effect: drives the Tweener lifecycle since the Tweener class is
+	// not mounted as a React component — useVoodoo owns its mount/unmount calls.
 	React.useEffect(
 		() => {
-			if ( doUseParentTweener || !lastTweener.current?._ )
+			if ( doUseParentTweener )
 				return;
-			//console.warn("didmount", nodeRef.current, lastTweener.current === TweenerEl)
 			tweener.componentDidMount();
 			lastTweener.current = tweener;
 			return () => {
 				if ( !lastTweener.current?._ )
 					return;
-				//console.warn("unmount")
 				lastTweener.current.componentWillUnmount();
 				lastTweener.current = null;
 			}
 		}, []
 	)
+	// nodeRef.current effect: fires after the root DOM node becomes available;
+	// triggers box measurement and an initial DOM write so CSS is correct
+	// before the first visible frame.
 	React.useEffect(
 		() => {
 			
 			if ( doUseParentTweener || !lastTweener.current?._ )
 				return;
-			//console.warn("didupdate", nodeRef.current)
 			lastTweener.current._updateBox();
 			lastTweener.current._updateTweenRefs();
 			
@@ -104,6 +120,9 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
 		,
 		[nodeRef.current]
 	)
+	// parentTweener effect: keeps the _parentTweener link up to date as context
+	// changes (e.g. when the component is reparented). Draggable uses this link
+	// to traverse the tweener tree during drag gestures.
 	React.useEffect(
 		() => {
 			if ( doUseParentTweener || !lastTweener.current?._ )
@@ -112,6 +131,8 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
 		},
 		[parentTweener]
 	)
+	// tweenerOptions effect: hot-updates options (e.g. drag thresholds, axis config)
+	// without destroying or recreating the Tweener instance.
 	React.useEffect(
 		() => {
 			if ( doUseParentTweener || !lastTweener.current?._ )

@@ -15,6 +15,22 @@ import ReactDom  from "react-dom";
 import useVoodoo from "../hooks/useVoodoo";
 import domUtils  from "../utils/dom";
 
+/**
+ * Draggable — captures pointer (touch / mouse) events and maps them to axis positions
+ * on the parent Tweener hierarchy.
+ *
+ * On drag, it walks up the tweener tree via `_parentTweener` links (not the DOM) to
+ * find all ancestor tweeners that have the requested axis. This supports nested
+ * scrollable regions: the innermost tweener that is still in-bounds consumes the drag;
+ * if it hits a bound the event falls through to the next ancestor.
+ *
+ * Dispatch flow:
+ *   dragstart → captures parent tweeners and starts the 16ms inertia loop
+ *   drag      → computes delta as a fraction of scrollableWindow/scrollableArea,
+ *               calls inertia.hold(newPos) on the first tweener that is in-bounds
+ *   dropped   → calls inertia.release() which computes the momentum arc and may
+ *               snap to the nearest waypoint
+ */
 const Draggable = React.forwardRef(( {
 	                                     children,
 	                                     Comp = 'div',
@@ -36,26 +52,25 @@ const Draggable = React.forwardRef(( {
 		    () => ({
 			    
 			    /**
-			     * Return scrollable parent node list basing a dom node
-			     * @param node
-			     * @returns {T[]}
+			     * Traverse the tweener parent chain (not the DOM ancestry) and collect all
+			     * ancestor Tweener instances that could potentially consume scroll input.
+			     * The result is iterated during drag to find the first in-bounds tweener.
 			     */
 			    getScrollableNodes( node ) {
-				    let scrollable = [], parent = µ._parentTweener;//domUtils.findReactParents(node),
-				    // _ = µ._;
-				    
+				    let scrollable = [], parent = µ._parentTweener;
+
 				    while ( parent ) {
 					    scrollable.push(parent);
 					    parent = parent._parentTweener;
 				    }
-				    
+
 				    return scrollable
 			    },
 			    
 			    /**
-			     * Init touch & scroll listeners
-			     * Drive scroll & drag values updates
-			     * @private
+			     * Attach the touch/mouse event listeners to the root DOM node.
+			     * All drag state is captured in closure variables (dX, dY, cLock,
+			     * parents, parentsState) so individual handler functions stay small.
 			     */
 			    _registerScrollListeners() {
 				    let rootNode = µ.root?.current,
@@ -116,14 +131,13 @@ const Draggable = React.forwardRef(( {
 								    ) {
 									    e.preventDefault();
 									    e.stopPropagation();
-									    //console.log("prevented click", lastStartTm, Math.abs(dX), Math.abs(dY))
-									    //console.log(':o ' + (lastStartTm - Date.now()) + ' ' + dX +
-									    //	            ' ' + dY, _.options.maxClickTm)
 								    }
-								    //else console.log("click", Math.abs(dX), Math.abs(dY))
 								    
 							    },
-							    'drag'     : ( e, touch, descr ) => {//@todo
+							    // drag: runs on every pointer move. Converts pixel offset to axis units,
+						    // applies dragDirectionLock, then dispatches to the first ancestor tweener
+						    // whose inertia.isInbound() returns true — preventing over-scroll propagation.
+						    'drag'     : ( e, touch, descr ) => {
 								    if ( (e) instanceof MouseEvent && e.button !== button ) {// allow undefined so µ work for touch events
 									    return;
 								    }
@@ -139,8 +153,6 @@ const Draggable = React.forwardRef(( {
 								    
 								    if ( lastStartTm && ((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY) < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) )// skip tap & click
 								    {
-									    //console.log(':u ' + (lastStartTm - Date.now()) + ' ' + dX +
-									    // ' ' + dY)
 									    return;
 								    }
 								    else {
@@ -166,11 +178,8 @@ const Draggable = React.forwardRef(( {
 											    
 											    x = xAxis && pTweener.axes?.[xAxis];
 											    y = yAxis && pTweener.axes?.[yAxis];
-											    //console.log("drag", dX, dY, xAxis, yAxis,
-											    // pTweener.axes);
 											    if ( !x && !y )
 												    continue;
-											    //console.log('Draggable:::306: ', parents);
 											    if ( !parentsState[i] ) {
 												    parentsState[i] = {
 													    x: x?.scrollPos,
@@ -180,7 +189,6 @@ const Draggable = React.forwardRef(( {
 												    y?.inertia?.startMove();
 												    xAxis && x && !x?.inertiaFrame && pTweener.applyInertia(x, xAxis);
 												    yAxis && y && !y?.inertiaFrame && pTweener.applyInertia(y, yAxis);
-												    //console.warn('Draggable::drag:190: ');
 											    }
 											    
 											    if ( x ) {
@@ -204,25 +212,16 @@ const Draggable = React.forwardRef(( {
 													    deltaY = yHook(deltaY);
 											    }
 											    
-											    //console.log('scrollX ',
-											    //            xDispatched,
-											    //            x?.inertia?.isInbound(parentsState[ i
-											    // ].x + deltaX), parentsState[ i ].x + deltaX );
 											    if ( x && !xDispatched && deltaX && x?.inertia?.isInbound(parentsState[i].x + deltaX)
 												    && (pTweener.componentShouldScroll(xAxis, deltaX)) ) {
 												    x.inertia.hold(parentsState[i].x + deltaX);
 												    //parentsState[i].x = x.inertia._.pos;
 												    xDispatched = true;
 											    }
-											    //console.log("scrollY", yDispatched,
-											    //            y?.inertia?.isInbound(parentsState[ i
-											    // ].y + deltaY), parentsState[ i ].y + deltaY);
 											    if ( y && !yDispatched && deltaY && y?.inertia?.isInbound(parentsState[i].y + deltaY)
 												    && (pTweener.componentShouldScroll(yAxis, deltaY)) ) {
 												    y.inertia.hold(parentsState[i].y + deltaY);
 												    //parentsState[i].y = y.inertia._.pos;
-												    //console.log('Draggable::drag:190: ',
-												    // parentsState[i].y,deltaY);
 												    yDispatched = true;
 											    }
 										    }
@@ -239,7 +238,10 @@ const Draggable = React.forwardRef(( {
 							    }
 							    
 							    ,
-							    'dropped': ( e, touch, descr ) => {
+							    // dropped: fires when the pointer is released. Calls inertia.release() on each
+						    // ancestor tweener that was participating in the drag; inertia then computes
+						    // momentum and snaps to the nearest waypoint if configured.
+						    'dropped': ( e, touch, descr ) => {
 								    let pTweener,
 								        x, deltaX, xDispatched, vX,
 								        y, deltaY, yDispatched, vY,
@@ -257,8 +259,6 @@ const Draggable = React.forwardRef(( {
 									    pTweener = parents[i];
 									    // react comp with tweener support
 									    if ( pTweener.__isTweener && parentsState[i] ) {
-										    //console.log('Draggable::dropped:228: ',
-										    // pTweener._getAxis(xAxis)?.inertia);
 										    pTweener.axes?.[xAxis]?.inertia?.release();
 										    pTweener.axes?.[yAxis]?.inertia?.release();
 										    //pTweener._updateNodeInertia()
@@ -280,11 +280,9 @@ const Draggable = React.forwardRef(( {
 								    {
 									    e.stopPropagation();
 									    e.cancelable && e.preventDefault();
-									    //console.log("prevented", Math.abs(dX), Math.abs(dY))
 									    //return;
 								    }
 								    //else {
-								    //console.log("not prevented", Math.abs(dX), Math.abs(dY))
 								    //}
 								    //lastStartTm = 0;
 								    parents = parentsState = null;

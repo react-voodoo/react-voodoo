@@ -12,6 +12,26 @@
 import is                         from "is";
 import {floatCut, units, unitsRe} from "../cssUtils";
 
+/**
+ * Transform demuxer — the most complex CSS property handler in the library.
+ *
+ * CSS `transform` is represented as an *array of layer objects*, enabling additive
+ * multi-layer composition. Each layer is an object whose keys are transform
+ * functions (translateX, rotate, etc.) and whose values are either a single CSS
+ * value or a multi-unit array. The key hierarchy encoded in tweenRefMaps is:
+ *   `transform_<layerIdx>_<fnKey>_<unitIdx>`
+ *
+ * Example: `transform_0_translateX_9` = layer 0, translateX function, index 9 ('px').
+ *
+ * Reference counting (stored in `data[key]` and `data[dkey]`) prevents premature
+ * deletion of shared slots when multiple tween descriptors animate the same property.
+ * When all consumers have released a slot the numeric entry is removed from
+ * tweenRefMaps and the layer may be trimmed from the data array.
+ *
+ * The mux pass reconstructs CSS `transform` strings by iterating layers → functions
+ * → units, joining multi-unit values with CSS `calc()` expressions.
+ */
+
 const defaultUnits    = {
 	      //matrix     : true,
 	      //translate  : 'px',
@@ -58,11 +78,23 @@ const defaultUnits    = {
 	      scaleZ: 1
       };
 
+/**
+ * Release a single numeric slot referenced by the 4-part key `twKey`.
+ *
+ * The 4 segments of `twKey` are: [property, layerIdx, fnKey, unitIdx].
+ * Two separate ref-count decrements are performed:
+ *   1. `dataMap[path[0]][layerIdx][fnKey]` — the per-function ref count within the layer
+ *   2. `dataMap[dkey][unitIdx]`            — the per-unit ref count within the function
+ *
+ * When both reach zero (and keepValues is false) the corresponding entries are
+ * deleted from dataMap, tweenableMap, and — if the entire property has no more
+ * active slots — from muxerMap and cssMap as well. Empty trailing layer entries are
+ * trimmed from the data arrays to keep memory usage proportional to active content.
+ */
 export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepValues ) {
-	let path = twKey.split('_'), tmpKey;// not optimal at all
+	let path = twKey.split('_'), tmpKey;
 	if ( path.length === 4 ) {
-		//console.warn("dec", twKey, dataMap[path[0]][path[1]][path[2]])
-		// dec count on transform
+		// Decrement the per-function ref count at the layer level.
 		if ( !--dataMap[path[0]][path[1]][path[2]] && !keepValues ) {
 			delete dataMap[path[0]][path[1]][path[2]];
 		}
@@ -98,10 +130,18 @@ export function release( twKey, tweenableMap, cssMap, dataMap, muxerMap, keepVal
 		}
 	}
 	else {
-		console.log("wtf", path)
+		console.warn("[react-voodoo] transform.release: unexpected key format (expected 4 segments):", path)
 	}
 }
 
+/**
+ * Convert a single numeric slot value to a CSS unit string.
+ *
+ * Box-relative units (bw, bh, bz) are resolved here against the current viewport
+ * box dimensions (`box.x`, `box.y`, `box.z`) and converted to `px`. This means
+ * animations that use `bw` units automatically adapt to viewport resize events
+ * because `demuxOne` is called fresh on every mux pass.
+ */
 export function demuxOne( unitIndex, dkey, twVal, baseKey, data, box ) {
 	let value = twVal,
 	    unit  = units[unitIndex] || defaultUnits[baseKey];
@@ -129,8 +169,13 @@ export function demuxOne( unitIndex, dkey, twVal, baseKey, data, box ) {
 	return unit ? floatCut(value) + unit : floatCut(value);
 }
 
+/**
+ * Mux pass for transform — iterates all active layers and their functions, assembles
+ * each function's value (calling demuxOne per unit and joining with CSS calc() for
+ * multi-unit values), and concatenates the complete transform string.
+ * Empty layers (no active functions) are skipped silently.
+ */
 export function demux( key, tweenable, target, data, box ) {
-	//console.log(key)
 	let transforms                                                 = "",
 	    tmpValue                                                   = {};
 	let ti = 0, tmap, fkey, unitKey, unitIndex, dkey, u, iValue, y = 0, value;
@@ -169,8 +214,15 @@ export function demux( key, tweenable, target, data, box ) {
 	
 }
 
+/**
+ * Register one unit value for a specific transform function key. Increments the
+ * per-unit ref count in `data[key]` (unless `noPropLock` is set, which is used
+ * during the prop-lock initialisation pass where counts are managed by the outer
+ * `mux()` loop instead). Handles the `seenUnits` guard to accumulate values when
+ * the same unit appears multiple times in a multi-value array.
+ */
 export function muxOne( key, baseKey, value, target, data, initials, noPropLock, seenUnits ) {
-	
+
 	let match   = is.string(value) ? value.match(unitsRe) : false,
 	    unit    = match && match[2] || defaultUnits[baseKey],
 	    unitKey = units.indexOf(unit),
@@ -202,13 +254,19 @@ export function muxOne( key, baseKey, value, target, data, initials, noPropLock,
 	
 	return demux;
 };
+/**
+ * Demux pass (parse time) for transform — iterates the array of layer objects,
+ * registers each transform function's values via `muxOne`, and maintains the
+ * per-layer ref-count structure in `data[key]`. The `reOrder` flag is used when
+ * re-registering an existing timeline to merge new layer data without discarding
+ * previously registered function entries.
+ */
 export const mux = ( key, value, target, data, initials, noPropLock, reOrder ) => {
-	
+
 	data[key] = data[key] || [];
-	//initials[key] = 0;
-	
+
 	if ( !is.array(value) && !is.object(value) ) {
-		console.warn("React-Voodoo: Ignore unexpected value ", key, ":", value, " on ", target);
+		console.warn("[react-voodoo] transform.mux: unexpected value for '", key, "':", value);
 		return demux;
 	}
 	if ( !is.array(value) )

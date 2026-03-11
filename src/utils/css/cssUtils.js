@@ -173,7 +173,28 @@ export const props = {
 	"perspectiveOrigin"          : {
 		"types"   : ["length-percentage-calc"],
 		"multiple": true
-	}
+	},
+
+	// SVG presentation attributes — applied via element.style on SVG elements
+	"fill"                       : { "types": ["color"] },
+	"stroke"                     : { "types": ["color"] },
+	"strokeWidth"                : { "types": ["length"] },
+	"strokeOpacity"              : { "types": ["number"] },
+	"fillOpacity"                : { "types": ["number"] },
+	"strokeDashoffset"           : { "types": ["length"] },
+
+	// SVG geometry attributes — applied via element.setAttribute (see svgAttr handler)
+	"cx"                         : { "types": ["svg-attr"] },
+	"cy"                         : { "types": ["svg-attr"] },
+	"r"                          : { "types": ["svg-attr"] },
+	"rx"                         : { "types": ["svg-attr"] },
+	"ry"                         : { "types": ["svg-attr"] },
+	"x"                          : { "types": ["svg-attr"] },
+	"y"                          : { "types": ["svg-attr"] },
+	"x1"                         : { "types": ["svg-attr"] },
+	"y1"                         : { "types": ["svg-attr"] },
+	"x2"                         : { "types": ["svg-attr"] },
+	"y2"                         : { "types": ["svg-attr"] }
 }
 
 export const units    = ['', 'deg', 'box', 'bz', 'bh', 'bw', 'deg', 'em', 'ex', '%', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax'];

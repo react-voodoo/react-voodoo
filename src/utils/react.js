@@ -10,6 +10,11 @@
  */
 
 
+/**
+ * React component type detection helpers used by Node to decide how to pass the
+ * DOM node ref to a child. Class components accept the standard `ref` prop directly;
+ * functional components require either forwardRef or a named prop (e.g. `nodeRef`).
+ */
 export function isClassComponent(component) {
     return (
         typeof component === 'function' &&

@@ -1,564 +1,845 @@
-<h1 align="center">Basic react-voodoo doc</h1>
+# react-voodoo
 
-___
-
-- [React Voodoo](#react-voodoo)
-    - [The Main Voodoo Tweener object](#the-main-voodoo-tweener-object)
-        - [The React Hook "Voodoo.hook()"](#the-react-hook-voodoohook)
-        - [Get / name a parent Voodoo instance](#get--name-a-parent-voodoo-instance)
-        - [Voodoo Tweener APIs](#voodoo-tweener-apis)
-    - [Voodoo data structure formats](#voodoo-data-structure-formats)
-        - [CSS-in-JS Style descriptors](#css-in-js-style-descriptors)
-        - [Tween / transitions descriptors](#tween--transitions-descriptors)
-    - [Components](#components)
-        - [Voodoo.Axis](#voodooaxis)
-        - [Voodoo.Node](#voodoonode)
-        - [Voodoo.Draggable](#voodoodraggable)
-    - [Tween descriptors helpers ( Voodoo.tools )](#tween-descriptors-helpers--voodootools-)
-    - [Instantiate using decorators : Voodoo.asTweener ( depreciated )](#instantiate-using-decorators--voodooastweener--depreciated-)
+> **Additive, swipeable, SSR-ready animation engine for React.**
+> Axes. Nodes. Physics. No re-renders.
 
 ---
 
-# React Voodoo
+![demo](assets/demo.gif)
 
-React Voodoo mainly animate Dom Node via the "Voodoo.Axis" components. Theses Axis are scrollable / swipeable arrays of
-relatives tween. <br>
-It's also possible to push tween animation like in others libraries, but using Axes to manage animation allow way
-simpler maintainability & code.<br>
+---
 
-## The Main Voodoo Tweener object
+## Why react-voodoo?
 
-### The React Hook "Voodoo.hook()"
+Most animation libraries give you two options: either animate *from A to B* imperatively, or declare states and let the library interpolate between them. Both approaches break down when you want to:
 
-React Voodoo can be used via React Hooks style via the "Voodoo.hook" function.
+- Tie animations directly to a **drag gesture** with realistic momentum
+- Run **multiple simultaneous animations on the same CSS property** without conflicts
+- Know exactly **where momentum will stop before it gets there** (to preload, prerender, etc.)
+- Have all of this **work on the server** with the correct initial styles
 
-When called, the hook function will return an array containing 2 objects :
+React-voodoo takes a different approach: instead of outputting absolute CSS values, its engine computes *deltas* — how much each property changed — and accumulates them additively. Multiple axes can drive the same `transform` or `opacity` simultaneously and they simply add together. DOM writes happen outside React's render loop entirely.
 
-- The tweener instance in the first index
-- And a ViewBox component to be instantiated at the root of the animated Voodoo.Node(s)
+---
 
-```js
-const Sample = ( {} ) => {
-	// Classic minimal method
-	const [tweener, ViewBox]                   = Voodoo.hook();
-	// Create a tweener with options
-	const [twenerWithNameAndOptions, ViewBox2] = Voodoo.hook(
-		{
-			// Give an id to this tweener so we can access it from the childs components
-			name: "root",
-			// max click tm in ms before a click become a drag
-			maxClickTm: 200,
-			// max drag offset in px before a click become a drag
-			maxClickOffset: 100,
-			// lock to only 1 drag direction 
-			dragDirectionLock: false,
-			// allow dragging with mouse
-			enableMouseDrag: false
-		}
-	);
-	
-	return <ViewBox className={"container"}/>
-// ...
-}
+## Comparison
+
+| Feature | react-voodoo | Framer Motion | GSAP + ScrollTrigger | react-spring |
+|---|:---:|:---:|:---:|:---:|
+| Scroll-linked animation | ✅ | ✅ `useScroll` | ✅ | ⚠️ manual |
+| Drag-linked animation | ✅ native | ✅ `drag` | ⚠️ manual | ✅ `useDrag` |
+| **Additive multi-axis composition** | ✅ | ❌ | ❌ | ❌ |
+| Physics / momentum inertia | ✅ predictive | ✅ spring | ❌ | ✅ spring |
+| **Predictive snap target** | ✅ | ❌ | ❌ | ❌ |
+| **SSR — correct initial styles** | ✅ | ⚠️ flash | ⚠️ flash | ⚠️ flash |
+| Bypasses React render loop | ✅ | ✅ | ✅ | ✅ |
+| Transform layers (additive) | ✅ | ❌ | ❌ | ❌ |
+| SVG geometry attributes | ✅ | ⚠️ limited | ✅ | ❌ |
+| Bundle size (approx.) | ~18 kB | ~50 kB | ~75 kB | ~30 kB |
+| React version | ≥ 16 | ≥ 18 | any | ≥ 16 |
+
+**When to pick react-voodoo:**
+- Swipeable carousels, parallax scroll scenes, pinned scroll sequences with drag control
+- Anything that needs multiple animation "tracks" compositing on the same element
+- SSR-first projects where the initial paint must match the animated state
+
+**When to look elsewhere:**
+- Simple enter/exit transitions → **Framer Motion** (`AnimatePresence` is excellent)
+- Complex timeline sequencing without scroll/drag → **GSAP**
+- Spring-physics UI micro-interactions → **react-spring**
+
+---
+
+## Installation
+
+```bash
+npm install react-voodoo
 ```
 
-### Get / name a parent Voodoo instance
+**Peer dependencies:** `react >= 16`, `react-dom >= 16`
 
-Function components can also access & connect to the parent Tweener instances
+---
 
-```js
-const Sample = ( {} ) => {
-	
-	// get the first tweener in parents
-	const [parentTweener]                     = Voodoo.hook(true);
-	// Create a tweener with options
-	const [twenerWithNameAndOptions, ViewBox] = Voodoo.hook(
-		{
-			// Give an id to this tweener so we can access it from the childs components
-			name: "root"
-		}
-	);
-	// get a named parent tweener 
-	const [nammedParentTweener]               = Voodoo.hook("root")
-	
-	return <ViewBox className={"container"}/>
-// ...
-}
-```
+## Core Concepts
 
-### Voodoo Tweener APIs
+The engine is built around two primitives:
 
-The Voodoo Tweener expose simples API to react & manage Axes positions :
+| Primitive | What it is |
+|---|---|
+| **Axis** | A virtual number line. Moving its position drives CSS animations on nodes. Think of it as a scrubbing timeline you can attach to a drag gesture, a scroll event, or any programmatic value. |
+| **Node** | A React element whose styles are controlled by one or more axes. Style updates are written directly to `node.style` — no re-renders. |
 
-```js
-const Sample = ( {} ) => {
-	const [tweener, ViewBox]    = Voodoo.hook();
-	// get a named parent tweener 
-	const [nammedParentTweener] = Voodoo.hook("root");
-	
-	/**
-	 * once first render done, the tweener expose the following APIs / values :
-	 */
-	// The Axis actual position in :
-	// tweener.axes.(axisId).scrollPos
-	
-	// The "scrollTo" function allowing to manually move the axes positions :
-	// tweener.axes.(axisId).scrollTo(targetPos, duration, easeFn)
-	// tweener.scrollTo(targetPos, duration, axisId, easeFn)
-	
-	// They can also be watched using the "watchAxis" function;
-	// When called, the returned function will disable the listener if executed :
-	React.useEffect(
-		e => tweener?.watchAxis("scrollY", ( pos ) => doSomething()),
-		[tweener]
-	);
-	// By listening Axes from parent tweener we can orchestrate local animations / axes
-	React.useEffect(
-		e => nammedParentTweener?.watchAxis(
-			"mySharedAxisFromParent",
-			( pos ) => tweener.axes.myLocalAxis.scrollTo(pos, 0)
-		),
-		[tweener]
-	)
-	
-	return <ViewBox className={"container"}/>
-// ...
-}
-```
+The key insight is **additive composition**: each axis contributes a *delta* to each CSS property. A `translateX` driven by a horizontal swipe axis and a `translateX` driven by a parallax axis simply add together. You never have to coordinate which animation "owns" a property.
 
-## Voodoo data structure formats
+---
 
-### CSS-in-JS Style descriptors
+## All-in-one Example
 
-We can use most of the CSS properties using the classic camel-cased CSS in JS syntax.
+The example below covers all major features in one component.
 
-Additionally, Voodoo tweener add 3 optional client side only units ( will not work if used server-side ):
-
-- (float)box : 1box = (width or height) of the 1st parent ViewBox or with the asTweener decorator;
-- (float)bh : 1bh = height of the 1st parent ViewBox or with the asTweener decorator;
-- (float)bw : 1bw = width of the 1st parent ViewBox or with the asTweener decorator;
-
-These units are calculated dynamically & updated when the windows trigger resize events
-
-```js
-
-/**
- * Voodoo.Node style property and the tween descriptors use classic CSS-in-JS declaration
- * exept we can specify values using the "box" unit which is a [0-1] ratio of the parent ViewBox height / width
- */
-
-const styleSample = {
-	height: "50%",
-	
-	// the tweener deal with multiple units 
-	// it will use css calc fn if there's more than 1 unit used 
-	width: ["50%", "10vw", "-50px", ".2box"],
-	
-	// transform can use multiple "layers"
-	transform: [
-		{
-			// use rotate(X|Y|Z) & translate(X|Y|Z)
-			rotateX: "25deg"
-		},
-		{
-			translateZ: "-.2box"
-		}
-	],
-	
-	filter:
-		{
-			blur: "5px"
-		}
-};
-
-```
-
-### Tween / transitions descriptors
-
-Axes animate Voodoo.Node basing the tween descriptors.
-Theses descriptors can be passed as parameter on the Voodoo.Node or on the Voodoo.Axis components with the target Node
-Id.
-
-```js
-const axisSample = [// Examples of tween descriptors
-	{
-		target  : "someTweenRefId", // target Voodoo.Node id ( ignored if the tween is passed as parameter on a Voodoo.Node as it will directly target it )
-		from    : 0, // tween start position
-		duration: 100, // tween duration
-		easeFn  : "easeCircleIn", // optional easing function or id from [d3-ease](https://github.com/d3/d3-ease)
-		
-		apply: {// relative css values to be applied 
-			// Same CSS-in-JS syntax as the styles
-			transform: [{}, {
-				translateZ: "-.2box"
-			}]
-		}
-	},
-	{
-		from    : 40,
-		duration: 20,
-		
-		// triggered when axis has scrolled in the Event period 
-		// delta : a float value between [-1,1] is the update inside the Event period
-		entering: ( delta ) => false,
-		
-		// triggered when axis has scrolled in the Event period
-		// newPos, precPos : float values between [0,1] position inside the Event period
-		// delta : a float value between [-1,1] is the update inside the Event period
-		moving: ( newPos, precPos, delta ) => false,
-		
-		// triggered when axis has scrolled out the Event period
-		// delta : a float value between [-1,1] is the update inside the Event period
-		leaving: ( delta ) => false
-	}
-];
-```
-
-| Property |             Type             | Infos |
-|----------|:----------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| target   |      string, optional        | The id of the target Voodoo.Node component to be affected by this animation. If this property is not provided, the animation or interaction will be applied to the parent Voodoo.Node component. |
-| from     |       number, required       | The starting position of the animation. |
-| duration |       number, required       | The duration of the animation.|
-| easeFn   | string or function, optional | The easing function to be used when applying the animation CSS values. This can either be the id of a function from the d3-ease library, or a custom easing function. |
-| apply    |       object, optional       | An object containing the CSS properties and values to be applied to the target element during the animation or interaction. The syntax for this object is the same as the style prop in a Voodoo.Node component. |
-| entering |      function, optional      | A callback function to be triggered when the scrolling axis enters the period of the animation or interaction. The function will be passed a single argument delta, which is a float value between -1 and 1 representing the change in position within the period. |
-| moving   |      function, optional      | A callback function to be triggered while the scrolling axis is within the period of the animation. The function will be passed three arguments: newPos, precPos, and delta, which represent the current position within the period, the previous position within the period, and the change in position within the period, respectively. All three arguments are float values between 0 and 1. |
-| leaving  |      function, optional      | A callback function to be triggered when the scrolling axis leave the period of the animation. The function will be passed a single argument delta, which is a float value between -1 and 1 representing the change in position within the period. |
-
-## Components
-
-### Voodoo.Axis
-
-In react-voodoo Tween axis are scrollable / swipeable arrays of relatives tween. <br>
-Voodoo.Axis creates a "virtual" axis that, when moving its position will tween Voodoo.Node styles according its tween
-descriptors.
-
-Note that multiple axes orchestrating multiple tween can update the sames CSS properties on the same Voodoo.Node
-simultaneously.
-
-```js
-
-const Sample = ( {} ) => {
-	const [tweener, ViewBox] = Voodoo.hook();
-	
-	return <ViewBox className={"container"}>
-		<Voodoo.Axis
-			
-			id={"scrollY"} // Tween axis Id
-			defaultPosition={0} // default start position
-			
-			// Array of tween descriptors with theirs Voodoo.Node target ids 
-			items={tweenArrayWithTargets}
-			
-			// size of the scrollable window for drag synchronisation
-			scrollableWindow={200}
-			
-			// optional default length of this axis
-			size={1000}
-			
-			// optional bounds ( inertia will target them if target pos is out )
-			bounds={{ min: 100, max: 900 }}
-			
-			// inertia cfg ( false to disable it )
-			inertia={
-				{
-					// called when inertia is updated
-					// should return instantaneous move to do or null
-					shouldLoop: ( currentPos ) => (currentPos > 500 ? -500 : null),
-					
-					// called when inertia know where it will end ( when the user stop dragging )
-					willEnd: ( targetPos, targetDelta, duration ) => {
-					},
-					
-					// called when inertia know where it will snap ( when the user stop dragging )
-					willSnap: ( currentSnapIndex, targetWayPointObj ) => {
-					},
-					
-					// called when inertia end
-					onStop: ( pos, targetWayPointObj ) => {
-					},
-					
-					// called when inertia end on a snap
-					onSnap: ( snapIndex, targetWayPointObj ) => {
-					},
-					
-					// list of waypoints object ( only support auto snap 50/50 for now )
-					wayPoints: [{ at: 100 }, { at: 200 }]
-				}
-			}
-		/>
-	</ViewBox>
-}
-```
-
-Properties :
-
-| Property         |                        Type                        |                                                                                                                                                                              Infos                                                                                                                                                                              |
-|------------------|:--------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| id               |                 string, required                   |                                                                                                                    A unique identifier for the scrolling axis. This is used to reference the axis in other Voodoo components and functions.                                                                                                                     |
-| defaultPosition  |                  number, optional                  |                                                                                                          The default starting position for the scrolling axis. This is a value representing the initial position of the axis. The default value is 0.                                                                                                           |
-| items            |                  array, optional                   |                                                                             An array of objects describing the transition to be applied while moving this axis position. Each object should have the properties described in [Tween descriptors](#tween---transitions-descriptors).                                                                             |
-| scrollableWindow |                  number, optional                  | The size of the axis window; this value and the axis size define the drag force. We can use it to synchronize the drag amplitude. If this prop is not provided, default is drag synchronization will not be enabled. The scroll "force" is determined as follow : (delta / ((xBoxRef (OR) ViewBox).offsetWidth)) * ( axis.scrollableWindow (OR) axis.duration ) |
-| bounds           | ```{ min : (number), max : (number) }```, optional |                                                                                                                        An optional object with the minimal and maximal positions of this axis when moved by Voodoo.Draggable components                                                                                                                         |
-| inertia          |                  object, optional                  |                                                                                                                                          The inertia options & hooks to use when moved by Voodoo.Draggable components.                                                                                                                                          |
-
-Inertia descriptor provide the following options & hooks :
-
-| Property                                    |         Type         | Parameters / format                                                                                                                                                                                                                                                                                        | Infos |
-|---------------------------------------------|:--------------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| shouldLoop                                  | function, optional   | ```pos (float) : The next position before its application```                                                                                                                                                                                                                                               |  Should return an instantaneous move to do or null.<br/>Use this function to create illusion of infinite scrolling.  |
-| wayPoints                                   |   array, optional    | ```[{ at: (number) }, { at: (number) }, ...] ```                                                                                                                                                                                                                                                           |  List of waypoints object where inertia should snap ( only support auto snap 50/50 for now )  |
-| willEnd( targetPos, targetDelta, duration ) |  function, optional  | - targetPos (float) : The position where inertia will end if no further interactions happen<br/>- targetDelta (float) : The distance of the position where inertia will end if no further interactions happen<br/>- duration (number) : The duration of the inertia if no further interactions happen<br/> | Called when inertia know where it will end ( when the user stop dragging )  |
-| willSnap( snapIndex, targetWayPointObj )    |  function, optional  | - snapIndex (number) : The WayPoint index where inertia will end if no further interactions happen<br>- targetWayPointObj (object) : The WayPoint object where inertia will end if no further interactions happen<br>                                                                                      |  Called when inertia know where it will snap ( when the user stop dragging )  |
-| onStop( pos, targetWayPointObj )            |  function, optional  | - pos (float) : The axis position<br>- targetWayPointObj (object) : The WayPoint object where inertia ended if there<br>                                                                                                                                                                                   |  Called when inertia end  |
-| onSnap( snapIndex, targetWayPointObj )      |                      | - snapIndex (number) : The WayPoint index where inertia ended<br>- targetWayPointObj (object) : The WayPoint object where inertia ended<br>                                                                                                                                                                | Called when inertia end on a snap  |
-
-### Voodoo.Node
-
-Component to connect the first child Html node to the Voodoo Axes / animations.
-
-```jsx harmony
-
-const Sample = ( {} ) => {
-	const [tweener, ViewBox] = Voodoo.hook();
-	
-	return <ViewBox className={"container"}>
-		{/*...*/}
-		<Voodoo.Node
-			id={"testItem"} // optional id
-			
-			style={styleSample}// styles applied before any style coming from axes : css syntax + voodoo tweener units & transform management
-			
-			axes={{ scrollY: axisSample }} // Scrollable tweens by axis with no target node id required ( it will be ignored )
-			
-			onClick={// all unknow props are passed to the child node
-				( e ) => {
-					// start playing an anim
-					tweener.pushAnim(
-						// make all tween target "testItem"
-						Voodoo.tools.target(pushIn, "testItem")
-					).then(
-						( tweenAxis ) => {
-							// doSomething next
-						}
-					);
-				}
-			}
-		>
-			<div>
-				Some content to tween
-			</div>
-		</Voodoo.Node>
-	</ViewBox>;
-}
-```
-
-| Property |          Type           |                                                                                 Infos                                                                                 |
-|----------|:-----------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| id       |    string, required     |                                                                A unique identifier for the Node.                                                                      |
-| style    |    object, optional     |                              Styles applied before any style coming from axes : css syntax + voodoo tweener units & transform management                              |
-| axes     |    object, optional     |                                             An object of Axis Id to Arrays of tween.<br/>Ex : ```{"axisId":[...],...}```                                              |
-| tweener  | VoodooTweener, optional | The tweener instance where the Node will be registered on<br/> All tween & axes Id passed to the "axes" property will react to the given Voodoo Tweener instance axes |
-| refProp  |    string, optional     |  The property name that will be passed too the child function component with the React Ref that will target the dom node on which the css animations will be applied  |
-
-### Voodoo.Draggable
-
-Component to scroll the Voodoo.Axis positions basing user dragging interactions.
-Voodoo.Draggable can move 1 axis by drag direction, it also propose an option to determine the "scroll force/scaling" by
-setting a reference dom node.
-
-```jsx harmony
-const Sample = ( {} ) => {
-	/**
-	 * Voodoo tweener instanciation
-	 */
-		// Classic minimal method
-	const [tweener, ViewBox] = Voodoo.hook();
-	
-	return <ViewBox className={"container"}>
-		<Voodoo.Axis
-			id={"scrollY"} // Tween axis Id
-			// Array of tween descriptors with theirs Voodoo.Node target ids ( like in axisSample )
-			items={tweenArrayWithTargets}
-		/>
-		{/*...*/}
-		<Voodoo.Draggable
-			// make drag y move the scrollAnAxis axis
-			// xAxis={ "scrollAnAxis" }
-			
-			// scale / inverse dispatched delta
-			// xHook={(delta)=>modify(delta)} 
-			
-			// React ref to the box, default to the parent ViewBox 
-			// scale is as follow : (delta / ((xBoxRef||ViewBox).offsetWidth)) * ( axis.scrollableWindow || axis.duration ) 
-			// xBoxRef={ref} 
-			
-			yAxis={"scrollY"}// make drag y move the scrollY axis
-			// yHook={(delta)=>modify(delta)}
-			// yBoxRef={ref} 
-			
-			// mouseDrag={true} // listen for mouse drag ( default to false )
-			// touchDrag={false} // listen for touch drag ( default to true )
-			
-			// button={1-3} // limit mouse drag to the specified event.button === ( default to 1; the left btn )
-			
-			// * actually Draggable create it's own div node
-		>
-			<div>
-				Some content to drag
-			</div>
-		</Voodoo.Draggable>
-	</ViewBox>;
-}
-```
-
-| Property  |        Type         | Default        |                                                         Infos                                                          |
-|-----------|:-------------------:|----------------|:----------------------------------------------------------------------------------------------------------------------:|
-| xAxis     |  string, optional   |                |                        The Axis to be scrolled when user drag in the 'x' / horizontal direction                        |
-| xHook     | function, optional  |                | A function receiving the delta from the drag gesture and that should return the delta to use to update the target Axis |
-| xBoxRef   | React Ref, optional | Parent ViewBox | A React Ref tthat will target the Dom Node used to determine the "amplitude" of the scrolling basing its Node "width"  |
-| yAxis     |  string, optional   |                |                         The Axis to be scrolled when user drag in the 'y' / vertical direction                         |
-| yHook     | function, optional  |                | A function receiving the delta from the drag gesture and that should return the delta to use to update the target Axis |
-| yBoxRef   | React Ref, optional | Parent ViewBox | A React Ref tthat will target the Dom Node used to determine the "amplitude" of the scrolling basing its Node "height" |
-| mouseDrag |  boolean, optional  | false          |                                              "true" to listen Mouse drags                                              |
-| touchDrag | boolean, optional   | true           |                                              "true" to listen Touch drags                                              |
-| button    |  number, optional   | 1              |                                          The mouse button listened for drags                                           |
-
-## Tween descriptors helpers ( Voodoo.tools )
-
-The package expose some tween & css utils
-
-```jsx harmony
-/**
- * add any css val with multiple units
- * @param val1
- * @param val2
- * @returns {Array}
- */
-export function cssAdd( val1, val2, ...argz ) {
-}
-
-/**
- * Multiply any css val with multiple unit
- * @param val1
- * @param val
- * @returns {Array}
- */
-export function cssMult( val1, val ) {
-}
-
-/**
- * Apply an offset on all the given tween
- * @param items
- * @param start
- */
-export function offset( items, start = 0 ) {
-}
-
-/**
- * Scale a tween collection to the specified duration
- * @param items
- * @param duration
- * @param withOffset
- * @returns {(T | {duration: number, from: number})[]}
- */
-export function scale( items, duration = 0, withOffset ) {
-}
-
-/**
- * Reverse an array of tween ( order & values )
- * @param items
- * @returns {(T | {apply: (*|string), from: number})[]}
- */
-export function reverse( items ) {
-}
-
-/**
- * Add specified target to all tweens
- * @param items
- * @param target
- * @returns {(T | {target: *})[]}
- */
-export function target( items, target ) {
-}
-
-
-/**
- * Shift transforms of the specified tween array
- * @param items
- * @param shift
- */
-export function shiftTransforms( items, shift = 1 ) {
-}
-
-```
-
-## Instantiate using decorators : Voodoo.asTweener ( depreciated )
-
-Return a react-voodoo tweener component composing the target React component
-
-The resulting component will have the tweener hooks
-
-```jsx harmony
-
+```jsx
 import React  from "react";
 import Voodoo from "react-voodoo";
 
-@Voodoo.tweener(
-	{
-		// max click tm in ms before a click become a drag
-		maxClickTm: 200,
-		// max drag offset in px before a click become a drag
-		maxClickOffset: 100,
-		
-		// mouse scroll force
-		wheelRatio: 5,
-		
-		// only apply 1 drag direction 
-		dragDirectionLock: false,
-		
-		// allow dragging with mouse
-		enableMouseDrag: false
-	}
-)
-export default class MyTweenerComp extends React.Component {
-	/**
-	 * Hook to determine if this component should apply a scroll event
-	 * ( if not, the parent tweener / scrollable node will apply it )
-	 * @param axisId
-	 * @param delta
-	 * return {boolean|undefined}
-	 */
-	componentShouldScroll( axisId, delta ) {
-	
-	}
-	
-	/**
-	 * Hook to change the targets order of scroll & drag events
-	 *
-	 * The returning array could also contain tween refs id & dom node id
-	 *
-	 * @param targets {array} array of node & react elements (default is all parents of the touch/mouse event)
-	 * return {array}
-	 */
-	hookScrollableTargets( targets ) {
-		return ["myTweenRefId", ...targets];
-	}
-	
-	/**
-	 * did scroll event
-	 * @param pos
-	 * @param axisId
-	 */
-	componentDidScroll( pos, axisId ) {
-	}
-	
-	/**
-	 * did resize event
-	 * @param pos
-	 * @param axisId
-	 */
-	windowDidResize( event ) {
-	}
+// ─────────────────────────────────────────────────────────────────────────────
+// TWEEN DESCRIPTORS
+// Each descriptor says "while the axis moves from `from` to `from+duration`,
+// apply `apply` progressively to node `target`".
+// Values in `apply` are *deltas* — they accumulate additively with other axes.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const cardTweens = [
+  {
+    target  : "card",
+    from    : 0,          // starts at axis position 0
+    duration: 300,        // active over 300 units of axis travel
+    easeFn  : "easeCubicOut",
+    apply   : {
+      opacity  : 1,       // fade from 0 (base style) to 1 (base + delta)
+      transform: [
+        { translateY: "-120px" },   // layer 0: scroll up 120 px
+      ],
+    },
+  },
+  {
+    target  : "card",
+    from    : 200,        // starts a bit before the first tween ends (overlap)
+    duration: 100,
+    apply   : {
+      transform: [
+        {},                          // layer 0: leave untouched
+        { scale: 0.15 },             // layer 1: additive scale — does NOT
+      ],                             //          conflict with layer 0 translateY
+    },
+  },
+];
+
+const headerTweens = [
+  {
+    target  : "header",
+    from    : 0,
+    duration: 150,
+    easeFn  : "easeQuadInOut",
+    apply   : {
+      opacity  : -1,    // fade header OUT as we scroll down
+      transform: [{ translateY: "-40px" }],
+    },
+    // Lifecycle callbacks — great for triggering side-effects
+    entering: (delta) => console.log("header tween entered, direction:", delta),
+    leaving : (delta) => console.log("header tween left,    direction:", delta),
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INERTIA CONFIG
+// After releasing a drag gesture, the axis decelerates and snaps to a waypoint.
+// The engine knows the target waypoint *immediately* on release — before the
+// animation finishes — enabling predictive preloading.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const inertiaConfig = {
+  // The axis always lands on one of these positions after a drag release.
+  wayPoints: [{ at: 0 }, { at: 300 }],
+
+  // Called immediately on drag release — the engine already knows where it'll stop.
+  willSnap: (index, wayPoint) => {
+    console.log(`[inertia] will snap to index ${index} (pos: ${wayPoint.at})`);
+    // e.g. preload content for the next slide here
+  },
+
+  // Called once the axis fully settles.
+  onSnap: (index, wayPoint) => {
+    console.log(`[inertia] snapped to index ${index}`);
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COMPONENT
+// ─────────────────────────────────────────────────────────────────────────────
+
+const Scene = () => {
+  // useVoodoo (aliased as Voodoo.hook) creates the animation engine.
+  // It returns:
+  //   tweener  — the engine instance (scroll, pushAnim, watchAxis, ...)
+  //   ViewBox  — a wrapper component that provides the tweener via context
+  //              and measures its own dimensions for bw/bh/box units
+  const [tweener, ViewBox] = Voodoo.hook({
+    dragDirectionLock: true,   // lock drag to one axis (x or y) at a time
+  });
+
+  // watchAxis is useful to sync external React state with an axis position
+  // (e.g. active dot indicator in a carousel)
+  const [slide, setSlide] = React.useState(0);
+  React.useEffect(() => {
+    return tweener.watchAxis("scrollY", (pos) => {
+      setSlide(pos > 150 ? 1 : 0);
+    });
+  }, [tweener]);
+
+  return (
+    // ViewBox must wrap all Voodoo.Node, Voodoo.Axis, and Voodoo.Draggable.
+    // Unknown props (style, className, …) are forwarded to the underlying <div>.
+    <ViewBox style={{ height: "100vh", overflow: "hidden", position: "relative" }}>
+
+      {/* ── AXIS ──────────────────────────────────────────────────────────
+          Declares the "scrollY" timeline.
+          · size           — total length of the timeline (axis units)
+          · scrollableWindow — how many axis units map to the full height of
+                               the drag container (controls drag sensitivity)
+          · items          — the tween descriptors to attach to this axis
+          · inertia        — physics config (waypoints, callbacks, …)
+      ──────────────────────────────────────────────────────────────────── */}
+      <Voodoo.Axis
+        id="scrollY"
+        size={300}
+        scrollableWindow={600}
+        items={[...cardTweens, ...headerTweens]}
+        inertia={inertiaConfig}
+      />
+
+      {/* ── NODES ─────────────────────────────────────────────────────────
+          Each Node wraps exactly one React child and registers it with the
+          tweener. The `style` prop is the *base* (t=0) style — axis deltas
+          are added on top of it. Node never re-renders for animation updates;
+          styles go straight to node.style via direct DOM writes.
+      ──────────────────────────────────────────────────────────────────── */}
+      <header style={{ position: "absolute", top: 0, width: "100%" }}>
+        <Voodoo.Node
+          id="header"
+          style={{ opacity: 1, transform: [{ translateY: "0px" }] }}
+        >
+          <div className="header">My App</div>
+        </Voodoo.Node>
+      </header>
+
+      <Voodoo.Node
+        id="card"
+        style={{
+          opacity  : 0,
+          transform: [
+            { translateY: "0px" },   // layer 0 base
+            { scale: 1 },            // layer 1 base — independently tweened
+          ],
+        }}
+      >
+        <div className="card">Slide {slide + 1}</div>
+      </Voodoo.Node>
+
+      {/* ── DRAGGABLE ─────────────────────────────────────────────────────
+          Listens for touch/mouse drag on its child and maps pixel movement
+          to axis positions. `yAxis` maps vertical drag → "scrollY".
+          The Draggable automatically walks up the tweener tree so nested
+          draggables in a slider each consume their own axis first, then
+          bubble up to the parent if out of bounds.
+      ──────────────────────────────────────────────────────────────────── */}
+      <Voodoo.Draggable yAxis="scrollY" mouseDrag>
+        <div style={{ position: "absolute", inset: 0 }} />
+      </Voodoo.Draggable>
+
+      {/* ── PROGRAMMATIC CONTROL ──────────────────────────────────────────
+          Axes can also be driven without drag — tweener.scrollTo returns
+          a Promise that resolves when the scroll completes.
+      ──────────────────────────────────────────────────────────────────── */}
+      <div style={{ position: "absolute", bottom: 24, right: 24, display: "flex", gap: 8 }}>
+        <button onClick={() => tweener.scrollTo(0,   300, "scrollY", "easeCubicOut")}>
+          Slide 1
+        </button>
+        <button onClick={() => tweener.scrollTo(300, 300, "scrollY", "easeCubicOut")}>
+          Slide 2
+        </button>
+      </div>
+
+    </ViewBox>
+  );
+};
+
+export default Scene;
+```
+
+---
+
+## useVoodoo Hook
+
+`Voodoo.hook` (alias: `useVoodoo`) is the primary entry point. It returns `[tweener, ViewBox]`.
+
+### Three usage modes
+
+```jsx
+// 1. Create a new tweener — the standard usage
+const [tweener, ViewBox] = Voodoo.hook(options?);
+
+// 2. Inherit the nearest parent tweener — used internally by Node, Axis, Draggable
+//    Returns the parent tweener from context; ViewBox is a passthrough fragment
+const [tweener] = Voodoo.hook(true);
+
+// 3. Find a named ancestor tweener — for cross-subtree coordination
+const [tweener] = Voodoo.hook("rootName");
+```
+
+### Options
+
+```js
+Voodoo.hook({
+  name              : "main",   // lets descendants find this tweener by name
+  maxClickTm        : 200,      // ms threshold: drag vs click detection
+  maxClickOffset    : 10,       // px threshold: drag vs click detection
+  dragDirectionLock : false,    // lock gesture to dominant axis (X or Y)
+  enableMouseDrag   : false,    // respond to mouse drag events
+});
+```
+
+### Tweener API
+
+```js
+// ─── Reading state ────────────────────────────────────────────────────────
+tweener.axes.scrollY.scrollPos          // current position of the "scrollY" axis
+tweener.getScrollPos("scrollY")         // same, with null-safety
+tweener.getAxisState()                  // → { scrollY: pos, scrollX: pos, ... }
+
+// ─── Programmatic scroll ──────────────────────────────────────────────────
+// scrollTo(position, durationMs, axisId, easeFn?) → Promise
+tweener.scrollTo(500, 300, "scrollY", "easeCubicInOut")
+  .then(() => console.log("done"));
+
+// Instant jump (no animation)
+tweener.scrollTo(0, 0, "scrollY");
+
+// ─── Watching an axis ─────────────────────────────────────────────────────
+// Returns an unsubscribe function — pass it directly to useEffect cleanup
+const unwatch = tweener.watchAxis("scrollY", (pos) => {
+  setProgress(pos / 1000);
+});
+// later:
+unwatch();
+
+// ─── One-shot animations ──────────────────────────────────────────────────
+// pushAnim(tweenArray) → Promise — plays once, then cleans up
+tweener.pushAnim(Voodoo.tools.target(myTweens, "card"))
+  .then(() => console.log("animation complete"));
+
+// ─── Checking state ───────────────────────────────────────────────────────
+tweener.isInertiaActive()               // → boolean — is any axis still decelerating?
+tweener.isAxisOut("scrollY", delta)     // → boolean — would moving by delta go out of bounds?
+```
+
+---
+
+## CSS Descriptors
+
+Voodoo uses CSS-in-JS syntax in both `Node` base styles and tween `apply` objects.
+
+### Supported properties
+
+Most CSS properties work out of the box with camelCase keys. A selection:
+
+```js
+{
+  // Layout
+  opacity: 0.5,
+  width: "200px",
+  height: "100px",
+  top: "20px",
+
+  // Colors
+  color           : "rgba(255, 0, 0, 1)",
+  backgroundColor : "rgba(0, 128, 255, 0.8)",
+
+  // Transforms (see Transform Layers below)
+  transform: [{ translateX: "50px", rotate: "45deg" }],
+
+  // Complex properties
+  filter   : [{ blur: "4px" }],
+  boxShadow: [{ x: "0px", y: "4px", blur: "8px", color: "rgba(0,0,0,0.3)" }],
 }
 ```
+
+### Custom units
+
+Three box-relative units are available in addition to standard CSS units. They resolve against the parent `ViewBox` dimensions and update on resize.
+
+| Unit | Meaning |
+|------|---------|
+| `bw` | Width of the parent ViewBox (`1bw` = 100%) |
+| `bh` | Height of the parent ViewBox (`1bh` = 100%) |
+| `box` | Smaller dimension of the ViewBox (min of width and height) |
+
+```js
+{ width: "0.5bw", height: "0.25bh", marginTop: "-0.1box" }
+```
+
+### Multi-unit values
+
+Pass an array to combine multiple units. Voodoo compiles it to a CSS `calc()` at runtime:
+
+```js
+// renders as: calc(50% + 10vw - 50px + 20% of ViewBox width)
+width: ["50%", "10vw", "-50px", "0.2bw"]
+```
+
+### Transform layers
+
+Transforms are an **array of layer objects**. Each layer is independent — different axes can control different layers without ever overwriting each other. This is the foundation of additive transform composition.
+
+```js
+transform: [
+  { translateX: "0px" },       // layer 0 — driven by horizontal drag axis
+  { translateY: "0px" },       // layer 1 — driven by vertical scroll axis
+  { scale: 1, rotate: "0deg" },// layer 2 — driven by a parallax axis
+]
+```
+
+When three axes each modify a different layer, the final CSS `transform` property is built as the concatenation of all layers — they never conflict.
+
+Supported transform functions: `translateX`, `translateY`, `translateZ`, `scaleX`, `scaleY`, `scaleZ`, `rotateX`, `rotateY`, `rotateZ`, `skewX`, `skewY`, `perspective`.
+
+---
+
+## Tween Descriptors
+
+A tween descriptor defines what CSS change to apply over a segment of an axis timeline.
+
+```js
+{
+  target  : "nodeId",        // which Voodoo.Node to animate
+                             // (omit when using Node's `axes` prop)
+  from    : 0,               // axis position where this tween begins
+  duration: 100,             // how many axis units it lasts
+  easeFn  : "easeCircleIn",  // any d3-ease id, or a custom (t: 0→1) => 0→1 fn
+  apply   : {                // CSS deltas to apply at full progress
+    opacity  : 1,
+    transform: [{ translateX: "200px" }],
+  },
+
+  // ─── Lifecycle callbacks ───────────────────────────────────────────────
+  // `delta` is the direction of axis movement: +1 forward, -1 backward
+
+  // Fired once when the axis enters [from, from+duration]
+  entering: (delta) => { /* trigger sound, side effect */ },
+
+  // Fired every frame while inside the range
+  // newPos and prevPos are normalized [0, 1] progress within the tween
+  moving: (newPos, prevPos, delta) => { /* sync external state */ },
+
+  // Fired once when the axis leaves [from, from+duration]
+  leaving: (delta) => { /* cleanup */ },
+}
+```
+
+### Properties reference
+
+| Property   | Type | Required | Description |
+|------------|------|----------|-------------|
+| `target`   | `string` | — | ID of the target `Voodoo.Node`. |
+| `from`     | `number` | ✅ | Start position on the axis timeline. |
+| `duration` | `number` | ✅ | Length of this tween on the axis timeline. |
+| `easeFn`   | `string \| function` | — | Easing. Accepts any [d3-ease](https://github.com/d3/d3-ease) id or a custom `t => t` function. |
+| `apply`    | `object` | — | CSS-in-JS delta values applied progressively as the axis moves. |
+| `entering` | `function` | — | `(delta) => void` — axis just entered this range. |
+| `moving`   | `function` | — | `(newPos, prevPos, delta) => void` — called every frame inside range. |
+| `leaving`  | `function` | — | `(delta) => void` — axis just left this range. |
+
+---
+
+## Components
+
+### `Voodoo.Axis`
+
+Declares a virtual scrollable timeline. Any movement of its position drives its attached tween descriptors.
+
+```jsx
+<Voodoo.Axis
+  id="scrollY"
+  defaultPosition={0}
+  size={1000}
+  scrollableWindow={500}
+  items={tweenDescriptors}
+  bounds={{ min: 0, max: 1000 }}
+  inertia={inertiaConfig}
+/>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | — | **Required.** Unique axis identifier. |
+| `defaultPosition` | `number` | `0` | Initial position. |
+| `size` | `number` | auto | Total timeline length. Defaults to the end of the last tween. |
+| `scrollableWindow` | `number` | — | Axis units that map to 100% of the drag container's dimension. Controls drag sensitivity. |
+| `items` | `array` | `[]` | Array of tween descriptors (must include `target` fields). |
+| `bounds` | `object` | — | `{ min, max }` — hard clamp positions for inertia. |
+| `inertia` | `object \| false` | — | Physics config. See [Inertia & Physics](#inertia--physics). Pass `false` to disable. |
+
+---
+
+### `Voodoo.Node`
+
+Wraps any single React child and registers it with the parent tweener.
+
+```jsx
+<Voodoo.Node
+  id="hero"
+  style={{ opacity: 0, transform: [{ translateY: "50px" }] }}
+  axes={{ scrollY: localTweens }}
+>
+  <div>Animated content</div>
+</Voodoo.Node>
+```
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `id` | `string` | Unique identifier. Referenced by tween `target` fields. |
+| `style` | `object` | Base style (t=0). Axis deltas accumulate on top of this. |
+| `axes` | `object` | `{ axisId: tweenArray }` — tweens here don't need a `target`. |
+| `tweener` | Tweener | Explicitly attach to a specific tweener instead of the nearest ancestor. |
+| `refProp` | `string` | Prop name used to pass the DOM ref to functional child components. |
+
+Extra props (`onClick`, `className`, …) are forwarded to the child element.
+
+**Convenience shorthands:**
+
+```jsx
+<Voodoo.Node.div id="x" style={…}>content</Voodoo.Node.div>
+<Voodoo.Node.g   id="y" style={…}><circle/></Voodoo.Node.g>
+```
+
+---
+
+### `Voodoo.Draggable`
+
+Maps touch and mouse drag gestures to axis positions. Walks the tweener parent chain automatically — nested draggables each consume their own axis first and bubble up when out of bounds.
+
+```jsx
+<Voodoo.Draggable
+  yAxis="scrollY"
+  xAxis="scrollX"
+  mouseDrag={true}
+>
+  <div style={{ width: "100%", height: "100%" }} />
+</Voodoo.Draggable>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `xAxis` | `string` | — | Axis ID for horizontal drag. |
+| `yAxis` | `string` | — | Axis ID for vertical drag. |
+| `xHook` | `function` | — | `(delta) => delta` — transform horizontal delta before applying. |
+| `yHook` | `function` | — | `(delta) => delta` — transform vertical delta before applying. |
+| `xBoxRef` | React Ref | ViewBox | DOM node whose width is used for drag-to-axis scaling. |
+| `yBoxRef` | React Ref | ViewBox | DOM node whose height is used for drag-to-axis scaling. |
+| `mouseDrag` | `boolean` | `false` | Respond to mouse drag. |
+| `touchDrag` | `boolean` | `true` | Respond to touch drag. |
+| `button` | `number` | `0` | Mouse button index for drag activation. |
+
+**Drag scaling:**
+```
+axisDelta = (pixelDelta / containerDimension) × (axis.scrollableWindow || axis.size)
+```
+
+---
+
+## Inertia & Physics
+
+When an axis has an `inertia` config, releasing a drag applies momentum physics that decelerates the axis to a stop. The engine computes the predicted landing position **at the moment of release** — before the animation plays out — which enables predictive patterns like preloading the next slide's content while the swipe is still in flight.
+
+```js
+const inertiaConfig = {
+
+  // ── Snap points ─────────────────────────────────────────────────────────
+  // The axis always comes to rest at one of these positions.
+  wayPoints: [
+    { at: 0,    gravity: 1 },  // gravity > 1 makes this waypoint stickier
+    { at: 500,  gravity: 1 },
+    { at: 1000, gravity: 1.5 },
+  ],
+
+  // ── Predictive callbacks ─────────────────────────────────────────────────
+  // Both fire at drag release, before the animation completes.
+
+  // Called when the engine determines the final stop position
+  willEnd: (targetPos, targetDelta, durationMs) => {
+    console.log(`[inertia] landing at ${targetPos} in ${durationMs}ms`);
+  },
+
+  // Called when the engine determines it will snap to a waypoint
+  willSnap: (snapIndex, wayPoint) => {
+    console.log(`[inertia] snapping to index ${snapIndex}`);
+  },
+
+  // ── Completion callbacks ─────────────────────────────────────────────────
+  onStop: (finalPos, wayPoint) => {},
+  onSnap: (snapIndex, wayPoint) => {},
+
+  // ── Infinite loop ────────────────────────────────────────────────────────
+  // Return a position offset to apply (for looping carousels), or null/0.
+  shouldLoop: (pos) => {
+    if (pos > 1000) return -1000;
+    if (pos < 0)    return  1000;
+    return null;
+  },
+};
+```
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `wayPoints` | `array` | `[{ at: number, gravity?: number }]` — snap positions. |
+| `willEnd` | `function` | `(pos, delta, ms)` — predictive; fires on release. |
+| `willSnap` | `function` | `(index, wayPoint)` — predictive; fires on release. |
+| `onStop` | `function` | `(pos, wayPoint)` — fires when fully settled. |
+| `onSnap` | `function` | `(index, wayPoint)` — fires when fully settled on a waypoint. |
+| `shouldLoop` | `function` | `(pos) => offset \| null` — called each inertia frame for looping. |
+
+---
+
+## Tween Tools
+
+`Voodoo.tools` provides pure functions for composing and transforming tween descriptor arrays before passing them to an axis or `pushAnim`. None of them mutate the input.
+
+### `target(items, id)`
+Assigns a `target` node ID to every descriptor in the array.
+```js
+const aimed = Voodoo.tools.target(myTweens, "heroCard");
+```
+
+### `offset(items, start)`
+Shifts all `from` positions by `start` units.
+```js
+// Delay the entire animation by 100 axis units
+const delayed = Voodoo.tools.offset(myTweens, 100);
+```
+
+### `scale(items, duration)`
+Proportionally rescales the whole array to fit within `duration` units.
+```js
+const fitted = Voodoo.tools.scale(myTweens, 500);
+```
+
+### `reverse(items)`
+Mirrors the timeline and negates all numeric `apply` values — plays the animation backward.
+```js
+const reversed = Voodoo.tools.reverse(myTweens);
+```
+
+### `shiftTransforms(items, shift)`
+Prepends `shift` empty transform layer objects to every descriptor. Use when composing tween arrays that each occupy different transform layer slots.
+```js
+// Push all transforms down by 1 layer slot
+const shifted = Voodoo.tools.shiftTransforms(myTweens, 1);
+```
+
+### `cssAdd(val1, val2, ...)` / `cssMult(val, factor)`
+Arithmetic on CSS values across different unit systems.
+```js
+Voodoo.tools.cssAdd("50%", "20px", "-0.1bw")
+// → ["50%", "20px", "-0.1bw"]  (rendered as calc(...))
+
+Voodoo.tools.cssMult("50px", 2)   // → "100px"
+```
+
+---
+
+## One-shot Animations
+
+`tweener.pushAnim` fires a tween array once and resolves when it completes. It composites additively with any running axes.
+
+```jsx
+const MyButton = () => {
+  const [tweener, ViewBox] = Voodoo.hook();
+
+  const pop = () => {
+    tweener.pushAnim(
+      Voodoo.tools.target(popAnimation, "btn")
+    ).then(() => console.log("done"));
+  };
+
+  return (
+    <ViewBox>
+      <Voodoo.Node id="btn" style={{ transform: [{ scale: 1 }] }}>
+        <button onClick={pop}>Pop!</button>
+      </Voodoo.Node>
+    </ViewBox>
+  );
+};
+
+const popAnimation = [
+  { from: 0,   duration: 100, apply: { transform: [{ scale:  0.2 }] } },
+  { from: 100, duration: 100, apply: { transform: [{ scale: -0.2 }] } },
+];
+```
+
+> **Tip:** Prefer axes over `pushAnim` for interactive animations. Axes give you drag, inertia, scrubbing and reversibility for free.
+
+---
+
+## Advanced Patterns
+
+### Nested tweeners
+
+Each component can own its own tweener while reaching named ancestors:
+
+```jsx
+const Parent = () => {
+  const [, ViewBox] = Voodoo.hook({ name: "root" });
+  return (
+    <ViewBox>
+      <Voodoo.Axis id="page" size={1000} scrollableWindow={800} />
+      <Child />
+    </ViewBox>
+  );
+};
+
+const Child = () => {
+  // Read the parent's axis position
+  const [parentTweener] = Voodoo.hook("root");
+  // Own a separate local tweener
+  const [, ViewBox] = Voodoo.hook();
+  return <ViewBox>{/* … */}</ViewBox>;
+};
+```
+
+### Axis synchronization
+
+Drive a local axis from a parent axis — useful for coordinating across components:
+
+```jsx
+React.useEffect(() => {
+  // Mirror the parent "page" axis into the local "reveal" axis at half speed
+  return parentTweener?.watchAxis("page", (pos) => {
+    tweener.axes.reveal?.scrollTo(pos * 0.5, 0);
+  });
+}, [tweener, parentTweener]);
+```
+
+### Infinite carousel
+
+```jsx
+<Voodoo.Axis
+  id="carousel"
+  size={3000}
+  scrollableWindow={window.innerWidth}
+  inertia={{
+    shouldLoop: (pos) => {
+      if (pos > 2000) return -2000;
+      if (pos < 0)    return  2000;
+      return null;
+    },
+    wayPoints: [{ at: 0 }, { at: 1000 }, { at: 2000 }],
+  }}
+  items={carouselTweens}
+/>
+```
+
+### Reactive axis progress
+
+```jsx
+React.useEffect(() => {
+  // watchAxis returns an unsubscribe — return it directly for auto-cleanup
+  return tweener?.watchAxis("scrollY", (pos) => {
+    setScrollProgress(pos / 1000);
+  });
+}, [tweener]);
+```
+
+---
+
+## SVG Support
+
+React-Voodoo animates SVG elements with the same syntax as HTML. Both style-based presentation attributes and geometry attributes are supported.
+
+### Presentation attributes (via `node.style`)
+
+| Property | Description |
+|----------|-------------|
+| `fill`, `stroke` | Colors |
+| `strokeWidth` | Length |
+| `strokeOpacity`, `fillOpacity` | `[0, 1]` |
+| `strokeDashoffset` | Length |
+
+### Geometry attributes (via `element.setAttribute`)
+
+Attributes like `cx`, `cy`, `r`, `rx`, `ry`, `x`, `y`, `x1`, `y1`, `x2`, `y2` cannot be set via `element.style` — they require `setAttribute`. Voodoo handles this automatically: any of these keys in a `style` or `apply` object are routed to `setAttribute` behind the scenes. Use unitless numbers.
+
+### Example
+
+```jsx
+const tweens = [
+  {
+    target: "dot",
+    from: 0, duration: 300,
+    easeFn: "easeCubicInOut",
+    apply: {
+      cx          : 200,
+      cy          : 50,
+      r           : 20,
+      fill        : "rgba(255, 100, 0, 1)",
+      strokeWidth : "3px",
+      strokeOpacity: 0.8,
+    },
+  },
+];
+
+const SvgScene = () => {
+  const [, ViewBox] = Voodoo.hook();
+  return (
+    <ViewBox>
+      <Voodoo.Axis id="scroll" items={tweens} size={300} scrollableWindow={400} />
+      <svg width="400" height="200">
+        <Voodoo.Node id="dot" style={{ cx: 50, cy: 100, r: 30, fill: "rgba(0,120,255,1)" }}>
+          <circle />
+        </Voodoo.Node>
+      </svg>
+      <Voodoo.Draggable xAxis="scroll">
+        <div style={{ position: "absolute", inset: 0 }} />
+      </Voodoo.Draggable>
+    </ViewBox>
+  );
+};
+```
+
+---
+
+## Legacy: `asTweener` Decorator
+
+> **Deprecated** — use `Voodoo.hook()` for all new code.
+
+`Voodoo.tweener` is a class component decorator for older codebases.
+
+```jsx
+@Voodoo.tweener({ maxClickTm: 200, enableMouseDrag: false })
+export default class MyScene extends React.Component {
+  // Return true to consume a scroll event; false to let it bubble to the parent tweener
+  componentShouldScroll(axisId, delta) { return true; }
+
+  // Called after each scroll event
+  componentDidScroll(pos, axisId) {}
+
+  // Called after window resize
+  windowDidResize(event) {}
+
+  render() { return <div>{/* Axes, Nodes, Draggables */}</div>; }
+}
+```
+
+`withTweener` injects the nearest tweener as a prop into a class component:
+
+```jsx
+import { withTweener } from "react-voodoo";
+
+class Child extends React.Component {
+  render() {
+    const { tweener } = this.props;
+    return <div onClick={() => tweener.scrollTo(0, 300, "scrollY")} />;
+  }
+}
+
+export default withTweener(Child);
+```
+
+---
+
+## License
+
+React-Voodoo is dual-licensed:
+
+- **[CC BY-ND 4.0](http://creativecommons.org/licenses/by-nd/4.0)** — use freely in commercial projects; no distribution of modified versions
+- **[AGPL-3.0](http://www.gnu.org/licenses/agpl-3.0)** — distribute modified versions under the same license
+
+© 2022–2026 Braun Nathanael
