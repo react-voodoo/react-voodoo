@@ -47,34 +47,20 @@ This unlocks a set of features that are unique to the delta model:
 
 ### Feature matrix
 
-| | **react-voodoo** | Framer Motion | GSAP + ScrollTrigger | react-spring | Motion One | anime.js |
+| | **react-voodoo** | Framer Motion v12 | GSAP + ScrollTrigger | react-spring v10 | Motion v5 | anime.js v4 |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
-| Scroll-linked animation | ✅ | ✅ `useScroll` | ✅ | ⚠️ manual | ✅ | ⚠️ manual |
-| Drag-linked animation | ✅ native | ✅ `drag` | ⚠️ manual | ✅ `@use-gesture` | ⚠️ manual | ❌ |
+| Scroll-linked animation | ✅ | ✅ `useScroll` | ✅ | ⚠️ manual | ✅ | ✅ `ScrollObserver` |
+| Drag-linked animation | ✅ native | ✅ `drag` | ⚠️ manual | ✅ `@use-gesture` | ✅ gestures | ✅ `Draggable` |
 | **Additive multi-axis composition** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Physics / momentum inertia | ✅ predictive | ✅ spring | ❌ | ✅ spring | ❌ | ❌ |
+| Physics / momentum inertia | ✅ predictive | ✅ spring | ❌ | ✅ spring | ⚠️ limited | ✅ spring |
 | **Predictive snap target** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **SSR — correct initial styles** | ✅ | ⚠️ flash | ⚠️ flash | ⚠️ flash | ⚠️ flash | ❌ |
 | Bypasses React render loop | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Transform layer composition | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| SVG geometry attributes | ✅ | ⚠️ limited | ✅ | ❌ | ⚠️ | ✅ |
+| SVG geometry attributes | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | Multitouch (drag multiple axes) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Bundle size (approx. gzip) | ~18 kB | ~50 kB | ~75 kB | ~30 kB | ~18 kB | ~14 kB |
+| Bundle size (approx. gzip) | ~18 kB | ~32 kB | ~35 kB | ~25 kB | ~4 kB | ~10 kB |
 | React dependency | ≥ 16 | ≥ 18 | none | ≥ 16 | none | none |
-
-### When to pick react-voodoo
-
-- Swipeable carousels and full-page scroll scenes where drag, inertia, and animation must be one system
-- Any UI where **multiple animation "tracks"** compose onto the same elements (parallax, pinned sequences, overlapping effects)
-- **SSR-first** projects where the initial paint must already reflect the animated state
-- Scenarios requiring **predictive callbacks** — e.g. preloading slide N+1 before the swipe animation finishes
-
-### When to look elsewhere
-
-- Simple enter/exit transitions → **Framer Motion** (`AnimatePresence` is excellent for this)
-- Complex GSAP-style timeline sequencing without scroll/drag → **GSAP**
-- Spring-physics micro-interactions → **react-spring** or **Framer Motion**
-- Lightweight imperative animation on non-React pages → **anime.js** or **Motion One**
 
 ---
 
