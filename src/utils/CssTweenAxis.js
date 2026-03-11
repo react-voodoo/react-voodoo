@@ -189,7 +189,7 @@ export default class CssTweenAxis extends tweenAxis {
 
 		// Clear WASM-slot tracking for this instance.
 		this.__wasmSlotByKey = {};
-		this.__wasmSlotList.length = 0;
+		this.__wasmSlotList  = [];
 		this.__wasmSlotCount = 0;
 
 		// Clear JS-side arrays (present on the plain TweenAxis implementation).
