@@ -154,7 +154,7 @@ export function demuxOne( unitIndex, dkey, twVal, baseKey, data, box ) {
 		value = value * box.x;
 		unit  = 'px';
 	}
-	if ( unit === 'wh' ) {
+	if ( unit === 'bh' ) {
 		value = value * box.y;
 		unit  = 'px';
 	}

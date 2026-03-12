@@ -304,6 +304,10 @@ tweener.scrollTo(500, 300, "scrollY", "easeCubicInOut")
 // Instant jump (no animation)
 tweener.scrollTo(0, 0, "scrollY");
 
+// Per-axis shorthand — omits the axisId parameter (it is bound to the axis)
+// tweener.axes.axisId.scrollTo(position, durationMs, easeFn?) → Promise
+tweener.axes.scrollY.scrollTo(500, 300, "easeCubicInOut");
+
 // ─── Watching an axis ─────────────────────────────────────────────────────
 // Returns an unsubscribe function — pass it directly to useEffect cleanup
 const unwatch = tweener.watchAxis("scrollY", (pos) => {
@@ -320,6 +324,23 @@ tweener.pushAnim(Voodoo.tools.target(myTweens, "card"))
 // ─── Checking state ───────────────────────────────────────────────────────
 tweener.isInertiaActive()               // → boolean — is any axis still decelerating?
 tweener.isAxisOut("scrollY", delta)     // → boolean — would moving by delta go out of bounds?
+
+// ─── Imperative style override ────────────────────────────────────────────
+// updateRefStyle(id, style) — directly updates a Node's CSS baseline.
+// Unlike pushAnim, the change persists (it replaces the baseline, not a delta).
+// Useful for non-animated state changes such as showing/hiding a drag placeholder.
+// Accepts the same CSS-in-JS object format as Node's `style` prop.
+tweener.updateRefStyle("dropZone", { display: "block", opacity: 1 });
+tweener.updateRefStyle("dropZone", { display: "none" });
+
+// Batch form — update multiple nodes at once:
+tweener.updateRefStyle(["node1", "node2"], { opacity: 0 });          // same style
+tweener.updateRefStyle(["node1", "node2"], [style1, style2]);        // per-node styles
+
+// ─── DOM node access ──────────────────────────────────────────────────────
+// getTweenableRef(id) — returns the raw DOM element for a registered Node.
+// Use sparingly; prefer axes and updateRefStyle for all style changes.
+const domNode = tweener.getTweenableRef("card");
 ```
 
 ---
@@ -369,11 +390,17 @@ Three box-relative units are available in addition to standard CSS units. They r
 
 ### Multi-unit values
 
-Pass an array to combine multiple units. Voodoo compiles it to a CSS `calc()` at runtime:
+Pass an array to combine multiple units. Voodoo compiles it to a CSS `calc()` at runtime. All standard CSS length units (`px`, `%`, `em`, `rem`, `vw`, `vh`, `vmin`, `vmax`, …) plus the custom `bw`/`bh`/`box` units are supported:
 
 ```js
 // renders as: calc(50% + 10vw - 50px + 20% of ViewBox width)
 width: ["50%", "10vw", "-50px", "0.2bw"]
+
+// mixing em and %
+width: ["100%", "-3.6em"]
+
+// single-element array also works (passes through calc())
+height: ["3.6em"]
 ```
 
 ### Transform layers
@@ -460,13 +487,13 @@ Declares a virtual scrollable timeline. Any movement of its position drives its 
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `id` | `string` | — | **Required.** Unique axis identifier. |
+| `id` | `string` | — | **Required.** Unique axis identifier. Also accepted as `axe` (deprecated alias). |
 | `defaultPosition` | `number` | `0` | Initial position. |
 | `size` | `number` | auto | Total timeline length. Defaults to the end of the last tween. |
 | `scrollableWindow` | `number` | — | Axis units that map to 100% of the drag container's dimension. Controls drag sensitivity. |
 | `items` | `array` | `[]` | Array of tween descriptors (must include `target` fields). |
 | `bounds` | `object` | — | `{ min, max }` — hard clamp positions for inertia. |
-| `inertia` | `object \| false` | — | Physics config. See [Inertia & Physics](#inertia--physics). Pass `false` to disable. |
+| `inertia` | `object \| true \| false` | — | Physics config. See [Inertia & Physics](#inertia--physics). Pass `true` for basic deceleration with no snap points. Pass `false` or omit to disable. |
 
 ---
 
@@ -486,9 +513,9 @@ Wraps any single React child and registers it with the parent tweener.
 
 | Prop | Type | Description |
 |------|------|-------------|
-| `id` | `string` | Unique identifier. Referenced by tween `target` fields. |
+| `id` | `string` | Unique identifier. Referenced by tween `target` fields. Auto-generated when omitted (required only if tweens reference this node by ID). |
 | `style` | `object` | Base style (t=0). Axis deltas accumulate on top of this. |
-| `axes` | `object` | `{ axisId: tweenArray }` — tweens here don't need a `target`. |
+| `axes` | `object` | `{ axisId: tweenArray }` — tweens here don't need a `target`. Also accepted as `tweenLines` or `tweenAxis` (all three are aliases). |
 | `tweener` | Tweener | Explicitly attach to a specific tweener instead of the nearest ancestor. |
 | `refProp` | `string` | Prop name used to pass the DOM ref to functional child components. |
 
@@ -568,9 +595,15 @@ const inertiaConfig = {
   onStop: (finalPos, wayPoint) => {},
   onSnap: (snapIndex, wayPoint) => {},
 
+  // ── Bounds snapping ──────────────────────────────────────────────────────
+  // When true, any momentum that would overshoot the axis bounds is clamped and
+  // snapped back to the nearest bound (min or max). Requires `bounds` on the Axis.
+  snapToBounds: true,
+
   // ── Infinite loop ────────────────────────────────────────────────────────
   // Return a position offset to apply (for looping carousels), or null/0.
-  shouldLoop: (pos) => {
+  // `delta` is the direction of movement: positive = forward, negative = backward.
+  shouldLoop: (pos, delta) => {
     if (pos > 1000) return -1000;
     if (pos < 0)    return  1000;
     return null;
@@ -581,11 +614,12 @@ const inertiaConfig = {
 | Option | Type | Description |
 |--------|------|-------------|
 | `wayPoints` | `array` | `[{ at: number, gravity?: number }]` — snap positions. |
+| `snapToBounds` | `boolean` | Clamp and snap to axis `bounds` if momentum overshoots. Requires `bounds` on the Axis. |
 | `willEnd` | `function` | `(pos, delta, ms)` — predictive; fires on release. |
 | `willSnap` | `function` | `(index, wayPoint)` — predictive; fires on release. |
 | `onStop` | `function` | `(pos, wayPoint)` — fires when fully settled. |
 | `onSnap` | `function` | `(index, wayPoint)` — fires when fully settled on a waypoint. |
-| `shouldLoop` | `function` | `(pos) => offset \| null` — called each inertia frame for looping. |
+| `shouldLoop` | `function` | `(pos, delta) => offset \| null` — called each inertia frame for looping. `delta` is direction of movement. |
 
 ---
 
