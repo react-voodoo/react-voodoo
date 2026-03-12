@@ -499,7 +499,7 @@ Declares a virtual scrollable timeline. Any movement of its position drives its 
 
 ### `Voodoo.Node`
 
-Wraps any single React child and registers it with the parent tweener.
+Registers an element with the parent tweener and applies axis-driven style updates directly to its DOM node. **`Voodoo.Node` must have exactly one child element.**
 
 ```jsx
 <Voodoo.Node
@@ -507,8 +507,23 @@ Wraps any single React child and registers it with the parent tweener.
   style={{ opacity: 0, transform: [{ translateY: "50px" }] }}
   axes={{ scrollY: localTweens }}
 >
-  <div>Animated content</div>
+  <div>Animated content</div>   {/* ← exactly one child */}
 </Voodoo.Node>
+```
+
+When you need multiple children inside an animated node, use **`Voodoo.Node.div`** — it renders itself as the `<div>` container, so its children don't count as `Voodoo.Node`'s children:
+
+```jsx
+{/* Voodoo.Node.div IS the div — any number of children is fine */}
+<Voodoo.Node.div
+  id="hero"
+  style={{ opacity: 0, transform: [{ translateY: "50px" }] }}
+  axes={{ scrollY: localTweens }}
+>
+  <h2>Title</h2>
+  <p>Paragraph</p>
+  <img src="…" />
+</Voodoo.Node.div>
 ```
 
 | Prop | Type | Description |
@@ -521,11 +536,14 @@ Wraps any single React child and registers it with the parent tweener.
 
 Extra props (`onClick`, `className`, …) are forwarded to the child element.
 
-**Convenience shorthands:**
+**Typed shorthands** — `Voodoo.Node.<tag>` renders as `<tag>` directly, bypassing the single-child requirement:
 
 ```jsx
-<Voodoo.Node.div id="x" style={…}>content</Voodoo.Node.div>
-<Voodoo.Node.g   id="y" style={…}><circle/></Voodoo.Node.g>
+<Voodoo.Node.div id="x" style={…}>     {/* renders a <div> */}
+  <span>child 1</span>
+  <span>child 2</span>
+</Voodoo.Node.div>
+<Voodoo.Node.g   id="y" style={…}><circle/></Voodoo.Node.g>  {/* renders a <g> */}
 ```
 
 ---

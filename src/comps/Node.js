@@ -62,6 +62,14 @@ const Node = React.forwardRef(( {
 		console.error("[react-voodoo] No Tweener found in context — is there a parent ViewBox (useVoodoo) wrapping this Node?")
 		return <React.Fragment/>;
 	}
+	if ( !children ) {
+		console.warn("[react-voodoo] No Child node to animate — is there a childNodes to this Node?")
+		return <React.Fragment/>;
+	}
+	if ( children.length>1 ) {
+		console.warn("[react-voodoo] Multiple Child node to animate — is there an array of childNodes to this Node?")
+		return <React.Fragment/>;
+	}
 	// Register this node with the tweener. Returns { style, ref }:
 	//   style — current CSS computed from initial values; used for the first render
 	//   ref   — callback that stores the DOM node in tweener._.refs[id] for direct writes

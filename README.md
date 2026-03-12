@@ -278,6 +278,16 @@ const Sample = ( {} ) => {
 			}
 		/>
 
+		{/*
+		 * Voodoo.Node must have exactly ONE child element.
+		 * When you need multiple children, use Voodoo.Node.div — it renders
+		 * itself as the <div> container so its children are not Node's direct children.
+		 *
+		 *   <Voodoo.Node.div id="x" style={…}>
+		 *     <span>child 1</span>
+		 *     <span>child 2</span>
+		 *   </Voodoo.Node.div>
+		 */}
 		<Voodoo.Node
 			id={"testItem"} // optional id
 
