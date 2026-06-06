@@ -63,9 +63,17 @@ let
             if ( i === -1 ) {
                 return;
             }
+
+            desc = me.dragEnabledDesc[ i ];
+            // respect the configured mouse button (Draggable `button` prop) : filtering must
+            // happen here, at mousedown time — mousemove events always report e.button = 0,
+            // so the drag/dropped callbacks can't reliably filter by themselves
+            if ( desc.button != null && e instanceof MouseEvent && e.button !== desc.button ) {
+                return;
+            }
             //e.preventDefault();
             //e.stopPropagation();
-            
+
             if ( !me.nbFingers ) {
                 Dom.addEvent(document,
                              {
@@ -211,7 +219,7 @@ let
                                 });
             }
         },
-        getDraggable     : function ( node, mouseDrag, touchDrag ) {
+        getDraggable     : function ( node, mouseDrag, touchDrag, button ) {
             let i = this.dragEnabled.indexOf(node), desc;
             if ( i === -1 ) {
                 this.dragEnabled.push(node);
@@ -219,6 +227,7 @@ let
                     desc = {
                         mouseDrag,
                         touchDrag,
+                        button,
                         nbFingers: 0,
                         locks    : 0,
                         _startPos: {
@@ -288,21 +297,21 @@ let
         },
     },
     Dom       = {
-        addEvent   : function ( node, type, fn, mouseDrag, touchDrag = true, bubble ) {
+        addEvent   : function ( node, type, fn, mouseDrag, touchDrag = true, bubble, button ) {
             if ( is.object(type) ) {
                 for ( let o in type )
                     if ( type.hasOwnProperty(o) && type[ o ] )
-                        this.addEvent(node, o, type[ o ], mouseDrag, touchDrag, bubble);
+                        this.addEvent(node, o, type[ o ], mouseDrag, touchDrag, bubble, button);
                 return;
             }
             else if ( type === 'dragstart' ) {
-                __.getDraggable(node, mouseDrag, touchDrag).dragstart.push([fn]);
+                __.getDraggable(node, mouseDrag, touchDrag, button).dragstart.push([fn]);
             }
             else if ( type === 'drag' ) {
-                __.getDraggable(node, mouseDrag, touchDrag).drag.push([fn]);
+                __.getDraggable(node, mouseDrag, touchDrag, button).drag.push([fn]);
             }
             else if ( type === 'dropped' ) {
-                __.getDraggable(node, mouseDrag, touchDrag).dropped.push([fn]);
+                __.getDraggable(node, mouseDrag, touchDrag, button).dropped.push([fn]);
             }
             else {
                 if ( node.addEventListener ) {

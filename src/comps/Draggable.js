@@ -58,12 +58,12 @@ const Draggable = React.forwardRef(( {
 			     */
 			    getScrollableNodes( node ) {
 				    let scrollable = [], parent = µ._parentTweener;
-
+				    
 				    while ( parent ) {
 					    scrollable.push(parent);
 					    parent = parent._parentTweener;
 				    }
-
+				    
 				    return scrollable
 			    },
 			    
@@ -135,13 +135,12 @@ const Draggable = React.forwardRef(( {
 								    
 							    },
 							    // drag: runs on every pointer move. Converts pixel offset to axis units,
-						    // applies dragDirectionLock, then dispatches to the first ancestor tweener
-						    // whose inertia.isInbound() returns true — preventing over-scroll propagation.
-						    'drag'     : ( e, touch, descr ) => {
-								    if ( (e) instanceof MouseEvent && e.button !== button ) {// allow undefined so µ work for touch events
-									    return;
-								    }
-								    
+							    // applies dragDirectionLock, then dispatches to the first ancestor tweener
+							    // whose inertia.isInbound() returns true — preventing over-scroll propagation.
+							    'drag': ( e, touch, descr ) => {
+								    // no e.button check here : mouse button filtering is done at mousedown time
+								    // in domUtils.dragstartAnywhere (e.button is always 0 on mousemove events,
+								    // so it can't be tested reliably here)
 								    let pTweener,
 								        x, deltaX, xDispatched, xBox,
 								        y, deltaY, yDispatched, yBox,
@@ -171,62 +170,65 @@ const Draggable = React.forwardRef(( {
 											    //yDispatched = true;
 										    }
 									    }
-									    for ( i = 0; i < parents.length; i++ ) {
-										    pTweener = parents[i];
-										    // react comp with tweener support
-										    if ( pTweener.__isTweener ) {
-											    
-											    x = xAxis && pTweener.axes?.[xAxis];
-											    y = yAxis && pTweener.axes?.[yAxis];
-											    if ( !x && !y )
-												    continue;
-											    if ( !parentsState[i] ) {
-												    parentsState[i] = {
-													    x: x?.scrollPos,
-													    y: y?.scrollPos
-												    };
-												    x?.inertia?.startMove();
-												    y?.inertia?.startMove();
-												    xAxis && x && !x?.inertiaFrame && pTweener.applyInertia(x, xAxis);
-												    yAxis && y && !y?.inertiaFrame && pTweener.applyInertia(y, yAxis);
+									    if ( parents )
+										    for ( i = 0; i < parents.length; i++ ) {
+											    pTweener = parents[i];
+											    // react comp with tweener support
+											    if ( pTweener.__isTweener ) {
+												    
+												    x = xAxis && pTweener.axes?.[xAxis];
+												    y = yAxis && pTweener.axes?.[yAxis];
+												    if ( !x && !y )
+													    continue;
+												    if ( !parentsState[i] ) {
+													    parentsState[i] = {
+														    x: x?.scrollPos,
+														    y: y?.scrollPos
+													    };
+													    x?.inertia?.startMove();
+													    y?.inertia?.startMove();
+													    xAxis && x && !x?.inertiaFrame && pTweener.applyInertia(x, xAxis);
+													    yAxis && y && !y?.inertiaFrame && pTweener.applyInertia(y, yAxis);
+												    }
+												    
+												    if ( x ) {
+													    xBox   = xBoxRef?.current
+													             ? refWidth
+													             : pTweener._.box.x
+													    deltaX = dX && (dX / xBox) * (
+														    x.scrollableWindow ||
+														    x.scrollableArea) || 0;
+													    if ( xHook )
+														    deltaX = xHook(deltaX);
+												    }
+												    if ( y ) {
+													    yBox   = yBoxRef?.current
+													             ? refHeight
+													             : pTweener._.box.y
+													    deltaY = dY && (dY / yBox) * (
+														    y.scrollableWindow ||
+														    y.scrollableArea) || 0;
+													    if ( yHook )
+														    deltaY = yHook(deltaY);
+												    }
+												    
+												    if ( x && !xDispatched && deltaX && x?.inertia?.isInbound(parentsState[i].x + deltaX)
+													    && (pTweener.componentShouldScroll(xAxis, deltaX)) ) {
+													    x.inertia.hold(parentsState[i].x + deltaX);
+													    //parentsState[i].x = x.inertia._.pos;
+													    xDispatched = true;
+												    }
+												    if ( y && !yDispatched && deltaY && y?.inertia?.isInbound(parentsState[i].y + deltaY)
+													    && (pTweener.componentShouldScroll(yAxis, deltaY)) ) {
+													    y.inertia.hold(parentsState[i].y + deltaY);
+													    //parentsState[i].y = y.inertia._.pos;
+													    yDispatched = true;
+												    }
 											    }
 											    
-											    if ( x ) {
-												    xBox   = xBoxRef?.current
-												             ? refWidth
-												             : pTweener._.box.x
-												    deltaX = dX && (dX / xBox) * (
-													    x.scrollableWindow ||
-													    x.scrollableArea) || 0;
-												    if ( xHook )
-													    deltaX = xHook(deltaX);
-											    }
-											    if ( y ) {
-												    yBox   = yBoxRef?.current
-												             ? refHeight
-												             : pTweener._.box.y
-												    deltaY = dY && (dY / yBox) * (
-													    y.scrollableWindow ||
-													    y.scrollableArea) || 0;
-												    if ( yHook )
-													    deltaY = yHook(deltaY);
-											    }
-											    
-											    if ( x && !xDispatched && deltaX && x?.inertia?.isInbound(parentsState[i].x + deltaX)
-												    && (pTweener.componentShouldScroll(xAxis, deltaX)) ) {
-												    x.inertia.hold(parentsState[i].x + deltaX);
-												    //parentsState[i].x = x.inertia._.pos;
-												    xDispatched = true;
-											    }
-											    if ( y && !yDispatched && deltaY && y?.inertia?.isInbound(parentsState[i].y + deltaY)
-												    && (pTweener.componentShouldScroll(yAxis, deltaY)) ) {
-												    y.inertia.hold(parentsState[i].y + deltaY);
-												    //parentsState[i].y = y.inertia._.pos;
-												    yDispatched = true;
-											    }
 										    }
-										    
-									    }
+									    else
+										    console.warn("React-Voodoo : drag called without dragstart !")
 									    if ( yDispatched && xDispatched ) {
 										    //e.stopPropagation();
 										    //e.cancelable && e.preventDefault();
@@ -239,22 +241,21 @@ const Draggable = React.forwardRef(( {
 							    
 							    ,
 							    // dropped: fires when the pointer is released. Calls inertia.release() on each
-						    // ancestor tweener that was participating in the drag; inertia then computes
-						    // momentum and snaps to the nearest waypoint if configured.
-						    'dropped': ( e, touch, descr ) => {
+							    // ancestor tweener that was participating in the drag; inertia then computes
+							    // momentum and snaps to the nearest waypoint if configured.
+							    'dropped': ( e, touch, descr ) => {
 								    let pTweener,
 								        x, deltaX, xDispatched, vX,
 								        y, deltaY, yDispatched, vY,
 								        cState, i;
-								    
-								    if ( (e) instanceof MouseEvent && e.button !== button ) {// allow undefined so µ work for touch events
-									    return;
-								    }
-								    
+
+								    // no e.button check here : domUtils ends the tracked gesture on ANY mouseup,
+								    // so inertia must always be released to avoid a stuck hold
 								    cLock = undefined;
 								    //lastStartTm                     = undefined;
 								    //document.body.style.userSelect  = '';
 								    //document.body.style.touchAction = '';
+								    if ( parents )
 								    for ( i = 0; i < parents.length; i++ ) {
 									    pTweener = parents[i];
 									    // react comp with tweener support
@@ -272,6 +273,8 @@ const Draggable = React.forwardRef(( {
 									    //}
 									    
 								    }
+								    else
+									    console.warn("React-Voodoo : dropped called without dragstart !")
 								    if ( lastStartTm && !((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY)
 									    < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) )// skip
 								                                                                                // tap
@@ -290,7 +293,9 @@ const Draggable = React.forwardRef(( {
 						    },
 						    null,
 						    _.options.enableMouseDrag || mouseDrag,
-						    touchDrag
+						    touchDrag,
+						    null,
+						    button
 					    )
 					    µ._.doRegister = !!rootNode;
 				    }
