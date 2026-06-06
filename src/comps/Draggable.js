@@ -81,6 +81,11 @@ const Draggable = React.forwardRef(( {
 				        cLock, dX,
 				        parents,
 				        dY, parentsState, refWidth, refHeight,
+				        // true once hold() has been dispatched during the gesture — i.e. the
+				        // content actually moved under the pointer. Releasing such a gesture
+				        // must never produce a click, regardless of the NET pointer offset
+				        // (an out-and-back swipe can end within maxClickOffset).
+				        didDrag,
 				        _        = tweener._;
 				    
 				    if ( rootNode ) {
@@ -98,6 +103,7 @@ const Draggable = React.forwardRef(( {
 								    lastStartTm  = Date.now();
 								    dX           = 0;
 								    dY           = 0;
+								    didDrag      = false;
 								    parentsState = [];
 								    refWidth     = (xBoxRef?.current || rootNode)?.offsetWidth;
 								    refHeight    = (yBoxRef?.current || rootNode)?.offsetHeight;
@@ -124,6 +130,7 @@ const Draggable = React.forwardRef(( {
 								    
 								    if ( lastStartTm &&
 									    (
+										    didDrag ||
 										    (Date.now() - lastStartTm > _.options.maxClickTm) ||
 										    Math.abs(dY) > _.options.maxClickOffset ||
 										    Math.abs(dX) > _.options.maxClickOffset
@@ -216,13 +223,13 @@ const Draggable = React.forwardRef(( {
 													    && (pTweener.componentShouldScroll(xAxis, deltaX)) ) {
 													    x.inertia.hold(parentsState[i].x + deltaX);
 													    //parentsState[i].x = x.inertia._.pos;
-													    xDispatched = true;
+													    xDispatched = didDrag = true;
 												    }
 												    if ( y && !yDispatched && deltaY && y?.inertia?.isInbound(parentsState[i].y + deltaY)
 													    && (pTweener.componentShouldScroll(yAxis, deltaY)) ) {
 													    y.inertia.hold(parentsState[i].y + deltaY);
 													    //parentsState[i].y = y.inertia._.pos;
-													    yDispatched = true;
+													    yDispatched = didDrag = true;
 												    }
 											    }
 											    
@@ -275,8 +282,8 @@ const Draggable = React.forwardRef(( {
 								    }
 								    else
 									    console.warn("React-Voodoo : dropped called without dragstart !")
-								    if ( lastStartTm && !((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY)
-									    < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset) )// skip
+								    if ( lastStartTm && (didDrag || !((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY)
+									    < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset)) )// skip
 								                                                                                // tap
 									    // &
 									    // click

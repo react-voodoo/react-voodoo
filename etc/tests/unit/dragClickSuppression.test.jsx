@@ -22,13 +22,26 @@ jest.mock('../../../src/utils/CssTweenAxis', () => (class {}));
 const useVoodoo = require('../../../src/hooks/useVoodoo').default;
 const Draggable = require('../../../src/comps/Draggable').default;
 
-function App( { onChildClick } ) {
-	const [, ViewBox] = useVoodoo({});
+function App( { onChildClick, withAxis } ) {
+	const [tweener, ViewBox] = useVoodoo({});
+	React.useMemo(
+		() => {
+			// a real scrollable axis so drag deltas are actually dispatched
+			// (inertia.hold) — like the slider's slideAxis
+			withAxis && tweener.initAxis('x', { scrollableArea: 1000 });
+		}, []
+	);
 	return <ViewBox>
 		<Draggable mouseDrag xAxis="x">
 			<button data-testid="slide" onClick={onChildClick}>slide</button>
 		</Draggable>
 	</ViewBox>;
+}
+
+/** jsdom reports offsetWidth/Height = 0 → drag→axis scaling would divide by 0 */
+function mockBox( container ) {
+	Object.defineProperty(container.firstChild, 'offsetWidth', { value: 500 });
+	Object.defineProperty(container.firstChild, 'offsetHeight', { value: 500 });
 }
 
 /**
@@ -50,12 +63,14 @@ function fire( target, type, x ) {
 	fireEvent(target, e);
 }
 
-function gesture( target, { move = 0 } = {} ) {
+function gesture( target, { move = 0, path } = {} ) {
+	const steps = path || (move ? [move] : []);
+	let x       = 100;
 	fire(target, 'mousedown', 100);
-	if ( move )
-		fire(document, 'mousemove', 100 + move);
-	fire(document, 'mouseup', 100 + move);
-	fire(target, 'click', 100 + move);
+	for ( const step of steps )
+		fire(document, 'mousemove', x = 100 + step);
+	fire(document, 'mouseup', x);
+	fire(target, 'click', x);
 }
 
 describe('post-drag click suppression', () => {
@@ -102,5 +117,26 @@ describe('post-drag click suppression', () => {
 		gesture(getByTestId('slide'), { move: 3 });// < 5px default offset
 
 		expect(onChildClick).toHaveBeenCalledTimes(1);
+	});
+
+	it('a light swipe (12px) does NOT click', () => {
+		const onChildClick = jest.fn();
+		const { getByTestId, container } = render(<App onChildClick={onChildClick} withAxis/>);
+		mockBox(container);
+
+		gesture(getByTestId('slide'), { path: [-4, -8, -12] });
+
+		expect(onChildClick).not.toHaveBeenCalled();
+	});
+
+	it('an out-and-back swipe (net < maxClickOffset) does NOT click — content moved', () => {
+		const onChildClick = jest.fn();
+		const { getByTestId, container } = render(<App onChildClick={onChildClick} withAxis/>);
+		mockBox(container);
+
+		// out 60px (axis dragged) then back near the origin before release
+		gesture(getByTestId('slide'), { path: [-30, -60, -30, -2] });
+
+		expect(onChildClick).not.toHaveBeenCalled();
 	});
 });
