@@ -610,9 +610,12 @@ export default class Inertia {
 				i = 0;
 			}
 			else {
+				// election boundary between wp[i-1] and wp[i], weighted by gravity:
+				// a higher gravity PULLS the boundary away from its waypoint, growing
+				// its capture zone — "gravity > 1 makes this waypoint stickier"
 				mid = (_.wayPoints[i].at - _.wayPoints[i - 1].at) / 2;
-				mid = _.wayPoints[i - 1].at + (mid * ((_.wayPoints[i].gravity || 1) / (_.wayPoints[i - 1].gravity || 1)));
-				
+				mid = _.wayPoints[i - 1].at + (mid * ((_.wayPoints[i - 1].gravity || 1) / (_.wayPoints[i].gravity || 1)));
+
 				if ( forceSnap ) forceSnap < 0 && i--;
 				else if ( lPos < mid ) i--;
 			}

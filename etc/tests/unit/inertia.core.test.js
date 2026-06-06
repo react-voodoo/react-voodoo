@@ -136,26 +136,24 @@ describe('waypoint election', () => {
 		expect(inertia._.pos).toBe(100);
 	});
 
-	it('gravity shifts the election midpoint between adjacent waypoints', () => {
-		// land between two waypoints, just past the neutral midpoint (~70)
+	it('gravity > 1 makes a waypoint stickier (larger capture zone)', () => {
+		// land between two waypoints, below the neutral midpoint (~35)
 		const landBetween = ( gravity ) => {
 			const inertia = new Inertia({
 				                            value    : 0, min: 0, max: 100,
 				                            wayPoints: [{ at: 0 }, { at: 100, gravity }]
 			                            });
-			drag(inertia, [10, 20]);// momentum lands ~70 — past the neutral mid (50)
+			drag(inertia, [5, 10]);// momentum lands ~35 — below the neutral mid (50)
 			settle(inertia);
 			return inertia._.pos;
 		};
 
-		// neutral gravity: 70 ≥ mid 50 → elects 100
-		expect(landBetween(1)).toBe(100);
-		// CHARACTERIZATION: raising a waypoint's gravity scales the midpoint
-		// TOWARD it (mid × g[i]/g[i-1] = 150), so the same landing now elects the
-		// OTHER waypoint — i.e. high gravity currently makes a waypoint HARDER to
-		// reach, which contradicts the "stickier" docstring. Locked here as-is;
-		// flip the ratio in _doSnap if the documented semantics are the intent.
-		expect(landBetween(3)).toBe(0);
+		// neutral gravity: 35 < mid 50 → elects 0
+		expect(landBetween(1)).toBe(0);
+		// gravity 3 on the right waypoint pulls the boundary toward the left
+		// (mid × g[left]/g[right] ≈ 16.7): the same landing is now captured by
+		// the sticky waypoint — the documented semantics
+		expect(landBetween(3)).toBe(100);
 	});
 });
 
