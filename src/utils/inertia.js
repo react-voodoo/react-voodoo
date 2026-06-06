@@ -17,6 +17,21 @@
  * `_doSnap()` selects the nearest one and adjusts the target position and duration
  * so the animation lands exactly on a waypoint.
  *
+ * The settle easing is configurable via the `settle` option:
+ *   settle: "easeCubicOut"                     — any d3-ease function name
+ *   settle: fn                                 — custom normalised easing function
+ *   settle: { stiffness, damping, mass }       — physical spring: the curve is generated
+ *     at release time from the actual gesture velocity & travel distance (closed-form
+ *     damped oscillator — see utils/spring.js), giving velocity continuity and an
+ *     overshoot/bounce while the predictive waypoint snap stays authoritative.
+ * Individual waypoints may override it: wayPoints: [{ at: 100, settle: {...} }] —
+ * the elected waypoint's `settle` wins over the axis-level one.
+ *
+ * The `reducedMotion` option (injected by Tweener) is a callback; when it returns
+ * true at release time the settle duration collapses to 1ms so the axis jumps
+ * straight to the predicted snap target — all callbacks (willSnap/onSnap/onStop)
+ * still fire normally.
+ *
  * The engine is poll-based: callers invoke `update()` on each timer tick (every 16ms
  * via `applyInertia()` in Tweener) to retrieve the current position. The engine does
  * not schedule its own timers.
@@ -28,9 +43,10 @@
  */
 
 const
-	is       = require('is'),
-	easingFn = require('d3-ease'),
-	signOf   = function sign( x ) {
+	is             = require('is'),
+	easingFn       = require('d3-ease'),
+	{ springSettle } = require('./spring'),
+	signOf         = function sign( x ) {
 		return typeof x === 'number' ? x ? x < 0 ? -1 : 1 : x === x ? x : NaN : NaN;
 	},
 	abs      = Math.abs,
@@ -43,6 +59,27 @@ const
 		velocityResetTm: .150,
 		clickTm        : 250
 	};
+
+/**
+ * Resolve the static part of a `settle` option into an easing function.
+ *
+ *  - string   → looked up in d3-ease (e.g. "easeCubicOut"); warns & falls back if unknown
+ *  - function → used as-is
+ *  - object   → spring config; resolved per-release in `_applySettleSpring()` (returns null here)
+ */
+function resolveSettleEase( settle ) {
+	if ( !settle )
+		return null;
+	if ( is.fn(settle) )
+		return settle;
+	if ( is.string(settle) ) {
+		if ( easingFn[settle] )
+			return easingFn[settle];
+		console.warn("[react-voodoo] Inertia: unknown settle easing '", settle, "' — falling back to easePolyOut");
+		return null;
+	}
+	return null;
+}
 
 
 /**
@@ -106,7 +143,7 @@ export default class Inertia {
 		_.stops               = _.conf.stops;
 		_.disabled            = _.conf.disabled;
 		_.wayPoints           = _.conf.wayPoints;
-		_.inertiaFn           = easingFn.easePolyOut;
+		_.inertiaFn           = resolveSettleEase(_.conf.settle) || easingFn.easePolyOut;
 		_.targetWayPointIndex = 0;
 		
 		this._detectCurrentSnap();
@@ -124,6 +161,8 @@ export default class Inertia {
 		_.conf.onStop     = opt.onStop;
 		_.conf.onSnap     = opt.onSnap;
 		_.conf.shouldLoop = opt.shouldLoop;
+		_.conf.settle     = opt.settle;
+		_.inertiaFn       = resolveSettleEase(opt.settle) || easingFn.easePolyOut;
 	}
 	
 	/**
@@ -285,13 +324,55 @@ export default class Inertia {
 		this.active      = true;
 		_.inertia        = true;
 		_.lastInertiaPos = 0;
+		_.settleLoopDec  = 0;
 		_.inertiaStartTm =
 			_.inertiaLastTm = Date.now();
-		
-		
+
+
 		//}
 		this._doSnap(null, 500)
+		this._applySettleSpring(_.lastVelocity);
+		if ( _.conf.reducedMotion?.() )
+			_.targetDuration = 1;// jump: the next update tick lands exactly on the snap target
 		_.conf.willEnd?.(_.targetDist + _.pos, _.targetDist, _.targetDuration);
+	}
+
+	/**
+	 * Resolve & apply the settle easing for the starting inertia animation.
+	 *
+	 * The effective `settle` value is the elected waypoint's own `settle` field if
+	 * defined ({ at, gravity, settle }), falling back to the axis-level config —
+	 * so individual waypoints can have their own landing feel.
+	 *
+	 * When the value is a spring config ({ stiffness, damping, mass, restDelta }),
+	 * the settle easing is generated from the closed-form damped-spring solution
+	 * using the *actual* release velocity and travel distance, and the duration is
+	 * derived from the spring's physical settle time.
+	 *
+	 * Called after _doSnap() so the snap target (waypoint, gravity, maxJump) stays
+	 * authoritative — the spring only decides *how* the axis travels there, with
+	 * velocity continuity and a possible overshoot/bounce.
+	 */
+	_applySettleSpring( velocity = 0 ) {
+		let _ = this._,
+		    s = _.targetWayPoint && _.targetWayPoint.settle !== undefined
+		        ? _.targetWayPoint.settle
+		        : _.conf.settle;
+
+		// resolve the static part (string/fn — or restore the default when the
+		// previous settle came from a waypoint-specific config)
+		_.inertiaFn    = resolveSettleEase(s) || easingFn.easePolyOut;
+		_.settleCustom = !!s;// activates the loop guard in update()
+
+		if ( !s || is.fn(s) || is.string(s) || !_.targetDist )
+			return;
+
+		let { ease, duration } = springSettle(velocity / _.targetDist, s),
+		    clamped            = max(50, min(10000, duration));
+
+		// if clamped, remap so the curve is still evaluated on its physical time base
+		_.inertiaFn      = clamped === duration ? ease : u => ease(u * clamped / duration);
+		_.targetDuration = clamped;
 	}
 	
 	/**
@@ -347,10 +428,18 @@ export default class Inertia {
 		nextValue = _.pos + delta;
 		
 		if ( _.conf.shouldLoop ) {
-			let t = nextValue;
-			while ( (loop = _.conf.shouldLoop(nextValue, delta)) ) {
+			// With an overshooting settle easing (spring), the position may briefly cross
+			// a loop threshold before bouncing back to the target waypoint. _doSnap() has
+			// already accounted the expected loop shifts (snapLoopDec) in the travel
+			// distance — allow exactly those, and suppress extra teleports caused by the
+			// overshoot so the final exact-snap (targetWayPoint.at) stays consistent.
+			// Only active when a custom `settle` is configured (default path unchanged).
+			let snapGuard = _.settleCustom && _.inertia && _.targetWayPoint;
+			while ( (!snapGuard || _.settleLoopDec !== _.snapLoopDec) && (loop = _.conf.shouldLoop(nextValue, delta)) ) {
 				//console.warn("loop update", loop, nextValue);
 				nextValue += loop;
+				if ( snapGuard )
+					_.settleLoopDec += loop;
 				if ( _.inertia ) {
 					//_.targetDist+=loop;
 					//_.lastInertiaPos+=loop;
@@ -423,9 +512,10 @@ export default class Inertia {
 		if ( !_.inertia || signOf(delta) !== signOf(_.targetDist) ) {
 			_.inertia        = true;
 			_.lastInertiaPos = 0;
+			_.settleLoopDec  = 0;
 			_.inertiaStartTm =
 				_.inertiaLastTm = now;
-			
+
 			_.targetDist     = delta;
 			_.targetDuration = tm;
 		}
@@ -454,6 +544,9 @@ export default class Inertia {
 			}
 		}
 		this._doSnap(signOf(delta), 750)
+		this._applySettleSpring(0);// programmatic momentum: spring starts from rest
+		if ( _.conf.reducedMotion?.() )
+			_.targetDuration = 1;
 	}
 	
 	
@@ -545,8 +638,10 @@ export default class Inertia {
 			_.targetDist          = target;
 			_.targetWayPoint      = _.wayPoints[i];
 			_.targetWayPointIndex = i;
+			_.snapLoopDec         = loopDec;// loop shifts expected during the settle (see update())
 		}
 		else {
+			_.snapLoopDec = 0;
 			target = ~~(_.pos - _.lastInertiaPos);
 			
 			if ( !_.conf.infinite ) {

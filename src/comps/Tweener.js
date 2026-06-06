@@ -21,6 +21,7 @@ import tweenAxis
                                                               from "../utils/CssTweenAxis";
 import domUtils                                               from "../utils/dom";
 import Inertia                                                from '../utils/inertia';
+import { prefersReducedMotion }                               from '../utils/motionPrefs';
 
 /**
  * Tweener — the central animation engine for react-voodoo.
@@ -173,7 +174,7 @@ export default class Tweener extends React.Component {
 		_.activeInertia       = [];
 		_.defaultAxesPosition = props.tweenerOptions?.defaultAxesPosition;
 		props.tweenerOptions?.ref?.(this);
-		
+
 		isBrowserSide && window.addEventListener(
 			"resize",
 			this._.onResize = ( e ) => {//@todo
@@ -484,6 +485,8 @@ export default class Tweener extends React.Component {
 			resolve => {
 				
 				// start timer launch @todo
+				// reduced motion: tm=1 → the first Runner tick completes the timeline,
+				// applying the full final state (keepResults & cleanup path unchanged)
 				sl.run(this._.tweenRefMaps, () => {
 					let i = this._.runningAnims.indexOf(sl);
 					if ( i != -1 )
@@ -501,7 +504,7 @@ export default class Tweener extends React.Component {
 						      });
 					sl.destroy();
 					resolve(sl);
-				});
+				}, this.shouldReduceMotion() ? 1 : undefined);
 				
 				this._.runningAnims.push(sl);
 				
@@ -560,9 +563,10 @@ export default class Tweener extends React.Component {
 		    targetPos        = dim ? dim.targetPos : scrollPos,
 		    inertia          = (
 			    dim ? dim.inertia : new Inertia({// todo mk pure
-				                                    disabled: !_inertia,
+				                                    disabled     : !_inertia,
 				                                    ...(_inertia || {}),
-				                                    value: scrollPos
+				                                    value        : scrollPos,
+				                                    reducedMotion: () => this.shouldReduceMotion()
 			                                    })),
 		    nextDescr        = {
 			    //...(_inertia || {}),
@@ -599,8 +603,9 @@ export default class Tweener extends React.Component {
 			scrollableWindow: 0,
 			scrollableArea  : 0,
 			inertia         : new Inertia({
-				                              value: _.options.initialScrollPos && _.options.initialScrollPos[axe] || 0,
-				                              ...(_.options.axes && _.options.axes[axe] && _.options.axes[axe].inertia || {})
+				                              value        : _.options.initialScrollPos && _.options.initialScrollPos[axe] || 0,
+				                              ...(_.options.axes && _.options.axes[axe] && _.options.axes[axe].inertia || {}),
+				                              reducedMotion: () => this.shouldReduceMotion()
 			                              }),
 			scrollTo        : ( pos, tm, ease, noEvents ) => {
 				return this.scrollTo(pos, tm, axe, ease, noEvents)
@@ -610,6 +615,26 @@ export default class Tweener extends React.Component {
 		return this.axes[axe];
 	}
 	
+	/**
+	 * Resolve the effective reduced-motion state for this tweener.
+	 *
+	 * Driven by the `reducedMotion` tweener option:
+	 *   'user'   — follow the OS prefers-reduced-motion setting (live)
+	 *   'always' — always reduce
+	 *   'never'  — never reduce (default: existing behavior)
+	 *
+	 * When active: eased scrollTo() calls become instant, pushAnim() timelines jump
+	 * to their final state, and inertia releases teleport straight to the predicted
+	 * snap target. Direct 1:1 dragging is intentionally unaffected (user-controlled
+	 * motion is exempt from reduced-motion guidelines).
+	 *
+	 * @returns {boolean}
+	 */
+	shouldReduceMotion() {
+		const mode = this._.options.reducedMotion;
+		return mode === 'always' || (mode === 'user' && prefersReducedMotion());
+	}
+
 	/**
 	 * Return axis infos
 	 */
@@ -645,6 +670,10 @@ export default class Tweener extends React.Component {
 			console.warn("[react-voodoo] scrollTo() cannot be used server-side — use the Axis defaultPosition prop to set the initial axis position");
 			return Promise.resolve();
 		}
+		// reduced motion: collapse eased scrolls to the existing instant path —
+		// same final state, same events, same resolved Promise
+		if ( ms && this.shouldReduceMotion() )
+			ms = 0;
 		return new Promise(
 			(( resolve, reject ) => {
 				if ( this.axes && this.axes[axe] ) {
@@ -945,12 +974,14 @@ export default class Tweener extends React.Component {
 				{
 					inertia: {
 						x: new Inertia({
-							               max  : node.scrollWidth - node.offsetLeft,
-							               value: node.scrollLeft
+							               max          : node.scrollWidth - node.offsetLeft,
+							               value        : node.scrollLeft,
+							               reducedMotion: () => this.shouldReduceMotion()
 						               }),
 						y: new Inertia({
-							               max  : node.scrollHeight - node.offsetHeight,
-							               value: node.scrollTop
+							               max          : node.scrollHeight - node.offsetHeight,
+							               value        : node.scrollTop,
+							               reducedMotion: () => this.shouldReduceMotion()
 						               })
 					},
 					target : node

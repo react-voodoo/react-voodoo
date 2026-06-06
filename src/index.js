@@ -16,6 +16,7 @@ import Node                   from './comps/Node';
 import Draggable              from './comps/Draggable';
 import useVoodoo              from './hooks/useVoodoo';
 import useTweener             from './hooks/useTweener';
+import useReducedMotion       from './hooks/useReducedMotion';
 import tweener                from './spells/asTweener';
 import child                  from './spells/withTweener';
 import dom                    from './utils/dom.js';
@@ -40,6 +41,7 @@ export {
 	useTweener,
 	useVoodoo,
 	useVoodoo as hook,
+	useReducedMotion,
 	tools,
 	Draggable,
 	Component,
@@ -55,6 +57,7 @@ export default {
 	useTweener,
 	useVoodoo,
 	hook: useVoodoo,
+	useReducedMotion,
 	tools,
 	Draggable,
 	Component,
