@@ -173,6 +173,38 @@ describe('post-drag click suppression', () => {
 		expect(onChildClick).not.toHaveBeenCalled();
 	});
 
+	it('survives multitouch count corruption — suppression still works after a 2-finger touch', () => {
+		const onChildClick = jest.fn();
+		const { getByTestId, container } = render(<App onChildClick={onChildClick} withAxis/>);
+		mockBox(container);
+		const slide = getByTestId('slide');
+
+		// 2-finger touch: only the first finger is tracked (per-desc guard); the
+		// second finger's touchend used to decrement the global count anyway,
+		// leaving it negative and permanently disabling the click machinery
+		const touch = ( type, target, touches ) => {
+			const e = new Event(type, { bubbles: true, cancelable: true });
+			Object.assign(e, { changedTouches: touches });
+			fireEvent(target, e);
+		};
+		touch('touchstart', slide, [
+			{ identifier: 1, pageX: 100, pageY: 100 },
+			{ identifier: 2, pageX: 120, pageY: 100 }
+		]);
+		touch('touchend', document, [
+			{ identifier: 1, pageX: 100, pageY: 100 },
+			{ identifier: 2, pageX: 120, pageY: 100 }
+		]);
+
+		// a mouse drag afterwards must still suppress its click
+		gesture(slide, { move: -60 });
+		expect(onChildClick).not.toHaveBeenCalled();
+
+		// and a clean tap must still click
+		gesture(slide, { move: 0 });
+		expect(onChildClick).toHaveBeenCalledTimes(1);
+	});
+
 	it('an out-and-back swipe (net < maxClickOffset) does NOT click — content moved', () => {
 		const onChildClick = jest.fn();
 		const { getByTestId, container } = render(<App onChildClick={onChildClick} withAxis/>);

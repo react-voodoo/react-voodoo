@@ -74,21 +74,22 @@ let
             //e.preventDefault();
             //e.stopPropagation();
 
-            if ( !me.nbFingers ) {
-                // new gesture: clear any stale prevent flag left by a drag whose
-                // click never fired (e.g. released outside the draggable)
-                me.preventNextClick = false;
-                Dom.addEvent(document,
-                             {
-                                 'touchmove': me.dragAnywhere,
-                                 'mousemove': me.dragAnywhere,
-                                 'touchend' : me.dropAnywhere,
-                                 'mouseup'  : me.dropAnywhere,
-                             });
-                // one-shot post-drag click interceptor — MUST be capture-phase so it
-                // runs before any descendant click handler (slide onClick etc.)
-                this.addEventListener('click', me.dropWithoutClick, true);
-            }
+            // Arm/reset on EVERY gesture start — deliberately NOT gated on the finger
+            // count: addEventListener dedups identical (type, fn, capture) listeners,
+            // and a corrupted count must never be able to disable the click machinery.
+            // The flag reset is safe ungated: a click always fires before the next
+            // mousedown, so a pending legit suppression can't be cleared early.
+            me.preventNextClick = false;
+            Dom.addEvent(document,
+                         {
+                             'touchmove': me.dragAnywhere,
+                             'mousemove': me.dragAnywhere,
+                             'touchend' : me.dropAnywhere,
+                             'mouseup'  : me.dropAnywhere,
+                         });
+            // one-shot post-drag click interceptor — MUST be capture-phase so it
+            // runs before any descendant click handler (slide onClick etc.)
+            this.addEventListener('click', me.dropWithoutClick, true);
             
             if ( e.changedTouches && e.changedTouches.length ) {
                 fingers = e.changedTouches
@@ -186,8 +187,12 @@ let
             
             for ( let i = 0, ln = fingers.length; i < ln; i++ ) {
                 finger = fingers[ i ];
+                // only decrement for fingers we actually tracked — an untracked
+                // touchend/mouseup (multitouch extra finger, palm…) must not corrupt
+                // the count, or the whole gesture machinery silently breaks
+                if ( !me.fingers[ finger.identifier ] )
+                    continue;
                 me.nbFingers--;
-                me.fingers[ finger.identifier ] &&
                 me.fingers[ finger.identifier ].forEach(
                     desc => {
                         
@@ -216,7 +221,8 @@ let
             if ( prevent ) {
                 me.preventNextClick = true;
             }
-            if ( !me.nbFingers ) {
+            if ( me.nbFingers <= 0 ) {
+                me.nbFingers = 0;// self-heal any historical count corruption
                 Dom.removeEvent(document,
                                 {
                                     'touchmove': me.dragAnywhere,
