@@ -112,6 +112,26 @@ describe('post-drag click suppression', () => {
 		expect(onChildClick).toHaveBeenCalledTimes(1);
 	});
 
+	it('a SLOW motionless press (> maxClickTm) still clicks — duration alone never disqualifies', () => {
+		const onChildClick = jest.fn();
+		const { getByTestId } = render(<App onChildClick={onChildClick}/>);
+		const slide = getByTestId('slide');
+
+		let now = 100000;
+		jest.spyOn(Date, 'now').mockImplementation(() => now);
+		try {
+			fire(slide, 'mousedown', 100);
+			now += 400;// press held 400ms, no movement
+			fire(document, 'mouseup', 100);
+			fire(slide, 'click', 100);
+		}
+		finally {
+			Date.now.mockRestore();
+		}
+
+		expect(onChildClick).toHaveBeenCalledTimes(1);
+	});
+
 	it('sub-threshold jitter (< maxClickOffset) still clicks', () => {
 		const onChildClick = jest.fn();
 		const { getByTestId } = render(<App onChildClick={onChildClick}/>);

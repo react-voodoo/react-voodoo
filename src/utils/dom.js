@@ -193,7 +193,9 @@ let
                         
                         
                         desc.nbFingers--;
-                        prevent         = prevent || desc.mouseDrag && ( e.timeStamp - desc._startTs > 250 );
+                        // NOTE: no duration-based suppression here — a motionless press of any
+                        // length is still a click (browser semantics). Suppression is movement-
+                        // based only, decided by the dropped consumers via desc.preventClick.
                         desc._lastPos.x = _dom.prefix == 'MS' ? finger.x : finger.pageX;
                         desc._lastPos.y = _dom.prefix == 'MS' ? finger.y : finger.pageY;
                         

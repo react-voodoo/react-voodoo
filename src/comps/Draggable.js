@@ -131,7 +131,6 @@ const Draggable = React.forwardRef(( {
 								    if ( lastStartTm &&
 									    (
 										    didDrag ||
-										    (Date.now() - lastStartTm > _.options.maxClickTm) ||
 										    Math.abs(dY) > _.options.maxClickOffset ||
 										    Math.abs(dX) > _.options.maxClickOffset
 									    )
@@ -289,11 +288,13 @@ const Draggable = React.forwardRef(( {
 								    }
 								    else
 									    console.warn("React-Voodoo : dropped called without dragstart !")
-								    if ( lastStartTm && (didDrag || !((lastStartTm > Date.now() - _.options.maxClickTm) && Math.abs(dY)
-									    < _.options.maxClickOffset && Math.abs(dX) < _.options.maxClickOffset)) )// skip
-								                                                                                // tap
-									    // &
-									    // click
+								    // suppress the post-gesture click iff the gesture MOVED — content
+								    // dragged (didDrag) or pointer travelled beyond maxClickOffset.
+								    // Duration alone never disqualifies a click: a motionless slow
+								    // press is still a click, per browser semantics.
+								    if ( lastStartTm && (didDrag
+									    || Math.abs(dY) > _.options.maxClickOffset
+									    || Math.abs(dX) > _.options.maxClickOffset) )
 								    {
 									    e.stopPropagation();
 									    e.cancelable && e.preventDefault();
