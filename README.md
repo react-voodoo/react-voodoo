@@ -37,6 +37,8 @@ This unlocks a set of features that are unique to the delta model:
 | **Additive multi-axis composition** | Each axis contributes a delta; they stack without coordination code. |
 | **Swipeable / draggable animations** | Drag gestures are mapped directly to axis positions with realistic momentum. |
 | **Predictive inertia** | The engine computes the final snap target *at the moment of release*, before the animation plays out — useful for preloading the next slide. |
+| **Physical spring settle** | `settle: { stiffness, damping, mass }` — the landing curve is generated at release from the actual gesture velocity (closed-form, no per-frame integration), with per-waypoint overrides. |
+| **Reduced-motion aware** | `reducedMotion: "user"` honors the OS *prefers-reduced-motion* setting: transitions jump to their predicted target, callbacks still fire, 1:1 dragging untouched. |
 | **SSR with correct initial styles** | Axes have a `defaultPosition`; styles are computed server-side and rendered inline — no flash on first paint. |
 | **DOM writes bypass React** | Style updates go straight to `node.style` via direct DOM writes, never triggering a re-render. |
 | **Multi-unit CSS via `calc()`** | Mix `%`, `px`, `vw`, `bw`/`bh` (box-relative units) in a single value — compiled to `calc()` automatically. |
@@ -52,7 +54,8 @@ This unlocks a set of features that are unique to the delta model:
 | Scroll-linked animation | ✅ | ✅ `useScroll` | ✅ | ⚠️ manual | ✅ | ✅ `ScrollObserver` |
 | Drag-linked animation | ✅ native | ✅ `drag` | ⚠️ manual | ✅ `@use-gesture` | ✅ gestures | ✅ `Draggable` |
 | **Additive multi-axis composition** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Physics / momentum inertia | ✅ predictive | ✅ spring | ❌ | ✅ spring | ⚠️ limited | ✅ spring |
+| Physics / momentum inertia | ✅ predictive + springs | ✅ spring | ❌ | ✅ spring | ⚠️ limited | ✅ spring |
+| Reduced-motion (a11y) | ✅ built-in | ✅ built-in | ⚠️ manual | ✅ built-in | ✅ built-in | ⚠️ manual |
 | **Predictive snap target** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **SSR — correct initial styles** | ✅ | ⚠️ flash | ⚠️ flash | ⚠️ flash | ⚠️ flash | ❌ |
 | Bypasses React render loop | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -60,7 +63,7 @@ This unlocks a set of features that are unique to the delta model:
 | SVG geometry attributes | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | Multitouch (drag multiple axes) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Bundle size (approx. gzip) | ~18 kB | ~32 kB | ~35 kB | ~25 kB | ~4 kB | ~10 kB |
-| React dependency | ≥ 16 | ≥ 18 | none | ≥ 16 | none | none |
+| React dependency | 16 – 19 | ≥ 18 | none | ≥ 16 | none | none |
 
 ---
 
@@ -113,7 +116,7 @@ and it disappears entirely once you have more than one axis compositing on the s
 npm install react-voodoo
 ```
 
-**Peer dependencies:** `react >= 16`, `react-dom >= 16`
+**Peer dependencies:** `react` & `react-dom` 16 – 19
 
 ---
 
@@ -208,7 +211,11 @@ const Sample = ( {} ) => {
 			// lock to only 1 drag direction
 			dragDirectionLock: false,
 			// allow dragging with mouse
-			enableMouseDrag: false
+			enableMouseDrag: false,
+			// honor the OS prefers-reduced-motion setting : "user" | "always" | "never" (default)
+			// when active : eased scrolls & anims jump to their final state, inertia
+			// teleports to the predicted snap target ( callbacks still fire )
+			reducedMotion: "user"
 		}
 	);
 	// get a named parent tweener
@@ -272,8 +279,17 @@ const Sample = ( {} ) => {
 					onSnap: ( snapIndex, targetWayPointObj ) => {
 					},
 
-					// list of waypoints object ( only support auto snap 50/50 for now )
-					wayPoints: [{ at: 100 }, { at: 200 }]
+					// settle easing : how the axis travels to the landing position
+					// ( default : easePolyOut )
+					// - any d3-ease fn name or custom easing fn
+					// - or a physical spring : the curve is generated at release from
+					//   the actual gesture velocity ( velocity continuity + bounce ),
+					//   the predictive waypoint snap stays authoritative
+					settle: { stiffness: 200, damping: 14 },
+
+					// list of waypoints ; gravity > 1 makes a waypoint stickier,
+					// a per-waypoint settle overrides the axis-level one
+					wayPoints: [{ at: 100 }, { at: 200, gravity: 2, settle: "easeCubicOut" }]
 				}
 			}
 		/>
@@ -327,7 +343,7 @@ const Sample = ( {} ) => {
 				// mouseDrag={true} // listen for mouse drag ( default to false )
 				// touchDrag={false} // listen for touch drag ( default to true )
 
-				// button={1-3} // limit mouse drag to the specified event.button === ( default to 1; the left btn )
+				// button={0-2} // limit mouse drag to the specified event.button ( default to 0; the left btn )
 
 				// * actually Draggable create it's own div node
 			>

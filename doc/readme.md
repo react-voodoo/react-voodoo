@@ -29,14 +29,15 @@ React-voodoo takes a different approach: instead of outputting absolute CSS valu
 | Scroll-linked animation | ✅ | ✅ `useScroll` | ✅ | ⚠️ manual |
 | Drag-linked animation | ✅ native | ✅ `drag` | ⚠️ manual | ✅ `useDrag` |
 | **Additive multi-axis composition** | ✅ | ❌ | ❌ | ❌ |
-| Physics / momentum inertia | ✅ predictive | ✅ spring | ❌ | ✅ spring |
+| Physics / momentum inertia | ✅ predictive + springs | ✅ spring | ❌ | ✅ spring |
 | **Predictive snap target** | ✅ | ❌ | ❌ | ❌ |
 | **SSR — correct initial styles** | ✅ | ⚠️ flash | ⚠️ flash | ⚠️ flash |
 | Bypasses React render loop | ✅ | ✅ | ✅ | ✅ |
 | Transform layers (additive) | ✅ | ❌ | ❌ | ❌ |
 | SVG geometry attributes | ✅ | ⚠️ limited | ✅ | ❌ |
+| Reduced-motion (a11y) | ✅ built-in | ✅ built-in | ⚠️ manual | ✅ built-in |
 | Bundle size (approx.) | ~18 kB | ~50 kB | ~75 kB | ~30 kB |
-| React version | ≥ 16 | ≥ 18 | any | ≥ 16 |
+| React version | 16 – 19 | ≥ 18 | any | ≥ 16 |
 
 **When to pick react-voodoo:**
 - Swipeable carousels, parallax scroll scenes, pinned scroll sequences with drag control
@@ -285,6 +286,7 @@ Voodoo.hook({
   maxClickOffset    : 10,       // px threshold: drag vs click detection
   dragDirectionLock : false,    // lock gesture to dominant axis (X or Y)
   enableMouseDrag   : false,    // respond to mouse drag events
+  reducedMotion     : "never",  // "user" | "always" | "never" — see Reduced motion (a11y)
 });
 ```
 
@@ -593,8 +595,17 @@ const inertiaConfig = {
   wayPoints: [
     { at: 0,    gravity: 1 },  // gravity > 1 makes this waypoint stickier
     { at: 500,  gravity: 1 },
-    { at: 1000, gravity: 1.5 },
+    // a waypoint can override the settle easing — its own landing feel
+    { at: 1000, gravity: 1.5, settle: { stiffness: 300, damping: 8 } },
   ],
+
+  // ── Settle easing / springs ──────────────────────────────────────────────
+  // How the axis travels to the landing position after release
+  // (default: easePolyOut).
+  //   "easeCubicOut"                — any d3-ease function name
+  //   fn                            — custom normalised easing function
+  //   { stiffness, damping, mass }  — physical spring (see "Springs" below)
+  settle: { stiffness: 200, damping: 14 },
 
   // ── Predictive callbacks ─────────────────────────────────────────────────
   // Both fire at drag release, before the animation completes.
@@ -631,13 +642,68 @@ const inertiaConfig = {
 
 | Option | Type | Description |
 |--------|------|-------------|
-| `wayPoints` | `array` | `[{ at: number, gravity?: number }]` — snap positions. |
+| `wayPoints` | `array` | `[{ at: number, gravity?: number, settle?: … }]` — snap positions. A waypoint's `settle` overrides the axis-level one. |
+| `settle` | `string \| function \| object` | Settle easing: d3-ease name, custom easing fn, or spring config `{ stiffness, damping, mass, restDelta }`. Default: `easePolyOut`. |
 | `snapToBounds` | `boolean` | Clamp and snap to axis `bounds` if momentum overshoots. Requires `bounds` on the Axis. |
 | `willEnd` | `function` | `(pos, delta, ms)` — predictive; fires on release. |
 | `willSnap` | `function` | `(index, wayPoint)` — predictive; fires on release. |
 | `onStop` | `function` | `(pos, wayPoint)` — fires when fully settled. |
 | `onSnap` | `function` | `(index, wayPoint)` — fires when fully settled on a waypoint. |
 | `shouldLoop` | `function` | `(pos, delta) => offset \| null` — called each inertia frame for looping. `delta` is direction of movement. |
+
+### Springs
+
+When `settle` is a spring config, the settle curve is generated **at release time** from the
+actual gesture velocity and travel distance — a closed-form damped oscillator, so there is no
+per-frame integration cost. You get velocity continuity (the spring inherits the fling speed)
+and a physical overshoot/bounce, while the **predictive waypoint snap stays authoritative**:
+`_doSnap()` still decides *where* the axis lands (gravity, `maxJump`, `willSnap`); the spring
+only decides *how* it travels there. The duration derives from the spring's physical settle
+time instead of the momentum arc.
+
+```js
+settle: {
+  stiffness: 200,   // spring constant k          (default 100)
+  damping  : 14,    // damping coefficient c      (default 10)
+  mass     : 1,     // mass m                     (default 1)
+  restDelta: .005,  // envelope ending the settle (default .005)
+}
+```
+
+Damping regimes: under-damped (ζ < 1) bounces past the waypoint and settles back — the
+classic spring feel; critically/over-damped (ζ ≥ 1) ease in smoothly with no overshoot.
+ζ = damping / 2√(stiffness·mass).
+
+Individual waypoints can carry their own `settle` — e.g. a firm over-damped stop on the
+bounds waypoints with bouncy springs on the inner slides.
+
+---
+
+## Reduced motion (a11y)
+
+The tweener honors the OS *prefers-reduced-motion* setting via the `reducedMotion` option:
+
+```js
+const [tweener, ViewBox] = Voodoo.hook({ reducedMotion: "user" });
+```
+
+| Value | Behavior |
+|---|---|
+| `"never"` | Default — animations always play. |
+| `"user"` | Follow the OS preference, live (matchMedia). |
+| `"always"` | Always reduce. |
+
+When active: eased `scrollTo()` calls become instant, `pushAnim()` timelines jump straight to
+their final state, and inertia releases teleport to the **predicted snap target** — all
+callbacks (`willSnap`/`onSnap`/`onStop`) still fire normally so app logic is unaffected.
+Direct 1:1 dragging is intentionally untouched (user-controlled motion is exempt from
+reduced-motion guidelines).
+
+A hook is exported for app-level decisions:
+
+```js
+const reduced = Voodoo.useReducedMotion(); // boolean, re-renders on OS change; false server-side
+```
 
 ---
 
