@@ -75,6 +75,9 @@ let
             //e.stopPropagation();
 
             if ( !me.nbFingers ) {
+                // new gesture: clear any stale prevent flag left by a drag whose
+                // click never fired (e.g. released outside the draggable)
+                me.preventNextClick = false;
                 Dom.addEvent(document,
                              {
                                  'touchmove': me.dragAnywhere,
@@ -82,10 +85,9 @@ let
                                  'touchend' : me.dropAnywhere,
                                  'mouseup'  : me.dropAnywhere,
                              });
-                Dom.addEvent(this,
-                             {
-                                 'click': me.dropWithoutClick
-                             }, null, null, null, true);
+                // one-shot post-drag click interceptor — MUST be capture-phase so it
+                // runs before any descendant click handler (slide onClick etc.)
+                this.addEventListener('click', me.dropWithoutClick, true);
             }
             
             if ( e.changedTouches && e.changedTouches.length ) {
@@ -168,10 +170,9 @@ let
                 e.stopImmediatePropagation();
                 __.preventNextClick = false;
             }
-            Dom.removeEvent(this,
-                            {
-                                'click': this.dropWithoutClick
-                            });
+            // `this` is the DOM node here — remove with the same capture flag used
+            // at registration or the listener silently stays attached
+            this.removeEventListener('click', __.dropWithoutClick, true);
         },
         dropAnywhere     : function ( e ) {
             let o,
@@ -200,8 +201,12 @@ let
                             desc.dropped[ o ][ 0 ].call(desc.dropped[ o ][ 1 ] ||
                                                         this, e,
                                                         finger, desc);
-                        
-                        
+
+                        // consumers (Draggable dropped handler) flag real drags via
+                        // desc.preventClick — distance-aware, unlike the time-only
+                        // fallback above
+                        prevent           = prevent || desc.preventClick;
+                        desc.preventClick = false;
                     }
                 )
                 me.fingers[ finger.identifier ] = null;

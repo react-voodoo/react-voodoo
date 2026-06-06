@@ -137,7 +137,13 @@ export default ( tweenerOptions, RootNodeComp = 'div' ) => {
 		() => {
 			if ( doUseParentTweener || !lastTweener.current?._ )
 				return;
-			lastTweener.current._.options = tweenerOptions;
+			// merge over the current options — a raw assign would wipe the defaults
+			// merged by the Tweener constructor (maxClickTm/maxClickOffset…), NaN-
+			// poisoning every click-vs-drag threshold comparison downstream
+			lastTweener.current._.options = {
+				...lastTweener.current._.options,
+				...(tweenerOptions || {})
+			};
 			lastTweener.current._updateBox();
 			lastTweener.current._updateTweenRefs();
 		},

@@ -124,7 +124,7 @@ const Draggable = React.forwardRef(( {
 								    
 								    if ( lastStartTm &&
 									    (
-										    (lastStartTm - Date.now() > _.options.maxClickTm) ||
+										    (Date.now() - lastStartTm > _.options.maxClickTm) ||
 										    Math.abs(dY) > _.options.maxClickOffset ||
 										    Math.abs(dX) > _.options.maxClickOffset
 									    )
@@ -283,6 +283,10 @@ const Draggable = React.forwardRef(( {
 								    {
 									    e.stopPropagation();
 									    e.cancelable && e.preventDefault();
+									    // real drag: arm the one-shot capture-phase click interceptor
+									    // (domUtils.dropWithoutClick) — preventDefault on mouseup does NOT
+									    // suppress the native click that follows, unlike touchend
+									    descr.preventClick = true;
 									    //return;
 								    }
 								    //else {
