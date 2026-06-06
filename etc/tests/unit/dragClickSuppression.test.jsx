@@ -63,12 +63,14 @@ function fire( target, type, x ) {
 	fireEvent(target, e);
 }
 
-function gesture( target, { move = 0, path } = {} ) {
+function gesture( target, { move = 0, path, release } = {} ) {
 	const steps = path || (move ? [move] : []);
 	let x       = 100;
 	fire(target, 'mousedown', 100);
 	for ( const step of steps )
 		fire(document, 'mousemove', x = 100 + step);
+	if ( release !== undefined )
+		x = 100 + release;// pointer kept moving between the last move event and the release
 	fire(document, 'mouseup', x);
 	fire(target, 'click', x);
 }
@@ -125,6 +127,28 @@ describe('post-drag click suppression', () => {
 		mockBox(container);
 
 		gesture(getByTestId('slide'), { path: [-4, -8, -12] });
+
+		expect(onChildClick).not.toHaveBeenCalled();
+	});
+
+	it('a fast flick whose displacement is only reported at mouseup does NOT click', () => {
+		const onChildClick = jest.fn();
+		const { getByTestId, container } = render(<App onChildClick={onChildClick} withAxis/>);
+		mockBox(container);
+
+		// OS event coalescing: a single in-deadzone move sample, the real
+		// displacement only lands in the mouseup coordinates
+		gesture(getByTestId('slide'), { path: [-4], release: -25 });
+
+		expect(onChildClick).not.toHaveBeenCalled();
+	});
+
+	it('a fast flick with NO intermediate mousemove does NOT click', () => {
+		const onChildClick = jest.fn();
+		const { getByTestId, container } = render(<App onChildClick={onChildClick} withAxis/>);
+		mockBox(container);
+
+		gesture(getByTestId('slide'), { release: -30 });
 
 		expect(onChildClick).not.toHaveBeenCalled();
 	});

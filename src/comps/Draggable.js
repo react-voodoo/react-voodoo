@@ -259,6 +259,13 @@ const Draggable = React.forwardRef(( {
 								    // no e.button check here : domUtils ends the tracked gesture on ANY mouseup,
 								    // so inertia must always be released to avoid a stuck hold
 								    cLock = undefined;
+
+								    // recompute the offsets from the release position : on a fast flick the
+								    // OS coalesces moves and most of the displacement may only be reported
+								    // by the mouseup event (descr._lastPos is updated by dropAnywhere before
+								    // this handler runs) — the last 'drag' values would be stale
+								    dX = -(descr._lastPos.x - descr._startPos.x);
+								    dY = -(descr._lastPos.y - descr._startPos.y);
 								    //lastStartTm                     = undefined;
 								    //document.body.style.userSelect  = '';
 								    //document.body.style.touchAction = '';
