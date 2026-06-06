@@ -13,9 +13,6 @@ import * as easingFn                                          from "d3-ease";
 import deepEqual                                              from "fast-deep-equal";
 import is                                                     from "is";
 import React                                                  from "react";
-import ReactDom                                               from "react-dom";
-import TweenerContext
-                                                              from "../comps/TweenerContext";
 import {clearTweenableValue, deMuxLine, deMuxTween, muxToCss} from "../utils/css";
 import tweenAxis
                                                               from "../utils/CssTweenAxis";
@@ -36,9 +33,12 @@ import { prefersReducedMotion }                               from '../utils/mot
  *  - Is distributed to all descendants via TweenerContext so that Node, Axis, and
  *    Draggable can find the nearest engine without prop-drilling.
  *
- * The class extends React.Component only to participate in the component lifecycle
- * (componentDidMount, componentWillUnmount). All mutable animation state lives in
- * `this._` (see constructor) to avoid interference with React's diffing.
+ * Tweener is a PURE engine class — it does not extend React.Component and is never
+ * rendered. Hosts own its lifecycle and call the lifecycle-named methods manually:
+ *  - `useVoodoo` instantiates it and drives componentDidMount/WillUnmount from effects
+ *  - `asTweener` wraps it in a thin TweenerHost function component that also maps the
+ *    parent engine from TweenerContext (the role the legacy render() used to play)
+ * All mutable animation state lives in `this._` (see constructor).
  */
 
 let isBrowserSide           = (new Function("try {return this===window;}catch(e){ return false;}"))(),
@@ -111,7 +111,7 @@ const Runner = {
 		}
 	},
 };
-export default class Tweener extends React.Component {
+export default class Tweener {
 
 	axes                 = {};
 	_scrollWatcherByAxis = {};
@@ -139,7 +139,7 @@ export default class Tweener extends React.Component {
 	 *  - `_.refs[id]`            — DOM node references set by the ref callback on each Node
 	 */
 	constructor( props ) {
-		super(...arguments);
+		this.props            = props;
 		let _                 = this._ = {
 			refs       : {},
 			muxByTarget: {},
@@ -173,15 +173,10 @@ export default class Tweener extends React.Component {
 		_.scrollHook          = [];
 		_.activeInertia       = [];
 		_.defaultAxesPosition = props.tweenerOptions?.defaultAxesPosition;
-		props.tweenerOptions?.ref?.(this);
-
-		isBrowserSide && window.addEventListener(
-			"resize",
-			this._.onResize = ( e ) => {//@todo
-				this._updateBox();
-				this._updateTweenRefs();
-				_.rootRef?.current?.windowDidResize?.(e);
-			});
+		// note: side effects (tweenerOptions.ref callback, window resize listener)
+		// live in componentDidMount — hosts may construct engines during render
+		// passes that never commit (StrictMode, concurrent rendering), so the
+		// constructor must stay pure.
 	}
 	
 	/**
@@ -631,7 +626,9 @@ export default class Tweener extends React.Component {
 	 * @returns {boolean}
 	 */
 	shouldReduceMotion() {
-		const mode = this._.options.reducedMotion;
+		// optional chain: useVoodoo's options hot-update effect can leave _.options
+		// undefined when the hook is called without arguments
+		const mode = this._.options?.reducedMotion;
 		return mode === 'always' || (mode === 'user' && prefersReducedMotion());
 	}
 
@@ -1118,7 +1115,6 @@ export default class Tweener extends React.Component {
 				}
 			);
 		}
-		super.componentWillUnmount && super.componentWillUnmount(...arguments);
 	}
 	
 	/**
@@ -1147,6 +1143,16 @@ export default class Tweener extends React.Component {
 		let _static = this.constructor;
 
 		this._.rendered = true;
+		// side effects deferred from the constructor — only mounted engines may
+		// touch the DOM or call user callbacks
+		this.props.tweenerOptions?.ref?.(this);
+		isBrowserSide && window.addEventListener(
+			"resize",
+			this._.onResize = this._.onResize || (( e ) => {//@todo
+				this._updateBox();
+				this._updateTweenRefs();
+				this._.rootRef?.current?.windowDidResize?.(e);
+			}));
 		if ( this._.tweenEnabled ) {
 			this._updateBox();
 			// Force-push all values (CSS and attr_*) to the DOM on initial mount.
@@ -1166,30 +1172,13 @@ export default class Tweener extends React.Component {
 		//
 		//	this._.doRegister = false;
 		//}
-		super.componentDidMount && super.componentDidMount(...arguments);
 	}
-	
+
 	componentDidUpdate( prevProps, prevState ) {
-		
+
 		if ( this._.tweenEnabled ) {
 			this._updateBox();
 			this._updateTweenRefs();
 		}
-		super.componentDidUpdate && super.componentDidUpdate(...arguments);
-	}
-	
-	render() {
-		const { BaseComponent, oProps } = this.props;
-		return <TweenerContext.Consumer>
-			{
-				parentTweener => {
-					this._parentTweener = parentTweener;
-					return <TweenerContext.Provider value={this}>
-						<BaseComponent {...oProps} ref={this._.rootRef}
-						               tweener={this}/>
-					</TweenerContext.Provider>;
-				}
-			}
-		</TweenerContext.Consumer>;
 	}
 }
