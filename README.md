@@ -8,8 +8,7 @@
 <a href="https://travis-ci.org/react-voodoo/react-voodoo"><img src="https://travis-ci.org/react-voodoo/react-voodoo.svg?branch=master" alt="Build Status" /></a>
 <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" />
 <br/>
-<a href="http://creativecommons.org/licenses/by-nd/4.0"><img src="https://img.shields.io/badge/License-CC%20BY--ND%204.0-lightgrey.svg" alt="License: CC BY-ND 4.0" /></a>
-<a href="http://www.gnu.org/licenses/agpl-3.0"><img src="https://img.shields.io/badge/License-AGPL%20v3-blue.svg" alt="License: AGPL v3" /></a>
+<a href="https://www.apache.org/licenses/LICENSE-2.0"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License: Apache 2.0" /></a>
 </p>
 
 <p align="center">
@@ -378,10 +377,7 @@ axis position ──► tween engine ──► Δ per property ──► node.st
 
 ## License
 
-React-voodoo is dual-licensed:
-
-- **[CC BY-ND 4.0](http://creativecommons.org/licenses/by-nd/4.0)** — use freely in commercial projects; distribution of modified versions is not permitted.
-- **[AGPL v3](http://www.gnu.org/licenses/agpl-3.0)** — distribute modified versions under the same open-source license.
+React-voodoo is licensed under the **[Apache License 2.0](./LICENSE.MD)** — © Nathanael BRAUN.
 
 ---
 

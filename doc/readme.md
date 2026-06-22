@@ -955,9 +955,6 @@ export default withTweener(Child);
 
 ## License
 
-React-Voodoo is dual-licensed:
+React-Voodoo is licensed under the **[Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)**.
 
-- **[CC BY-ND 4.0](http://creativecommons.org/licenses/by-nd/4.0)** — use freely in commercial projects; no distribution of modified versions
-- **[AGPL-3.0](http://www.gnu.org/licenses/agpl-3.0)** — distribute modified versions under the same license
-
-© 2022–2026 Braun Nathanael
+© 2022–2026 Nathanael BRAUN
